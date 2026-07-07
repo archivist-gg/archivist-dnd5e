@@ -160,7 +160,9 @@ state:
 // Full renderer-sufficiency breadth suite (spec §2.5). Resolve the fixture ONCE,
 // then assert every render surface a 3rd-party sheet reads — each check pins a
 // concrete number / shape / non-empty collection, never mere truthiness. The few
-// shape/reachability checks (B2 folds from persisted decision choices — empty for
+// shape/reachability checks (A8 equippedSlots.mainhand reachability + carriedWeight
+// typeof + rollModifiers Array.isArray — the value surface is backstopped by A4's
+// equipped-weapon-row pins; B2 folds from persisted decision choices — empty for
 // this fixture; A10 conditionEffects — no active conditions; the C leaves) are
 // called out inline with WHY they are contract-shape rather than value pins.
 // ─────────────────────────────────────────────────────────────────────────────
@@ -249,6 +251,16 @@ describe("Phase-4 renderer-sufficiency — full read surface (core + dnd5e only,
     expect(derived.pactMagic!.level).toBe(2);                      // warlock 3 -> pact slot level 2
     expect(derived.pactMagic!.total).toBe(2);                      // warlock 3 -> 2 pact slots
     expect(derived.spellLimits.length).toBeGreaterThanOrEqual(1);
+    // Pin the spell save-DC / attack-bonus surface — the live `8 + PB + ability-mod`
+    // (DC) and `PB + ability-mod` (attack) math. A regression in that derivation
+    // would keep spellcastingClasses.length===2 and pass silently otherwise.
+    expect(derived.spellcasting).not.toBeNull();
+    expect(derived.spellcasting!.saveDC).toBe(14);                 // 8 + PB(3) + INT-mod(3) = 14
+    expect(derived.spellcasting!.attackBonus).toBe(6);             // PB(3) + INT-mod(3) = 6
+    const wizardCaster = derived.spellcastingClasses.find((c) => c.classSlug === "wizard");
+    expect(wizardCaster).toBeDefined();
+    expect(wizardCaster!.saveDC).toBe(14);                         // wizard: 8 + PB(3) + INT-mod(3)
+    expect(wizardCaster!.attackBonus).toBe(6);                     // wizard: PB(3) + INT-mod(3)
   });
   it("A10 conditions + acBreakdown + informational", () => {
     expect(derived.acBreakdown.length).toBeGreaterThan(0);        // plate/shield terms
