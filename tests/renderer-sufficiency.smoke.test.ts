@@ -1,10 +1,21 @@
 import { describe, it, expect } from "vitest";
+import { readFileSync } from "node:fs";
+import { fileURLToPath } from "node:url";
 
 // --- Pack public surface (a 3rd-party renderer consumes exactly these subpaths) ---
 import { parsePC } from "@archivist/dnd5e/pc/pc.parser";
 import { PCResolver } from "@archivist/dnd5e/pc/pc.resolver";
 import { recalc } from "@archivist/dnd5e/pc/pc.recalc";
 import { classSpellCandidates } from "@archivist/dnd5e/spell/spell.access";
+import { collectChosenProficiencies, collectChosenAbilityPoints } from "@archivist/dnd5e/pc/pc.decision-engine";
+import { computeRestPlan } from "@archivist/dnd5e/pc/pc.rest";
+import { ITEM_ACTIONS, resolveItemAction } from "@archivist/dnd5e/item/item.actions-map";
+import { readNumericBonus } from "@archivist/dnd5e/item/item.bonuses";
+import { evaluateCondition } from "@archivist/dnd5e/item/item.conditions";
+import type { ConditionContext } from "@archivist/dnd5e/item/item.conditions.types";
+import { requiresAttunement } from "@archivist/dnd5e/item/item.attunement";
+import { spellEffectAtSlot, upcastLevelsFor } from "@archivist/dnd5e/spell/spell.scaling";
+import { compareCandidates, castTimeCategory } from "@archivist/dnd5e/spell/spell.filter";
 import type { DerivedStats } from "@archivist/dnd5e/pc/pc.types";
 
 // --- Registry construction via @archivist/core's public API (trusted local helpers) ---
@@ -146,35 +157,194 @@ state:
 `;
 
 // ─────────────────────────────────────────────────────────────────────────────
-// TEMPORARY EXIT GATE (replaced by the breadth assertions in Task 1). Proves the
-// fixture yields the required non-trivial state before the 30+ breadth checks.
+// Full renderer-sufficiency breadth suite (spec §2.5). Resolve the fixture ONCE,
+// then assert every render surface a 3rd-party sheet reads — each check pins a
+// concrete number / shape / non-empty collection, never mere truthiness. The few
+// shape/reachability checks (B2 folds from persisted decision choices — empty for
+// this fixture; A10 conditionEffects — no active conditions; the C leaves) are
+// called out inline with WHY they are contract-shape rather than value pins.
 // ─────────────────────────────────────────────────────────────────────────────
-describe("Phase-4 renderer-sufficiency — fixture exit gate (temporary; replaced in Task 1)", () => {
+describe("Phase-4 renderer-sufficiency — full read surface (core + dnd5e only, zero obsidian)", () => {
   const parsed = parsePC(CHARACTER_YAML);
+  if (!parsed.success) throw new Error(`fixture parse failed: ${parsed.error}`);
+  const registry = buildRegistry();
+  // Surface resolver warnings so a mistyped fixture slug can't silently degrade
+  // the breadth foundation (Task-0 review carry-forward).
+  const { character: resolved, warnings } = new PCResolver(registry).resolve(parsed.data);
+  const derived: DerivedStats = recalc(resolved, registry);
 
-  it("parsePC accepts the YAML character doc", () => {
-    expect(parsed.success).toBe(true);
+  // Shared spell-candidate inputs (used by B1 + C).
+  const knownSlugs = new Set(resolved.spells.map((s) => s.slug));
+  const candidates = classSpellCandidates(registry, ["wizard"], 3, knownSlugs);
+
+  it("resolver emits no warnings (clean fixture)", () => {
+    expect(warnings).toEqual([]);
   });
 
-  it("the fixture resolves to the required non-trivial state", () => {
-    if (!parsed.success) throw new Error(parsed.error);
-    const registry = buildRegistry();
-    const { character: resolved } = new PCResolver(registry).resolve(parsed.data);
-    const derived: DerivedStats = recalc(resolved, registry);
+  // --- A. Core DerivedStats (single recalc call) ---
+  it("A1 ability math", () => {
+    expect(derived.totalLevel).toBe(7);                 // wizard 4 + warlock 3
+    expect(derived.proficiencyBonus).toBe(3);
+    expect(derived.scores.int).toBe(16);                // INT 16
+    expect(derived.mods.int).toBe(3);
+    expect(derived.scores.str).toBe(14);
+    expect(derived.mods.str).toBe(2);
+  });
+  it("A2 saves + skills", () => {
+    expect(derived.saves.int.proficient).toBe(true);    // Wizard save
+    expect(derived.skills.arcana.proficiency).toBe("proficient");
+    expect(derived.skills.arcana.bonus).toBe(6);        // PB 3 + INT mod 3
+  });
+  it("A3 hp/ac/speed/initiative", () => {
+    expect(derived.hp.max).toBe(47);                    // wizard 6+3·4 + warlock 3·5 (33) + CON mod +2·7 (14) = 47
+    expect(derived.ac).toBe(20);                        // plate 18 + shield 2
+    expect(derived.speed).toBe(30);                     // Dark Elf walk 30
+    expect(derived.initiative).toBe(1);                 // DEX 12 -> +1
+  });
+  it("A4 attacks (CRIT surface — equipped weapon row)", () => {
+    expect(derived.attacks.length).toBeGreaterThan(0);
+    const club = derived.attacks.find((a) => /club/i.test(a.name));
+    expect(club).toBeDefined();
+    // CLUB is simple -> Warlock proficient -> toHit = PB + STR mod (no magic bonus).
+    expect(club!.toHit).toBe(derived.proficiencyBonus + derived.mods.str); // 3 + 2 = 5
+    expect(club!.toHit).toBe(5);
+    expect(club!.proficient).toBe(true);
+    expect(club!.damageType).toBeTruthy();
+    expect(club!.damageDice).toBeTruthy();
+    expect(club!.breakdown.toHit.length).toBeGreaterThan(0);
+    expect(derived.attacksPerAction).toBe(1);
+  });
+  it("A5 aggregate proficiencies (distinct from chosen, B2)", () => {
+    // Concrete membership on the AGGREGATE proficiency buckets, not object-truthiness
+    // (Gate-2 IMP-2). Warlock grants simple-weapon + light-armor categories.
+    expect(derived.proficiencies.weapons.categories).toContain("simple");
+    expect(derived.proficiencies.armor.categories).toContain("light");
+    // Save-proficiency data is reachable via the per-ability saves Record (A2). The
+    // 5e multiclass rule counts ONLY the first class's saves, so wizard (INT/WIS) is
+    // proficient and warlock's CHA is not — distinct from A2's `saves.int.proficient`.
+    expect(derived.saves.wis.proficient).toBe(true);   // Wizard's second save
+    expect(derived.saves.cha.proficient).toBe(false);  // Warlock is 2nd class -> no save prof
+    // NB derived.proficiencies.saves is an unpopulated legacy placeholder in the pack
+    // (computeProficiencies returns saves:[]); the reachable surface is derived.saves.*.
+    expect(derived.proficiencies.saves).toEqual([]);
+  });
+  it("A6 defenses (resistance via feat feature-effect)", () => {
+    expect(derived.defenses.resistances).toContain("fire"); // Elemental Ward feat -> resistance:fire
+  });
+  it("A7 senses + passives", () => {
+    expect(derived.senses.darkvision).toBe(60);             // Dark Elf vision.darkvision 60
+    expect(derived.passives.perception).toBe(10);           // 10 + WIS mod 0 (no proficiency)
+  });
+  it("A8 attunement + equipped slots + weight + rollModifiers", () => {
+    expect(derived.attunementLimit).toBe(3);
+    expect(derived.attunementUsed).toBe(1);                 // bracers attuned
+    expect(derived.equippedSlots.mainhand).toBeTruthy();    // CLUB equipped
+    expect(typeof derived.carriedWeight).toBe("number");
+    expect(Array.isArray(derived.rollModifiers)).toBe(true);
+  });
+  it("A9 spellcasting block (full caster + pact)", () => {
+    expect(derived.spellcastingClasses.length).toBe(2);            // wizard (full) + warlock (pact)
+    expect(Object.keys(derived.derivedSpellSlots).length).toBeGreaterThan(0);
+    expect(derived.pactMagic).not.toBeNull();
+    expect(derived.pactMagic!.level).toBe(2);                      // warlock 3 -> pact slot level 2
+    expect(derived.pactMagic!.total).toBe(2);                      // warlock 3 -> 2 pact slots
+    expect(derived.spellLimits.length).toBeGreaterThanOrEqual(1);
+  });
+  it("A10 conditions + acBreakdown + informational", () => {
+    expect(derived.acBreakdown.length).toBeGreaterThan(0);        // plate/shield terms
+    expect(derived.acInformational.length).toBeGreaterThan(0);    // bracers' vs_creature_type AC -> informational
+    // Shape check: the fixture has NO active conditions, so conditionEffects is the
+    // empty-but-present contract object a renderer would iterate. Assert the shape,
+    // not a fabricated non-empty (would require an authored active condition).
+    expect(derived.conditionEffects).toBeTruthy();
+    expect(typeof derived.conditionEffects).toBe("object");
+  });
 
-    expect(derived.pactMagic).not.toBeNull();                         // Warlock level present
-    expect(derived.pactMagic!.total).toBeGreaterThan(0);
-    expect(derived.attacks.length).toBeGreaterThan(0);                // equipped CLUB -> CRIT surface
-    expect(Object.keys(derived.derivedSpellSlots).length).toBeGreaterThan(0); // full caster
-    expect(derived.senses.darkvision).toBeGreaterThan(0);             // darkvision race
-    expect(derived.defenses.resistances.length).toBeGreaterThan(0);   // resistance feat effect
-    expect(derived.attunementUsed).toBeGreaterThan(0);                // bracers attuned
-    expect(derived.acInformational.length).toBeGreaterThan(0);        // bracers' vs_creature_type AC -> informational
+  // --- B. Read-compute beyond DerivedStats ---
+  it("B1 classSpellCandidates non-empty", () => {
+    // signature (spell.access): classSpellCandidates(registry, classSlugs, maxLevel, knownSlugs: Set<string>, showAll?, query?)
+    expect(candidates.length).toBeGreaterThan(0);   // misty-step: wizard-list, level<=3, UNKNOWN -> candidate
+    expect(candidates.some((c) => c.slug === "misty-step")).toBe(true);
+    expect(candidates.some((c) => c.slug === "mage-armor")).toBe(false); // known -> excluded
+  });
+  it("B2 decision read-fold reachable + correct shape", () => {
+    // Gate-2 IMP-2: collectChosenProficiencies folds from persisted decision `choices`,
+    // NOT skills.proficient — empty for THIS fixture (no class feature authoring a
+    // select-proficiency + persisted pick). Assert the read-fold is reachable and
+    // returns the contract shape; it upgrades to a non-empty assertion IF such a
+    // decision choice is authored into the fixture.
+    const chosen = collectChosenProficiencies(resolved);
+    expect(Array.isArray(chosen.skills)).toBe(true);
+    expect(Array.isArray(chosen.expertise)).toBe(true);
+    expect(Array.isArray(chosen.languages)).toBe(true);
+    expect(Array.isArray(chosen.tools)).toBe(true);
+    const pts = collectChosenAbilityPoints(resolved);
+    expect(pts).toBeTruthy();                        // OriginAbilityPoints { race, background }
+    expect(typeof pts.race).toBe("object");
+    expect(typeof pts.background).toBe("object");
+  });
+  it("B3 computeRestPlan has reset categories", () => {
+    // signature (pc.rest): computeRestPlan(character, resolved, derived, registry, type)
+    const plan = computeRestPlan(parsed.data, resolved, derived, registry, "long");
+    expect(plan.categories.length).toBeGreaterThan(0); // spent L1 slot -> "spell-slots" (+ hp-to-max)
+    expect(plan.categories.some((c) => c.id === "spell-slots")).toBe(true);
+  });
+  it("B4 item-action data", () => {
+    expect(Object.keys(ITEM_ACTIONS).length).toBeGreaterThan(0);
+    // Curated map reachability: a known chargeable item resolves to its action.
+    const wand = resolveItemAction("wand-of-fireballs", parsed.data.equipment[0]);
+    expect(wand).not.toBeNull();
+    expect(wand!.cost).toBe("action");
+    // Null branch: an equipped non-actionable item (the CLUB) has no item action.
+    expect(resolveItemAction("club", parsed.data.equipment[0])).toBeNull();
+  });
+  it("B5 structured conditional bonus (applied + informational branches, not flat)", () => {
+    const ctx: ConditionContext = {
+      derived: { equippedSlots: derived.equippedSlots },
+      classList: parsed.data.class,                  // ClassEntry[]
+      race: parsed.data.race ?? null,
+      subclasses: parsed.data.class.map((c) => c.subclass).filter(Boolean) as string[],
+    };
+    // APPLIED branch: `is_class "wizard"` matches ctx.classList (Gate-2 CRIT-2: a
+    // `no_armor` condition would be "skipped" under the plate+shield fixture, not applied).
+    const applied = readNumericBonus({ value: 2, when: [{ kind: "is_class", value: "wizard" }] } as never, ctx);
+    expect(applied).not.toBeNull();                  // readNumericBonus can return null
+    expect(applied!.kind).toBe("applied");
+    // INFORMATIONAL branch: a Tier 2-4 kind always evaluates informational.
+    const info = readNumericBonus({ value: 1, when: [{ kind: "vs_creature_type", value: "undead" }] } as never, ctx);
+    expect(info).not.toBeNull();
+    expect(info!.kind).toBe("informational");
+    // evaluateCondition feeds these — returns a ConditionOutcome string, not a {kind}.
+    expect(evaluateCondition({ kind: "is_class", value: "wizard" } as never, ctx)).toBe("true");
+    expect(evaluateCondition({ kind: "vs_creature_type", value: "undead" } as never, ctx)).toBe("informational");
+  });
+  it("B6 parsed currency", () => {
+    expect(parsed.data.currency?.gp).toBe(25);
+  });
 
-    // Spec §5 exit criterion: a wizard-list spell the char does NOT know must be a
-    // candidate (else the empty-candidate false-pass slips to Task 1).
-    const knownSlugs = new Set(resolved.spells.map((s) => s.slug));
-    const candidates = classSpellCandidates(registry, ["wizard"], 3, knownSlugs);
+  // --- C. Non-PC moved read-compute leaves (light) ---
+  it("C spell.scaling / spell.filter / item.attunement", () => {
+    // Reachability of the upcast helper (brief-specified: no scaling spell in fixture).
+    expect(typeof upcastLevelsFor).toBe("function");
+    // Gate-2 CRIT-1: requiresAttunement reads entity.attunement (NOT requires_attunement).
+    expect(requiresAttunement({ attunement: true } as never)).toBe(true);
+    expect(requiresAttunement({} as never)).toBe(false);
+    // MISTY_STEP has no casting_options / at_higher_levels -> no upcast surface.
+    expect(spellEffectAtSlot(MISTY_STEP as never, 3)).toBeNull();
+    expect(upcastLevelsFor(MISTY_STEP as never, [1, 2, 3])).toEqual([]);
+    // Pure spell.filter buckets (concrete category mapping).
+    expect(castTimeCategory("action")).toBe("action");
+    expect(castTimeCategory("bonus-action")).toBe("bonus");
+    // compareCandidates over the B1 candidates: a candidate compared to itself sorts 0.
     expect(candidates.length).toBeGreaterThan(0);
+    expect(compareCandidates(candidates[0], candidates[0], "name", "asc")).toBe(0);
+  });
+
+  // --- Guard: this file consumes ONLY the public surface (zero ../src, zero obsidian) ---
+  it("import guard: public-subpath-only, zero obsidian", () => {
+    const src = readFileSync(fileURLToPath(import.meta.url), "utf8");
+    const imports = src.split("\n").filter((l) => /^\s*import\b/.test(l));
+    expect(imports.some((l) => /["']\.\.\/src\//.test(l))).toBe(false);   // no relative pack import
+    expect(imports.some((l) => /["']obsidian["']/.test(l))).toBe(false);  // no obsidian
   });
 });
