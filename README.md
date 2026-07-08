@@ -10,7 +10,12 @@ directly from `.ts` source (no build step here). Depends on `@archivist/core`
 via a sibling path dep (`file:../archivist-core`).
 
 Provenance: extracted from `archivist-obsidian@00b98c8` (Movement 3, Phase 2 —
-a pure move; the `exports` API is unchanged). AGPL — see `LICENSE`.
+a pure move; the `exports` API is unchanged).
+
+## License
+
+- **Code:** MIT — see [LICENSE](./LICENSE).
+- **Bundled SRD data** (`src/srd/data/`, `src/data-srd/`): System Reference Document 5.1 and 5.2 by Wizards of the Coast LLC, licensed under [CC-BY-4.0](https://creativecommons.org/licenses/by/4.0/legalcode). See [LICENSES/SRD.md](./LICENSES/SRD.md).
 
 ## Scripts
 
