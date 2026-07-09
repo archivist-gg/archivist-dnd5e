@@ -35,14 +35,14 @@ if (deps["@archivist/core"]?.startsWith("file:")) {
 }
 const files = ["dist", "LICENSE", "README.md"];
 if (existsSync(path.join(root, "LICENSES/SRD.md"))) files.push("LICENSES/SRD.md", "src/data-srd/ATTRIBUTION.md");
+const hasSubpaths = Object.keys(pkg.exports ?? {}).some((k) => k !== ".");
+const exportsMap = { ".": { types: "./dist/index.d.ts", default: "./dist/index.js" } };
+if (hasSubpaths) exportsMap["./*"] = { types: "./dist/*.d.ts", default: "./dist/*.js" };
 const manifest = {
   name: pkg.name, version: pkg.version, license: pkg.license, type: "module",
   publishConfig: { access: "public" },
   types: "./dist/index.d.ts",
-  exports: {
-    ".": { types: "./dist/index.d.ts", default: "./dist/index.js" },
-    "./*": { types: "./dist/*.d.ts", default: "./dist/*.js" },
-  },
+  exports: exportsMap,
   dependencies: deps, files,
 };
 writeFileSync(path.join(pack, "package.json"), JSON.stringify(manifest, null, 2) + "\n");
