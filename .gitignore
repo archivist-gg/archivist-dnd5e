@@ -1,5 +1,6 @@
 node_modules/
 dist/
+.pack/
 *.tsbuildinfo
 tools/srd-canonical/.cache/
 tools/srd-canonical/audit-conditions.report.md

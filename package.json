@@ -123,7 +123,8 @@
     "pretest": "npm run generate",
     "test": "vitest run",
     "build:srd-canonical": "tsx tools/srd-canonical/index.ts",
-    "build:srd-canonical:refresh": "tsx tools/srd-canonical/index.ts --refresh-open5e"
+    "build:srd-canonical:refresh": "tsx tools/srd-canonical/index.ts --refresh-open5e",
+    "prepare-publish": "node scripts/prepare-publish.mjs"
   },
   "dependencies": {
     "@archivist/core": "file:../archivist-core",
@@ -133,6 +134,7 @@
   "devDependencies": {
     "@types/js-yaml": "^4.0.9",
     "@types/node": "^22.0.0",
+    "esbuild": "^0.27.7",
     "tsx": "^4.21.0",
     "typescript": "^5.6.0",
     "vitest": "^4.1.2"
