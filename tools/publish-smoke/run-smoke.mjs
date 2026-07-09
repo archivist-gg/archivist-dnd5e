@@ -12,9 +12,14 @@ import { execSync } from "child_process";
 import { mkdtempSync, writeFileSync, readFileSync, rmSync, cpSync } from "fs";
 import os from "os";
 import path from "path";
+import { fileURLToPath } from "url";
 
-const CORE = "/Users/shinoobi/w/archivist-core";
-const DND = "/Users/shinoobi/w/archivist-dnd5e";
+// Derive both repo roots from this module's own location — this file lives at
+// <dnd5e>/tools/publish-smoke/run-smoke.mjs, and archivist-core is a sibling of
+// archivist-dnd5e. Keeps the harness portable (any clone / CI) and leaks no
+// author home-path into the public tree.
+const DND = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..", "..");
+const CORE = path.resolve(DND, "..", "archivist-core");
 const sh = (c, cwd) => execSync(c, { cwd, stdio: "inherit" });
 // Use the dnd5e repo's already-installed binaries so the temp consumer needs no
 // tsc/tsx of its own.
