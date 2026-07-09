@@ -1,5 +1,5 @@
-import type { OptionalFeatureEntity } from "@archivist/dnd5e/types/optional-feature.types";
-import { ParseResult, parseYaml } from "@archivist/core";
+import type { OptionalFeatureEntity } from "@archivist-gg/dnd5e/types/optional-feature.types";
+import { ParseResult, parseYaml } from "@archivist-gg/core";
 import { optionalFeatureEntitySchema } from "./optional-feature.schema";
 
 export function parseOptionalFeature(source: string): ParseResult<OptionalFeatureEntity> {

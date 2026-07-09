@@ -1,4 +1,4 @@
-import type { EntityRegistry, RegisteredEntity } from "@archivist/core";
+import type { EntityRegistry, RegisteredEntity } from "@archivist-gg/core";
 import type { Spell } from "./spell.types";
 import { baseClassName } from "../class/class.slug";
 

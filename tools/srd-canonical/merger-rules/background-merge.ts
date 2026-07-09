@@ -2,9 +2,9 @@ import type { MergeRule, CanonicalEntry } from "../merger";
 import type { Overlay } from "../overlay.schema";
 import { rewriteCrossRefs } from "../cross-ref-map";
 import { slugifyName } from "../sources/slug-normalize";
-import type { Resource } from "@archivist/dnd5e/types/resource";
-import type { Choice } from "@archivist/dnd5e/types/choice";
-import type { StartingEquipmentEntry } from "@archivist/dnd5e/types/equipment-grant";
+import type { Resource } from "@archivist-gg/dnd5e/types/resource";
+import type { Choice } from "@archivist-gg/dnd5e/types/choice";
+import type { StartingEquipmentEntry } from "@archivist-gg/dnd5e/types/equipment-grant";
 import { bareSlug } from "./class-merge";
 
 type Ability = "str" | "dex" | "con" | "int" | "wis" | "cha";

@@ -2,8 +2,8 @@
 
 import { describe, it, expect } from "vitest";
 import { isProficientWithWeapon, isProficientWithArmor } from "../src/pc/pc.proficiency-query";
-import type { ArmorEntity } from "@archivist/dnd5e/armor/armor.types";
-import type { WeaponEntity } from "@archivist/dnd5e/weapon/weapon.types";
+import type { ArmorEntity } from "@archivist-gg/dnd5e/armor/armor.types";
+import type { WeaponEntity } from "@archivist-gg/dnd5e/weapon/weapon.types";
 
 const longsword: WeaponEntity = {
   name: "Longsword", slug: "longsword", edition: "2014", category: "martial-melee",

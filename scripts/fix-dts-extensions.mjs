@@ -1,6 +1,6 @@
 // Rewrites extensionless RELATIVE specifiers in emitted .d.ts to node16-resolvable form.
 // Handles: import/export ... from "./x"; export * from "./x"; inline import("./x").
-// Filesystem-aware: file -> "./x.js"; directory -> "./x/index.js". Leaves bare (@archivist/*, zod) untouched.
+// Filesystem-aware: file -> "./x.js"; directory -> "./x/index.js". Leaves bare (@archivist-gg/*, zod) untouched.
 import { readdirSync, readFileSync, writeFileSync, existsSync, statSync } from "fs";
 import path from "path";
 import { fileURLToPath } from "url";

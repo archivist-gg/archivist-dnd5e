@@ -1,8 +1,8 @@
-import type { EntityRegistry } from "@archivist/core";
+import type { EntityRegistry } from "@archivist-gg/core";
 import { resolveBaseItem } from "../entities/base-item-resolver";
-import type { ItemEntity } from "@archivist/dnd5e/item/item.types";
-import type { ArmorEntity } from "@archivist/dnd5e/armor/armor.types";
-import type { WeaponEntity } from "@archivist/dnd5e/weapon/weapon.types";
+import type { ItemEntity } from "@archivist-gg/dnd5e/item/item.types";
+import type { ArmorEntity } from "@archivist-gg/dnd5e/armor/armor.types";
+import type { WeaponEntity } from "@archivist-gg/dnd5e/weapon/weapon.types";
 import type { SlotKey } from "./pc.types";
 
 export function isItemEntity(e: unknown): e is ItemEntity {

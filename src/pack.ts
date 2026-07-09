@@ -1,5 +1,5 @@
-import type { SystemPack } from "@archivist/core";
-import { CONVENTION_VERSION } from "@archivist/core";
+import type { SystemPack } from "@archivist-gg/core";
+import { CONVENTION_VERSION } from "@archivist-gg/core";
 import { monsterEntityType } from "./monster/monster.entity-type";
 import { raceEntityType } from "./race/race.entity-type";
 import { backgroundEntityType } from "./background/background.entity-type";

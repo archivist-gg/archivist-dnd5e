@@ -2,7 +2,7 @@
 //
 // Obsidian-side remnant of the condition types. The pure conditional-bonus
 // grammar (Condition union + tiers, ConditionalBonus, BonusFieldPath) now lives
-// in @archivist/dnd5e/types/item-conditions.types — relocated so the build-time
+// in @archivist-gg/dnd5e/types/item-conditions.types — relocated so the build-time
 // SRD merger can consume it without a tools→obsidian reverse edge — and is
 // re-exported here for existing item/pc consumers. The shapes below stay here
 // because they couple to the deferred PC layer: ConditionContext reads

@@ -1,11 +1,11 @@
-# The renderer seam — how to write a renderer over `@archivist/{core,dnd5e}`
+# The renderer seam — how to write a renderer over `@archivist-gg/{core,dnd5e}`
 
 > Audience: anyone building a *renderer* (an Obsidian plugin, a web sheet, a static
 > exporter, a Discord bot, a VTT bridge) that wants to display or drive a D&D 5e
 > character without re-implementing the rules engine.
 >
 > This document describes the **seam** between the two published packages
-> (`@archivist/core`, `@archivist/dnd5e`) and the renderer that sits on top of them.
+> (`@archivist-gg/core`, `@archivist-gg/dnd5e`) and the renderer that sits on top of them.
 > It is the durable narrative behind the executable proof in
 > [`tests/renderer-sufficiency.smoke.test.ts`](../tests/renderer-sufficiency.smoke.test.ts):
 > a full read surface exercised with **zero** dependency on Obsidian or on any
@@ -19,8 +19,8 @@
 There is exactly one contract, and it is a **read/compute** contract, not a
 **view/render** contract:
 
-> A renderer **consumes `@archivist/dnd5e/*` data types + pure functions**, builds an
-> **`EntityRegistry`** from `@archivist/core`, feeds a character document through the
+> A renderer **consumes `@archivist-gg/dnd5e/*` data types + pure functions**, builds an
+> **`EntityRegistry`** from `@archivist-gg/core`, feeds a character document through the
 > pipeline, and reads the resulting **`DerivedStats`**. From there it **draws
 > freely** — layout, wording, section order, tabs, colours, interaction model, and
 > DOM (or React tree, or Markdown, or ANSI) are 100% the renderer's business.
@@ -44,7 +44,7 @@ different-looking sheets can read the identical `DerivedStats`.
 
 This is the D7 property that Phase 4 exists to prove: **the packages are
 render-sufficient and render-agnostic.** Everything a sheet needs to *display* is
-reachable through `@archivist/{core,dnd5e}`; nothing about *how* it displays leaks
+reachable through `@archivist-gg/{core,dnd5e}`; nothing about *how* it displays leaks
 back into the packages.
 
 ---
@@ -55,18 +55,18 @@ Everything below is a real, importable subpath. Import from the **subpath**, not
 the package root — the `exports` map exposes each module individually so a renderer
 pulls in exactly what it uses. Grouped by concern:
 
-### Parse — `@archivist/dnd5e/pc/pc.parser`
+### Parse — `@archivist-gg/dnd5e/pc/pc.parser`
 - `parsePC(source: string): ParseResult<Character>` — parse the YAML body of a `pc`
   document into a validated `Character`. Returns a **discriminated** `ParseResult`
-  (from `@archivist/core`); see §3 gotcha (a).
+  (from `@archivist-gg/core`); see §3 gotcha (a).
 
-### Resolve — `@archivist/dnd5e/pc/pc.resolver`
+### Resolve — `@archivist-gg/dnd5e/pc/pc.resolver`
 - `class PCResolver` — `new PCResolver(registry).resolve(character)` links the
   character's slug references (race/class/subclass/background/feats/spells/items)
   against the registry, producing a `ResolveResult = { character: ResolvedCharacter,
   warnings: string[] }`. See §3 gotcha (b).
 
-### Derive — `@archivist/dnd5e/pc/pc.recalc` + `@archivist/dnd5e/pc/pc.types`
+### Derive — `@archivist-gg/dnd5e/pc/pc.recalc` + `@archivist-gg/dnd5e/pc/pc.types`
 - `recalc(resolved: ResolvedCharacter, registry?: EntityRegistry): DerivedStats` — the
   single call that computes the whole domain model. **Pass the registry** (§3 gotcha
   (c)); `computeProficiencies` also lives here.
@@ -86,58 +86,58 @@ pulls in exactly what it uses. Grouped by concern:
 > (This is asserted directly in the smoke's `A5`.)
 
 ### Spell access, scaling, filtering
-- `@archivist/dnd5e/spell/spell.access` — `classSpellCandidates(registry, classSlugs,
+- `@archivist-gg/dnd5e/spell/spell.access` — `classSpellCandidates(registry, classSlugs,
   maxLevel, knownSlugs, showAll?, query?)`: the spells a caster *could* learn/prepare
   (list membership + level gate, minus what's already known).
-- `@archivist/dnd5e/spell/spell.scaling` — `spellEffectAtSlot`, `upcastLevelsFor`:
+- `@archivist-gg/dnd5e/spell/spell.scaling` — `spellEffectAtSlot`, `upcastLevelsFor`:
   upcast/at-higher-levels computation for a spell cast in a given slot.
-- `@archivist/dnd5e/spell/spell.filter` — `compareCandidates`, `castTimeCategory`:
+- `@archivist-gg/dnd5e/spell/spell.filter` — `compareCandidates`, `castTimeCategory`:
   pure sort/bucket helpers for a spell picker (name/level sort, cast-time buckets).
 
 ### Decisions + proficiencies
-- `@archivist/dnd5e/pc/pc.decision-engine` — read-fold of *persisted* choices:
+- `@archivist-gg/dnd5e/pc/pc.decision-engine` — read-fold of *persisted* choices:
   `collectChosenProficiencies(resolved)` (skills/expertise/languages/tools the player
   actually picked via class-feature decisions) and `collectChosenAbilityPoints(resolved)`
   (origin ASI points). Note these fold from persisted **decision choices**, which is
   distinct from the aggregate buckets below.
-- `@archivist/dnd5e/pc/pc.proficiencies` — `aggregateProficiencies(resolved)`
+- `@archivist-gg/dnd5e/pc/pc.proficiencies` — `aggregateProficiencies(resolved)`
   (`ProficiencyAggregate`): the merged, deduplicated proficiency set across all sources.
 
 ### Rest + resources
-- `@archivist/dnd5e/pc/pc.rest` — `computeRestPlan(character, resolved, derived,
+- `@archivist-gg/dnd5e/pc/pc.rest` — `computeRestPlan(character, resolved, derived,
   registry, type)`: what a short/long rest *would* reset (slots, hit dice, HP,
   feature uses), grouped into `categories`. This is the **read/preview** half —
   applying the reset is renderer-owned (see §4).
-- `@archivist/dnd5e/pc/pc.pools` — `resolvePool`, `resolveAllPools`: resolve
+- `@archivist-gg/dnd5e/pc/pc.pools` — `resolvePool`, `resolveAllPools`: resolve
   selection pools (e.g. subclass/feat pools) against the registry for display.
 
 ### Item actions + conditions
-- `@archivist/dnd5e/item/item.actions-map` — `ITEM_ACTIONS`, `resolveItemAction(slug,
+- `@archivist-gg/dnd5e/item/item.actions-map` — `ITEM_ACTIONS`, `resolveItemAction(slug,
   entry)`: the curated map of usable-item actions (wands, potions, …) and the resolver
   that returns an action or `null`.
-- `@archivist/dnd5e/item/item.conditions` — `evaluateCondition(cond, ctx)`: evaluate a
+- `@archivist-gg/dnd5e/item/item.conditions` — `evaluateCondition(cond, ctx)`: evaluate a
   structured item condition to a `ConditionOutcome` string (`"true"` / `"false"` /
   `"informational"`).
-- `@archivist/dnd5e/item/item.conditions.types` — `ConditionContext` and the condition
+- `@archivist-gg/dnd5e/item/item.conditions.types` — `ConditionContext` and the condition
   type shapes a renderer passes into `evaluateCondition` / `readNumericBonus`.
-- `@archivist/dnd5e/item/item.bonuses` — `readNumericBonus(bonus, ctx)`: resolve a
+- `@archivist-gg/dnd5e/item/item.bonuses` — `readNumericBonus(bonus, ctx)`: resolve a
   possibly-conditional numeric item bonus into `{ kind: "applied" | "skipped" |
   "informational", … }` or `null`. Lets a renderer show *conditional* bonuses (e.g. "+2 AC
   vs undead") in an informational sidebar without mis-applying them to the flat AC.
   (`"skipped"` is a conditional bonus whose condition is *not* met — a renderer switching
   exhaustively on `.kind` should hide/skip it rather than apply or surface it.)
-- `@archivist/dnd5e/item/item.attunement` — `requiresAttunement(entity)`: whether an
+- `@archivist-gg/dnd5e/item/item.attunement` — `requiresAttunement(entity)`: whether an
   item needs attunement (reads `entity.attunement`).
 
 ### Registry + base-item / class-slug helpers
-- `@archivist/core` — `EntityRegistry`: the renderer-built compendium the pipeline
+- `@archivist-gg/core` — `EntityRegistry`: the renderer-built compendium the pipeline
   reads from. You populate it with the class/subclass/race/background/feat/spell/
-  weapon/armor/item entities your character references. `@archivist/core` also owns
+  weapon/armor/item entities your character references. `@archivist-gg/core` also owns
   `ParseResult` (the discriminated result `parsePC` returns).
-- `@archivist/dnd5e/entities/base-item-resolver` — `resolveBaseItem`,
+- `@archivist-gg/dnd5e/entities/base-item-resolver` — `resolveBaseItem`,
   `resolveBaseItemOfType`: match a magic/variant item onto its SRD base item so its
   AC/attack/weight are inherited. Slug alignment matters here (see §5 gotcha (a)).
-- `@archivist/dnd5e/class/class.slug` — `bareSlug`, `baseClassName`: normalize class
+- `@archivist-gg/dnd5e/class/class.slug` — `bareSlug`, `baseClassName`: normalize class
   references (strip subclass suffixes, etc.) when keying the registry.
 
 > **Coverage note.** The smoke imports exactly 14 pack subpaths; all 14 are documented
@@ -164,7 +164,7 @@ Its core is four lines:
 ```ts
 const parsed = parsePC(CHARACTER_YAML);
 if (!parsed.success) throw new Error(`fixture parse failed: ${parsed.error}`);
-const registry = buildRegistry();                                  // EntityRegistry from @archivist/core
+const registry = buildRegistry();                                  // EntityRegistry from @archivist-gg/core
 const { character: resolved, warnings } = new PCResolver(registry).resolve(parsed.data);
 const derived: DerivedStats = recalc(resolved, registry);
 ```
@@ -267,8 +267,8 @@ and make your compendium's slugs the single source the frontmatter is authored a
 source** (the `exports` map points at `./src/**/*.ts`, there is no prebuild/`dist`), so
 the consumer's bundler compiles them:
 
-1. **Sibling `file:` path deps.** `@archivist/dnd5e` depends on `@archivist/core` via
-   `"@archivist/core": "file:../archivist-core"`, and a renderer depends on both the
+1. **Sibling `file:` path deps.** `@archivist-gg/dnd5e` depends on `@archivist-gg/core` via
+   `"@archivist-gg/core": "file:../archivist-core"`, and a renderer depends on both the
    same way. The three repos must sit as siblings on disk (or be resolvable by your
    package manager) for the `file:` links to work.
 2. **`exports`-mapped TS source.** Because the subpaths resolve to `.ts`, your build
@@ -277,8 +277,8 @@ the consumer's bundler compiles them:
 3. **tsconfig project references.** Point the consumer's `tsconfig` at the packages
    (project refs / path mappings) so types resolve and incremental builds see the
    source.
-4. **The zod / js-yaml dedup alias — this is the one that bit us.** `@archivist/dnd5e`
-   uses `zod` and `js-yaml`; so does the renderer and often `@archivist/core`. Without
+4. **The zod / js-yaml dedup alias — this is the one that bit us.** `@archivist-gg/dnd5e`
+   uses `zod` and `js-yaml`; so does the renderer and often `@archivist-gg/core`. Without
    deduplication the bundler pulls **two copies** of zod (and js-yaml) — one for the
    package, one for the app — which breaks `instanceof` checks and roughly doubles that
    slice of the bundle. Add an esbuild/Vite **alias** forcing `zod` and `js-yaml` to a

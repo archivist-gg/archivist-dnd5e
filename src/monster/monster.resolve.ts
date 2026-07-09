@@ -1,4 +1,4 @@
-import type { ResolveContext } from "@archivist/core";
+import type { ResolveContext } from "@archivist-gg/core";
 import type { MonsterRaw } from "./monster.codec";
 import { getProficiencyBonus, getChallengeRatingXP } from "./monster.enrichment";
 

@@ -1,4 +1,4 @@
-import type { EntityRegistry } from "@archivist/core";
+import type { EntityRegistry } from "@archivist-gg/core";
 import type { Character, DerivedStats, ResolvedCharacter } from "./pc.types";
 
 function resolveItemName(
@@ -9,7 +9,7 @@ function resolveItemName(
   const ref = entry.item.match(/^\[\[(.+?)\]\]$/);
   const slug = ref ? ref[1] : entry.item;
   // `EntityRegistry.getBySlug(slug): RegisteredEntity | undefined` — `RegisteredEntity`
-  // has `name: string`. See `@archivist/core`'s entity-registry.
+  // has `name: string`. See `@archivist-gg/core`'s entity-registry.
   return registry.getBySlug(slug)?.name;
 }
 

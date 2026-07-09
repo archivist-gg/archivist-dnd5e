@@ -1,4 +1,4 @@
-import type { Generatable } from "@archivist/core";
+import type { Generatable } from "@archivist-gg/core";
 import { spellInputSchema } from "./spell.ai-schema";
 import { enrichSpell } from "./spell.enrichment";
 

@@ -1,7 +1,7 @@
 import { describe, it, expect, vi } from "vitest";
 import { buildDecisionLedger, collectChosenProficiencies, __matchesFilterForTest } from "../src/pc/pc.decision-engine";
 import type { ResolvedCharacter } from "../src/pc/pc.types";
-import type { RegisteredEntity } from "@archivist/core";
+import type { RegisteredEntity } from "@archivist-gg/core";
 
 const styles: RegisteredEntity[] = [
   { slug: "archery", name: "Archery", entityType: "optional-feature", filePath: "a.md",

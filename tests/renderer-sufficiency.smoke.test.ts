@@ -3,23 +3,23 @@ import { readFileSync } from "node:fs";
 import { fileURLToPath } from "node:url";
 
 // --- Pack public surface (a 3rd-party renderer consumes exactly these subpaths) ---
-import { parsePC } from "@archivist/dnd5e/pc/pc.parser";
-import { PCResolver } from "@archivist/dnd5e/pc/pc.resolver";
-import { recalc } from "@archivist/dnd5e/pc/pc.recalc";
-import { classSpellCandidates } from "@archivist/dnd5e/spell/spell.access";
-import { collectChosenProficiencies, collectChosenAbilityPoints } from "@archivist/dnd5e/pc/pc.decision-engine";
-import { computeRestPlan } from "@archivist/dnd5e/pc/pc.rest";
-import { ITEM_ACTIONS, resolveItemAction } from "@archivist/dnd5e/item/item.actions-map";
-import { readNumericBonus } from "@archivist/dnd5e/item/item.bonuses";
-import { evaluateCondition } from "@archivist/dnd5e/item/item.conditions";
-import type { ConditionContext } from "@archivist/dnd5e/item/item.conditions.types";
-import { requiresAttunement } from "@archivist/dnd5e/item/item.attunement";
-import { spellEffectAtSlot, upcastLevelsFor } from "@archivist/dnd5e/spell/spell.scaling";
-import { compareCandidates, castTimeCategory } from "@archivist/dnd5e/spell/spell.filter";
-import type { DerivedStats } from "@archivist/dnd5e/pc/pc.types";
+import { parsePC } from "@archivist-gg/dnd5e/pc/pc.parser";
+import { PCResolver } from "@archivist-gg/dnd5e/pc/pc.resolver";
+import { recalc } from "@archivist-gg/dnd5e/pc/pc.recalc";
+import { classSpellCandidates } from "@archivist-gg/dnd5e/spell/spell.access";
+import { collectChosenProficiencies, collectChosenAbilityPoints } from "@archivist-gg/dnd5e/pc/pc.decision-engine";
+import { computeRestPlan } from "@archivist-gg/dnd5e/pc/pc.rest";
+import { ITEM_ACTIONS, resolveItemAction } from "@archivist-gg/dnd5e/item/item.actions-map";
+import { readNumericBonus } from "@archivist-gg/dnd5e/item/item.bonuses";
+import { evaluateCondition } from "@archivist-gg/dnd5e/item/item.conditions";
+import type { ConditionContext } from "@archivist-gg/dnd5e/item/item.conditions.types";
+import { requiresAttunement } from "@archivist-gg/dnd5e/item/item.attunement";
+import { spellEffectAtSlot, upcastLevelsFor } from "@archivist-gg/dnd5e/spell/spell.scaling";
+import { compareCandidates, castTimeCategory } from "@archivist-gg/dnd5e/spell/spell.filter";
+import type { DerivedStats } from "@archivist-gg/dnd5e/pc/pc.types";
 
-// --- Registry construction via @archivist/core's public API (trusted local helpers) ---
-import { EntityRegistry } from "@archivist/core";
+// --- Registry construction via @archivist-gg/core's public API (trusted local helpers) ---
+import { EntityRegistry } from "@archivist-gg/core";
 import { buildMockRegistry } from "./mock-entity-registry";
 import { CLUB, PLATE, SHIELD } from "./equipment-fixtures";
 

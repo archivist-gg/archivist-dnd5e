@@ -1,4 +1,4 @@
-// Scratch-consumer smoke surface — proves the PACKED @archivist/{core,dnd5e}
+// Scratch-consumer smoke surface — proves the PACKED @archivist-gg/{core,dnd5e}
 // tarballs resolve, type-check (bundler + node16), and RUN as real npm packages
 // from a throwaway consumer with NO sibling checkouts. Every import is THROUGH
 // the package name (never a relative path into a repo), so this file only compiles
@@ -10,19 +10,19 @@
 // proven in-repo by the 3C-R renderer-sufficiency smoke).
 
 // --- barrel imports (index.d.ts + dist/index.js reach) ---
-import { EntityRegistry } from "@archivist/core";                    // core barrel export
-import { SrdStore } from "@archivist/dnd5e";                         // dnd5e barrel re-export (export * from "./srd-store")
+import { EntityRegistry } from "@archivist-gg/core";                    // core barrel export
+import { SrdStore } from "@archivist-gg/dnd5e";                         // dnd5e barrel re-export (export * from "./srd-store")
 
 // --- subpath imports (each pulls a subpath .d.ts into the node16 program) ---
-import { parsePC } from "@archivist/dnd5e/pc/pc.parser";
-import { PCResolver } from "@archivist/dnd5e/pc/pc.resolver";
-import { recalc } from "@archivist/dnd5e/pc/pc.recalc";
-import { classSpellCandidates } from "@archivist/dnd5e/spell/spell.access"; // real pure fn from a deep subpath
+import { parsePC } from "@archivist-gg/dnd5e/pc/pc.parser";
+import { PCResolver } from "@archivist-gg/dnd5e/pc/pc.resolver";
+import { recalc } from "@archivist-gg/dnd5e/pc/pc.recalc";
+import { classSpellCandidates } from "@archivist-gg/dnd5e/spell/spell.access"; // real pure fn from a deep subpath
 
 // --- side-effect imports: reach MORE subpath .d.ts (node16 checks only files IN the program) ---
-import "@archivist/dnd5e/item/item.actions-map";
-import "@archivist/dnd5e/entities/base-item-resolver";
-import "@archivist/dnd5e/schemas/feature-schema";                    // force a schema .d.ts into the program
+import "@archivist-gg/dnd5e/item/item.actions-map";
+import "@archivist-gg/dnd5e/entities/base-item-resolver";
+import "@archivist-gg/dnd5e/schemas/feature-schema";                    // force a schema .d.ts into the program
 
 // Smallest known-valid hand-authored PC (canonical zero-obsidian example, copied
 // verbatim from tests/renderer-sufficiency.smoke.test.ts CHARACTER_YAML). parsePC

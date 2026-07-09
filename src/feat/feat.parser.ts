@@ -1,5 +1,5 @@
 import type { FeatEntity } from "./feat.types";
-import { ParseResult, parseYaml } from "@archivist/core";
+import { ParseResult, parseYaml } from "@archivist-gg/core";
 import { featEntitySchema } from "./feat.schema";
 
 export function parseFeat(source: string): ParseResult<FeatEntity> {

@@ -1,8 +1,8 @@
 import { describe, it, expect } from "vitest";
 import * as fs from "node:fs";
 import * as path from "node:path";
-import { resourceSchema } from "@archivist/dnd5e/schemas/resource-schema";
-import { isValidMaxFormula } from "@archivist/dnd5e/dnd/resource-formula";
+import { resourceSchema } from "@archivist-gg/dnd5e/schemas/resource-schema";
+import { isValidMaxFormula } from "@archivist-gg/dnd5e/dnd/resource-formula";
 
 const RUNTIME = path.resolve(__dirname, "../../src/srd/data/runtime");
 const EDITIONS = ["2014", "2024"] as const;

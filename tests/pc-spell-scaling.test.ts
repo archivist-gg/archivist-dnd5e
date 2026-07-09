@@ -1,6 +1,6 @@
 import { describe, it, expect } from "vitest";
 import { spellScales, spellEffectAtSlot, upcastLevelsFor } from "../src/spell/spell.scaling";
-import type { Spell } from "@archivist/dnd5e/spell/spell.types";
+import type { Spell } from "@archivist-gg/dnd5e/spell/spell.types";
 
 const mm2024: Spell = {
   name: "Magic Missile", level: 1,

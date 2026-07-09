@@ -1,4 +1,4 @@
-import { EntityRegistry, type RegisteredEntity } from "@archivist/core";
+import { EntityRegistry, type RegisteredEntity } from "@archivist-gg/core";
 
 export function buildMockRegistry(
   entries: Array<Partial<RegisteredEntity> & { slug: string; entityType: string; data: unknown }>,

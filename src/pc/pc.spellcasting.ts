@@ -1,8 +1,8 @@
-import type { Ability } from "@archivist/dnd5e";
+import type { Ability } from "@archivist-gg/dnd5e";
 import type { KnownSpellEntry, ResolvedClass } from "./pc.types";
-import { abilityModifier } from "@archivist/dnd5e/dnd/math";
-import type { CasterType } from "@archivist/dnd5e/class/class.types";
-import { bareSlug } from "@archivist/dnd5e/class/class.slug";
+import { abilityModifier } from "@archivist-gg/dnd5e/dnd/math";
+import type { CasterType } from "@archivist-gg/dnd5e/class/class.types";
+import { bareSlug } from "@archivist-gg/dnd5e/class/class.slug";
 import { readTableColumn } from "./pc.table-column";
 
 export interface SpellcastingProfile {

@@ -1,5 +1,5 @@
 import type { RaceEntity } from "./race.types";
-import { ParseResult, parseYaml } from "@archivist/core";
+import { ParseResult, parseYaml } from "@archivist-gg/core";
 import { raceEntitySchema } from "./race.schema";
 
 export function parseRace(source: string): ParseResult<RaceEntity> {

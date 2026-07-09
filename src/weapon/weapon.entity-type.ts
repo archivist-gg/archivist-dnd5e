@@ -1,4 +1,4 @@
-import type { EntityType } from "@archivist/core";
+import type { EntityType } from "@archivist-gg/core";
 import { weaponCodec } from "./weapon.codec";
 
 export const weaponEntityType: EntityType = {

@@ -1,8 +1,8 @@
 import { z } from "zod";
-import { featureSchema } from "@archivist/dnd5e/schemas/feature-schema";
-import { resourceSchema } from "@archivist/dnd5e/schemas/resource-schema";
-import { startingEquipmentEntrySchema, startingGoldSchema } from "@archivist/dnd5e/schemas/equipment-grant-schema";
-import { selectionPoolSchema, poolGrantSchema, tabDeclSchema } from "@archivist/dnd5e/schemas/selection-pool-schema";
+import { featureSchema } from "@archivist-gg/dnd5e/schemas/feature-schema";
+import { resourceSchema } from "@archivist-gg/dnd5e/schemas/resource-schema";
+import { startingEquipmentEntrySchema, startingGoldSchema } from "@archivist-gg/dnd5e/schemas/equipment-grant-schema";
+import { selectionPoolSchema, poolGrantSchema, tabDeclSchema } from "@archivist-gg/dnd5e/schemas/selection-pool-schema";
 
 const abilityEnum = z.enum(["str", "dex", "con", "int", "wis", "cha"]);
 const skillEnum = z.enum([

@@ -1,5 +1,5 @@
 import type { ClassEntity } from "./class.types";
-import { ParseResult, parseYaml } from "@archivist/core";
+import { ParseResult, parseYaml } from "@archivist-gg/core";
 import { classEntitySchema } from "./class.schema";
 
 export function parseClass(source: string): ParseResult<ClassEntity> {

@@ -1,5 +1,5 @@
 import type { ArmorEntity } from "./armor.types";
-import { ParseResult, parseYaml } from "@archivist/core";
+import { ParseResult, parseYaml } from "@archivist-gg/core";
 import { armorEntitySchema } from "./armor.schema";
 
 const KNOWN_KEYS = new Set([

@@ -1,6 +1,6 @@
 import { describe, it, expect } from "vitest";
-import { resolveTag } from "@archivist/dnd5e/dnd/formula-tags";
-import { buildFormulaContext } from "@archivist/dnd5e/pc/pc.formula-context";
+import { resolveTag } from "@archivist-gg/dnd5e/dnd/formula-tags";
+import { buildFormulaContext } from "@archivist-gg/dnd5e/pc/pc.formula-context";
 import { recalc } from "../src/pc/pc.recalc";
 import type { Character, ResolvedCharacter } from "../src/pc/pc.types";
 import { buildEquipmentRegistry } from "./equipment-fixtures";

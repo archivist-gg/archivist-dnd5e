@@ -1,5 +1,5 @@
 import yaml from "js-yaml";
-import type { DocCodec, EntityDoc, ParseResult } from "@archivist/core";
+import type { DocCodec, EntityDoc, ParseResult } from "@archivist-gg/core";
 import type { Monster } from "./monster.types";
 import { parseMonster } from "./monster.parser";
 

@@ -1,9 +1,9 @@
-import type { Feature, Ability, SkillSlug, Resource } from "@archivist/dnd5e";
-import type { StartingEquipmentEntry, StartingGold } from "@archivist/dnd5e/types/equipment-grant";
-export type { StartingEquipmentEntry, StartingGold } from "@archivist/dnd5e/types/equipment-grant";
-import type { SelectionPool, PoolGrant, TabDecl } from "@archivist/dnd5e/types/selection-pool";
+import type { Feature, Ability, SkillSlug, Resource } from "@archivist-gg/dnd5e";
+import type { StartingEquipmentEntry, StartingGold } from "@archivist-gg/dnd5e/types/equipment-grant";
+export type { StartingEquipmentEntry, StartingGold } from "@archivist-gg/dnd5e/types/equipment-grant";
+import type { SelectionPool, PoolGrant, TabDecl } from "@archivist-gg/dnd5e/types/selection-pool";
 
-import type { Edition } from "@archivist/dnd5e/types/edition";
+import type { Edition } from "@archivist-gg/dnd5e/types/edition";
 export type { Edition };
 export type ArmorCategory = "light" | "medium" | "heavy" | "shield";
 export type WeaponCategory = "simple" | "martial";

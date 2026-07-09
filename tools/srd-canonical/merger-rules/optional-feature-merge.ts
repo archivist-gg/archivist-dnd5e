@@ -1,7 +1,7 @@
 import type { MergeRule, CanonicalEntry } from "../merger";
 import type { Overlay } from "../overlay.schema";
 import type { StructuredEntry } from "../sources/structured-rules";
-import type { OptionalFeatureEntity } from "@archivist/dnd5e/types/optional-feature.types";
+import type { OptionalFeatureEntity } from "@archivist-gg/dnd5e/types/optional-feature.types";
 import {
   normalizeOptionalFeature,
   type StructuredOptionalFeatureInput,

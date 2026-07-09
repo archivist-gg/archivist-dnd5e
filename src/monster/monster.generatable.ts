@@ -1,4 +1,4 @@
-import type { Generatable } from "@archivist/core";
+import type { Generatable } from "@archivist-gg/core";
 import { monsterInputSchema } from "./monster.ai-schema";
 import { enrichMonster } from "./monster.enrichment";
 

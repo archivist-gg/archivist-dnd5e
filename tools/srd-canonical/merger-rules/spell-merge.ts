@@ -1,6 +1,6 @@
 import type { MergeRule, CanonicalEntry } from "../merger";
 import type { Overlay } from "../overlay.schema";
-import type { CastingOption } from "@archivist/dnd5e/types/casting-option";
+import type { CastingOption } from "@archivist-gg/dnd5e/types/casting-option";
 import { rewriteCrossRefs } from "../cross-ref-map";
 import { flattenEntries } from "./condition-merge";
 

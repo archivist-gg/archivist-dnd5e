@@ -2,9 +2,9 @@ import { describe, it, expect } from "vitest";
 import { computeAppliedBonuses, computeSlotsAndAttacks } from "../src/pc/pc.equipment";
 import { recalc } from "../src/pc/pc.recalc";
 import type { Character, ResolvedCharacter } from "../src/pc/pc.types";
-import type { ItemEntity } from "@archivist/dnd5e/item/item.types";
-import type { WeaponEntity } from "@archivist/dnd5e/weapon/weapon.types";
-import type { ArmorEntity } from "@archivist/dnd5e/armor/armor.types";
+import type { ItemEntity } from "@archivist-gg/dnd5e/item/item.types";
+import type { WeaponEntity } from "@archivist-gg/dnd5e/weapon/weapon.types";
+import type { ArmorEntity } from "@archivist-gg/dnd5e/armor/armor.types";
 import { buildEquipmentRegistry } from "./equipment-fixtures";
 import { buildMockRegistry } from "./mock-entity-registry";
 

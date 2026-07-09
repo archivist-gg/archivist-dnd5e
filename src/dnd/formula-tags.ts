@@ -2,7 +2,7 @@
 
 import type { FormulaRef } from "../inline-tag-parser";
 import type { Abilities } from "../types/abilities";
-import type { EntityRegistry } from "@archivist/core";
+import type { EntityRegistry } from "@archivist-gg/core";
 import type { FormulaContext } from "../types/formula-context";
 import { abilityModifier, formatModifier } from "./math";
 import {

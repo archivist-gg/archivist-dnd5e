@@ -1,4 +1,4 @@
-import type { EntityType } from "@archivist/core";
+import type { EntityType } from "@archivist-gg/core";
 import { monsterCodec } from "./monster.codec";
 import { resolveMonster } from "./monster.resolve";
 import { monsterGeneratable } from "./monster.generatable";

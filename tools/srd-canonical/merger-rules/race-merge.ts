@@ -2,8 +2,8 @@ import type { MergeRule, CanonicalEntry } from "../merger";
 import type { Overlay } from "../overlay.schema";
 import { rewriteCrossRefs } from "../cross-ref-map";
 import { slugifyName } from "../sources/slug-normalize";
-import type { Resource } from "@archivist/dnd5e/types/resource";
-import type { Choice } from "@archivist/dnd5e/types/choice";
+import type { Resource } from "@archivist-gg/dnd5e/types/resource";
+import type { Choice } from "@archivist-gg/dnd5e/types/choice";
 import { bareSlug } from "./class-merge";
 
 export interface RaceCanonical {

@@ -1,4 +1,4 @@
-import type { EntityType } from "@archivist/core";
+import type { EntityType } from "@archivist-gg/core";
 import { npcGeneratable } from "./npc.generatable";
 
 export const npcEntityType: EntityType = {

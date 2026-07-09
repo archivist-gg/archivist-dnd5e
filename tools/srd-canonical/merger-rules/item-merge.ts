@@ -6,7 +6,7 @@ import type {
   BonusFieldPath,
   Condition,
   ConditionalBonus,
-} from "@archivist/dnd5e/types/item-conditions.types";
+} from "@archivist-gg/dnd5e/types/item-conditions.types";
 import type { FoundryItem } from "../sources/foundry-items";
 import {
   translateFoundryChanges,

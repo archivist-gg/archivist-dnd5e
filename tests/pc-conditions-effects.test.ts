@@ -1,7 +1,7 @@
 import { describe, it, expect } from "vitest";
 import { computeConditionEffects } from "../src/pc/pc.conditions";
 import type { CharacterState, ConditionEffects } from "../src/pc/pc.types";
-import type { Ability } from "@archivist/dnd5e";
+import type { Ability } from "@archivist-gg/dnd5e";
 
 const ZERO_SCORES: Record<Ability, number> = {
   str: 10, dex: 10, con: 10, int: 10, wis: 10, cha: 10,

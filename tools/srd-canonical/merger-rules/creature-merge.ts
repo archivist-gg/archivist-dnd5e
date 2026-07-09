@@ -1,13 +1,13 @@
 import type { MergeRule, CanonicalEntry } from "../merger";
 import type { Overlay } from "../overlay.schema";
 import { rewriteCrossRefs } from "../cross-ref-map";
-import type { Attack } from "@archivist/dnd5e/types/attack";
-import type { Feature, FeatureRecharge } from "@archivist/dnd5e/types/feature";
+import type { Attack } from "@archivist-gg/dnd5e/types/attack";
+import type { Feature, FeatureRecharge } from "@archivist-gg/dnd5e/types/feature";
 import {
   convertDescToTags,
   type ConversionContext,
   type ConverterAbilities,
-} from "@archivist/dnd5e/dnd/srd-tag-converter";
+} from "@archivist-gg/dnd5e/dnd/srd-tag-converter";
 
 interface Open5eDamageType {
   key: string;

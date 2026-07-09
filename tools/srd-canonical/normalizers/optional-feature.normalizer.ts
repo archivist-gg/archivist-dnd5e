@@ -1,4 +1,4 @@
-import type { OptionalFeatureEntity, OptionalFeatureKind, OptionalFeaturePrerequisite } from "@archivist/dnd5e/types/optional-feature.types";
+import type { OptionalFeatureEntity, OptionalFeatureKind, OptionalFeaturePrerequisite } from "@archivist-gg/dnd5e/types/optional-feature.types";
 import type { NormalizedEntity } from "./normalized-entity";
 
 const FEATURE_TYPE_TAG_MAP: Record<string, OptionalFeatureKind> = {

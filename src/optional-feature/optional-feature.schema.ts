@@ -1,11 +1,11 @@
 import { z } from "zod";
-import { featureEffectSchema } from "@archivist/dnd5e/schemas/feature-effect-schema";
+import { featureEffectSchema } from "@archivist-gg/dnd5e/schemas/feature-effect-schema";
 import {
   resetTriggerEnum,
   actionCostEnum,
   resourceConsumptionSchema,
-} from "@archivist/dnd5e/schemas/resource-schema";
-import { durationSchema } from "@archivist/dnd5e/schemas/duration-schema";
+} from "@archivist-gg/dnd5e/schemas/resource-schema";
+import { durationSchema } from "@archivist-gg/dnd5e/schemas/duration-schema";
 
 const editionEnum = z.enum(["2014", "2024"]);
 const abilityEnum = z.enum(["str", "dex", "con", "int", "wis", "cha"]);

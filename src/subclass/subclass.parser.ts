@@ -1,5 +1,5 @@
 import type { SubclassEntity } from "./subclass.types";
-import { ParseResult, parseYaml } from "@archivist/core";
+import { ParseResult, parseYaml } from "@archivist-gg/core";
 import { subclassEntitySchema } from "./subclass.schema";
 
 export function parseSubclass(source: string): ParseResult<SubclassEntity> {

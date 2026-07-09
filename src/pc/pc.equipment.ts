@@ -1,9 +1,9 @@
-import type { EntityRegistry } from "@archivist/core";
+import type { EntityRegistry } from "@archivist-gg/core";
 import { resolveBaseItem } from "../entities/base-item-resolver";
-import type { Ability } from "@archivist/dnd5e";
-import type { ItemEntity } from "@archivist/dnd5e/item/item.types";
-import type { ArmorEntity } from "@archivist/dnd5e/armor/armor.types";
-import type { WeaponEntity } from "@archivist/dnd5e/weapon/weapon.types";
+import type { Ability } from "@archivist-gg/dnd5e";
+import type { ItemEntity } from "@archivist-gg/dnd5e/item/item.types";
+import type { ArmorEntity } from "@archivist-gg/dnd5e/armor/armor.types";
+import type { WeaponEntity } from "@archivist-gg/dnd5e/weapon/weapon.types";
 import type {
   ACTerm,
   AppliedBonuses,
@@ -15,7 +15,7 @@ import type {
   ResolvedEquipped,
   ProficiencySet,
 } from "./pc.types";
-import { readNumericBonus } from "@archivist/dnd5e/item/item.bonuses";
+import { readNumericBonus } from "@archivist-gg/dnd5e/item/item.bonuses";
 import type {
   ConditionContext,
   BonusFieldPath,

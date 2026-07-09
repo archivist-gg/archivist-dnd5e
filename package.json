@@ -1,5 +1,5 @@
 {
-  "name": "@archivist/dnd5e",
+  "name": "@archivist-gg/dnd5e",
   "version": "0.1.0",
   "private": true,
   "license": "MIT",
@@ -127,7 +127,7 @@
     "prepare-publish": "node scripts/prepare-publish.mjs"
   },
   "dependencies": {
-    "@archivist/core": "file:../archivist-core",
+    "@archivist-gg/core": "file:../archivist-core",
     "js-yaml": "^4.1.0",
     "zod": "^4.3.6"
   },

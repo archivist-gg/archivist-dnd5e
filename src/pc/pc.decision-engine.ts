@@ -1,8 +1,8 @@
-import type { Choice, InlineOption, EntityFilter, Ability } from "@archivist/dnd5e/types/choice";
-import { ALL_SKILL_SLUGS } from "@archivist/dnd5e/types/choice";
-import { ABILITY_KEYS } from "@archivist/dnd5e/dnd/constants";
+import type { Choice, InlineOption, EntityFilter, Ability } from "@archivist-gg/dnd5e/types/choice";
+import { ALL_SKILL_SLUGS } from "@archivist-gg/dnd5e/types/choice";
+import { ABILITY_KEYS } from "@archivist-gg/dnd5e/dnd/constants";
 import type { ResolvedCharacter, ChoiceValue, FeatureSource } from "./pc.types";
-import type { RegisteredEntity } from "@archivist/core";
+import type { RegisteredEntity } from "@archivist-gg/core";
 import { recognizeDecision } from "./decision-recognizer";
 
 export interface DecisionRegistry {

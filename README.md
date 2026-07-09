@@ -1,15 +1,15 @@
-# @archivist/dnd5e
+# @archivist-gg/dnd5e
 
 The D&D 5e (2014 & 2024) rules pack for Archivist: parsers, schemas, codecs, and
 types for every entity type, the dice/formula/tag machinery, the player-character
-engine, and the bundled SRD content. Built on [`@archivist/core`](https://github.com/archivist-gg/archivist-core).
+engine, and the bundled SRD content. Built on [`@archivist-gg/core`](https://github.com/archivist-gg/archivist-core).
 
 ## What's inside
 
 - **Entity types** — armor, background, class, subclass, race, feat,
   optional-feature, item, weapon, monster, npc, and spell. Each has a parser, a
   [zod](https://zod.dev) schema, a codec, and TypeScript types, exposed as
-  `@archivist/dnd5e/<entity>/*` subpath exports.
+  `@archivist-gg/dnd5e/<entity>/*` subpath exports.
 - **Rules engine** (`dnd/*`) — ability math, proficiency/XP, the formula and
   inline-tag grammar, resource dice, and SRD tag conversion.
 - **Player characters** (`pc/*`) — parse → resolve → recalc a character into
@@ -23,7 +23,7 @@ available via subpath exports.
 
 ## Usage
 
-Distributed as TypeScript source (no build step). It depends on `@archivist/core`
+Distributed as TypeScript source (no build step). It depends on `@archivist-gg/core`
 via a sibling path dependency, so clone both repos side by side:
 
 ```
@@ -34,16 +34,16 @@ archivist-dnd5e/
 ```jsonc
 // package.json
 "dependencies": {
-  "@archivist/core": "file:../archivist-core",
-  "@archivist/dnd5e": "file:../archivist-dnd5e"
+  "@archivist-gg/core": "file:../archivist-core",
+  "@archivist-gg/dnd5e": "file:../archivist-dnd5e"
 }
 ```
 
 Running `npm install` in `archivist-dnd5e` then resolves the sibling.
 
 ```ts
-import { parseMonster, dnd5ePack } from "@archivist/dnd5e";
-import { parsePC } from "@archivist/dnd5e/pc/pc.parser";
+import { parseMonster, dnd5ePack } from "@archivist-gg/dnd5e";
+import { parsePC } from "@archivist-gg/dnd5e/pc/pc.parser";
 ```
 
 ## Scripts

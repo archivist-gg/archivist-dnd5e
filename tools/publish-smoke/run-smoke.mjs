@@ -1,11 +1,11 @@
 // Scratch-consumer publish smoke — the load-bearing proof that the prepared
-// @archivist/{core,dnd5e} `.pack/` dirs work as REAL npm packages:
+// @archivist-gg/{core,dnd5e} `.pack/` dirs work as REAL npm packages:
 //   prepare-publish both -> `npm pack ./.pack` both INTO a temp dir -> install into
 //   a throwaway consumer with NO sibling checkouts -> packaging asserts -> dual
 //   type-resolution (skipLibCheck:false, bundler + node16) -> runtime -> self-clean.
 //
 // Requires NETWORK (transitive zod/js-yaml install from the registry). The dnd5e
-// tarball's `@archivist/core: ^0.1.0` is satisfied by the LOCAL core tgz v0.1.0
+// tarball's `@archivist-gg/core: ^0.1.0` is satisfied by the LOCAL core tgz v0.1.0
 // (both tarballs installed together — no registry trap). Leaves NO artifact in any
 // repo tree (temp dir self-cleaned in `finally`; `.pack/`/`dist/` are gitignored).
 import { execSync } from "child_process";
@@ -39,7 +39,7 @@ try {
   const dndTgz = pick(execSync(`npm pack ./.pack --json --pack-destination "${tmp}"`, { cwd: DND }));
 
   // 3. Throwaway consumer with NO sibling checkouts; install BOTH tarballs together
-  //    so core@0.1.0 (local tgz) satisfies dnd5e's `@archivist/core: ^0.1.0`.
+  //    so core@0.1.0 (local tgz) satisfies dnd5e's `@archivist-gg/core: ^0.1.0`.
   writeFileSync(
     path.join(tmp, "package.json"),
     JSON.stringify({ name: "smoke", private: true, type: "module" }),
@@ -49,13 +49,13 @@ try {
 
   // 4. Packaging assertions — read the INSTALLED (i.e. packed) dnd5e manifest.
   const m = JSON.parse(
-    readFileSync(path.join(tmp, "node_modules/@archivist/dnd5e/package.json"), "utf8"),
+    readFileSync(path.join(tmp, "node_modules/@archivist-gg/dnd5e/package.json"), "utf8"),
   );
   if (m.exports["./*"].default !== "./dist/*.js")
     throw new Error(`exports not dist-mapped: ${JSON.stringify(m.exports["./*"])}`);
-  if (m.dependencies["@archivist/core"] !== "^0.1.0")
-    throw new Error(`core dep not registry range: ${m.dependencies["@archivist/core"]}`);
-  sh("test -f node_modules/@archivist/dnd5e/LICENSES/SRD.md", tmp); // SRD attribution shipped
+  if (m.dependencies["@archivist-gg/core"] !== "^0.1.0")
+    throw new Error(`core dep not registry range: ${m.dependencies["@archivist-gg/core"]}`);
+  sh("test -f node_modules/@archivist-gg/dnd5e/LICENSES/SRD.md", tmp); // SRD attribution shipped
   console.log("packaging asserts OK (exports=dist/*.js, core dep=^0.1.0, SRD.md shipped)");
 
   // 5. Dual type-resolution, skipLibCheck:false. The node16 case is the load-bearing

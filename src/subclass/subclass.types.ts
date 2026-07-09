@@ -1,6 +1,6 @@
-import type { Feature, Resource } from "@archivist/dnd5e";
-import type { Edition, SpellcastingConfig } from "@archivist/dnd5e/class/class.types";
-import type { SelectionPool, PoolGrant, TabDecl } from "@archivist/dnd5e/types/selection-pool";
+import type { Feature, Resource } from "@archivist-gg/dnd5e";
+import type { Edition, SpellcastingConfig } from "@archivist-gg/dnd5e/class/class.types";
+import type { SelectionPool, PoolGrant, TabDecl } from "@archivist-gg/dnd5e/types/selection-pool";
 
 export interface SubclassEntity {
   slug: string;

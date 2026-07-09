@@ -20,7 +20,7 @@ await esbuild.build({
   platform: "neutral",
   target: "es2018",
   splitting: entryPoints.length > 1,
-  external: ["@archivist/core", "zod", "js-yaml"], // core: only js-yaml present; harmless supersets
+  external: ["@archivist-gg/core", "zod", "js-yaml"], // core: only js-yaml present; harmless supersets
   loader: { ".md": "text" },
   logLevel: "info",
 });

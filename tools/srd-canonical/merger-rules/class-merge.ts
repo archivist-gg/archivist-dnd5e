@@ -2,9 +2,9 @@ import type { MergeRule, CanonicalEntry } from "../merger";
 import type { Overlay } from "../overlay.schema";
 import { rewriteCrossRefs } from "../cross-ref-map";
 import { slugifyName } from "../sources/slug-normalize";
-import type { Resource } from "@archivist/dnd5e/types/resource";
-import type { Choice } from "@archivist/dnd5e/types/choice";
-import type { StartingEquipmentEntry, StartingGold } from "@archivist/dnd5e/types/equipment-grant";
+import type { Resource } from "@archivist-gg/dnd5e/types/resource";
+import type { Choice } from "@archivist-gg/dnd5e/types/choice";
+import type { StartingEquipmentEntry, StartingGold } from "@archivist-gg/dnd5e/types/equipment-grant";
 
 /**
  * ClassCanonical mirrors the runtime ClassEntity shape (packages/dnd5e/src/class/class.schema.ts)

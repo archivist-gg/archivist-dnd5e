@@ -1,4 +1,4 @@
-import type { DocCodec, EntityDoc, ParseResult } from "@archivist/core";
+import type { DocCodec, EntityDoc, ParseResult } from "@archivist-gg/core";
 import yaml from "js-yaml";
 import type { ItemEntity } from "./item.types";
 import { parseItem } from "./item.parser";

@@ -1,5 +1,5 @@
 import { describe, it, expect } from "vitest";
-import { subclassEntitySchema } from "@archivist/dnd5e/subclass/subclass.schema";
+import { subclassEntitySchema } from "@archivist-gg/dnd5e/subclass/subclass.schema";
 import { recalc } from "../src/pc/pc.recalc";
 import type { ResolvedCharacter, ResolvedClass } from "../src/pc/pc.types";
 

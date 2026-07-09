@@ -1,4 +1,4 @@
-import type { Generatable } from "@archivist/core";
+import type { Generatable } from "@archivist-gg/core";
 import { npcInputSchema } from "./npc.ai-schema";
 
 export const npcGeneratable: Generatable = {

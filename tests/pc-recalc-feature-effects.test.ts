@@ -2,10 +2,10 @@ import { describe, it, expect } from "vitest";
 import { recalc } from "../src/pc/pc.recalc";
 import type { ResolvedCharacter, ResolvedClass, ResolvedFeature } from "../src/pc/pc.types";
 import type { Character } from "../src/pc/pc.types";
-import type { FeatureEffect } from "@archivist/dnd5e/types/feature-effect";
+import type { FeatureEffect } from "@archivist-gg/dnd5e/types/feature-effect";
 import { buildMockRegistry } from "./mock-entity-registry";
 import { STUDDED_LEATHER, CLUB, PLATE, BREASTPLATE, LONGSWORD } from "./equipment-fixtures";
-import { isProficientWithArmor, isProficientWithWeapon } from "@archivist/dnd5e/pc/pc.proficiency-query";
+import { isProficientWithArmor, isProficientWithWeapon } from "@archivist-gg/dnd5e/pc/pc.proficiency-query";
 
 function mkClass(slug: string, die: string, level: number): ResolvedClass {
   return {

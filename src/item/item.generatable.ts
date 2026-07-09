@@ -1,4 +1,4 @@
-import type { Generatable } from "@archivist/core";
+import type { Generatable } from "@archivist-gg/core";
 import { itemInputSchema } from "./item.ai-schema";
 import { enrichItem } from "./item.enrichment";
 

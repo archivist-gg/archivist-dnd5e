@@ -1,7 +1,7 @@
 import { describe, it, expect } from "vitest";
 import { buildDecisionLedger } from "../src/pc/pc.decision-engine";
 import type { ResolvedCharacter, ResolvedPool } from "../src/pc/pc.types";
-import type { RegisteredEntity } from "@archivist/core";
+import type { RegisteredEntity } from "@archivist-gg/core";
 
 /** Registry over a set of optional-feature slugs. `enumerateOptions` resolves a
  *  `from` list via getByTypeAndSlug (with a search-based bare-slug fallback), so

@@ -1,5 +1,5 @@
 import { abilityModifier } from "../dnd/math";
-import { toStringSafe } from "@archivist/core";
+import { toStringSafe } from "@archivist-gg/core";
 import {
   convertDescToTags,
   detectSpellcastingAbility,

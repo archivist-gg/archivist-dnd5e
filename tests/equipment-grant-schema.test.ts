@@ -1,7 +1,7 @@
 import { describe, it, expect } from "vitest";
-import { startingEquipmentEntrySchema, startingGoldSchema } from "@archivist/dnd5e/schemas/equipment-grant-schema";
-import { classEntitySchema } from "@archivist/dnd5e/class/class.schema";
-import { backgroundEntitySchema } from "@archivist/dnd5e/background/background.schema";
+import { startingEquipmentEntrySchema, startingGoldSchema } from "@archivist-gg/dnd5e/schemas/equipment-grant-schema";
+import { classEntitySchema } from "@archivist-gg/dnd5e/class/class.schema";
+import { backgroundEntitySchema } from "@archivist-gg/dnd5e/background/background.schema";
 import { overlaySchema } from "../tools/srd-canonical/overlay.schema";
 
 describe("equipment-grant schema", () => {

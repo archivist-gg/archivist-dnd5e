@@ -1,4 +1,4 @@
-import type { EntityType } from "@archivist/core";
+import type { EntityType } from "@archivist-gg/core";
 import { itemCodec } from "./item.codec";
 import { itemGeneratable } from "./item.generatable";
 

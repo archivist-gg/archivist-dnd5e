@@ -1,4 +1,4 @@
-import type { EntityType } from "@archivist/core";
+import type { EntityType } from "@archivist-gg/core";
 import { spellCodec } from "./spell.codec";
 import { spellGeneratable } from "./spell.generatable";
 

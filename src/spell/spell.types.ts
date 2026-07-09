@@ -1,4 +1,4 @@
-import type { CastingOption } from "@archivist/dnd5e/types/casting-option";
+import type { CastingOption } from "@archivist-gg/dnd5e/types/casting-option";
 export type { CastingOption };
 
 export interface Spell {

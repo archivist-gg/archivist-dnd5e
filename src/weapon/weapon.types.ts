@@ -1,4 +1,4 @@
-import type { Edition } from "@archivist/dnd5e/types/edition";
+import type { Edition } from "@archivist-gg/dnd5e/types/edition";
 
 /* eslint-disable @typescript-eslint/no-redundant-type-constituents */
 export type WeaponCategory =

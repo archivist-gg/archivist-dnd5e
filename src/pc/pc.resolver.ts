@@ -1,11 +1,11 @@
-import type { EntityRegistry } from "@archivist/core";
-import type { ClassEntity } from "@archivist/dnd5e/class/class.types";
-import type { RaceEntity } from "@archivist/dnd5e/race/race.types";
-import type { SubclassEntity } from "@archivist/dnd5e/subclass/subclass.types";
-import type { BackgroundEntity } from "@archivist/dnd5e/background/background.types";
-import type { FeatEntity } from "@archivist/dnd5e/feat/feat.types";
-import type { Feature, Choice } from "@archivist/dnd5e";
-import type { Spell } from "@archivist/dnd5e/spell/spell.types";
+import type { EntityRegistry } from "@archivist-gg/core";
+import type { ClassEntity } from "@archivist-gg/dnd5e/class/class.types";
+import type { RaceEntity } from "@archivist-gg/dnd5e/race/race.types";
+import type { SubclassEntity } from "@archivist-gg/dnd5e/subclass/subclass.types";
+import type { BackgroundEntity } from "@archivist-gg/dnd5e/background/background.types";
+import type { FeatEntity } from "@archivist-gg/dnd5e/feat/feat.types";
+import type { Feature, Choice } from "@archivist-gg/dnd5e";
+import type { Spell } from "@archivist-gg/dnd5e/spell/spell.types";
 import type {
   Character,
   ResolvedCharacter,

@@ -1,6 +1,6 @@
 import { describe, it, expect } from "vitest";
 import { PCResolver } from "../src/pc/pc.resolver";
-import { buildDecisionLedger, bareEntitySlug } from "@archivist/dnd5e/pc/pc.decision-engine";
+import { buildDecisionLedger, bareEntitySlug } from "@archivist-gg/dnd5e/pc/pc.decision-engine";
 import { buildMockRegistry } from "./mock-entity-registry";
 import type { Character } from "../src/pc/pc.types";
 

@@ -1,7 +1,7 @@
 import { describe, it, expect } from "vitest";
 import { computeFeatureEffects, emptyFeatureEffectTotals } from "../src/pc/pc.feature-effects";
 import type { ResolvedFeature } from "../src/pc/pc.types";
-import type { FeatureEffect } from "@archivist/dnd5e/types/feature-effect";
+import type { FeatureEffect } from "@archivist-gg/dnd5e/types/feature-effect";
 
 function rf(effects: FeatureEffect[], name = "Test Feature"): ResolvedFeature {
   return { feature: { name, effects }, source: { kind: "race", slug: "test-race" } };

@@ -1,5 +1,5 @@
 import { Item } from "./item.types";
-import { ParseResult, parseYaml } from "@archivist/core";
+import { ParseResult, parseYaml } from "@archivist-gg/core";
 import { itemEntitySchema } from "./item.schema";
 
 const KNOWN_KEYS = new Set([

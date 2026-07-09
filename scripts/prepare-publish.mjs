@@ -29,9 +29,9 @@ for (const f of ["LICENSES/SRD.md", "src/data-srd/ATTRIBUTION.md"]) {
 }
 // generated publish manifest
 const deps = { ...pkg.dependencies };
-if (deps["@archivist/core"]?.startsWith("file:")) {
+if (deps["@archivist-gg/core"]?.startsWith("file:")) {
   const coreVer = JSON.parse(readFileSync(path.resolve(root, "../archivist-core/package.json"), "utf8")).version;
-  deps["@archivist/core"] = `^${coreVer}`;
+  deps["@archivist-gg/core"] = `^${coreVer}`;
 }
 const files = ["dist", "LICENSE", "README.md"];
 if (existsSync(path.join(root, "LICENSES/SRD.md"))) files.push("LICENSES/SRD.md", "src/data-srd/ATTRIBUTION.md");

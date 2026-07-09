@@ -1,6 +1,6 @@
-import type { DocCodec, EntityDoc, ParseResult } from "@archivist/core";
+import type { DocCodec, EntityDoc, ParseResult } from "@archivist-gg/core";
 import yaml from "js-yaml";
-import type { OptionalFeatureEntity } from "@archivist/dnd5e/types/optional-feature.types";
+import type { OptionalFeatureEntity } from "@archivist-gg/dnd5e/types/optional-feature.types";
 import { parseOptionalFeature } from "./optional-feature.parser";
 
 /**
@@ -11,7 +11,7 @@ import { parseOptionalFeature } from "./optional-feature.parser";
  * round-trips through `parseOptionalFeature`).
  *
  * SPECIAL (0c.1a Task 7): the entity type already lives at
- * `@archivist/dnd5e/types/optional-feature.types` (moved in 0c.0), so the codec
+ * `@archivist-gg/dnd5e/types/optional-feature.types` (moved in 0c.0), so the codec
  * imports it from there rather than a sibling `./optional-feature.types`.
  */
 export const optionalFeatureCodec: DocCodec<OptionalFeatureEntity> = {

@@ -10,7 +10,7 @@ import {
   computeAbilityScores,
 } from "../src/pc/pc.recalc";
 import type { ResolvedCharacter, ResolvedClass } from "../src/pc/pc.types";
-import type { RaceEntity } from "@archivist/dnd5e/race/race.types";
+import type { RaceEntity } from "@archivist-gg/dnd5e/race/race.types";
 
 describe("parseDieSize", () => {
   it("parses d-prefixed string", () => expect(parseDieSize("d8")).toBe(8));

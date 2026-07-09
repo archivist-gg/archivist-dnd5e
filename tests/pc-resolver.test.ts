@@ -1,7 +1,7 @@
 import { describe, it, expect } from "vitest";
 import { PCResolver, stripSlug, collectFeatSlugs } from "../src/pc/pc.resolver";
 import { buildMockRegistry } from "./mock-entity-registry";
-import { featureEffectSchema } from "@archivist/dnd5e/schemas/feature-effect-schema";
+import { featureEffectSchema } from "@archivist-gg/dnd5e/schemas/feature-effect-schema";
 import type { Character } from "../src/pc/pc.types";
 
 const ALERT_FEAT = { slug: "alert", name: "Alert", description: "You can't be surprised." };

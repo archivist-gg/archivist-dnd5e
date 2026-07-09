@@ -1,5 +1,5 @@
 import { Spell, CastingOption } from "./spell.types";
-import { ParseResult, parseYaml, toStringSafe } from "@archivist/core";
+import { ParseResult, parseYaml, toStringSafe } from "@archivist-gg/core";
 import { spellEntitySchema } from "./spell.schema";
 
 const KNOWN_KEYS = new Set([

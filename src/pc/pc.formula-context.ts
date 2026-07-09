@@ -1,5 +1,5 @@
-import type { EntityRegistry } from "@archivist/core";
-import type { FormulaContext } from "@archivist/dnd5e/types/formula-context";
+import type { EntityRegistry } from "@archivist-gg/core";
+import type { FormulaContext } from "@archivist-gg/dnd5e/types/formula-context";
 import type { DerivedStats, ResolvedCharacter } from "./pc.types";
 
 export function buildFormulaContext(

@@ -10,14 +10,14 @@ import type { Ability } from "../types/choice";
 import type { ArmorEntity } from "../armor/armor.types";
 import type { WeaponEntity } from "../weapon/weapon.types";
 import type { ItemEntity } from "../item/item.types";
-import type { SkillSlug, Feature } from "@archivist/dnd5e";
-import type { ClassEntity } from "@archivist/dnd5e/class/class.types";
-import type { RaceEntity } from "@archivist/dnd5e/race/race.types";
-import type { SubclassEntity } from "@archivist/dnd5e/subclass/subclass.types";
-import type { BackgroundEntity } from "@archivist/dnd5e/background/background.types";
-import type { FeatEntity } from "@archivist/dnd5e/feat/feat.types";
-import type { Spell } from "@archivist/dnd5e/spell/spell.types";
-import type { OptionalFeatureEntity } from "@archivist/dnd5e/types/optional-feature.types";
+import type { SkillSlug, Feature } from "@archivist-gg/dnd5e";
+import type { ClassEntity } from "@archivist-gg/dnd5e/class/class.types";
+import type { RaceEntity } from "@archivist-gg/dnd5e/race/race.types";
+import type { SubclassEntity } from "@archivist-gg/dnd5e/subclass/subclass.types";
+import type { BackgroundEntity } from "@archivist-gg/dnd5e/background/background.types";
+import type { FeatEntity } from "@archivist-gg/dnd5e/feat/feat.types";
+import type { Spell } from "@archivist-gg/dnd5e/spell/spell.types";
+import type { OptionalFeatureEntity } from "@archivist-gg/dnd5e/types/optional-feature.types";
 import type { ConditionSlug } from "./conditions.constants";
 
 /** A persisted decision value: entity slug / inline value (string), multi-select
@@ -283,7 +283,7 @@ export interface AttackRow {
   properties: string[];
   proficient: boolean;
   breakdown: { toHit: ACTerm[]; damage: ACTerm[] };
-  informational?: import("@archivist/dnd5e/item/item.conditions.types").InformationalBonus[];
+  informational?: import("@archivist-gg/dnd5e/item/item.conditions.types").InformationalBonus[];
   /** Hand slot the attack came from. Used by Actions tab to find the
    *  originating equipment entry for the row-expand panel. */
   slotKey?: "mainhand" | "offhand";
@@ -319,14 +319,14 @@ export interface AppliedBonuses {
   spell_attack: number;
   spell_save_dc: number;
   defenses: { resistances: string[]; immunities: string[]; vulnerabilities: string[]; condition_immunities: string[] };
-  informational: import("@archivist/dnd5e/item/item.conditions.types").InformationalBonus[];
-  senses: Record<import("@archivist/dnd5e/types/feature-effect").SenseType, number>;
+  informational: import("@archivist-gg/dnd5e/item/item.conditions.types").InformationalBonus[];
+  senses: Record<import("@archivist-gg/dnd5e/types/feature-effect").SenseType, number>;
 }
 
 export interface DerivedEquipment {
   ac: number;
   acBreakdown: ACTerm[];
-  acInformational: import("@archivist/dnd5e/item/item.conditions.types").InformationalBonus[];
+  acInformational: import("@archivist-gg/dnd5e/item/item.conditions.types").InformationalBonus[];
   attacks: AttackRow[];
   equippedSlots: EquippedSlots;
   carriedWeight: number;
@@ -369,7 +369,7 @@ export interface DerivedStats {
   }>;
   passives: { perception: number; investigation: number; insight: number };
   /** Computed senses: max of race vision and feature-effect sense ranges. 0 = none per type. */
-  senses: Record<import("@archivist/dnd5e/types/feature-effect").SenseType, number>;
+  senses: Record<import("@archivist-gg/dnd5e/types/feature-effect").SenseType, number>;
   hp: { max: number; current: number; temp: number };
   ac: number;
   speed: number;
@@ -396,13 +396,13 @@ export interface DerivedStats {
     condition_immunities: string[];
   };
   acBreakdown: ACTerm[];
-  acInformational: import("@archivist/dnd5e/item/item.conditions.types").InformationalBonus[];
+  acInformational: import("@archivist-gg/dnd5e/item/item.conditions.types").InformationalBonus[];
   /** Situational saving-throw bonuses (e.g. +1 vs spells) for save tooltips. */
-  savesInformational: import("@archivist/dnd5e/item/item.conditions.types").InformationalBonus[];
+  savesInformational: import("@archivist-gg/dnd5e/item/item.conditions.types").InformationalBonus[];
   /** Situational spell attack / save-DC bonuses for spellcasting tooltips. */
-  spellcastingInformational: import("@archivist/dnd5e/item/item.conditions.types").InformationalBonus[];
+  spellcastingInformational: import("@archivist-gg/dnd5e/item/item.conditions.types").InformationalBonus[];
   /** Situational speed bonuses (e.g. swim while underwater) for speed tooltips. */
-  speedInformational: import("@archivist/dnd5e/item/item.conditions.types").InformationalBonus[];
+  speedInformational: import("@archivist-gg/dnd5e/item/item.conditions.types").InformationalBonus[];
   /**
    * Attacks per Attack action = 1 + max `extra-attack` effect count. Always ≥ 1
    * (everyone gets one attack). The Actions "Attacks" heading shows `(×N)` when > 1.

@@ -4,7 +4,7 @@ import {
   resolveBaseItemOfType,
 } from "../src/entities/base-item-resolver";
 import { buildMockRegistry } from "./mock-entity-registry";
-import { EntityRegistry } from "@archivist/core";
+import { EntityRegistry } from "@archivist-gg/core";
 
 describe("resolveBaseItem", () => {
   it("resolves a vault-path wikilink to the SRD-5e prefixed slug", () => {

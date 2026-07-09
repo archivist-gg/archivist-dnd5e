@@ -22,7 +22,7 @@
 // resolve through the same path.
 // ---------------------------------------------------------------------------
 
-import type { EntityRegistry, RegisteredEntity } from "@archivist/core";
+import type { EntityRegistry, RegisteredEntity } from "@archivist-gg/core";
 import { slugify } from "./slug";
 
 /**

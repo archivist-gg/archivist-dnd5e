@@ -1,5 +1,5 @@
 import * as yaml from "js-yaml";
-import type { ParseResult } from "@archivist/core";
+import type { ParseResult } from "@archivist-gg/core";
 import { characterSchema } from "./pc.schema";
 import type { Character } from "./pc.types";
 
