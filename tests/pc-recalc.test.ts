@@ -312,6 +312,14 @@ describe("recalc (end-to-end)", () => {
     expect(d.skills.perception.proficiency).toBe("none");
   });
 
+  it("applies background skill_proficiencies to derived skills (#5)", () => {
+    const r = emptyResolved();
+    r.background = { skill_proficiencies: ["athletics", "intimidation"] } as never;
+    const d = recalc(r);
+    expect(d.skills.athletics.proficiency).toBe("proficient");
+    expect(d.skills.intimidation.proficiency).toBe("proficient");
+  });
+
   it("derived.conditionEffects is the zero-effects shape when no conditions and exhaustion 0", () => {
     const r = withClass(mkClass("rogue", "d8", 5));
     const d = recalc(r);

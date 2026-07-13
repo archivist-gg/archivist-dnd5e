@@ -638,6 +638,7 @@ export function recalc(resolved: ResolvedCharacter, registry?: EntityRegistry): 
   // Skills (definition lists + chosen decision proficiencies/expertise).
   const profSet = new Set([
     ...resolved.definition.skills.proficient,
+    ...(resolved.background?.skill_proficiencies ?? []),
     ...chosenProfs.skills,
     ...featureEffects.proficiencies.skills,
   ]);
