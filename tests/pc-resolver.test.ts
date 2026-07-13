@@ -91,6 +91,27 @@ const DRIFTER = {
   proficiencies: { skills: ["survival", "insight"], tools: [], languages: [] },
 };
 
+// Illrigger-style "Combat Mastery" — a class feature carrying a select-inline
+// pick. Three option shapes exercise the #3 parent-fold: one WITH effects
+// (Lies → CHA weapon-ability, emitted as a synthetic), one prose-only (Bravado,
+// no effects → no synthetic), and one empty (Silence — neither description nor
+// effects).
+const COMBAT_MASTER = {
+  slug: "illrigger", name: "Illrigger", hit_die: "d10", saving_throws: ["con", "cha"],
+  features_by_level: {
+    1: [{
+      id: "combat-mastery", name: "Combat Mastery", description: "Choose a mastery.",
+      choices: [{ kind: "select-inline", id: "combat-mastery", options: [
+        { value: "lies", label: "Lies",
+          description: "Use Charisma for melee attack & damage.",
+          effects: [{ kind: "weapon-ability", ability: "cha" }] },
+        { value: "bravado", label: "Bravado", description: "Gain menacing flair." },
+        { value: "silence", label: "Silence" },
+      ] }],
+    }],
+  },
+};
+
 describe("fixture effects are schema-valid", () => {
   it("optional-feature + inline-branch fixtures parse against featureEffectSchema", () => {
     for (const eff of [...DEFENSE_OF.effects, ...DUELING_OF.effects]) {
@@ -254,6 +275,54 @@ describe("PCResolver", () => {
     const synth = character.features.find((rf) => rf.feature.name === "Valor");
     expect(synth).toBeDefined();
     expect(synth!.feature.effects).toEqual([{ kind: "speed-bonus", mode: "walk", value: 5 }]);
+    // #3: the effect-carrying synthetic is render-suppressed (its prose surfaces
+    // on the parent via chosenInline) while remaining present for the effects fold.
+    expect(synth!.renderSuppressed).toBe(true);
+  });
+
+  it("#3: folds a chosen select-inline option (with effects) onto the parent AND suppresses the synthetic", () => {
+    const reg = buildMockRegistry([{ slug: "illrigger", entityType: "class", data: COMBAT_MASTER }]);
+    const char = minimalCharacter();
+    char.class = [{ name: "[[illrigger]]", level: 1, subclass: null, choices: { 1: { "combat-mastery": "lies" } } }];
+    const { character } = new PCResolver(reg).resolve(char);
+
+    // Parent feature carries the chosen option's prose for render (shallow copy —
+    // never written onto the shared registry entity).
+    const parent = character.features.find((rf) => rf.feature.name === "Combat Mastery");
+    expect(parent).toBeDefined();
+    expect(parent!.chosenInline).toEqual([{ label: "Lies", description: "Use Charisma for melee attack & damage." }]);
+
+    // The effect-carrying synthetic STAYS in resolved.features (its effects still
+    // fold in recalc) but is render-suppressed so the sheet does not double-list it.
+    const synth = character.features.find((rf) => rf.feature.id === "combat-mastery-lies");
+    expect(synth).toBeDefined();
+    expect(synth!.feature.name).toBe("Lies");
+    expect(synth!.feature.effects).toEqual([{ kind: "weapon-ability", ability: "cha" }]);
+    expect(synth!.renderSuppressed).toBe(true);
+  });
+
+  it("#3: folds a prose-only select-inline pick (no effects → no synthetic) onto the parent", () => {
+    const reg = buildMockRegistry([{ slug: "illrigger", entityType: "class", data: COMBAT_MASTER }]);
+    const char = minimalCharacter();
+    char.class = [{ name: "[[illrigger]]", level: 1, subclass: null, choices: { 1: { "combat-mastery": "bravado" } } }];
+    const { character } = new PCResolver(reg).resolve(char);
+
+    const parent = character.features.find((rf) => rf.feature.name === "Combat Mastery");
+    expect(parent!.chosenInline).toEqual([{ label: "Bravado", description: "Gain menacing flair." }]);
+    // A prose-only option carries no effects, so no synthetic is emitted — the
+    // fold is the ONLY way its prose reaches the sheet.
+    expect(character.features.some((rf) => rf.feature.name === "Bravado")).toBe(false);
+  });
+
+  it("#3: folds an empty select-inline pick (no description, no effects) as label-only", () => {
+    const reg = buildMockRegistry([{ slug: "illrigger", entityType: "class", data: COMBAT_MASTER }]);
+    const char = minimalCharacter();
+    char.class = [{ name: "[[illrigger]]", level: 1, subclass: null, choices: { 1: { "combat-mastery": "silence" } } }];
+    const { character } = new PCResolver(reg).resolve(char);
+
+    const parent = character.features.find((rf) => rf.feature.name === "Combat Mastery");
+    expect(parent!.chosenInline).toEqual([{ label: "Silence", description: undefined }]);
+    expect(character.features.some((rf) => rf.feature.name === "Silence")).toBe(false);
   });
 
   it("multiclass: each class's selected optional-feature is scoped to its OWNING class slug", () => {
@@ -282,6 +351,11 @@ describe("PCResolver", () => {
     expect((defense!.source as { slug: string }).slug).toBe("fighter");
     expect(dueling!.source.kind).toBe("class");
     expect((dueling!.source as { slug: string }).slug).toBe("ranger");
+
+    // #3 scoping lock: select-entity optional-features are LEGITIMATE visible
+    // rows — they must NOT be render-suppressed (only select-inline synthetics are).
+    expect(defense!.renderSuppressed).toBeFalsy();
+    expect(dueling!.renderSuppressed).toBeFalsy();
 
     // Neither class's selection produces a grant from the other's features:
     // exactly one synthesized feature per owning class, none cross-attributed.

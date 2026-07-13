@@ -205,6 +205,14 @@ export type FeatureSource =
 export interface ResolvedFeature {
   feature: Feature;
   source: FeatureSource;
+  /** #3: chosen select-inline option prose, folded onto the PARENT feature for
+   *  render (a shallow-copy wrapper field — the shared registry entity is never
+   *  mutated). One entry per select-inline choice with a recorded pick. */
+  chosenInline?: { label: string; description?: string }[];
+  /** #3: marks a synthesized chosen-option feature the renderer must SKIP (its
+   *  prose shows on the parent via chosenInline). A wrapper-only flag —
+   *  computeFeatureEffects ignores it, so the synthetic's effects still fold. */
+  renderSuppressed?: boolean;
 }
 
 export interface ResolvedSpell {

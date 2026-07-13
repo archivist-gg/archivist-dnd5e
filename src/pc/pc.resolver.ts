@@ -13,6 +13,7 @@ import type {
   ResolvedFeature,
   ResolvedSpell,
   FeatureSource,
+  LevelChoices,
 } from "./pc.types";
 import { normalizeKnownSpell, resolveSpellcasting } from "./pc.spellcasting";
 import { resolveAllPools } from "./pc.pools";
@@ -163,8 +164,12 @@ export function collectChosenGrantedFeatures(
       const features = (entity.features_by_level ?? {})[lvl] ?? [];
       const subFeatures = c.subclass ? ((c.subclass.features_by_level ?? {})[lvl] ?? []) : [];
       for (const feature of [...features, ...subFeatures]) {
-        walkChoiceGrants(feature.choices, atLevel, (granted) => {
-          out.push({ feature: granted, source: { kind: "class", slug: entity.slug, level: lvl } });
+        walkChoiceGrants(feature.choices, atLevel, (granted, suppress) => {
+          out.push({
+            feature: granted,
+            source: { kind: "class", slug: entity.slug, level: lvl },
+            ...(suppress ? { renderSuppressed: true } : {}),
+          });
         }, registry);
       }
     }
@@ -182,8 +187,12 @@ export function collectChosenGrantedFeatures(
   };
   if (race) {
     const atRace = originAt("race");
-    const emitRace = (granted: Feature): void => {
-      out.push({ feature: granted, source: { kind: "race", slug: race.slug } });
+    const emitRace = (granted: Feature, suppress?: boolean): void => {
+      out.push({
+        feature: granted,
+        source: { kind: "race", slug: race.slug },
+        ...(suppress ? { renderSuppressed: true } : {}),
+      });
     };
     walkChoiceGrants(race.choices, atRace, emitRace, registry);
     for (const trait of race.traits ?? []) {
@@ -192,8 +201,12 @@ export function collectChosenGrantedFeatures(
   }
   if (background) {
     const atBg = originAt("background");
-    const emitBg = (granted: Feature): void => {
-      out.push({ feature: granted, source: { kind: "background", slug: background.slug } });
+    const emitBg = (granted: Feature, suppress?: boolean): void => {
+      out.push({
+        feature: granted,
+        source: { kind: "background", slug: background.slug },
+        ...(suppress ? { renderSuppressed: true } : {}),
+      });
     };
     walkChoiceGrants(background.choices, atBg, emitBg, registry);
     if (background.feature) {
@@ -206,7 +219,7 @@ export function collectChosenGrantedFeatures(
 function walkChoiceGrants(
   choices: Choice[] | undefined,
   atLevel: Record<string, unknown>,
-  emit: (f: Feature) => void,
+  emit: (f: Feature, suppress?: boolean) => void,
   registry: { getByTypeAndSlug(type: string, slug: string): { data: Record<string, unknown> } | undefined },
 ): void {
   for (const ch of choices ?? []) {
@@ -232,11 +245,42 @@ function walkChoiceGrants(
     if (ch.kind === "select-inline") {
       const branch = typeof sel === "string" ? ch.options.find((o) => o.value === sel) : undefined;
       if (branch?.effects?.length) {
-        emit({ id: `${ch.id}-${branch.value}`, name: branch.label, description: branch.description, effects: branch.effects });
+        // #3: the chosen-option synthetic is render-suppressed (suppress=true) —
+        // its prose is folded onto the PARENT feature (chosenInline) so the sheet
+        // does not double-list it. It STAYS in resolved.features so its effects
+        // still fold in recalc. select-entity emits stay visible (no suppress).
+        emit({ id: `${ch.id}-${branch.value}`, name: branch.label, description: branch.description, effects: branch.effects }, true);
       }
       if (branch?.choices) walkChoiceGrants(branch.choices, atLevel, emit, registry);
     }
   }
+}
+
+/**
+ * #3: Resolve the chosen select-inline option prose for a feature at a given
+ * level, so it can be folded onto the PARENT feature's ResolvedFeature wrapper
+ * for render. Returns one entry per select-inline choice whose recorded pick
+ * names a known option; an empty-pick option (no description) yields
+ * `{ label, description: undefined }`. Returns undefined when the feature has no
+ * resolved inline pick (so the wrapper omits the field). Reads the shared
+ * registry `Feature` but never mutates it — the caller attaches the result to a
+ * freshly-created wrapper object.
+ */
+function resolveChosenInline(
+  feature: Feature,
+  atLevel: LevelChoices | undefined,
+): { label: string; description?: string }[] | undefined {
+  if (!atLevel) return undefined;
+  const picks: { label: string; description?: string }[] = [];
+  for (const ch of feature.choices ?? []) {
+    if (ch.kind !== "select-inline") continue;
+    const sel = atLevel[ch.id];
+    if (typeof sel !== "string") continue;
+    const opt = ch.options.find((o) => o.value === sel);
+    if (!opt) continue;
+    picks.push({ label: opt.label, description: opt.description });
+  }
+  return picks.length ? picks : undefined;
 }
 
 export function collectResolvedFeatures(
@@ -255,7 +299,14 @@ export function collectResolvedFeatures(
       const lvl = parseInt(lvlStr, 10);
       if (Number.isNaN(lvl) || lvl > c.level) continue;
       for (const feat of feats0) {
-        out.push({ feature: feat, source: { kind: "class", slug, level: lvl } satisfies FeatureSource });
+        // #3: fold any chosen select-inline option prose onto this (freshly
+        // created) wrapper — never onto the shared registry `feat` entity.
+        const chosenInline = resolveChosenInline(feat, c.choices?.[lvl]);
+        out.push({
+          feature: feat,
+          source: { kind: "class", slug, level: lvl } satisfies FeatureSource,
+          ...(chosenInline ? { chosenInline } : {}),
+        });
       }
     }
     // Entity-level class resources (declared on the class, not on a feature) —
@@ -275,7 +326,14 @@ export function collectResolvedFeatures(
         const lvl = parseInt(lvlStr, 10);
         if (Number.isNaN(lvl) || lvl > c.level) continue;
         for (const feat of feats0) {
-          out.push({ feature: feat, source: { kind: "subclass", slug: sSlug, level: lvl } satisfies FeatureSource });
+          // #3: same parent-fold for subclass features (picks recorded under the
+          // same per-level choices ledger as class features).
+          const chosenInline = resolveChosenInline(feat, c.choices?.[lvl]);
+          out.push({
+            feature: feat,
+            source: { kind: "subclass", slug: sSlug, level: lvl } satisfies FeatureSource,
+            ...(chosenInline ? { chosenInline } : {}),
+          });
         }
       }
       // Entity-level subclass resources.
