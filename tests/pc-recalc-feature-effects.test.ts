@@ -479,3 +479,63 @@ describe("recalc — activatable buffs (pool boons + state.active_buffs)", () =>
     expect(d.acBreakdown).toContainEqual({ source: "Infernal Majesty", amount: 2, kind: "feature" });
   });
 });
+
+describe("recalc — granted + passive pool boons fold effects", () => {
+  /** Pool carrying: a passive (non-activatable) SELECTED boon, a passive GRANTED
+   *  boon, and an activatable GRANTED boon. `active` toggles the activatable
+   *  granted boon's slug on in state.active_buffs. All three carry ac-bonus
+   *  effects with distinct amounts so each fold is individually observable. */
+  function resolvedWithGrantedBoons(active: boolean): ResolvedCharacter {
+    const r = emptyResolved();
+    r.classes = [mkClass("reaver", "d10", 1)];
+    r.pools = [
+      {
+        id: "interdict-boons", label: "Interdict Boons", classIndex: 0, count: 1, anchorLevel: 1,
+        selected: [
+          {
+            slug: "passive-pick",
+            entity: {
+              slug: "passive-pick", name: "Passive Pick", activatable: false,
+              effects: [{ kind: "ac-bonus", value: 1 }],
+            } as never,
+          },
+        ],
+        available: [],
+        grants: [
+          {
+            slug: "granted-passive",
+            entity: {
+              slug: "granted-passive", name: "Granted Passive", activatable: false,
+              effects: [{ kind: "ac-bonus", value: 2 }],
+            } as never,
+          },
+          {
+            slug: "granted-buff",
+            entity: {
+              slug: "granted-buff", name: "Granted Buff", activatable: true,
+              effects: [{ kind: "ac-bonus", value: 4 }],
+            } as never,
+          },
+        ],
+      },
+    ] as never;
+    if (active) r.state.active_buffs = ["granted-buff"];
+    return r;
+  }
+
+  it("folds a passive selected boon and a granted passive boon unconditionally (activatable granted boon stays off)", () => {
+    const d = recalc(resolvedWithGrantedBoons(false));
+    // 10 base + DEX 0 + passive selected 1 + granted passive 2 = 13; activatable granted OFF
+    expect(d.ac).toBe(13);
+    expect(d.acBreakdown).toContainEqual({ source: "Passive Pick", amount: 1, kind: "feature" });
+    expect(d.acBreakdown).toContainEqual({ source: "Granted Passive", amount: 2, kind: "feature" });
+    expect(d.acBreakdown.some((t) => t.source === "Granted Buff")).toBe(false);
+  });
+
+  it("folds an activatable granted boon only when its slug is in state.active_buffs", () => {
+    const d = recalc(resolvedWithGrantedBoons(true));
+    // 13 (passive picks/grants) + activatable granted buff 4 = 17
+    expect(d.ac).toBe(17);
+    expect(d.acBreakdown).toContainEqual({ source: "Granted Buff", amount: 4, kind: "feature" });
+  });
+});
