@@ -17,6 +17,7 @@ import type {
 } from "./pc.types";
 import { normalizeKnownSpell, resolveSpellcasting } from "./pc.spellcasting";
 import { resolveAllPools } from "./pc.pools";
+import { bareEntitySlug } from "./pc.decision-engine";
 
 export interface ResolveResult {
   character: ResolvedCharacter;
@@ -103,6 +104,29 @@ export class PCResolver {
       spells.push({ entity, slug: n.slug, classSlug, source: n.source, prepared: prep, alwaysPrepared: n.alwaysPrepared });
     }
 
+    // 2024 Weapon Mastery: union the chosen weapon picks (bare slugs onto the
+    // resolved character) and fold their display NAMES onto the Weapon-Mastery
+    // feature card. Locate the feature STRUCTURALLY (id/choices live on
+    // rf.feature — Gate-2 MF-2), never by display name; APPEND to chosenInline
+    // on the freshly-created wrapper so the shared registry entity is untouched.
+    const chosenMasteries = collectChosenWeaponMasteries(character);
+    if (chosenMasteries.full.length > 0) {
+      const target = features.find(
+        (rf) =>
+          rf.feature.id === "weapon-mastery" ||
+          rf.feature.choices?.some(
+            (ch) => ch.kind === "select-entity" && ch.id === "weapon-mastery" && ch.entity_type === "weapon",
+          ),
+      );
+      if (target) {
+        const names = chosenMasteries.full.map(
+          (fullSlug) => this.entities.getByTypeAndSlug("weapon", fullSlug)?.name ?? fullSlug,
+        );
+        const entry = { label: "Mastered weapons", description: names.join(", ") };
+        target.chosenInline = target.chosenInline ? [...target.chosenInline, entry] : [entry];
+      }
+    }
+
     const resolvedCharacter: ResolvedCharacter = {
       definition: character,
       race,
@@ -113,12 +137,32 @@ export class PCResolver {
       features,
       spells,
       pools: [],
+      weaponMasteries: chosenMasteries.bare,
       state: character.state,
     };
     resolvedCharacter.pools = resolveAllPools(resolvedCharacter, this.entities);
 
     return { character: resolvedCharacter, warnings };
   }
+}
+
+/**
+ * 2024 Weapon Mastery: unions the persisted `weapon-mastery` picks across every
+ * class/level `ClassEntry.choices[level]["weapon-mastery"]`. Returns both the
+ * ORIGINAL full picked slugs (`full` — used for exact-match display-name lookup)
+ * and their BARE-normalized form (`bare` — e.g. "srd-2024_greatsword" →
+ * "greatsword"), each de-duplicated in first-seen order. Bare-authored picks
+ * normalize to themselves. Non-string / non-array picks are ignored.
+ */
+export function collectChosenWeaponMasteries(character: Character): { bare: string[]; full: string[] } {
+  const full = new Set<string>();
+  for (const cls of character.class ?? []) {
+    for (const lvl of Object.values(cls.choices ?? {})) {
+      const pick = (lvl as Record<string, unknown>)["weapon-mastery"];
+      if (Array.isArray(pick)) for (const s of pick) if (typeof s === "string") full.add(s);
+    }
+  }
+  return { full: [...full], bare: [...new Set([...full].map(bareEntitySlug))] };
 }
 
 /**

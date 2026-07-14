@@ -262,6 +262,11 @@ export interface ResolvedCharacter {
   features: ResolvedFeature[];
   spells: ResolvedSpell[];
   pools: ResolvedPool[];
+  /** 2024 Weapon Mastery: bare-normalized slugs of the weapons the character has
+   *  chosen mastery of, unioned across every class/level `weapon-mastery` pick
+   *  (e.g. "srd-2024_greatsword" → "greatsword"). Empty when the character has no
+   *  such pick. Populated by the resolver's collectChosenWeaponMasteries pass. */
+  weaponMasteries: string[];
   state: CharacterState;
 }
 
