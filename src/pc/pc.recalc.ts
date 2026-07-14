@@ -727,7 +727,10 @@ export function recalc(resolved: ResolvedCharacter, registry?: EntityRegistry): 
   let acBreakdownDerived: ACTerm[] = [];
   let acInformationalDerived: InformationalBonus[] = [];
   if (registry) {
-    derivedEquipment = computeSlotsAndAttacks(resolved, mods, profsForApply, registry, warnings, proficiencyBonus, weaponAbility ?? undefined);
+    // `?? []` coalesce is the recalc read boundary for the mastery gate: the
+    // resolver always sets weaponMasteries, but untypechecked test fixtures may
+    // omit it — never thread `undefined` into the `.includes` gate downstream.
+    derivedEquipment = computeSlotsAndAttacks(resolved, mods, profsForApply, registry, warnings, proficiencyBonus, weaponAbility ?? undefined, resolved.weaponMasteries ?? []);
     if (derivedEquipment.equippedSlots.armor) {
       const featTerms = featureAcTermsFor(true);
       acDerived = derivedEquipment.ac + sumTerms(featTerms);

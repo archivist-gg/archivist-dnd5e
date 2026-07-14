@@ -336,6 +336,14 @@ export interface AttackRow {
    *  untouched attack rows are unchanged. The weapons table renders these joined
    *  with " · " as a muted caption under the weapon name. */
   attackNotes?: string[];
+  /** 2024 Weapon Mastery for this attack, present only when the character has
+   *  chosen mastery of this weapon AND is proficient with it AND the weapon
+   *  declares a mastery property. `slug`/`label`/`description` come from the
+   *  mastery glossary; `derived` carries the computed number for the two
+   *  numeric masteries (topple → Save DC, graze → On-miss damage) and is absent
+   *  for the rest. Additive + display-only — absent (undefined) on untouched
+   *  rows so nothing else changes. */
+  mastery?: { slug: string; label: string; description: string; derived?: { label: string; value: number } };
 }
 
 export interface AppliedBonuses {

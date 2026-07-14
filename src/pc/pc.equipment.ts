@@ -26,6 +26,8 @@ import {
   resolveEntityForEntry, effectiveArmor, defaultSlotForType,
   isWeaponEntity, isItemEntity,
 } from "./pc.slotting";
+import { MASTERY, masteryDerived } from "../weapon/weapon-mastery";
+import { bareEntitySlug } from "./pc.decision-engine";
 
 const ABILITY_KEYS: readonly Ability[] = ["str", "dex", "con", "int", "wis", "cha"];
 
@@ -495,8 +497,9 @@ function buildAttackRow(args: {
   slotKey?: "mainhand" | "offhand";
   actionCost?: "action" | "bonus-action" | "reaction" | "free" | "special";
   versatileDice?: string;
+  weaponMasteries: string[];
 }): AttackRow {
-  const { id, name, weapon, baseDice, ability, mods, proficient, proficiencyBonus, magic } = args;
+  const { id, name, weapon, baseDice, ability, mods, proficient, proficiencyBonus, magic, weaponMasteries } = args;
 
   const abilityMod = mods[ability];
   const pb = proficient ? proficiencyBonus : 0;
@@ -537,7 +540,7 @@ function buildAttackRow(args: {
   // replaces the base list entirely.
   const finalProps: string[] = magic.propertiesOverride ?? stringProps;
 
-  return {
+  const row: AttackRow = {
     id,
     name,
     range,
@@ -561,6 +564,23 @@ function buildAttackRow(args: {
     actionCost: args.actionCost,
     versatile: args.versatileDice ? { damageDice: formatDice(args.versatileDice) } : undefined,
   };
+
+  // 2024 Weapon Mastery (additive). Surface the weapon's first mastery property
+  // only when the character has CHOSEN mastery of this weapon (bare-slug match)
+  // AND is proficient with it. `weapon` is already the resolved BASE entity for
+  // magic weapons, so `weapon.slug` is the base slug. The DC/on-miss numbers use
+  // the resolved ability mod + the raw proficiencyBonus — NOT `toHit` (a +1
+  // weapon must not inflate the Topple DC).
+  const mSlug = weapon.mastery?.[0];
+  if (mSlug && proficient && weaponMasteries.includes(bareEntitySlug(weapon.slug))) {
+    const g = MASTERY[mSlug];
+    if (g) {
+      const derived = masteryDerived(mSlug, mods[ability], proficiencyBonus);
+      row.mastery = { slug: mSlug, label: g.label, description: g.description, ...(derived ? { derived } : {}) };
+    }
+  }
+
+  return row;
 }
 
 function formatWeaponSubLabel(weapon: WeaponEntity, properties: string[]): string {
@@ -578,6 +598,7 @@ function computeAttacks(
   warnings: string[],
   proficiencyBonus: number,
   ctx: ConditionContext,
+  weaponMasteries: string[],
   weaponAbilityOverride?: Ability,
 ): AttackRow[] {
   const rows: AttackRow[] = [];
@@ -649,6 +670,7 @@ function computeAttacks(
       slotKey: key,
       actionCost: ovr.action ?? "action",
       versatileDice,
+      weaponMasteries,
     });
     rows.push(baseRow);
   }
@@ -723,13 +745,17 @@ export function computeSlotsAndAttacks(
   warnings: string[],
   proficiencyBonus: number,
   weaponAbilityOverride?: Ability,
+  // Defaults to [] so direct callers (pre-existing untypechecked test fixtures
+  // whose ResolvedCharacter omits weaponMasteries) never hit `undefined.includes`
+  // in the mastery gate. recalc passes `resolved.weaponMasteries ?? []`.
+  weaponMasteries: string[] = [],
 ): DerivedEquipment {
   const equippedSlots = assignSlots(resolved, registry, warnings);
   const overrides = resolved.definition.overrides ?? {};
 
   const acOut = computeAC(equippedSlots, resolved, mods, registry);
   const ctx = buildConditionContext(resolved, equippedSlots);
-  const attacks = computeAttacks(equippedSlots, mods, profs, registry, warnings, proficiencyBonus, ctx, weaponAbilityOverride);
+  const attacks = computeAttacks(equippedSlots, mods, profs, registry, warnings, proficiencyBonus, ctx, weaponMasteries, weaponAbilityOverride);
   return {
     ac: acOut.ac,
     acBreakdown: acOut.breakdown,
