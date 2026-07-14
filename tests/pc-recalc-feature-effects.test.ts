@@ -415,6 +415,25 @@ describe("recalc — feature effects: attack notes (reroll-damage / attack-rule)
   });
 });
 
+describe("recalc — feature effects: damage-bonus (damage riders)", () => {
+  it("applies a global feature damage-bonus onto weapon attack rows", () => {
+    const r = withSimpleWeaponProficiency(
+      resolvedWithEquipment(
+        [{ kind: "damage-bonus", damage_type: "necrotic", amount: "1d8", applies_to: "weapon" }],
+        [{ item: "[[club]]", equipped: true }],
+      ),
+    );
+    expect(recalc(r, registryWithClub()).attacks[0].damageRiders).toEqual([
+      { amount: "1d8", damage_type: "necrotic", source: "Effect Source" },
+    ]);
+  });
+
+  it("leaves damageRiders ABSENT on attack rows when no rider applies", () => {
+    const r = withSimpleWeaponProficiency(resolvedWithEquipment([], [{ item: "[[club]]", equipped: true }]));
+    expect(recalc(r, registryWithClub()).attacks[0].damageRiders).toBeUndefined();
+  });
+});
+
 describe("recalc — feature effects: extra-attack", () => {
   it("extra-attack sets attacksPerAction (1 + max count, non-stacking)", () => {
     const d = recalc(resolvedWith(mkClass("reaver", "d10", 5), [

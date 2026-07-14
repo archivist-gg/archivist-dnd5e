@@ -280,6 +280,17 @@ export interface ACTerm {
   kind: "armor" | "shield" | "item" | "unarmored" | "override" | "dex" | "ability" | "feature";
 }
 
+/** An additive on-hit damage rider (dice or flat) applied to an attack, from a
+ *  feature (global — all weapon attacks) or a magic item (that weapon only).
+ *  `amount` is a dice/flat string ("2d6", "1d8", "2"); `damage_type` optional
+ *  (a bare manual override string carries its type inline); `source` is a human
+ *  label for the expand/tooltip. Rendered as its own damage chip on the row. */
+export interface DamageRider {
+  amount: string;
+  damage_type?: string;
+  source?: string;
+}
+
 export interface AttackRow {
   id: string;
   name: string;
@@ -288,6 +299,10 @@ export interface AttackRow {
   damageDice: string;
   damageType: string;
   extraDamage?: string;
+  /** Accumulated additive on-hit damage riders (feature-global + item-local +
+   *  the migrated manual override), rendered as extra damage chips. Absent when
+   *  none apply (so untouched rows are unchanged). */
+  damageRiders?: DamageRider[];
   properties: string[];
   proficient: boolean;
   breakdown: { toHit: ACTerm[]; damage: ACTerm[] };

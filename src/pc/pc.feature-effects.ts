@@ -1,15 +1,16 @@
 import type { FeatureEffect, SenseType } from "@archivist-gg/dnd5e/types/feature-effect";
 import type { Ability } from "@archivist-gg/dnd5e";
 import { ABILITY_KEYS } from "@archivist-gg/dnd5e/dnd/constants";
-import type { ResolvedFeature, RollModifierEntry } from "./pc.types";
+import type { DamageRider, ResolvedFeature, RollModifierEntry } from "./pc.types";
 
 /**
  * Aggregated passive feature effects (effects-application engine).
  * One pure scan over resolved.features[].feature.effects[]. Merge semantics
  * mirror pc.conditions mergePartial: numbers add, each sense range takes max,
- * lists union case-insensitively. apply-condition and damage-bonus are action/attack
- * time and intentionally not aggregated; `while`-gated immune-condition
- * entries are skipped entirely (conditional effects are a named deferral).
+ * lists union case-insensitively. apply-condition is action time and
+ * intentionally not aggregated; `damage-bonus` folds into damageBonuses (additive
+ * on-hit riders); `while`-gated immune-condition entries are skipped entirely
+ * (conditional effects are a named deferral).
  */
 export interface FeatureEffectTotals {
   initiative_bonus: number;
@@ -70,6 +71,13 @@ export interface FeatureEffectTotals {
    * non-empty, so untouched attack rows keep `attackNotes: undefined`.
    */
   attackNotes: string[];
+  /**
+   * Additive on-hit damage riders from `damage-bonus` effects with
+   * `applies_to` weapon/all (spell-only ignored — no spell surface). Each is
+   * labeled with the owning feature's name. recalc merges these onto every
+   * weapon AttackRow's `damageRiders`.
+   */
+  damageBonuses: DamageRider[];
 }
 
 export function emptyFeatureEffectTotals(): FeatureEffectTotals {
@@ -88,6 +96,7 @@ export function emptyFeatureEffectTotals(): FeatureEffectTotals {
     critRange: 20,
     extraAttack: 0,
     attackNotes: [],
+    damageBonuses: [],
   };
 }
 
@@ -225,8 +234,16 @@ function applyEffect(out: FeatureEffectTotals, eff: FeatureEffect, label: string
     case "attack-rule":
       if (eff.flag === "no-ranged-in-melee-disadvantage") out.attackNotes.push("No disadvantage firing in melee");
       break;
+    case "damage-bonus":
+      // Additive on-hit damage rider (dice or flat string). weapon/all fold onto
+      // weapon attack rows in recalc; spell-only has no surface yet. `condition`
+      // is read but not evaluated in v1 (carried on the source's prose).
+      if ((eff.applies_to ?? "weapon") !== "spell") {
+        out.damageBonuses.push({ amount: eff.amount, damage_type: eff.damage_type, source: label });
+      }
+      break;
     default:
-      // apply-condition, damage-bonus, and future kinds: not derived-stat effects.
+      // apply-condition and future kinds: not derived-stat effects.
       break;
   }
 }

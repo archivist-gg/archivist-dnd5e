@@ -167,10 +167,28 @@ describe("computeFeatureEffects", () => {
     const out = computeFeatureEffects([
       rf([
         { kind: "apply-condition", condition: "Prone" },
-        { kind: "damage-bonus", damage_type: "fire", amount: "1d6" },
         { kind: "future-kind", whatever: 1 } as unknown as FeatureEffect,
       ]),
     ]);
     expect(out).toEqual(emptyFeatureEffectTotals());
+  });
+
+  describe("damage-bonus", () => {
+    it("folds a weapon damage-bonus into damageBonuses with source = feature name", () => {
+      const out = computeFeatureEffects([
+        rf([{ kind: "damage-bonus", damage_type: "necrotic", amount: "1d8", applies_to: "weapon" }], "Terrorizing Force"),
+      ]);
+      expect(out.damageBonuses).toEqual([{ amount: "1d8", damage_type: "necrotic", source: "Terrorizing Force" }]);
+    });
+    it("treats absent applies_to as weapon", () => {
+      const out = computeFeatureEffects([rf([{ kind: "damage-bonus", damage_type: "fire", amount: "2" }], "Aura")]);
+      expect(out.damageBonuses).toEqual([{ amount: "2", damage_type: "fire", source: "Aura" }]);
+    });
+    it("ignores spell-only damage-bonus (no spell surface yet)", () => {
+      const out = computeFeatureEffects([
+        rf([{ kind: "damage-bonus", damage_type: "fire", amount: "1d6", applies_to: "spell" }], "Spell Rider"),
+      ]);
+      expect(out.damageBonuses).toEqual([]);
+    });
   });
 });

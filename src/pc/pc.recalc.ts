@@ -877,12 +877,16 @@ export function recalc(resolved: ResolvedCharacter, registry?: EntityRegistry): 
     // untouched rows keep `critRange`/`attackNotes` ABSENT (not 20 / not []).
     // crit-range: folded weapon crit threshold, only when an effect lowered it.
     // attackNotes: reroll-damage / attack-rule captions, only when non-empty.
-    attacks: (derivedEquipment?.attacks ?? []).map((a) => ({
-      ...a,
-      toHit: a.toHit + conditionEffects.d20_test_penalty,
-      ...(featureEffects.critRange < 20 ? { critRange: featureEffects.critRange } : {}),
-      ...(featureEffects.attackNotes.length ? { attackNotes: featureEffects.attackNotes } : {}),
-    })),
+    attacks: (derivedEquipment?.attacks ?? []).map((a) => {
+      const riders = [...(a.damageRiders ?? []), ...featureEffects.damageBonuses];
+      return {
+        ...a,
+        toHit: a.toHit + conditionEffects.d20_test_penalty,
+        ...(featureEffects.critRange < 20 ? { critRange: featureEffects.critRange } : {}),
+        ...(featureEffects.attackNotes.length ? { attackNotes: featureEffects.attackNotes } : {}),
+        ...(riders.length ? { damageRiders: riders } : {}),
+      };
+    }),
     equippedSlots: derivedEquipment?.equippedSlots ?? {},
     carriedWeight: derivedEquipment?.carriedWeight ?? 0,
     attunementUsed: derivedEquipment?.attunementUsed ?? 0,
