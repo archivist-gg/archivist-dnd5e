@@ -14,10 +14,15 @@
       "str"
     ],
     "proficiencies": {
-      "armor": [],
+      "armor": [
+        "light",
+        "medium",
+        "shield"
+      ],
       "weapons": {
-        "fixed": [
-          "unarmed"
+        "categories": [
+          "simple",
+          "martial"
         ]
       }
     },
@@ -669,10 +674,12 @@
       "dex"
     ],
     "proficiencies": {
-      "armor": [],
+      "armor": [
+        "light"
+      ],
       "weapons": {
-        "fixed": [
-          "unarmed"
+        "categories": [
+          "simple"
         ]
       }
     },
@@ -1357,10 +1364,14 @@
       "wis"
     ],
     "proficiencies": {
-      "armor": [],
+      "armor": [
+        "light",
+        "medium",
+        "shield"
+      ],
       "weapons": {
-        "fixed": [
-          "unarmed"
+        "categories": [
+          "simple"
         ]
       }
     },
@@ -2047,10 +2058,13 @@
       "wis"
     ],
     "proficiencies": {
-      "armor": [],
+      "armor": [
+        "light",
+        "shield"
+      ],
       "weapons": {
-        "fixed": [
-          "unarmed"
+        "categories": [
+          "simple"
         ]
       }
     },
@@ -2766,10 +2780,16 @@
       "str"
     ],
     "proficiencies": {
-      "armor": [],
+      "armor": [
+        "light",
+        "medium",
+        "heavy",
+        "shield"
+      ],
       "weapons": {
-        "fixed": [
-          "unarmed"
+        "categories": [
+          "simple",
+          "martial"
         ]
       }
     },
@@ -3504,8 +3524,9 @@
     "proficiencies": {
       "armor": [],
       "weapons": {
-        "fixed": [
-          "unarmed"
+        "categories": [
+          "simple",
+          "martial"
         ]
       }
     },
@@ -4129,10 +4150,16 @@
       "wis"
     ],
     "proficiencies": {
-      "armor": [],
+      "armor": [
+        "light",
+        "medium",
+        "heavy",
+        "shield"
+      ],
       "weapons": {
-        "fixed": [
-          "unarmed"
+        "categories": [
+          "simple",
+          "martial"
         ]
       }
     },
@@ -4780,10 +4807,15 @@
       "str"
     ],
     "proficiencies": {
-      "armor": [],
+      "armor": [
+        "light",
+        "medium",
+        "shield"
+      ],
       "weapons": {
-        "fixed": [
-          "unarmed"
+        "categories": [
+          "simple",
+          "martial"
         ]
       }
     },
@@ -5499,10 +5531,13 @@
       "int"
     ],
     "proficiencies": {
-      "armor": [],
+      "armor": [
+        "light"
+      ],
       "weapons": {
-        "fixed": [
-          "unarmed"
+        "categories": [
+          "simple",
+          "martial"
         ]
       }
     },
@@ -6095,8 +6130,8 @@
     "proficiencies": {
       "armor": [],
       "weapons": {
-        "fixed": [
-          "unarmed"
+        "categories": [
+          "simple"
         ]
       }
     },
@@ -6781,10 +6816,12 @@
       "wis"
     ],
     "proficiencies": {
-      "armor": [],
+      "armor": [
+        "light"
+      ],
       "weapons": {
-        "fixed": [
-          "unarmed"
+        "categories": [
+          "simple"
         ]
       }
     },
@@ -7392,8 +7429,8 @@
     "proficiencies": {
       "armor": [],
       "weapons": {
-        "fixed": [
-          "unarmed"
+        "categories": [
+          "simple"
         ]
       }
     },
