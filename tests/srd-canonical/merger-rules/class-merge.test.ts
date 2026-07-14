@@ -406,6 +406,183 @@ describe("class-merge: Open5e v2 class shape", () => {
     expect(names).not.toContain("Bard Spell List");
   });
 
+  // -------------------------------------------------------------------------
+  // Task 6a: 2024 Core-Traits proficiency parsing.
+  //
+  // 2024 classes carry weapon/armor proficiencies in a `CORE_TRAITS_TABLE`
+  // markdown table (`|Weapon Proficiencies|Simple and Martial weapons|`), not
+  // the 2014 `PROFICIENCIES` prose feature (`**Weapons:** …`). The generator
+  // must read the table so 2024 martials emit real categories instead of the
+  // schema-appeasing `weapons.fixed: ["unarmed"]` fallback.
+  // -------------------------------------------------------------------------
+  describe("2024 Core-Traits proficiencies (Task 6a)", () => {
+    const coreTraits = (rows: string): {
+      key: string; name: string; desc: string; feature_type: string;
+      gained_at: never[]; data_for_class_table: never[];
+    } => ({
+      key: "core-traits",
+      name: "Core Traits",
+      desc: `|||\n|---|---|\n${rows}`,
+      feature_type: "CORE_TRAITS_TABLE",
+      gained_at: [],
+      data_for_class_table: [],
+    });
+
+    it("2024 Fighter: reads Simple/Martial weapons + full armor from the Core-Traits table", () => {
+      const result = toClassCanonical(baseEntry({
+        slug: "srd-2024_fighter",
+        edition: "2024",
+        base: {
+          key: "srd-2024_fighter",
+          name: "Fighter",
+          desc: "",
+          hit_dice: "D10",
+          subclass_of: null,
+          saving_throws: [{ name: "Strength" }, { name: "Constitution" }],
+          features: [
+            coreTraits(
+              "|Weapon Proficiencies|Simple and Martial weapons|\n" +
+              "|Armor Training|Light, Medium, and Heavy armor and Shields|\n",
+            ),
+          ],
+        },
+      })) as { proficiencies: { armor: string[]; weapons: { fixed?: string[]; categories?: string[] } } };
+      expect(result.proficiencies.weapons.categories).toEqual(["simple", "martial"]);
+      expect(result.proficiencies.weapons.fixed).toBeUndefined();
+      expect(result.proficiencies.armor).toEqual(["light", "medium", "heavy", "shield"]);
+    });
+
+    it("2024 Wizard: Simple weapons only + no armor (Armor Training: None → [])", () => {
+      const result = toClassCanonical(baseEntry({
+        slug: "srd-2024_wizard",
+        edition: "2024",
+        base: {
+          key: "srd-2024_wizard",
+          name: "Wizard",
+          desc: "",
+          hit_dice: "D6",
+          subclass_of: null,
+          saving_throws: [{ name: "Intelligence" }, { name: "Wisdom" }],
+          features: [
+            coreTraits(
+              "|Weapon Proficiencies|Simple weapons|\n" +
+              "|Armor Training|None|\n",
+            ),
+          ],
+        },
+      })) as { proficiencies: { armor: string[]; weapons: { fixed?: string[]; categories?: string[] } } };
+      expect(result.proficiencies.weapons.categories).toEqual(["simple"]);
+      expect(result.proficiencies.weapons.fixed).toBeUndefined();
+      expect(result.proficiencies.armor).toEqual([]);
+    });
+
+    it("2024 Monk: conditional 'Martial … that have the Light property' → [simple, martial] (documented over-grant)", () => {
+      const result = toClassCanonical(baseEntry({
+        slug: "srd-2024_monk",
+        edition: "2024",
+        base: {
+          key: "srd-2024_monk",
+          name: "Monk",
+          desc: "",
+          hit_dice: "D8",
+          subclass_of: null,
+          saving_throws: [{ name: "Strength" }, { name: "Dexterity" }],
+          features: [
+            coreTraits(
+              "|Weapon Proficiencies|Simple weapons and Martial weapons that have the Light property|\n" +
+              "|Armor Training|None|\n",
+            ),
+          ],
+        },
+      })) as { proficiencies: { armor: string[]; weapons: { fixed?: string[]; categories?: string[] } } };
+      expect(result.proficiencies.weapons.categories).toEqual(["simple", "martial"]);
+      expect(result.proficiencies.weapons.fixed).toBeUndefined();
+      expect(result.proficiencies.armor).toEqual([]);
+    });
+
+    it("2014 regression (categories): PROFICIENCIES prose still parses 'Simple weapons, martial weapons' + 'All armor, shields'", () => {
+      const result = toClassCanonical(baseEntry({
+        slug: "srd-5e_fighter",
+        edition: "2014",
+        base: {
+          key: "srd_fighter",
+          name: "Fighter",
+          desc: "",
+          hit_dice: "D10",
+          subclass_of: null,
+          saving_throws: [{ name: "Strength" }, { name: "Constitution" }],
+          features: [
+            {
+              key: "srd_fighter_proficiencies",
+              name: "Proficiencies",
+              desc: "**Armor:** All armor, shields\n**Weapons:** Simple weapons, martial weapons\n**Tools:** None\n**Skills:** Choose two skills from Acrobatics, Athletics, and Survival",
+              feature_type: "PROFICIENCIES",
+              gained_at: [],
+              data_for_class_table: [],
+            },
+          ],
+        },
+      })) as { proficiencies: { armor: string[]; weapons: { fixed?: string[]; categories?: string[] } } };
+      expect(result.proficiencies.weapons.categories).toEqual(["simple", "martial"]);
+      expect(result.proficiencies.weapons.fixed).toBeUndefined();
+      expect(result.proficiencies.armor).toEqual(["shield", "light", "medium", "heavy"]);
+    });
+
+    it("2014 regression (specific weapons): PROFICIENCIES prose still emits weapons.fixed for casters", () => {
+      const result = toClassCanonical(baseEntry({
+        slug: "srd-5e_wizard",
+        edition: "2014",
+        base: {
+          key: "srd_wizard",
+          name: "Wizard",
+          desc: "",
+          hit_dice: "D6",
+          subclass_of: null,
+          saving_throws: [{ name: "Intelligence" }, { name: "Wisdom" }],
+          features: [
+            {
+              key: "srd_wizard_proficiencies",
+              name: "Proficiencies",
+              desc: "**Weapons:** Daggers, darts, slings, quarterstaffs, light crossbows",
+              feature_type: "PROFICIENCIES",
+              gained_at: [],
+              data_for_class_table: [],
+            },
+          ],
+        },
+      })) as { proficiencies: { weapons: { fixed?: string[]; categories?: string[] } } };
+      expect(result.proficiencies.weapons.fixed).toEqual(["daggers", "darts", "slings", "quarterstaffs", "light crossbows"]);
+      expect(result.proficiencies.weapons.categories).toBeUndefined();
+    });
+
+    it("no-data fallback: neither PROFICIENCIES prose nor CORE_TRAITS_TABLE → weapons.fixed ['unarmed']", () => {
+      const result = toClassCanonical(baseEntry({
+        slug: "srd-2024_ghost",
+        edition: "2024",
+        base: {
+          key: "srd-2024_ghost",
+          name: "Ghost",
+          desc: "",
+          hit_dice: "D8",
+          subclass_of: null,
+          saving_throws: [{ name: "Wisdom" }, { name: "Charisma" }],
+          features: [
+            {
+              key: "srd-2024_ghost_spooky",
+              name: "Spooky",
+              desc: "You are spooky.",
+              feature_type: "CLASS_LEVEL_FEATURE",
+              gained_at: [{ level: 1, detail: null }],
+              data_for_class_table: [],
+            },
+          ],
+        },
+      })) as { proficiencies: { armor: string[]; weapons: { fixed?: string[]; categories?: string[] } } };
+      expect(result.proficiencies.weapons.fixed).toEqual(["unarmed"]);
+      expect(result.proficiencies.weapons.categories).toBeUndefined();
+    });
+  });
+
   it("attaches overlay resources to the matching class feature", () => {
     const result = toClassCanonical(baseEntry({
       slug: "srd-5e_barbarian",

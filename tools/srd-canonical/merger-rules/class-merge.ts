@@ -244,20 +244,35 @@ function parseProficienciesProse(features: Open5eClassFeature[]): {
   proficiencies: ClassProficiencies;
   skill_choices: { count: number; from: SkillSlug[] };
 } {
-  const profFeature = features.find((f) => f.feature_type === "PROFICIENCIES");
-  const desc = profFeature?.desc ?? "";
+  // Two upstream shapes carry the same class proficiency data:
+  //   • 2014: a PROFICIENCIES prose feature — `**Armor:** …` / `**Weapons:** …`.
+  //   • 2024: a CORE_TRAITS_TABLE markdown table — `|Armor Training|…|` /
+  //     `|Weapon Proficiencies|…|` (2024 has NO PROFICIENCIES feature).
+  // Prose wins when present so 2014 output stays byte-identical; the 2024 table
+  // only fills a field the prose feature leaves empty.
+  const proseDesc = features.find((f) => f.feature_type === "PROFICIENCIES")?.desc ?? "";
+  const tableDesc = features.find((f) => f.feature_type === "CORE_TRAITS_TABLE")?.desc ?? "";
 
-  const fieldRegex = (label: string) =>
+  // 2014 prose: `**<Label>:**  <value up to EOL>`.
+  const proseRegex = (label: string) =>
     new RegExp(`\\*\\*${label}:\\*\\*\\s*([^\\n\\r]+)`, "i");
-  const grab = (label: string): string => {
-    const m = fieldRegex(label).exec(desc);
-    return m ? m[1].trim() : "";
+  // 2024 table row: `|<Label>|<value>|` (value = up to the next pipe).
+  const tableRegex = (label: string) =>
+    new RegExp(`\\|\\s*${label}\\s*\\|\\s*([^|\\r\\n]+?)\\s*\\|`, "i");
+  // Read a labelled value from EITHER source, preferring the 2014 prose; the
+  // 2024 alias (Armor→Armor Training, Weapons→Weapon Proficiencies, …) supplies
+  // the value only when the prose field is absent/empty.
+  const grab = (proseLabel: string, tableLabel: string): string => {
+    const proseMatch = proseRegex(proseLabel).exec(proseDesc);
+    if (proseMatch && proseMatch[1].trim()) return proseMatch[1].trim();
+    const tableMatch = tableRegex(tableLabel).exec(tableDesc);
+    return tableMatch ? tableMatch[1].trim() : "";
   };
 
-  const armorRaw = grab("Armor").toLowerCase();
-  const weaponsRaw = grab("Weapons").toLowerCase();
-  const toolsRaw = grab("Tools");
-  const skillsRaw = grab("Skills");
+  const armorRaw = grab("Armor", "Armor Training").toLowerCase();
+  const weaponsRaw = grab("Weapons", "Weapon Proficiencies").toLowerCase();
+  const toolsRaw = grab("Tools", "Tool Proficiencies");
+  const skillsRaw = grab("Skills", "Skill Proficiencies");
 
   const armor: ArmorCategory[] = [];
   if (armorRaw.includes("light")) armor.push("light");
@@ -271,16 +286,27 @@ function parseProficienciesProse(features: Open5eClassFeature[]): {
 
   const weapons: ClassProficiencies["weapons"] = {};
   const wparts = weaponsRaw.split(",").map((s) => s.trim()).filter(Boolean);
+  // Detect weapon CATEGORIES by word-boundary anywhere in the raw string, so
+  // both "Simple and Martial weapons" (2024, no comma) and "Simple weapons,
+  // martial weapons" (2014) resolve to [simple, martial]. The conditional 2024
+  // phrasings ("Simple weapons and Martial weapons that have the Light/Finesse
+  // property", Monk/Rogue) also match — a DOCUMENTED over-grant, since
+  // ClassProficiencies has no conditional-weapon axis.
   const wcategories: WeaponCategory[] = [];
+  if (/\bsimple\b/.test(weaponsRaw)) wcategories.push("simple");
+  if (/\bmartial\b/.test(weaponsRaw)) wcategories.push("martial");
+  // Preserve the specific-weapon path for 2014 casters (daggers, darts, …): any
+  // comma-separated part that is NOT a category phrase is a fixed weapon.
   const wfixed: string[] = [];
   for (const p of wparts) {
-    if (p === "simple weapons" || p === "simple") wcategories.push("simple");
-    else if (p === "martial weapons" || p === "martial") wcategories.push("martial");
-    else if (p && p !== "none") wfixed.push(p);
+    if (/\bsimple\b/.test(p) || /\bmartial\b/.test(p)) continue; // category phrase, already handled
+    if (p && p !== "none") wfixed.push(p);
   }
   if (wcategories.length > 0) weapons.categories = wcategories;
   if (wfixed.length > 0) weapons.fixed = wfixed;
-  // Schema refines that weapons must declare at least one of fixed/categories/conditional.
+  // Schema refines that weapons must declare at least one of fixed/categories/
+  // conditional. This fallback now fires ONLY when there is genuinely no
+  // proficiency data (neither PROFICIENCIES prose nor a CORE_TRAITS_TABLE row).
   if (!weapons.categories && !weapons.fixed) {
     weapons.fixed = ["unarmed"];
   }
