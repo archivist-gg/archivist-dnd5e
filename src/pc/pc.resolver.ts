@@ -289,11 +289,27 @@ function walkChoiceGrants(
     if (ch.kind === "select-inline") {
       const branch = typeof sel === "string" ? ch.options.find((o) => o.value === sel) : undefined;
       if (branch?.effects?.length) {
+        // Task 4: resolve a scoped "Lies"-style weapon-ability at synthesis. A
+        // nested select-entity{weapon} choice (e.g. `lies-weapon`) names the
+        // chosen weapon type; bind `weapons:"chosen"` to that pick so recalc can
+        // scope the melee override to the matching weapon. CLONE ONLY the
+        // chosen-with-pick effect — every other effect passes through BY
+        // REFERENCE (byte-identical), and branch.effects (a shared registry
+        // array) is NEVER mutated in place.
+        const wc = branch.choices?.find(
+          (c) => c.kind === "select-entity" && c.entity_type === "weapon",
+        );
+        const picked = wc ? atLevel?.[wc.id] : undefined;
+        const effects = branch.effects.map((e) =>
+          e.kind === "weapon-ability" && e.weapons === "chosen" && typeof picked === "string"
+            ? { ...e, weapons: [bareEntitySlug(picked)] }
+            : e,
+        );
         // #3: the chosen-option synthetic is render-suppressed (suppress=true) —
         // its prose is folded onto the PARENT feature (chosenInline) so the sheet
         // does not double-list it. It STAYS in resolved.features so its effects
         // still fold in recalc. select-entity emits stay visible (no suppress).
-        emit({ id: `${ch.id}-${branch.value}`, name: branch.label, description: branch.description, effects: branch.effects }, true);
+        emit({ id: `${ch.id}-${branch.value}`, name: branch.label, description: branch.description, effects }, true);
       }
       if (branch?.choices) walkChoiceGrants(branch.choices, atLevel, emit, registry);
     }

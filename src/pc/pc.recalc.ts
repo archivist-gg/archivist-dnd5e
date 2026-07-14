@@ -698,17 +698,19 @@ export function recalc(resolved: ResolvedCharacter, registry?: EntityRegistry): 
       .map((t) => ({ source: t.label, amount: t.value, kind: "feature" as const }));
   const sumTerms = (terms: ACTerm[]): number => terms.reduce((s, t) => s + t.amount, 0);
 
-  // Resolve the weapon-ability override (Hexblade "Lies", etc.) for attacks.
-  // The fold (computeFeatureEffects) already captured the first concrete-ability
-  // override; a "spellcasting" override is resolved here against the primary
-  // caster ability (the spellcasting block proper is computed below, but the
-  // ability only needs the resolved classes — no slot/DC machinery).
-  let weaponAbility = featureEffects.weaponAbility;
+  // Resolve the weapon-ability overrides (Hexblade "Lies", MCDM scoped "Lies",
+  // etc.) for attacks. The fold (computeFeatureEffects) captured every concrete
+  // override with its (possibly scoped) weapon slugs; a "spellcasting" override
+  // is resolved here against the primary caster ability (the spellcasting block
+  // proper is computed below, but the ability only needs the resolved classes —
+  // no slot/DC machinery). Spread-COPY so we never mutate the totals array.
+  const weaponAbilities = [...featureEffects.weaponAbilities];
   const wantsSpellcasting = resolved.features.some((rf) =>
     (rf.feature.effects ?? []).some((e) => e.kind === "weapon-ability" && e.ability === "spellcasting"));
-  // If both a concrete-ability and a "spellcasting" weapon-ability override exist,
-  // spellcasting wins (overwrites the fold's first-concrete pick). No real feature
-  // combines the two in v1; this just pins the precedence.
+  // A "spellcasting" override resolves to a GLOBAL caster ability and is
+  // PREPENDED so it wins over concrete globals (preserving the prior
+  // spellcasting-wins precedence). A scoped concrete override still wins for its
+  // own weapon (scoped beats global downstream in attackAbility).
   if (wantsSpellcasting) {
     let primaryCasterAbility: Ability | null = null;
     for (const c of resolved.classes) {
@@ -719,7 +721,7 @@ export function recalc(resolved: ResolvedCharacter, registry?: EntityRegistry): 
         break;
       }
     }
-    if (primaryCasterAbility) weaponAbility = primaryCasterAbility;
+    if (primaryCasterAbility) weaponAbilities.unshift({ ability: primaryCasterAbility });
   }
 
   let derivedEquipment: DerivedEquipment | null = null;
@@ -730,7 +732,7 @@ export function recalc(resolved: ResolvedCharacter, registry?: EntityRegistry): 
     // `?? []` coalesce is the recalc read boundary for the mastery gate: the
     // resolver always sets weaponMasteries, but untypechecked test fixtures may
     // omit it — never thread `undefined` into the `.includes` gate downstream.
-    derivedEquipment = computeSlotsAndAttacks(resolved, mods, profsForApply, registry, warnings, proficiencyBonus, weaponAbility ?? undefined, resolved.weaponMasteries ?? []);
+    derivedEquipment = computeSlotsAndAttacks(resolved, mods, profsForApply, registry, warnings, proficiencyBonus, weaponAbilities, resolved.weaponMasteries ?? []);
     if (derivedEquipment.equippedSlots.armor) {
       const featTerms = featureAcTermsFor(true);
       acDerived = derivedEquipment.ac + sumTerms(featTerms);

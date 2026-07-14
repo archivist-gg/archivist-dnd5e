@@ -28,6 +28,7 @@ import {
 } from "./pc.slotting";
 import { MASTERY, masteryDerived } from "../weapon/weapon-mastery";
 import { bareEntitySlug } from "./pc.decision-engine";
+import type { WeaponAbilityOverride } from "./pc.feature-effects";
 
 const ABILITY_KEYS: readonly Ability[] = ["str", "dex", "con", "int", "wis", "cha"];
 
@@ -371,12 +372,22 @@ function hasProperty(weapon: WeaponEntity, prop: string): boolean {
   return weapon.properties.some((p) => p === prop);
 }
 
-function attackAbility(weapon: WeaponEntity, mods: Record<Ability, number>, override?: Ability): Ability {
+function attackAbility(
+  weapon: WeaponEntity,
+  mods: Record<Ability, number>,
+  weaponAbilities: WeaponAbilityOverride[],
+): Ability {
   const isRanged = /ranged/.test(weapon.category);
-  // A weapon-ability override (Hexblade "Lies") governs melee attacks only;
-  // pure ranged weapons keep DEX. Thrown/finesse melee weapons are still melee
-  // and are overridden.
-  if (override && !isRanged) return override;
+  // A weapon-ability override (Hexblade "Lies", MCDM scoped "Lies") governs melee
+  // attacks only; pure ranged weapons keep DEX and never take the override.
+  // Thrown/finesse melee weapons are still melee and ARE overridden. A scoped
+  // override (matching weaponSlugs) wins over an unscoped global for that weapon.
+  if (!isRanged) {
+    const scoped = weaponAbilities.find((o) => o.weaponSlugs?.includes(bareEntitySlug(weapon.slug)));
+    const glob = weaponAbilities.find((o) => !o.weaponSlugs);
+    const o = scoped ?? glob;
+    if (o) return o.ability;
+  }
   if (isRanged) return "dex";
   if (hasProperty(weapon, "finesse")) return mods.dex >= mods.str ? "dex" : "str";
   return "str";
@@ -599,7 +610,7 @@ function computeAttacks(
   proficiencyBonus: number,
   ctx: ConditionContext,
   weaponMasteries: string[],
-  weaponAbilityOverride?: Ability,
+  weaponAbilities: WeaponAbilityOverride[] = [],
 ): AttackRow[] {
   const rows: AttackRow[] = [];
   const handedSlots: Array<{ key: "mainhand" | "offhand"; placed: ResolvedEquipped | undefined }> = [
@@ -641,7 +652,7 @@ function computeAttacks(
       warnings.push(`Character not proficient with ${weapon.name}; proficiency bonus excluded.`);
     }
 
-    const ability = attackAbility(weapon, mods, weaponAbilityOverride);
+    const ability = attackAbility(weapon, mods, weaponAbilities);
     const magic = magicBonusesForWeaponEntry(entry, registry, ctx);
     const ovr = entry.overrides ?? {};
     const displayName = ovr.name ?? magic.itemName ?? weapon.name;
@@ -744,7 +755,10 @@ export function computeSlotsAndAttacks(
   registry: EntityRegistry,
   warnings: string[],
   proficiencyBonus: number,
-  weaponAbilityOverride?: Ability,
+  // Melee-attack ability overrides (Hexblade/MCDM "Lies"); [] = none. recalc
+  // passes the resolved list (spellcasting global prepended). A scoped entry
+  // applies only to its matching weapon type; an unscoped entry is global.
+  weaponAbilities: WeaponAbilityOverride[] = [],
   // Defaults to [] so direct callers (pre-existing untypechecked test fixtures
   // whose ResolvedCharacter omits weaponMasteries) never hit `undefined.includes`
   // in the mastery gate. recalc passes `resolved.weaponMasteries ?? []`.
@@ -755,7 +769,7 @@ export function computeSlotsAndAttacks(
 
   const acOut = computeAC(equippedSlots, resolved, mods, registry);
   const ctx = buildConditionContext(resolved, equippedSlots);
-  const attacks = computeAttacks(equippedSlots, mods, profs, registry, warnings, proficiencyBonus, ctx, weaponMasteries, weaponAbilityOverride);
+  const attacks = computeAttacks(equippedSlots, mods, profs, registry, warnings, proficiencyBonus, ctx, weaponMasteries, weaponAbilities);
   return {
     ac: acOut.ac,
     acBreakdown: acOut.breakdown,

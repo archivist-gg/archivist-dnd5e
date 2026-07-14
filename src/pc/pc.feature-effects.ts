@@ -2,6 +2,19 @@ import type { FeatureEffect, SenseType } from "@archivist-gg/dnd5e/types/feature
 import type { Ability } from "@archivist-gg/dnd5e";
 import { ABILITY_KEYS } from "@archivist-gg/dnd5e/dnd/constants";
 import type { DamageRider, ResolvedFeature, RollModifierEntry } from "./pc.types";
+import { bareEntitySlug } from "./pc.decision-engine";
+
+/**
+ * A melee-attack ability override from a `weapon-ability` effect. `weaponSlugs`
+ * (bare, namespace-stripped) scopes the override to matching weapon types only;
+ * empty/absent `weaponSlugs` = GLOBAL (applies to every melee weapon). The
+ * `"spellcasting"` sentinel is NOT stored here — it is resolved against the
+ * caster ability in recalc and prepended as a global.
+ */
+export interface WeaponAbilityOverride {
+  ability: Ability;
+  weaponSlugs?: string[];
+}
 
 /**
  * Aggregated passive feature effects (effects-application engine).
@@ -38,12 +51,15 @@ export interface FeatureEffectTotals {
    */
   proficiencies: { skills: string[]; tools: string[]; languages: string[]; saves: Ability[]; armor: string[]; weapons: string[] };
   /**
-   * v1 global melee-attack ability override (Hexblade "Lies", etc.). The first
-   * `weapon-ability` effect with a concrete ability (not `"spellcasting"`) wins;
-   * `"spellcasting"` is resolved against the caster ability in recalc. `weapons`
-   * scope is parsed but ignored here (global override). null = no override.
+   * Melee-attack ability overrides (Hexblade "Lies", MCDM Illrigger scoped
+   * "Lies", etc.), in fold order. Each carries an optional `weaponSlugs` scope
+   * (bare slugs) — absent/empty = GLOBAL (every melee weapon). The
+   * `"spellcasting"` sentinel is excluded here (no caster context in the fold);
+   * recalc resolves it and prepends the resolved global so it wins over concrete
+   * globals. recalc threads this list into attack computation, where a
+   * scoped-match wins over a global for the matching weapon. [] = no override.
    */
-  weaponAbility: Ability | null;
+  weaponAbilities: WeaponAbilityOverride[];
   /**
    * Order-preserving list of structured advantage/disadvantage entries from
    * `roll-modifier` effects. Pass-through (no dedupe/merge); each entry is
@@ -91,7 +107,7 @@ export function emptyFeatureEffectTotals(): FeatureEffectTotals {
     resistances: [],
     condition_immunities: [],
     proficiencies: { skills: [], tools: [], languages: [], saves: [], armor: [], weapons: [] },
-    weaponAbility: null,
+    weaponAbilities: [],
     rollModifiers: [],
     critRange: 20,
     extraAttack: 0,
@@ -205,12 +221,21 @@ function applyEffect(out: FeatureEffectTotals, eff: FeatureEffect, label: string
     case "ac-bonus":
       out.ac_terms.push({ value: eff.value, requires_armor: eff.requires_armor === true, label });
       break;
-    case "weapon-ability":
-      // v1: first concrete-ability override with an unscoped/global intent wins.
+    case "weapon-ability": {
       // The "spellcasting" sentinel is resolved in recalc (the fold lacks caster
-      // context); `weapons` scope is carried in the schema but ignored here.
-      if (out.weaponAbility === null && eff.ability !== "spellcasting") out.weaponAbility = eff.ability;
+      // context) — never pushed here. For a concrete ability, capture its scope:
+      // ABSENT or unresolved "chosen" (the resolver left the pick unfilled) stays
+      // GLOBAL; a concrete slug/list scopes the override to those weapon types.
+      // A plain-string `.map` would throw and `["chosen"]` would wrongly drop the
+      // override, so guard both before mapping to bare slugs.
+      if (eff.ability !== "spellcasting") {
+        const w = eff.weapons;
+        const weaponSlugs = !w || w === "chosen" ? undefined
+          : Array.isArray(w) ? w.map(bareEntitySlug) : [bareEntitySlug(w)];
+        out.weaponAbilities.push({ ability: eff.ability, weaponSlugs });
+      }
       break;
+    }
     case "roll-modifier":
       // Order-preserving pass-through: one entry per effect, labeled with the
       // owning feature's name for the chip tooltip. No dedupe/merge.
