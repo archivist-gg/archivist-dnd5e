@@ -23,6 +23,7 @@ import {
   enrichItemsWithVariantBonuses,
   enrichItemsWithFoundryEffects,
   enrichItemsWithCuratedConditions,
+  enrichItemsWithDamageRiders,
 } from "./merger-rules/item-merge";
 import { readFoundryItemsIndex } from "./sources/foundry-items";
 import { spellMergeRule, toSpellCanonical } from "./merger-rules/spell-merge";
@@ -284,6 +285,9 @@ async function main() {
         );
         enrichItemsWithCuratedConditions(
           canonical as Parameters<typeof enrichItemsWithCuratedConditions>[0],
+        );
+        enrichItemsWithDamageRiders(
+          canonical as Parameters<typeof enrichItemsWithDamageRiders>[0],
         );
         console.log(`[canonical]   conditional-bonus enrichment applied`);
       }

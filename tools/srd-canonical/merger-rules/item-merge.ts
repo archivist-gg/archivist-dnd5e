@@ -749,6 +749,27 @@ export function enrichItemsWithCuratedConditions(items: ItemCanonical[]): void {
   }
 }
 
+/**
+ * Backfills structured `damage_riders` onto the shipped Flame Tongue / Wounding
+ * magic-weapon variants (#9). The SRD prose describes the extra dice but no
+ * structured payload carries them, so the sheet's attack rows can't surface the
+ * rider without this. Slug matching uses the prefix-stripped bare slug
+ * (precedent: {@link enrichItemsWithFoundryEffects}). Mutates `items` in place.
+ */
+export function enrichItemsWithDamageRiders(items: ItemCanonical[]): void {
+  for (const item of items) {
+    const bare = item.slug.replace(/^srd-(5e|2024)_/, "");
+    let rider: { amount: string; damage_type: string } | undefined;
+    if (bare.startsWith("flame-tongue-")) rider = { amount: "2d6", damage_type: "fire" };
+    // `includes("of-wounding")` catches ALL real forms across both editions:
+    //   greatsword-of-wounding, greatsword-sword-of-wounding (2024),
+    //   sword-of-wounding-greatsword (2014). A `.endsWith("-of-wounding")`
+    //   would miss every 2014 `sword-of-wounding-<weapon>` slug.
+    else if (bare.includes("of-wounding")) rider = { amount: "2d6", damage_type: "necrotic" };
+    if (rider) item.damage_riders = [rider];
+  }
+}
+
 function applyCuratedField(item: ItemCanonical, field: BonusFieldPath, conds: Condition[]): void {
   const bonuses = item.bonuses;
   if (!bonuses) {

@@ -1,5 +1,6 @@
 import { describe, it, expect } from "vitest";
-import { toItemCanonical, enrichItemsWithVariantBonuses } from "../../../tools/srd-canonical/merger-rules/item-merge";
+import { toItemCanonical, enrichItemsWithVariantBonuses, enrichItemsWithDamageRiders } from "../../../tools/srd-canonical/merger-rules/item-merge";
+import type { ItemCanonical } from "../../../tools/srd-canonical/merger-rules/item-merge";
 import { baseItemFromStructured, cpToGpString, entriesToProse } from "../../../tools/srd-canonical/merger-rules/item-merge";
 import { mapDmgTypeCode } from "../../../tools/srd-canonical/merger-rules/item-merge";
 import { mapPropertyTags } from "../../../tools/srd-canonical/merger-rules/item-merge";
@@ -809,5 +810,25 @@ describe("enrichItemsWithVariantBonuses (CB-2 backfill)", () => {
     ];
     enrichItemsWithVariantBonuses([item], variants);
     expect(item.attunement?.required).toBe(true);
+  });
+});
+
+describe("enrichItemsWithDamageRiders (Flame Tongue / Wounding backfill, #9)", () => {
+  it("gives Flame Tongue and Wounding variants damage_riders (both editions), skips others", () => {
+    const items = [
+      { slug: "srd-2024_flame-tongue-greatsword", name: "Flame Tongue Greatsword" },
+      { slug: "flame-tongue-scimitar", name: "Flame Tongue Scimitar" },
+      { slug: "srd-2024_greatsword-of-wounding", name: "Greatsword of Wounding" },       // 2024 base form
+      { slug: "greatsword-sword-of-wounding", name: "Greatsword, Sword of Wounding" },     // 2024 variant form
+      { slug: "srd-5e_sword-of-wounding-greatsword", name: "Sword of Wounding (Greatsword)" }, // 2014 canonical form
+      { slug: "srd-2024_longsword", name: "Longsword" },
+    ] as unknown as ItemCanonical[];
+    enrichItemsWithDamageRiders(items);
+    expect(items[0].damage_riders).toEqual([{ amount: "2d6", damage_type: "fire" }]);
+    expect(items[1].damage_riders).toEqual([{ amount: "2d6", damage_type: "fire" }]);
+    expect(items[2].damage_riders).toEqual([{ amount: "2d6", damage_type: "necrotic" }]);
+    expect(items[3].damage_riders).toEqual([{ amount: "2d6", damage_type: "necrotic" }]);
+    expect(items[4].damage_riders).toEqual([{ amount: "2d6", damage_type: "necrotic" }]); // 2014 form must ALSO match
+    expect(items[5].damage_riders).toBeUndefined();
   });
 });

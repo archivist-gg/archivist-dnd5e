@@ -297,4 +297,10 @@ describe("item keep-list — Slice 3 additions", () => {
     expect(out.resist).toEqual(["fire"]);
     expect(out.grants).toEqual({ proficiency: true });
   });
+
+  it("keeps damage_riders in the projected magicitem + item runtime output", () => {
+    const entry = { slug: "srd-2024_flame-tongue-longsword", name: "Flame Tongue Longsword", damage_riders: [{ amount: "2d6", damage_type: "fire" }] };
+    expect(projectToRuntime("magicitem", entry).damage_riders).toEqual([{ amount: "2d6", damage_type: "fire" }]);
+    expect(projectToRuntime("item", entry).damage_riders).toEqual([{ amount: "2d6", damage_type: "fire" }]);
+  });
 });

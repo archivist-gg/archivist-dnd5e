@@ -2078,7 +2078,13 @@
     "attunement": {
       "required": true
     },
-    "tier": "major"
+    "tier": "major",
+    "damage_riders": [
+      {
+        "amount": "2d6",
+        "damage_type": "fire"
+      }
+    ]
   },
   {
     "slug": "srd-5e_flame-tongue-longsword",
@@ -2093,7 +2099,13 @@
     "attunement": {
       "required": true
     },
-    "tier": "major"
+    "tier": "major",
+    "damage_riders": [
+      {
+        "amount": "2d6",
+        "damage_type": "fire"
+      }
+    ]
   },
   {
     "slug": "srd-5e_flame-tongue-rapier",
@@ -2108,7 +2120,13 @@
     "attunement": {
       "required": true
     },
-    "tier": "major"
+    "tier": "major",
+    "damage_riders": [
+      {
+        "amount": "2d6",
+        "damage_type": "fire"
+      }
+    ]
   },
   {
     "slug": "srd-5e_flame-tongue-shortsword",
@@ -2123,7 +2141,13 @@
     "attunement": {
       "required": true
     },
-    "tier": "major"
+    "tier": "major",
+    "damage_riders": [
+      {
+        "amount": "2d6",
+        "damage_type": "fire"
+      }
+    ]
   },
   {
     "slug": "srd-5e_folding-boat",
@@ -6676,7 +6700,13 @@
     "base_item": "[[SRD 5e/Weapons/Greatsword]]",
     "attunement": {
       "required": true
-    }
+    },
+    "damage_riders": [
+      {
+        "amount": "2d6",
+        "damage_type": "necrotic"
+      }
+    ]
   },
   {
     "slug": "srd-5e_sword-of-wounding-longsword",
@@ -6690,7 +6720,13 @@
     "base_item": "[[SRD 5e/Weapons/Longsword]]",
     "attunement": {
       "required": true
-    }
+    },
+    "damage_riders": [
+      {
+        "amount": "2d6",
+        "damage_type": "necrotic"
+      }
+    ]
   },
   {
     "slug": "srd-5e_sword-of-wounding-rapier",
@@ -6704,7 +6740,13 @@
     "base_item": "[[SRD 5e/Weapons/Rapier]]",
     "attunement": {
       "required": true
-    }
+    },
+    "damage_riders": [
+      {
+        "amount": "2d6",
+        "damage_type": "necrotic"
+      }
+    ]
   },
   {
     "slug": "srd-5e_sword-of-wounding-shortsword",
@@ -6718,7 +6760,13 @@
     "base_item": "[[SRD 5e/Weapons/Shortsword]]",
     "attunement": {
       "required": true
-    }
+    },
+    "damage_riders": [
+      {
+        "amount": "2d6",
+        "damage_type": "necrotic"
+      }
+    ]
   },
   {
     "slug": "srd-5e_talisman-of-pure-good",

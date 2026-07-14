@@ -3051,7 +3051,13 @@
     "base_item": "[[SRD 2024/Weapons/Battleaxe]]",
     "attunement": {
       "required": true
-    }
+    },
+    "damage_riders": [
+      {
+        "amount": "2d6",
+        "damage_type": "fire"
+      }
+    ]
   },
   {
     "slug": "srd-2024_flame-tongue-club",
@@ -3065,7 +3071,13 @@
     "base_item": "[[SRD 2024/Weapons/Club]]",
     "attunement": {
       "required": true
-    }
+    },
+    "damage_riders": [
+      {
+        "amount": "2d6",
+        "damage_type": "fire"
+      }
+    ]
   },
   {
     "slug": "srd-2024_flame-tongue-dagger",
@@ -3079,7 +3091,13 @@
     "base_item": "[[SRD 2024/Weapons/Dagger]]",
     "attunement": {
       "required": true
-    }
+    },
+    "damage_riders": [
+      {
+        "amount": "2d6",
+        "damage_type": "fire"
+      }
+    ]
   },
   {
     "slug": "srd-2024_flame-tongue-dart",
@@ -3093,7 +3111,13 @@
     "base_item": "[[SRD 2024/Weapons/Dart]]",
     "attunement": {
       "required": true
-    }
+    },
+    "damage_riders": [
+      {
+        "amount": "2d6",
+        "damage_type": "fire"
+      }
+    ]
   },
   {
     "slug": "srd-2024_flame-tongue-flail",
@@ -3107,7 +3131,13 @@
     "base_item": "[[SRD 2024/Weapons/Flail]]",
     "attunement": {
       "required": true
-    }
+    },
+    "damage_riders": [
+      {
+        "amount": "2d6",
+        "damage_type": "fire"
+      }
+    ]
   },
   {
     "slug": "srd-2024_flame-tongue-glaive",
@@ -3121,7 +3151,13 @@
     "base_item": "[[SRD 2024/Weapons/Glaive]]",
     "attunement": {
       "required": true
-    }
+    },
+    "damage_riders": [
+      {
+        "amount": "2d6",
+        "damage_type": "fire"
+      }
+    ]
   },
   {
     "slug": "srd-2024_flame-tongue-greataxe",
@@ -3135,7 +3171,13 @@
     "base_item": "[[SRD 2024/Weapons/Greataxe]]",
     "attunement": {
       "required": true
-    }
+    },
+    "damage_riders": [
+      {
+        "amount": "2d6",
+        "damage_type": "fire"
+      }
+    ]
   },
   {
     "slug": "srd-2024_flame-tongue-greatclub",
@@ -3149,7 +3191,13 @@
     "base_item": "[[SRD 2024/Weapons/Greatclub]]",
     "attunement": {
       "required": true
-    }
+    },
+    "damage_riders": [
+      {
+        "amount": "2d6",
+        "damage_type": "fire"
+      }
+    ]
   },
   {
     "slug": "srd-2024_flame-tongue-greatsword",
@@ -3163,7 +3211,13 @@
     "base_item": "[[SRD 2024/Weapons/Greatsword]]",
     "attunement": {
       "required": true
-    }
+    },
+    "damage_riders": [
+      {
+        "amount": "2d6",
+        "damage_type": "fire"
+      }
+    ]
   },
   {
     "slug": "srd-2024_flame-tongue-halberd",
@@ -3177,7 +3231,13 @@
     "base_item": "[[SRD 2024/Weapons/Halberd]]",
     "attunement": {
       "required": true
-    }
+    },
+    "damage_riders": [
+      {
+        "amount": "2d6",
+        "damage_type": "fire"
+      }
+    ]
   },
   {
     "slug": "srd-2024_flame-tongue-handaxe",
@@ -3191,7 +3251,13 @@
     "base_item": "[[SRD 2024/Weapons/Handaxe]]",
     "attunement": {
       "required": true
-    }
+    },
+    "damage_riders": [
+      {
+        "amount": "2d6",
+        "damage_type": "fire"
+      }
+    ]
   },
   {
     "slug": "srd-2024_flame-tongue-javelin",
@@ -3205,7 +3271,13 @@
     "base_item": "[[SRD 2024/Weapons/Javelin]]",
     "attunement": {
       "required": true
-    }
+    },
+    "damage_riders": [
+      {
+        "amount": "2d6",
+        "damage_type": "fire"
+      }
+    ]
   },
   {
     "slug": "srd-2024_flame-tongue-lance",
@@ -3219,7 +3291,13 @@
     "base_item": "[[SRD 2024/Weapons/Lance]]",
     "attunement": {
       "required": true
-    }
+    },
+    "damage_riders": [
+      {
+        "amount": "2d6",
+        "damage_type": "fire"
+      }
+    ]
   },
   {
     "slug": "srd-2024_flame-tongue-light-hammer",
@@ -3233,7 +3311,13 @@
     "base_item": "[[SRD 2024/Weapons/Light Hammer]]",
     "attunement": {
       "required": true
-    }
+    },
+    "damage_riders": [
+      {
+        "amount": "2d6",
+        "damage_type": "fire"
+      }
+    ]
   },
   {
     "slug": "srd-2024_flame-tongue-longsword",
@@ -3247,7 +3331,13 @@
     "base_item": "[[SRD 2024/Weapons/Longsword]]",
     "attunement": {
       "required": true
-    }
+    },
+    "damage_riders": [
+      {
+        "amount": "2d6",
+        "damage_type": "fire"
+      }
+    ]
   },
   {
     "slug": "srd-2024_flame-tongue-mace",
@@ -3261,7 +3351,13 @@
     "base_item": "[[SRD 2024/Weapons/Mace]]",
     "attunement": {
       "required": true
-    }
+    },
+    "damage_riders": [
+      {
+        "amount": "2d6",
+        "damage_type": "fire"
+      }
+    ]
   },
   {
     "slug": "srd-2024_flame-tongue-maul",
@@ -3275,7 +3371,13 @@
     "base_item": "[[SRD 2024/Weapons/Maul]]",
     "attunement": {
       "required": true
-    }
+    },
+    "damage_riders": [
+      {
+        "amount": "2d6",
+        "damage_type": "fire"
+      }
+    ]
   },
   {
     "slug": "srd-2024_flame-tongue-morningstar",
@@ -3289,7 +3391,13 @@
     "base_item": "[[SRD 2024/Weapons/Morningstar]]",
     "attunement": {
       "required": true
-    }
+    },
+    "damage_riders": [
+      {
+        "amount": "2d6",
+        "damage_type": "fire"
+      }
+    ]
   },
   {
     "slug": "srd-2024_flame-tongue-pike",
@@ -3303,7 +3411,13 @@
     "base_item": "[[SRD 2024/Weapons/Pike]]",
     "attunement": {
       "required": true
-    }
+    },
+    "damage_riders": [
+      {
+        "amount": "2d6",
+        "damage_type": "fire"
+      }
+    ]
   },
   {
     "slug": "srd-2024_flame-tongue-quarterstaff",
@@ -3317,7 +3431,13 @@
     "base_item": "[[SRD 2024/Weapons/Quarterstaff]]",
     "attunement": {
       "required": true
-    }
+    },
+    "damage_riders": [
+      {
+        "amount": "2d6",
+        "damage_type": "fire"
+      }
+    ]
   },
   {
     "slug": "srd-2024_flame-tongue-rapier",
@@ -3331,7 +3451,13 @@
     "base_item": "[[SRD 2024/Weapons/Rapier]]",
     "attunement": {
       "required": true
-    }
+    },
+    "damage_riders": [
+      {
+        "amount": "2d6",
+        "damage_type": "fire"
+      }
+    ]
   },
   {
     "slug": "srd-2024_flame-tongue-scimitar",
@@ -3345,7 +3471,13 @@
     "base_item": "[[SRD 2024/Weapons/Scimitar]]",
     "attunement": {
       "required": true
-    }
+    },
+    "damage_riders": [
+      {
+        "amount": "2d6",
+        "damage_type": "fire"
+      }
+    ]
   },
   {
     "slug": "srd-2024_flame-tongue-shortsword",
@@ -3359,7 +3491,13 @@
     "base_item": "[[SRD 2024/Weapons/Shortsword]]",
     "attunement": {
       "required": true
-    }
+    },
+    "damage_riders": [
+      {
+        "amount": "2d6",
+        "damage_type": "fire"
+      }
+    ]
   },
   {
     "slug": "srd-2024_flame-tongue-sickle",
@@ -3373,7 +3511,13 @@
     "base_item": "[[SRD 2024/Weapons/Sickle]]",
     "attunement": {
       "required": true
-    }
+    },
+    "damage_riders": [
+      {
+        "amount": "2d6",
+        "damage_type": "fire"
+      }
+    ]
   },
   {
     "slug": "srd-2024_flame-tongue-spear",
@@ -3387,7 +3531,13 @@
     "base_item": "[[SRD 2024/Weapons/Spear]]",
     "attunement": {
       "required": true
-    }
+    },
+    "damage_riders": [
+      {
+        "amount": "2d6",
+        "damage_type": "fire"
+      }
+    ]
   },
   {
     "slug": "srd-2024_flame-tongue-trident",
@@ -3401,7 +3551,13 @@
     "base_item": "[[SRD 2024/Weapons/Trident]]",
     "attunement": {
       "required": true
-    }
+    },
+    "damage_riders": [
+      {
+        "amount": "2d6",
+        "damage_type": "fire"
+      }
+    ]
   },
   {
     "slug": "srd-2024_flame-tongue-war-pick",
@@ -3415,7 +3571,13 @@
     "base_item": "[[SRD 2024/Weapons/War Pick]]",
     "attunement": {
       "required": true
-    }
+    },
+    "damage_riders": [
+      {
+        "amount": "2d6",
+        "damage_type": "fire"
+      }
+    ]
   },
   {
     "slug": "srd-2024_flame-tongue-warhammer",
@@ -3429,7 +3591,13 @@
     "base_item": "[[SRD 2024/Weapons/Warhammer]]",
     "attunement": {
       "required": true
-    }
+    },
+    "damage_riders": [
+      {
+        "amount": "2d6",
+        "damage_type": "fire"
+      }
+    ]
   },
   {
     "slug": "srd-2024_flame-tongue-whip",
@@ -3443,7 +3611,13 @@
     "base_item": "[[SRD 2024/Weapons/Whip]]",
     "attunement": {
       "required": true
-    }
+    },
+    "damage_riders": [
+      {
+        "amount": "2d6",
+        "damage_type": "fire"
+      }
+    ]
   },
   {
     "slug": "srd-2024_folding-boat",
@@ -4195,7 +4369,13 @@
     "base_item": "[[SRD 2024/Weapons/Glaive]]",
     "attunement": {
       "required": true
-    }
+    },
+    "damage_riders": [
+      {
+        "amount": "2d6",
+        "damage_type": "necrotic"
+      }
+    ]
   },
   {
     "slug": "srd-2024_glaive-1",
@@ -4430,7 +4610,13 @@
     "base_item": "[[SRD 2024/Weapons/Greatsword]]",
     "attunement": {
       "required": true
-    }
+    },
+    "damage_riders": [
+      {
+        "amount": "2d6",
+        "damage_type": "necrotic"
+      }
+    ]
   },
   {
     "slug": "srd-2024_greatsword-1",
@@ -6035,7 +6221,13 @@
     "base_item": "[[SRD 2024/Weapons/Longsword]]",
     "attunement": {
       "required": true
-    }
+    },
+    "damage_riders": [
+      {
+        "amount": "2d6",
+        "damage_type": "necrotic"
+      }
+    ]
   },
   {
     "slug": "srd-2024_longsword-1",
@@ -7982,7 +8174,13 @@
     "base_item": "[[SRD 2024/Weapons/Rapier]]",
     "attunement": {
       "required": true
-    }
+    },
+    "damage_riders": [
+      {
+        "amount": "2d6",
+        "damage_type": "necrotic"
+      }
+    ]
   },
   {
     "slug": "srd-2024_rapier-1",
@@ -8706,7 +8904,13 @@
     "base_item": "[[SRD 2024/Weapons/Scimitar]]",
     "attunement": {
       "required": true
-    }
+    },
+    "damage_riders": [
+      {
+        "amount": "2d6",
+        "damage_type": "necrotic"
+      }
+    ]
   },
   {
     "slug": "srd-2024_scimitar-1",
@@ -8880,7 +9084,13 @@
     "base_item": "[[SRD 2024/Weapons/Shortsword]]",
     "attunement": {
       "required": true
-    }
+    },
+    "damage_riders": [
+      {
+        "amount": "2d6",
+        "damage_type": "necrotic"
+      }
+    ]
   },
   {
     "slug": "srd-2024_shortsword-1",
