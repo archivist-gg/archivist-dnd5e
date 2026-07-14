@@ -1,6 +1,8 @@
 #!/usr/bin/env tsx
 import * as fs from "node:fs";
 import * as path from "node:path";
+import { fileURLToPath } from "node:url";
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
 import { loadConfig } from "./config";
 import { readOpen5eKind, deriveSlugSet, type Open5eKind } from "./sources/open-srd";
 import { readStructuredRules, type StructuredRulesKind, type StructuredEntry } from "./sources/structured-rules";
