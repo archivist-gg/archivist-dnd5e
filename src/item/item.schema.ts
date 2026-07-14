@@ -201,6 +201,12 @@ export const itemEntitySchema = z.object({
   description: z.string().optional(),
   entries: z.array(z.unknown()).optional(),
   effects: z.array(z.unknown()).optional(),
+  damage_riders: z.array(z.object({
+    amount: z.string(),
+    damage_type: z.string(),
+    applies_to: z.enum(["weapon", "spell", "all"]).optional(),
+    condition: z.string().optional(),
+  })).optional(),
   raw: z.record(z.string(), z.unknown()).optional(),
 
   // Legacy fields preserved

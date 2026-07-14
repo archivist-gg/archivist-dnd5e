@@ -533,6 +533,40 @@ describe("computeSlotsAndAttacks — attack rows", () => {
     expect(d.attacks[0].damageDice).toBe("1d8+6");
   });
 
+  it("item damage_riders surface on the weapon's damageRiders with the item name as source", () => {
+    const longsword: WeaponEntity = {
+      name: "Longsword",
+      slug: "longsword",
+      edition: "2014",
+      category: "martial-melee",
+      damage: { dice: "1d8", type: "slashing", versatile_dice: "1d10" },
+      properties: ["versatile"],
+    };
+    const flamebrand: ItemEntity = {
+      name: "Flamebrand",
+      slug: "flamebrand-longsword",
+      type: "weapon",
+      rarity: "rare",
+      base_item: "[[longsword]]",
+      damage_riders: [{ amount: "2d6", damage_type: "fire" }],
+    };
+    const reg = buildMockRegistry([
+      { slug: "longsword", entityType: "weapon", name: "Longsword", data: longsword },
+      { slug: "flamebrand-longsword", entityType: "item", name: "Flamebrand", data: flamebrand },
+    ]);
+    const c = baseChar();
+    c.equipment = [{ item: "[[flamebrand-longsword]]", equipped: true, slot: "mainhand" }];
+    const d = computeSlotsAndAttacks(
+      mkResolved(c),
+      { str: 0, dex: 0, con: 0, int: 0, wis: 0, cha: 0 },
+      fullProfs,
+      reg,
+      [],
+      2,
+    );
+    expect(d.attacks[0].damageRiders).toEqual([{ amount: "2d6", damage_type: "fire", source: "Flamebrand" }]);
+  });
+
   it("PC equipment with a vault-path wikilink for a magic weapon flows magic bonuses (PC-7)", () => {
     // Regression: pre-PC-7 the slot-assignment + attack-row passes in
     // pc.equipment used a slug-only lookup that silently missed

@@ -73,6 +73,8 @@ export interface ItemCanonical {
   tier?: number | "major" | "minor";
   /** foundry-items activation/save/damage records — pass-through for now. */
   effects?: unknown[];
+  /** Structured additive on-hit damage riders (Flame Tongue / Wounding). */
+  damage_riders?: Array<{ amount: string; damage_type: string; applies_to?: "weapon" | "spell" | "all"; condition?: string }>;
   /** Damage immunities granted by attuning/wearing the item. */
   immune?: string[];
   /** Damage resistances granted by attuning/wearing the item. */

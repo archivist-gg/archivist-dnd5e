@@ -8,6 +8,7 @@ import type {
   ACTerm,
   AppliedBonuses,
   AttackRow,
+  DamageRider,
   DerivedEquipment,
   EquipmentEntry,
   EquippedSlots,
@@ -416,6 +417,7 @@ function magicBonusesForWeaponEntry(
   damageTypeOverride?: string;
   propertiesOverride?: string[];
   informational: InformationalBonus[];
+  riders: DamageRider[];
 } {
   const { entity } = resolveEntityForEntry(entry.item, registry);
   const ovr = entry.overrides ?? {};
@@ -430,6 +432,7 @@ function magicBonusesForWeaponEntry(
   let damageTypeOverride: string | undefined;
   let propertiesOverride: string[] | undefined;
   const informational: InformationalBonus[] = [];
+  let itemRiders: DamageRider[] = [];
 
   if (entity && isItemEntity(entity)) {
     sourceName = entity.name;
@@ -449,6 +452,11 @@ function magicBonusesForWeaponEntry(
     if (dmgOut?.kind === "applied") itemDamage = dmgOut.value;
     else if (dmgOut?.kind === "informational")
       informational.push({ field: "weapon_damage", source: entity.name, value: dmgOut.value, conditions: dmgOut.conditions });
+    itemRiders = Array.isArray(entity.damage_riders)
+      ? entity.damage_riders
+          .filter((r) => (r.applies_to ?? "weapon") !== "spell")
+          .map((r) => ({ amount: r.amount, damage_type: r.damage_type, source: entity.name }))
+      : [];
   }
 
   return {
@@ -460,6 +468,7 @@ function magicBonusesForWeaponEntry(
     damageTypeOverride,
     propertiesOverride,
     informational,
+    riders: itemRiders,
   };
 }
 
@@ -481,6 +490,7 @@ function buildAttackRow(args: {
     damageTypeOverride?: string;
     propertiesOverride?: string[];
     informational: InformationalBonus[];
+    riders: DamageRider[];
   };
   slotKey?: "mainhand" | "offhand";
   actionCost?: "action" | "bonus-action" | "reaction" | "free" | "special";
@@ -535,6 +545,7 @@ function buildAttackRow(args: {
     damageDice,
     damageType: magic.damageTypeOverride ?? weapon.damage.type,
     extraDamage: magic.extra,
+    ...(magic.riders.length ? { damageRiders: magic.riders } : {}),
     properties: finalProps,
     proficient,
     breakdown: { toHit: toHitBreakdown, damage: damageBreakdown },

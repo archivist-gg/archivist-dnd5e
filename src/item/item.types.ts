@@ -110,6 +110,10 @@ export interface ItemEntity {
   description?: string;
   entries?: unknown[];
   effects?: unknown[];
+  /** Structured additive on-hit damage riders (e.g. Flame Tongue "+2d6 fire",
+   *  Wounding "+2d6 necrotic"). Read per-weapon in the equipment builder →
+   *  AttackRow.damageRiders. `amount` is a dice/flat string. */
+  damage_riders?: Array<{ amount: string; damage_type: string; applies_to?: "weapon" | "spell" | "all"; condition?: string }>;
   raw?: Record<string, unknown>;
 
   // Legacy fields preserved for downstream callers (ai-tools, modal, edit-render)
