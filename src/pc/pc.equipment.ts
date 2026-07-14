@@ -544,8 +544,14 @@ function buildAttackRow(args: {
     toHit,
     damageDice,
     damageType: magic.damageTypeOverride ?? weapon.damage.type,
-    extraDamage: magic.extra,
-    ...(magic.riders.length ? { damageRiders: magic.riders } : {}),
+    // Riders: item damage_riders (Task 2) + the migrated manual override string.
+    ...(() => {
+      const riders = [
+        ...magic.riders,
+        ...(magic.extra ? [{ amount: magic.extra, source: "manual" } as DamageRider] : []),
+      ];
+      return riders.length ? { damageRiders: riders } : {};
+    })(),
     properties: finalProps,
     proficient,
     breakdown: { toHit: toHitBreakdown, damage: damageBreakdown },

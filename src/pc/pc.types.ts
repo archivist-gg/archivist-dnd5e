@@ -298,7 +298,6 @@ export interface AttackRow {
   toHit: number;
   damageDice: string;
   damageType: string;
-  extraDamage?: string;
   /** Accumulated additive on-hit damage riders (feature-global + item-local +
    *  the migrated manual override), rendered as extra damage chips. Absent when
    *  none apply (so untouched rows are unchanged). */

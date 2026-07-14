@@ -616,11 +616,11 @@ describe("computeSlotsAndAttacks — attack rows", () => {
     expect(d.attacks[0].damageDice).toBe("1d8+6");
   });
 
-  it("entry overrides.extra_damage appended", () => {
+  it("entry overrides.extra_damage becomes a manual damageRider", () => {
     const c = baseChar(); c.abilities.str = 16;
     c.equipment = [{ item: "[[longsword]]", equipped: true, overrides: { extra_damage: "1d6 fire" } }];
     const d = computeSlotsAndAttacks(mkResolved(c), { str: 3, dex: 0, con: 0, int: 0, wis: 0, cha: 0 }, fullProfs, registry, [], 2);
-    expect(d.attacks[0].extraDamage).toBe("1d6 fire");
+    expect(d.attacks[0].damageRiders).toEqual([{ amount: "1d6 fire", source: "manual" }]);
   });
 
   it("versatile alone in mainhand → single row with inlined versatile dice", () => {
