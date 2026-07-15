@@ -343,6 +343,21 @@ function resolveChosenInline(
   return picks.length ? picks : undefined;
 }
 
+/** A pure class/subclass ASI-slot feature (the "increase an ability score OR take a feat" slot)
+ *  has no playable surface of its own — the DISPLAY layer hides it via buildOnly, mirroring the
+ *  feat buildOnly (spec §4/§4b). The ability bump is read from the choice ledger at recalc, not
+ *  from this feature (it has no effects), so buildOnly is purely a render fact. */
+function isAsiSlotFeature(feature: Feature): boolean {
+  return (
+    feature.id === "ability-score-improvement" &&
+    !(feature.effects?.length) &&
+    !(feature.resources?.length) &&
+    !feature.action &&
+    !(feature.sub_features?.length) &&
+    !(feature.attacks?.length)
+  );
+}
+
 export function collectResolvedFeatures(
   race: RaceEntity | null,
   classes: ResolvedClass[],
@@ -366,6 +381,7 @@ export function collectResolvedFeatures(
           feature: feat,
           source: { kind: "class", slug, level: lvl } satisfies FeatureSource,
           ...(chosenInline ? { chosenInline } : {}),
+          ...(isAsiSlotFeature(feat) ? { buildOnly: true } : {}),
         });
       }
     }
@@ -393,6 +409,7 @@ export function collectResolvedFeatures(
             feature: feat,
             source: { kind: "subclass", slug: sSlug, level: lvl } satisfies FeatureSource,
             ...(chosenInline ? { chosenInline } : {}),
+            ...(isAsiSlotFeature(feat) ? { buildOnly: true } : {}),
           });
         }
       }
