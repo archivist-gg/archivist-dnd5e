@@ -434,15 +434,19 @@ export function collectResolvedFeatures(
       });
     } else {
       const name = feat.name ?? feat.slug;
-      const description = feat.description ?? "";
+      const foldedDesc = [feat.description, ...(feat.benefits ?? [])].filter(Boolean).join("\n\n") || undefined;
+      const buildOnly =
+        (feat.choices ?? []).some((c) => c.kind === "ability-points" && c.points >= 2) &&
+        !(feat.effects?.length) && !(feat.resources?.length) && bundled.length === 0;
       out.push({
         feature: {
           name,
-          description,
+          ...(foldedDesc ? { description: foldedDesc } : {}),
           ...(feat.resources ? { resources: feat.resources } : {}),
           ...(entityEffects.length > 0 ? { effects: entityEffects } : {}),
         },
         source: { kind: "feat", slug: feat.slug },
+        ...(buildOnly ? { buildOnly: true } : {}),
       });
     }
   }

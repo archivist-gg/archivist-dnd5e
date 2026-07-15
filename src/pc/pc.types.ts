@@ -213,6 +213,8 @@ export interface ResolvedFeature {
    *  prose shows on the parent via chosenInline). A wrapper-only flag —
    *  computeFeatureEffects ignores it, so the synthetic's effects still fold. */
   renderSuppressed?: boolean;
+  /** The feat's entire substance is a full ability-score improvement (a pure ASI). The DISPLAY layer hides these. */
+  buildOnly?: boolean;
 }
 
 export interface ResolvedSpell {
