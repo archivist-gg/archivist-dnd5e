@@ -111,7 +111,7 @@ describe("subclassMergeRule", () => {
       activation: null,
       overlay: {
         "remarkable-athlete": {
-          action: "free",
+          action_cost: "free",
         },
       },
     };

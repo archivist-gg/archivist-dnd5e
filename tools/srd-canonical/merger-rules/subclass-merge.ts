@@ -100,7 +100,7 @@ function bucketFeaturesByLevel(
         id: featureSlug,
         name: f.name,
         description: desc,
-        ...(overlaid?.action ? { action: overlaid.action } : {}),
+        ...(overlaid?.action_cost ? { action: overlaid.action_cost } : {}),
         ...(overlaid?.resources ? { resources: overlaid.resources } : {}),
         ...(overlaid?.choices ? { choices: overlaid.choices } : {}),
       };

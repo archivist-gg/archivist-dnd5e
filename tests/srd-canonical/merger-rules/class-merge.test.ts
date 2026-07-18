@@ -617,4 +617,36 @@ describe("class-merge: Open5e v2 class shape", () => {
     const rage = Object.values(result.features_by_level).flat().find((f) => f.name === "Rage");
     expect(rage?.resources?.[0]?.id).toBe("barbarian:rage");
   });
+
+  it("maps overlay action_cost onto the matching class feature's `action` field (Second Wind economy)", () => {
+    const result = toClassCanonical(baseEntry({
+      slug: "srd-2024_fighter",
+      edition: "2024",
+      base: {
+        key: "srd-2024_fighter",
+        name: "Fighter",
+        desc: "",
+        hit_dice: "D10",
+        subclass_of: null,
+        saving_throws: [{ name: "Strength" }, { name: "Constitution" }],
+        features: [
+          {
+            key: "srd-2024_fighter_second-wind",
+            name: "Second Wind",
+            desc: "You have a limited well of stamina you can draw on.",
+            feature_type: "CLASS_LEVEL_FEATURE",
+            gained_at: [{ level: 1, detail: null }],
+            data_for_class_table: [],
+          },
+        ],
+      },
+      overlay: {
+        class_features: {
+          "second-wind": { action_cost: "bonus-action" },
+        },
+      },
+    })) as { features_by_level: Record<string, Array<{ name: string; action?: string }>> };
+    const secondWind = Object.values(result.features_by_level).flat().find((f) => f.name === "Second Wind");
+    expect(secondWind?.action).toBe("bonus-action");
+  });
 });
