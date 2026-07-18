@@ -1,8 +1,8 @@
 import { describe, it, expect } from "vitest";
-import { PCResolver } from "../src/pc/pc.resolver";
+import { PCResolver, dedupeResolvedSpells } from "../src/pc/pc.resolver";
 import { buildDecisionLedger } from "../src/pc/pc.decision-engine";
 import { buildMockRegistry } from "./mock-entity-registry";
-import type { Character } from "../src/pc/pc.types";
+import type { Character, ResolvedSpell } from "../src/pc/pc.types";
 
 // ─────────────────────────────────────────────────────────────────────────────
 // Task 3d · feat→spell application pass + per-spell ability + ledger wiring.
@@ -168,6 +168,50 @@ describe("PCResolver · feat-granted spells (origin feat → resolved.spells)", 
     const known = character.spells.filter((s) => s.source !== "feat");
     expect(known.map((s) => s.slug)).toEqual(["fx_fire-bolt"]);
     expect(character.spells.filter((s) => s.source === "feat")).toHaveLength(3);
+  });
+
+  // Dedup (3d Minor #2 carry-forward): a spell present in BOTH character.spells.known
+  // and a feat pick used to emit two resolved.spells rows. The class-known copy owns
+  // a real DC via classSlug, so it wins; the feat duplicate is dropped.
+  it("dedups a spell that is both class-known and feat-granted to one row, keeping the class copy", () => {
+    const char = charWithPicks(FULL_PICKS); // feat picks fx_bless (level 1) among others
+    char.spells.known = ["[[fx_bless]]"];    // also known as a class spell
+    const { character } = new PCResolver(buildRegistry()).resolve(char);
+    const bless = character.spells.filter((s) => s.slug === "fx_bless");
+    expect(bless).toHaveLength(1);
+    expect(bless[0].source).toBe("class"); // the class-known copy survives, not the feat dup
+    // The feat's OTHER (non-overlapping) picks still resolve as feat spells.
+    expect(character.spells.filter((s) => s.source === "feat").map((s) => s.slug).sort())
+      .toEqual(["fx_guidance", "fx_sacred-flame"]);
+  });
+});
+
+describe("dedupeResolvedSpells · collapse cross-source double emission", () => {
+  const rs = (slug: string, source: ResolvedSpell["source"], extra: Partial<ResolvedSpell> = {}): ResolvedSpell =>
+    ({ entity: { name: slug, level: 1 } as never, slug, classSlug: null, source, prepared: true, alwaysPrepared: source === "feat", ...extra });
+
+  it("keeps a single row for a spell that is both class-known and feat-granted, preferring the class copy", () => {
+    const out = dedupeResolvedSpells([rs("bless", "class", { classSlug: "cleric" }), rs("bless", "feat", { ability: "wis" })]);
+    expect(out).toHaveLength(1);
+    expect(out[0].source).toBe("class");
+    expect(out[0].classSlug).toBe("cleric");
+  });
+
+  it("prefers the class copy even when the feat copy appears first (order-independent)", () => {
+    const out = dedupeResolvedSpells([rs("bless", "feat", { ability: "wis" }), rs("bless", "class", { classSlug: "cleric" })]);
+    expect(out).toHaveLength(1);
+    expect(out[0].source).toBe("class");
+  });
+
+  it("collapses a feat taken as both origin and class-slot (feat + feat, same slug) to one row", () => {
+    const out = dedupeResolvedSpells([rs("guidance", "feat", { ability: "wis" }), rs("guidance", "feat", { ability: "wis" })]);
+    expect(out).toHaveLength(1);
+    expect(out[0].source).toBe("feat");
+  });
+
+  it("leaves distinct slugs untouched and order-preserved", () => {
+    const out = dedupeResolvedSpells([rs("a", "class"), rs("b", "feat", { ability: "wis" }), rs("c", "class")]);
+    expect(out.map((s) => s.slug)).toEqual(["a", "b", "c"]);
   });
 });
 

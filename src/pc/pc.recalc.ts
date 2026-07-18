@@ -821,6 +821,23 @@ export function recalc(resolved: ResolvedCharacter, registry?: EntityRegistry): 
       }
     : null;
 
+  // Own-ability spellcasting: feat-granted spells (Magic Initiate etc.) carry
+  // their OWN spellcasting ability and are not owned by a class (classSlug null).
+  // Compute a per-ability DC/attack for every ability such a spell uses, with the
+  // SAME helpers as the per-class path above. This is deliberately NOT gated on a
+  // class caster existing: a non-caster (empty spellcastingClasses) with a feat
+  // spell still gets a real DC/attack (R2/R3-M9). Only spells carrying `ability`
+  // (feat spells) contribute; class spells derive their ability from classSlug.
+  const abilitySpellcasting: DerivedStats["abilitySpellcasting"] = {};
+  for (const s of resolved.spells) {
+    const ab = s.ability;
+    if (!ab || abilitySpellcasting[ab]) continue;
+    abilitySpellcasting[ab] = {
+      saveDC: saveDC(scores[ab], proficiencyBonus) + applied.spell_save_dc,
+      attackBonus: attackBonus(scores[ab], proficiencyBonus) + applied.spell_attack,
+    };
+  }
+
   const derivedSlots = deriveSpellSlots(slotInputs);
   const spellLimits: SpellLimitInfo[] = computeSpellLimits(limitInputs);
 
@@ -865,6 +882,7 @@ export function recalc(resolved: ResolvedCharacter, registry?: EntityRegistry): 
     initiative: init,
     spellcasting,
     spellcastingClasses,
+    abilitySpellcasting,
     derivedSpellSlots: derivedSlots.standard,
     pactMagic: derivedSlots.pact,
     spellLimits,

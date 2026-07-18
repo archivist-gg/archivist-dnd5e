@@ -239,7 +239,7 @@ export class PCResolver {
       feats,
       totalLevel,
       features,
-      spells,
+      spells: dedupeResolvedSpells(spells),
       pools: [],
       weaponMasteries: chosenMasteries.bare,
       state: character.state,
@@ -319,6 +319,26 @@ export function collectFeatGrantedSpells(
     out.push({ entity, slug, classSlug: null, source: "feat", prepared: true, alwaysPrepared: true, ability });
   }
   return out;
+}
+
+/**
+ * Collapses duplicate resolved spells by slug (3d Minor #2 carry-forward). A spell
+ * can be emitted more than once: it may be BOTH in `character.spells.known` AND a
+ * feat pick, or a feat may be taken as both origin + class-slot. A class-sourced
+ * copy owns a real DC via its `classSlug`, so it always wins over a feat copy of
+ * the same slug; otherwise first-seen wins. Insertion order is preserved (a later
+ * class copy replaces an earlier feat copy in place), so the Spells section never
+ * renders duplicate rows while a legitimately class-known copy is never lost.
+ */
+export function dedupeResolvedSpells(spells: ResolvedSpell[]): ResolvedSpell[] {
+  const bySlug = new Map<string, ResolvedSpell>();
+  for (const s of spells) {
+    const existing = bySlug.get(s.slug);
+    if (!existing) { bySlug.set(s.slug, s); continue; }
+    // Prefer a non-feat (class/known) copy: it carries a real class-owned DC.
+    if (existing.source === "feat" && s.source !== "feat") bySlug.set(s.slug, s);
+  }
+  return [...bySlug.values()];
 }
 
 /** Reads the feat's chosen spellcasting ability (`spellcasting-ability` pick),

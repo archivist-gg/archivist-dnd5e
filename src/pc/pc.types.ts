@@ -429,6 +429,13 @@ export interface DerivedStats {
   } | null;
   /** One entry per casting class (multiclass-aware). Empty for non-casters. */
   spellcastingClasses: SpellcastingClassInfo[];
+  /** Save DC / attack bonus for spells that carry their OWN spellcasting
+   *  ability rather than a class (feat-granted spells, e.g. Magic Initiate).
+   *  Keyed by that ability; populated for every ability a feat spell uses.
+   *  Computed independently of class casters, so a NON-caster (empty
+   *  spellcastingClasses / null spellcasting) still gets a real DC/attack.
+   *  Empty object when the character has no such spell. */
+  abilitySpellcasting: Partial<Record<Ability, { saveDC: number; attackBonus: number }>>;
   /** Derived standard slot totals by spell level (before user override). */
   derivedSpellSlots: Record<number, number>;
   /** Warlock Pact Magic, or null. */
