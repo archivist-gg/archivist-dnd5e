@@ -92,9 +92,17 @@ export function bareEntitySlug(slug: string | null | undefined): string {
 }
 
 function matchesFilter(e: RegisteredEntity, where: EntityFilter, ownerBare: string): boolean {
-  const d = e.data as { feature_type?: string; category?: string; parent_class?: string; available_to?: string[] };
+  const d = e.data as {
+    feature_type?: string; category?: string; parent_class?: string; available_to?: string[];
+    classes?: string[]; level?: number; edition?: string;
+  };
   if (where.feature_type && d.feature_type !== where.feature_type) return false;
   if (where.category && d.category !== where.category) return false;
+  // Spell axis: a spell entity's class list is `classes`; an absent level is a
+  // cantrip (0); edition dedupes cross-edition duplicates (e.g. Sacred Flame).
+  if (where.list && !((d.classes ?? []).includes(where.list))) return false;
+  if (where.level !== undefined && (d.level ?? 0) !== where.level) return false;
+  if (where.edition && d.edition !== where.edition) return false;
   // Weapon class: a weapon entity's `category` is compound (e.g. "martial-melee"),
   // so "martial"/"simple" prefix-matches both melee and ranged. Case-insensitive
   // for resilience against authored casing; excludes "natural".

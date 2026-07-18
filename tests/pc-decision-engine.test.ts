@@ -1,5 +1,6 @@
 import { describe, it, expect, vi } from "vitest";
 import { buildDecisionLedger, collectChosenProficiencies, __matchesFilterForTest } from "../src/pc/pc.decision-engine";
+import { choiceSchema } from "../src/schemas/choice-schema";
 import type { ResolvedCharacter } from "../src/pc/pc.types";
 import type { RegisteredEntity } from "@archivist-gg/core";
 
@@ -765,5 +766,134 @@ describe("equipment synthesis robustness (old-shape / malformed)", () => {
     } finally {
       warn.mockRestore();
     }
+  });
+});
+
+// ── Task 3c: spell axis (list / level / edition) on EntityFilter ──────────────
+// Feats like Magic Initiate grant spells the player picks from a class spell
+// list at a fixed level and edition. A select-entity{entity_type:"spell",
+// where:{list,level,edition}} choice must filter the registry's spells by:
+//   · list    → matched against a spell entity's `classes[]`
+//   · level   → exact spell level (absent level = cantrip, treated as 0)
+//   · edition → "2014" | "2024", so a spell that exists in both editions is
+//               offered ONCE (dedupe by edition, e.g. Sacred Flame).
+// Verified spell shape (spell.types.ts): classes?: string[], level?: number
+// (cantrips 0 or absent), edition?: "2014" | "2024" | string.
+
+const spellEnt = (slug: string, name: string, data: object): RegisteredEntity =>
+  ({ slug, name, entityType: "spell", filePath: `${slug}.md`, data,
+     compendium: "SRD", readonly: true, homebrew: false } as RegisteredEntity);
+
+// A mixed spell pool: 2024 cleric cantrip, a level-absent 2024 cleric cantrip
+// (proves absent level = 0), a 2024 cleric L1 spell, a 2024 wizard cantrip, and
+// the 2014-edition Sacred Flame duplicate (proves the edition dedupe).
+const spells: RegisteredEntity[] = [
+  spellEnt("srd-2024_sacred-flame", "Sacred Flame", { classes: ["cleric"], level: 0, edition: "2024" }),
+  spellEnt("srd-2024_word-of-radiance", "Word of Radiance", { classes: ["cleric"], edition: "2024" }),
+  spellEnt("srd-2024_bless", "Bless", { classes: ["cleric"], level: 1, edition: "2024" }),
+  spellEnt("srd-2024_fire-bolt", "Fire Bolt", { classes: ["wizard"], level: 0, edition: "2024" }),
+  spellEnt("srd-2014_sacred-flame", "Sacred Flame", { classes: ["cleric"], level: 0, edition: "2014" }),
+];
+const spellRegistry = {
+  search: (_q: string, type: string) => spells.filter((s) => s.entityType === type),
+  getByTypeAndSlug: (type: string, slug: string) =>
+    spells.find((s) => s.entityType === type && s.slug === slug),
+};
+
+describe("matchesFilter spell axis (list/level/edition)", () => {
+  const s = (data: object): RegisteredEntity => spellEnt("x", "X", data);
+
+  it("filters by class list against a spell's classes[]", () => {
+    expect(__matchesFilterForTest(s({ classes: ["cleric"], level: 0 }), { list: "cleric" }, "")).toBe(true);
+    expect(__matchesFilterForTest(s({ classes: ["wizard", "sorcerer"], level: 0 }), { list: "cleric" }, "")).toBe(false);
+    // A spell with no classes[] can never match a list filter.
+    expect(__matchesFilterForTest(s({ level: 0 }), { list: "cleric" }, "")).toBe(false);
+  });
+
+  it("filters by exact level, treating an absent level as a cantrip (0)", () => {
+    expect(__matchesFilterForTest(s({ classes: ["cleric"], level: 1 }), { level: 1 }, "")).toBe(true);
+    expect(__matchesFilterForTest(s({ classes: ["cleric"], level: 0 }), { level: 1 }, "")).toBe(false);
+    // Absent level defaults to 0 (cantrip), so it matches level: 0 and not level: 1.
+    expect(__matchesFilterForTest(s({ classes: ["cleric"] }), { level: 0 }, "")).toBe(true);
+    expect(__matchesFilterForTest(s({ classes: ["cleric"] }), { level: 1 }, "")).toBe(false);
+  });
+
+  it("filters by edition, deduping a cross-edition duplicate", () => {
+    expect(__matchesFilterForTest(s({ classes: ["cleric"], level: 0, edition: "2024" }), { edition: "2024" }, "")).toBe(true);
+    expect(__matchesFilterForTest(s({ classes: ["cleric"], level: 0, edition: "2014" }), { edition: "2024" }, "")).toBe(false);
+  });
+
+  it("combines list AND level AND edition", () => {
+    const where = { list: "cleric", level: 0, edition: "2024" };
+    expect(__matchesFilterForTest(s({ classes: ["cleric"], level: 0, edition: "2024" }), where, "")).toBe(true);
+    expect(__matchesFilterForTest(s({ classes: ["cleric"], level: 1, edition: "2024" }), where, "")).toBe(false); // level
+    expect(__matchesFilterForTest(s({ classes: ["wizard"], level: 0, edition: "2024" }), where, "")).toBe(false); // list
+    expect(__matchesFilterForTest(s({ classes: ["cleric"], level: 0, edition: "2014" }), where, "")).toBe(false); // edition
+  });
+});
+
+describe("buildDecisionLedger — spell enumeration (Magic Initiate axis)", () => {
+  /** A class feature carrying a spell select-entity with the spell axis where. */
+  function resolvedSpellPicker(where: object): ResolvedCharacter {
+    const feature = {
+      id: "magic-initiate-cleric", name: "Magic Initiate (Cleric)", description: "Pick two cleric cantrips.",
+      choices: [{ kind: "select-entity", id: "mi-cantrips", count: 2, entity_type: "spell", where }],
+    };
+    const entity = { slug: "srd-2024_cleric", name: "Cleric",
+      skill_choices: { count: 0, from: [] },
+      features_by_level: { 1: [feature] }, starting_equipment: [] };
+    const definition = {
+      name: "T", edition: "2024", race: null, subrace: null, background: null,
+      class: [{ name: "[[cleric]]", level: 1, subclass: null, choices: {} }],
+      abilities: { str: 10, dex: 10, con: 10, int: 10, wis: 10, cha: 10 },
+      ability_method: "manual", skills: { proficient: [], expertise: [] },
+      spells: { known: [], overrides: [] }, equipment: [], overrides: {}, origin_choices: {},
+      state: { hp: { current: 1, max: 1, temp: 0 }, hit_dice: {}, spell_slots: {}, concentration: null,
+        conditions: [], exhaustion: 0, inspiration: 0, feature_uses: {} },
+    } as unknown as ResolvedCharacter["definition"];
+    const cls = { entity, level: 1, subclass: null, choices: {} } as unknown as ResolvedCharacter["classes"][number];
+    const features = [{ feature, source: { kind: "class", slug: entity.slug, level: 1 } }];
+    return { definition, race: null, classes: [cls], background: null, feats: [],
+      totalLevel: 1, features, spells: [], pools: [], state: definition.state } as unknown as ResolvedCharacter;
+  }
+
+  it("enumerates only 2024 cleric cantrips (no L1, no wizard, no 2014 duplicate)", () => {
+    const ledger = buildDecisionLedger(
+      resolvedSpellPicker({ list: "cleric", level: 0, edition: "2024" }),
+      { registry: spellRegistry } as never);
+    const item = ledger.classes[0].levels.flatMap((l) => l.items).find((i) => i.key === "mi-cantrips")!;
+    const slugs = item.options.map((o) => o.value).sort();
+    // Both 2024 cleric cantrips (the level-absent one included via `?? 0`).
+    expect(slugs).toEqual(["srd-2024_sacred-flame", "srd-2024_word-of-radiance"]);
+    expect(slugs).not.toContain("srd-2024_bless");         // L1 excluded by level
+    expect(slugs).not.toContain("srd-2024_fire-bolt");     // wizard excluded by list
+    expect(slugs).not.toContain("srd-2014_sacred-flame");  // 2014 duplicate excluded by edition
+  });
+
+  it("enumerates only the 2024 cleric L1 spell for a level:1 pick", () => {
+    const ledger = buildDecisionLedger(
+      resolvedSpellPicker({ list: "cleric", level: 1, edition: "2024" }),
+      { registry: spellRegistry } as never);
+    const item = ledger.classes[0].levels.flatMap((l) => l.items).find((i) => i.key === "mi-cantrips")!;
+    expect(item.options.map((o) => o.value)).toEqual(["srd-2024_bless"]);
+  });
+});
+
+describe("choiceSchema — select-entity spell where axis (STRICT)", () => {
+  it("ACCEPTS a select-entity spell choice carrying where:{list,level,edition}", () => {
+    const input = {
+      kind: "select-entity", id: "mi-cantrips", count: 2, entity_type: "spell",
+      where: { list: "cleric", level: 0, edition: "2024" },
+    };
+    const parsed = choiceSchema.parse(input) as { where?: object };
+    expect(parsed.where).toEqual({ list: "cleric", level: 0, edition: "2024" });
+  });
+
+  it("still REJECTS an unknown where key (strict is preserved)", () => {
+    const input = {
+      kind: "select-entity", id: "x", entity_type: "spell",
+      where: { list: "cleric", bogus: true },
+    };
+    expect(() => choiceSchema.parse(input)).toThrow();
   });
 });

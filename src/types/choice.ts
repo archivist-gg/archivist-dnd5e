@@ -33,6 +33,11 @@ export interface EntityFilter {
   /** Armor proficiency class. Matched against an armor entity's `category`
    *  field exactly; "shield" selects shields. */
   armor_category?: "light" | "medium" | "heavy" | "shield";
+  /** Spell axis: filter spells by class list, level, and edition. Set together on a
+   *  select-entity{entity_type:"spell"} choice (e.g. Magic Initiate). */
+  list?: string;      // spell class list, matched against a spell entity's `classes[]`
+  level?: number;     // exact spell level (0 = cantrip)
+  edition?: string;   // "2014" | "2024"; prevents cross-edition duplicate options
 }
 
 export interface InlineOption {
