@@ -1,4 +1,4 @@
-import type { EntityRegistry } from "@archivist-gg/core";
+import type { EntityRegistry, RegisteredEntity } from "@archivist-gg/core";
 import type { ClassEntity } from "@archivist-gg/dnd5e/class/class.types";
 import type { RaceEntity } from "@archivist-gg/dnd5e/race/race.types";
 import type { SubclassEntity } from "@archivist-gg/dnd5e/subclass/subclass.types";
@@ -17,7 +17,7 @@ import type {
 } from "./pc.types";
 import { normalizeKnownSpell, resolveSpellcasting } from "./pc.spellcasting";
 import { resolveAllPools } from "./pc.pools";
-import { bareEntitySlug } from "./pc.decision-engine";
+import { bareEntitySlug, wikilinkTailSlug } from "./pc.decision-engine";
 
 export interface ResolveResult {
   character: ResolvedCharacter;
@@ -30,6 +30,60 @@ export function stripSlug(ref: string | null): string | null {
   if (!ref) return null;
   const m = ref.match(SLUG_RE);
   return m ? m[1] : ref;
+}
+
+/**
+ * Resolve a background's `origin_feat` wikilink into a real FeatEntity + a display
+ * name, using ONLY the EntityRegistry (no DOM). Lifted from the builder's
+ * background-step so the resolver pipeline and the builder share ONE resolution
+ * (R2-m7, [[always-retire-shims-edit-all]]). Handles both path-style refs
+ * ("[[SRD 2024/Feats/Alert]]") and bare-slug refs ("[[my-feat]]"), plus the 2024
+ * parenthetical-variant refs ("[[SRD 2024/Feats/Magic Initiate (Cleric)]]") that
+ * resolve to the BASE feat ("magic-initiate") while keeping the full variant
+ * string as the display name. Returns null when the ref is empty or resolves to no
+ * feat (an unresolvable ref folds nothing into the pipeline).
+ */
+export function resolveOriginFeat(
+  entities: EntityRegistry,
+  originFeatRef: string | null,
+): { feat: FeatEntity; display: string } | null {
+  if (!originFeatRef) return null;
+  // Canonical 2024 backgrounds carry PATH-style wikilinks; the slugified tail is
+  // the bare feat slug ("alert"). `wikilinkTailSlug` also yields the bare slug for
+  // slug-style refs ("[[my-feat]]" → "my-feat"), so it handles both shapes.
+  const slug = wikilinkTailSlug(originFeatRef);
+  const feats = entities.search("", "feat", Number.POSITIVE_INFINITY);
+  // Prefer an EXACT full-slug match (covers bare-slug homebrew refs like
+  // "[[my-feat]]"), so a homebrew "homebrew_alert" can't shadow "srd-2024_alert"
+  // via the loose tail match. Fall back to the "<compendium>_<bare>" suffix match
+  // for compendium feats. First tail match wins (acceptable).
+  const lookup = (s: string): RegisteredEntity | undefined =>
+    feats.find((f) => f.slug === s) ?? feats.find((f) => f.slug.endsWith(`_${s}`));
+  let reg = lookup(slug);
+  // Variant fallback: canonical 2024 Acolyte/Sage carry parenthesized refs like
+  // "[[SRD 2024/Feats/Magic Initiate (Cleric)]]" whose tail slugifies to
+  // "magic-initiate-cleric", but the only real feat is "srd-2024_magic-initiate".
+  // Strip ONE trailing parenthetical from the RAW tail, re-slugify, and retry —
+  // resolving to the BASE feat while still naming the VARIANT in the display.
+  let variantName: string | undefined;
+  if (!reg) {
+    const rawTail = originFeatRef.replace(/^\[\[/, "").replace(/\]\]$/, "").split("/").pop()?.trim() ?? "";
+    const base = rawTail.replace(/\s*\([^()]*\)\s*$/, "").trim();
+    if (base && base !== rawTail) {
+      const baseReg = lookup(wikilinkTailSlug(`[[${base}]]`));
+      if (baseReg) {
+        reg = baseReg;
+        variantName = rawTail; // honest about which variant the background grants
+      }
+    }
+  }
+  if (!reg) return null;
+  // Backfill the canonical registry slug when the body data omits it (custom
+  // entities) — mirrors resolve()'s lookup() so the slug-dedupe and downstream
+  // FeatureSource.slug never see undefined. SRD feats carry a body slug unchanged.
+  const data = reg.data as { slug?: string };
+  const feat = (data.slug == null ? { ...data, slug: reg.slug } : data) as unknown as FeatEntity;
+  return { feat, display: variantName ?? feat.name ?? slug };
 }
 
 export class PCResolver {
@@ -75,6 +129,24 @@ export class PCResolver {
     for (const slug of featSlugs) {
       const f = lookup<FeatEntity>(`[[${slug}]]`, "feat");
       if (f) feats.push(f);
+    }
+
+    // D2-3(ii): a 2024 background's FIXED origin feat flows through the SAME feat
+    // pipeline as chosen feats — resolved here (before collectResolvedFeatures so it
+    // rides `feats` into resolved.features) so it both RENDERS as a real Feats row
+    // AND APPLIES its effects (e.g. Criminal→Alert initiative, Soldier→Savage
+    // Attacker reroll note). De-duped by slug (R2-m4): a feat taken as BOTH the
+    // origin feat and a class ASI slot yields exactly ONE entry. 2014 backgrounds
+    // carry origin_feat:null → no-op. Double-apply guard (R2-m3/R3-M11): the 4 SRD
+    // origin feats carry no grants_asi/proficiency, and the background's ability/
+    // proficiency grants are DISTINCT grants (not the feat's), so a background-then-
+    // feat double-apply is not reachable by SRD data; the slug-dedupe below is the
+    // only concrete guard needed (defensive ASI folding is untested-by-SRD, deferred).
+    if (background?.origin_feat) {
+      const originFeat = resolveOriginFeat(this.entities, background.origin_feat);
+      if (originFeat && !feats.some((f) => f.slug === originFeat.feat.slug)) {
+        feats.push(originFeat.feat);
+      }
     }
 
     const totalLevel = classes.reduce((sum, c) => sum + c.level, 0);

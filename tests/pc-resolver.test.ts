@@ -1,5 +1,5 @@
 import { describe, it, expect } from "vitest";
-import { PCResolver, stripSlug, collectFeatSlugs } from "../src/pc/pc.resolver";
+import { PCResolver, stripSlug, collectFeatSlugs, resolveOriginFeat } from "../src/pc/pc.resolver";
 import { buildMockRegistry } from "./mock-entity-registry";
 import { featureEffectSchema } from "@archivist-gg/dnd5e/schemas/feature-effect-schema";
 import type { Character } from "../src/pc/pc.types";
@@ -111,6 +111,22 @@ const COMBAT_MASTER = {
     }],
   },
 };
+
+// D2-3(ii) origin-feat pipeline fixtures. The 4 SRD-2024 backgrounds each name a
+// FIXED origin feat via a PATH-style wikilink; the resolver must fold it into the
+// SAME feat pipeline chosen feats use. Backgrounds are minimal — resolve() reads
+// only `slug` + `origin_feat` (feature/choices omitted → no-op branches).
+const SAVAGE_ATTACKER_FEAT = {
+  slug: "srd-2024_savage-attacker", name: "Savage Attacker",
+  description: "Once per turn, reroll the damage dice of a weapon attack and use either total.",
+};
+const MAGIC_INITIATE_FEAT = {
+  slug: "srd-2024_magic-initiate", name: "Magic Initiate",
+  description: "You learn two cantrips and a level 1 spell of your choice.",
+};
+const SOLDIER_BG = { slug: "soldier", name: "Soldier", edition: "2024", origin_feat: "[[SRD 2024/Feats/Savage Attacker]]" };
+const ACOLYTE_BG = { slug: "acolyte", name: "Acolyte", edition: "2024", origin_feat: "[[SRD 2024/Feats/Magic Initiate (Cleric)]]" };
+const CRIMINAL_BG = { slug: "criminal", name: "Criminal", edition: "2024", origin_feat: "[[SRD 2024/Feats/Alert]]" };
 
 describe("fixture effects are schema-valid", () => {
   it("optional-feature + inline-branch fixtures parse against featureEffectSchema", () => {
@@ -391,6 +407,78 @@ describe("PCResolver", () => {
     const defense = character.features.find((rf) => rf.feature.name === "Defense");
     expect(defense).toBeDefined();
     expect(defense?.source).toEqual({ kind: "race", slug: "half-elf" });
+  });
+});
+
+describe("PCResolver — background origin feat → shared feat pipeline (D2-3(ii))", () => {
+  it("folds the 2024 background origin feat into resolved.feats + a feat-sourced feature", () => {
+    const reg = buildMockRegistry([
+      { slug: "bladesworn", entityType: "class", data: BLADESWORN },
+      { slug: "soldier", entityType: "background", data: SOLDIER_BG },
+      { slug: "srd-2024_savage-attacker", entityType: "feat", data: SAVAGE_ATTACKER_FEAT },
+    ]);
+    const char = minimalCharacter();
+    char.background = "[[soldier]]";
+    const { character } = new PCResolver(reg).resolve(char);
+
+    // Renders: the FeatEntity is in resolved.feats (drives the Feats-subgroup row).
+    expect(character.feats.map((f) => f.slug)).toContain("srd-2024_savage-attacker");
+    // Applies: it flows to resolved.features with source.kind "feat" (→ effects fold).
+    const feat = character.features.find(
+      (rf) => rf.source.kind === "feat" && (rf.source as { slug: string }).slug === "srd-2024_savage-attacker");
+    expect(feat).toBeDefined();
+    expect(feat!.feature.name).toBe("Savage Attacker");
+  });
+
+  it("resolves a parenthetical-variant origin feat to the BASE feat, keeping the variant display", () => {
+    const reg = buildMockRegistry([
+      { slug: "bladesworn", entityType: "class", data: BLADESWORN },
+      { slug: "acolyte", entityType: "background", data: ACOLYTE_BG },
+      { slug: "srd-2024_magic-initiate", entityType: "feat", data: MAGIC_INITIATE_FEAT },
+    ]);
+    const char = minimalCharacter();
+    char.background = "[[acolyte]]";
+    const { character } = new PCResolver(reg).resolve(char);
+    expect(character.feats.map((f) => f.slug)).toContain("srd-2024_magic-initiate");
+
+    // The lifted helper resolves the variant ref to the base feat but names the variant.
+    const resolved = resolveOriginFeat(reg, "[[SRD 2024/Feats/Magic Initiate (Cleric)]]");
+    expect(resolved?.feat.slug).toBe("srd-2024_magic-initiate");
+    expect(resolved?.display).toBe("Magic Initiate (Cleric)");
+  });
+
+  it("dedupes by slug: origin feat + the SAME feat via a class ASI slot → exactly ONE (R2-m4)", () => {
+    const reg = buildMockRegistry([
+      { slug: "fighter", entityType: "class", data: STYLED_FIGHTER },
+      { slug: "criminal", entityType: "background", data: CRIMINAL_BG },
+      { slug: "alert", entityType: "feat", data: ALERT_FEAT },
+    ]);
+    const char = minimalCharacter();
+    char.class = [{ name: "[[fighter]]", level: 4, subclass: null,
+      choices: { 4: { "asi-or-feat": "feat", feat: "alert" } } }];
+    char.background = "[[criminal]]";
+    const { character } = new PCResolver(reg).resolve(char);
+
+    expect(character.feats.filter((f) => f.slug === "alert")).toHaveLength(1);
+    expect(character.features.filter(
+      (rf) => rf.source.kind === "feat" && rf.feature.name === "Alert")).toHaveLength(1);
+  });
+
+  it("2014 background (origin_feat null / absent) folds no origin feat", () => {
+    const reg = buildMockRegistry([
+      { slug: "bladesworn", entityType: "class", data: BLADESWORN },
+      { slug: "drifter", entityType: "background", data: DRIFTER },
+    ]);
+    const char = minimalCharacter();
+    char.background = "[[drifter]]";
+    const { character } = new PCResolver(reg).resolve(char);
+    expect(character.feats).toHaveLength(0);
+  });
+
+  it("resolveOriginFeat returns null for a null/empty ref", () => {
+    const reg = buildMockRegistry([]);
+    expect(resolveOriginFeat(reg, null)).toBeNull();
+    expect(resolveOriginFeat(reg, "")).toBeNull();
   });
 });
 
