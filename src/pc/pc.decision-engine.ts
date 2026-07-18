@@ -2,8 +2,9 @@ import type { Choice, InlineOption, EntityFilter, Ability } from "@archivist-gg/
 import { ALL_SKILL_SLUGS } from "@archivist-gg/dnd5e/types/choice";
 import { ABILITY_KEYS } from "@archivist-gg/dnd5e/dnd/constants";
 import type { ResolvedCharacter, ChoiceValue, FeatureSource } from "./pc.types";
-import type { RegisteredEntity } from "@archivist-gg/core";
+import type { EntityRegistry, RegisteredEntity } from "@archivist-gg/core";
 import { recognizeDecision } from "./decision-recognizer";
+import { resolveOriginFeat } from "./pc.resolver";
 
 export interface DecisionRegistry {
   search(query: string, entityType: string, limit: number): RegisteredEntity[];
@@ -650,6 +651,25 @@ export function buildDecisionLedger(resolved: ResolvedCharacter, ctx: DecisionCo
       pushOrigin((resolved.background.feature as { choices?: Choice[]; description?: string }).choices, "background",
         { kind: "background", slug: resolved.background.slug }, resolved.background.feature.name, bare,
         (resolved.background.feature as { description?: string }).description);
+    }
+    // Origin feat's OWN choices (e.g. Magic Initiate's spell-list branch + nested
+    // spell picks + spellcasting-ability). Read under `background:feat:<id>`:
+    // namespace "background" via originRead, child-prefixed "feat:" via buildItem's
+    // keyPrefix, so the stored keys are DISJOINT from the bare `background:<id>`
+    // background choices above, and match exactly what the resolver's feat spell
+    // pass reads. Resolved through the SAME lifted resolver the pipeline uses
+    // (variant refs like "Magic Initiate (Cleric)" fold to the base feat).
+    if (resolved.background.origin_feat) {
+      const originFeat = resolveOriginFeat(
+        ctx.registry as unknown as EntityRegistry, resolved.background.origin_feat);
+      if (originFeat) {
+        const featSource: FeatureSource = { kind: "feat", slug: originFeat.feat.slug };
+        const featBare = bareEntitySlug(originFeat.feat.slug);
+        for (const ch of originFeat.feat.choices ?? []) {
+          origin.push(buildItem(ch, featSource, 0, originFeat.display, originRead("background"),
+            ctx, featBare, { keyPrefix: "feat:" }));
+        }
+      }
     }
   }
 

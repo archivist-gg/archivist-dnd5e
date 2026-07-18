@@ -4,10 +4,12 @@ import type { RaceEntity } from "@archivist-gg/dnd5e/race/race.types";
 import type { SubclassEntity } from "@archivist-gg/dnd5e/subclass/subclass.types";
 import type { BackgroundEntity } from "@archivist-gg/dnd5e/background/background.types";
 import type { FeatEntity } from "@archivist-gg/dnd5e/feat/feat.types";
-import type { Feature, Choice } from "@archivist-gg/dnd5e";
+import type { Feature, Choice, Ability } from "@archivist-gg/dnd5e";
 import type { Spell } from "@archivist-gg/dnd5e/spell/spell.types";
+import { ABILITY_KEYS } from "@archivist-gg/dnd5e/dnd/constants";
 import type {
   Character,
+  ChoiceValue,
   ResolvedCharacter,
   ResolvedClass,
   ResolvedFeature,
@@ -142,11 +144,14 @@ export class PCResolver {
     // proficiency grants are DISTINCT grants (not the feat's), so a background-then-
     // feat double-apply is not reachable by SRD data; the slug-dedupe below is the
     // only concrete guard needed (defensive ASI folding is untested-by-SRD, deferred).
-    if (background?.origin_feat) {
-      const originFeat = resolveOriginFeat(this.entities, background.origin_feat);
-      if (originFeat && !feats.some((f) => f.slug === originFeat.feat.slug)) {
-        feats.push(originFeat.feat);
-      }
+    // Resolved once and retained: the origin feat both rides `feats` into
+    // resolved.features (renders + applies effects) AND, below, supplies its
+    // spell picks to the feat→spell application pass (3d).
+    const originFeat = background?.origin_feat
+      ? resolveOriginFeat(this.entities, background.origin_feat)
+      : null;
+    if (originFeat && !feats.some((f) => f.slug === originFeat.feat.slug)) {
+      feats.push(originFeat.feat);
     }
 
     const totalLevel = classes.reduce((sum, c) => sum + c.level, 0);
@@ -174,6 +179,33 @@ export class PCResolver {
       const classSlug = n.classSlug ?? primaryCasterSlug;
       const prep = isCantrip || n.alwaysPrepared ? true : (n.preparedFlag ?? false);
       spells.push({ entity, slug: n.slug, classSlug, source: n.source, prepared: prep, alwaysPrepared: n.alwaysPrepared });
+    }
+
+    // Feat→spell application pass (3d). Feats such as Magic Initiate let the
+    // player pick spells (from a class list) plus a spellcasting ability; those
+    // picks live in the choice ledger but never became resolved spells. Turn each
+    // picked spell into a ResolvedSpell{ source:"feat", alwaysPrepared:true,
+    // classSlug:null, ability }. Two pick sources share ONE walk (change 2):
+    //   · the ORIGIN feat  → picks under `origin_choices["background:feat:<id>"]`;
+    //   · class-slot feats  → picks under `choices[lvl]["feat:<id>"]` (ASI slot).
+    const oc = character.origin_choices ?? {};
+    if (originFeat) {
+      const read = (childId: string): ChoiceValue | undefined => oc[`background:feat:${childId}`];
+      spells.push(...collectFeatGrantedSpells(originFeat.feat, read, this.entities, warnings));
+    }
+    for (const entry of character.class) {
+      for (const atLevel of Object.values(entry.choices ?? {})) {
+        const featRef = (atLevel as Record<string, unknown>).feat;
+        if (typeof featRef !== "string") continue;
+        const slug = stripSlug(featRef);
+        if (!slug) continue;
+        const reg = this.entities.getByTypeAndSlug("feat", slug);
+        if (!reg) continue;
+        const feat = reg.data as unknown as FeatEntity;
+        const read = (childId: string): ChoiceValue | undefined =>
+          (atLevel as Record<string, ChoiceValue>)[`feat:${childId}`];
+        spells.push(...collectFeatGrantedSpells(feat, read, this.entities, warnings));
+      }
     }
 
     // 2024 Weapon Mastery: union the chosen weapon picks (bare slugs onto the
@@ -253,6 +285,72 @@ export function collectFeatSlugs(character: Character): string[] {
     }
   }
   return [...slugs];
+}
+
+/**
+ * Feat→spell application (3d). Walks a feat's OWN `choices` to find its spell
+ * picks and turns each into a ResolvedSpell. A feat's spells sit behind a
+ * `spell-list` select-inline whose CHOSEN branch nests `select-entity{spell}`
+ * picks; the chosen spellcasting ability comes from the feat's
+ * `spellcasting-ability` select-inline. `read(childId)` yields the persisted pick
+ * for a child choice id (origin feat: `origin_choices["background:feat:<id>"]`;
+ * class-slot feat: `choices[lvl]["feat:<id>"]`). Unresolvable spell slugs warn and
+ * are skipped, mirroring the known-spell loop. classSlug stays null: a feat spell
+ * is not owned by a class for DC/ability; the carried `ability` drives its casting.
+ */
+export function collectFeatGrantedSpells(
+  feat: FeatEntity,
+  read: (childId: string) => ChoiceValue | undefined,
+  entities: EntityRegistry,
+  warnings: string[],
+): ResolvedSpell[] {
+  const ability = readChosenSpellAbility(read);
+  const slugs: string[] = [];
+  collectSpellPickSlugs(feat.choices, read, slugs);
+  const out: ResolvedSpell[] = [];
+  for (const rawSlug of slugs) {
+    const slug = stripSlug(rawSlug) ?? rawSlug;
+    const reg = entities.getByTypeAndSlug("spell", slug);
+    if (!reg) {
+      warnings.push(`Feat spell [[${slug}]] not found in compendium.`);
+      continue;
+    }
+    const entity = reg.data as unknown as Spell;
+    out.push({ entity, slug, classSlug: null, source: "feat", prepared: true, alwaysPrepared: true, ability });
+  }
+  return out;
+}
+
+/** Reads the feat's chosen spellcasting ability (`spellcasting-ability` pick),
+ *  validated against the ability keys; null when unset or invalid (a "(Cleric)"
+ *  variant may pre-seed it in 3f). */
+function readChosenSpellAbility(read: (childId: string) => ChoiceValue | undefined): Ability | null {
+  const pick = read("spellcasting-ability");
+  return typeof pick === "string" && (ABILITY_KEYS as readonly string[]).includes(pick)
+    ? (pick as Ability)
+    : null;
+}
+
+/** Walks a feat's choice tree collecting the slugs picked for every
+ *  `select-entity{entity_type:"spell"}`, descending into the CHOSEN branch of a
+ *  `select-inline` (the spell-list). Mirrors the decision-engine's branch
+ *  recursion so the same nested shape is honored. */
+function collectSpellPickSlugs(
+  choices: Choice[] | undefined,
+  read: (childId: string) => ChoiceValue | undefined,
+  out: string[],
+): void {
+  for (const ch of choices ?? []) {
+    if (ch.kind === "select-entity" && ch.entity_type === "spell") {
+      const sel = read(ch.id);
+      const picks = Array.isArray(sel) ? sel : typeof sel === "string" ? [sel] : [];
+      for (const p of picks) if (typeof p === "string" && p.length > 0) out.push(p);
+    } else if (ch.kind === "select-inline") {
+      const sel = read(ch.id);
+      const branch = typeof sel === "string" ? ch.options.find((o) => o.value === sel) : undefined;
+      if (branch?.choices) collectSpellPickSlugs(branch.choices, read, out);
+    }
+  }
 }
 
 /** Selected select-entity values (optional-features) and selected inline

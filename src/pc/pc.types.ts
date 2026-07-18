@@ -107,6 +107,10 @@ export interface KnownSpellObject {
   source?: "class" | "feat" | "item" | "race" | "domain";
   prepared?: boolean;
   always_prepared?: boolean;
+  /** The spell's own spellcasting ability (e.g. WIS for a Magic Initiate (Cleric)
+   *  pick). Belongs on the persisted shape for symmetry with ResolvedSpell.ability;
+   *  feat spells arrive via origin_choices, but a known-spell entry may carry it. */
+  ability?: Ability;
 }
 export type KnownSpellEntry = string | KnownSpellObject;
 
@@ -224,6 +228,11 @@ export interface ResolvedSpell {
   source: "class" | "feat" | "item" | "race" | "domain";
   prepared: boolean;              // cantrips & known-caster spells → true
   alwaysPrepared: boolean;
+  /** The spell's OWN spellcasting ability. For a feat spell this carries the
+   *  chosen ability (e.g. WIS for Magic Initiate (Cleric)) while classSlug stays
+   *  null (a feat spell is not owned by a class for DC/ability). Absent/undefined
+   *  for class spells, which derive their ability from classSlug. */
+  ability?: Ability | null;
 }
 
 export interface ResolvedClass {
