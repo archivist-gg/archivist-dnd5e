@@ -26,7 +26,7 @@ import {
   resolveEntityForEntry, effectiveArmor, defaultSlotForType,
   isWeaponEntity, isItemEntity,
 } from "./pc.slotting";
-import { MASTERY, masteryDerived } from "../weapon/weapon-mastery";
+import { MASTERY, masteryDerived, masteryGist } from "../weapon/weapon-mastery";
 import { bareEntitySlug } from "./pc.decision-engine";
 import type { WeaponAbilityOverride } from "./pc.feature-effects";
 
@@ -587,7 +587,7 @@ function buildAttackRow(args: {
     const g = MASTERY[mSlug];
     if (g) {
       const derived = masteryDerived(mSlug, mods[ability], proficiencyBonus);
-      row.mastery = { slug: mSlug, label: g.label, description: g.description, ...(derived ? { derived } : {}) };
+      row.mastery = { slug: mSlug, label: g.label, description: g.description, gist: masteryGist(mSlug), ...(derived ? { derived } : {}) };
     }
   }
 
