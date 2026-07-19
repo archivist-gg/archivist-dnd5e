@@ -369,7 +369,10 @@ export function collectItemGrantedSpells(
       return;
     }
     const entity = reg.data as unknown as Spell;
-    const ability = ownAbility ?? entry.overrides?.spell_ability;
+    // DC-ability precedence: a per-instance override wins, then the character's own
+    // class ability, then the character-level spellcasting_ability fallback. When all
+    // are absent the scroll stays ability-less (never fabricated).
+    const ability = entry.overrides?.spell_ability ?? ownAbility ?? character.overrides?.spellcasting_ability;
     out.push({ entity, slug, classSlug: null, source: "item", prepared: true, alwaysPrepared: true, ability, entryIndex });
   });
   return out;

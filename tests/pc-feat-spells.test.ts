@@ -395,6 +395,41 @@ describe("PCResolver · item-granted spells (scroll → resolved.spells)", () =>
     expect(item!.ability ?? null).toBeNull();
   });
 
+  // Character-level fallback: a non-caster with no per-scroll spell_ability but a
+  // character-level overrides.spellcasting_ability casts the scroll with that ability.
+  it("a non-caster scroll falls back to character-level overrides.spellcasting_ability", () => {
+    const ch = scrollChar("[[fx-fighter]]", [
+      { item: "[[srd-2024_spell-scroll-3rd-level]]", overrides: { spell: "fx_fireball" } },
+    ]);
+    ch.overrides = { spellcasting_ability: "wis" };
+    const { character } = new PCResolver(buildScrollRegistry()).resolve(ch);
+    const item = character.spells.find((s) => s.source === "item");
+    expect(item).toBeDefined();
+    expect(item!.ability).toBe("wis");
+  });
+
+  // Precedence: a per-scroll spell_ability wins over the character-level fallback.
+  it("a per-scroll spell_ability still wins over the character-level fallback", () => {
+    const ch = scrollChar("[[fx-fighter]]", [
+      { item: "[[srd-2024_spell-scroll-3rd-level]]", overrides: { spell: "fx_fireball", spell_ability: "int" } },
+    ]);
+    ch.overrides = { spellcasting_ability: "wis" };
+    const { character } = new PCResolver(buildScrollRegistry()).resolve(ch);
+    const item = character.spells.find((s) => s.source === "item");
+    expect(item!.ability).toBe("int");
+  });
+
+  // Precedence: a caster's OWN class ability still wins over the character-level fallback.
+  it("a caster still uses its own class ability over the character-level fallback", () => {
+    const ch = scrollChar("[[fx-wizard]]", [
+      { item: "[[srd-2024_spell-scroll-3rd-level]]", overrides: { spell: "fx_fireball" } },
+    ]);
+    ch.overrides = { spellcasting_ability: "wis" };
+    const { character } = new PCResolver(buildScrollRegistry()).resolve(ch);
+    const item = character.spells.find((s) => s.source === "item");
+    expect(item!.ability).toBe("int");
+  });
+
   it("keeps a scroll of a class-known spell as its own item row (class copy + item copy both present)", () => {
     const ch = scrollChar(
       "[[fx-wizard]]",

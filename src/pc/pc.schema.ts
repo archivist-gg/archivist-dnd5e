@@ -93,6 +93,9 @@ const characterOverridesSchema = z.object({
     saveDC: z.number().int().optional(),
     attackBonus: z.number().int().optional(),
   }).optional(),
+  // Character-level DC-ability fallback for own-ability-less spells (e.g. a Spell
+  // Scroll cast by a non-caster). Same ability enum as the per-instance spell_ability.
+  spellcasting_ability: abilityEnum.optional(),
   spell_slots: z.record(z.coerce.number().int(), z.number().int().nonnegative()).optional(),
   attunement_limit: z.number().int().nonnegative().optional(),
 }).default({});

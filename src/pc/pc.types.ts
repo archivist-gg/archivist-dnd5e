@@ -130,6 +130,10 @@ export interface CharacterOverrides {
   speed?: number;
   initiative?: number;
   spellcasting?: { saveDC?: number; attackBonus?: number };
+  /** Character-level spellcasting ability for spells that carry no ability of
+   *  their own (e.g. a Spell Scroll cast by a non-caster): the DC-ability fallback
+   *  after a per-instance override and the character's own class ability. */
+  spellcasting_ability?: Ability;
   spell_slots?: Record<number, number>;
   attunement_limit?: number;
 }
