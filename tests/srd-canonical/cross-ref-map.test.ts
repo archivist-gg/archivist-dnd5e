@@ -1,5 +1,6 @@
 import { describe, it, expect } from "vitest";
 import { rewriteCrossRefs } from "../../tools/srd-canonical/cross-ref-map";
+import runtime2014 from "../../src/srd/data/runtime/item.2014.json";
 
 describe("rewriteCrossRefs", () => {
   it("rewrites @spell to compendium-qualified wikilink", () => {
@@ -32,5 +33,17 @@ describe("rewriteCrossRefs", () => {
 
   it("passes through plain text untouched", () => {
     expect(rewriteCrossRefs("No tags here.", "2014")).toBe("No tags here.");
+  });
+
+  it("rewriteCrossRefs commutes with \\n-unescape over the real 2014 item descriptions", () => {
+    const unescape = (s: string) => s.replace(/\\n/g, "\n");
+    const reEscape = (s: string) => s.replace(/\n/g, "\\n"); // reconstruct the pre-fix literal-\n form
+    for (const item of runtime2014 as Array<{ name?: string; description?: unknown }>) {
+      if (typeof item.description !== "string" || !item.description) continue;
+      const literal = reEscape(item.description);
+      for (const ed of ["2014", "2024"] as const) {
+        expect(rewriteCrossRefs(unescape(literal), ed), item.name).toBe(unescape(rewriteCrossRefs(literal, ed)));
+      }
+    }
   });
 });

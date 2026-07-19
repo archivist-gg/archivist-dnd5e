@@ -355,6 +355,17 @@ describe("itemMergeRule", () => {
       const out = toItemCanonical(entry);
       expect(out.description).toBe("");
     });
+
+    it("description: Open5e desc with literal \\n is unescaped to real newlines (item table renders)", () => {
+      const entry = structuredFallbackEntry({
+        base: { name: "Belt X", desc: "The belt sets your Strength.\\n\\n| Type | Str |\\n|---|---|\\n| Hill | 21 |" },
+        structured: { name: "Belt X", source: "XDMG" },
+      });
+      const out = toItemCanonical(entry);
+      expect(out.description).not.toContain("\\n");   // no literal backslash-n survives
+      expect(out.description).toContain("\n");          // real newlines present
+      expect(out.description).toContain("| Type | Str |");
+    });
   });
 
   describe("mapDmgTypeCode", () => {

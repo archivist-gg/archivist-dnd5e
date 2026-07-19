@@ -312,16 +312,22 @@ export function toItemCanonical(entry: CanonicalEntry): ItemCanonical {
 
   const requiresAttunement = base.requires_attunement === true;
 
+  // Unescape ONLY the Open5e `desc` branch: Open5e ships literal two-char `\n`
+  // sequences (backslash + n) verbatim, which the item table renders as text
+  // instead of line breaks. The `entriesToProse` fallback path already emits
+  // real newlines, so it is left untouched. The replace is idempotent.
+  const rawDesc =
+    (typeof base.desc === "string" ? base.desc.replace(/\\n/g, "\n") : undefined) ||
+    (structured ? entriesToProse(structured.entries) : undefined) ||
+    "";
+
   const out: ItemCanonical = {
     slug: entry.slug,
     name: base.name as string,
     edition: entry.edition,
     source: entry.edition === "2014" ? "SRD 5.1" : "SRD 5.2",
     rarity: normalizeRarity(base.rarity ?? (structured ? structured.rarity : undefined)),
-    description: rewriteCrossRefs(
-      ((base.desc as string) || (structured ? entriesToProse(structured.entries) : undefined) || ""),
-      entry.edition,
-    ),
+    description: rewriteCrossRefs(rawDesc, entry.edition),
   };
 
   // category → type (string)
