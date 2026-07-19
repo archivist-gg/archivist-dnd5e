@@ -73,13 +73,19 @@ export const ITEM_ACTIONS: Record<string, ItemAction> = {
   "sun-blade":                   { cost: "free",         range: "self" },
 
   // Potions / consumables
-  "potion-of-healing":           { cost: "action",       range: "self",    max_charges: 1, recovery: { amount: "0", reset: "special" } },
-  "potion-of-greater-healing":   { cost: "action",       range: "self",    max_charges: 1, recovery: { amount: "0", reset: "special" } },
-  "potion-of-superior-healing":  { cost: "action",       range: "self",    max_charges: 1, recovery: { amount: "0", reset: "special" } },
-  "potion-of-supreme-healing":   { cost: "action",       range: "self",    max_charges: 1, recovery: { amount: "0", reset: "special" } },
+  // 2024 healing potions are a Bonus Action to drink/administer (curation still
+  // carries range/max_charges/recovery; the type=potion default covers uncurated ones).
+  "potion-of-healing":           { cost: "bonus-action", range: "self",    max_charges: 1, recovery: { amount: "0", reset: "special" } },
+  "potion-of-greater-healing":   { cost: "bonus-action", range: "self",    max_charges: 1, recovery: { amount: "0", reset: "special" } },
+  "potion-of-superior-healing":  { cost: "bonus-action", range: "self",    max_charges: 1, recovery: { amount: "0", reset: "special" } },
+  "potion-of-supreme-healing":   { cost: "bonus-action", range: "self",    max_charges: 1, recovery: { amount: "0", reset: "special" } },
   "alchemists-fire":             { cost: "action",       range: "20 ft.",  max_charges: 1, recovery: { amount: "0", reset: "special" } },
   "holy-water":                  { cost: "action",       range: "20 ft.",  max_charges: 1, recovery: { amount: "0", reset: "special" } },
+  // Oils are APPLIED (minutes), not drunk — curated to "action" so the blanket
+  // type=potion → bonus-action default never mislabels these mis-typed items.
   "oil-of-sharpness":            { cost: "action",       range: "self",    max_charges: 1, recovery: { amount: "0", reset: "special" } },
+  "oil-of-etherealness":         { cost: "action",       range: "self",    max_charges: 1, recovery: { amount: "0", reset: "special" } },
+  "oil-of-slipperiness":         { cost: "action",       range: "self",    max_charges: 1, recovery: { amount: "0", reset: "special" } },
   "dust-of-disappearance":       { cost: "action",       range: "self",    max_charges: 1, recovery: { amount: "0", reset: "special" } },
 };
 
@@ -108,20 +114,29 @@ export function findItemAction(slug: string): ItemAction | undefined {
 
 /**
  * Resolve the ItemAction for an equipped entry.
- * Priority: entry.overrides (action + range) merged onto curated map.
- * Returns null when neither source supplies an action cost.
+ * Priority: per-instance override > curated map > `itemType==="potion"`
+ * bonus-action default > null.
+ *
+ * `itemType` is the entity's `data.type` (from the registry, statically
+ * `unknown`); per the 2024 SRD, drinking/administering a potion is a Bonus
+ * Action, so an uncurated `type==="potion"` item still surfaces (curated oils
+ * mis-typed `"potion"` are pinned to "action" so this default cannot mislabel
+ * them). Returns null when no source supplies a cost (non-potion uncurated with
+ * no override).
  *
  * Accepts both bare and compendium-prefixed slugs (see `findItemAction`).
  */
-export function resolveItemAction(slug: string, entry: EquipmentEntry): ItemAction | null {
+export function resolveItemAction(
+  slug: string,
+  entry: EquipmentEntry,
+  itemType?: unknown,
+): ItemAction | null {
   const curated = findItemAction(slug) ?? null;
   const override = entry.overrides;
   const overrideCost = override?.action;
   const overrideRange = override?.range;
 
-  if (!curated && !overrideCost) return null;
-
-  const cost = overrideCost ?? curated?.cost;
+  const cost = overrideCost ?? curated?.cost ?? (itemType === "potion" ? "bonus-action" : undefined);
   if (!cost) return null;
 
   return {

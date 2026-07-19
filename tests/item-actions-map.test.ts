@@ -129,6 +129,46 @@ describe("resolveItemAction priority", () => {
     expect(a?.range).toBe("60 ft.");
     expect(a?.max_charges).toBe(9);
   });
+
+  // ── Potion type default (B1) + 2024 healing-potion flip (B2) ──
+  it("uncurated potion defaults to bonus-action", () => {
+    const entry = { item: "[[srd-2024_potion-of-vitality]]", equipped: true } as EquipmentEntry;
+    expect(resolveItemAction("srd-2024_potion-of-vitality", entry, "potion")?.cost).toBe("bonus-action");
+  });
+
+  it("uncurated oils stay action (not drunk)", () => {
+    const ether = { item: "[[srd-2024_oil-of-etherealness]]", equipped: true } as EquipmentEntry;
+    const slip = { item: "[[srd-2024_oil-of-slipperiness]]", equipped: true } as EquipmentEntry;
+    expect(resolveItemAction("srd-2024_oil-of-etherealness", ether, "potion")?.cost).toBe("action");
+    expect(resolveItemAction("srd-2024_oil-of-slipperiness", slip, "potion")?.cost).toBe("action");
+  });
+
+  it("healing potions are bonus-action (2024)", () => {
+    for (const s of [
+      "potion-of-healing",
+      "potion-of-greater-healing",
+      "potion-of-superior-healing",
+      "potion-of-supreme-healing",
+    ]) {
+      const entry = { item: `[[${s}]]`, equipped: true } as EquipmentEntry;
+      expect(resolveItemAction(s, entry, "potion")?.cost).toBe("bonus-action");
+    }
+  });
+
+  it("per-instance override still wins over the potion default", () => {
+    const entry = {
+      item: "[[srd-2024_potion-of-vitality]]",
+      equipped: true,
+      overrides: { action: "action" },
+    } as EquipmentEntry;
+    expect(resolveItemAction("srd-2024_potion-of-vitality", entry, "potion")?.cost).toBe("action");
+  });
+
+  it("non-potion uncurated returns null", () => {
+    const entry = { item: "[[srd-2024_random-trinket]]", equipped: true } as EquipmentEntry;
+    expect(resolveItemAction("srd-2024_random-trinket", entry, "wondrous item")).toBeNull();
+    expect(resolveItemAction("srd-2024_random-trinket", entry, undefined)).toBeNull();
+  });
 });
 
 describe("findItemAction", () => {
