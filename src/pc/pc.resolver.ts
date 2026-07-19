@@ -19,6 +19,7 @@ import type {
 } from "./pc.types";
 import { normalizeKnownSpell, resolveSpellcasting } from "./pc.spellcasting";
 import { resolveAllPools } from "./pc.pools";
+import { resolveEntityForEntry, isItemEntity } from "./pc.slotting";
 import { bareEntitySlug, wikilinkTailSlug } from "./pc.decision-engine";
 
 export interface ResolveResult {
@@ -208,6 +209,18 @@ export class PCResolver {
       }
     }
 
+    // Item→spell application pass (P4-T3). A Spell Scroll (any item carrying the T1
+    // `scroll_level` marker) whose equipment entry names a chosen spell via
+    // `overrides.spell` becomes a castable ResolvedSpell{ source:"item" }. Runs AFTER
+    // the feat pass and BEFORE dedupe so the segmented dedupe sees the item copies.
+    // The casting ability is the character's OWN spellcasting ability when they have
+    // one (first caster class wins), matching how a scroll cast by a caster uses their
+    // own DC. `entryIndex` carries the originating equipment index for instance identity.
+    const ownSpellcastingAbility = classes
+      .map((c) => resolveSpellcasting(c)?.ability ?? null)
+      .find((a): a is Ability => a != null) ?? null;
+    spells.push(...collectItemGrantedSpells(character, ownSpellcastingAbility, this.entities, warnings));
+
     // 2024 Weapon Mastery: union the chosen weapon picks (bare slugs onto the
     // resolved character) and fold their display NAMES onto the Weapon-Mastery
     // feature card. Locate the feature STRUCTURALLY (id/choices live on
@@ -322,23 +335,69 @@ export function collectFeatGrantedSpells(
 }
 
 /**
- * Collapses duplicate resolved spells by slug (3d Minor #2 carry-forward). A spell
- * can be emitted more than once: it may be BOTH in `character.spells.known` AND a
- * feat pick, or a feat may be taken as both origin + class-slot. A class-sourced
- * copy owns a real DC via its `classSlug`, so it always wins over a feat copy of
- * the same slug; otherwise first-seen wins. Insertion order is preserved (a later
- * class copy replaces an earlier feat copy in place), so the Spells section never
- * renders duplicate rows while a legitimately class-known copy is never lost.
+ * Item→spell application (P4-T3). Walks the character's equipment for entries whose
+ * resolved item is a spell scroll (carries the T1 `scroll_level` marker) AND names a
+ * chosen spell via `overrides.spell`, turning each into a
+ * ResolvedSpell{ source:"item", classSlug:null, prepared:true, alwaysPrepared:true }.
+ * The casting `ability` is the character's OWN spellcasting ability when they have
+ * one (`ownAbility`, the first caster class's ability), else the per-instance
+ * `overrides.spell_ability`, else undefined (a no-ability scroll is left ability-less:
+ * the plugin surfaces it without a DC; an ability is NEVER fabricated here).
+ * `entryIndex` records the originating equipment index so the segmented dedupe keeps
+ * two scrolls of one spell (and a scroll of a class-known spell) as their own rows.
+ * Unresolvable spell slugs warn and are skipped, mirroring the known-spell + feat loops.
+ * In-memory only: no KnownSpellObject{source:"item"} is injected (its strict schema
+ * omits `ability`).
+ */
+export function collectItemGrantedSpells(
+  character: Character,
+  ownAbility: Ability | null,
+  entities: EntityRegistry,
+  warnings: string[],
+): ResolvedSpell[] {
+  const out: ResolvedSpell[] = [];
+  (character.equipment ?? []).forEach((entry, entryIndex) => {
+    const spellRef = entry.overrides?.spell;
+    if (!spellRef) return;
+    const { entity: itemEntity } = resolveEntityForEntry(entry.item, entities);
+    const scrollLevel = isItemEntity(itemEntity) ? itemEntity.scroll_level : undefined;
+    if (scrollLevel == null) return;
+    const slug = stripSlug(spellRef) ?? spellRef;
+    const reg = entities.getByTypeAndSlug("spell", slug);
+    if (!reg) {
+      warnings.push(`Scroll spell [[${slug}]] not found in compendium.`);
+      return;
+    }
+    const entity = reg.data as unknown as Spell;
+    const ability = ownAbility ?? entry.overrides?.spell_ability;
+    out.push({ entity, slug, classSlug: null, source: "item", prepared: true, alwaysPrepared: true, ability, entryIndex });
+  });
+  return out;
+}
+
+/**
+ * Collapses duplicate resolved spells (3d Minor #2 carry-forward + P4-T3 segmented
+ * dedupe). A spell can be emitted more than once: it may be BOTH in
+ * `character.spells.known` AND a feat pick, or a feat may be taken as both origin +
+ * class-slot. A class-sourced copy owns a real DC via its `classSlug`, so it always
+ * wins over a feat copy of the same slug; otherwise first-seen wins. Insertion order
+ * is preserved (a later class copy replaces an earlier feat copy in place), so the
+ * Spells section never renders duplicate rows while a legitimately class-known copy is
+ * never lost. Item-source spells carry INSTANCE identity: they key by
+ * `slug + "#" + entryIndex`, so two scrolls of one spell stay two rows and a scroll of
+ * a class-known spell keeps its OWN item row, never collapsing into / being collapsed
+ * by a class/feat copy. The class/feat slug-only merge is unchanged.
  */
 export function dedupeResolvedSpells(spells: ResolvedSpell[]): ResolvedSpell[] {
-  const bySlug = new Map<string, ResolvedSpell>();
+  const byKey = new Map<string, ResolvedSpell>();
   for (const s of spells) {
-    const existing = bySlug.get(s.slug);
-    if (!existing) { bySlug.set(s.slug, s); continue; }
+    const key = s.source === "item" ? `${s.slug}#${s.entryIndex}` : s.slug;
+    const existing = byKey.get(key);
+    if (!existing) { byKey.set(key, s); continue; }
     // Prefer a non-feat (class/known) copy: it carries a real class-owned DC.
-    if (existing.source === "feat" && s.source !== "feat") bySlug.set(s.slug, s);
+    if (existing.source === "feat" && s.source !== "feat") byKey.set(key, s);
   }
-  return [...bySlug.values()];
+  return [...byKey.values()];
 }
 
 /** Reads the feat's chosen spellcasting ability (`spellcasting-ability` pick),

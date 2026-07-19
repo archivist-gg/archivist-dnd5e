@@ -213,6 +213,21 @@ describe("dedupeResolvedSpells · collapse cross-source double emission", () => 
     const out = dedupeResolvedSpells([rs("a", "class"), rs("b", "feat", { ability: "wis" }), rs("c", "class")]);
     expect(out.map((s) => s.slug)).toEqual(["a", "b", "c"]);
   });
+
+  // Segmented dedupe (P4-T3): item-source spells carry INSTANCE identity (slug +
+  // entryIndex), so two scrolls of one spell stay two rows and a scroll of a
+  // class-known spell keeps its OWN item row, never collapsing into / being
+  // collapsed by a class/feat copy.
+  it("keeps item copies distinct by entry index and separate from a class copy of the same slug", () => {
+    const out = dedupeResolvedSpells([
+      rs("fireball", "class", { classSlug: "wizard" }),
+      rs("fireball", "item", { entryIndex: 0 }),
+      rs("fireball", "item", { entryIndex: 1 }),
+    ]);
+    expect(out).toHaveLength(3);
+    expect(out.filter((s) => s.source === "item").map((s) => s.entryIndex).sort()).toEqual([0, 1]);
+    expect(out.find((s) => s.source === "class")!.classSlug).toBe("wizard");
+  });
 });
 
 describe("buildDecisionLedger · origin feat choices wired into origin[]", () => {
@@ -293,5 +308,136 @@ describe("buildDecisionLedger · origin feat choices wired into origin[]", () =>
     const { character } = new PCResolver(reg).resolve(char);
     const ledger = buildDecisionLedger(character, { registry: reg });
     expect(ledger.origin.some((i) => i.key.startsWith("feat:"))).toBe(false);
+  });
+});
+
+// ─────────────────────────────────────────────────────────────────────────────
+// P4-T3 · item→spell application pass. A Spell Scroll (an item carrying the T1
+// `scroll_level` marker) whose equipment entry names a chosen spell via
+// `overrides.spell` resolves into a castable ResolvedSpell{ source:"item" }. The
+// casting ability is the character's OWN spellcasting ability when they have one,
+// else the per-instance `overrides.spell_ability`, else undefined (never faked).
+// `entryIndex` gives each scroll instance identity through the segmented dedupe.
+// ─────────────────────────────────────────────────────────────────────────────
+
+describe("PCResolver · item-granted spells (scroll → resolved.spells)", () => {
+  const SCROLL_3RD = {
+    slug: "srd-2024_spell-scroll-3rd-level", name: "Spell Scroll (3rd Level)",
+    rarity: "uncommon", type: "scroll", scroll_level: 3,
+  };
+  const WIZARD_CLASS = {
+    slug: "fx-wizard", name: "Wizard", hit_die: "d6",
+    saving_throws: ["int", "wis"], features_by_level: {},
+    spellcasting: { caster_type: "full", ability: "int", preparation: "prepared", spell_list: "wizard" },
+    table: {},
+  };
+  const FIREBALL = {
+    slug: "fx_fireball", entityType: "spell",
+    data: { name: "Fireball", level: 3, classes: ["wizard"], edition: "2024" },
+  };
+
+  function buildScrollRegistry() {
+    return buildMockRegistry([
+      { slug: "fx-fighter", entityType: "class", data: MINI_CLASS },
+      { slug: "fx-wizard", entityType: "class", data: WIZARD_CLASS },
+      { slug: "srd-2024_spell-scroll-3rd-level", entityType: "item", data: SCROLL_3RD },
+      FIREBALL,
+    ]);
+  }
+
+  function scrollChar(className: string, equipment: unknown[], known: unknown[] = []): Character {
+    return {
+      name: "Scroll-Bearer", edition: "2024", race: null, subrace: null, background: null,
+      class: [{ name: className, level: 5, subclass: null, choices: {} }],
+      abilities: { str: 10, dex: 10, con: 10, int: 16, wis: 12, cha: 10 },
+      ability_method: "manual", skills: { proficient: [], expertise: [] },
+      spells: { known, overrides: [] }, equipment, overrides: {}, origin_choices: {},
+      state: {
+        hp: { current: 8, max: 8, temp: 0 }, hit_dice: {}, spell_slots: {},
+        concentration: null, conditions: [], exhaustion: 0, inspiration: 0, feature_uses: {},
+      },
+    } as unknown as Character;
+  }
+
+  it("resolves a scroll's chosen spell as source:item with the caster's own ability + entryIndex", () => {
+    const ch = scrollChar("[[fx-wizard]]", [
+      { item: "[[srd-2024_spell-scroll-3rd-level]]", overrides: { spell: "fx_fireball" } },
+    ]);
+    const { character } = new PCResolver(buildScrollRegistry()).resolve(ch);
+    const item = character.spells.find((s) => s.source === "item");
+    expect(item).toBeDefined();
+    expect(item).toMatchObject({
+      slug: "fx_fireball", classSlug: null, source: "item", prepared: true, alwaysPrepared: true,
+    });
+    expect(item!.ability).toBe("int"); // the wizard's OWN casting ability
+    expect(item!.entryIndex).toBe(0);
+    expect(item!.entity.name).toBe("Fireball");
+  });
+
+  it("a non-caster scroll uses overrides.spell_ability", () => {
+    const ch = scrollChar("[[fx-fighter]]", [
+      { item: "[[srd-2024_spell-scroll-3rd-level]]", overrides: { spell: "fx_fireball", spell_ability: "wis" } },
+    ]);
+    const { character } = new PCResolver(buildScrollRegistry()).resolve(ch);
+    const item = character.spells.find((s) => s.source === "item");
+    expect(item).toBeDefined();
+    expect(item!.ability).toBe("wis");
+    expect(item!.entryIndex).toBe(0);
+  });
+
+  it("leaves a no-ability scroll ability-less (never fabricates an ability)", () => {
+    const ch = scrollChar("[[fx-fighter]]", [
+      { item: "[[srd-2024_spell-scroll-3rd-level]]", overrides: { spell: "fx_fireball" } },
+    ]);
+    const { character } = new PCResolver(buildScrollRegistry()).resolve(ch);
+    const item = character.spells.find((s) => s.source === "item");
+    expect(item).toBeDefined();
+    expect(item!.ability ?? null).toBeNull();
+  });
+
+  it("keeps a scroll of a class-known spell as its own item row (class copy + item copy both present)", () => {
+    const ch = scrollChar(
+      "[[fx-wizard]]",
+      [{ item: "[[srd-2024_spell-scroll-3rd-level]]", overrides: { spell: "fx_fireball" } }],
+      ["[[fx_fireball]]"], // also known as a class spell
+    );
+    const { character } = new PCResolver(buildScrollRegistry()).resolve(ch);
+    const fireballs = character.spells.filter((s) => s.slug === "fx_fireball");
+    expect(fireballs).toHaveLength(2);
+    expect(fireballs.some((s) => s.source === "class")).toBe(true);
+    expect(fireballs.some((s) => s.source === "item")).toBe(true);
+  });
+
+  it("keeps two scrolls of the same spell as two rows (entryIndex 0 and 1)", () => {
+    const ch = scrollChar("[[fx-wizard]]", [
+      { item: "[[srd-2024_spell-scroll-3rd-level]]", overrides: { spell: "fx_fireball" } },
+      { item: "[[srd-2024_spell-scroll-3rd-level]]", overrides: { spell: "fx_fireball" } },
+    ]);
+    const { character } = new PCResolver(buildScrollRegistry()).resolve(ch);
+    const items = character.spells.filter((s) => s.source === "item");
+    expect(items).toHaveLength(2);
+    expect(items.map((s) => s.entryIndex).sort()).toEqual([0, 1]);
+  });
+
+  it("ignores a non-scroll item carrying overrides.spell (no scroll_level marker)", () => {
+    const reg = buildMockRegistry([
+      { slug: "fx-wizard", entityType: "class", data: WIZARD_CLASS },
+      { slug: "srd-2024_wand", entityType: "item", data: { slug: "srd-2024_wand", name: "Plain Wand", rarity: "common" } },
+      FIREBALL,
+    ]);
+    const ch = scrollChar("[[fx-wizard]]", [
+      { item: "[[srd-2024_wand]]", overrides: { spell: "fx_fireball" } },
+    ]);
+    const { character } = new PCResolver(reg).resolve(ch);
+    expect(character.spells.filter((s) => s.source === "item")).toHaveLength(0);
+  });
+
+  it("warns and skips a scroll whose chosen spell is unresolvable", () => {
+    const ch = scrollChar("[[fx-wizard]]", [
+      { item: "[[srd-2024_spell-scroll-3rd-level]]", overrides: { spell: "fx_ghost-spell" } },
+    ]);
+    const { character, warnings } = new PCResolver(buildScrollRegistry()).resolve(ch);
+    expect(character.spells.filter((s) => s.source === "item")).toHaveLength(0);
+    expect(warnings.some((w) => w.includes("fx_ghost-spell"))).toBe(true);
   });
 });
