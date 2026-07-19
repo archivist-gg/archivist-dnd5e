@@ -24,6 +24,18 @@ const equipmentEntryOverridesSchema = z.object({
   ac_bonus: z.number().int().optional(),
   action: z.enum(["action", "bonus-action", "reaction", "free", "special"]).optional(),
   range: z.string().optional(),
+  // Per-instance defense arrays. The EquipmentEntryOverrides type declares
+  // these and pc.equipment reads them into defenses, but the strict schema
+  // used to omit them, so a file carrying one failed the WHOLE parse. Admitted
+  // here so a per-instance resist/immune/vulnerable/condition_immune loads.
+  resist: z.array(z.string()).optional(),
+  immune: z.array(z.string()).optional(),
+  vulnerable: z.array(z.string()).optional(),
+  condition_immune: z.array(z.string()).optional(),
+  // Scroll authoring: a per-instance spell payload (e.g. a Spell Scroll's spell)
+  // plus the ability that governs its save DC / attack when cast from the scroll.
+  spell: z.string().optional(),
+  spell_ability: abilityEnum.optional(),
 }).strict();
 
 const equipmentEntryStateSchema = z.object({

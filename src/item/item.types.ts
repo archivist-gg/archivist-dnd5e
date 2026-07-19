@@ -114,6 +114,16 @@ export interface ItemEntity {
    *  Wounding "+2d6 necrotic"). Read per-weapon in the equipment builder →
    *  AttackRow.damageRiders. `amount` is a dice/flat string. */
   damage_riders?: Array<{ amount: string; damage_type: string; applies_to?: "weapon" | "spell" | "all"; condition?: string }>;
+
+  /** Spell-scroll casting level (e.g. 3 for a "Spell Scroll (3rd Level)"). */
+  scroll_level?: number;
+  /** Marks an item the player has not yet identified: the sheet shows the
+   *  masked_category label instead of the item's true identity. */
+  unidentified?: boolean;
+  /** Generic category label shown for an unidentified item (e.g. "potion",
+   *  "scroll", "wand") in place of its real name. */
+  masked_category?: string;
+
   raw?: Record<string, unknown>;
 
   // Legacy fields preserved for downstream callers (ai-tools, modal, edit-render)

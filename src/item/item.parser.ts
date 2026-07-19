@@ -14,6 +14,7 @@ const KNOWN_KEYS = new Set([
   "weight", "cost",
   "source", "page", "edition",
   "description", "entries", "effects", "damage_riders", "raw",
+  "scroll_level", "unidentified", "masked_category",
   // Legacy fields kept (removed in Slice 7 after grep verifies no consumer)
   "damage_dice", "damage_type", "properties", "recharge", "curse",
 ]);

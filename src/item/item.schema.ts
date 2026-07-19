@@ -207,6 +207,14 @@ export const itemEntitySchema = z.object({
     applies_to: z.enum(["weapon", "spell", "all"]).optional(),
     condition: z.string().optional(),
   })).optional(),
+
+  // Scroll & unidentified-item markers (Phase 4). Declared here so they survive
+  // parse (the schema strips undeclared keys) and are ALSO listed in the
+  // parser's KNOWN_KEYS so they are not additionally copied into `raw`.
+  scroll_level: z.number().optional(),
+  unidentified: z.boolean().optional(),
+  masked_category: z.string().optional(),
+
   raw: z.record(z.string(), z.unknown()).optional(),
 
   // Legacy fields preserved

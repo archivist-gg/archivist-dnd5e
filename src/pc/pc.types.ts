@@ -48,6 +48,10 @@ export interface EquipmentEntryOverrides {
   immune?: string[];
   vulnerable?: string[];
   condition_immune?: string[];
+  /** Per-instance spell payload (e.g. the spell a Spell Scroll casts). */
+  spell?: string;
+  /** Ability governing this instance's spell save DC / attack when cast. */
+  spell_ability?: Ability;
 }
 
 export interface EquipmentEntryState {
@@ -233,6 +237,9 @@ export interface ResolvedSpell {
    *  null (a feat spell is not owned by a class for DC/ability). Absent/undefined
    *  for class spells, which derive their ability from classSlug. */
   ability?: Ability | null;
+  /** Index of the originating equipment entry when this spell was granted by a
+   *  per-instance item (e.g. a Spell Scroll). Absent for class/feat/race spells. */
+  entryIndex?: number;
 }
 
 export interface ResolvedClass {
