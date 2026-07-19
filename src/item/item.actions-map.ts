@@ -81,7 +81,7 @@ export const ITEM_ACTIONS: Record<string, ItemAction> = {
   "potion-of-supreme-healing":   { cost: "bonus-action", range: "self",    max_charges: 1, recovery: { amount: "0", reset: "special" } },
   "alchemists-fire":             { cost: "action",       range: "20 ft.",  max_charges: 1, recovery: { amount: "0", reset: "special" } },
   "holy-water":                  { cost: "action",       range: "20 ft.",  max_charges: 1, recovery: { amount: "0", reset: "special" } },
-  // Oils are APPLIED (minutes), not drunk — curated to "action" so the blanket
+  // Oils are APPLIED (minutes), not drunk: curated to "action" so the blanket
   // type=potion → bonus-action default never mislabels these mis-typed items.
   "oil-of-sharpness":            { cost: "action",       range: "self",    max_charges: 1, recovery: { amount: "0", reset: "special" } },
   "oil-of-etherealness":         { cost: "action",       range: "self",    max_charges: 1, recovery: { amount: "0", reset: "special" } },

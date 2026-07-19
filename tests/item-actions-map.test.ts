@@ -136,11 +136,23 @@ describe("resolveItemAction priority", () => {
     expect(resolveItemAction("srd-2024_potion-of-vitality", entry, "potion")?.cost).toBe("bonus-action");
   });
 
-  it("uncurated oils stay action (not drunk)", () => {
+  it("curated oils resolve to action (not the potion bonus-action default)", () => {
     const ether = { item: "[[srd-2024_oil-of-etherealness]]", equipped: true } as EquipmentEntry;
     const slip = { item: "[[srd-2024_oil-of-slipperiness]]", equipped: true } as EquipmentEntry;
     expect(resolveItemAction("srd-2024_oil-of-etherealness", ether, "potion")?.cost).toBe("action");
     expect(resolveItemAction("srd-2024_oil-of-slipperiness", slip, "potion")?.cost).toBe("action");
+  });
+
+  it("curated non-drink consumables resolve to action (AC-B2)", () => {
+    for (const s of [
+      "alchemists-fire",
+      "holy-water",
+      "oil-of-sharpness",
+      "dust-of-disappearance",
+    ]) {
+      const entry = { item: `[[${s}]]`, equipped: true } as EquipmentEntry;
+      expect(resolveItemAction(s, entry)?.cost).toBe("action");
+    }
   });
 
   it("healing potions are bonus-action (2024)", () => {
