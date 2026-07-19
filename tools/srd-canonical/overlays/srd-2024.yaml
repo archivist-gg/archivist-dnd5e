@@ -1078,7 +1078,11 @@ feat_features:
   # Wizard spell list. Intelligence, Wisdom, or Charisma is your spellcasting
   # ability for this feat's spells (choose when you select this feat)."
   magic-initiate:
-    # cantrip/level-1-spell selection deferred: spell management lives on the sheet (SP4c)
+    # The spell picks nest under the chosen spell-list branch (3f), mirroring the
+    # `skilled` option-nesting shape below: each class branch grants 2 cantrips
+    # (level 0) + 1 level-1 spell from THAT list. The static per-branch filter
+    # (list + level + edition) enumerates only the matching 2024 spells. The chosen
+    # `spellcasting-ability` drives the feat spells' save DC / attack (own-ability, 3e).
     choices:
       - kind: select-inline
         id: spell-list
@@ -1086,10 +1090,19 @@ feat_features:
         options:
           - value: cleric
             label: Cleric
+            choices:
+              - { kind: select-entity, id: mi-cantrips, entity_type: spell, count: 2, where: { list: cleric, level: 0, edition: "2024" } }
+              - { kind: select-entity, id: mi-level1, entity_type: spell, count: 1, where: { list: cleric, level: 1, edition: "2024" } }
           - value: druid
             label: Druid
+            choices:
+              - { kind: select-entity, id: mi-cantrips, entity_type: spell, count: 2, where: { list: druid, level: 0, edition: "2024" } }
+              - { kind: select-entity, id: mi-level1, entity_type: spell, count: 1, where: { list: druid, level: 1, edition: "2024" } }
           - value: wizard
             label: Wizard
+            choices:
+              - { kind: select-entity, id: mi-cantrips, entity_type: spell, count: 2, where: { list: wizard, level: 0, edition: "2024" } }
+              - { kind: select-entity, id: mi-level1, entity_type: spell, count: 1, where: { list: wizard, level: 1, edition: "2024" } }
       - kind: select-inline
         id: spellcasting-ability
         count: 1

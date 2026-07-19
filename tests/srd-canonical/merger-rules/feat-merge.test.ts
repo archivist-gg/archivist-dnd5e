@@ -1,7 +1,11 @@
 import { describe, it, expect } from "vitest";
+import * as fs from "node:fs";
+import * as path from "node:path";
+import * as yaml from "js-yaml";
 import { featMergeRule, toFeatCanonical } from "../../../tools/srd-canonical/merger-rules/feat-merge";
 import type { Overlay } from "../../../tools/srd-canonical/overlay.schema";
 import type { CanonicalEntry } from "../../../tools/srd-canonical/merger";
+import { choiceSchema } from "../../../src/schemas/choice-schema";
 
 describe("featMergeRule", () => {
   it("produces canonical Feat from Open5e-only entry (Alert, no prereq, Origin)", () => {
@@ -311,5 +315,63 @@ describe("featMergeRule", () => {
     };
     const out = toFeatCanonical(canonical);
     expect(out.effects).toEqual([{ kind: "ac-bonus", value: 1, requires_armor: true }]);
+  });
+});
+
+// ─────────────────────────────────────────────────────────────────────────────
+// Task 3f · the REAL Magic Initiate overlay carries the nested spell picks.
+//
+// The overlay's `feat_features.magic-initiate` spell-list select-inline nests two
+// `select-entity{spell}` picks in EACH class branch (cleric/druid/wizard): 2
+// cantrips (mi-cantrips, level 0) + 1 level-1 spell (mi-level1, level 1), filtered
+// by the branch's spell list + edition. This authors the data the 3d application
+// pass + 3e DC/surfacing were built to consume. The `spellcasting-ability` pick is
+// unchanged. Every nested choice must validate against the strict choiceSchema.
+// ─────────────────────────────────────────────────────────────────────────────
+describe("Magic Initiate overlay nested spell choices (3f)", () => {
+  type Inline = { kind: string; id: string; count?: number; options: Array<{ value: string; label: string; choices?: unknown[] }> };
+  type SpellPick = { kind: string; id: string; count?: number; entity_type: string; where?: { list?: string; level?: number; edition?: string } };
+
+  const overlay = yaml.load(
+    fs.readFileSync(path.resolve(__dirname, "../../../tools/srd-canonical/overlays/srd-2024.yaml"), "utf8"),
+  ) as { feat_features?: Record<string, { choices?: unknown[] }> };
+  const miChoices = (overlay.feat_features?.["magic-initiate"]?.choices ?? []) as unknown[];
+  const spellList = miChoices.find((c): c is Inline => (c as Inline).id === "spell-list")!;
+
+  it("keeps the spell-list select-inline over cleric, druid, wizard", () => {
+    expect(spellList).toBeDefined();
+    expect(spellList.kind).toBe("select-inline");
+    expect(spellList.options.map((o) => o.value).sort()).toEqual(["cleric", "druid", "wizard"]);
+  });
+
+  it("keeps the spellcasting-ability select-inline unchanged (int/wis/cha)", () => {
+    const ability = miChoices.find((c): c is Inline => (c as Inline).id === "spellcasting-ability")!;
+    expect(ability).toBeDefined();
+    expect(ability.options.map((o) => o.value).sort()).toEqual(["cha", "int", "wis"]);
+  });
+
+  for (const list of ["cleric", "druid", "wizard"] as const) {
+    it(`nests mi-cantrips (2, level 0) + mi-level1 (1, level 1) under the ${list} branch`, () => {
+      const branch = spellList.options.find((o) => o.value === list)!;
+      const nested = (branch.choices ?? []) as SpellPick[];
+      const cantrips = nested.find((c) => c.id === "mi-cantrips")!;
+      const level1 = nested.find((c) => c.id === "mi-level1")!;
+
+      expect(cantrips).toBeDefined();
+      expect(cantrips.entity_type).toBe("spell");
+      expect(cantrips.count).toBe(2);
+      expect(cantrips.where).toEqual({ list, level: 0, edition: "2024" });
+
+      expect(level1).toBeDefined();
+      expect(level1.entity_type).toBe("spell");
+      expect(level1.count).toBe(1);
+      expect(level1.where).toEqual({ list, level: 1, edition: "2024" });
+    });
+  }
+
+  it("validates every authored MI choice (incl. the nested picks) against choiceSchema", () => {
+    for (const c of miChoices) {
+      expect(choiceSchema.safeParse(c).success, JSON.stringify(c)).toBe(true);
+    }
   });
 });
