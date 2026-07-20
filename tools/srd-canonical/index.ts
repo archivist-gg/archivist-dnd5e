@@ -8,9 +8,10 @@ import { readOpen5eKind, deriveSlugSet, type Open5eKind } from "./sources/open-s
 import { readStructuredRules, type StructuredRulesKind, type StructuredEntry } from "./sources/structured-rules";
 import { readActivationData } from "./sources/activation";
 import { loadOverlay } from "./sources/overlay";
-import { mergeKind, type MergeRule, type CanonicalEntry } from "./merger";
+import { mergeKind, buildCanonicalSlug, type MergeRule, type CanonicalEntry } from "./merger";
 import { projectToRuntime } from "./to-runtime";
 import { writeMd, writeCompendiumIndex } from "./to-md";
+import { SYNTHETIC_ITEM_SEEDS, type SyntheticItemSeed } from "./data/synthetic-item-seeds";
 
 import { raceMergeRule, toRaceCanonical } from "./merger-rules/race-merge";
 import { classMergeRule, toClassCanonical } from "./merger-rules/class-merge";
@@ -391,6 +392,46 @@ async function main() {
       console.log(`[canonical]   variant emit: canonical(${variantCanonicalFile}) runtime(append +${variantRuntime.length}) md(${filtered.length} files)`);
     }
 
+    // Synthetic item seeds (2024 only): the 10 generic Spell Scrolls + 7
+    // Unidentified placeholders authored in data/synthetic-item-seeds.ts. These
+    // have NO Open5e / structured provenance, so they can never flow through the
+    // kind loop; they are emitted here with the SAME append semantics as the
+    // magic-variant grid above — canonical goes to its own traceable file,
+    // runtime is APPENDED onto item.{edition}.json (emitForKind would overwrite
+    // it), and one MD per seed lands in the vault bundle. The generator owns the
+    // canonical 3-part slug (buildCanonicalSlug → `srd-2024_item_...`) and the
+    // `edition` stamp so neither is hardcoded in the seed source.
+    if (edition === "2024" && SYNTHETIC_ITEM_SEEDS.length > 0) {
+      const seedCompendium = "SRD 2024";
+      const seedCanonical = SYNTHETIC_ITEM_SEEDS.map(seed => buildSeedCanonicalItem(edition, seed));
+
+      // 1. Full canonical JSON — separate file from magicitems for traceability.
+      fs.mkdirSync(cfg.canonicalOutDir, { recursive: true });
+      const seedCanonicalFile = path.join(cfg.canonicalOutDir, `synthetic-item-seeds.${edition}.json`);
+      fs.writeFileSync(seedCanonicalFile, JSON.stringify(seedCanonical, null, 2));
+
+      // 2. Runtime — append to the existing item.{edition}.json instead of overwriting.
+      fs.mkdirSync(cfg.runtimeOutDir, { recursive: true });
+      const seedItemRuntimeFile = path.join(cfg.runtimeOutDir, `item.${edition}.json`);
+      const existingSeedRuntime = fs.existsSync(seedItemRuntimeFile)
+        ? (JSON.parse(fs.readFileSync(seedItemRuntimeFile, "utf8")) as unknown[])
+        : [];
+      const seedRuntime = seedCanonical.map(e => projectToRuntime("item", e));
+      fs.writeFileSync(seedItemRuntimeFile, JSON.stringify([...existingSeedRuntime, ...seedRuntime], null, 2));
+
+      // 3. Vault MD per seed — kind=item routes to Magic Items folder.
+      const seedBundleDir = path.join(cfg.bundleOutDir, seedCompendium);
+      for (const entry of seedCanonical) {
+        writeMd(seedBundleDir, {
+          kind: "item",
+          edition,
+          compendium: seedCompendium,
+          data: entry as Record<string, unknown> & { name: string; slug: string },
+        });
+      }
+      console.log(`[canonical]   synthetic-seed emit: canonical(${seedCanonicalFile}) runtime(append +${seedRuntime.length}) md(${seedCanonical.length} files)`);
+    }
+
     // Compendium index per edition (single _compendium.md at the bundle root).
     const compendium = edition === "2014" ? "SRD 5e" : "SRD 2024";
     // Version stamp is sourced from the dnd5e package's own package.json — a
@@ -461,6 +502,34 @@ function emitForKind(opts: {
     });
   }
   console.log(`[canonical]   emit: canonical(${canonicalFile}) runtime(${runtimeFile}) md(${canonical.length} files)`);
+}
+
+/**
+ * Build the canonical item record for one synthetic seed. The seed source
+ * (data/synthetic-item-seeds.ts) holds only the authored payload; the generator
+ * owns the derived `slug` (canonical 3-part `srd-2024_item_<name>`) and the
+ * `edition` stamp. Fields are inserted in the shipped order so the canonical +
+ * runtime projection stay byte-faithful to what the offline injection produced
+ * (slug, name, edition, source, [rarity], description, type, [scroll_level] |
+ * [unidentified, masked_category]).
+ */
+function buildSeedCanonicalItem(
+  edition: "2014" | "2024",
+  seed: SyntheticItemSeed,
+): Record<string, unknown> {
+  const entry: Record<string, unknown> = {
+    slug: buildCanonicalSlug(edition, "item", seed.name),
+    name: seed.name,
+    edition,
+    source: seed.source,
+  };
+  if (seed.rarity !== undefined) entry.rarity = seed.rarity;
+  entry.description = seed.description;
+  entry.type = seed.type;
+  if (seed.scroll_level !== undefined) entry.scroll_level = seed.scroll_level;
+  if (seed.unidentified !== undefined) entry.unidentified = seed.unidentified;
+  if (seed.masked_category !== undefined) entry.masked_category = seed.masked_category;
+  return entry;
 }
 
 main().catch(e => { console.error(e); process.exit(1); });

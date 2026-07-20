@@ -64,6 +64,10 @@ const FIELDS_TO_KEEP_PER_KIND: Record<string, Set<string>> = {
     "grants", "container", "light",
     "cursed", "sentient", "focus",
     "damage", "damage_type", "properties", "weapon_category", "armor_category",
+    // Scroll & unidentified-item markers (synthetic seeds — see
+    // data/synthetic-item-seeds.ts). Drive the plugin's scroll-cast +
+    // identify-swap systems, so they MUST survive the runtime projection.
+    "scroll_level", "unidentified", "masked_category",
     // Reserved.
     "consumes",
   ]),
@@ -77,6 +81,7 @@ const FIELDS_TO_KEEP_PER_KIND: Record<string, Set<string>> = {
     "grants", "container", "light",
     "cursed", "sentient", "focus",
     "damage", "damage_type", "properties", "weapon_category", "armor_category",
+    "scroll_level", "unidentified", "masked_category",
     "consumes",
   ]),
   spell: new Set([

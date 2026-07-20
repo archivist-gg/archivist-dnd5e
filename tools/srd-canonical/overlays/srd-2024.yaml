@@ -1078,7 +1078,7 @@ feat_features:
     choices: [{ kind: ability-points, id: asi, points: 1, max_per: 1 }]
   boon-of-the-night-spirit:
     choices: [{ kind: ability-points, id: asi, points: 1, max_per: 1 }]
-  boon-of-the-truesight:
+  boon-of-truesight:
     choices: [{ kind: ability-points, id: asi, points: 1, max_per: 1 }]
   # Grappler: "Increase your Strength or Dexterity score by 1" -- a real
   # 1-point spend from a 2-ability pool (the coverage regexes can't see this
