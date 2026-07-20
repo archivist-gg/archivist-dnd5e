@@ -417,10 +417,16 @@ export interface ClassOverride {
   choices?: Choice[];
 }
 
-/** "srd-2024_fighter" → "fighter" (overlay keys use vendor-free bare slugs). */
+/**
+ * Owner bare slug for overlay keys (overlay keys use vendor-free bare slugs).
+ * Arity-robust: type-namespaced slugs are 3-part `<prefix>_<type>_<name>`, so
+ * `srd-2024_class_fighter` → `fighter`; legacy 2-part `srd-2024_fighter` → `fighter`;
+ * bare `fighter` → `fighter`. Name-slugs never contain `_`, so `slice(2).join("_")`
+ * is the unambiguous bare name for 3-part slugs.
+ */
 export function bareSlug(slug: string): string {
-  const i = slug.indexOf("_");
-  return i === -1 ? slug : slug.slice(i + 1);
+  const p = slug.split("_");
+  return p.length >= 3 ? p.slice(2).join("_") : p[p.length - 1];
 }
 
 export function lookupFeatureOverlay<T>(
