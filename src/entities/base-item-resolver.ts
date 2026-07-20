@@ -40,12 +40,26 @@ function unwrapWikilink(input: string): string | null {
 }
 
 /**
+ * Singular entity-type token for each vault Type folder that a `base_item`
+ * link ever targets. Base weapons/armor now register under a type-namespaced
+ * slug (`<prefix>_<type>_<name>`, e.g. `srd-5e_weapon_longsword`), so the
+ * reconstructed path-slug must weave the same token in. These tokens MUST
+ * match the SRD generator's `OPEN5E_KIND_TO_ENTITY` output (`weapon`/`armor`).
+ * Every `base_item` path is `Compendium/Type/Name` and the Type folder is only
+ * ever `Weapons` or `Armor` (verified across all 2590 canonical links), so no
+ * other folder needs an entry.
+ */
+const FOLDER_TO_TYPE: Record<string, string> = { Weapons: "weapon", Armor: "armor" };
+
+/**
  * Convert a vault-path target (e.g. `SRD 5e/Weapons/Longsword`) to a
- * registry-compatible slug (`srd-5e_longsword`). For a bare basename without
- * any `/`, returns the slugified basename - which lets legacy wikilinks like
+ * registry-compatible slug (`srd-5e_weapon_longsword`). The middle Type folder
+ * (`segments[length-2]`) supplies the entity-type token so the slug matches
+ * the now type-namespaced registry key. For a bare basename without any `/`,
+ * returns the slugified basename - which lets legacy wikilinks like
  * `[[longsword]]` continue to resolve when registered under that bare slug.
  */
-function vaultPathToSlug(target: string): string {
+export function vaultPathToSlug(target: string): string {
   const segments = target.split("/").map((s) => s.trim()).filter((s) => s.length > 0);
   if (segments.length === 0) return "";
   if (segments.length === 1) {
@@ -56,10 +70,17 @@ function vaultPathToSlug(target: string): string {
     return slugify(segments[0]);
   }
   const compendiumName = segments[0];
+  const typeFolder = segments[segments.length - 2];
   const basename = segments[segments.length - 1];
   const prefix = slugify(compendiumName);
   const nameSlug = slugify(basename);
-  return prefix && nameSlug ? `${prefix}_${nameSlug}` : nameSlug;
+  if (!prefix || !nameSlug) return nameSlug;
+  // Inject the singular entity-type token from the Type folder so the slug
+  // matches the type-namespaced registry key. An unrecognized folder never
+  // occurs for real base_item links; fall back to the legacy 2-part form so
+  // resolution degrades gracefully instead of crashing.
+  const type = FOLDER_TO_TYPE[typeFolder];
+  return type ? `${prefix}_${type}_${nameSlug}` : `${prefix}_${nameSlug}`;
 }
 
 /**

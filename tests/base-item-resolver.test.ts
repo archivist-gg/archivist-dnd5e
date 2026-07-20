@@ -2,65 +2,80 @@ import { describe, it, expect } from "vitest";
 import {
   resolveBaseItem,
   resolveBaseItemOfType,
+  vaultPathToSlug,
 } from "../src/entities/base-item-resolver";
 import { buildMockRegistry } from "./mock-entity-registry";
 import { EntityRegistry } from "@archivist-gg/core";
 
+describe("vaultPathToSlug", () => {
+  it("injects the entity type from the Type folder", () => {
+    // Registered base weapons/armor now carry a type-namespaced slug
+    // (`<prefix>_<type>_<name>`); the reconstructed path-slug must weave the
+    // singular type token from the middle Type folder to keep matching.
+    expect(vaultPathToSlug("SRD 5e/Weapons/Longsword")).toBe(
+      "srd-5e_weapon_longsword",
+    );
+    expect(vaultPathToSlug("SRD 2024/Armor/Plate Armor")).toBe(
+      "srd-2024_armor_plate-armor",
+    );
+  });
+});
+
 describe("resolveBaseItem", () => {
-  it("resolves a vault-path wikilink to the SRD-5e prefixed slug", () => {
+  it("resolves a vault-path wikilink to the SRD-5e type-namespaced slug", () => {
     const registry = buildMockRegistry([
       {
-        slug: "srd-5e_longsword",
+        slug: "srd-5e_weapon_longsword",
         entityType: "weapon",
         name: "Longsword",
-        data: { name: "Longsword", slug: "srd-5e_longsword" },
+        data: { name: "Longsword", slug: "srd-5e_weapon_longsword" },
       },
     ]);
     const found = resolveBaseItem("[[SRD 5e/Weapons/Longsword]]", registry);
-    expect(found?.slug).toBe("srd-5e_longsword");
+    expect(found?.slug).toBe("srd-5e_weapon_longsword");
     expect(found?.entityType).toBe("weapon");
   });
 
-  it("resolves a vault-path wikilink to the SRD-2024 prefixed slug", () => {
+  it("resolves a vault-path wikilink to the SRD-2024 type-namespaced slug", () => {
     const registry = buildMockRegistry([
       {
-        slug: "srd-2024_longsword",
+        slug: "srd-2024_weapon_longsword",
         entityType: "weapon",
         name: "Longsword",
-        data: { name: "Longsword", slug: "srd-2024_longsword" },
+        data: { name: "Longsword", slug: "srd-2024_weapon_longsword" },
       },
     ]);
     const found = resolveBaseItem("[[SRD 2024/Weapons/Longsword]]", registry);
-    expect(found?.slug).toBe("srd-2024_longsword");
+    expect(found?.slug).toBe("srd-2024_weapon_longsword");
   });
 
   it("ignores the alias portion of an aliased wikilink", () => {
     const registry = buildMockRegistry([
       {
-        slug: "srd-5e_longsword",
+        slug: "srd-5e_weapon_longsword",
         entityType: "weapon",
         name: "Longsword",
-        data: { name: "Longsword", slug: "srd-5e_longsword" },
+        data: { name: "Longsword", slug: "srd-5e_weapon_longsword" },
       },
     ]);
     const found = resolveBaseItem(
       "[[SRD 5e/Weapons/Longsword|Longsword]]",
       registry,
     );
-    expect(found?.slug).toBe("srd-5e_longsword");
+    expect(found?.slug).toBe("srd-5e_weapon_longsword");
   });
 
-  it("derives the prefix from a non-SRD compendium folder", () => {
+  it("derives the prefix and type from a non-SRD compendium folder", () => {
     const registry = buildMockRegistry([
       {
-        slug: "homebrew_custom-sword",
+        slug: "homebrew_weapon_custom-sword",
         entityType: "weapon",
         name: "Custom Sword",
-        data: { name: "Custom Sword", slug: "homebrew_custom-sword" },
+        data: { name: "Custom Sword", slug: "homebrew_weapon_custom-sword" },
       },
     ]);
     const found = resolveBaseItem("[[Homebrew/Weapons/Custom Sword]]", registry);
-    expect(found?.slug).toBe("homebrew_custom-sword");
+    expect(found?.slug).toBe("homebrew_weapon_custom-sword");
   });
 
   it("returns null for null/undefined/empty inputs", () => {
@@ -105,7 +120,7 @@ describe("resolveBaseItem", () => {
   it("returns null for a wikilink that doesn't match any registered slug", () => {
     const registry = buildMockRegistry([
       {
-        slug: "srd-5e_longsword",
+        slug: "srd-5e_weapon_longsword",
         entityType: "weapon",
         name: "Longsword",
         data: { name: "Longsword" },
@@ -130,7 +145,7 @@ describe("resolveBaseItemOfType", () => {
   it("returns the entity when entityType matches", () => {
     const registry = buildMockRegistry([
       {
-        slug: "srd-5e_longsword",
+        slug: "srd-5e_weapon_longsword",
         entityType: "weapon",
         name: "Longsword",
         data: { name: "Longsword" },
@@ -147,7 +162,7 @@ describe("resolveBaseItemOfType", () => {
   it("returns null when the entity exists but is the wrong type", () => {
     const registry = buildMockRegistry([
       {
-        slug: "srd-5e_longsword",
+        slug: "srd-5e_weapon_longsword",
         entityType: "weapon",
         name: "Longsword",
         data: { name: "Longsword" },

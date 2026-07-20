@@ -494,11 +494,12 @@ describe("computeSlotsAndAttacks — attack rows", () => {
   it("magic weapon with a vault-path base_item resolves through the shared resolver", () => {
     // Mirrors how SRD canonical bundles serialize base_item:
     //   base_item: "[[SRD 5e/Weapons/Longsword]]"
-    // and how the registry stores the underlying weapon under a prefixed slug:
-    //   slug: "srd-5e_longsword"
+    // and how the registry stores the underlying weapon under a type-namespaced
+    // prefixed slug:
+    //   slug: "srd-5e_weapon_longsword"
     const longsword: WeaponEntity = {
       name: "Longsword",
-      slug: "srd-5e_longsword",
+      slug: "srd-5e_weapon_longsword",
       edition: "2014",
       category: "martial-melee",
       damage: { dice: "1d8", type: "slashing", versatile_dice: "1d10" },
@@ -514,7 +515,7 @@ describe("computeSlotsAndAttacks — attack rows", () => {
       attunement: { required: true },
     };
     const reg = buildMockRegistry([
-      { slug: "srd-5e_longsword", entityType: "weapon", name: "Longsword", data: longsword },
+      { slug: "srd-5e_weapon_longsword", entityType: "weapon", name: "Longsword", data: longsword },
       { slug: "srd-5e_defender-longsword", entityType: "item", name: "Defender", data: defender },
     ]);
     const c = baseChar(); c.abilities.str = 16;
@@ -577,7 +578,7 @@ describe("computeSlotsAndAttacks — attack rows", () => {
     // through `resolveBaseItem` so the attack row materializes correctly.
     const longsword: WeaponEntity = {
       name: "Longsword",
-      slug: "srd-5e_longsword",
+      slug: "srd-5e_weapon_longsword",
       edition: "2014",
       category: "martial-melee",
       damage: { dice: "1d8", type: "slashing", versatile_dice: "1d10" },
@@ -593,7 +594,7 @@ describe("computeSlotsAndAttacks — attack rows", () => {
       attunement: { required: true },
     };
     const reg = buildMockRegistry([
-      { slug: "srd-5e_longsword", entityType: "weapon", name: "Longsword", data: longsword },
+      { slug: "srd-5e_weapon_longsword", entityType: "weapon", name: "Longsword", data: longsword },
       { slug: "srd-5e_defender-longsword", entityType: "item", name: "Defender", data: defender },
     ]);
     const c = baseChar(); c.abilities.str = 16;
