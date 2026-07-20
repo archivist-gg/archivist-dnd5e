@@ -17,19 +17,20 @@ import type {
 export type ConditionPerField = Partial<Record<BonusFieldPath, Condition[]>>;
 
 /**
- * Keys are full edition-prefixed slugs as they appear in the runtime bundle:
- *   `srd-5e_<slug>`   for 2014 (DMG)
- *   `srd-2024_<slug>` for 2024 (XDMG)
+ * Keys are full edition- AND type-namespaced slugs as they appear in the
+ * runtime bundle. All curated entries here are magic items → type token `item`:
+ *   `srd-5e_item_<slug>`   for 2014 (DMG)
+ *   `srd-2024_item_<slug>` for 2024 (XDMG)
  */
 export const CURATED_ITEM_CONDITIONS: Record<string, ConditionPerField> = {
   // --- 2014 (DMG) ---
-  "srd-5e_arrow-catching-shield": {
+  "srd-5e_item_arrow-catching-shield": {
     ac: [{ kind: "vs_attack_type", value: "ranged" }],
   },
-  "srd-5e_bracers-of-defense": {
+  "srd-5e_item_bracers-of-defense": {
     ac: [{ kind: "no_armor" }, { kind: "no_shield" }],
   },
-  "srd-5e_bracers-of-archery": {
+  "srd-5e_item_bracers-of-archery": {
     weapon_damage: [
       { kind: "on_attack_type", value: "ranged" },
       {
@@ -41,27 +42,27 @@ export const CURATED_ITEM_CONDITIONS: Record<string, ConditionPerField> = {
       },
     ],
   },
-  "srd-5e_sun-blade": {
+  "srd-5e_item_sun-blade": {
     weapon_damage: [{ kind: "vs_creature_type", value: "undead" }],
   },
-  "srd-5e_mace-of-smiting": {
+  "srd-5e_item_mace-of-smiting": {
     weapon_attack: [{ kind: "vs_creature_type", value: "construct" }],
     weapon_damage: [{ kind: "vs_creature_type", value: "construct" }],
   },
-  "srd-5e_axe-of-the-dwarvish-lords": {
+  "srd-5e_item_axe-of-the-dwarvish-lords": {
     weapon_damage: [{ kind: "is_race", value: "dwarf" }],
   },
-  "srd-5e_cloak-of-the-manta-ray": {
+  "srd-5e_item_cloak-of-the-manta-ray": {
     "speed.swim": [{ kind: "underwater" }],
   },
-  "srd-5e_badge-of-the-watch": {
+  "srd-5e_item_badge-of-the-watch": {
     ac: [{ kind: "no_shield" }],
   },
-  "srd-5e_black-dragon-mask": { ac: [{ kind: "no_armor" }] },
-  "srd-5e_blue-dragon-mask":  { ac: [{ kind: "no_armor" }] },
-  "srd-5e_green-dragon-mask": { ac: [{ kind: "no_armor" }] },
-  "srd-5e_red-dragon-mask":   { ac: [{ kind: "no_armor" }] },
-  "srd-5e_white-dragon-mask": { ac: [{ kind: "no_armor" }] },
+  "srd-5e_item_black-dragon-mask": { ac: [{ kind: "no_armor" }] },
+  "srd-5e_item_blue-dragon-mask":  { ac: [{ kind: "no_armor" }] },
+  "srd-5e_item_green-dragon-mask": { ac: [{ kind: "no_armor" }] },
+  "srd-5e_item_red-dragon-mask":   { ac: [{ kind: "no_armor" }] },
+  "srd-5e_item_white-dragon-mask": { ac: [{ kind: "no_armor" }] },
 
   // --- 2024 (XDMG) ---
   // Audit-driven entries land here.

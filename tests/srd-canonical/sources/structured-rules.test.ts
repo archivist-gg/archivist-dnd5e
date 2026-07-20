@@ -91,6 +91,7 @@ describe.skipIf(!SR_PATH)("structured-rules join (real data)", () => {
     const result = mergeKind(rule, {
       edition: "2014",
       kind: "magicitem",
+      entityKind: "item",
       open5e: [{ key: "srd_wand-of-magic-missiles", name: "Wand of Magic Missiles" }],
       structured,
       activation: new Map(),

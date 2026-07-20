@@ -156,7 +156,7 @@ describe("buildConditionsFromStructured", () => {
     ];
     const out = buildConditionsFromStructured(structured, "2014");
     expect(out.length).toBe(2);
-    expect(out[0].slug).toBe("srd-5e_prone");
+    expect(out[0].slug).toBe("srd-5e_condition_prone");
     expect(out[0].edition).toBe("2014");
     expect(out[0].kind).toBe("condition");
     expect(out[0].structured).toBe(structured[0]);

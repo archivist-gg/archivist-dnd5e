@@ -262,7 +262,10 @@ async function main() {
         console.log(`[canonical]   split: ${classOpen5e.length} classes, ${subclassOpen5e.length} subclasses`);
       }
 
-      const merged = mergeKind(ruleEntry.rule, { edition, kind, open5e: classOpen5e, structured, activation, overlay });
+      // Singular canonical type token (feeds both the slug and frontmatter
+      // `entity_type` via emitForKind) — keeps slug-type-token === entity_type.
+      const entityKind = OPEN5E_KIND_TO_ENTITY[kind];
+      const merged = mergeKind(ruleEntry.rule, { edition, kind, entityKind, open5e: classOpen5e, structured, activation, overlay });
       const canonical = merged.map(ruleEntry.toCanonical);
       console.log(`[canonical]   merged: ${canonical.length} canonical entries`);
 
@@ -294,7 +297,6 @@ async function main() {
         console.log(`[canonical]   conditional-bonus enrichment applied`);
       }
 
-      const entityKind = OPEN5E_KIND_TO_ENTITY[kind];
       emitForKind({
         canonical: canonical as Array<Record<string, unknown> & { name: string; slug: string }>,
         entityKind,
@@ -306,7 +308,7 @@ async function main() {
       });
 
       if (kind === "classes" && subclassOpen5e.length > 0) {
-        const subMerged = mergeKind(subclassMergeRule, { edition, kind: "subclass", open5e: subclassOpen5e, structured: [], activation: new Map(), overlay });
+        const subMerged = mergeKind(subclassMergeRule, { edition, kind: "subclass", entityKind: "subclass", open5e: subclassOpen5e, structured: [], activation: new Map(), overlay });
         const subCanonical = subMerged.map(toSubclassCanonical);
         console.log(`[canonical]   subclass merged: ${subCanonical.length} canonical entries`);
         emitForKind({

@@ -10,7 +10,7 @@ import type { FoundryItem } from "../../../tools/srd-canonical/sources/foundry-i
 import { projectToRuntime } from "../../../tools/srd-canonical/to-runtime";
 
 function entryFor(name: string, structured: Record<string, unknown> | null = null, baseExtra: Record<string, unknown> = {}): CanonicalEntry {
-  const slug = `srd-5e_${name.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "")}`;
+  const slug = `srd-5e_item_${name.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "")}`;
   return {
     slug,
     edition: "2014",
@@ -127,10 +127,10 @@ describe("conditional-bonuses pipeline", () => {
     const entry = entryFor("Sun Blade", { name: "Sun Blade", source: "XDMG", baseItem: "longsword|xphb", bonusWeapon: "+2" });
     // Override the entry to mimic Open5e's 2024 Sun Blade shape: weapon: null,
     // edition 2024, and the 2024 slug (so curator-conditions rules keyed on
-    // the 2014 slug `srd-5e_sun-blade` don't match this 2024 fixture).
+    // the 2014 slug `srd-5e_item_sun-blade` don't match this 2024 fixture).
     (entry.base as Record<string, unknown>).weapon = null;
     (entry as { edition: "2014" | "2024" }).edition = "2024";
-    (entry as { slug: string }).slug = "srd-2024_sun-blade";
+    (entry as { slug: string }).slug = "srd-2024_item_sun-blade";
     const items = [entry].map(toItemCanonical);
     enrichItemsWithFoundryEffects(items, new Map());
     enrichItemsWithCuratedConditions(items);
@@ -150,7 +150,7 @@ describe("conditional-bonuses pipeline", () => {
     });
     (entry.base as Record<string, unknown>).weapon = null;
     (entry as { edition: "2014" | "2024" }).edition = "2024";
-    (entry as { slug: string }).slug = "srd-2024_sun-blade";
+    (entry as { slug: string }).slug = "srd-2024_item_sun-blade";
     const items = [entry].map(toItemCanonical);
     expect(items[0].base_item).toBe("[[SRD 2024/Weapons/Longsword]]");
     expect(items[0].damage_type).toBe("radiant");
@@ -168,7 +168,7 @@ describe("conditional-bonuses pipeline", () => {
     });
     (entry.base as Record<string, unknown>).weapon = null;
     (entry as { edition: "2014" | "2024" }).edition = "2024";
-    (entry as { slug: string }).slug = "srd-2024_sun-blade";
+    (entry as { slug: string }).slug = "srd-2024_item_sun-blade";
     const canonical = toItemCanonical(entry);
     // Magic items are emitted under the "item" runtime kind (see
     // OPEN5E_KIND_TO_ENTITY in tools/srd-canonical/index.ts: magicitems → "item").

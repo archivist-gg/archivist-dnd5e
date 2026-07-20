@@ -55,7 +55,7 @@ export function buildConditionsFromStructured(
   edition: "2014" | "2024",
 ): CanonicalEntry[] {
   return structured.map((s): CanonicalEntry => {
-    const slug = buildCanonicalSlug(edition, s.name);
+    const slug = buildCanonicalSlug(edition, "condition", s.name);
     return {
       slug,
       edition,

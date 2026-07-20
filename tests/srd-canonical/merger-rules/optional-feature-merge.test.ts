@@ -24,7 +24,7 @@ describe("mergeOptionalFeatures", () => {
     });
 
     expect(result.length).toBe(2);
-    expect(result.map(e => e.slug).sort()).toEqual(["srd-5e_agonizing-blast", "srd-5e_defense"]);
+    expect(result.map(e => e.slug).sort()).toEqual(["srd-5e_optional-feature_agonizing-blast", "srd-5e_optional-feature_defense"]);
   });
 
   it("normalizes invocation feature_type via tag", () => {

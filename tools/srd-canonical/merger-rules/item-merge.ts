@@ -587,7 +587,11 @@ export function enrichItemsWithFoundryEffects(
   foundryIndex: Map<string, FoundryItem>,
 ): void {
   for (const item of items) {
-    const bareSlug = item.slug.replace(/^srd-(5e|2024)_/, "");
+    // Strip the edition prefix AND the `item_` type token to recover the bare
+    // name slug the foundry index is keyed by (slugifyName(name)). Type-namespaced
+    // slugs are `srd-<ed>_item_<name>`; the optional `item_` keeps this robust to
+    // any legacy 2-part `srd-<ed>_<name>` slug during the migration.
+    const bareSlug = item.slug.replace(/^srd-(5e|2024)_(?:item_)?/, "");
     const foundry = foundryIndex.get(bareSlug);
     if (!foundry?.effects?.length) continue;
     for (const effect of foundry.effects) {
@@ -764,7 +768,9 @@ export function enrichItemsWithCuratedConditions(items: ItemCanonical[]): void {
  */
 export function enrichItemsWithDamageRiders(items: ItemCanonical[]): void {
   for (const item of items) {
-    const bare = item.slug.replace(/^srd-(5e|2024)_/, "");
+    // Bare name slug = slug minus edition prefix and `item_` type token
+    // (optional `item_` tolerates legacy 2-part slugs during migration).
+    const bare = item.slug.replace(/^srd-(5e|2024)_(?:item_)?/, "");
     let rider: { amount: string; damage_type: string } | undefined;
     if (bare.startsWith("flame-tongue-")) rider = { amount: "2d6", damage_type: "fire" };
     // `includes("of-wounding")` catches ALL real forms across both editions:

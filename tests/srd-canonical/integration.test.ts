@@ -21,6 +21,7 @@ describe("pipeline integration", () => {
     const merged = mergeKind(raceMergeRule, {
       edition: "2014",
       kind: "race",
+      entityKind: "race",
       open5e,
       structured: [],
       activation: new Map(),
@@ -29,12 +30,12 @@ describe("pipeline integration", () => {
     expect(merged.length).toBe(1);
 
     const canonical = toRaceCanonical(merged[0]);
-    expect(canonical.slug).toBe("srd-5e_dwarf");
+    expect(canonical.slug).toBe("srd-5e_race_dwarf");
     expect(canonical.size).toBe("medium");
     expect(canonical.traits[0].name).toBe("Darkvision");
 
     const runtime = projectToRuntime("race", canonical as unknown as Record<string, unknown>);
-    expect(runtime.slug).toBe("srd-5e_dwarf");
+    expect(runtime.slug).toBe("srd-5e_race_dwarf");
     expect(runtime.traits).toBeDefined();
   });
 
@@ -49,13 +50,14 @@ describe("pipeline integration", () => {
     const merged = mergeKind(featMergeRule, {
       edition: "2014",
       kind: "feat",
+      entityKind: "feat",
       open5e,
       structured: [{ name: "Alert", source: "PHB", _isRepeatable: false }],
       activation: new Map(),
       overlay: {},
     });
     const canonical = toFeatCanonical(merged[0]);
-    expect(canonical.slug).toBe("srd-5e_alert");
+    expect(canonical.slug).toBe("srd-5e_feat_alert");
     expect(canonical.benefits).toContain("+5 to initiative");
   });
 
@@ -69,7 +71,7 @@ describe("pipeline integration", () => {
       overlay: { optional_feature_slugs: { invocation: ["agonizing-blast"] } },
     });
     expect(merged.length).toBe(1);
-    expect(merged[0].slug).toBe("srd-5e_agonizing-blast");
+    expect(merged[0].slug).toBe("srd-5e_optional-feature_agonizing-blast");
     expect(merged[0].feature_type).toBe("invocation");
     expect(merged[0].available_to).toContain("[[SRD 5e/warlock]]");
   });

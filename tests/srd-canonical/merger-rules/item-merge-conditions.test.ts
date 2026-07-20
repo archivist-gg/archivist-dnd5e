@@ -29,7 +29,7 @@ describe("enrichItemsWithFoundryEffects", () => {
   });
 
   it("wraps a flat bonus in conditional shape using foundry change", () => {
-    const items: ItemCanonical[] = [flat("Bracers of Archery", "srd-5e_bracers-of-archery", { weapon_damage: 2 })];
+    const items: ItemCanonical[] = [flat("Bracers of Archery", "srd-5e_item_bracers-of-archery", { weapon_damage: 2 })];
     const foundry = new Map<string, FoundryItem>([
       ["bracers-of-archery", {
         name: "Bracers of Archery",
@@ -45,7 +45,7 @@ describe("enrichItemsWithFoundryEffects", () => {
   });
 
   it("creates the bonus from foundry value when structured had no flat", () => {
-    const items: ItemCanonical[] = [flat("Cloak of the Manta Ray", "srd-5e_cloak-of-the-manta-ray", undefined)];
+    const items: ItemCanonical[] = [flat("Cloak of the Manta Ray", "srd-5e_item_cloak-of-the-manta-ray", undefined)];
     const foundry = new Map<string, FoundryItem>([
       ["cloak-of-the-manta-ray", {
         name: "Cloak of the Manta Ray",
@@ -59,7 +59,7 @@ describe("enrichItemsWithFoundryEffects", () => {
   });
 
   it("applies static ability score setter", () => {
-    const items: ItemCanonical[] = [flat("Amulet of Health", "srd-5e_amulet-of-health", undefined)];
+    const items: ItemCanonical[] = [flat("Amulet of Health", "srd-5e_item_amulet-of-health", undefined)];
     const foundry = new Map<string, FoundryItem>([
       ["amulet-of-health", {
         name: "Amulet of Health",
@@ -74,7 +74,7 @@ describe("enrichItemsWithFoundryEffects", () => {
   it("warns when foundry static contradicts existing structured-rules static", () => {
     const items: ItemCanonical[] = [
       {
-        ...flat("Amulet of Health", "srd-5e_amulet-of-health", undefined),
+        ...flat("Amulet of Health", "srd-5e_item_amulet-of-health", undefined),
         bonuses: { ability_scores: { static: { con: 20 } } },
       },
     ];
@@ -91,7 +91,7 @@ describe("enrichItemsWithFoundryEffects", () => {
   });
 
   it("appends side-channel immunities, resistances, senses, proficiency", () => {
-    const items: ItemCanonical[] = [flat("Axe of the Dwarvish Lords", "srd-5e_axe-of-the-dwarvish-lords", undefined)];
+    const items: ItemCanonical[] = [flat("Axe of the Dwarvish Lords", "srd-5e_item_axe-of-the-dwarvish-lords", undefined)];
     const foundry = new Map<string, FoundryItem>([
       ["axe-of-the-dwarvish-lords", {
         name: "Axe of the Dwarvish Lords",
@@ -112,7 +112,7 @@ describe("enrichItemsWithFoundryEffects", () => {
   });
 
   it("is a no-op for items not in the foundry index", () => {
-    const items: ItemCanonical[] = [flat("Cloak of Protection", "srd-5e_cloak-of-protection", { ac: 1 })];
+    const items: ItemCanonical[] = [flat("Cloak of Protection", "srd-5e_item_cloak-of-protection", { ac: 1 })];
     enrichItemsWithFoundryEffects(items, new Map());
     expect(items[0].bonuses?.ac).toBe(1);
   });
@@ -123,7 +123,7 @@ describe("enrichItemsWithFoundryEffects", () => {
     // spell_attack contribution gated on a different attack type. A bonus
     // that applies to both melee AND ranged applies to every attack, so the
     // gate is vacuous and the result must be a flat number.
-    const items: ItemCanonical[] = [flat("Robe of the Archmagi", "srd-5e_robe-of-the-archmagi", undefined)];
+    const items: ItemCanonical[] = [flat("Robe of the Archmagi", "srd-5e_item_robe-of-the-archmagi", undefined)];
     const foundry = new Map<string, FoundryItem>([
       ["robe-of-the-archmagi", {
         name: "Robe of the Archmagi",
@@ -140,7 +140,7 @@ describe("enrichItemsWithFoundryEffects", () => {
   });
 
   it("keeps a SINGLE msak.attack as a conditional bonus (melee-only is possible)", () => {
-    const items: ItemCanonical[] = [flat("Melee-Only Spell Item", "srd-5e_melee-only-spell-item", undefined)];
+    const items: ItemCanonical[] = [flat("Melee-Only Spell Item", "srd-5e_item_melee-only-spell-item", undefined)];
     const foundry = new Map<string, FoundryItem>([
       ["melee-only-spell-item", {
         name: "Melee-Only Spell Item",
@@ -158,7 +158,7 @@ describe("enrichItemsWithFoundryEffects", () => {
   });
 
   it("collapses mwak+rwak weapon_attack to a FLAT bonus (same tautology, weapon field)", () => {
-    const items: ItemCanonical[] = [flat("All-Attacks Weapon", "srd-5e_all-attacks-weapon", undefined)];
+    const items: ItemCanonical[] = [flat("All-Attacks Weapon", "srd-5e_item_all-attacks-weapon", undefined)];
     const foundry = new Map<string, FoundryItem>([
       ["all-attacks-weapon", {
         name: "All-Attacks Weapon",
@@ -177,7 +177,7 @@ describe("enrichItemsWithFoundryEffects", () => {
 
 describe("enrichItemsWithCuratedConditions", () => {
   it("wraps a flat bonus with curated when[]", () => {
-    const items: ItemCanonical[] = [flat("Bracers of Defense", "srd-5e_bracers-of-defense", { ac: 2 })];
+    const items: ItemCanonical[] = [flat("Bracers of Defense", "srd-5e_item_bracers-of-defense", { ac: 2 })];
     enrichItemsWithCuratedConditions(items);
     expect(items[0].bonuses?.ac).toEqual({
       value: 2,
@@ -186,7 +186,7 @@ describe("enrichItemsWithCuratedConditions", () => {
   });
 
   it("overrides foundry-derived when[] when curated has the same field", () => {
-    const items: ItemCanonical[] = [flat("Bracers of Archery", "srd-5e_bracers-of-archery", {
+    const items: ItemCanonical[] = [flat("Bracers of Archery", "srd-5e_item_bracers-of-archery", {
       weapon_damage: { value: 2, when: [{ kind: "on_attack_type", value: "ranged" }] },
     })];
     enrichItemsWithCuratedConditions(items);
@@ -204,7 +204,7 @@ describe("enrichItemsWithCuratedConditions", () => {
 
   it("warns and skips when curated names a field that has no value", () => {
     const warn = vi.spyOn(console, "warn").mockImplementation(() => undefined);
-    const items: ItemCanonical[] = [flat("Bracers of Defense", "srd-5e_bracers-of-defense", undefined)];
+    const items: ItemCanonical[] = [flat("Bracers of Defense", "srd-5e_item_bracers-of-defense", undefined)];
     enrichItemsWithCuratedConditions(items);
     expect(items[0].bonuses?.ac).toBeUndefined();
     expect(warn).toHaveBeenCalled();
@@ -212,13 +212,13 @@ describe("enrichItemsWithCuratedConditions", () => {
   });
 
   it("is a no-op for items not in the curated table", () => {
-    const items: ItemCanonical[] = [flat("Cloak of Protection", "srd-5e_cloak-of-protection", { ac: 1 })];
+    const items: ItemCanonical[] = [flat("Cloak of Protection", "srd-5e_item_cloak-of-protection", { ac: 1 })];
     enrichItemsWithCuratedConditions(items);
     expect(items[0].bonuses?.ac).toBe(1);
   });
 
   it("handles speed.swim path with curated underwater condition", () => {
-    const items: ItemCanonical[] = [flat("Cloak of the Manta Ray", "srd-5e_cloak-of-the-manta-ray", {
+    const items: ItemCanonical[] = [flat("Cloak of the Manta Ray", "srd-5e_item_cloak-of-the-manta-ray", {
       speed: { swim: 60 },
     })];
     enrichItemsWithCuratedConditions(items);

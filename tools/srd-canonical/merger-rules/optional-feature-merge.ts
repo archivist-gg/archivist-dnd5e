@@ -1,4 +1,4 @@
-import type { MergeRule, CanonicalEntry } from "../merger";
+import { buildCanonicalSlug, type MergeRule, type CanonicalEntry } from "../merger";
 import type { Overlay } from "../overlay.schema";
 import type { StructuredEntry } from "../sources/structured-rules";
 import type { OptionalFeatureEntity } from "@archivist-gg/dnd5e/types/optional-feature.types";
@@ -52,8 +52,14 @@ export function mergeOptionalFeatures(opts: MergeOptionalFeatureOptions): Option
     };
 
     const normalized = normalizeOptionalFeature(input);
-    // Apply compendium-prefixed slug (mirrors mergeKind's buildCanonicalSlug).
-    normalized.data.slug = `${opts.edition === "2014" ? "srd-5e" : "srd-2024"}_${normalized.data.slug}`;
+    // Route through the shared type-namespaced builder so the slug carries the
+    // `optional-feature` type token (== frontmatter entity_type). We pass the
+    // pre-computed bare `normalized.data.slug` as the name portion — the
+    // normalizer's slug rule differs from `slugifyName` for apostrophe names
+    // (it keeps a `-`, slugifyName drops the `'`), and `slugifyName` is
+    // idempotent on an already-bare slug, so this preserves the exact prior
+    // name portion while only adding the prefix + type token.
+    normalized.data.slug = buildCanonicalSlug(opts.edition, "optional-feature", normalized.data.slug);
     // Entity-level effects authored in the overlay (keyed by bare slug).
     const entityOverlay = opts.overlay.optional_features?.[slug];
     if (entityOverlay?.effects?.length) {

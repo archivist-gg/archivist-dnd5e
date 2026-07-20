@@ -1,4 +1,4 @@
-import { slugifyName } from "./sources/slug-normalize";
+import { buildCanonicalSlug } from "./merger";
 
 /**
  * A base item eligible for variant expansion. The 5etools `magicvariants`
@@ -211,7 +211,9 @@ function applyVariantToBase(variant: VariantRule, base: BaseItem, edition: "2014
   const weight = typeof base.weight === "number" ? base.weight : undefined;
 
   return {
-    slug: slugifyName(name),
+    // Variants are always magic items → type token "item" (== entity_type).
+    // (Previously emitted a BARE unprefixed slug — a pre-existing bug.)
+    slug: buildCanonicalSlug(edition, "item", name),
     name,
     edition,
     source: edition === "2014" ? "SRD 5.1" : "SRD 5.2",

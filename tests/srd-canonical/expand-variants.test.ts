@@ -18,7 +18,7 @@ describe("expandVariants", () => {
     const result = expandVariants(baseItems, variants, "2014");
     expect(result.length).toBe(1);
     expect(result[0].name).toBe("Longsword +1");
-    expect(result[0].slug).toBe("longsword-1");
+    expect(result[0].slug).toBe("srd-5e_item_longsword-1");
     expect(result[0].bonuses?.weapon_attack).toBe(1);
   });
 
