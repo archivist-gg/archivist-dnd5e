@@ -130,6 +130,43 @@ describe("authored resources validate against resourceSchema", () => {
   }
 });
 
+// Focused guard: the 2024 Wizard's Arcane Recovery must carry the same recovery
+// pool the 2014 Wizard authors, so the "Recover spell slots" picker attaches on a
+// 2024 Wizard (P5 #5b). Also asserts the 2014 Wizard remains untouched.
+describe("2024 Wizard Arcane Recovery carries the recovery resource", () => {
+  function arcaneRecovery(edition: string) {
+    const file = path.join(RUNTIME, `class.${edition}.json`);
+    const entries = JSON.parse(fs.readFileSync(file, "utf8")) as Array<Record<string, unknown>>;
+    const wiz = entries.find((e) => /wizard$/i.test(String(e.slug ?? "")));
+    const byLevel = wiz?.features_by_level as Record<string, FeatureLike[]> | undefined;
+    return byLevel?.["1"]?.find((f) => f.id === "arcane-recovery");
+  }
+
+  it("2024 arcane-recovery has resources[0].recovery matching 2014", () => {
+    const feat = arcaneRecovery("2024");
+    expect(feat, "srd-2024 wizard arcane-recovery feature").toBeDefined();
+    const res = (feat!.resources ?? [])[0] as
+      | { id?: string; recovery?: Array<{ id?: string; amount?: string; reset?: string }> }
+      | undefined;
+    expect(res?.id).toBe("wizard:arcane-recovery");
+    expect(res?.recovery?.[0]).toMatchObject({
+      id: "wizard:arcane-recovery-slots",
+      amount: "ceil({class_level}/2)",
+      reset: "long-rest",
+    });
+  });
+
+  it("2014 arcane-recovery still carries the recovery pool (unchanged)", () => {
+    const res = ((arcaneRecovery("2014")!.resources ?? [])[0] as {
+      recovery?: Array<{ id?: string; amount?: string }>;
+    });
+    expect(res.recovery?.[0]).toMatchObject({
+      id: "wizard:arcane-recovery-slots",
+      amount: "ceil({class_level}/2)",
+    });
+  });
+});
+
 // resourceSchema only checks max_formula/scales_at[].max are non-empty strings;
 // this enforces the max_formula DSL grammar on every authored runtime resource
 // so a typo (e.g. "clas_level") or unsupported form ("ceil(x/2)") fails the build.

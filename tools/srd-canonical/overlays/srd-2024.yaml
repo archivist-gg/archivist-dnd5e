@@ -134,6 +134,17 @@ class_features:
         name: Magical Cunning
         max_formula: "1"
         reset: long-rest
+  # Wizard
+  # NOTE: Arcane Recovery is "once per day" and requires a short rest; modeled
+  # here as a 1/long-rest pool that recovers spell-slot levels up to ceil(level/2).
+  arcane-recovery:
+    action_cost: special
+    resources:
+      - id: "wizard:arcane-recovery"
+        name: Arcane Recovery
+        max_formula: "1"
+        reset: long-rest
+        recovery: [{ id: "wizard:arcane-recovery-slots", name: "Recover spell slots", amount: "ceil({class_level}/2)", reset: long-rest }]
 
   # ===================================================================
   # Decision data (SP2 Plan 3) -- player choices carried as `choices`.
