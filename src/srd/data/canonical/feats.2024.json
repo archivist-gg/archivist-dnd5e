@@ -1,6 +1,6 @@
 [
   {
-    "slug": "srd-2024_ability-score-improvement",
+    "slug": "srd-2024_feat_ability-score-improvement",
     "name": "Ability Score Improvement",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -29,7 +29,7 @@
     ]
   },
   {
-    "slug": "srd-2024_alert",
+    "slug": "srd-2024_feat_alert",
     "name": "Alert",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -46,7 +46,7 @@
     "choices": []
   },
   {
-    "slug": "srd-2024_archery",
+    "slug": "srd-2024_feat_archery",
     "name": "Archery",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -62,7 +62,7 @@
     "choices": []
   },
   {
-    "slug": "srd-2024_boon-of-combat-prowess",
+    "slug": "srd-2024_feat_boon-of-combat-prowess",
     "name": "Boon of Combat Prowess",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -91,7 +91,7 @@
     ]
   },
   {
-    "slug": "srd-2024_boon-of-dimensional-travel",
+    "slug": "srd-2024_feat_boon-of-dimensional-travel",
     "name": "Boon of Dimensional Travel",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -120,7 +120,7 @@
     ]
   },
   {
-    "slug": "srd-2024_boon-of-fate",
+    "slug": "srd-2024_feat_boon-of-fate",
     "name": "Boon of Fate",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -149,7 +149,7 @@
     ]
   },
   {
-    "slug": "srd-2024_boon-of-irresistible-offense",
+    "slug": "srd-2024_feat_boon-of-irresistible-offense",
     "name": "Boon of Irresistible Offense",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -179,7 +179,7 @@
     ]
   },
   {
-    "slug": "srd-2024_boon-of-spell-recall",
+    "slug": "srd-2024_feat_boon-of-spell-recall",
     "name": "Boon of Spell Recall",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -208,7 +208,7 @@
     ]
   },
   {
-    "slug": "srd-2024_boon-of-the-night-spirit",
+    "slug": "srd-2024_feat_boon-of-the-night-spirit",
     "name": "Boon of the Night Spirit",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -239,8 +239,8 @@
     "action_cost": "bonus-action"
   },
   {
-    "slug": "srd-2024_boon-of-the-truesight",
-    "name": "Boon of the Truesight",
+    "slug": "srd-2024_feat_boon-of-truesight",
+    "name": "Boon of Truesight",
     "edition": "2024",
     "source": "SRD 5.2",
     "description": "You gain the following benefits.",
@@ -258,17 +258,10 @@
     "repeatable": false,
     "effects": [],
     "grants_asi": null,
-    "choices": [
-      {
-        "kind": "ability-points",
-        "id": "asi",
-        "points": 1,
-        "max_per": 1
-      }
-    ]
+    "choices": []
   },
   {
-    "slug": "srd-2024_defense",
+    "slug": "srd-2024_feat_defense",
     "name": "Defense",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -290,7 +283,7 @@
     "choices": []
   },
   {
-    "slug": "srd-2024_grappler",
+    "slug": "srd-2024_feat_grappler",
     "name": "Grappler",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -329,7 +322,7 @@
     ]
   },
   {
-    "slug": "srd-2024_great-weapon-fighting",
+    "slug": "srd-2024_feat_great-weapon-fighting",
     "name": "Great Weapon Fighting",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -345,7 +338,7 @@
     "choices": []
   },
   {
-    "slug": "srd-2024_magic-initiate",
+    "slug": "srd-2024_feat_magic-initiate",
     "name": "Magic Initiate",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -369,15 +362,87 @@
         "options": [
           {
             "value": "cleric",
-            "label": "Cleric"
+            "label": "Cleric",
+            "choices": [
+              {
+                "kind": "select-entity",
+                "id": "mi-cantrips",
+                "count": 2,
+                "entity_type": "spell",
+                "where": {
+                  "list": "cleric",
+                  "level": 0,
+                  "edition": "2024"
+                }
+              },
+              {
+                "kind": "select-entity",
+                "id": "mi-level1",
+                "count": 1,
+                "entity_type": "spell",
+                "where": {
+                  "list": "cleric",
+                  "level": 1,
+                  "edition": "2024"
+                }
+              }
+            ]
           },
           {
             "value": "druid",
-            "label": "Druid"
+            "label": "Druid",
+            "choices": [
+              {
+                "kind": "select-entity",
+                "id": "mi-cantrips",
+                "count": 2,
+                "entity_type": "spell",
+                "where": {
+                  "list": "druid",
+                  "level": 0,
+                  "edition": "2024"
+                }
+              },
+              {
+                "kind": "select-entity",
+                "id": "mi-level1",
+                "count": 1,
+                "entity_type": "spell",
+                "where": {
+                  "list": "druid",
+                  "level": 1,
+                  "edition": "2024"
+                }
+              }
+            ]
           },
           {
             "value": "wizard",
-            "label": "Wizard"
+            "label": "Wizard",
+            "choices": [
+              {
+                "kind": "select-entity",
+                "id": "mi-cantrips",
+                "count": 2,
+                "entity_type": "spell",
+                "where": {
+                  "list": "wizard",
+                  "level": 0,
+                  "edition": "2024"
+                }
+              },
+              {
+                "kind": "select-entity",
+                "id": "mi-level1",
+                "count": 1,
+                "entity_type": "spell",
+                "where": {
+                  "list": "wizard",
+                  "level": 1,
+                  "edition": "2024"
+                }
+              }
+            ]
           }
         ]
       },
@@ -403,7 +468,7 @@
     ]
   },
   {
-    "slug": "srd-2024_savage-attacker",
+    "slug": "srd-2024_feat_savage-attacker",
     "name": "Savage Attacker",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -419,7 +484,7 @@
     "choices": []
   },
   {
-    "slug": "srd-2024_skilled",
+    "slug": "srd-2024_feat_skilled",
     "name": "Skilled",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -504,7 +569,7 @@
     ]
   },
   {
-    "slug": "srd-2024_two-weapon-fighting",
+    "slug": "srd-2024_feat_two-weapon-fighting",
     "name": "Two-Weapon Fighting",
     "edition": "2024",
     "source": "SRD 5.2",

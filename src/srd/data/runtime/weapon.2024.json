@@ -1,6 +1,6 @@
 [
   {
-    "slug": "srd-2024_battleaxe",
+    "slug": "srd-2024_weapon_battleaxe",
     "name": "Battleaxe",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -18,7 +18,7 @@
     ]
   },
   {
-    "slug": "srd-2024_blowgun",
+    "slug": "srd-2024_weapon_blowgun",
     "name": "Blowgun",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -40,7 +40,7 @@
     ]
   },
   {
-    "slug": "srd-2024_club",
+    "slug": "srd-2024_weapon_club",
     "name": "Club",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -57,7 +57,7 @@
     ]
   },
   {
-    "slug": "srd-2024_dagger",
+    "slug": "srd-2024_weapon_dagger",
     "name": "Dagger",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -80,7 +80,7 @@
     ]
   },
   {
-    "slug": "srd-2024_dart",
+    "slug": "srd-2024_weapon_dart",
     "name": "Dart",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -102,7 +102,7 @@
     ]
   },
   {
-    "slug": "srd-2024_flail",
+    "slug": "srd-2024_weapon_flail",
     "name": "Flail",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -117,7 +117,7 @@
     ]
   },
   {
-    "slug": "srd-2024_glaive",
+    "slug": "srd-2024_weapon_glaive",
     "name": "Glaive",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -136,7 +136,7 @@
     ]
   },
   {
-    "slug": "srd-2024_greataxe",
+    "slug": "srd-2024_weapon_greataxe",
     "name": "Greataxe",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -154,7 +154,7 @@
     ]
   },
   {
-    "slug": "srd-2024_greatclub",
+    "slug": "srd-2024_weapon_greatclub",
     "name": "Greatclub",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -171,7 +171,7 @@
     ]
   },
   {
-    "slug": "srd-2024_greatsword",
+    "slug": "srd-2024_weapon_greatsword",
     "name": "Greatsword",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -189,7 +189,7 @@
     ]
   },
   {
-    "slug": "srd-2024_halberd",
+    "slug": "srd-2024_weapon_halberd",
     "name": "Halberd",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -208,7 +208,7 @@
     ]
   },
   {
-    "slug": "srd-2024_hand-crossbow",
+    "slug": "srd-2024_weapon_hand-crossbow",
     "name": "Hand Crossbow",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -231,7 +231,7 @@
     ]
   },
   {
-    "slug": "srd-2024_handaxe",
+    "slug": "srd-2024_weapon_handaxe",
     "name": "Handaxe",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -253,7 +253,7 @@
     ]
   },
   {
-    "slug": "srd-2024_heavy-crossbow",
+    "slug": "srd-2024_weapon_heavy-crossbow",
     "name": "Heavy Crossbow",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -277,7 +277,7 @@
     ]
   },
   {
-    "slug": "srd-2024_javelin",
+    "slug": "srd-2024_weapon_javelin",
     "name": "Javelin",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -298,7 +298,7 @@
     ]
   },
   {
-    "slug": "srd-2024_lance",
+    "slug": "srd-2024_weapon_lance",
     "name": "Lance",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -317,7 +317,7 @@
     ]
   },
   {
-    "slug": "srd-2024_light-crossbow",
+    "slug": "srd-2024_weapon_light-crossbow",
     "name": "Light Crossbow",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -340,7 +340,7 @@
     ]
   },
   {
-    "slug": "srd-2024_light-hammer",
+    "slug": "srd-2024_weapon_light-hammer",
     "name": "Light Hammer",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -362,7 +362,7 @@
     ]
   },
   {
-    "slug": "srd-2024_longbow",
+    "slug": "srd-2024_weapon_longbow",
     "name": "Longbow",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -385,7 +385,7 @@
     ]
   },
   {
-    "slug": "srd-2024_longsword",
+    "slug": "srd-2024_weapon_longsword",
     "name": "Longsword",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -403,7 +403,7 @@
     ]
   },
   {
-    "slug": "srd-2024_mace",
+    "slug": "srd-2024_weapon_mace",
     "name": "Mace",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -418,7 +418,7 @@
     ]
   },
   {
-    "slug": "srd-2024_maul",
+    "slug": "srd-2024_weapon_maul",
     "name": "Maul",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -436,7 +436,7 @@
     ]
   },
   {
-    "slug": "srd-2024_morningstar",
+    "slug": "srd-2024_weapon_morningstar",
     "name": "Morningstar",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -451,7 +451,7 @@
     ]
   },
   {
-    "slug": "srd-2024_musket",
+    "slug": "srd-2024_weapon_musket",
     "name": "Musket",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -474,7 +474,7 @@
     ]
   },
   {
-    "slug": "srd-2024_pike",
+    "slug": "srd-2024_weapon_pike",
     "name": "Pike",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -493,7 +493,7 @@
     ]
   },
   {
-    "slug": "srd-2024_pistol",
+    "slug": "srd-2024_weapon_pistol",
     "name": "Pistol",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -515,7 +515,7 @@
     ]
   },
   {
-    "slug": "srd-2024_quarterstaff",
+    "slug": "srd-2024_weapon_quarterstaff",
     "name": "Quarterstaff",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -533,7 +533,7 @@
     ]
   },
   {
-    "slug": "srd-2024_rapier",
+    "slug": "srd-2024_weapon_rapier",
     "name": "Rapier",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -550,7 +550,7 @@
     ]
   },
   {
-    "slug": "srd-2024_scimitar",
+    "slug": "srd-2024_weapon_scimitar",
     "name": "Scimitar",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -568,7 +568,7 @@
     ]
   },
   {
-    "slug": "srd-2024_shortbow",
+    "slug": "srd-2024_weapon_shortbow",
     "name": "Shortbow",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -590,7 +590,7 @@
     ]
   },
   {
-    "slug": "srd-2024_shortsword",
+    "slug": "srd-2024_weapon_shortsword",
     "name": "Shortsword",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -608,7 +608,7 @@
     ]
   },
   {
-    "slug": "srd-2024_sickle",
+    "slug": "srd-2024_weapon_sickle",
     "name": "Sickle",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -625,7 +625,7 @@
     ]
   },
   {
-    "slug": "srd-2024_sling",
+    "slug": "srd-2024_weapon_sling",
     "name": "Sling",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -646,7 +646,7 @@
     ]
   },
   {
-    "slug": "srd-2024_spear",
+    "slug": "srd-2024_weapon_spear",
     "name": "Spear",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -669,7 +669,7 @@
     ]
   },
   {
-    "slug": "srd-2024_trident",
+    "slug": "srd-2024_weapon_trident",
     "name": "Trident",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -692,7 +692,7 @@
     ]
   },
   {
-    "slug": "srd-2024_war-pick",
+    "slug": "srd-2024_weapon_war-pick",
     "name": "War Pick",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -710,7 +710,7 @@
     ]
   },
   {
-    "slug": "srd-2024_warhammer",
+    "slug": "srd-2024_weapon_warhammer",
     "name": "Warhammer",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -728,7 +728,7 @@
     ]
   },
   {
-    "slug": "srd-2024_whip",
+    "slug": "srd-2024_weapon_whip",
     "name": "Whip",
     "edition": "2024",
     "source": "SRD 5.2",

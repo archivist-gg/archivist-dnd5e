@@ -1,6 +1,6 @@
 [
   {
-    "slug": "srd-2024_adamantine-armor-breastplate",
+    "slug": "srd-2024_item_adamantine-armor-breastplate",
     "name": "Adamantine Armor (Breastplate)",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -11,7 +11,7 @@
     "base_item": "[[SRD 2024/Armor/Breastplate]]"
   },
   {
-    "slug": "srd-2024_adamantine-armor-chain-mail",
+    "slug": "srd-2024_item_adamantine-armor-chain-mail",
     "name": "Adamantine Armor (Chain Mail)",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -22,7 +22,7 @@
     "base_item": "[[SRD 2024/Armor/Chain Mail]]"
   },
   {
-    "slug": "srd-2024_adamantine-armor-chain-shirt",
+    "slug": "srd-2024_item_adamantine-armor-chain-shirt",
     "name": "Adamantine Armor (Chain Shirt)",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -33,7 +33,7 @@
     "base_item": "[[SRD 2024/Armor/Chain Shirt]]"
   },
   {
-    "slug": "srd-2024_adamantine-armor-half-plate",
+    "slug": "srd-2024_item_adamantine-armor-half-plate",
     "name": "Adamantine Armor (Half Plate)",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -44,7 +44,7 @@
     "base_item": "[[SRD 2024/Armor/Half Plate Armor]]"
   },
   {
-    "slug": "srd-2024_adamantine-armor-plate",
+    "slug": "srd-2024_item_adamantine-armor-plate",
     "name": "Adamantine Armor (Plate)",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -55,7 +55,7 @@
     "base_item": "[[SRD 2024/Armor/Plate Armor]]"
   },
   {
-    "slug": "srd-2024_adamantine-armor-ring-mail",
+    "slug": "srd-2024_item_adamantine-armor-ring-mail",
     "name": "Adamantine Armor (Ring Mail)",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -66,7 +66,7 @@
     "base_item": "[[SRD 2024/Armor/Ring Mail]]"
   },
   {
-    "slug": "srd-2024_adamantine-armor-scale-mail",
+    "slug": "srd-2024_item_adamantine-armor-scale-mail",
     "name": "Adamantine Armor (Scale Mail)",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -77,7 +77,7 @@
     "base_item": "[[SRD 2024/Armor/Scale Mail]]"
   },
   {
-    "slug": "srd-2024_adamantine-armor-splint",
+    "slug": "srd-2024_item_adamantine-armor-splint",
     "name": "Adamantine Armor (Splint)",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -88,7 +88,7 @@
     "base_item": "[[SRD 2024/Armor/Splint Armor]]"
   },
   {
-    "slug": "srd-2024_ammunition-of-aberration-slaying",
+    "slug": "srd-2024_item_ammunition-of-aberration-slaying",
     "name": "Ammunition of Aberration Slaying",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -97,7 +97,7 @@
     "type": "weapon"
   },
   {
-    "slug": "srd-2024_ammunition-of-beast-slaying",
+    "slug": "srd-2024_item_ammunition-of-beast-slaying",
     "name": "Ammunition of Beast Slaying",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -106,7 +106,7 @@
     "type": "weapon"
   },
   {
-    "slug": "srd-2024_ammunition-of-celestial-slaying",
+    "slug": "srd-2024_item_ammunition-of-celestial-slaying",
     "name": "Ammunition of Celestial Slaying",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -115,7 +115,7 @@
     "type": "weapon"
   },
   {
-    "slug": "srd-2024_ammunition-of-construct-slaying",
+    "slug": "srd-2024_item_ammunition-of-construct-slaying",
     "name": "Ammunition of Construct Slaying",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -124,7 +124,7 @@
     "type": "weapon"
   },
   {
-    "slug": "srd-2024_ammunition-of-dragon-slaying",
+    "slug": "srd-2024_item_ammunition-of-dragon-slaying",
     "name": "Ammunition of Dragon Slaying",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -133,7 +133,7 @@
     "type": "weapon"
   },
   {
-    "slug": "srd-2024_ammunition-of-elemental-slaying",
+    "slug": "srd-2024_item_ammunition-of-elemental-slaying",
     "name": "Ammunition of Elemental Slaying",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -142,7 +142,7 @@
     "type": "weapon"
   },
   {
-    "slug": "srd-2024_ammunition-of-fey-slaying",
+    "slug": "srd-2024_item_ammunition-of-fey-slaying",
     "name": "Ammunition of Fey Slaying",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -151,7 +151,7 @@
     "type": "weapon"
   },
   {
-    "slug": "srd-2024_ammunition-of-fiend-slaying",
+    "slug": "srd-2024_item_ammunition-of-fiend-slaying",
     "name": "Ammunition of Fiend Slaying",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -160,7 +160,7 @@
     "type": "weapon"
   },
   {
-    "slug": "srd-2024_ammunition-of-giant-slaying",
+    "slug": "srd-2024_item_ammunition-of-giant-slaying",
     "name": "Ammunition of Giant Slaying",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -169,7 +169,7 @@
     "type": "weapon"
   },
   {
-    "slug": "srd-2024_ammunition-of-humanoid-slaying",
+    "slug": "srd-2024_item_ammunition-of-humanoid-slaying",
     "name": "Ammunition of Humanoid Slaying",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -178,7 +178,7 @@
     "type": "weapon"
   },
   {
-    "slug": "srd-2024_ammunition-of-monstrosity-slaying",
+    "slug": "srd-2024_item_ammunition-of-monstrosity-slaying",
     "name": "Ammunition of Monstrosity Slaying",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -187,7 +187,7 @@
     "type": "weapon"
   },
   {
-    "slug": "srd-2024_ammunition-of-ooze-slaying",
+    "slug": "srd-2024_item_ammunition-of-ooze-slaying",
     "name": "Ammunition of Ooze Slaying",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -196,7 +196,7 @@
     "type": "weapon"
   },
   {
-    "slug": "srd-2024_ammunition-of-plant-slaying",
+    "slug": "srd-2024_item_ammunition-of-plant-slaying",
     "name": "Ammunition of Plant Slaying",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -205,7 +205,7 @@
     "type": "weapon"
   },
   {
-    "slug": "srd-2024_ammunition-of-undead-slaying",
+    "slug": "srd-2024_item_ammunition-of-undead-slaying",
     "name": "Ammunition of Undead Slaying",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -214,7 +214,7 @@
     "type": "weapon"
   },
   {
-    "slug": "srd-2024_ammunition-1",
+    "slug": "srd-2024_item_ammunition-1",
     "name": "Ammunition (+1)",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -223,7 +223,7 @@
     "type": "weapon"
   },
   {
-    "slug": "srd-2024_ammunition-3",
+    "slug": "srd-2024_item_ammunition-3",
     "name": "Ammunition (+3)",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -232,7 +232,7 @@
     "type": "weapon"
   },
   {
-    "slug": "srd-2024_ammunition-2",
+    "slug": "srd-2024_item_ammunition-2",
     "name": "Ammunition (+2)",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -241,7 +241,7 @@
     "type": "weapon"
   },
   {
-    "slug": "srd-2024_amulet-of-health",
+    "slug": "srd-2024_item_amulet-of-health",
     "name": "Amulet of Health",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -261,7 +261,7 @@
     }
   },
   {
-    "slug": "srd-2024_amulet-of-proof-against-detection-and-location",
+    "slug": "srd-2024_item_amulet-of-proof-against-detection-and-location",
     "name": "Amulet of Proof against Detection and Location",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -274,7 +274,7 @@
     }
   },
   {
-    "slug": "srd-2024_amulet-of-the-planes",
+    "slug": "srd-2024_item_amulet-of-the-planes",
     "name": "Amulet of the Planes",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -287,7 +287,7 @@
     }
   },
   {
-    "slug": "srd-2024_animated-shield",
+    "slug": "srd-2024_item_animated-shield",
     "name": "Animated Shield",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -306,7 +306,7 @@
     ]
   },
   {
-    "slug": "srd-2024_apparatus-of-the-crab",
+    "slug": "srd-2024_item_apparatus-of-the-crab",
     "name": "Apparatus of the Crab",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -315,7 +315,7 @@
     "type": "wondrous item"
   },
   {
-    "slug": "srd-2024_armor-of-invulnerability",
+    "slug": "srd-2024_item_armor-of-invulnerability",
     "name": "Armor of Invulnerability",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -339,7 +339,7 @@
     ]
   },
   {
-    "slug": "srd-2024_armor-of-resistance-breastplate",
+    "slug": "srd-2024_item_armor-of-resistance-breastplate",
     "name": "Armor of Resistance (Breastplate)",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -350,7 +350,7 @@
     "base_item": "[[SRD 2024/Armor/Breastplate]]"
   },
   {
-    "slug": "srd-2024_armor-of-resistance-chain-mail",
+    "slug": "srd-2024_item_armor-of-resistance-chain-mail",
     "name": "Armor of Resistance (Chain Mail)",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -361,7 +361,7 @@
     "base_item": "[[SRD 2024/Armor/Chain Mail]]"
   },
   {
-    "slug": "srd-2024_armor-of-resistance-chain-shirt",
+    "slug": "srd-2024_item_armor-of-resistance-chain-shirt",
     "name": "Armor of Resistance (Chain Shirt)",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -372,7 +372,7 @@
     "base_item": "[[SRD 2024/Armor/Chain Shirt]]"
   },
   {
-    "slug": "srd-2024_armor-of-resistance-half-plate",
+    "slug": "srd-2024_item_armor-of-resistance-half-plate",
     "name": "Armor of Resistance (Half Plate)",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -383,7 +383,7 @@
     "base_item": "[[SRD 2024/Armor/Half Plate Armor]]"
   },
   {
-    "slug": "srd-2024_armor-of-resistance-hide-armor",
+    "slug": "srd-2024_item_armor-of-resistance-hide-armor",
     "name": "Armor of Resistance (Hide Armor)",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -394,7 +394,7 @@
     "base_item": "[[SRD 2024/Armor/Hide Armor]]"
   },
   {
-    "slug": "srd-2024_armor-of-resistance-leather-armor",
+    "slug": "srd-2024_item_armor-of-resistance-leather-armor",
     "name": "Armor of Resistance (Leather Armor)",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -405,7 +405,7 @@
     "base_item": "[[SRD 2024/Armor/Leather Armor]]"
   },
   {
-    "slug": "srd-2024_armor-of-resistance-padded",
+    "slug": "srd-2024_item_armor-of-resistance-padded",
     "name": "Armor of Resistance (Padded)",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -416,7 +416,7 @@
     "base_item": "[[SRD 2024/Armor/Padded Armor]]"
   },
   {
-    "slug": "srd-2024_armor-of-resistance-plate",
+    "slug": "srd-2024_item_armor-of-resistance-plate",
     "name": "Armor of Resistance (Plate)",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -427,7 +427,7 @@
     "base_item": "[[SRD 2024/Armor/Plate Armor]]"
   },
   {
-    "slug": "srd-2024_armor-of-resistance-ring-mail",
+    "slug": "srd-2024_item_armor-of-resistance-ring-mail",
     "name": "Armor of Resistance (Ring Mail)",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -438,7 +438,7 @@
     "base_item": "[[SRD 2024/Armor/Ring Mail]]"
   },
   {
-    "slug": "srd-2024_armor-of-resistance-scale-mail",
+    "slug": "srd-2024_item_armor-of-resistance-scale-mail",
     "name": "Armor of Resistance (Scale Mail)",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -449,7 +449,7 @@
     "base_item": "[[SRD 2024/Armor/Scale Mail]]"
   },
   {
-    "slug": "srd-2024_armor-of-resistance-splint",
+    "slug": "srd-2024_item_armor-of-resistance-splint",
     "name": "Armor of Resistance (Splint)",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -460,7 +460,7 @@
     "base_item": "[[SRD 2024/Armor/Splint Armor]]"
   },
   {
-    "slug": "srd-2024_armor-of-resistance-studded-leather",
+    "slug": "srd-2024_item_armor-of-resistance-studded-leather",
     "name": "Armor of Resistance (Studded Leather)",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -471,7 +471,7 @@
     "base_item": "[[SRD 2024/Armor/Studded Leather Armor]]"
   },
   {
-    "slug": "srd-2024_armor-of-vulnerability-breastplate",
+    "slug": "srd-2024_item_armor-of-vulnerability-breastplate",
     "name": "Armor of Vulnerability (Breastplate)",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -482,7 +482,7 @@
     "base_item": "[[SRD 2024/Armor/Breastplate]]"
   },
   {
-    "slug": "srd-2024_armor-of-vulnerability-chain-mail",
+    "slug": "srd-2024_item_armor-of-vulnerability-chain-mail",
     "name": "Armor of Vulnerability (Chain Mail)",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -493,7 +493,7 @@
     "base_item": "[[SRD 2024/Armor/Chain Mail]]"
   },
   {
-    "slug": "srd-2024_armor-of-vulnerability-chain-shirt",
+    "slug": "srd-2024_item_armor-of-vulnerability-chain-shirt",
     "name": "Armor of Vulnerability (Chain Shirt)",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -504,7 +504,7 @@
     "base_item": "[[SRD 2024/Armor/Chain Shirt]]"
   },
   {
-    "slug": "srd-2024_armor-of-vulnerability-half-plate-armor",
+    "slug": "srd-2024_item_armor-of-vulnerability-half-plate-armor",
     "name": "Armor of Vulnerability (Half Plate Armor)",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -515,7 +515,7 @@
     "base_item": "[[SRD 2024/Armor/Half Plate Armor]]"
   },
   {
-    "slug": "srd-2024_armor-of-vulnerability-hide-armor",
+    "slug": "srd-2024_item_armor-of-vulnerability-hide-armor",
     "name": "Armor of Vulnerability (Hide Armor)",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -526,7 +526,7 @@
     "base_item": "[[SRD 2024/Armor/Hide Armor]]"
   },
   {
-    "slug": "srd-2024_armor-of-vulnerability-leather-armor",
+    "slug": "srd-2024_item_armor-of-vulnerability-leather-armor",
     "name": "Armor of Vulnerability (Leather Armor)",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -537,7 +537,7 @@
     "base_item": "[[SRD 2024/Armor/Leather Armor]]"
   },
   {
-    "slug": "srd-2024_armor-of-vulnerability-padded-armor",
+    "slug": "srd-2024_item_armor-of-vulnerability-padded-armor",
     "name": "Armor of Vulnerability (Padded Armor)",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -548,7 +548,7 @@
     "base_item": "[[SRD 2024/Armor/Padded Armor]]"
   },
   {
-    "slug": "srd-2024_armor-of-vulnerability-plate-armor",
+    "slug": "srd-2024_item_armor-of-vulnerability-plate-armor",
     "name": "Armor of Vulnerability (Plate Armor)",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -559,7 +559,7 @@
     "base_item": "[[SRD 2024/Armor/Plate Armor]]"
   },
   {
-    "slug": "srd-2024_armor-of-vulnerability-ring-mail",
+    "slug": "srd-2024_item_armor-of-vulnerability-ring-mail",
     "name": "Armor of Vulnerability (Ring Mail)",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -570,7 +570,7 @@
     "base_item": "[[SRD 2024/Armor/Ring Mail]]"
   },
   {
-    "slug": "srd-2024_armor-of-vulnerability-scale-mail",
+    "slug": "srd-2024_item_armor-of-vulnerability-scale-mail",
     "name": "Armor of Vulnerability (Scale Mail)",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -581,7 +581,7 @@
     "base_item": "[[SRD 2024/Armor/Scale Mail]]"
   },
   {
-    "slug": "srd-2024_armor-of-vulnerability-splint-armor",
+    "slug": "srd-2024_item_armor-of-vulnerability-splint-armor",
     "name": "Armor of Vulnerability (Splint Armor)",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -592,7 +592,7 @@
     "base_item": "[[SRD 2024/Armor/Splint Armor]]"
   },
   {
-    "slug": "srd-2024_armor-of-vulnerability-studded-leather-armor",
+    "slug": "srd-2024_item_armor-of-vulnerability-studded-leather-armor",
     "name": "Armor of Vulnerability (Studded Leather Armor)",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -603,7 +603,7 @@
     "base_item": "[[SRD 2024/Armor/Studded Leather Armor]]"
   },
   {
-    "slug": "srd-2024_arrow-catching-shield",
+    "slug": "srd-2024_item_arrow-catching-shield",
     "name": "Arrow-Catching Shield",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -620,7 +620,7 @@
     }
   },
   {
-    "slug": "srd-2024_bag-of-beans",
+    "slug": "srd-2024_item_bag-of-beans",
     "name": "Bag of Beans",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -629,7 +629,7 @@
     "type": "wondrous item"
   },
   {
-    "slug": "srd-2024_bag-of-devouring",
+    "slug": "srd-2024_item_bag-of-devouring",
     "name": "Bag of Devouring",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -638,7 +638,7 @@
     "type": "wondrous item"
   },
   {
-    "slug": "srd-2024_bag-of-holding",
+    "slug": "srd-2024_item_bag-of-holding",
     "name": "Bag of Holding",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -648,7 +648,7 @@
     "weight": 5
   },
   {
-    "slug": "srd-2024_bag-of-tricks",
+    "slug": "srd-2024_item_bag-of-tricks",
     "name": "Bag of Tricks",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -657,7 +657,7 @@
     "type": "wondrous item"
   },
   {
-    "slug": "srd-2024_battleaxe-1",
+    "slug": "srd-2024_item_battleaxe-1",
     "name": "Battleaxe (+1)",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -672,7 +672,7 @@
     }
   },
   {
-    "slug": "srd-2024_battleaxe-2",
+    "slug": "srd-2024_item_battleaxe-2",
     "name": "Battleaxe (+2)",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -687,7 +687,7 @@
     }
   },
   {
-    "slug": "srd-2024_battleaxe-3",
+    "slug": "srd-2024_item_battleaxe-3",
     "name": "Battleaxe (+3)",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -702,7 +702,7 @@
     }
   },
   {
-    "slug": "srd-2024_bead-of-force",
+    "slug": "srd-2024_item_bead-of-force",
     "name": "Bead of Force",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -712,7 +712,7 @@
     "weight": 0.5
   },
   {
-    "slug": "srd-2024_belt-of-giant-strength-cloud",
+    "slug": "srd-2024_item_belt-of-giant-strength-cloud",
     "name": "Belt of Giant Strength (Cloud)",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -724,7 +724,7 @@
     }
   },
   {
-    "slug": "srd-2024_belt-of-giant-strength-fire",
+    "slug": "srd-2024_item_belt-of-giant-strength-fire",
     "name": "Belt of Giant Strength (Fire)",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -736,7 +736,7 @@
     }
   },
   {
-    "slug": "srd-2024_belt-of-giant-strength-frost-or-stone",
+    "slug": "srd-2024_item_belt-of-giant-strength-frost-or-stone",
     "name": "Belt of Giant Strength (Frost or Stone)",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -748,7 +748,7 @@
     }
   },
   {
-    "slug": "srd-2024_belt-of-giant-strength-hill",
+    "slug": "srd-2024_item_belt-of-giant-strength-hill",
     "name": "Belt of Giant Strength (Hill)",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -760,7 +760,7 @@
     }
   },
   {
-    "slug": "srd-2024_belt-of-giant-strength-storm",
+    "slug": "srd-2024_item_belt-of-giant-strength-storm",
     "name": "Belt of Giant Strength (Storm)",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -772,7 +772,7 @@
     }
   },
   {
-    "slug": "srd-2024_berserker-battleaxe",
+    "slug": "srd-2024_item_berserker-battleaxe",
     "name": "Berserker Battleaxe",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -789,7 +789,7 @@
     }
   },
   {
-    "slug": "srd-2024_berserker-greataxe",
+    "slug": "srd-2024_item_berserker-greataxe",
     "name": "Berserker Greataxe",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -806,7 +806,7 @@
     }
   },
   {
-    "slug": "srd-2024_berserker-halberd",
+    "slug": "srd-2024_item_berserker-halberd",
     "name": "Berserker Halberd",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -823,7 +823,7 @@
     }
   },
   {
-    "slug": "srd-2024_blowgun-1",
+    "slug": "srd-2024_item_blowgun-1",
     "name": "Blowgun (+1)",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -838,7 +838,7 @@
     }
   },
   {
-    "slug": "srd-2024_blowgun-2",
+    "slug": "srd-2024_item_blowgun-2",
     "name": "Blowgun (+2)",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -853,7 +853,7 @@
     }
   },
   {
-    "slug": "srd-2024_blowgun-3",
+    "slug": "srd-2024_item_blowgun-3",
     "name": "Blowgun (+3)",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -868,7 +868,7 @@
     }
   },
   {
-    "slug": "srd-2024_boots-of-elvenkind",
+    "slug": "srd-2024_item_boots-of-elvenkind",
     "name": "Boots of Elvenkind",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -877,7 +877,7 @@
     "type": "wondrous item"
   },
   {
-    "slug": "srd-2024_boots-of-levitation",
+    "slug": "srd-2024_item_boots-of-levitation",
     "name": "Boots of Levitation",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -894,7 +894,7 @@
     }
   },
   {
-    "slug": "srd-2024_boots-of-speed",
+    "slug": "srd-2024_item_boots-of-speed",
     "name": "Boots of Speed",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -911,7 +911,7 @@
     ]
   },
   {
-    "slug": "srd-2024_boots-of-striding-and-springing",
+    "slug": "srd-2024_item_boots-of-striding-and-springing",
     "name": "Boots of Striding and Springing",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -928,7 +928,7 @@
     }
   },
   {
-    "slug": "srd-2024_boots-of-the-winterlands",
+    "slug": "srd-2024_item_boots-of-the-winterlands",
     "name": "Boots of the Winterlands",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -940,7 +940,7 @@
     }
   },
   {
-    "slug": "srd-2024_bowl-of-commanding-water-elementals",
+    "slug": "srd-2024_item_bowl-of-commanding-water-elementals",
     "name": "Bowl of Commanding Water Elementals",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -949,7 +949,7 @@
     "type": "wondrous item"
   },
   {
-    "slug": "srd-2024_bracers-of-archery",
+    "slug": "srd-2024_item_bracers-of-archery",
     "name": "Bracers of Archery",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -975,7 +975,7 @@
     }
   },
   {
-    "slug": "srd-2024_bracers-of-defense",
+    "slug": "srd-2024_item_bracers-of-defense",
     "name": "Bracers of Defense",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -990,7 +990,7 @@
     }
   },
   {
-    "slug": "srd-2024_brazier-of-commanding-fire-elementals",
+    "slug": "srd-2024_item_brazier-of-commanding-fire-elementals",
     "name": "Brazier of Commanding Fire Elementals",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -999,7 +999,7 @@
     "type": "wondrous item"
   },
   {
-    "slug": "srd-2024_breastplate-1",
+    "slug": "srd-2024_item_breastplate-1",
     "name": "Breastplate (+1)",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -1013,7 +1013,7 @@
     }
   },
   {
-    "slug": "srd-2024_breastplate-2",
+    "slug": "srd-2024_item_breastplate-2",
     "name": "Breastplate (+2)",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -1027,7 +1027,7 @@
     }
   },
   {
-    "slug": "srd-2024_breastplate-3",
+    "slug": "srd-2024_item_breastplate-3",
     "name": "Breastplate (+3)",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -1041,7 +1041,7 @@
     }
   },
   {
-    "slug": "srd-2024_brooch-of-shielding",
+    "slug": "srd-2024_item_brooch-of-shielding",
     "name": "Brooch of Shielding",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -1056,7 +1056,7 @@
     ]
   },
   {
-    "slug": "srd-2024_broom-of-flying",
+    "slug": "srd-2024_item_broom-of-flying",
     "name": "Broom of Flying",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -1076,7 +1076,7 @@
     ]
   },
   {
-    "slug": "srd-2024_candle-of-invocation",
+    "slug": "srd-2024_item_candle-of-invocation",
     "name": "Candle of Invocation",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -1100,7 +1100,7 @@
     ]
   },
   {
-    "slug": "srd-2024_cape-of-the-mountebank",
+    "slug": "srd-2024_item_cape-of-the-mountebank",
     "name": "Cape of the Mountebank",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -1116,7 +1116,7 @@
     }
   },
   {
-    "slug": "srd-2024_carpet-of-flying",
+    "slug": "srd-2024_item_carpet-of-flying",
     "name": "Carpet of Flying",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -1125,7 +1125,7 @@
     "type": "wondrous item"
   },
   {
-    "slug": "srd-2024_censer-of-controlling-air-elementals",
+    "slug": "srd-2024_item_censer-of-controlling-air-elementals",
     "name": "Censer of Controlling Air Elementals",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -1134,7 +1134,7 @@
     "type": "wondrous item"
   },
   {
-    "slug": "srd-2024_chain-mail-1",
+    "slug": "srd-2024_item_chain-mail-1",
     "name": "Chain Mail (+1)",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -1148,7 +1148,7 @@
     }
   },
   {
-    "slug": "srd-2024_chain-mail-2",
+    "slug": "srd-2024_item_chain-mail-2",
     "name": "Chain Mail (+2)",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -1162,7 +1162,7 @@
     }
   },
   {
-    "slug": "srd-2024_chain-mail-3",
+    "slug": "srd-2024_item_chain-mail-3",
     "name": "Chain Mail (+3)",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -1176,7 +1176,7 @@
     }
   },
   {
-    "slug": "srd-2024_chain-shirt-1",
+    "slug": "srd-2024_item_chain-shirt-1",
     "name": "Chain Shirt (+1)",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -1190,7 +1190,7 @@
     }
   },
   {
-    "slug": "srd-2024_chain-shirt-2",
+    "slug": "srd-2024_item_chain-shirt-2",
     "name": "Chain Shirt (+2)",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -1204,7 +1204,7 @@
     }
   },
   {
-    "slug": "srd-2024_chain-shirt-3",
+    "slug": "srd-2024_item_chain-shirt-3",
     "name": "Chain Shirt (+3)",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -1218,7 +1218,7 @@
     }
   },
   {
-    "slug": "srd-2024_chime-of-opening",
+    "slug": "srd-2024_item_chime-of-opening",
     "name": "Chime of Opening",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -1228,7 +1228,7 @@
     "weight": 1
   },
   {
-    "slug": "srd-2024_circlet-of-blasting",
+    "slug": "srd-2024_item_circlet-of-blasting",
     "name": "Circlet of Blasting",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -1244,7 +1244,7 @@
     }
   },
   {
-    "slug": "srd-2024_cloak-of-arachnida",
+    "slug": "srd-2024_item_cloak-of-arachnida",
     "name": "Cloak of Arachnida",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -1266,7 +1266,7 @@
     ]
   },
   {
-    "slug": "srd-2024_cloak-of-displacement",
+    "slug": "srd-2024_item_cloak-of-displacement",
     "name": "Cloak of Displacement",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -1278,7 +1278,7 @@
     }
   },
   {
-    "slug": "srd-2024_cloak-of-elvenkind",
+    "slug": "srd-2024_item_cloak-of-elvenkind",
     "name": "Cloak of Elvenkind",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -1290,7 +1290,7 @@
     }
   },
   {
-    "slug": "srd-2024_cloak-of-protection",
+    "slug": "srd-2024_item_cloak-of-protection",
     "name": "Cloak of Protection",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -1306,7 +1306,7 @@
     }
   },
   {
-    "slug": "srd-2024_cloak-of-the-bat",
+    "slug": "srd-2024_item_cloak-of-the-bat",
     "name": "Cloak of the Bat",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -1330,7 +1330,7 @@
     ]
   },
   {
-    "slug": "srd-2024_cloak-of-the-manta-ray",
+    "slug": "srd-2024_item_cloak-of-the-manta-ray",
     "name": "Cloak of the Manta Ray",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -1347,7 +1347,7 @@
     }
   },
   {
-    "slug": "srd-2024_club-1",
+    "slug": "srd-2024_item_club-1",
     "name": "Club (+1)",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -1362,7 +1362,7 @@
     }
   },
   {
-    "slug": "srd-2024_club-2",
+    "slug": "srd-2024_item_club-2",
     "name": "Club (+2)",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -1377,7 +1377,7 @@
     }
   },
   {
-    "slug": "srd-2024_club-3",
+    "slug": "srd-2024_item_club-3",
     "name": "Club (+3)",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -1392,7 +1392,7 @@
     }
   },
   {
-    "slug": "srd-2024_crystal-ball",
+    "slug": "srd-2024_item_crystal-ball",
     "name": "Crystal Ball",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -1405,7 +1405,7 @@
     }
   },
   {
-    "slug": "srd-2024_crystal-ball-of-mind-reading",
+    "slug": "srd-2024_item_crystal-ball-of-mind-reading",
     "name": "Crystal Ball of Mind Reading",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -1418,7 +1418,7 @@
     }
   },
   {
-    "slug": "srd-2024_crystal-ball-of-telepathy",
+    "slug": "srd-2024_item_crystal-ball-of-telepathy",
     "name": "Crystal Ball of Telepathy",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -1441,7 +1441,7 @@
     }
   },
   {
-    "slug": "srd-2024_crystal-ball-of-true-seeing",
+    "slug": "srd-2024_item_crystal-ball-of-true-seeing",
     "name": "Crystal Ball of True Seeing",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -1454,7 +1454,7 @@
     }
   },
   {
-    "slug": "srd-2024_cube-of-force",
+    "slug": "srd-2024_item_cube-of-force",
     "name": "Cube of Force",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -1489,7 +1489,7 @@
     }
   },
   {
-    "slug": "srd-2024_cubic-gate",
+    "slug": "srd-2024_item_cubic-gate",
     "name": "Cubic Gate",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -1503,7 +1503,7 @@
     }
   },
   {
-    "slug": "srd-2024_dagger-of-venom",
+    "slug": "srd-2024_item_dagger-of-venom",
     "name": "Dagger of Venom",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -1524,7 +1524,7 @@
     }
   },
   {
-    "slug": "srd-2024_dagger-1",
+    "slug": "srd-2024_item_dagger-1",
     "name": "Dagger (+1)",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -1539,7 +1539,7 @@
     }
   },
   {
-    "slug": "srd-2024_dagger-2",
+    "slug": "srd-2024_item_dagger-2",
     "name": "Dagger (+2)",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -1554,7 +1554,7 @@
     }
   },
   {
-    "slug": "srd-2024_dagger-3",
+    "slug": "srd-2024_item_dagger-3",
     "name": "Dagger (+3)",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -1569,7 +1569,7 @@
     }
   },
   {
-    "slug": "srd-2024_dancing-greatsword",
+    "slug": "srd-2024_item_dancing-greatsword",
     "name": "Dancing Greatsword",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -1582,7 +1582,7 @@
     }
   },
   {
-    "slug": "srd-2024_dancing-longsword",
+    "slug": "srd-2024_item_dancing-longsword",
     "name": "Dancing Longsword",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -1595,7 +1595,7 @@
     }
   },
   {
-    "slug": "srd-2024_dancing-rapier",
+    "slug": "srd-2024_item_dancing-rapier",
     "name": "Dancing Rapier",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -1608,7 +1608,7 @@
     }
   },
   {
-    "slug": "srd-2024_dancing-scimitar",
+    "slug": "srd-2024_item_dancing-scimitar",
     "name": "Dancing Scimitar",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -1621,7 +1621,7 @@
     }
   },
   {
-    "slug": "srd-2024_dancing-shortsword",
+    "slug": "srd-2024_item_dancing-shortsword",
     "name": "Dancing Shortsword",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -1634,7 +1634,7 @@
     }
   },
   {
-    "slug": "srd-2024_dart-1",
+    "slug": "srd-2024_item_dart-1",
     "name": "Dart (+1)",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -1649,7 +1649,7 @@
     }
   },
   {
-    "slug": "srd-2024_dart-2",
+    "slug": "srd-2024_item_dart-2",
     "name": "Dart (+2)",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -1664,7 +1664,7 @@
     }
   },
   {
-    "slug": "srd-2024_dart-3",
+    "slug": "srd-2024_item_dart-3",
     "name": "Dart (+3)",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -1679,7 +1679,7 @@
     }
   },
   {
-    "slug": "srd-2024_decanter-of-endless-water",
+    "slug": "srd-2024_item_decanter-of-endless-water",
     "name": "Decanter of Endless Water",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -1689,7 +1689,7 @@
     "weight": 2
   },
   {
-    "slug": "srd-2024_deck-of-illusions",
+    "slug": "srd-2024_item_deck-of-illusions",
     "name": "Deck of Illusions",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -1698,7 +1698,7 @@
     "type": "wondrous item"
   },
   {
-    "slug": "srd-2024_defender",
+    "slug": "srd-2024_item_defender",
     "name": "Defender",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -1710,7 +1710,7 @@
     }
   },
   {
-    "slug": "srd-2024_defender-battleaxe",
+    "slug": "srd-2024_item_defender-battleaxe",
     "name": "Defender (Battleaxe)",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -1729,7 +1729,7 @@
     }
   },
   {
-    "slug": "srd-2024_defender-blowgun",
+    "slug": "srd-2024_item_defender-blowgun",
     "name": "Defender (Blowgun)",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -1743,7 +1743,7 @@
     }
   },
   {
-    "slug": "srd-2024_defender-club",
+    "slug": "srd-2024_item_defender-club",
     "name": "Defender (Club)",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -1762,7 +1762,7 @@
     }
   },
   {
-    "slug": "srd-2024_defender-dagger",
+    "slug": "srd-2024_item_defender-dagger",
     "name": "Defender (Dagger)",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -1781,7 +1781,7 @@
     }
   },
   {
-    "slug": "srd-2024_defender-dart",
+    "slug": "srd-2024_item_defender-dart",
     "name": "Defender (Dart)",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -1795,7 +1795,7 @@
     }
   },
   {
-    "slug": "srd-2024_defender-flail",
+    "slug": "srd-2024_item_defender-flail",
     "name": "Defender (Flail)",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -1814,7 +1814,7 @@
     }
   },
   {
-    "slug": "srd-2024_defender-glaive",
+    "slug": "srd-2024_item_defender-glaive",
     "name": "Defender (Glaive)",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -1833,7 +1833,7 @@
     }
   },
   {
-    "slug": "srd-2024_defender-greataxe",
+    "slug": "srd-2024_item_defender-greataxe",
     "name": "Defender (Greataxe)",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -1852,7 +1852,7 @@
     }
   },
   {
-    "slug": "srd-2024_defender-greatclub",
+    "slug": "srd-2024_item_defender-greatclub",
     "name": "Defender (Greatclub)",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -1871,7 +1871,7 @@
     }
   },
   {
-    "slug": "srd-2024_defender-greatsword",
+    "slug": "srd-2024_item_defender-greatsword",
     "name": "Defender (Greatsword)",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -1890,7 +1890,7 @@
     }
   },
   {
-    "slug": "srd-2024_defender-halberd",
+    "slug": "srd-2024_item_defender-halberd",
     "name": "Defender (Halberd)",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -1909,7 +1909,7 @@
     }
   },
   {
-    "slug": "srd-2024_defender-hand-crossbow",
+    "slug": "srd-2024_item_defender-hand-crossbow",
     "name": "Defender (Hand Crossbow)",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -1923,7 +1923,7 @@
     }
   },
   {
-    "slug": "srd-2024_defender-handaxe",
+    "slug": "srd-2024_item_defender-handaxe",
     "name": "Defender (Handaxe)",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -1942,7 +1942,7 @@
     }
   },
   {
-    "slug": "srd-2024_defender-heavy-crossbow",
+    "slug": "srd-2024_item_defender-heavy-crossbow",
     "name": "Defender (Heavy Crossbow)",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -1956,7 +1956,7 @@
     }
   },
   {
-    "slug": "srd-2024_defender-javelin",
+    "slug": "srd-2024_item_defender-javelin",
     "name": "Defender (Javelin)",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -1975,7 +1975,7 @@
     }
   },
   {
-    "slug": "srd-2024_defender-lance",
+    "slug": "srd-2024_item_defender-lance",
     "name": "Defender (Lance)",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -1994,7 +1994,7 @@
     }
   },
   {
-    "slug": "srd-2024_defender-light-crossbow",
+    "slug": "srd-2024_item_defender-light-crossbow",
     "name": "Defender (Light Crossbow)",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -2008,7 +2008,7 @@
     }
   },
   {
-    "slug": "srd-2024_defender-light-hammer",
+    "slug": "srd-2024_item_defender-light-hammer",
     "name": "Defender (Light Hammer)",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -2027,7 +2027,7 @@
     }
   },
   {
-    "slug": "srd-2024_defender-longbow",
+    "slug": "srd-2024_item_defender-longbow",
     "name": "Defender (Longbow)",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -2041,7 +2041,7 @@
     }
   },
   {
-    "slug": "srd-2024_defender-longsword",
+    "slug": "srd-2024_item_defender-longsword",
     "name": "Defender (Longsword)",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -2060,7 +2060,7 @@
     }
   },
   {
-    "slug": "srd-2024_defender-mace",
+    "slug": "srd-2024_item_defender-mace",
     "name": "Defender (Mace)",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -2079,7 +2079,7 @@
     }
   },
   {
-    "slug": "srd-2024_defender-maul",
+    "slug": "srd-2024_item_defender-maul",
     "name": "Defender (Maul)",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -2098,7 +2098,7 @@
     }
   },
   {
-    "slug": "srd-2024_defender-morningstar",
+    "slug": "srd-2024_item_defender-morningstar",
     "name": "Defender (Morningstar)",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -2117,7 +2117,7 @@
     }
   },
   {
-    "slug": "srd-2024_defender-musket",
+    "slug": "srd-2024_item_defender-musket",
     "name": "Defender (Musket)",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -2131,7 +2131,7 @@
     }
   },
   {
-    "slug": "srd-2024_defender-pike",
+    "slug": "srd-2024_item_defender-pike",
     "name": "Defender (Pike)",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -2150,7 +2150,7 @@
     }
   },
   {
-    "slug": "srd-2024_defender-pistol",
+    "slug": "srd-2024_item_defender-pistol",
     "name": "Defender (Pistol)",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -2164,7 +2164,7 @@
     }
   },
   {
-    "slug": "srd-2024_defender-quarterstaff",
+    "slug": "srd-2024_item_defender-quarterstaff",
     "name": "Defender (Quarterstaff)",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -2183,7 +2183,7 @@
     }
   },
   {
-    "slug": "srd-2024_defender-rapier",
+    "slug": "srd-2024_item_defender-rapier",
     "name": "Defender (Rapier)",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -2202,7 +2202,7 @@
     }
   },
   {
-    "slug": "srd-2024_defender-scimitar",
+    "slug": "srd-2024_item_defender-scimitar",
     "name": "Defender (Scimitar)",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -2221,7 +2221,7 @@
     }
   },
   {
-    "slug": "srd-2024_defender-shortbow",
+    "slug": "srd-2024_item_defender-shortbow",
     "name": "Defender (Shortbow)",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -2235,7 +2235,7 @@
     }
   },
   {
-    "slug": "srd-2024_defender-shortsword",
+    "slug": "srd-2024_item_defender-shortsword",
     "name": "Defender (Shortsword)",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -2254,7 +2254,7 @@
     }
   },
   {
-    "slug": "srd-2024_defender-sickle",
+    "slug": "srd-2024_item_defender-sickle",
     "name": "Defender (Sickle)",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -2273,7 +2273,7 @@
     }
   },
   {
-    "slug": "srd-2024_defender-sling",
+    "slug": "srd-2024_item_defender-sling",
     "name": "Defender (Sling)",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -2286,7 +2286,7 @@
     }
   },
   {
-    "slug": "srd-2024_defender-spear",
+    "slug": "srd-2024_item_defender-spear",
     "name": "Defender (Spear)",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -2305,7 +2305,7 @@
     }
   },
   {
-    "slug": "srd-2024_defender-trident",
+    "slug": "srd-2024_item_defender-trident",
     "name": "Defender (Trident)",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -2324,7 +2324,7 @@
     }
   },
   {
-    "slug": "srd-2024_defender-war-pick",
+    "slug": "srd-2024_item_defender-war-pick",
     "name": "Defender (War Pick)",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -2343,7 +2343,7 @@
     }
   },
   {
-    "slug": "srd-2024_defender-warhammer",
+    "slug": "srd-2024_item_defender-warhammer",
     "name": "Defender (Warhammer)",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -2362,7 +2362,7 @@
     }
   },
   {
-    "slug": "srd-2024_defender-whip",
+    "slug": "srd-2024_item_defender-whip",
     "name": "Defender (Whip)",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -2381,7 +2381,7 @@
     }
   },
   {
-    "slug": "srd-2024_demon-breastplate",
+    "slug": "srd-2024_item_demon-breastplate",
     "name": "Demon Breastplate",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -2400,7 +2400,7 @@
     }
   },
   {
-    "slug": "srd-2024_demon-chain-mail",
+    "slug": "srd-2024_item_demon-chain-mail",
     "name": "Demon Chain Mail",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -2419,7 +2419,7 @@
     }
   },
   {
-    "slug": "srd-2024_demon-chain-shirt",
+    "slug": "srd-2024_item_demon-chain-shirt",
     "name": "Demon Chain Shirt",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -2438,7 +2438,7 @@
     }
   },
   {
-    "slug": "srd-2024_demon-half-plate-armor",
+    "slug": "srd-2024_item_demon-half-plate-armor",
     "name": "Demon Half Plate Armor",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -2457,7 +2457,7 @@
     }
   },
   {
-    "slug": "srd-2024_demon-hide-armor",
+    "slug": "srd-2024_item_demon-hide-armor",
     "name": "Demon Hide Armor",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -2476,7 +2476,7 @@
     }
   },
   {
-    "slug": "srd-2024_demon-leather-armor",
+    "slug": "srd-2024_item_demon-leather-armor",
     "name": "Demon Leather Armor",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -2495,7 +2495,7 @@
     }
   },
   {
-    "slug": "srd-2024_demon-padded-armor",
+    "slug": "srd-2024_item_demon-padded-armor",
     "name": "Demon Padded Armor",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -2514,7 +2514,7 @@
     }
   },
   {
-    "slug": "srd-2024_demon-plate-armor",
+    "slug": "srd-2024_item_demon-plate-armor",
     "name": "Demon Plate Armor",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -2533,7 +2533,7 @@
     }
   },
   {
-    "slug": "srd-2024_demon-ring-mail",
+    "slug": "srd-2024_item_demon-ring-mail",
     "name": "Demon Ring Mail",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -2552,7 +2552,7 @@
     }
   },
   {
-    "slug": "srd-2024_demon-scale-mail",
+    "slug": "srd-2024_item_demon-scale-mail",
     "name": "Demon Scale Mail",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -2571,7 +2571,7 @@
     }
   },
   {
-    "slug": "srd-2024_demon-splint-armor",
+    "slug": "srd-2024_item_demon-splint-armor",
     "name": "Demon Splint Armor",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -2590,7 +2590,7 @@
     }
   },
   {
-    "slug": "srd-2024_demon-studded-leather-armor",
+    "slug": "srd-2024_item_demon-studded-leather-armor",
     "name": "Demon Studded Leather Armor",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -2609,7 +2609,7 @@
     }
   },
   {
-    "slug": "srd-2024_dimensional-shackles",
+    "slug": "srd-2024_item_dimensional-shackles",
     "name": "Dimensional Shackles",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -2623,7 +2623,7 @@
     ]
   },
   {
-    "slug": "srd-2024_dragon-orb",
+    "slug": "srd-2024_item_dragon-orb",
     "name": "Dragon Orb",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -2635,7 +2635,7 @@
     }
   },
   {
-    "slug": "srd-2024_dragon-scale-mail",
+    "slug": "srd-2024_item_dragon-scale-mail",
     "name": "Dragon Scale Mail",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -2647,7 +2647,7 @@
     }
   },
   {
-    "slug": "srd-2024_dragon-slayer",
+    "slug": "srd-2024_item_dragon-slayer",
     "name": "Dragon Slayer",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -2656,7 +2656,7 @@
     "type": "weapon"
   },
   {
-    "slug": "srd-2024_dust-of-disappearance",
+    "slug": "srd-2024_item_dust-of-disappearance",
     "name": "Dust of Disappearance",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -2670,7 +2670,7 @@
     ]
   },
   {
-    "slug": "srd-2024_dust-of-dryness",
+    "slug": "srd-2024_item_dust-of-dryness",
     "name": "Dust of Dryness",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -2679,7 +2679,7 @@
     "type": "wondrous item"
   },
   {
-    "slug": "srd-2024_dust-of-sneezing-and-choking",
+    "slug": "srd-2024_item_dust-of-sneezing-and-choking",
     "name": "Dust of Sneezing and Choking",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -2693,7 +2693,7 @@
     ]
   },
   {
-    "slug": "srd-2024_dwarven-half-plate",
+    "slug": "srd-2024_item_dwarven-half-plate",
     "name": "Dwarven Half Plate",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -2703,7 +2703,7 @@
     "base_item": "[[SRD 2024/Armor/Half Plate Armor]]"
   },
   {
-    "slug": "srd-2024_dwarven-plate",
+    "slug": "srd-2024_item_dwarven-plate",
     "name": "Dwarven Plate",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -2713,7 +2713,7 @@
     "base_item": "[[SRD 2024/Armor/Plate Armor]]"
   },
   {
-    "slug": "srd-2024_dwarven-thrower",
+    "slug": "srd-2024_item_dwarven-thrower",
     "name": "Dwarven Thrower",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -2742,7 +2742,7 @@
     }
   },
   {
-    "slug": "srd-2024_efficient-quiver",
+    "slug": "srd-2024_item_efficient-quiver",
     "name": "Efficient Quiver",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -2751,7 +2751,7 @@
     "type": "wondrous item"
   },
   {
-    "slug": "srd-2024_efreeti-bottle",
+    "slug": "srd-2024_item_efreeti-bottle",
     "name": "Efreeti Bottle",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -2767,7 +2767,7 @@
     }
   },
   {
-    "slug": "srd-2024_elemental-gem",
+    "slug": "srd-2024_item_elemental-gem",
     "name": "Elemental Gem",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -2776,7 +2776,7 @@
     "type": "wondrous item"
   },
   {
-    "slug": "srd-2024_elven-chain-mail",
+    "slug": "srd-2024_item_elven-chain-mail",
     "name": "Elven Chain Mail",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -2789,7 +2789,7 @@
     }
   },
   {
-    "slug": "srd-2024_elven-chain-shirt",
+    "slug": "srd-2024_item_elven-chain-shirt",
     "name": "Elven Chain Shirt",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -2802,7 +2802,7 @@
     }
   },
   {
-    "slug": "srd-2024_eversmoking-bottle",
+    "slug": "srd-2024_item_eversmoking-bottle",
     "name": "Eversmoking Bottle",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -2811,7 +2811,7 @@
     "type": "wondrous item"
   },
   {
-    "slug": "srd-2024_eyes-of-charming",
+    "slug": "srd-2024_item_eyes-of-charming",
     "name": "Eyes of Charming",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -2834,7 +2834,7 @@
     }
   },
   {
-    "slug": "srd-2024_eyes-of-minute-seeing",
+    "slug": "srd-2024_item_eyes-of-minute-seeing",
     "name": "Eyes of Minute Seeing",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -2843,7 +2843,7 @@
     "type": "wondrous item"
   },
   {
-    "slug": "srd-2024_eyes-of-the-eagle",
+    "slug": "srd-2024_item_eyes-of-the-eagle",
     "name": "Eyes of the Eagle",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -2852,7 +2852,7 @@
     "type": "wondrous item"
   },
   {
-    "slug": "srd-2024_feather-token-anchor",
+    "slug": "srd-2024_item_feather-token-anchor",
     "name": "Feather Token (Anchor)",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -2861,7 +2861,7 @@
     "type": "wondrous item"
   },
   {
-    "slug": "srd-2024_feather-token-bird",
+    "slug": "srd-2024_item_feather-token-bird",
     "name": "Feather Token (Bird)",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -2870,7 +2870,7 @@
     "type": "wondrous item"
   },
   {
-    "slug": "srd-2024_feather-token-fan",
+    "slug": "srd-2024_item_feather-token-fan",
     "name": "Feather Token (Fan)",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -2879,7 +2879,7 @@
     "type": "wondrous item"
   },
   {
-    "slug": "srd-2024_feather-token-swan-boat",
+    "slug": "srd-2024_item_feather-token-swan-boat",
     "name": "Feather Token (Swan Boat)",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -2888,7 +2888,7 @@
     "type": "wondrous item"
   },
   {
-    "slug": "srd-2024_feather-token-tree",
+    "slug": "srd-2024_item_feather-token-tree",
     "name": "Feather Token (Tree)",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -2897,7 +2897,7 @@
     "type": "wondrous item"
   },
   {
-    "slug": "srd-2024_feather-token-whip",
+    "slug": "srd-2024_item_feather-token-whip",
     "name": "Feather Token (Whip)",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -2906,7 +2906,7 @@
     "type": "wondrous item"
   },
   {
-    "slug": "srd-2024_figurine-of-wondrous-power-bronze-griffon",
+    "slug": "srd-2024_item_figurine-of-wondrous-power-bronze-griffon",
     "name": "Figurine of Wondrous Power (Bronze Griffon)",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -2915,7 +2915,7 @@
     "type": "wondrous item"
   },
   {
-    "slug": "srd-2024_figurine-of-wondrous-power-ebony-fly",
+    "slug": "srd-2024_item_figurine-of-wondrous-power-ebony-fly",
     "name": "Figurine of Wondrous Power (Ebony Fly)",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -2924,7 +2924,7 @@
     "type": "wondrous item"
   },
   {
-    "slug": "srd-2024_figurine-of-wondrous-power-golden-lions",
+    "slug": "srd-2024_item_figurine-of-wondrous-power-golden-lions",
     "name": "Figurine of Wondrous Power (Golden Lions)",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -2933,7 +2933,7 @@
     "type": "wondrous item"
   },
   {
-    "slug": "srd-2024_figurine-of-wondrous-power-ivory-goats",
+    "slug": "srd-2024_item_figurine-of-wondrous-power-ivory-goats",
     "name": "Figurine of Wondrous Power (Ivory Goats)",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -2945,7 +2945,7 @@
     }
   },
   {
-    "slug": "srd-2024_figurine-of-wondrous-power-marble-elephant",
+    "slug": "srd-2024_item_figurine-of-wondrous-power-marble-elephant",
     "name": "Figurine of Wondrous Power (Marble Elephant)",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -2954,7 +2954,7 @@
     "type": "wondrous item"
   },
   {
-    "slug": "srd-2024_figurine-of-wondrous-power-obsidian-stead",
+    "slug": "srd-2024_item_figurine-of-wondrous-power-obsidian-stead",
     "name": "Figurine of Wondrous Power (Obsidian Stead)",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -2963,7 +2963,7 @@
     "type": "wondrous item"
   },
   {
-    "slug": "srd-2024_figurine-of-wondrous-power-onyx-dog",
+    "slug": "srd-2024_item_figurine-of-wondrous-power-onyx-dog",
     "name": "Figurine of Wondrous Power (Onyx Dog)",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -2977,7 +2977,7 @@
     ]
   },
   {
-    "slug": "srd-2024_figurine-of-wondrous-power-serpentine-owl",
+    "slug": "srd-2024_item_figurine-of-wondrous-power-serpentine-owl",
     "name": "Figurine of Wondrous Power (Serpentine Owl)",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -2986,7 +2986,7 @@
     "type": "wondrous item"
   },
   {
-    "slug": "srd-2024_figurine-of-wondrous-power-silver-raven",
+    "slug": "srd-2024_item_figurine-of-wondrous-power-silver-raven",
     "name": "Figurine of Wondrous Power (Silver Raven)",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -2995,7 +2995,7 @@
     "type": "wondrous item"
   },
   {
-    "slug": "srd-2024_flail-1",
+    "slug": "srd-2024_item_flail-1",
     "name": "Flail (+1)",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -3010,7 +3010,7 @@
     }
   },
   {
-    "slug": "srd-2024_flail-2",
+    "slug": "srd-2024_item_flail-2",
     "name": "Flail (+2)",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -3025,7 +3025,7 @@
     }
   },
   {
-    "slug": "srd-2024_flail-3",
+    "slug": "srd-2024_item_flail-3",
     "name": "Flail (+3)",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -3040,7 +3040,7 @@
     }
   },
   {
-    "slug": "srd-2024_flame-tongue-battleaxe",
+    "slug": "srd-2024_item_flame-tongue-battleaxe",
     "name": "Flame Tongue Battleaxe",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -3060,7 +3060,7 @@
     ]
   },
   {
-    "slug": "srd-2024_flame-tongue-club",
+    "slug": "srd-2024_item_flame-tongue-club",
     "name": "Flame Tongue Club",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -3080,7 +3080,7 @@
     ]
   },
   {
-    "slug": "srd-2024_flame-tongue-dagger",
+    "slug": "srd-2024_item_flame-tongue-dagger",
     "name": "Flame Tongue Dagger",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -3100,7 +3100,7 @@
     ]
   },
   {
-    "slug": "srd-2024_flame-tongue-dart",
+    "slug": "srd-2024_item_flame-tongue-dart",
     "name": "Flame Tongue Dart",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -3120,7 +3120,7 @@
     ]
   },
   {
-    "slug": "srd-2024_flame-tongue-flail",
+    "slug": "srd-2024_item_flame-tongue-flail",
     "name": "Flame Tongue Flail",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -3140,7 +3140,7 @@
     ]
   },
   {
-    "slug": "srd-2024_flame-tongue-glaive",
+    "slug": "srd-2024_item_flame-tongue-glaive",
     "name": "Flame Tongue Glaive",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -3160,7 +3160,7 @@
     ]
   },
   {
-    "slug": "srd-2024_flame-tongue-greataxe",
+    "slug": "srd-2024_item_flame-tongue-greataxe",
     "name": "Flame Tongue Greataxe",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -3180,7 +3180,7 @@
     ]
   },
   {
-    "slug": "srd-2024_flame-tongue-greatclub",
+    "slug": "srd-2024_item_flame-tongue-greatclub",
     "name": "Flame Tongue Greatclub",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -3200,7 +3200,7 @@
     ]
   },
   {
-    "slug": "srd-2024_flame-tongue-greatsword",
+    "slug": "srd-2024_item_flame-tongue-greatsword",
     "name": "Flame Tongue Greatsword",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -3220,7 +3220,7 @@
     ]
   },
   {
-    "slug": "srd-2024_flame-tongue-halberd",
+    "slug": "srd-2024_item_flame-tongue-halberd",
     "name": "Flame Tongue Halberd",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -3240,7 +3240,7 @@
     ]
   },
   {
-    "slug": "srd-2024_flame-tongue-handaxe",
+    "slug": "srd-2024_item_flame-tongue-handaxe",
     "name": "Flame Tongue Handaxe",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -3260,7 +3260,7 @@
     ]
   },
   {
-    "slug": "srd-2024_flame-tongue-javelin",
+    "slug": "srd-2024_item_flame-tongue-javelin",
     "name": "Flame Tongue Javelin",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -3280,7 +3280,7 @@
     ]
   },
   {
-    "slug": "srd-2024_flame-tongue-lance",
+    "slug": "srd-2024_item_flame-tongue-lance",
     "name": "Flame Tongue Lance",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -3300,7 +3300,7 @@
     ]
   },
   {
-    "slug": "srd-2024_flame-tongue-light-hammer",
+    "slug": "srd-2024_item_flame-tongue-light-hammer",
     "name": "Flame Tongue Light Hammer",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -3320,7 +3320,7 @@
     ]
   },
   {
-    "slug": "srd-2024_flame-tongue-longsword",
+    "slug": "srd-2024_item_flame-tongue-longsword",
     "name": "Flame Tongue Longsword",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -3340,7 +3340,7 @@
     ]
   },
   {
-    "slug": "srd-2024_flame-tongue-mace",
+    "slug": "srd-2024_item_flame-tongue-mace",
     "name": "Flame Tongue Mace",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -3360,7 +3360,7 @@
     ]
   },
   {
-    "slug": "srd-2024_flame-tongue-maul",
+    "slug": "srd-2024_item_flame-tongue-maul",
     "name": "Flame Tongue Maul",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -3380,7 +3380,7 @@
     ]
   },
   {
-    "slug": "srd-2024_flame-tongue-morningstar",
+    "slug": "srd-2024_item_flame-tongue-morningstar",
     "name": "Flame Tongue Morningstar",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -3400,7 +3400,7 @@
     ]
   },
   {
-    "slug": "srd-2024_flame-tongue-pike",
+    "slug": "srd-2024_item_flame-tongue-pike",
     "name": "Flame Tongue Pike",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -3420,7 +3420,7 @@
     ]
   },
   {
-    "slug": "srd-2024_flame-tongue-quarterstaff",
+    "slug": "srd-2024_item_flame-tongue-quarterstaff",
     "name": "Flame Tongue Quarterstaff",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -3440,7 +3440,7 @@
     ]
   },
   {
-    "slug": "srd-2024_flame-tongue-rapier",
+    "slug": "srd-2024_item_flame-tongue-rapier",
     "name": "Flame Tongue Rapier",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -3460,7 +3460,7 @@
     ]
   },
   {
-    "slug": "srd-2024_flame-tongue-scimitar",
+    "slug": "srd-2024_item_flame-tongue-scimitar",
     "name": "Flame Tongue Scimitar",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -3480,7 +3480,7 @@
     ]
   },
   {
-    "slug": "srd-2024_flame-tongue-shortsword",
+    "slug": "srd-2024_item_flame-tongue-shortsword",
     "name": "Flame Tongue Shortsword",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -3500,7 +3500,7 @@
     ]
   },
   {
-    "slug": "srd-2024_flame-tongue-sickle",
+    "slug": "srd-2024_item_flame-tongue-sickle",
     "name": "Flame Tongue Sickle",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -3520,7 +3520,7 @@
     ]
   },
   {
-    "slug": "srd-2024_flame-tongue-spear",
+    "slug": "srd-2024_item_flame-tongue-spear",
     "name": "Flame Tongue Spear",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -3540,7 +3540,7 @@
     ]
   },
   {
-    "slug": "srd-2024_flame-tongue-trident",
+    "slug": "srd-2024_item_flame-tongue-trident",
     "name": "Flame Tongue Trident",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -3560,7 +3560,7 @@
     ]
   },
   {
-    "slug": "srd-2024_flame-tongue-war-pick",
+    "slug": "srd-2024_item_flame-tongue-war-pick",
     "name": "Flame Tongue War Pick",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -3580,7 +3580,7 @@
     ]
   },
   {
-    "slug": "srd-2024_flame-tongue-warhammer",
+    "slug": "srd-2024_item_flame-tongue-warhammer",
     "name": "Flame Tongue Warhammer",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -3600,7 +3600,7 @@
     ]
   },
   {
-    "slug": "srd-2024_flame-tongue-whip",
+    "slug": "srd-2024_item_flame-tongue-whip",
     "name": "Flame Tongue Whip",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -3620,7 +3620,7 @@
     ]
   },
   {
-    "slug": "srd-2024_folding-boat",
+    "slug": "srd-2024_item_folding-boat",
     "name": "Folding Boat",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -3630,7 +3630,7 @@
     "weight": 4
   },
   {
-    "slug": "srd-2024_frost-brand-glaive",
+    "slug": "srd-2024_item_frost-brand-glaive",
     "name": "Frost Brand (Glaive)",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -3643,7 +3643,7 @@
     }
   },
   {
-    "slug": "srd-2024_frost-brand-greatsword",
+    "slug": "srd-2024_item_frost-brand-greatsword",
     "name": "Frost Brand (Greatsword)",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -3656,7 +3656,7 @@
     }
   },
   {
-    "slug": "srd-2024_frost-brand-longsword",
+    "slug": "srd-2024_item_frost-brand-longsword",
     "name": "Frost Brand (Longsword)",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -3669,7 +3669,7 @@
     }
   },
   {
-    "slug": "srd-2024_frost-brand-rapier",
+    "slug": "srd-2024_item_frost-brand-rapier",
     "name": "Frost Brand (Rapier)",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -3682,7 +3682,7 @@
     }
   },
   {
-    "slug": "srd-2024_frost-brand-scimitar",
+    "slug": "srd-2024_item_frost-brand-scimitar",
     "name": "Frost Brand (Scimitar)",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -3695,7 +3695,7 @@
     }
   },
   {
-    "slug": "srd-2024_frost-brand-shortsword",
+    "slug": "srd-2024_item_frost-brand-shortsword",
     "name": "Frost Brand (Shortsword)",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -3708,7 +3708,7 @@
     }
   },
   {
-    "slug": "srd-2024_gauntlets-of-ogre-power",
+    "slug": "srd-2024_item_gauntlets-of-ogre-power",
     "name": "Gauntlets of Ogre Power",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -3727,7 +3727,7 @@
     }
   },
   {
-    "slug": "srd-2024_gem-of-brightness",
+    "slug": "srd-2024_item_gem-of-brightness",
     "name": "Gem of Brightness",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -3739,7 +3739,7 @@
     }
   },
   {
-    "slug": "srd-2024_gem-of-seeing",
+    "slug": "srd-2024_item_gem-of-seeing",
     "name": "Gem of Seeing",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -3761,7 +3761,7 @@
     ]
   },
   {
-    "slug": "srd-2024_giant-slayer-battleaxe",
+    "slug": "srd-2024_item_giant-slayer-battleaxe",
     "name": "Giant Slayer (Battleaxe)",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -3776,7 +3776,7 @@
     }
   },
   {
-    "slug": "srd-2024_giant-slayer-blowgun",
+    "slug": "srd-2024_item_giant-slayer-blowgun",
     "name": "Giant Slayer (Blowgun)",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -3791,7 +3791,7 @@
     }
   },
   {
-    "slug": "srd-2024_giant-slayer-club",
+    "slug": "srd-2024_item_giant-slayer-club",
     "name": "Giant Slayer (Club)",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -3806,7 +3806,7 @@
     }
   },
   {
-    "slug": "srd-2024_giant-slayer-dagger",
+    "slug": "srd-2024_item_giant-slayer-dagger",
     "name": "Giant Slayer (Dagger)",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -3821,7 +3821,7 @@
     }
   },
   {
-    "slug": "srd-2024_giant-slayer-dart",
+    "slug": "srd-2024_item_giant-slayer-dart",
     "name": "Giant Slayer (Dart)",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -3836,7 +3836,7 @@
     }
   },
   {
-    "slug": "srd-2024_giant-slayer-flail",
+    "slug": "srd-2024_item_giant-slayer-flail",
     "name": "Giant Slayer (Flail)",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -3851,7 +3851,7 @@
     }
   },
   {
-    "slug": "srd-2024_giant-slayer-glaive",
+    "slug": "srd-2024_item_giant-slayer-glaive",
     "name": "Giant Slayer (Glaive)",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -3866,7 +3866,7 @@
     }
   },
   {
-    "slug": "srd-2024_giant-slayer-greataxe",
+    "slug": "srd-2024_item_giant-slayer-greataxe",
     "name": "Giant Slayer (Greataxe)",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -3881,7 +3881,7 @@
     }
   },
   {
-    "slug": "srd-2024_giant-slayer-greatclub",
+    "slug": "srd-2024_item_giant-slayer-greatclub",
     "name": "Giant Slayer (Greatclub)",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -3896,7 +3896,7 @@
     }
   },
   {
-    "slug": "srd-2024_giant-slayer-greatsword",
+    "slug": "srd-2024_item_giant-slayer-greatsword",
     "name": "Giant Slayer (Greatsword)",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -3911,7 +3911,7 @@
     }
   },
   {
-    "slug": "srd-2024_giant-slayer-halberd",
+    "slug": "srd-2024_item_giant-slayer-halberd",
     "name": "Giant Slayer (Halberd)",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -3926,7 +3926,7 @@
     }
   },
   {
-    "slug": "srd-2024_giant-slayer-hand-crossbow",
+    "slug": "srd-2024_item_giant-slayer-hand-crossbow",
     "name": "Giant Slayer (Hand Crossbow)",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -3941,7 +3941,7 @@
     }
   },
   {
-    "slug": "srd-2024_giant-slayer-handaxe",
+    "slug": "srd-2024_item_giant-slayer-handaxe",
     "name": "Giant Slayer (Handaxe)",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -3956,7 +3956,7 @@
     }
   },
   {
-    "slug": "srd-2024_giant-slayer-heavy-crossbow",
+    "slug": "srd-2024_item_giant-slayer-heavy-crossbow",
     "name": "Giant Slayer (Heavy Crossbow)",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -3971,7 +3971,7 @@
     }
   },
   {
-    "slug": "srd-2024_giant-slayer-javelin",
+    "slug": "srd-2024_item_giant-slayer-javelin",
     "name": "Giant Slayer (Javelin)",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -3986,7 +3986,7 @@
     }
   },
   {
-    "slug": "srd-2024_giant-slayer-lance",
+    "slug": "srd-2024_item_giant-slayer-lance",
     "name": "Giant Slayer (Lance)",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -4001,7 +4001,7 @@
     }
   },
   {
-    "slug": "srd-2024_giant-slayer-light-crossbow",
+    "slug": "srd-2024_item_giant-slayer-light-crossbow",
     "name": "Giant Slayer (Light Crossbow)",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -4016,7 +4016,7 @@
     }
   },
   {
-    "slug": "srd-2024_giant-slayer-light-hammer",
+    "slug": "srd-2024_item_giant-slayer-light-hammer",
     "name": "Giant Slayer (Light Hammer)",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -4031,7 +4031,7 @@
     }
   },
   {
-    "slug": "srd-2024_giant-slayer-longbow",
+    "slug": "srd-2024_item_giant-slayer-longbow",
     "name": "Giant Slayer (Longbow)",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -4046,7 +4046,7 @@
     }
   },
   {
-    "slug": "srd-2024_giant-slayer-longsword",
+    "slug": "srd-2024_item_giant-slayer-longsword",
     "name": "Giant Slayer (Longsword)",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -4061,7 +4061,7 @@
     }
   },
   {
-    "slug": "srd-2024_giant-slayer-mace",
+    "slug": "srd-2024_item_giant-slayer-mace",
     "name": "Giant Slayer (Mace)",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -4076,7 +4076,7 @@
     }
   },
   {
-    "slug": "srd-2024_giant-slayer-maul",
+    "slug": "srd-2024_item_giant-slayer-maul",
     "name": "Giant Slayer (Maul)",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -4091,7 +4091,7 @@
     }
   },
   {
-    "slug": "srd-2024_giant-slayer-morningstar",
+    "slug": "srd-2024_item_giant-slayer-morningstar",
     "name": "Giant Slayer (Morningstar)",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -4106,7 +4106,7 @@
     }
   },
   {
-    "slug": "srd-2024_giant-slayer-musket",
+    "slug": "srd-2024_item_giant-slayer-musket",
     "name": "Giant Slayer (Musket)",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -4121,7 +4121,7 @@
     }
   },
   {
-    "slug": "srd-2024_giant-slayer-pike",
+    "slug": "srd-2024_item_giant-slayer-pike",
     "name": "Giant Slayer (Pike)",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -4136,7 +4136,7 @@
     }
   },
   {
-    "slug": "srd-2024_giant-slayer-pistol",
+    "slug": "srd-2024_item_giant-slayer-pistol",
     "name": "Giant Slayer (Pistol)",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -4151,7 +4151,7 @@
     }
   },
   {
-    "slug": "srd-2024_giant-slayer-quarterstaff",
+    "slug": "srd-2024_item_giant-slayer-quarterstaff",
     "name": "Giant Slayer (Quarterstaff)",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -4166,7 +4166,7 @@
     }
   },
   {
-    "slug": "srd-2024_giant-slayer-rapier",
+    "slug": "srd-2024_item_giant-slayer-rapier",
     "name": "Giant Slayer (Rapier)",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -4181,7 +4181,7 @@
     }
   },
   {
-    "slug": "srd-2024_giant-slayer-scimitar",
+    "slug": "srd-2024_item_giant-slayer-scimitar",
     "name": "Giant Slayer (Scimitar)",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -4196,7 +4196,7 @@
     }
   },
   {
-    "slug": "srd-2024_giant-slayer-shortbow",
+    "slug": "srd-2024_item_giant-slayer-shortbow",
     "name": "Giant Slayer (Shortbow)",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -4211,7 +4211,7 @@
     }
   },
   {
-    "slug": "srd-2024_giant-slayer-shortsword",
+    "slug": "srd-2024_item_giant-slayer-shortsword",
     "name": "Giant Slayer (Shortsword)",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -4226,7 +4226,7 @@
     }
   },
   {
-    "slug": "srd-2024_giant-slayer-sickle",
+    "slug": "srd-2024_item_giant-slayer-sickle",
     "name": "Giant Slayer (Sickle)",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -4241,7 +4241,7 @@
     }
   },
   {
-    "slug": "srd-2024_giant-slayer-sling",
+    "slug": "srd-2024_item_giant-slayer-sling",
     "name": "Giant Slayer (Sling)",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -4255,7 +4255,7 @@
     }
   },
   {
-    "slug": "srd-2024_giant-slayer-spear",
+    "slug": "srd-2024_item_giant-slayer-spear",
     "name": "Giant Slayer (Spear)",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -4270,7 +4270,7 @@
     }
   },
   {
-    "slug": "srd-2024_giant-slayer-trident",
+    "slug": "srd-2024_item_giant-slayer-trident",
     "name": "Giant Slayer (Trident)",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -4285,7 +4285,7 @@
     }
   },
   {
-    "slug": "srd-2024_giant-slayer-war-pick",
+    "slug": "srd-2024_item_giant-slayer-war-pick",
     "name": "Giant Slayer (War Pick)",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -4300,7 +4300,7 @@
     }
   },
   {
-    "slug": "srd-2024_giant-slayer-warhammer",
+    "slug": "srd-2024_item_giant-slayer-warhammer",
     "name": "Giant Slayer (Warhammer)",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -4315,7 +4315,7 @@
     }
   },
   {
-    "slug": "srd-2024_giant-slayer-whip",
+    "slug": "srd-2024_item_giant-slayer-whip",
     "name": "Giant Slayer (Whip)",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -4330,7 +4330,7 @@
     }
   },
   {
-    "slug": "srd-2024_glaive-of-life-stealing",
+    "slug": "srd-2024_item_glaive-of-life-stealing",
     "name": "Glaive of Life Stealing",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -4344,7 +4344,7 @@
     }
   },
   {
-    "slug": "srd-2024_glaive-of-sharpness",
+    "slug": "srd-2024_item_glaive-of-sharpness",
     "name": "Glaive of Sharpness",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -4358,7 +4358,7 @@
     }
   },
   {
-    "slug": "srd-2024_glaive-of-wounding",
+    "slug": "srd-2024_item_glaive-of-wounding",
     "name": "Glaive of Wounding",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -4378,7 +4378,7 @@
     ]
   },
   {
-    "slug": "srd-2024_glaive-1",
+    "slug": "srd-2024_item_glaive-1",
     "name": "Glaive (+1)",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -4393,7 +4393,7 @@
     }
   },
   {
-    "slug": "srd-2024_glaive-2",
+    "slug": "srd-2024_item_glaive-2",
     "name": "Glaive (+2)",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -4408,7 +4408,7 @@
     }
   },
   {
-    "slug": "srd-2024_glaive-3",
+    "slug": "srd-2024_item_glaive-3",
     "name": "Glaive (+3)",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -4423,7 +4423,7 @@
     }
   },
   {
-    "slug": "srd-2024_glamoured-studded-leather",
+    "slug": "srd-2024_item_glamoured-studded-leather",
     "name": "Glamoured Studded Leather",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -4437,7 +4437,7 @@
     }
   },
   {
-    "slug": "srd-2024_gloves-of-missile-snaring",
+    "slug": "srd-2024_item_gloves-of-missile-snaring",
     "name": "Gloves of Missile Snaring",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -4449,7 +4449,7 @@
     }
   },
   {
-    "slug": "srd-2024_gloves-of-swimming-and-climbing",
+    "slug": "srd-2024_item_gloves-of-swimming-and-climbing",
     "name": "Gloves of Swimming and Climbing",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -4467,7 +4467,7 @@
     }
   },
   {
-    "slug": "srd-2024_goggles-of-night",
+    "slug": "srd-2024_item_goggles-of-night",
     "name": "Goggles of Night",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -4481,7 +4481,7 @@
     }
   },
   {
-    "slug": "srd-2024_greataxe-1",
+    "slug": "srd-2024_item_greataxe-1",
     "name": "Greataxe (+1)",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -4496,7 +4496,7 @@
     }
   },
   {
-    "slug": "srd-2024_greataxe-2",
+    "slug": "srd-2024_item_greataxe-2",
     "name": "Greataxe (+2)",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -4511,7 +4511,7 @@
     }
   },
   {
-    "slug": "srd-2024_greataxe-3",
+    "slug": "srd-2024_item_greataxe-3",
     "name": "Greataxe (+3)",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -4526,7 +4526,7 @@
     }
   },
   {
-    "slug": "srd-2024_greatclub-1",
+    "slug": "srd-2024_item_greatclub-1",
     "name": "Greatclub (+1)",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -4541,7 +4541,7 @@
     }
   },
   {
-    "slug": "srd-2024_greatclub-2",
+    "slug": "srd-2024_item_greatclub-2",
     "name": "Greatclub (+2)",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -4556,7 +4556,7 @@
     }
   },
   {
-    "slug": "srd-2024_greatclub-3",
+    "slug": "srd-2024_item_greatclub-3",
     "name": "Greatclub (+3)",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -4571,7 +4571,7 @@
     }
   },
   {
-    "slug": "srd-2024_greatsword-of-life-stealing",
+    "slug": "srd-2024_item_greatsword-of-life-stealing",
     "name": "Greatsword of Life Stealing",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -4585,7 +4585,7 @@
     }
   },
   {
-    "slug": "srd-2024_greatsword-of-sharpness",
+    "slug": "srd-2024_item_greatsword-of-sharpness",
     "name": "Greatsword of Sharpness",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -4599,7 +4599,7 @@
     }
   },
   {
-    "slug": "srd-2024_greatsword-of-wounding",
+    "slug": "srd-2024_item_greatsword-of-wounding",
     "name": "Greatsword of Wounding",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -4619,7 +4619,7 @@
     ]
   },
   {
-    "slug": "srd-2024_greatsword-1",
+    "slug": "srd-2024_item_greatsword-1",
     "name": "Greatsword (+1)",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -4634,7 +4634,7 @@
     }
   },
   {
-    "slug": "srd-2024_greatsword-2",
+    "slug": "srd-2024_item_greatsword-2",
     "name": "Greatsword (+2)",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -4649,7 +4649,7 @@
     }
   },
   {
-    "slug": "srd-2024_greatsword-3",
+    "slug": "srd-2024_item_greatsword-3",
     "name": "Greatsword (+3)",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -4664,7 +4664,7 @@
     }
   },
   {
-    "slug": "srd-2024_halberd-1",
+    "slug": "srd-2024_item_halberd-1",
     "name": "Halberd (+1)",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -4679,7 +4679,7 @@
     }
   },
   {
-    "slug": "srd-2024_halberd-2",
+    "slug": "srd-2024_item_halberd-2",
     "name": "Halberd (+2)",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -4694,7 +4694,7 @@
     }
   },
   {
-    "slug": "srd-2024_halberd-3",
+    "slug": "srd-2024_item_halberd-3",
     "name": "Halberd (+3)",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -4709,7 +4709,7 @@
     }
   },
   {
-    "slug": "srd-2024_half-plate-armor-of-etherealness",
+    "slug": "srd-2024_item_half-plate-armor-of-etherealness",
     "name": "Half Plate Armor of Etherealness",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -4722,7 +4722,7 @@
     }
   },
   {
-    "slug": "srd-2024_half-plate-armor-1",
+    "slug": "srd-2024_item_half-plate-armor-1",
     "name": "Half Plate Armor (+1)",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -4736,7 +4736,7 @@
     }
   },
   {
-    "slug": "srd-2024_half-plate-armor-2",
+    "slug": "srd-2024_item_half-plate-armor-2",
     "name": "Half Plate Armor (+2)",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -4750,7 +4750,7 @@
     }
   },
   {
-    "slug": "srd-2024_half-plate-armor-3",
+    "slug": "srd-2024_item_half-plate-armor-3",
     "name": "Half Plate Armor (+3)",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -4764,7 +4764,7 @@
     }
   },
   {
-    "slug": "srd-2024_hammer-of-thunderbolts-maul",
+    "slug": "srd-2024_item_hammer-of-thunderbolts-maul",
     "name": "Hammer of Thunderbolts (Maul)",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -4777,7 +4777,7 @@
     }
   },
   {
-    "slug": "srd-2024_hammer-of-thunderbolts-warhammer",
+    "slug": "srd-2024_item_hammer-of-thunderbolts-warhammer",
     "name": "Hammer of Thunderbolts (Warhammer)",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -4790,7 +4790,7 @@
     }
   },
   {
-    "slug": "srd-2024_hand-crossbow-1",
+    "slug": "srd-2024_item_hand-crossbow-1",
     "name": "Hand Crossbow (+1)",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -4805,7 +4805,7 @@
     }
   },
   {
-    "slug": "srd-2024_hand-crossbow-2",
+    "slug": "srd-2024_item_hand-crossbow-2",
     "name": "Hand Crossbow (+2)",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -4820,7 +4820,7 @@
     }
   },
   {
-    "slug": "srd-2024_hand-crossbow-3",
+    "slug": "srd-2024_item_hand-crossbow-3",
     "name": "Hand Crossbow (+3)",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -4835,7 +4835,7 @@
     }
   },
   {
-    "slug": "srd-2024_handaxe-1",
+    "slug": "srd-2024_item_handaxe-1",
     "name": "Handaxe (+1)",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -4850,7 +4850,7 @@
     }
   },
   {
-    "slug": "srd-2024_handaxe-2",
+    "slug": "srd-2024_item_handaxe-2",
     "name": "Handaxe (+2)",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -4865,7 +4865,7 @@
     }
   },
   {
-    "slug": "srd-2024_handaxe-3",
+    "slug": "srd-2024_item_handaxe-3",
     "name": "Handaxe (+3)",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -4880,7 +4880,7 @@
     }
   },
   {
-    "slug": "srd-2024_handy-haversack",
+    "slug": "srd-2024_item_handy-haversack",
     "name": "Handy Haversack",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -4889,7 +4889,7 @@
     "type": "wondrous item"
   },
   {
-    "slug": "srd-2024_hat-of-disguise",
+    "slug": "srd-2024_item_hat-of-disguise",
     "name": "Hat of Disguise",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -4906,7 +4906,7 @@
     }
   },
   {
-    "slug": "srd-2024_headband-of-intellect",
+    "slug": "srd-2024_item_headband-of-intellect",
     "name": "Headband of Intellect",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -4925,7 +4925,7 @@
     }
   },
   {
-    "slug": "srd-2024_heavy-crossbow-1",
+    "slug": "srd-2024_item_heavy-crossbow-1",
     "name": "Heavy Crossbow (+1)",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -4940,7 +4940,7 @@
     }
   },
   {
-    "slug": "srd-2024_heavy-crossbow-2",
+    "slug": "srd-2024_item_heavy-crossbow-2",
     "name": "Heavy Crossbow (+2)",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -4955,7 +4955,7 @@
     }
   },
   {
-    "slug": "srd-2024_heavy-crossbow-3",
+    "slug": "srd-2024_item_heavy-crossbow-3",
     "name": "Heavy Crossbow (+3)",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -4970,7 +4970,7 @@
     }
   },
   {
-    "slug": "srd-2024_helm-of-brilliance",
+    "slug": "srd-2024_item_helm-of-brilliance",
     "name": "Helm of Brilliance",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -5001,7 +5001,7 @@
     ]
   },
   {
-    "slug": "srd-2024_helm-of-comprehending-languages",
+    "slug": "srd-2024_item_helm-of-comprehending-languages",
     "name": "Helm of Comprehending Languages",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -5015,7 +5015,7 @@
     }
   },
   {
-    "slug": "srd-2024_helm-of-telepathy",
+    "slug": "srd-2024_item_helm-of-telepathy",
     "name": "Helm of Telepathy",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -5037,7 +5037,7 @@
     }
   },
   {
-    "slug": "srd-2024_helm-of-teleportation",
+    "slug": "srd-2024_item_helm-of-teleportation",
     "name": "Helm of Teleportation",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -5061,7 +5061,7 @@
     }
   },
   {
-    "slug": "srd-2024_hide-armor-1",
+    "slug": "srd-2024_item_hide-armor-1",
     "name": "Hide Armor (+1)",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -5075,7 +5075,7 @@
     }
   },
   {
-    "slug": "srd-2024_hide-armor-2",
+    "slug": "srd-2024_item_hide-armor-2",
     "name": "Hide Armor (+2)",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -5089,7 +5089,7 @@
     }
   },
   {
-    "slug": "srd-2024_hide-armor-3",
+    "slug": "srd-2024_item_hide-armor-3",
     "name": "Hide Armor (+3)",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -5103,7 +5103,7 @@
     }
   },
   {
-    "slug": "srd-2024_holy-avenger",
+    "slug": "srd-2024_item_holy-avenger",
     "name": "Holy Avenger",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -5116,7 +5116,7 @@
     }
   },
   {
-    "slug": "srd-2024_holy-avenger-battleaxe",
+    "slug": "srd-2024_item_holy-avenger-battleaxe",
     "name": "Holy Avenger (Battleaxe)",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -5134,7 +5134,7 @@
     }
   },
   {
-    "slug": "srd-2024_holy-avenger-blowgun",
+    "slug": "srd-2024_item_holy-avenger-blowgun",
     "name": "Holy Avenger (Blowgun)",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -5152,7 +5152,7 @@
     }
   },
   {
-    "slug": "srd-2024_holy-avenger-club",
+    "slug": "srd-2024_item_holy-avenger-club",
     "name": "Holy Avenger (Club)",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -5170,7 +5170,7 @@
     }
   },
   {
-    "slug": "srd-2024_holy-avenger-dagger",
+    "slug": "srd-2024_item_holy-avenger-dagger",
     "name": "Holy Avenger (Dagger)",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -5188,7 +5188,7 @@
     }
   },
   {
-    "slug": "srd-2024_holy-avenger-dart",
+    "slug": "srd-2024_item_holy-avenger-dart",
     "name": "Holy Avenger (Dart)",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -5206,7 +5206,7 @@
     }
   },
   {
-    "slug": "srd-2024_holy-avenger-flail",
+    "slug": "srd-2024_item_holy-avenger-flail",
     "name": "Holy Avenger (Flail)",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -5224,7 +5224,7 @@
     }
   },
   {
-    "slug": "srd-2024_holy-avenger-glaive",
+    "slug": "srd-2024_item_holy-avenger-glaive",
     "name": "Holy Avenger (Glaive)",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -5242,7 +5242,7 @@
     }
   },
   {
-    "slug": "srd-2024_holy-avenger-greataxe",
+    "slug": "srd-2024_item_holy-avenger-greataxe",
     "name": "Holy Avenger (Greataxe)",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -5260,7 +5260,7 @@
     }
   },
   {
-    "slug": "srd-2024_holy-avenger-greatclub",
+    "slug": "srd-2024_item_holy-avenger-greatclub",
     "name": "Holy Avenger (Greatclub)",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -5278,7 +5278,7 @@
     }
   },
   {
-    "slug": "srd-2024_holy-avenger-greatsword",
+    "slug": "srd-2024_item_holy-avenger-greatsword",
     "name": "Holy Avenger (Greatsword)",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -5296,7 +5296,7 @@
     }
   },
   {
-    "slug": "srd-2024_holy-avenger-halberd",
+    "slug": "srd-2024_item_holy-avenger-halberd",
     "name": "Holy Avenger (Halberd)",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -5314,7 +5314,7 @@
     }
   },
   {
-    "slug": "srd-2024_holy-avenger-hand-crossbow",
+    "slug": "srd-2024_item_holy-avenger-hand-crossbow",
     "name": "Holy Avenger (Hand Crossbow)",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -5332,7 +5332,7 @@
     }
   },
   {
-    "slug": "srd-2024_holy-avenger-handaxe",
+    "slug": "srd-2024_item_holy-avenger-handaxe",
     "name": "Holy Avenger (Handaxe)",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -5350,7 +5350,7 @@
     }
   },
   {
-    "slug": "srd-2024_holy-avenger-heavy-crossbow",
+    "slug": "srd-2024_item_holy-avenger-heavy-crossbow",
     "name": "Holy Avenger (Heavy Crossbow)",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -5368,7 +5368,7 @@
     }
   },
   {
-    "slug": "srd-2024_holy-avenger-javelin",
+    "slug": "srd-2024_item_holy-avenger-javelin",
     "name": "Holy Avenger (Javelin)",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -5386,7 +5386,7 @@
     }
   },
   {
-    "slug": "srd-2024_holy-avenger-lance",
+    "slug": "srd-2024_item_holy-avenger-lance",
     "name": "Holy Avenger (Lance)",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -5404,7 +5404,7 @@
     }
   },
   {
-    "slug": "srd-2024_holy-avenger-light-crossbow",
+    "slug": "srd-2024_item_holy-avenger-light-crossbow",
     "name": "Holy Avenger (Light Crossbow)",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -5422,7 +5422,7 @@
     }
   },
   {
-    "slug": "srd-2024_holy-avenger-light-hammer",
+    "slug": "srd-2024_item_holy-avenger-light-hammer",
     "name": "Holy Avenger (Light Hammer)",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -5440,7 +5440,7 @@
     }
   },
   {
-    "slug": "srd-2024_holy-avenger-longbow",
+    "slug": "srd-2024_item_holy-avenger-longbow",
     "name": "Holy Avenger (Longbow)",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -5458,7 +5458,7 @@
     }
   },
   {
-    "slug": "srd-2024_holy-avenger-longsword",
+    "slug": "srd-2024_item_holy-avenger-longsword",
     "name": "Holy Avenger (Longsword)",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -5476,7 +5476,7 @@
     }
   },
   {
-    "slug": "srd-2024_holy-avenger-mace",
+    "slug": "srd-2024_item_holy-avenger-mace",
     "name": "Holy Avenger (Mace)",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -5494,7 +5494,7 @@
     }
   },
   {
-    "slug": "srd-2024_holy-avenger-maul",
+    "slug": "srd-2024_item_holy-avenger-maul",
     "name": "Holy Avenger (Maul)",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -5512,7 +5512,7 @@
     }
   },
   {
-    "slug": "srd-2024_holy-avenger-morningstar",
+    "slug": "srd-2024_item_holy-avenger-morningstar",
     "name": "Holy Avenger (Morningstar)",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -5530,7 +5530,7 @@
     }
   },
   {
-    "slug": "srd-2024_holy-avenger-musket",
+    "slug": "srd-2024_item_holy-avenger-musket",
     "name": "Holy Avenger (Musket)",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -5548,7 +5548,7 @@
     }
   },
   {
-    "slug": "srd-2024_holy-avenger-pike",
+    "slug": "srd-2024_item_holy-avenger-pike",
     "name": "Holy Avenger (Pike)",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -5566,7 +5566,7 @@
     }
   },
   {
-    "slug": "srd-2024_holy-avenger-pistol",
+    "slug": "srd-2024_item_holy-avenger-pistol",
     "name": "Holy Avenger (Pistol)",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -5584,7 +5584,7 @@
     }
   },
   {
-    "slug": "srd-2024_holy-avenger-quarterstaff",
+    "slug": "srd-2024_item_holy-avenger-quarterstaff",
     "name": "Holy Avenger (Quarterstaff)",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -5602,7 +5602,7 @@
     }
   },
   {
-    "slug": "srd-2024_holy-avenger-rapier",
+    "slug": "srd-2024_item_holy-avenger-rapier",
     "name": "Holy Avenger (Rapier)",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -5620,7 +5620,7 @@
     }
   },
   {
-    "slug": "srd-2024_holy-avenger-scimitar",
+    "slug": "srd-2024_item_holy-avenger-scimitar",
     "name": "Holy Avenger (Scimitar)",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -5638,7 +5638,7 @@
     }
   },
   {
-    "slug": "srd-2024_holy-avenger-shortbow",
+    "slug": "srd-2024_item_holy-avenger-shortbow",
     "name": "Holy Avenger (Shortbow)",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -5656,7 +5656,7 @@
     }
   },
   {
-    "slug": "srd-2024_holy-avenger-shortsword",
+    "slug": "srd-2024_item_holy-avenger-shortsword",
     "name": "Holy Avenger (Shortsword)",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -5674,7 +5674,7 @@
     }
   },
   {
-    "slug": "srd-2024_holy-avenger-sickle",
+    "slug": "srd-2024_item_holy-avenger-sickle",
     "name": "Holy Avenger (Sickle)",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -5692,7 +5692,7 @@
     }
   },
   {
-    "slug": "srd-2024_holy-avenger-sling",
+    "slug": "srd-2024_item_holy-avenger-sling",
     "name": "Holy Avenger (Sling)",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -5709,7 +5709,7 @@
     }
   },
   {
-    "slug": "srd-2024_holy-avenger-spear",
+    "slug": "srd-2024_item_holy-avenger-spear",
     "name": "Holy Avenger (Spear)",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -5727,7 +5727,7 @@
     }
   },
   {
-    "slug": "srd-2024_holy-avenger-trident",
+    "slug": "srd-2024_item_holy-avenger-trident",
     "name": "Holy Avenger (Trident)",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -5745,7 +5745,7 @@
     }
   },
   {
-    "slug": "srd-2024_holy-avenger-war-pick",
+    "slug": "srd-2024_item_holy-avenger-war-pick",
     "name": "Holy Avenger (War Pick)",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -5763,7 +5763,7 @@
     }
   },
   {
-    "slug": "srd-2024_holy-avenger-warhammer",
+    "slug": "srd-2024_item_holy-avenger-warhammer",
     "name": "Holy Avenger (Warhammer)",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -5781,7 +5781,7 @@
     }
   },
   {
-    "slug": "srd-2024_holy-avenger-whip",
+    "slug": "srd-2024_item_holy-avenger-whip",
     "name": "Holy Avenger (Whip)",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -5799,7 +5799,7 @@
     }
   },
   {
-    "slug": "srd-2024_horn-of-blasting",
+    "slug": "srd-2024_item_horn-of-blasting",
     "name": "Horn of Blasting",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -5814,7 +5814,7 @@
     ]
   },
   {
-    "slug": "srd-2024_horn-of-valhalla",
+    "slug": "srd-2024_item_horn-of-valhalla",
     "name": "Horn of Valhalla",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -5823,7 +5823,7 @@
     "type": "wondrous item"
   },
   {
-    "slug": "srd-2024_horseshoes-of-a-zephyr",
+    "slug": "srd-2024_item_horseshoes-of-a-zephyr",
     "name": "Horseshoes of a Zephyr",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -5832,7 +5832,7 @@
     "type": "wondrous item"
   },
   {
-    "slug": "srd-2024_horseshoes-of-speed",
+    "slug": "srd-2024_item_horseshoes-of-speed",
     "name": "Horseshoes of Speed",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -5851,7 +5851,7 @@
     }
   },
   {
-    "slug": "srd-2024_immovable-rod",
+    "slug": "srd-2024_item_immovable-rod",
     "name": "Immovable Rod",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -5861,7 +5861,7 @@
     "weight": 2
   },
   {
-    "slug": "srd-2024_instant-fortress",
+    "slug": "srd-2024_item_instant-fortress",
     "name": "Instant Fortress",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -5873,7 +5873,7 @@
     }
   },
   {
-    "slug": "srd-2024_iron-bands",
+    "slug": "srd-2024_item_iron-bands",
     "name": "Iron Bands",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -5882,7 +5882,7 @@
     "type": "wondrous item"
   },
   {
-    "slug": "srd-2024_iron-flask",
+    "slug": "srd-2024_item_iron-flask",
     "name": "Iron Flask",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -5891,7 +5891,7 @@
     "type": "wondrous item"
   },
   {
-    "slug": "srd-2024_javelin-of-lightning",
+    "slug": "srd-2024_item_javelin-of-lightning",
     "name": "Javelin of Lightning",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -5906,7 +5906,7 @@
     ]
   },
   {
-    "slug": "srd-2024_javelin-1",
+    "slug": "srd-2024_item_javelin-1",
     "name": "Javelin (+1)",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -5921,7 +5921,7 @@
     }
   },
   {
-    "slug": "srd-2024_javelin-2",
+    "slug": "srd-2024_item_javelin-2",
     "name": "Javelin (+2)",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -5936,7 +5936,7 @@
     }
   },
   {
-    "slug": "srd-2024_javelin-3",
+    "slug": "srd-2024_item_javelin-3",
     "name": "Javelin (+3)",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -5951,7 +5951,7 @@
     }
   },
   {
-    "slug": "srd-2024_lance-1",
+    "slug": "srd-2024_item_lance-1",
     "name": "Lance (+1)",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -5966,7 +5966,7 @@
     }
   },
   {
-    "slug": "srd-2024_lance-2",
+    "slug": "srd-2024_item_lance-2",
     "name": "Lance (+2)",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -5981,7 +5981,7 @@
     }
   },
   {
-    "slug": "srd-2024_lance-3",
+    "slug": "srd-2024_item_lance-3",
     "name": "Lance (+3)",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -5996,7 +5996,7 @@
     }
   },
   {
-    "slug": "srd-2024_lantern-of-revealing",
+    "slug": "srd-2024_item_lantern-of-revealing",
     "name": "Lantern of Revealing",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -6005,7 +6005,7 @@
     "type": "wondrous item"
   },
   {
-    "slug": "srd-2024_leather-armor-1",
+    "slug": "srd-2024_item_leather-armor-1",
     "name": "Leather Armor (+1)",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -6019,7 +6019,7 @@
     }
   },
   {
-    "slug": "srd-2024_leather-armor-2",
+    "slug": "srd-2024_item_leather-armor-2",
     "name": "Leather Armor (+2)",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -6033,7 +6033,7 @@
     }
   },
   {
-    "slug": "srd-2024_leather-armor-3",
+    "slug": "srd-2024_item_leather-armor-3",
     "name": "Leather Armor (+3)",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -6047,7 +6047,7 @@
     }
   },
   {
-    "slug": "srd-2024_light-crossbow-1",
+    "slug": "srd-2024_item_light-crossbow-1",
     "name": "Light Crossbow (+1)",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -6062,7 +6062,7 @@
     }
   },
   {
-    "slug": "srd-2024_light-crossbow-2",
+    "slug": "srd-2024_item_light-crossbow-2",
     "name": "Light Crossbow (+2)",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -6077,7 +6077,7 @@
     }
   },
   {
-    "slug": "srd-2024_light-crossbow-3",
+    "slug": "srd-2024_item_light-crossbow-3",
     "name": "Light Crossbow (+3)",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -6092,7 +6092,7 @@
     }
   },
   {
-    "slug": "srd-2024_light-hammer-1",
+    "slug": "srd-2024_item_light-hammer-1",
     "name": "Light Hammer (+1)",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -6107,7 +6107,7 @@
     }
   },
   {
-    "slug": "srd-2024_light-hammer-2",
+    "slug": "srd-2024_item_light-hammer-2",
     "name": "Light Hammer (+2)",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -6122,7 +6122,7 @@
     }
   },
   {
-    "slug": "srd-2024_light-hammer-3",
+    "slug": "srd-2024_item_light-hammer-3",
     "name": "Light Hammer (+3)",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -6137,7 +6137,7 @@
     }
   },
   {
-    "slug": "srd-2024_longbow-1",
+    "slug": "srd-2024_item_longbow-1",
     "name": "Longbow (+1)",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -6152,7 +6152,7 @@
     }
   },
   {
-    "slug": "srd-2024_longbow-2",
+    "slug": "srd-2024_item_longbow-2",
     "name": "Longbow (+2)",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -6167,7 +6167,7 @@
     }
   },
   {
-    "slug": "srd-2024_longbow-3",
+    "slug": "srd-2024_item_longbow-3",
     "name": "Longbow (+3)",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -6182,7 +6182,7 @@
     }
   },
   {
-    "slug": "srd-2024_longsword-of-life-stealing",
+    "slug": "srd-2024_item_longsword-of-life-stealing",
     "name": "Longsword of Life Stealing",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -6196,7 +6196,7 @@
     }
   },
   {
-    "slug": "srd-2024_longsword-of-sharpness",
+    "slug": "srd-2024_item_longsword-of-sharpness",
     "name": "Longsword of Sharpness",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -6210,7 +6210,7 @@
     }
   },
   {
-    "slug": "srd-2024_longsword-of-wounding",
+    "slug": "srd-2024_item_longsword-of-wounding",
     "name": "Longsword of Wounding",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -6230,7 +6230,7 @@
     ]
   },
   {
-    "slug": "srd-2024_longsword-1",
+    "slug": "srd-2024_item_longsword-1",
     "name": "Longsword (+1)",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -6245,7 +6245,7 @@
     }
   },
   {
-    "slug": "srd-2024_longsword-2",
+    "slug": "srd-2024_item_longsword-2",
     "name": "Longsword (+2)",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -6260,7 +6260,7 @@
     }
   },
   {
-    "slug": "srd-2024_longsword-3",
+    "slug": "srd-2024_item_longsword-3",
     "name": "Longsword (+3)",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -6275,7 +6275,7 @@
     }
   },
   {
-    "slug": "srd-2024_luck-blade-glaive",
+    "slug": "srd-2024_item_luck-blade-glaive",
     "name": "Luck Blade (Glaive)",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -6288,7 +6288,7 @@
     }
   },
   {
-    "slug": "srd-2024_luck-blade-greatsword",
+    "slug": "srd-2024_item_luck-blade-greatsword",
     "name": "Luck Blade (Greatsword)",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -6301,7 +6301,7 @@
     }
   },
   {
-    "slug": "srd-2024_luck-blade-longsword",
+    "slug": "srd-2024_item_luck-blade-longsword",
     "name": "Luck Blade (Longsword)",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -6314,7 +6314,7 @@
     }
   },
   {
-    "slug": "srd-2024_luck-blade-rapier",
+    "slug": "srd-2024_item_luck-blade-rapier",
     "name": "Luck Blade (Rapier)",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -6327,7 +6327,7 @@
     }
   },
   {
-    "slug": "srd-2024_luck-blade-scimitar",
+    "slug": "srd-2024_item_luck-blade-scimitar",
     "name": "Luck Blade (Scimitar)",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -6340,7 +6340,7 @@
     }
   },
   {
-    "slug": "srd-2024_luck-blade-shortsword",
+    "slug": "srd-2024_item_luck-blade-shortsword",
     "name": "Luck Blade (Shortsword)",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -6353,7 +6353,7 @@
     }
   },
   {
-    "slug": "srd-2024_luck-blade-sickle",
+    "slug": "srd-2024_item_luck-blade-sickle",
     "name": "Luck Blade (Sickle)",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -6366,7 +6366,7 @@
     }
   },
   {
-    "slug": "srd-2024_mace-of-disruption",
+    "slug": "srd-2024_item_mace-of-disruption",
     "name": "Mace of Disruption",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -6381,7 +6381,7 @@
     "damage_type": "bludgeoning"
   },
   {
-    "slug": "srd-2024_mace-of-smiting",
+    "slug": "srd-2024_item_mace-of-smiting",
     "name": "Mace of Smiting",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -6397,7 +6397,7 @@
     }
   },
   {
-    "slug": "srd-2024_mace-of-terror",
+    "slug": "srd-2024_item_mace-of-terror",
     "name": "Mace of Terror",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -6417,7 +6417,7 @@
     }
   },
   {
-    "slug": "srd-2024_mace-1",
+    "slug": "srd-2024_item_mace-1",
     "name": "Mace (+1)",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -6432,7 +6432,7 @@
     }
   },
   {
-    "slug": "srd-2024_mace-2",
+    "slug": "srd-2024_item_mace-2",
     "name": "Mace (+2)",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -6447,7 +6447,7 @@
     }
   },
   {
-    "slug": "srd-2024_mace-3",
+    "slug": "srd-2024_item_mace-3",
     "name": "Mace (+3)",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -6462,7 +6462,7 @@
     }
   },
   {
-    "slug": "srd-2024_mantle-of-spell-resistance",
+    "slug": "srd-2024_item_mantle-of-spell-resistance",
     "name": "Mantle of Spell Resistance",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -6474,7 +6474,7 @@
     }
   },
   {
-    "slug": "srd-2024_manual-of-bodily-health",
+    "slug": "srd-2024_item_manual-of-bodily-health",
     "name": "Manual of Bodily Health",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -6496,7 +6496,7 @@
     }
   },
   {
-    "slug": "srd-2024_manual-of-gainful-exercise",
+    "slug": "srd-2024_item_manual-of-gainful-exercise",
     "name": "Manual of Gainful Exercise",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -6518,7 +6518,7 @@
     }
   },
   {
-    "slug": "srd-2024_manual-of-golems",
+    "slug": "srd-2024_item_manual-of-golems",
     "name": "Manual of Golems",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -6527,7 +6527,7 @@
     "type": "wondrous item"
   },
   {
-    "slug": "srd-2024_manual-of-quickness-of-action",
+    "slug": "srd-2024_item_manual-of-quickness-of-action",
     "name": "Manual of Quickness of Action",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -6549,7 +6549,7 @@
     }
   },
   {
-    "slug": "srd-2024_marvelous-pigments",
+    "slug": "srd-2024_item_marvelous-pigments",
     "name": "Marvelous Pigments",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -6558,7 +6558,7 @@
     "type": "wondrous item"
   },
   {
-    "slug": "srd-2024_maul-1",
+    "slug": "srd-2024_item_maul-1",
     "name": "Maul (+1)",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -6576,7 +6576,7 @@
     }
   },
   {
-    "slug": "srd-2024_maul-2",
+    "slug": "srd-2024_item_maul-2",
     "name": "Maul (+2)",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -6591,7 +6591,7 @@
     }
   },
   {
-    "slug": "srd-2024_maul-3",
+    "slug": "srd-2024_item_maul-3",
     "name": "Maul (+3)",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -6606,7 +6606,7 @@
     }
   },
   {
-    "slug": "srd-2024_medallion-of-thoughts",
+    "slug": "srd-2024_item_medallion-of-thoughts",
     "name": "Medallion of Thoughts",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -6631,7 +6631,7 @@
     }
   },
   {
-    "slug": "srd-2024_mirror-of-life-trapping",
+    "slug": "srd-2024_item_mirror-of-life-trapping",
     "name": "Mirror of Life Trapping",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -6641,7 +6641,7 @@
     "weight": 50
   },
   {
-    "slug": "srd-2024_mithral-armor-breastplate",
+    "slug": "srd-2024_item_mithral-armor-breastplate",
     "name": "Mithral Armor (Breastplate)",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -6652,7 +6652,7 @@
     "base_item": "[[SRD 2024/Armor/Breastplate]]"
   },
   {
-    "slug": "srd-2024_mithral-armor-chain-mail",
+    "slug": "srd-2024_item_mithral-armor-chain-mail",
     "name": "Mithral Armor (Chain Mail)",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -6663,7 +6663,7 @@
     "base_item": "[[SRD 2024/Armor/Chain Mail]]"
   },
   {
-    "slug": "srd-2024_mithral-armor-chain-shirt",
+    "slug": "srd-2024_item_mithral-armor-chain-shirt",
     "name": "Mithral Armor (Chain Shirt)",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -6674,7 +6674,7 @@
     "base_item": "[[SRD 2024/Armor/Chain Shirt]]"
   },
   {
-    "slug": "srd-2024_mithral-armor-half-plate",
+    "slug": "srd-2024_item_mithral-armor-half-plate",
     "name": "Mithral Armor (Half Plate)",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -6685,7 +6685,7 @@
     "base_item": "[[SRD 2024/Armor/Half Plate Armor]]"
   },
   {
-    "slug": "srd-2024_mithral-armor-plate",
+    "slug": "srd-2024_item_mithral-armor-plate",
     "name": "Mithral Armor (Plate)",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -6696,7 +6696,7 @@
     "base_item": "[[SRD 2024/Armor/Plate Armor]]"
   },
   {
-    "slug": "srd-2024_mithral-armor-ring-mail",
+    "slug": "srd-2024_item_mithral-armor-ring-mail",
     "name": "Mithral Armor (Ring Mail)",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -6707,7 +6707,7 @@
     "base_item": "[[SRD 2024/Armor/Ring Mail]]"
   },
   {
-    "slug": "srd-2024_mithral-armor-scale-mail",
+    "slug": "srd-2024_item_mithral-armor-scale-mail",
     "name": "Mithral Armor (Scale Mail)",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -6718,7 +6718,7 @@
     "base_item": "[[SRD 2024/Armor/Scale Mail]]"
   },
   {
-    "slug": "srd-2024_mithral-armor-splint",
+    "slug": "srd-2024_item_mithral-armor-splint",
     "name": "Mithral Armor (Splint)",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -6729,7 +6729,7 @@
     "base_item": "[[SRD 2024/Armor/Splint Armor]]"
   },
   {
-    "slug": "srd-2024_morningstar-1",
+    "slug": "srd-2024_item_morningstar-1",
     "name": "Morningstar (+1)",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -6744,7 +6744,7 @@
     }
   },
   {
-    "slug": "srd-2024_morningstar-2",
+    "slug": "srd-2024_item_morningstar-2",
     "name": "Morningstar (+2)",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -6759,7 +6759,7 @@
     }
   },
   {
-    "slug": "srd-2024_morningstar-3",
+    "slug": "srd-2024_item_morningstar-3",
     "name": "Morningstar (+3)",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -6774,7 +6774,7 @@
     }
   },
   {
-    "slug": "srd-2024_musket-1",
+    "slug": "srd-2024_item_musket-1",
     "name": "Musket (+1)",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -6789,7 +6789,7 @@
     }
   },
   {
-    "slug": "srd-2024_musket-2",
+    "slug": "srd-2024_item_musket-2",
     "name": "Musket (+2)",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -6804,7 +6804,7 @@
     }
   },
   {
-    "slug": "srd-2024_musket-3",
+    "slug": "srd-2024_item_musket-3",
     "name": "Musket (+3)",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -6819,7 +6819,7 @@
     }
   },
   {
-    "slug": "srd-2024_mysterious-deck",
+    "slug": "srd-2024_item_mysterious-deck",
     "name": "Mysterious Deck",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -6828,7 +6828,7 @@
     "type": "wondrous item"
   },
   {
-    "slug": "srd-2024_necklace-of-adaptation",
+    "slug": "srd-2024_item_necklace-of-adaptation",
     "name": "Necklace of Adaptation",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -6841,7 +6841,7 @@
     }
   },
   {
-    "slug": "srd-2024_necklace-of-fireballs",
+    "slug": "srd-2024_item_necklace-of-fireballs",
     "name": "Necklace of Fireballs",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -6858,7 +6858,7 @@
     }
   },
   {
-    "slug": "srd-2024_necklace-of-prayer-beads",
+    "slug": "srd-2024_item_necklace-of-prayer-beads",
     "name": "Necklace of Prayer Beads",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -6883,7 +6883,7 @@
     }
   },
   {
-    "slug": "srd-2024_nine-lives-stealer-battleaxe",
+    "slug": "srd-2024_item_nine-lives-stealer-battleaxe",
     "name": "Nine Lives Stealer (Battleaxe)",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -6901,7 +6901,7 @@
     }
   },
   {
-    "slug": "srd-2024_nine-lives-stealer-blowgun",
+    "slug": "srd-2024_item_nine-lives-stealer-blowgun",
     "name": "Nine Lives Stealer (Blowgun)",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -6919,7 +6919,7 @@
     }
   },
   {
-    "slug": "srd-2024_nine-lives-stealer-club",
+    "slug": "srd-2024_item_nine-lives-stealer-club",
     "name": "Nine Lives Stealer (Club)",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -6937,7 +6937,7 @@
     }
   },
   {
-    "slug": "srd-2024_nine-lives-stealer-dagger",
+    "slug": "srd-2024_item_nine-lives-stealer-dagger",
     "name": "Nine Lives Stealer (Dagger)",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -6955,7 +6955,7 @@
     }
   },
   {
-    "slug": "srd-2024_nine-lives-stealer-dart",
+    "slug": "srd-2024_item_nine-lives-stealer-dart",
     "name": "Nine Lives Stealer (Dart)",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -6973,7 +6973,7 @@
     }
   },
   {
-    "slug": "srd-2024_nine-lives-stealer-flail",
+    "slug": "srd-2024_item_nine-lives-stealer-flail",
     "name": "Nine Lives Stealer (Flail)",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -6991,7 +6991,7 @@
     }
   },
   {
-    "slug": "srd-2024_nine-lives-stealer-glaive",
+    "slug": "srd-2024_item_nine-lives-stealer-glaive",
     "name": "Nine Lives Stealer (Glaive)",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -7009,7 +7009,7 @@
     }
   },
   {
-    "slug": "srd-2024_nine-lives-stealer-greataxe",
+    "slug": "srd-2024_item_nine-lives-stealer-greataxe",
     "name": "Nine Lives Stealer (Greataxe)",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -7027,7 +7027,7 @@
     }
   },
   {
-    "slug": "srd-2024_nine-lives-stealer-greatclub",
+    "slug": "srd-2024_item_nine-lives-stealer-greatclub",
     "name": "Nine Lives Stealer (Greatclub)",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -7045,7 +7045,7 @@
     }
   },
   {
-    "slug": "srd-2024_nine-lives-stealer-greatsword",
+    "slug": "srd-2024_item_nine-lives-stealer-greatsword",
     "name": "Nine Lives Stealer (Greatsword)",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -7063,7 +7063,7 @@
     }
   },
   {
-    "slug": "srd-2024_nine-lives-stealer-halberd",
+    "slug": "srd-2024_item_nine-lives-stealer-halberd",
     "name": "Nine Lives Stealer (Halberd)",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -7081,7 +7081,7 @@
     }
   },
   {
-    "slug": "srd-2024_nine-lives-stealer-hand-crossbow",
+    "slug": "srd-2024_item_nine-lives-stealer-hand-crossbow",
     "name": "Nine Lives Stealer (Hand Crossbow)",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -7099,7 +7099,7 @@
     }
   },
   {
-    "slug": "srd-2024_nine-lives-stealer-handaxe",
+    "slug": "srd-2024_item_nine-lives-stealer-handaxe",
     "name": "Nine Lives Stealer (Handaxe)",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -7117,7 +7117,7 @@
     }
   },
   {
-    "slug": "srd-2024_nine-lives-stealer-heavy-crossbow",
+    "slug": "srd-2024_item_nine-lives-stealer-heavy-crossbow",
     "name": "Nine Lives Stealer (Heavy Crossbow)",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -7135,7 +7135,7 @@
     }
   },
   {
-    "slug": "srd-2024_nine-lives-stealer-javelin",
+    "slug": "srd-2024_item_nine-lives-stealer-javelin",
     "name": "Nine Lives Stealer (Javelin)",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -7153,7 +7153,7 @@
     }
   },
   {
-    "slug": "srd-2024_nine-lives-stealer-lance",
+    "slug": "srd-2024_item_nine-lives-stealer-lance",
     "name": "Nine Lives Stealer (Lance)",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -7171,7 +7171,7 @@
     }
   },
   {
-    "slug": "srd-2024_nine-lives-stealer-light-crossbow",
+    "slug": "srd-2024_item_nine-lives-stealer-light-crossbow",
     "name": "Nine Lives Stealer (Light Crossbow)",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -7189,7 +7189,7 @@
     }
   },
   {
-    "slug": "srd-2024_nine-lives-stealer-light-hammer",
+    "slug": "srd-2024_item_nine-lives-stealer-light-hammer",
     "name": "Nine Lives Stealer (Light Hammer)",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -7207,7 +7207,7 @@
     }
   },
   {
-    "slug": "srd-2024_nine-lives-stealer-longbow",
+    "slug": "srd-2024_item_nine-lives-stealer-longbow",
     "name": "Nine Lives Stealer (Longbow)",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -7225,7 +7225,7 @@
     }
   },
   {
-    "slug": "srd-2024_nine-lives-stealer-longsword",
+    "slug": "srd-2024_item_nine-lives-stealer-longsword",
     "name": "Nine Lives Stealer (Longsword)",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -7243,7 +7243,7 @@
     }
   },
   {
-    "slug": "srd-2024_nine-lives-stealer-mace",
+    "slug": "srd-2024_item_nine-lives-stealer-mace",
     "name": "Nine Lives Stealer (Mace)",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -7261,7 +7261,7 @@
     }
   },
   {
-    "slug": "srd-2024_nine-lives-stealer-maul",
+    "slug": "srd-2024_item_nine-lives-stealer-maul",
     "name": "Nine Lives Stealer (Maul)",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -7279,7 +7279,7 @@
     }
   },
   {
-    "slug": "srd-2024_nine-lives-stealer-morningstar",
+    "slug": "srd-2024_item_nine-lives-stealer-morningstar",
     "name": "Nine Lives Stealer (Morningstar)",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -7297,7 +7297,7 @@
     }
   },
   {
-    "slug": "srd-2024_nine-lives-stealer-musket",
+    "slug": "srd-2024_item_nine-lives-stealer-musket",
     "name": "Nine Lives Stealer (Musket)",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -7315,7 +7315,7 @@
     }
   },
   {
-    "slug": "srd-2024_nine-lives-stealer-pike",
+    "slug": "srd-2024_item_nine-lives-stealer-pike",
     "name": "Nine Lives Stealer (Pike)",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -7333,7 +7333,7 @@
     }
   },
   {
-    "slug": "srd-2024_nine-lives-stealer-pistol",
+    "slug": "srd-2024_item_nine-lives-stealer-pistol",
     "name": "Nine Lives Stealer (Pistol)",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -7351,7 +7351,7 @@
     }
   },
   {
-    "slug": "srd-2024_nine-lives-stealer-quarterstaff",
+    "slug": "srd-2024_item_nine-lives-stealer-quarterstaff",
     "name": "Nine Lives Stealer (Quarterstaff)",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -7369,7 +7369,7 @@
     }
   },
   {
-    "slug": "srd-2024_nine-lives-stealer-rapier",
+    "slug": "srd-2024_item_nine-lives-stealer-rapier",
     "name": "Nine Lives Stealer (Rapier)",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -7387,7 +7387,7 @@
     }
   },
   {
-    "slug": "srd-2024_nine-lives-stealer-scimitar",
+    "slug": "srd-2024_item_nine-lives-stealer-scimitar",
     "name": "Nine Lives Stealer (Scimitar)",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -7405,7 +7405,7 @@
     }
   },
   {
-    "slug": "srd-2024_nine-lives-stealer-shortbow",
+    "slug": "srd-2024_item_nine-lives-stealer-shortbow",
     "name": "Nine Lives Stealer (Shortbow)",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -7423,7 +7423,7 @@
     }
   },
   {
-    "slug": "srd-2024_nine-lives-stealer-shortsword",
+    "slug": "srd-2024_item_nine-lives-stealer-shortsword",
     "name": "Nine Lives Stealer (Shortsword)",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -7441,7 +7441,7 @@
     }
   },
   {
-    "slug": "srd-2024_nine-lives-stealer-sickle",
+    "slug": "srd-2024_item_nine-lives-stealer-sickle",
     "name": "Nine Lives Stealer (Sickle)",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -7459,7 +7459,7 @@
     }
   },
   {
-    "slug": "srd-2024_nine-lives-stealer-sling",
+    "slug": "srd-2024_item_nine-lives-stealer-sling",
     "name": "Nine Lives Stealer (Sling)",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -7476,7 +7476,7 @@
     }
   },
   {
-    "slug": "srd-2024_nine-lives-stealer-spear",
+    "slug": "srd-2024_item_nine-lives-stealer-spear",
     "name": "Nine Lives Stealer (Spear)",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -7494,7 +7494,7 @@
     }
   },
   {
-    "slug": "srd-2024_nine-lives-stealer-trident",
+    "slug": "srd-2024_item_nine-lives-stealer-trident",
     "name": "Nine Lives Stealer (Trident)",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -7512,7 +7512,7 @@
     }
   },
   {
-    "slug": "srd-2024_nine-lives-stealer-war-pick",
+    "slug": "srd-2024_item_nine-lives-stealer-war-pick",
     "name": "Nine Lives Stealer (War Pick)",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -7530,7 +7530,7 @@
     }
   },
   {
-    "slug": "srd-2024_nine-lives-stealer-warhammer",
+    "slug": "srd-2024_item_nine-lives-stealer-warhammer",
     "name": "Nine Lives Stealer (Warhammer)",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -7548,7 +7548,7 @@
     }
   },
   {
-    "slug": "srd-2024_nine-lives-stealer-whip",
+    "slug": "srd-2024_item_nine-lives-stealer-whip",
     "name": "Nine Lives Stealer (Whip)",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -7566,7 +7566,7 @@
     }
   },
   {
-    "slug": "srd-2024_oathbow-longbow",
+    "slug": "srd-2024_item_oathbow-longbow",
     "name": "Oathbow (Longbow)",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -7579,7 +7579,7 @@
     }
   },
   {
-    "slug": "srd-2024_oathbow-shortbow",
+    "slug": "srd-2024_item_oathbow-shortbow",
     "name": "Oathbow (Shortbow)",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -7592,7 +7592,7 @@
     }
   },
   {
-    "slug": "srd-2024_oil-of-etherealness",
+    "slug": "srd-2024_item_oil-of-etherealness",
     "name": "Oil of Etherealness",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -7607,7 +7607,7 @@
     ]
   },
   {
-    "slug": "srd-2024_oil-of-sharpness",
+    "slug": "srd-2024_item_oil-of-sharpness",
     "name": "Oil of Sharpness",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -7626,7 +7626,7 @@
     ]
   },
   {
-    "slug": "srd-2024_oil-of-slipperiness",
+    "slug": "srd-2024_item_oil-of-slipperiness",
     "name": "Oil of Slipperiness",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -7636,7 +7636,7 @@
     "weight": 0.5
   },
   {
-    "slug": "srd-2024_padded-armor-1",
+    "slug": "srd-2024_item_padded-armor-1",
     "name": "Padded Armor (+1)",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -7650,7 +7650,7 @@
     }
   },
   {
-    "slug": "srd-2024_padded-armor-2",
+    "slug": "srd-2024_item_padded-armor-2",
     "name": "Padded Armor (+2)",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -7664,7 +7664,7 @@
     }
   },
   {
-    "slug": "srd-2024_padded-armor-3",
+    "slug": "srd-2024_item_padded-armor-3",
     "name": "Padded Armor (+3)",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -7678,7 +7678,7 @@
     }
   },
   {
-    "slug": "srd-2024_pearl-of-power",
+    "slug": "srd-2024_item_pearl-of-power",
     "name": "Pearl of Power",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -7696,7 +7696,7 @@
     }
   },
   {
-    "slug": "srd-2024_periapt-of-health",
+    "slug": "srd-2024_item_periapt-of-health",
     "name": "Periapt of Health",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -7709,7 +7709,7 @@
     }
   },
   {
-    "slug": "srd-2024_periapt-of-proof-against-poison",
+    "slug": "srd-2024_item_periapt-of-proof-against-poison",
     "name": "Periapt of Proof against Poison",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -7722,7 +7722,7 @@
     }
   },
   {
-    "slug": "srd-2024_periapt-of-wound-closure",
+    "slug": "srd-2024_item_periapt-of-wound-closure",
     "name": "Periapt of Wound Closure",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -7735,7 +7735,7 @@
     }
   },
   {
-    "slug": "srd-2024_philter-of-love",
+    "slug": "srd-2024_item_philter-of-love",
     "name": "Philter of Love",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -7750,7 +7750,7 @@
     ]
   },
   {
-    "slug": "srd-2024_pike-1",
+    "slug": "srd-2024_item_pike-1",
     "name": "Pike (+1)",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -7765,7 +7765,7 @@
     }
   },
   {
-    "slug": "srd-2024_pike-2",
+    "slug": "srd-2024_item_pike-2",
     "name": "Pike (+2)",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -7780,7 +7780,7 @@
     }
   },
   {
-    "slug": "srd-2024_pike-3",
+    "slug": "srd-2024_item_pike-3",
     "name": "Pike (+3)",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -7795,7 +7795,7 @@
     }
   },
   {
-    "slug": "srd-2024_pipes-of-haunting",
+    "slug": "srd-2024_item_pipes-of-haunting",
     "name": "Pipes of Haunting",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -7814,7 +7814,7 @@
     ]
   },
   {
-    "slug": "srd-2024_pipes-of-the-sewers",
+    "slug": "srd-2024_item_pipes-of-the-sewers",
     "name": "Pipes of the Sewers",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -7831,7 +7831,7 @@
     }
   },
   {
-    "slug": "srd-2024_pistol-1",
+    "slug": "srd-2024_item_pistol-1",
     "name": "Pistol (+1)",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -7846,7 +7846,7 @@
     }
   },
   {
-    "slug": "srd-2024_pistol-2",
+    "slug": "srd-2024_item_pistol-2",
     "name": "Pistol (+2)",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -7861,7 +7861,7 @@
     }
   },
   {
-    "slug": "srd-2024_pistol-3",
+    "slug": "srd-2024_item_pistol-3",
     "name": "Pistol (+3)",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -7876,7 +7876,7 @@
     }
   },
   {
-    "slug": "srd-2024_plate-armor-of-etherealness",
+    "slug": "srd-2024_item_plate-armor-of-etherealness",
     "name": "Plate Armor of Etherealness",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -7889,7 +7889,7 @@
     }
   },
   {
-    "slug": "srd-2024_plate-armor-1",
+    "slug": "srd-2024_item_plate-armor-1",
     "name": "Plate Armor (+1)",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -7903,7 +7903,7 @@
     }
   },
   {
-    "slug": "srd-2024_plate-armor-2",
+    "slug": "srd-2024_item_plate-armor-2",
     "name": "Plate Armor (+2)",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -7917,7 +7917,7 @@
     }
   },
   {
-    "slug": "srd-2024_plate-armor-3",
+    "slug": "srd-2024_item_plate-armor-3",
     "name": "Plate Armor (+3)",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -7931,7 +7931,7 @@
     }
   },
   {
-    "slug": "srd-2024_portable-hole",
+    "slug": "srd-2024_item_portable-hole",
     "name": "Portable Hole",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -7940,7 +7940,7 @@
     "type": "wondrous item"
   },
   {
-    "slug": "srd-2024_potion-of-animal-friendship",
+    "slug": "srd-2024_item_potion-of-animal-friendship",
     "name": "Potion of Animal Friendship",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -7950,7 +7950,7 @@
     "weight": 0.5
   },
   {
-    "slug": "srd-2024_potion-of-clairvoyance",
+    "slug": "srd-2024_item_potion-of-clairvoyance",
     "name": "Potion of Clairvoyance",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -7960,7 +7960,7 @@
     "weight": 0.5
   },
   {
-    "slug": "srd-2024_potion-of-climbing",
+    "slug": "srd-2024_item_potion-of-climbing",
     "name": "Potion of Climbing",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -7975,7 +7975,7 @@
     ]
   },
   {
-    "slug": "srd-2024_potion-of-diminution",
+    "slug": "srd-2024_item_potion-of-diminution",
     "name": "Potion of Diminution",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -7985,7 +7985,7 @@
     "weight": 0.5
   },
   {
-    "slug": "srd-2024_potion-of-flying",
+    "slug": "srd-2024_item_potion-of-flying",
     "name": "Potion of Flying",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -8000,7 +8000,7 @@
     ]
   },
   {
-    "slug": "srd-2024_potion-of-gaseous-form",
+    "slug": "srd-2024_item_potion-of-gaseous-form",
     "name": "Potion of Gaseous Form",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -8010,7 +8010,7 @@
     "weight": 0.5
   },
   {
-    "slug": "srd-2024_potion-of-growth",
+    "slug": "srd-2024_item_potion-of-growth",
     "name": "Potion of Growth",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -8020,7 +8020,7 @@
     "weight": 0.5
   },
   {
-    "slug": "srd-2024_potion-of-heroism",
+    "slug": "srd-2024_item_potion-of-heroism",
     "name": "Potion of Heroism",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -8030,7 +8030,7 @@
     "weight": 0.5
   },
   {
-    "slug": "srd-2024_potion-of-invisibility",
+    "slug": "srd-2024_item_potion-of-invisibility",
     "name": "Potion of Invisibility",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -8045,7 +8045,7 @@
     ]
   },
   {
-    "slug": "srd-2024_potion-of-mind-reading",
+    "slug": "srd-2024_item_potion-of-mind-reading",
     "name": "Potion of Mind Reading",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -8055,7 +8055,7 @@
     "weight": 0.5
   },
   {
-    "slug": "srd-2024_potion-of-poison",
+    "slug": "srd-2024_item_potion-of-poison",
     "name": "Potion of Poison",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -8070,7 +8070,7 @@
     ]
   },
   {
-    "slug": "srd-2024_potion-of-resistance",
+    "slug": "srd-2024_item_potion-of-resistance",
     "name": "Potion of Resistance",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -8079,7 +8079,7 @@
     "type": "potion"
   },
   {
-    "slug": "srd-2024_potion-of-speed",
+    "slug": "srd-2024_item_potion-of-speed",
     "name": "Potion of Speed",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -8089,7 +8089,7 @@
     "weight": 0.5
   },
   {
-    "slug": "srd-2024_potion-of-water-breathing",
+    "slug": "srd-2024_item_potion-of-water-breathing",
     "name": "Potion of Water Breathing",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -8104,7 +8104,7 @@
     ]
   },
   {
-    "slug": "srd-2024_quarterstaff-1",
+    "slug": "srd-2024_item_quarterstaff-1",
     "name": "Quarterstaff (+1)",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -8119,7 +8119,7 @@
     }
   },
   {
-    "slug": "srd-2024_quarterstaff-2",
+    "slug": "srd-2024_item_quarterstaff-2",
     "name": "Quarterstaff (+2)",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -8134,7 +8134,7 @@
     }
   },
   {
-    "slug": "srd-2024_quarterstaff-3",
+    "slug": "srd-2024_item_quarterstaff-3",
     "name": "Quarterstaff (+3)",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -8149,7 +8149,7 @@
     }
   },
   {
-    "slug": "srd-2024_rapier-of-life-stealing",
+    "slug": "srd-2024_item_rapier-of-life-stealing",
     "name": "Rapier of Life Stealing",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -8163,7 +8163,7 @@
     }
   },
   {
-    "slug": "srd-2024_rapier-of-wounding",
+    "slug": "srd-2024_item_rapier-of-wounding",
     "name": "Rapier of Wounding",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -8183,7 +8183,7 @@
     ]
   },
   {
-    "slug": "srd-2024_rapier-1",
+    "slug": "srd-2024_item_rapier-1",
     "name": "Rapier (+1)",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -8198,7 +8198,7 @@
     }
   },
   {
-    "slug": "srd-2024_rapier-2",
+    "slug": "srd-2024_item_rapier-2",
     "name": "Rapier (+2)",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -8213,7 +8213,7 @@
     }
   },
   {
-    "slug": "srd-2024_rapier-3",
+    "slug": "srd-2024_item_rapier-3",
     "name": "Rapier (+3)",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -8228,7 +8228,7 @@
     }
   },
   {
-    "slug": "srd-2024_ring-mail-1",
+    "slug": "srd-2024_item_ring-mail-1",
     "name": "Ring Mail (+1)",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -8242,7 +8242,7 @@
     }
   },
   {
-    "slug": "srd-2024_ring-mail-2",
+    "slug": "srd-2024_item_ring-mail-2",
     "name": "Ring Mail (+2)",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -8256,7 +8256,7 @@
     }
   },
   {
-    "slug": "srd-2024_ring-mail-3",
+    "slug": "srd-2024_item_ring-mail-3",
     "name": "Ring Mail (+3)",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -8270,7 +8270,7 @@
     }
   },
   {
-    "slug": "srd-2024_ring-of-animal-influence",
+    "slug": "srd-2024_item_ring-of-animal-influence",
     "name": "Ring of Animal Influence",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -8293,7 +8293,7 @@
     }
   },
   {
-    "slug": "srd-2024_ring-of-djinni-summoning",
+    "slug": "srd-2024_item_ring-of-djinni-summoning",
     "name": "Ring of Djinni Summoning",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -8305,7 +8305,7 @@
     }
   },
   {
-    "slug": "srd-2024_ring-of-elemental-command",
+    "slug": "srd-2024_item_ring-of-elemental-command",
     "name": "Ring of Elemental Command",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -8317,7 +8317,7 @@
     }
   },
   {
-    "slug": "srd-2024_ring-of-evasion",
+    "slug": "srd-2024_item_ring-of-evasion",
     "name": "Ring of Evasion",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -8334,7 +8334,7 @@
     }
   },
   {
-    "slug": "srd-2024_ring-of-feather-falling",
+    "slug": "srd-2024_item_ring-of-feather-falling",
     "name": "Ring of Feather Falling",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -8346,7 +8346,7 @@
     }
   },
   {
-    "slug": "srd-2024_ring-of-free-action",
+    "slug": "srd-2024_item_ring-of-free-action",
     "name": "Ring of Free Action",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -8358,7 +8358,7 @@
     }
   },
   {
-    "slug": "srd-2024_ring-of-invisibility",
+    "slug": "srd-2024_item_ring-of-invisibility",
     "name": "Ring of Invisibility",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -8370,7 +8370,7 @@
     }
   },
   {
-    "slug": "srd-2024_ring-of-jumping",
+    "slug": "srd-2024_item_ring-of-jumping",
     "name": "Ring of Jumping",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -8387,7 +8387,7 @@
     }
   },
   {
-    "slug": "srd-2024_ring-of-mind-shielding",
+    "slug": "srd-2024_item_ring-of-mind-shielding",
     "name": "Ring of Mind Shielding",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -8399,7 +8399,7 @@
     }
   },
   {
-    "slug": "srd-2024_ring-of-protection",
+    "slug": "srd-2024_item_ring-of-protection",
     "name": "Ring of Protection",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -8415,7 +8415,7 @@
     }
   },
   {
-    "slug": "srd-2024_ring-of-regeneration",
+    "slug": "srd-2024_item_ring-of-regeneration",
     "name": "Ring of Regeneration",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -8427,7 +8427,7 @@
     }
   },
   {
-    "slug": "srd-2024_ring-of-resistance",
+    "slug": "srd-2024_item_ring-of-resistance",
     "name": "Ring of Resistance",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -8436,7 +8436,7 @@
     "type": "ring"
   },
   {
-    "slug": "srd-2024_ring-of-shooting-stars",
+    "slug": "srd-2024_item_ring-of-shooting-stars",
     "name": "Ring of Shooting Stars",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -8464,7 +8464,7 @@
     }
   },
   {
-    "slug": "srd-2024_ring-of-spell-storing",
+    "slug": "srd-2024_item_ring-of-spell-storing",
     "name": "Ring of Spell Storing",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -8476,7 +8476,7 @@
     }
   },
   {
-    "slug": "srd-2024_ring-of-spell-turning",
+    "slug": "srd-2024_item_ring-of-spell-turning",
     "name": "Ring of Spell Turning",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -8488,7 +8488,7 @@
     }
   },
   {
-    "slug": "srd-2024_ring-of-swimming",
+    "slug": "srd-2024_item_ring-of-swimming",
     "name": "Ring of Swimming",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -8502,7 +8502,7 @@
     }
   },
   {
-    "slug": "srd-2024_ring-of-the-ram",
+    "slug": "srd-2024_item_ring-of-the-ram",
     "name": "Ring of the Ram",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -8519,7 +8519,7 @@
     }
   },
   {
-    "slug": "srd-2024_ring-of-three-wishes",
+    "slug": "srd-2024_item_ring-of-three-wishes",
     "name": "Ring of Three Wishes",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -8535,7 +8535,7 @@
     }
   },
   {
-    "slug": "srd-2024_ring-of-warmth",
+    "slug": "srd-2024_item_ring-of-warmth",
     "name": "Ring of Warmth",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -8547,7 +8547,7 @@
     }
   },
   {
-    "slug": "srd-2024_ring-of-water-walking",
+    "slug": "srd-2024_item_ring-of-water-walking",
     "name": "Ring of Water Walking",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -8561,7 +8561,7 @@
     }
   },
   {
-    "slug": "srd-2024_ring-of-x-ray-vision",
+    "slug": "srd-2024_item_ring-of-x-ray-vision",
     "name": "Ring of X-ray Vision",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -8578,7 +8578,7 @@
     ]
   },
   {
-    "slug": "srd-2024_robe-of-eyes",
+    "slug": "srd-2024_item_robe-of-eyes",
     "name": "Robe of Eyes",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -8590,7 +8590,7 @@
     }
   },
   {
-    "slug": "srd-2024_robe-of-scintillating-colors",
+    "slug": "srd-2024_item_robe-of-scintillating-colors",
     "name": "Robe of Scintillating Colors",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -8612,7 +8612,7 @@
     ]
   },
   {
-    "slug": "srd-2024_robe-of-stars",
+    "slug": "srd-2024_item_robe-of-stars",
     "name": "Robe of Stars",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -8638,7 +8638,7 @@
     }
   },
   {
-    "slug": "srd-2024_robe-of-the-archmagi",
+    "slug": "srd-2024_item_robe-of-the-archmagi",
     "name": "Robe of the Archmagi",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -8666,7 +8666,7 @@
     }
   },
   {
-    "slug": "srd-2024_robe-of-useful-items",
+    "slug": "srd-2024_item_robe-of-useful-items",
     "name": "Robe of Useful Items",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -8675,7 +8675,7 @@
     "type": "wondrous item"
   },
   {
-    "slug": "srd-2024_rod-of-absorption",
+    "slug": "srd-2024_item_rod-of-absorption",
     "name": "Rod of Absorption",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -8688,7 +8688,7 @@
     }
   },
   {
-    "slug": "srd-2024_rod-of-alertness",
+    "slug": "srd-2024_item_rod-of-alertness",
     "name": "Rod of Alertness",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -8713,7 +8713,7 @@
     }
   },
   {
-    "slug": "srd-2024_rod-of-lordly-might",
+    "slug": "srd-2024_item_rod-of-lordly-might",
     "name": "Rod of Lordly Might",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -8730,7 +8730,7 @@
     }
   },
   {
-    "slug": "srd-2024_rod-of-rulership",
+    "slug": "srd-2024_item_rod-of-rulership",
     "name": "Rod of Rulership",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -8748,7 +8748,7 @@
     ]
   },
   {
-    "slug": "srd-2024_rod-of-security",
+    "slug": "srd-2024_item_rod-of-security",
     "name": "Rod of Security",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -8758,7 +8758,7 @@
     "weight": 2
   },
   {
-    "slug": "srd-2024_rope-of-climbing",
+    "slug": "srd-2024_item_rope-of-climbing",
     "name": "Rope of Climbing",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -8767,7 +8767,7 @@
     "type": "wondrous item"
   },
   {
-    "slug": "srd-2024_rope-of-entanglement",
+    "slug": "srd-2024_item_rope-of-entanglement",
     "name": "Rope of Entanglement",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -8781,7 +8781,7 @@
     ]
   },
   {
-    "slug": "srd-2024_scale-mail-1",
+    "slug": "srd-2024_item_scale-mail-1",
     "name": "Scale Mail (+1)",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -8795,7 +8795,7 @@
     }
   },
   {
-    "slug": "srd-2024_scale-mail-2",
+    "slug": "srd-2024_item_scale-mail-2",
     "name": "Scale Mail (+2)",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -8809,7 +8809,7 @@
     }
   },
   {
-    "slug": "srd-2024_scale-mail-3",
+    "slug": "srd-2024_item_scale-mail-3",
     "name": "Scale Mail (+3)",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -8823,7 +8823,7 @@
     }
   },
   {
-    "slug": "srd-2024_scarab-of-protection",
+    "slug": "srd-2024_item_scarab-of-protection",
     "name": "Scarab of Protection",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -8842,7 +8842,7 @@
     }
   },
   {
-    "slug": "srd-2024_scimitar-of-life-stealing",
+    "slug": "srd-2024_item_scimitar-of-life-stealing",
     "name": "Scimitar of Life Stealing",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -8856,7 +8856,7 @@
     }
   },
   {
-    "slug": "srd-2024_scimitar-of-sharpness",
+    "slug": "srd-2024_item_scimitar-of-sharpness",
     "name": "Scimitar of Sharpness",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -8870,7 +8870,7 @@
     }
   },
   {
-    "slug": "srd-2024_scimitar-of-speed",
+    "slug": "srd-2024_item_scimitar-of-speed",
     "name": "Scimitar of Speed",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -8893,7 +8893,7 @@
     }
   },
   {
-    "slug": "srd-2024_scimitar-of-wounding",
+    "slug": "srd-2024_item_scimitar-of-wounding",
     "name": "Scimitar of Wounding",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -8913,7 +8913,7 @@
     ]
   },
   {
-    "slug": "srd-2024_scimitar-1",
+    "slug": "srd-2024_item_scimitar-1",
     "name": "Scimitar (+1)",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -8928,7 +8928,7 @@
     }
   },
   {
-    "slug": "srd-2024_scimitar-2",
+    "slug": "srd-2024_item_scimitar-2",
     "name": "Scimitar (+2)",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -8943,7 +8943,7 @@
     }
   },
   {
-    "slug": "srd-2024_scimitar-3",
+    "slug": "srd-2024_item_scimitar-3",
     "name": "Scimitar (+3)",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -8958,7 +8958,7 @@
     }
   },
   {
-    "slug": "srd-2024_shield-of-missile-attraction",
+    "slug": "srd-2024_item_shield-of-missile-attraction",
     "name": "Shield of Missile Attraction",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -8972,7 +8972,7 @@
     }
   },
   {
-    "slug": "srd-2024_shield-1",
+    "slug": "srd-2024_item_shield-1",
     "name": "Shield (+1)",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -8986,7 +8986,7 @@
     }
   },
   {
-    "slug": "srd-2024_shield-2",
+    "slug": "srd-2024_item_shield-2",
     "name": "Shield (+2)",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -9000,7 +9000,7 @@
     }
   },
   {
-    "slug": "srd-2024_shield-3",
+    "slug": "srd-2024_item_shield-3",
     "name": "Shield (+3)",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -9014,7 +9014,7 @@
     }
   },
   {
-    "slug": "srd-2024_shortbow-1",
+    "slug": "srd-2024_item_shortbow-1",
     "name": "Shortbow (+1)",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -9029,7 +9029,7 @@
     }
   },
   {
-    "slug": "srd-2024_shortbow-2",
+    "slug": "srd-2024_item_shortbow-2",
     "name": "Shortbow (+2)",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -9044,7 +9044,7 @@
     }
   },
   {
-    "slug": "srd-2024_shortbow-3",
+    "slug": "srd-2024_item_shortbow-3",
     "name": "Shortbow (+3)",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -9059,7 +9059,7 @@
     }
   },
   {
-    "slug": "srd-2024_shortsword-of-life-stealing",
+    "slug": "srd-2024_item_shortsword-of-life-stealing",
     "name": "Shortsword of Life Stealing",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -9073,7 +9073,7 @@
     }
   },
   {
-    "slug": "srd-2024_shortsword-of-wounding",
+    "slug": "srd-2024_item_shortsword-of-wounding",
     "name": "Shortsword of Wounding",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -9093,7 +9093,7 @@
     ]
   },
   {
-    "slug": "srd-2024_shortsword-1",
+    "slug": "srd-2024_item_shortsword-1",
     "name": "Shortsword (+1)",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -9108,7 +9108,7 @@
     }
   },
   {
-    "slug": "srd-2024_shortsword-2",
+    "slug": "srd-2024_item_shortsword-2",
     "name": "Shortsword (+2)",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -9123,7 +9123,7 @@
     }
   },
   {
-    "slug": "srd-2024_shortsword-3",
+    "slug": "srd-2024_item_shortsword-3",
     "name": "Shortsword (+3)",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -9138,7 +9138,7 @@
     }
   },
   {
-    "slug": "srd-2024_sickle-1",
+    "slug": "srd-2024_item_sickle-1",
     "name": "Sickle (+1)",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -9153,7 +9153,7 @@
     }
   },
   {
-    "slug": "srd-2024_sickle-2",
+    "slug": "srd-2024_item_sickle-2",
     "name": "Sickle (+2)",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -9168,7 +9168,7 @@
     }
   },
   {
-    "slug": "srd-2024_sickle-3",
+    "slug": "srd-2024_item_sickle-3",
     "name": "Sickle (+3)",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -9183,7 +9183,7 @@
     }
   },
   {
-    "slug": "srd-2024_sling-1",
+    "slug": "srd-2024_item_sling-1",
     "name": "Sling (+1)",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -9197,7 +9197,7 @@
     }
   },
   {
-    "slug": "srd-2024_sling-2",
+    "slug": "srd-2024_item_sling-2",
     "name": "Sling (+2)",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -9211,7 +9211,7 @@
     }
   },
   {
-    "slug": "srd-2024_sling-3",
+    "slug": "srd-2024_item_sling-3",
     "name": "Sling (+3)",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -9225,7 +9225,7 @@
     }
   },
   {
-    "slug": "srd-2024_slippers-of-spider-climbing",
+    "slug": "srd-2024_item_slippers-of-spider-climbing",
     "name": "Slippers of Spider Climbing",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -9237,7 +9237,7 @@
     }
   },
   {
-    "slug": "srd-2024_sovereign-glue",
+    "slug": "srd-2024_item_sovereign-glue",
     "name": "Sovereign Glue",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -9246,7 +9246,7 @@
     "type": "wondrous item"
   },
   {
-    "slug": "srd-2024_spear-1",
+    "slug": "srd-2024_item_spear-1",
     "name": "Spear (+1)",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -9261,7 +9261,7 @@
     }
   },
   {
-    "slug": "srd-2024_spear-2",
+    "slug": "srd-2024_item_spear-2",
     "name": "Spear (+2)",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -9276,7 +9276,7 @@
     }
   },
   {
-    "slug": "srd-2024_spear-3",
+    "slug": "srd-2024_item_spear-3",
     "name": "Spear (+3)",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -9291,7 +9291,7 @@
     }
   },
   {
-    "slug": "srd-2024_spellguard-shield",
+    "slug": "srd-2024_item_spellguard-shield",
     "name": "Spellguard Shield",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -9305,7 +9305,7 @@
     }
   },
   {
-    "slug": "srd-2024_sphere-of-annihilation",
+    "slug": "srd-2024_item_sphere-of-annihilation",
     "name": "Sphere of Annihilation",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -9314,7 +9314,7 @@
     "type": "wondrous item"
   },
   {
-    "slug": "srd-2024_splint-armor-1",
+    "slug": "srd-2024_item_splint-armor-1",
     "name": "Splint Armor (+1)",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -9328,7 +9328,7 @@
     }
   },
   {
-    "slug": "srd-2024_splint-armor-2",
+    "slug": "srd-2024_item_splint-armor-2",
     "name": "Splint Armor (+2)",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -9342,7 +9342,7 @@
     }
   },
   {
-    "slug": "srd-2024_splint-armor-3",
+    "slug": "srd-2024_item_splint-armor-3",
     "name": "Splint Armor (+3)",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -9356,7 +9356,7 @@
     }
   },
   {
-    "slug": "srd-2024_staff-of-charming",
+    "slug": "srd-2024_item_staff-of-charming",
     "name": "Staff of Charming",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -9408,7 +9408,7 @@
     }
   },
   {
-    "slug": "srd-2024_staff-of-fire",
+    "slug": "srd-2024_item_staff-of-fire",
     "name": "Staff of Fire",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -9461,7 +9461,7 @@
     ]
   },
   {
-    "slug": "srd-2024_staff-of-frost",
+    "slug": "srd-2024_item_staff-of-frost",
     "name": "Staff of Frost",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -9515,7 +9515,7 @@
     ]
   },
   {
-    "slug": "srd-2024_staff-of-healing",
+    "slug": "srd-2024_item_staff-of-healing",
     "name": "Staff of Healing",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -9562,7 +9562,7 @@
     }
   },
   {
-    "slug": "srd-2024_staff-of-power",
+    "slug": "srd-2024_item_staff-of-power",
     "name": "Staff of Power",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -9624,7 +9624,7 @@
     }
   },
   {
-    "slug": "srd-2024_staff-of-striking",
+    "slug": "srd-2024_item_staff-of-striking",
     "name": "Staff of Striking",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -9650,7 +9650,7 @@
     }
   },
   {
-    "slug": "srd-2024_staff-of-swarming-insects",
+    "slug": "srd-2024_item_staff-of-swarming-insects",
     "name": "Staff of Swarming Insects",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -9703,7 +9703,7 @@
     }
   },
   {
-    "slug": "srd-2024_staff-of-the-magi",
+    "slug": "srd-2024_item_staff-of-the-magi",
     "name": "Staff of the Magi",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -9777,7 +9777,7 @@
     }
   },
   {
-    "slug": "srd-2024_staff-of-the-python",
+    "slug": "srd-2024_item_staff-of-the-python",
     "name": "Staff of the Python",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -9794,7 +9794,7 @@
     ]
   },
   {
-    "slug": "srd-2024_staff-of-the-woodlands",
+    "slug": "srd-2024_item_staff-of-the-woodlands",
     "name": "Staff of the Woodlands",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -9849,7 +9849,7 @@
     }
   },
   {
-    "slug": "srd-2024_staff-of-thunder-and-lightning",
+    "slug": "srd-2024_item_staff-of-thunder-and-lightning",
     "name": "Staff of Thunder and Lightning",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -9870,7 +9870,7 @@
     }
   },
   {
-    "slug": "srd-2024_staff-of-withering",
+    "slug": "srd-2024_item_staff-of-withering",
     "name": "Staff of Withering",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -9904,7 +9904,7 @@
     }
   },
   {
-    "slug": "srd-2024_stone-of-controlling-earth-elementals",
+    "slug": "srd-2024_item_stone-of-controlling-earth-elementals",
     "name": "Stone of Controlling Earth Elementals",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -9913,7 +9913,7 @@
     "type": "wondrous item"
   },
   {
-    "slug": "srd-2024_stone-of-good-luck-luckstone",
+    "slug": "srd-2024_item_stone-of-good-luck-luckstone",
     "name": "Stone of Good Luck (Luckstone)",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -9925,7 +9925,7 @@
     }
   },
   {
-    "slug": "srd-2024_studded-leather-armor-1",
+    "slug": "srd-2024_item_studded-leather-armor-1",
     "name": "Studded Leather Armor (+1)",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -9939,7 +9939,7 @@
     }
   },
   {
-    "slug": "srd-2024_studded-leather-armor-2",
+    "slug": "srd-2024_item_studded-leather-armor-2",
     "name": "Studded Leather Armor (+2)",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -9953,7 +9953,7 @@
     }
   },
   {
-    "slug": "srd-2024_studded-leather-armor-3",
+    "slug": "srd-2024_item_studded-leather-armor-3",
     "name": "Studded Leather Armor (+3)",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -9967,7 +9967,7 @@
     }
   },
   {
-    "slug": "srd-2024_sun-blade",
+    "slug": "srd-2024_item_sun-blade",
     "name": "Sun Blade",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -9990,7 +9990,7 @@
     }
   },
   {
-    "slug": "srd-2024_talisman-of-pure-good",
+    "slug": "srd-2024_item_talisman-of-pure-good",
     "name": "Talisman of Pure Good",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -10018,7 +10018,7 @@
     }
   },
   {
-    "slug": "srd-2024_talisman-of-the-sphere",
+    "slug": "srd-2024_item_talisman-of-the-sphere",
     "name": "Talisman of the Sphere",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -10031,7 +10031,7 @@
     }
   },
   {
-    "slug": "srd-2024_talisman-of-ultimate-evil",
+    "slug": "srd-2024_item_talisman-of-ultimate-evil",
     "name": "Talisman of Ultimate Evil",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -10050,7 +10050,7 @@
     }
   },
   {
-    "slug": "srd-2024_tome-of-clear-thought",
+    "slug": "srd-2024_item_tome-of-clear-thought",
     "name": "Tome of Clear Thought",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -10072,7 +10072,7 @@
     }
   },
   {
-    "slug": "srd-2024_tome-of-leadership-and-influence",
+    "slug": "srd-2024_item_tome-of-leadership-and-influence",
     "name": "Tome of Leadership and Influence",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -10094,7 +10094,7 @@
     }
   },
   {
-    "slug": "srd-2024_tome-of-understanding",
+    "slug": "srd-2024_item_tome-of-understanding",
     "name": "Tome of Understanding",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -10116,7 +10116,7 @@
     }
   },
   {
-    "slug": "srd-2024_trident-of-fish-command",
+    "slug": "srd-2024_item_trident-of-fish-command",
     "name": "Trident of Fish Command",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -10147,7 +10147,7 @@
     }
   },
   {
-    "slug": "srd-2024_trident-1",
+    "slug": "srd-2024_item_trident-1",
     "name": "Trident (+1)",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -10162,7 +10162,7 @@
     }
   },
   {
-    "slug": "srd-2024_trident-2",
+    "slug": "srd-2024_item_trident-2",
     "name": "Trident (+2)",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -10177,7 +10177,7 @@
     }
   },
   {
-    "slug": "srd-2024_trident-3",
+    "slug": "srd-2024_item_trident-3",
     "name": "Trident (+3)",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -10192,7 +10192,7 @@
     }
   },
   {
-    "slug": "srd-2024_universal-solvent",
+    "slug": "srd-2024_item_universal-solvent",
     "name": "Universal Solvent",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -10201,7 +10201,7 @@
     "type": "wondrous item"
   },
   {
-    "slug": "srd-2024_vicious-battleaxe",
+    "slug": "srd-2024_item_vicious-battleaxe",
     "name": "Vicious Battleaxe",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -10212,7 +10212,7 @@
     "base_item": "[[SRD 2024/Weapons/Battleaxe]]"
   },
   {
-    "slug": "srd-2024_vicious-blowgun",
+    "slug": "srd-2024_item_vicious-blowgun",
     "name": "Vicious Blowgun",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -10223,7 +10223,7 @@
     "base_item": "[[SRD 2024/Weapons/Blowgun]]"
   },
   {
-    "slug": "srd-2024_vicious-club",
+    "slug": "srd-2024_item_vicious-club",
     "name": "Vicious Club",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -10234,7 +10234,7 @@
     "base_item": "[[SRD 2024/Weapons/Club]]"
   },
   {
-    "slug": "srd-2024_vicious-dagger",
+    "slug": "srd-2024_item_vicious-dagger",
     "name": "Vicious Dagger",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -10245,7 +10245,7 @@
     "base_item": "[[SRD 2024/Weapons/Dagger]]"
   },
   {
-    "slug": "srd-2024_vicious-dart",
+    "slug": "srd-2024_item_vicious-dart",
     "name": "Vicious Dart",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -10256,7 +10256,7 @@
     "base_item": "[[SRD 2024/Weapons/Dart]]"
   },
   {
-    "slug": "srd-2024_vicious-flail",
+    "slug": "srd-2024_item_vicious-flail",
     "name": "Vicious Flail",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -10267,7 +10267,7 @@
     "base_item": "[[SRD 2024/Weapons/Flail]]"
   },
   {
-    "slug": "srd-2024_vicious-glaive",
+    "slug": "srd-2024_item_vicious-glaive",
     "name": "Vicious Glaive",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -10278,7 +10278,7 @@
     "base_item": "[[SRD 2024/Weapons/Glaive]]"
   },
   {
-    "slug": "srd-2024_vicious-greataxe",
+    "slug": "srd-2024_item_vicious-greataxe",
     "name": "Vicious Greataxe",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -10289,7 +10289,7 @@
     "base_item": "[[SRD 2024/Weapons/Greataxe]]"
   },
   {
-    "slug": "srd-2024_vicious-greatclub",
+    "slug": "srd-2024_item_vicious-greatclub",
     "name": "Vicious Greatclub",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -10300,7 +10300,7 @@
     "base_item": "[[SRD 2024/Weapons/Greatclub]]"
   },
   {
-    "slug": "srd-2024_vicious-greatsword",
+    "slug": "srd-2024_item_vicious-greatsword",
     "name": "Vicious Greatsword",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -10311,7 +10311,7 @@
     "base_item": "[[SRD 2024/Weapons/Greatsword]]"
   },
   {
-    "slug": "srd-2024_vicious-halberd",
+    "slug": "srd-2024_item_vicious-halberd",
     "name": "Vicious Halberd",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -10322,7 +10322,7 @@
     "base_item": "[[SRD 2024/Weapons/Halberd]]"
   },
   {
-    "slug": "srd-2024_vicious-hand-crossbow",
+    "slug": "srd-2024_item_vicious-hand-crossbow",
     "name": "Vicious Hand Crossbow",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -10333,7 +10333,7 @@
     "base_item": "[[SRD 2024/Weapons/Hand Crossbow]]"
   },
   {
-    "slug": "srd-2024_vicious-handaxe",
+    "slug": "srd-2024_item_vicious-handaxe",
     "name": "Vicious Handaxe",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -10344,7 +10344,7 @@
     "base_item": "[[SRD 2024/Weapons/Handaxe]]"
   },
   {
-    "slug": "srd-2024_vicious-heavy-crossbow",
+    "slug": "srd-2024_item_vicious-heavy-crossbow",
     "name": "Vicious Heavy Crossbow",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -10355,7 +10355,7 @@
     "base_item": "[[SRD 2024/Weapons/Heavy Crossbow]]"
   },
   {
-    "slug": "srd-2024_vicious-javelin",
+    "slug": "srd-2024_item_vicious-javelin",
     "name": "Vicious Javelin",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -10366,7 +10366,7 @@
     "base_item": "[[SRD 2024/Weapons/Javelin]]"
   },
   {
-    "slug": "srd-2024_vicious-lance",
+    "slug": "srd-2024_item_vicious-lance",
     "name": "Vicious Lance",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -10377,7 +10377,7 @@
     "base_item": "[[SRD 2024/Weapons/Lance]]"
   },
   {
-    "slug": "srd-2024_vicious-light-crossbow",
+    "slug": "srd-2024_item_vicious-light-crossbow",
     "name": "Vicious Light Crossbow",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -10388,7 +10388,7 @@
     "base_item": "[[SRD 2024/Weapons/Light Crossbow]]"
   },
   {
-    "slug": "srd-2024_vicious-light-hammer",
+    "slug": "srd-2024_item_vicious-light-hammer",
     "name": "Vicious Light Hammer",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -10399,7 +10399,7 @@
     "base_item": "[[SRD 2024/Weapons/Light Hammer]]"
   },
   {
-    "slug": "srd-2024_vicious-longbow",
+    "slug": "srd-2024_item_vicious-longbow",
     "name": "Vicious Longbow",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -10410,7 +10410,7 @@
     "base_item": "[[SRD 2024/Weapons/Longbow]]"
   },
   {
-    "slug": "srd-2024_vicious-longsword",
+    "slug": "srd-2024_item_vicious-longsword",
     "name": "Vicious Longsword",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -10421,7 +10421,7 @@
     "base_item": "[[SRD 2024/Weapons/Longsword]]"
   },
   {
-    "slug": "srd-2024_vicious-mace",
+    "slug": "srd-2024_item_vicious-mace",
     "name": "Vicious Mace",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -10432,7 +10432,7 @@
     "base_item": "[[SRD 2024/Weapons/Mace]]"
   },
   {
-    "slug": "srd-2024_vicious-maul",
+    "slug": "srd-2024_item_vicious-maul",
     "name": "Vicious Maul",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -10443,7 +10443,7 @@
     "base_item": "[[SRD 2024/Weapons/Maul]]"
   },
   {
-    "slug": "srd-2024_vicious-morningstar",
+    "slug": "srd-2024_item_vicious-morningstar",
     "name": "Vicious Morningstar",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -10454,7 +10454,7 @@
     "base_item": "[[SRD 2024/Weapons/Morningstar]]"
   },
   {
-    "slug": "srd-2024_vicious-musket",
+    "slug": "srd-2024_item_vicious-musket",
     "name": "Vicious Musket",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -10465,7 +10465,7 @@
     "base_item": "[[SRD 2024/Weapons/Musket]]"
   },
   {
-    "slug": "srd-2024_vicious-pike",
+    "slug": "srd-2024_item_vicious-pike",
     "name": "Vicious Pike",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -10476,7 +10476,7 @@
     "base_item": "[[SRD 2024/Weapons/Pike]]"
   },
   {
-    "slug": "srd-2024_vicious-pistol",
+    "slug": "srd-2024_item_vicious-pistol",
     "name": "Vicious Pistol",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -10487,7 +10487,7 @@
     "base_item": "[[SRD 2024/Weapons/Pistol]]"
   },
   {
-    "slug": "srd-2024_vicious-quarterstaff",
+    "slug": "srd-2024_item_vicious-quarterstaff",
     "name": "Vicious Quarterstaff",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -10498,7 +10498,7 @@
     "base_item": "[[SRD 2024/Weapons/Quarterstaff]]"
   },
   {
-    "slug": "srd-2024_vicious-rapier",
+    "slug": "srd-2024_item_vicious-rapier",
     "name": "Vicious Rapier",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -10509,7 +10509,7 @@
     "base_item": "[[SRD 2024/Weapons/Rapier]]"
   },
   {
-    "slug": "srd-2024_vicious-scimitar",
+    "slug": "srd-2024_item_vicious-scimitar",
     "name": "Vicious Scimitar",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -10520,7 +10520,7 @@
     "base_item": "[[SRD 2024/Weapons/Scimitar]]"
   },
   {
-    "slug": "srd-2024_vicious-shortbow",
+    "slug": "srd-2024_item_vicious-shortbow",
     "name": "Vicious Shortbow",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -10531,7 +10531,7 @@
     "base_item": "[[SRD 2024/Weapons/Shortbow]]"
   },
   {
-    "slug": "srd-2024_vicious-shortsword",
+    "slug": "srd-2024_item_vicious-shortsword",
     "name": "Vicious Shortsword",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -10542,7 +10542,7 @@
     "base_item": "[[SRD 2024/Weapons/Shortsword]]"
   },
   {
-    "slug": "srd-2024_vicious-sickle",
+    "slug": "srd-2024_item_vicious-sickle",
     "name": "Vicious Sickle",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -10553,7 +10553,7 @@
     "base_item": "[[SRD 2024/Weapons/Sickle]]"
   },
   {
-    "slug": "srd-2024_vicious-sling",
+    "slug": "srd-2024_item_vicious-sling",
     "name": "Vicious Sling",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -10563,7 +10563,7 @@
     "base_item": "[[SRD 2024/Weapons/Sling]]"
   },
   {
-    "slug": "srd-2024_vicious-spear",
+    "slug": "srd-2024_item_vicious-spear",
     "name": "Vicious Spear",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -10574,7 +10574,7 @@
     "base_item": "[[SRD 2024/Weapons/Spear]]"
   },
   {
-    "slug": "srd-2024_vicious-trident",
+    "slug": "srd-2024_item_vicious-trident",
     "name": "Vicious Trident",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -10585,7 +10585,7 @@
     "base_item": "[[SRD 2024/Weapons/Trident]]"
   },
   {
-    "slug": "srd-2024_vicious-war-pick",
+    "slug": "srd-2024_item_vicious-war-pick",
     "name": "Vicious War Pick",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -10596,7 +10596,7 @@
     "base_item": "[[SRD 2024/Weapons/War Pick]]"
   },
   {
-    "slug": "srd-2024_vicious-warhammer",
+    "slug": "srd-2024_item_vicious-warhammer",
     "name": "Vicious Warhammer",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -10607,7 +10607,7 @@
     "base_item": "[[SRD 2024/Weapons/Warhammer]]"
   },
   {
-    "slug": "srd-2024_vicious-whip",
+    "slug": "srd-2024_item_vicious-whip",
     "name": "Vicious Whip",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -10618,7 +10618,7 @@
     "base_item": "[[SRD 2024/Weapons/Whip]]"
   },
   {
-    "slug": "srd-2024_vorpal-glaive",
+    "slug": "srd-2024_item_vorpal-glaive",
     "name": "Vorpal Glaive",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -10636,7 +10636,7 @@
     }
   },
   {
-    "slug": "srd-2024_vorpal-greatsword",
+    "slug": "srd-2024_item_vorpal-greatsword",
     "name": "Vorpal Greatsword",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -10654,7 +10654,7 @@
     }
   },
   {
-    "slug": "srd-2024_vorpal-longsword",
+    "slug": "srd-2024_item_vorpal-longsword",
     "name": "Vorpal Longsword",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -10672,7 +10672,7 @@
     }
   },
   {
-    "slug": "srd-2024_vorpal-scimitar",
+    "slug": "srd-2024_item_vorpal-scimitar",
     "name": "Vorpal Scimitar",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -10690,7 +10690,7 @@
     }
   },
   {
-    "slug": "srd-2024_wand-of-binding",
+    "slug": "srd-2024_item_wand-of-binding",
     "name": "Wand of Binding",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -10718,7 +10718,7 @@
     }
   },
   {
-    "slug": "srd-2024_wand-of-enemy-detection",
+    "slug": "srd-2024_item_wand-of-enemy-detection",
     "name": "Wand of Enemy Detection",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -10736,7 +10736,7 @@
     }
   },
   {
-    "slug": "srd-2024_wand-of-fireballs",
+    "slug": "srd-2024_item_wand-of-fireballs",
     "name": "Wand of Fireballs",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -10767,7 +10767,7 @@
     }
   },
   {
-    "slug": "srd-2024_wand-of-lightning-bolts",
+    "slug": "srd-2024_item_wand-of-lightning-bolts",
     "name": "Wand of Lightning Bolts",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -10798,7 +10798,7 @@
     }
   },
   {
-    "slug": "srd-2024_wand-of-magic-detection",
+    "slug": "srd-2024_item_wand-of-magic-detection",
     "name": "Wand of Magic Detection",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -10820,7 +10820,7 @@
     }
   },
   {
-    "slug": "srd-2024_wand-of-magic-missiles",
+    "slug": "srd-2024_item_wand-of-magic-missiles",
     "name": "Wand of Magic Missiles",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -10842,7 +10842,7 @@
     }
   },
   {
-    "slug": "srd-2024_wand-of-paralysis",
+    "slug": "srd-2024_item_wand-of-paralysis",
     "name": "Wand of Paralysis",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -10871,7 +10871,7 @@
     ]
   },
   {
-    "slug": "srd-2024_wand-of-polymorph",
+    "slug": "srd-2024_item_wand-of-polymorph",
     "name": "Wand of Polymorph",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -10902,7 +10902,7 @@
     }
   },
   {
-    "slug": "srd-2024_wand-of-secrets",
+    "slug": "srd-2024_item_wand-of-secrets",
     "name": "Wand of Secrets",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -10917,7 +10917,7 @@
     }
   },
   {
-    "slug": "srd-2024_wand-of-the-war-mage-1",
+    "slug": "srd-2024_item_wand-of-the-war-mage-1",
     "name": "Wand of the War Mage +1",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -10929,7 +10929,7 @@
     }
   },
   {
-    "slug": "srd-2024_wand-of-the-war-mage-2",
+    "slug": "srd-2024_item_wand-of-the-war-mage-2",
     "name": "Wand of the War Mage +2",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -10941,7 +10941,7 @@
     }
   },
   {
-    "slug": "srd-2024_wand-of-the-war-mage-3",
+    "slug": "srd-2024_item_wand-of-the-war-mage-3",
     "name": "Wand of the War Mage +3",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -10953,7 +10953,7 @@
     }
   },
   {
-    "slug": "srd-2024_wand-of-web",
+    "slug": "srd-2024_item_wand-of-web",
     "name": "Wand of Web",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -10984,7 +10984,7 @@
     }
   },
   {
-    "slug": "srd-2024_wand-of-wonder",
+    "slug": "srd-2024_item_wand-of-wonder",
     "name": "Wand of Wonder",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -11019,7 +11019,7 @@
     }
   },
   {
-    "slug": "srd-2024_war-pick-1",
+    "slug": "srd-2024_item_war-pick-1",
     "name": "War Pick (+1)",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -11034,7 +11034,7 @@
     }
   },
   {
-    "slug": "srd-2024_war-pick-2",
+    "slug": "srd-2024_item_war-pick-2",
     "name": "War Pick (+2)",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -11049,7 +11049,7 @@
     }
   },
   {
-    "slug": "srd-2024_war-pick-3",
+    "slug": "srd-2024_item_war-pick-3",
     "name": "War Pick (+3)",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -11064,7 +11064,7 @@
     }
   },
   {
-    "slug": "srd-2024_warhammer-1",
+    "slug": "srd-2024_item_warhammer-1",
     "name": "Warhammer (+1)",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -11082,7 +11082,7 @@
     }
   },
   {
-    "slug": "srd-2024_warhammer-2",
+    "slug": "srd-2024_item_warhammer-2",
     "name": "Warhammer (+2)",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -11097,7 +11097,7 @@
     }
   },
   {
-    "slug": "srd-2024_warhammer-3",
+    "slug": "srd-2024_item_warhammer-3",
     "name": "Warhammer (+3)",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -11112,7 +11112,7 @@
     }
   },
   {
-    "slug": "srd-2024_weapon-of-warning-battleaxe",
+    "slug": "srd-2024_item_weapon-of-warning-battleaxe",
     "name": "Weapon of Warning (Battleaxe)",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -11123,7 +11123,7 @@
     "base_item": "[[SRD 2024/Weapons/Battleaxe]]"
   },
   {
-    "slug": "srd-2024_weapon-of-warning-blowgun",
+    "slug": "srd-2024_item_weapon-of-warning-blowgun",
     "name": "Weapon of Warning (Blowgun)",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -11134,7 +11134,7 @@
     "base_item": "[[SRD 2024/Weapons/Blowgun]]"
   },
   {
-    "slug": "srd-2024_weapon-of-warning-club",
+    "slug": "srd-2024_item_weapon-of-warning-club",
     "name": "Weapon of Warning (Club)",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -11145,7 +11145,7 @@
     "base_item": "[[SRD 2024/Weapons/Club]]"
   },
   {
-    "slug": "srd-2024_weapon-of-warning-dagger",
+    "slug": "srd-2024_item_weapon-of-warning-dagger",
     "name": "Weapon of Warning (Dagger)",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -11156,7 +11156,7 @@
     "base_item": "[[SRD 2024/Weapons/Dagger]]"
   },
   {
-    "slug": "srd-2024_weapon-of-warning-dart",
+    "slug": "srd-2024_item_weapon-of-warning-dart",
     "name": "Weapon of Warning (Dart)",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -11167,7 +11167,7 @@
     "base_item": "[[SRD 2024/Weapons/Dart]]"
   },
   {
-    "slug": "srd-2024_weapon-of-warning-flail",
+    "slug": "srd-2024_item_weapon-of-warning-flail",
     "name": "Weapon of Warning (Flail)",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -11178,7 +11178,7 @@
     "base_item": "[[SRD 2024/Weapons/Flail]]"
   },
   {
-    "slug": "srd-2024_weapon-of-warning-glaive",
+    "slug": "srd-2024_item_weapon-of-warning-glaive",
     "name": "Weapon of Warning (Glaive)",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -11189,7 +11189,7 @@
     "base_item": "[[SRD 2024/Weapons/Glaive]]"
   },
   {
-    "slug": "srd-2024_weapon-of-warning-greataxe",
+    "slug": "srd-2024_item_weapon-of-warning-greataxe",
     "name": "Weapon of Warning (Greataxe)",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -11200,7 +11200,7 @@
     "base_item": "[[SRD 2024/Weapons/Greataxe]]"
   },
   {
-    "slug": "srd-2024_weapon-of-warning-greatclub",
+    "slug": "srd-2024_item_weapon-of-warning-greatclub",
     "name": "Weapon of Warning (Greatclub)",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -11211,7 +11211,7 @@
     "base_item": "[[SRD 2024/Weapons/Greatclub]]"
   },
   {
-    "slug": "srd-2024_weapon-of-warning-greatsword",
+    "slug": "srd-2024_item_weapon-of-warning-greatsword",
     "name": "Weapon of Warning (Greatsword)",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -11222,7 +11222,7 @@
     "base_item": "[[SRD 2024/Weapons/Greatsword]]"
   },
   {
-    "slug": "srd-2024_weapon-of-warning-halberd",
+    "slug": "srd-2024_item_weapon-of-warning-halberd",
     "name": "Weapon of Warning (Halberd)",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -11233,7 +11233,7 @@
     "base_item": "[[SRD 2024/Weapons/Halberd]]"
   },
   {
-    "slug": "srd-2024_weapon-of-warning-hand-crossbow",
+    "slug": "srd-2024_item_weapon-of-warning-hand-crossbow",
     "name": "Weapon of Warning (Hand Crossbow)",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -11244,7 +11244,7 @@
     "base_item": "[[SRD 2024/Weapons/Hand Crossbow]]"
   },
   {
-    "slug": "srd-2024_weapon-of-warning-handaxe",
+    "slug": "srd-2024_item_weapon-of-warning-handaxe",
     "name": "Weapon of Warning (Handaxe)",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -11255,7 +11255,7 @@
     "base_item": "[[SRD 2024/Weapons/Handaxe]]"
   },
   {
-    "slug": "srd-2024_weapon-of-warning-heavy-crossbow",
+    "slug": "srd-2024_item_weapon-of-warning-heavy-crossbow",
     "name": "Weapon of Warning (Heavy Crossbow)",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -11266,7 +11266,7 @@
     "base_item": "[[SRD 2024/Weapons/Heavy Crossbow]]"
   },
   {
-    "slug": "srd-2024_weapon-of-warning-javelin",
+    "slug": "srd-2024_item_weapon-of-warning-javelin",
     "name": "Weapon of Warning (Javelin)",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -11277,7 +11277,7 @@
     "base_item": "[[SRD 2024/Weapons/Javelin]]"
   },
   {
-    "slug": "srd-2024_weapon-of-warning-lance",
+    "slug": "srd-2024_item_weapon-of-warning-lance",
     "name": "Weapon of Warning (Lance)",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -11288,7 +11288,7 @@
     "base_item": "[[SRD 2024/Weapons/Lance]]"
   },
   {
-    "slug": "srd-2024_weapon-of-warning-light-crossbow",
+    "slug": "srd-2024_item_weapon-of-warning-light-crossbow",
     "name": "Weapon of Warning (Light Crossbow)",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -11299,7 +11299,7 @@
     "base_item": "[[SRD 2024/Weapons/Light Crossbow]]"
   },
   {
-    "slug": "srd-2024_weapon-of-warning-light-hammer",
+    "slug": "srd-2024_item_weapon-of-warning-light-hammer",
     "name": "Weapon of Warning (Light Hammer)",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -11310,7 +11310,7 @@
     "base_item": "[[SRD 2024/Weapons/Light Hammer]]"
   },
   {
-    "slug": "srd-2024_weapon-of-warning-longbow",
+    "slug": "srd-2024_item_weapon-of-warning-longbow",
     "name": "Weapon of Warning (Longbow)",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -11321,7 +11321,7 @@
     "base_item": "[[SRD 2024/Weapons/Longbow]]"
   },
   {
-    "slug": "srd-2024_weapon-of-warning-longsword",
+    "slug": "srd-2024_item_weapon-of-warning-longsword",
     "name": "Weapon of Warning (Longsword)",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -11332,7 +11332,7 @@
     "base_item": "[[SRD 2024/Weapons/Longsword]]"
   },
   {
-    "slug": "srd-2024_weapon-of-warning-mace",
+    "slug": "srd-2024_item_weapon-of-warning-mace",
     "name": "Weapon of Warning (Mace)",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -11343,7 +11343,7 @@
     "base_item": "[[SRD 2024/Weapons/Mace]]"
   },
   {
-    "slug": "srd-2024_weapon-of-warning-maul",
+    "slug": "srd-2024_item_weapon-of-warning-maul",
     "name": "Weapon of Warning (Maul)",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -11354,7 +11354,7 @@
     "base_item": "[[SRD 2024/Weapons/Maul]]"
   },
   {
-    "slug": "srd-2024_weapon-of-warning-morningstar",
+    "slug": "srd-2024_item_weapon-of-warning-morningstar",
     "name": "Weapon of Warning (Morningstar)",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -11365,7 +11365,7 @@
     "base_item": "[[SRD 2024/Weapons/Morningstar]]"
   },
   {
-    "slug": "srd-2024_weapon-of-warning-musket",
+    "slug": "srd-2024_item_weapon-of-warning-musket",
     "name": "Weapon of Warning (Musket)",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -11376,7 +11376,7 @@
     "base_item": "[[SRD 2024/Weapons/Musket]]"
   },
   {
-    "slug": "srd-2024_weapon-of-warning-pike",
+    "slug": "srd-2024_item_weapon-of-warning-pike",
     "name": "Weapon of Warning (Pike)",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -11387,7 +11387,7 @@
     "base_item": "[[SRD 2024/Weapons/Pike]]"
   },
   {
-    "slug": "srd-2024_weapon-of-warning-pistol",
+    "slug": "srd-2024_item_weapon-of-warning-pistol",
     "name": "Weapon of Warning (Pistol)",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -11398,7 +11398,7 @@
     "base_item": "[[SRD 2024/Weapons/Pistol]]"
   },
   {
-    "slug": "srd-2024_weapon-of-warning-quarterstaff",
+    "slug": "srd-2024_item_weapon-of-warning-quarterstaff",
     "name": "Weapon of Warning (Quarterstaff)",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -11409,7 +11409,7 @@
     "base_item": "[[SRD 2024/Weapons/Quarterstaff]]"
   },
   {
-    "slug": "srd-2024_weapon-of-warning-rapier",
+    "slug": "srd-2024_item_weapon-of-warning-rapier",
     "name": "Weapon of Warning (Rapier)",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -11420,7 +11420,7 @@
     "base_item": "[[SRD 2024/Weapons/Rapier]]"
   },
   {
-    "slug": "srd-2024_weapon-of-warning-scimitar",
+    "slug": "srd-2024_item_weapon-of-warning-scimitar",
     "name": "Weapon of Warning (Scimitar)",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -11431,7 +11431,7 @@
     "base_item": "[[SRD 2024/Weapons/Scimitar]]"
   },
   {
-    "slug": "srd-2024_weapon-of-warning-shortbow",
+    "slug": "srd-2024_item_weapon-of-warning-shortbow",
     "name": "Weapon of Warning (Shortbow)",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -11442,7 +11442,7 @@
     "base_item": "[[SRD 2024/Weapons/Shortbow]]"
   },
   {
-    "slug": "srd-2024_weapon-of-warning-shortsword",
+    "slug": "srd-2024_item_weapon-of-warning-shortsword",
     "name": "Weapon of Warning (Shortsword)",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -11453,7 +11453,7 @@
     "base_item": "[[SRD 2024/Weapons/Shortsword]]"
   },
   {
-    "slug": "srd-2024_weapon-of-warning-sickle",
+    "slug": "srd-2024_item_weapon-of-warning-sickle",
     "name": "Weapon of Warning (Sickle)",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -11464,7 +11464,7 @@
     "base_item": "[[SRD 2024/Weapons/Sickle]]"
   },
   {
-    "slug": "srd-2024_weapon-of-warning-sling",
+    "slug": "srd-2024_item_weapon-of-warning-sling",
     "name": "Weapon of Warning (Sling)",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -11474,7 +11474,7 @@
     "base_item": "[[SRD 2024/Weapons/Sling]]"
   },
   {
-    "slug": "srd-2024_weapon-of-warning-spear",
+    "slug": "srd-2024_item_weapon-of-warning-spear",
     "name": "Weapon of Warning (Spear)",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -11485,7 +11485,7 @@
     "base_item": "[[SRD 2024/Weapons/Spear]]"
   },
   {
-    "slug": "srd-2024_weapon-of-warning-trident",
+    "slug": "srd-2024_item_weapon-of-warning-trident",
     "name": "Weapon of Warning (Trident)",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -11496,7 +11496,7 @@
     "base_item": "[[SRD 2024/Weapons/Trident]]"
   },
   {
-    "slug": "srd-2024_weapon-of-warning-war-pick",
+    "slug": "srd-2024_item_weapon-of-warning-war-pick",
     "name": "Weapon of Warning (War Pick)",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -11507,7 +11507,7 @@
     "base_item": "[[SRD 2024/Weapons/War Pick]]"
   },
   {
-    "slug": "srd-2024_weapon-of-warning-warhammer",
+    "slug": "srd-2024_item_weapon-of-warning-warhammer",
     "name": "Weapon of Warning (Warhammer)",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -11518,7 +11518,7 @@
     "base_item": "[[SRD 2024/Weapons/Warhammer]]"
   },
   {
-    "slug": "srd-2024_weapon-of-warning-whip",
+    "slug": "srd-2024_item_weapon-of-warning-whip",
     "name": "Weapon of Warning (Whip)",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -11529,7 +11529,7 @@
     "base_item": "[[SRD 2024/Weapons/Whip]]"
   },
   {
-    "slug": "srd-2024_well-of-many-worlds",
+    "slug": "srd-2024_item_well-of-many-worlds",
     "name": "Well of Many Worlds",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -11538,7 +11538,7 @@
     "type": "wondrous item"
   },
   {
-    "slug": "srd-2024_whip-1",
+    "slug": "srd-2024_item_whip-1",
     "name": "Whip (+1)",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -11553,7 +11553,7 @@
     }
   },
   {
-    "slug": "srd-2024_whip-2",
+    "slug": "srd-2024_item_whip-2",
     "name": "Whip (+2)",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -11568,7 +11568,7 @@
     }
   },
   {
-    "slug": "srd-2024_whip-3",
+    "slug": "srd-2024_item_whip-3",
     "name": "Whip (+3)",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -11583,7 +11583,7 @@
     }
   },
   {
-    "slug": "srd-2024_wind-fan",
+    "slug": "srd-2024_item_wind-fan",
     "name": "Wind Fan",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -11599,7 +11599,7 @@
     }
   },
   {
-    "slug": "srd-2024_winged-boots",
+    "slug": "srd-2024_item_winged-boots",
     "name": "Winged Boots",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -11626,7 +11626,7 @@
     ]
   },
   {
-    "slug": "srd-2024_wings-of-flying",
+    "slug": "srd-2024_item_wings-of-flying",
     "name": "Wings of Flying",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -11646,175 +11646,5 @@
         "foundryId": "wingsOfFlying"
       }
     ]
-  },
-  {
-    "slug": "srd-2024_spell-scroll-cantrip",
-    "name": "Spell Scroll (Cantrip)",
-    "edition": "2024",
-    "source": "SRD 5.2",
-    "rarity": "common",
-    "description": "A spell scroll bears the words of a single spell inscribed in a mystical cipher. Choose the spell it holds. Reading the scroll casts that spell using the scroll's own save DC and attack bonus; once cast, the words fade and the scroll crumbles to dust.",
-    "type": "scroll",
-    "scroll_level": 0
-  },
-  {
-    "slug": "srd-2024_spell-scroll-1st-level",
-    "name": "Spell Scroll (1st Level)",
-    "edition": "2024",
-    "source": "SRD 5.2",
-    "rarity": "common",
-    "description": "A spell scroll bears the words of a single spell inscribed in a mystical cipher. Choose the spell it holds. Reading the scroll casts that spell using the scroll's own save DC and attack bonus; once cast, the words fade and the scroll crumbles to dust.",
-    "type": "scroll",
-    "scroll_level": 1
-  },
-  {
-    "slug": "srd-2024_spell-scroll-2nd-level",
-    "name": "Spell Scroll (2nd Level)",
-    "edition": "2024",
-    "source": "SRD 5.2",
-    "rarity": "uncommon",
-    "description": "A spell scroll bears the words of a single spell inscribed in a mystical cipher. Choose the spell it holds. Reading the scroll casts that spell using the scroll's own save DC and attack bonus; once cast, the words fade and the scroll crumbles to dust.",
-    "type": "scroll",
-    "scroll_level": 2
-  },
-  {
-    "slug": "srd-2024_spell-scroll-3rd-level",
-    "name": "Spell Scroll (3rd Level)",
-    "edition": "2024",
-    "source": "SRD 5.2",
-    "rarity": "uncommon",
-    "description": "A spell scroll bears the words of a single spell inscribed in a mystical cipher. Choose the spell it holds. Reading the scroll casts that spell using the scroll's own save DC and attack bonus; once cast, the words fade and the scroll crumbles to dust.",
-    "type": "scroll",
-    "scroll_level": 3
-  },
-  {
-    "slug": "srd-2024_spell-scroll-4th-level",
-    "name": "Spell Scroll (4th Level)",
-    "edition": "2024",
-    "source": "SRD 5.2",
-    "rarity": "rare",
-    "description": "A spell scroll bears the words of a single spell inscribed in a mystical cipher. Choose the spell it holds. Reading the scroll casts that spell using the scroll's own save DC and attack bonus; once cast, the words fade and the scroll crumbles to dust.",
-    "type": "scroll",
-    "scroll_level": 4
-  },
-  {
-    "slug": "srd-2024_spell-scroll-5th-level",
-    "name": "Spell Scroll (5th Level)",
-    "edition": "2024",
-    "source": "SRD 5.2",
-    "rarity": "rare",
-    "description": "A spell scroll bears the words of a single spell inscribed in a mystical cipher. Choose the spell it holds. Reading the scroll casts that spell using the scroll's own save DC and attack bonus; once cast, the words fade and the scroll crumbles to dust.",
-    "type": "scroll",
-    "scroll_level": 5
-  },
-  {
-    "slug": "srd-2024_spell-scroll-6th-level",
-    "name": "Spell Scroll (6th Level)",
-    "edition": "2024",
-    "source": "SRD 5.2",
-    "rarity": "very rare",
-    "description": "A spell scroll bears the words of a single spell inscribed in a mystical cipher. Choose the spell it holds. Reading the scroll casts that spell using the scroll's own save DC and attack bonus; once cast, the words fade and the scroll crumbles to dust.",
-    "type": "scroll",
-    "scroll_level": 6
-  },
-  {
-    "slug": "srd-2024_spell-scroll-7th-level",
-    "name": "Spell Scroll (7th Level)",
-    "edition": "2024",
-    "source": "SRD 5.2",
-    "rarity": "very rare",
-    "description": "A spell scroll bears the words of a single spell inscribed in a mystical cipher. Choose the spell it holds. Reading the scroll casts that spell using the scroll's own save DC and attack bonus; once cast, the words fade and the scroll crumbles to dust.",
-    "type": "scroll",
-    "scroll_level": 7
-  },
-  {
-    "slug": "srd-2024_spell-scroll-8th-level",
-    "name": "Spell Scroll (8th Level)",
-    "edition": "2024",
-    "source": "SRD 5.2",
-    "rarity": "very rare",
-    "description": "A spell scroll bears the words of a single spell inscribed in a mystical cipher. Choose the spell it holds. Reading the scroll casts that spell using the scroll's own save DC and attack bonus; once cast, the words fade and the scroll crumbles to dust.",
-    "type": "scroll",
-    "scroll_level": 8
-  },
-  {
-    "slug": "srd-2024_spell-scroll-9th-level",
-    "name": "Spell Scroll (9th Level)",
-    "edition": "2024",
-    "source": "SRD 5.2",
-    "rarity": "legendary",
-    "description": "A spell scroll bears the words of a single spell inscribed in a mystical cipher. Choose the spell it holds. Reading the scroll casts that spell using the scroll's own save DC and attack bonus; once cast, the words fade and the scroll crumbles to dust.",
-    "type": "scroll",
-    "scroll_level": 9
-  },
-  {
-    "slug": "srd-2024_unidentified-potion",
-    "name": "Unidentified Potion",
-    "edition": "2024",
-    "source": "SRD 5.2",
-    "description": "An unidentified item of unknown properties. Identify it to reveal what it truly is.",
-    "type": "potion",
-    "unidentified": true,
-    "masked_category": "potion"
-  },
-  {
-    "slug": "srd-2024_unidentified-scroll",
-    "name": "Unidentified Scroll",
-    "edition": "2024",
-    "source": "SRD 5.2",
-    "description": "An unidentified item of unknown properties. Identify it to reveal what it truly is.",
-    "type": "scroll",
-    "unidentified": true,
-    "masked_category": "scroll"
-  },
-  {
-    "slug": "srd-2024_unidentified-wondrous-item",
-    "name": "Unidentified Wondrous Item",
-    "edition": "2024",
-    "source": "SRD 5.2",
-    "description": "An unidentified item of unknown properties. Identify it to reveal what it truly is.",
-    "type": "wondrous item",
-    "unidentified": true,
-    "masked_category": "wondrous item"
-  },
-  {
-    "slug": "srd-2024_unidentified-weapon",
-    "name": "Unidentified Weapon",
-    "edition": "2024",
-    "source": "SRD 5.2",
-    "description": "An unidentified item of unknown properties. Identify it to reveal what it truly is.",
-    "type": "weapon",
-    "unidentified": true,
-    "masked_category": "weapon"
-  },
-  {
-    "slug": "srd-2024_unidentified-armor",
-    "name": "Unidentified Armor",
-    "edition": "2024",
-    "source": "SRD 5.2",
-    "description": "An unidentified item of unknown properties. Identify it to reveal what it truly is.",
-    "type": "armor",
-    "unidentified": true,
-    "masked_category": "armor"
-  },
-  {
-    "slug": "srd-2024_unidentified-ring",
-    "name": "Unidentified Ring",
-    "edition": "2024",
-    "source": "SRD 5.2",
-    "description": "An unidentified item of unknown properties. Identify it to reveal what it truly is.",
-    "type": "ring",
-    "unidentified": true,
-    "masked_category": "ring"
-  },
-  {
-    "slug": "srd-2024_unidentified-wand",
-    "name": "Unidentified Wand",
-    "edition": "2024",
-    "source": "SRD 5.2",
-    "description": "An unidentified item of unknown properties. Identify it to reveal what it truly is.",
-    "type": "wand",
-    "unidentified": true,
-    "masked_category": "wand"
   }
 ]

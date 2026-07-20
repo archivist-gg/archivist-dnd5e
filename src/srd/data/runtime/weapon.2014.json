@@ -1,6 +1,6 @@
 [
   {
-    "slug": "srd-5e_battleaxe",
+    "slug": "srd-5e_weapon_battleaxe",
     "name": "Battleaxe",
     "edition": "2014",
     "source": "SRD 5.1",
@@ -15,7 +15,7 @@
     ]
   },
   {
-    "slug": "srd-5e_blowgun",
+    "slug": "srd-5e_weapon_blowgun",
     "name": "Blowgun",
     "edition": "2014",
     "source": "SRD 5.1",
@@ -34,7 +34,7 @@
     }
   },
   {
-    "slug": "srd-5e_club",
+    "slug": "srd-5e_weapon_club",
     "name": "Club",
     "edition": "2014",
     "source": "SRD 5.1",
@@ -48,7 +48,7 @@
     ]
   },
   {
-    "slug": "srd-5e_crossbow-hand",
+    "slug": "srd-5e_weapon_crossbow-hand",
     "name": "Crossbow, hand",
     "edition": "2014",
     "source": "SRD 5.1",
@@ -68,7 +68,7 @@
     }
   },
   {
-    "slug": "srd-5e_crossbow-heavy",
+    "slug": "srd-5e_weapon_crossbow-heavy",
     "name": "Crossbow, heavy",
     "edition": "2014",
     "source": "SRD 5.1",
@@ -87,7 +87,7 @@
     }
   },
   {
-    "slug": "srd-5e_crossbow-light",
+    "slug": "srd-5e_weapon_crossbow-light",
     "name": "Crossbow, light",
     "edition": "2014",
     "source": "SRD 5.1",
@@ -106,7 +106,7 @@
     }
   },
   {
-    "slug": "srd-5e_dagger",
+    "slug": "srd-5e_weapon_dagger",
     "name": "Dagger",
     "edition": "2014",
     "source": "SRD 5.1",
@@ -126,7 +126,7 @@
     }
   },
   {
-    "slug": "srd-5e_dart",
+    "slug": "srd-5e_weapon_dart",
     "name": "Dart",
     "edition": "2014",
     "source": "SRD 5.1",
@@ -145,7 +145,7 @@
     }
   },
   {
-    "slug": "srd-5e_flail",
+    "slug": "srd-5e_weapon_flail",
     "name": "Flail",
     "edition": "2014",
     "source": "SRD 5.1",
@@ -157,7 +157,7 @@
     "properties": []
   },
   {
-    "slug": "srd-5e_glaive",
+    "slug": "srd-5e_weapon_glaive",
     "name": "Glaive",
     "edition": "2014",
     "source": "SRD 5.1",
@@ -172,7 +172,7 @@
     ]
   },
   {
-    "slug": "srd-5e_greataxe",
+    "slug": "srd-5e_weapon_greataxe",
     "name": "Greataxe",
     "edition": "2014",
     "source": "SRD 5.1",
@@ -186,7 +186,7 @@
     ]
   },
   {
-    "slug": "srd-5e_greatclub",
+    "slug": "srd-5e_weapon_greatclub",
     "name": "Greatclub",
     "edition": "2014",
     "source": "SRD 5.1",
@@ -200,7 +200,7 @@
     ]
   },
   {
-    "slug": "srd-5e_greatsword",
+    "slug": "srd-5e_weapon_greatsword",
     "name": "Greatsword",
     "edition": "2014",
     "source": "SRD 5.1",
@@ -214,7 +214,7 @@
     ]
   },
   {
-    "slug": "srd-5e_halberd",
+    "slug": "srd-5e_weapon_halberd",
     "name": "Halberd",
     "edition": "2014",
     "source": "SRD 5.1",
@@ -229,7 +229,7 @@
     ]
   },
   {
-    "slug": "srd-5e_handaxe",
+    "slug": "srd-5e_weapon_handaxe",
     "name": "Handaxe",
     "edition": "2014",
     "source": "SRD 5.1",
@@ -247,7 +247,7 @@
     }
   },
   {
-    "slug": "srd-5e_javelin",
+    "slug": "srd-5e_weapon_javelin",
     "name": "Javelin",
     "edition": "2014",
     "source": "SRD 5.1",
@@ -265,7 +265,7 @@
     }
   },
   {
-    "slug": "srd-5e_lance",
+    "slug": "srd-5e_weapon_lance",
     "name": "Lance",
     "edition": "2014",
     "source": "SRD 5.1",
@@ -280,7 +280,7 @@
     ]
   },
   {
-    "slug": "srd-5e_light-hammer",
+    "slug": "srd-5e_weapon_light-hammer",
     "name": "Light hammer",
     "edition": "2014",
     "source": "SRD 5.1",
@@ -299,7 +299,7 @@
     }
   },
   {
-    "slug": "srd-5e_longbow",
+    "slug": "srd-5e_weapon_longbow",
     "name": "Longbow",
     "edition": "2014",
     "source": "SRD 5.1",
@@ -318,7 +318,7 @@
     }
   },
   {
-    "slug": "srd-5e_longsword",
+    "slug": "srd-5e_weapon_longsword",
     "name": "Longsword",
     "edition": "2014",
     "source": "SRD 5.1",
@@ -333,7 +333,7 @@
     ]
   },
   {
-    "slug": "srd-5e_mace",
+    "slug": "srd-5e_weapon_mace",
     "name": "Mace",
     "edition": "2014",
     "source": "SRD 5.1",
@@ -345,7 +345,7 @@
     "properties": []
   },
   {
-    "slug": "srd-5e_maul",
+    "slug": "srd-5e_weapon_maul",
     "name": "Maul",
     "edition": "2014",
     "source": "SRD 5.1",
@@ -359,7 +359,7 @@
     ]
   },
   {
-    "slug": "srd-5e_morningstar",
+    "slug": "srd-5e_weapon_morningstar",
     "name": "Morningstar",
     "edition": "2014",
     "source": "SRD 5.1",
@@ -371,7 +371,7 @@
     "properties": []
   },
   {
-    "slug": "srd-5e_net",
+    "slug": "srd-5e_weapon_net",
     "name": "Net",
     "edition": "2014",
     "source": "SRD 5.1",
@@ -390,7 +390,7 @@
     }
   },
   {
-    "slug": "srd-5e_pike",
+    "slug": "srd-5e_weapon_pike",
     "name": "Pike",
     "edition": "2014",
     "source": "SRD 5.1",
@@ -405,7 +405,7 @@
     ]
   },
   {
-    "slug": "srd-5e_quarterstaff",
+    "slug": "srd-5e_weapon_quarterstaff",
     "name": "Quarterstaff",
     "edition": "2014",
     "source": "SRD 5.1",
@@ -420,7 +420,7 @@
     ]
   },
   {
-    "slug": "srd-5e_rapier",
+    "slug": "srd-5e_weapon_rapier",
     "name": "Rapier",
     "edition": "2014",
     "source": "SRD 5.1",
@@ -434,7 +434,7 @@
     ]
   },
   {
-    "slug": "srd-5e_scimitar",
+    "slug": "srd-5e_weapon_scimitar",
     "name": "Scimitar",
     "edition": "2014",
     "source": "SRD 5.1",
@@ -449,7 +449,7 @@
     ]
   },
   {
-    "slug": "srd-5e_shortbow",
+    "slug": "srd-5e_weapon_shortbow",
     "name": "Shortbow",
     "edition": "2014",
     "source": "SRD 5.1",
@@ -468,7 +468,7 @@
     }
   },
   {
-    "slug": "srd-5e_shortsword",
+    "slug": "srd-5e_weapon_shortsword",
     "name": "Shortsword",
     "edition": "2014",
     "source": "SRD 5.1",
@@ -483,7 +483,7 @@
     ]
   },
   {
-    "slug": "srd-5e_sickle",
+    "slug": "srd-5e_weapon_sickle",
     "name": "Sickle",
     "edition": "2014",
     "source": "SRD 5.1",
@@ -497,7 +497,7 @@
     ]
   },
   {
-    "slug": "srd-5e_sling",
+    "slug": "srd-5e_weapon_sling",
     "name": "Sling",
     "edition": "2014",
     "source": "SRD 5.1",
@@ -515,7 +515,7 @@
     }
   },
   {
-    "slug": "srd-5e_spear",
+    "slug": "srd-5e_weapon_spear",
     "name": "Spear",
     "edition": "2014",
     "source": "SRD 5.1",
@@ -535,7 +535,7 @@
     }
   },
   {
-    "slug": "srd-5e_trident",
+    "slug": "srd-5e_weapon_trident",
     "name": "Trident",
     "edition": "2014",
     "source": "SRD 5.1",
@@ -556,7 +556,7 @@
     }
   },
   {
-    "slug": "srd-5e_war-pick",
+    "slug": "srd-5e_weapon_war-pick",
     "name": "War Pick",
     "edition": "2014",
     "source": "SRD 5.1",
@@ -568,7 +568,7 @@
     "properties": []
   },
   {
-    "slug": "srd-5e_warhammer",
+    "slug": "srd-5e_weapon_warhammer",
     "name": "Warhammer",
     "edition": "2014",
     "source": "SRD 5.1",
@@ -583,7 +583,7 @@
     ]
   },
   {
-    "slug": "srd-5e_whip",
+    "slug": "srd-5e_weapon_whip",
     "name": "Whip",
     "edition": "2014",
     "source": "SRD 5.1",

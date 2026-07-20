@@ -1,6 +1,6 @@
 [
   {
-    "slug": "breastplate-1",
+    "slug": "srd-5e_item_breastplate-1",
     "name": "Breastplate +1",
     "edition": "2014",
     "source": "SRD 5.1",
@@ -18,7 +18,7 @@
     "weight": 20
   },
   {
-    "slug": "chain-mail-1",
+    "slug": "srd-5e_item_chain-mail-1",
     "name": "Chain Mail +1",
     "edition": "2014",
     "source": "SRD 5.1",
@@ -36,7 +36,7 @@
     "weight": 55
   },
   {
-    "slug": "chain-shirt-1",
+    "slug": "srd-5e_item_chain-shirt-1",
     "name": "Chain Shirt +1",
     "edition": "2014",
     "source": "SRD 5.1",
@@ -54,7 +54,7 @@
     "weight": 20
   },
   {
-    "slug": "half-plate-armor-1",
+    "slug": "srd-5e_item_half-plate-armor-1",
     "name": "Half Plate Armor +1",
     "edition": "2014",
     "source": "SRD 5.1",
@@ -72,7 +72,7 @@
     "weight": 40
   },
   {
-    "slug": "hide-armor-1",
+    "slug": "srd-5e_item_hide-armor-1",
     "name": "Hide Armor +1",
     "edition": "2014",
     "source": "SRD 5.1",
@@ -90,7 +90,7 @@
     "weight": 12
   },
   {
-    "slug": "leather-armor-1",
+    "slug": "srd-5e_item_leather-armor-1",
     "name": "Leather Armor +1",
     "edition": "2014",
     "source": "SRD 5.1",
@@ -108,7 +108,7 @@
     "weight": 10
   },
   {
-    "slug": "padded-armor-1",
+    "slug": "srd-5e_item_padded-armor-1",
     "name": "Padded Armor +1",
     "edition": "2014",
     "source": "SRD 5.1",
@@ -126,7 +126,7 @@
     "weight": 8
   },
   {
-    "slug": "plate-armor-1",
+    "slug": "srd-5e_item_plate-armor-1",
     "name": "Plate Armor +1",
     "edition": "2014",
     "source": "SRD 5.1",
@@ -144,7 +144,7 @@
     "weight": 65
   },
   {
-    "slug": "ring-mail-1",
+    "slug": "srd-5e_item_ring-mail-1",
     "name": "Ring Mail +1",
     "edition": "2014",
     "source": "SRD 5.1",
@@ -162,7 +162,7 @@
     "weight": 40
   },
   {
-    "slug": "scale-mail-1",
+    "slug": "srd-5e_item_scale-mail-1",
     "name": "Scale Mail +1",
     "edition": "2014",
     "source": "SRD 5.1",
@@ -180,7 +180,7 @@
     "weight": 45
   },
   {
-    "slug": "splint-armor-1",
+    "slug": "srd-5e_item_splint-armor-1",
     "name": "Splint Armor +1",
     "edition": "2014",
     "source": "SRD 5.1",
@@ -198,7 +198,7 @@
     "weight": 60
   },
   {
-    "slug": "studded-leather-armor-1",
+    "slug": "srd-5e_item_studded-leather-armor-1",
     "name": "Studded Leather Armor +1",
     "edition": "2014",
     "source": "SRD 5.1",
@@ -216,7 +216,7 @@
     "weight": 13
   },
   {
-    "slug": "shield-1",
+    "slug": "srd-5e_item_shield-1",
     "name": "Shield +1",
     "edition": "2014",
     "source": "SRD 5.1",
@@ -234,7 +234,7 @@
     "weight": 6
   },
   {
-    "slug": "hand-crossbow-1",
+    "slug": "srd-5e_item_hand-crossbow-1",
     "name": "Hand Crossbow +1",
     "edition": "2014",
     "source": "SRD 5.1",
@@ -253,7 +253,7 @@
     "weight": 3
   },
   {
-    "slug": "heavy-crossbow-1",
+    "slug": "srd-5e_item_heavy-crossbow-1",
     "name": "Heavy Crossbow +1",
     "edition": "2014",
     "source": "SRD 5.1",
@@ -272,7 +272,7 @@
     "weight": 18
   },
   {
-    "slug": "light-crossbow-1",
+    "slug": "srd-5e_item_light-crossbow-1",
     "name": "Light Crossbow +1",
     "edition": "2014",
     "source": "SRD 5.1",
@@ -291,7 +291,7 @@
     "weight": 5
   },
   {
-    "slug": "breastplate-2",
+    "slug": "srd-5e_item_breastplate-2",
     "name": "Breastplate +2",
     "edition": "2014",
     "source": "SRD 5.1",
@@ -309,7 +309,7 @@
     "weight": 20
   },
   {
-    "slug": "chain-mail-2",
+    "slug": "srd-5e_item_chain-mail-2",
     "name": "Chain Mail +2",
     "edition": "2014",
     "source": "SRD 5.1",
@@ -327,7 +327,7 @@
     "weight": 55
   },
   {
-    "slug": "chain-shirt-2",
+    "slug": "srd-5e_item_chain-shirt-2",
     "name": "Chain Shirt +2",
     "edition": "2014",
     "source": "SRD 5.1",
@@ -345,7 +345,7 @@
     "weight": 20
   },
   {
-    "slug": "half-plate-armor-2",
+    "slug": "srd-5e_item_half-plate-armor-2",
     "name": "Half Plate Armor +2",
     "edition": "2014",
     "source": "SRD 5.1",
@@ -363,7 +363,7 @@
     "weight": 40
   },
   {
-    "slug": "hide-armor-2",
+    "slug": "srd-5e_item_hide-armor-2",
     "name": "Hide Armor +2",
     "edition": "2014",
     "source": "SRD 5.1",
@@ -381,7 +381,7 @@
     "weight": 12
   },
   {
-    "slug": "leather-armor-2",
+    "slug": "srd-5e_item_leather-armor-2",
     "name": "Leather Armor +2",
     "edition": "2014",
     "source": "SRD 5.1",
@@ -399,7 +399,7 @@
     "weight": 10
   },
   {
-    "slug": "padded-armor-2",
+    "slug": "srd-5e_item_padded-armor-2",
     "name": "Padded Armor +2",
     "edition": "2014",
     "source": "SRD 5.1",
@@ -417,7 +417,7 @@
     "weight": 8
   },
   {
-    "slug": "plate-armor-2",
+    "slug": "srd-5e_item_plate-armor-2",
     "name": "Plate Armor +2",
     "edition": "2014",
     "source": "SRD 5.1",
@@ -435,7 +435,7 @@
     "weight": 65
   },
   {
-    "slug": "ring-mail-2",
+    "slug": "srd-5e_item_ring-mail-2",
     "name": "Ring Mail +2",
     "edition": "2014",
     "source": "SRD 5.1",
@@ -453,7 +453,7 @@
     "weight": 40
   },
   {
-    "slug": "scale-mail-2",
+    "slug": "srd-5e_item_scale-mail-2",
     "name": "Scale Mail +2",
     "edition": "2014",
     "source": "SRD 5.1",
@@ -471,7 +471,7 @@
     "weight": 45
   },
   {
-    "slug": "splint-armor-2",
+    "slug": "srd-5e_item_splint-armor-2",
     "name": "Splint Armor +2",
     "edition": "2014",
     "source": "SRD 5.1",
@@ -489,7 +489,7 @@
     "weight": 60
   },
   {
-    "slug": "studded-leather-armor-2",
+    "slug": "srd-5e_item_studded-leather-armor-2",
     "name": "Studded Leather Armor +2",
     "edition": "2014",
     "source": "SRD 5.1",
@@ -507,7 +507,7 @@
     "weight": 13
   },
   {
-    "slug": "shield-2",
+    "slug": "srd-5e_item_shield-2",
     "name": "Shield +2",
     "edition": "2014",
     "source": "SRD 5.1",
@@ -525,7 +525,7 @@
     "weight": 6
   },
   {
-    "slug": "hand-crossbow-2",
+    "slug": "srd-5e_item_hand-crossbow-2",
     "name": "Hand Crossbow +2",
     "edition": "2014",
     "source": "SRD 5.1",
@@ -544,7 +544,7 @@
     "weight": 3
   },
   {
-    "slug": "heavy-crossbow-2",
+    "slug": "srd-5e_item_heavy-crossbow-2",
     "name": "Heavy Crossbow +2",
     "edition": "2014",
     "source": "SRD 5.1",
@@ -563,7 +563,7 @@
     "weight": 18
   },
   {
-    "slug": "light-crossbow-2",
+    "slug": "srd-5e_item_light-crossbow-2",
     "name": "Light Crossbow +2",
     "edition": "2014",
     "source": "SRD 5.1",
@@ -582,7 +582,7 @@
     "weight": 5
   },
   {
-    "slug": "breastplate-3",
+    "slug": "srd-5e_item_breastplate-3",
     "name": "Breastplate +3",
     "edition": "2014",
     "source": "SRD 5.1",
@@ -600,7 +600,7 @@
     "weight": 20
   },
   {
-    "slug": "chain-mail-3",
+    "slug": "srd-5e_item_chain-mail-3",
     "name": "Chain Mail +3",
     "edition": "2014",
     "source": "SRD 5.1",
@@ -618,7 +618,7 @@
     "weight": 55
   },
   {
-    "slug": "chain-shirt-3",
+    "slug": "srd-5e_item_chain-shirt-3",
     "name": "Chain Shirt +3",
     "edition": "2014",
     "source": "SRD 5.1",
@@ -636,7 +636,7 @@
     "weight": 20
   },
   {
-    "slug": "half-plate-armor-3",
+    "slug": "srd-5e_item_half-plate-armor-3",
     "name": "Half Plate Armor +3",
     "edition": "2014",
     "source": "SRD 5.1",
@@ -654,7 +654,7 @@
     "weight": 40
   },
   {
-    "slug": "hide-armor-3",
+    "slug": "srd-5e_item_hide-armor-3",
     "name": "Hide Armor +3",
     "edition": "2014",
     "source": "SRD 5.1",
@@ -672,7 +672,7 @@
     "weight": 12
   },
   {
-    "slug": "leather-armor-3",
+    "slug": "srd-5e_item_leather-armor-3",
     "name": "Leather Armor +3",
     "edition": "2014",
     "source": "SRD 5.1",
@@ -690,7 +690,7 @@
     "weight": 10
   },
   {
-    "slug": "padded-armor-3",
+    "slug": "srd-5e_item_padded-armor-3",
     "name": "Padded Armor +3",
     "edition": "2014",
     "source": "SRD 5.1",
@@ -708,7 +708,7 @@
     "weight": 8
   },
   {
-    "slug": "plate-armor-3",
+    "slug": "srd-5e_item_plate-armor-3",
     "name": "Plate Armor +3",
     "edition": "2014",
     "source": "SRD 5.1",
@@ -726,7 +726,7 @@
     "weight": 65
   },
   {
-    "slug": "ring-mail-3",
+    "slug": "srd-5e_item_ring-mail-3",
     "name": "Ring Mail +3",
     "edition": "2014",
     "source": "SRD 5.1",
@@ -744,7 +744,7 @@
     "weight": 40
   },
   {
-    "slug": "scale-mail-3",
+    "slug": "srd-5e_item_scale-mail-3",
     "name": "Scale Mail +3",
     "edition": "2014",
     "source": "SRD 5.1",
@@ -762,7 +762,7 @@
     "weight": 45
   },
   {
-    "slug": "splint-armor-3",
+    "slug": "srd-5e_item_splint-armor-3",
     "name": "Splint Armor +3",
     "edition": "2014",
     "source": "SRD 5.1",
@@ -780,7 +780,7 @@
     "weight": 60
   },
   {
-    "slug": "studded-leather-armor-3",
+    "slug": "srd-5e_item_studded-leather-armor-3",
     "name": "Studded Leather Armor +3",
     "edition": "2014",
     "source": "SRD 5.1",
@@ -798,7 +798,7 @@
     "weight": 13
   },
   {
-    "slug": "shield-3",
+    "slug": "srd-5e_item_shield-3",
     "name": "Shield +3",
     "edition": "2014",
     "source": "SRD 5.1",
@@ -816,7 +816,7 @@
     "weight": 6
   },
   {
-    "slug": "hand-crossbow-3",
+    "slug": "srd-5e_item_hand-crossbow-3",
     "name": "Hand Crossbow +3",
     "edition": "2014",
     "source": "SRD 5.1",
@@ -835,7 +835,7 @@
     "weight": 3
   },
   {
-    "slug": "heavy-crossbow-3",
+    "slug": "srd-5e_item_heavy-crossbow-3",
     "name": "Heavy Crossbow +3",
     "edition": "2014",
     "source": "SRD 5.1",
@@ -854,7 +854,7 @@
     "weight": 18
   },
   {
-    "slug": "light-crossbow-3",
+    "slug": "srd-5e_item_light-crossbow-3",
     "name": "Light Crossbow +3",
     "edition": "2014",
     "source": "SRD 5.1",
@@ -873,7 +873,7 @@
     "weight": 5
   },
   {
-    "slug": "adamantine-breastplate",
+    "slug": "srd-5e_item_adamantine-breastplate",
     "name": "Adamantine Breastplate",
     "edition": "2014",
     "source": "SRD 5.1",
@@ -888,7 +888,7 @@
     "weight": 20
   },
   {
-    "slug": "adamantine-chain-mail",
+    "slug": "srd-5e_item_adamantine-chain-mail",
     "name": "Adamantine Chain Mail",
     "edition": "2014",
     "source": "SRD 5.1",
@@ -903,7 +903,7 @@
     "weight": 55
   },
   {
-    "slug": "adamantine-chain-shirt",
+    "slug": "srd-5e_item_adamantine-chain-shirt",
     "name": "Adamantine Chain Shirt",
     "edition": "2014",
     "source": "SRD 5.1",
@@ -918,7 +918,7 @@
     "weight": 20
   },
   {
-    "slug": "adamantine-half-plate-armor",
+    "slug": "srd-5e_item_adamantine-half-plate-armor",
     "name": "Adamantine Half Plate Armor",
     "edition": "2014",
     "source": "SRD 5.1",
@@ -933,7 +933,7 @@
     "weight": 40
   },
   {
-    "slug": "adamantine-hide-armor",
+    "slug": "srd-5e_item_adamantine-hide-armor",
     "name": "Adamantine Hide Armor",
     "edition": "2014",
     "source": "SRD 5.1",
@@ -948,7 +948,7 @@
     "weight": 12
   },
   {
-    "slug": "adamantine-plate-armor",
+    "slug": "srd-5e_item_adamantine-plate-armor",
     "name": "Adamantine Plate Armor",
     "edition": "2014",
     "source": "SRD 5.1",
@@ -963,7 +963,7 @@
     "weight": 65
   },
   {
-    "slug": "adamantine-ring-mail",
+    "slug": "srd-5e_item_adamantine-ring-mail",
     "name": "Adamantine Ring Mail",
     "edition": "2014",
     "source": "SRD 5.1",
@@ -978,7 +978,7 @@
     "weight": 40
   },
   {
-    "slug": "adamantine-scale-mail",
+    "slug": "srd-5e_item_adamantine-scale-mail",
     "name": "Adamantine Scale Mail",
     "edition": "2014",
     "source": "SRD 5.1",
@@ -993,7 +993,7 @@
     "weight": 45
   },
   {
-    "slug": "adamantine-splint-armor",
+    "slug": "srd-5e_item_adamantine-splint-armor",
     "name": "Adamantine Splint Armor",
     "edition": "2014",
     "source": "SRD 5.1",
@@ -1008,7 +1008,7 @@
     "weight": 60
   },
   {
-    "slug": "breastplate-armor-of-acid-resistance",
+    "slug": "srd-5e_item_breastplate-armor-of-acid-resistance",
     "name": "Breastplate, Armor of Acid Resistance",
     "edition": "2014",
     "source": "SRD 5.1",
@@ -1023,7 +1023,7 @@
     "weight": 20
   },
   {
-    "slug": "chain-mail-armor-of-acid-resistance",
+    "slug": "srd-5e_item_chain-mail-armor-of-acid-resistance",
     "name": "Chain Mail, Armor of Acid Resistance",
     "edition": "2014",
     "source": "SRD 5.1",
@@ -1038,7 +1038,7 @@
     "weight": 55
   },
   {
-    "slug": "chain-shirt-armor-of-acid-resistance",
+    "slug": "srd-5e_item_chain-shirt-armor-of-acid-resistance",
     "name": "Chain Shirt, Armor of Acid Resistance",
     "edition": "2014",
     "source": "SRD 5.1",
@@ -1053,7 +1053,7 @@
     "weight": 20
   },
   {
-    "slug": "half-plate-armor-armor-of-acid-resistance",
+    "slug": "srd-5e_item_half-plate-armor-armor-of-acid-resistance",
     "name": "Half Plate Armor, Armor of Acid Resistance",
     "edition": "2014",
     "source": "SRD 5.1",
@@ -1068,7 +1068,7 @@
     "weight": 40
   },
   {
-    "slug": "hide-armor-armor-of-acid-resistance",
+    "slug": "srd-5e_item_hide-armor-armor-of-acid-resistance",
     "name": "Hide Armor, Armor of Acid Resistance",
     "edition": "2014",
     "source": "SRD 5.1",
@@ -1083,7 +1083,7 @@
     "weight": 12
   },
   {
-    "slug": "leather-armor-armor-of-acid-resistance",
+    "slug": "srd-5e_item_leather-armor-armor-of-acid-resistance",
     "name": "Leather Armor, Armor of Acid Resistance",
     "edition": "2014",
     "source": "SRD 5.1",
@@ -1098,7 +1098,7 @@
     "weight": 10
   },
   {
-    "slug": "padded-armor-armor-of-acid-resistance",
+    "slug": "srd-5e_item_padded-armor-armor-of-acid-resistance",
     "name": "Padded Armor, Armor of Acid Resistance",
     "edition": "2014",
     "source": "SRD 5.1",
@@ -1113,7 +1113,7 @@
     "weight": 8
   },
   {
-    "slug": "plate-armor-armor-of-acid-resistance",
+    "slug": "srd-5e_item_plate-armor-armor-of-acid-resistance",
     "name": "Plate Armor, Armor of Acid Resistance",
     "edition": "2014",
     "source": "SRD 5.1",
@@ -1128,7 +1128,7 @@
     "weight": 65
   },
   {
-    "slug": "ring-mail-armor-of-acid-resistance",
+    "slug": "srd-5e_item_ring-mail-armor-of-acid-resistance",
     "name": "Ring Mail, Armor of Acid Resistance",
     "edition": "2014",
     "source": "SRD 5.1",
@@ -1143,7 +1143,7 @@
     "weight": 40
   },
   {
-    "slug": "scale-mail-armor-of-acid-resistance",
+    "slug": "srd-5e_item_scale-mail-armor-of-acid-resistance",
     "name": "Scale Mail, Armor of Acid Resistance",
     "edition": "2014",
     "source": "SRD 5.1",
@@ -1158,7 +1158,7 @@
     "weight": 45
   },
   {
-    "slug": "splint-armor-armor-of-acid-resistance",
+    "slug": "srd-5e_item_splint-armor-armor-of-acid-resistance",
     "name": "Splint Armor, Armor of Acid Resistance",
     "edition": "2014",
     "source": "SRD 5.1",
@@ -1173,7 +1173,7 @@
     "weight": 60
   },
   {
-    "slug": "studded-leather-armor-armor-of-acid-resistance",
+    "slug": "srd-5e_item_studded-leather-armor-armor-of-acid-resistance",
     "name": "Studded Leather Armor, Armor of Acid Resistance",
     "edition": "2014",
     "source": "SRD 5.1",
@@ -1188,7 +1188,7 @@
     "weight": 13
   },
   {
-    "slug": "breastplate-armor-of-cold-resistance",
+    "slug": "srd-5e_item_breastplate-armor-of-cold-resistance",
     "name": "Breastplate, Armor of Cold Resistance",
     "edition": "2014",
     "source": "SRD 5.1",
@@ -1203,7 +1203,7 @@
     "weight": 20
   },
   {
-    "slug": "chain-mail-armor-of-cold-resistance",
+    "slug": "srd-5e_item_chain-mail-armor-of-cold-resistance",
     "name": "Chain Mail, Armor of Cold Resistance",
     "edition": "2014",
     "source": "SRD 5.1",
@@ -1218,7 +1218,7 @@
     "weight": 55
   },
   {
-    "slug": "chain-shirt-armor-of-cold-resistance",
+    "slug": "srd-5e_item_chain-shirt-armor-of-cold-resistance",
     "name": "Chain Shirt, Armor of Cold Resistance",
     "edition": "2014",
     "source": "SRD 5.1",
@@ -1233,7 +1233,7 @@
     "weight": 20
   },
   {
-    "slug": "half-plate-armor-armor-of-cold-resistance",
+    "slug": "srd-5e_item_half-plate-armor-armor-of-cold-resistance",
     "name": "Half Plate Armor, Armor of Cold Resistance",
     "edition": "2014",
     "source": "SRD 5.1",
@@ -1248,7 +1248,7 @@
     "weight": 40
   },
   {
-    "slug": "hide-armor-armor-of-cold-resistance",
+    "slug": "srd-5e_item_hide-armor-armor-of-cold-resistance",
     "name": "Hide Armor, Armor of Cold Resistance",
     "edition": "2014",
     "source": "SRD 5.1",
@@ -1263,7 +1263,7 @@
     "weight": 12
   },
   {
-    "slug": "leather-armor-armor-of-cold-resistance",
+    "slug": "srd-5e_item_leather-armor-armor-of-cold-resistance",
     "name": "Leather Armor, Armor of Cold Resistance",
     "edition": "2014",
     "source": "SRD 5.1",
@@ -1278,7 +1278,7 @@
     "weight": 10
   },
   {
-    "slug": "padded-armor-armor-of-cold-resistance",
+    "slug": "srd-5e_item_padded-armor-armor-of-cold-resistance",
     "name": "Padded Armor, Armor of Cold Resistance",
     "edition": "2014",
     "source": "SRD 5.1",
@@ -1293,7 +1293,7 @@
     "weight": 8
   },
   {
-    "slug": "plate-armor-armor-of-cold-resistance",
+    "slug": "srd-5e_item_plate-armor-armor-of-cold-resistance",
     "name": "Plate Armor, Armor of Cold Resistance",
     "edition": "2014",
     "source": "SRD 5.1",
@@ -1308,7 +1308,7 @@
     "weight": 65
   },
   {
-    "slug": "ring-mail-armor-of-cold-resistance",
+    "slug": "srd-5e_item_ring-mail-armor-of-cold-resistance",
     "name": "Ring Mail, Armor of Cold Resistance",
     "edition": "2014",
     "source": "SRD 5.1",
@@ -1323,7 +1323,7 @@
     "weight": 40
   },
   {
-    "slug": "scale-mail-armor-of-cold-resistance",
+    "slug": "srd-5e_item_scale-mail-armor-of-cold-resistance",
     "name": "Scale Mail, Armor of Cold Resistance",
     "edition": "2014",
     "source": "SRD 5.1",
@@ -1338,7 +1338,7 @@
     "weight": 45
   },
   {
-    "slug": "splint-armor-armor-of-cold-resistance",
+    "slug": "srd-5e_item_splint-armor-armor-of-cold-resistance",
     "name": "Splint Armor, Armor of Cold Resistance",
     "edition": "2014",
     "source": "SRD 5.1",
@@ -1353,7 +1353,7 @@
     "weight": 60
   },
   {
-    "slug": "studded-leather-armor-armor-of-cold-resistance",
+    "slug": "srd-5e_item_studded-leather-armor-armor-of-cold-resistance",
     "name": "Studded Leather Armor, Armor of Cold Resistance",
     "edition": "2014",
     "source": "SRD 5.1",
@@ -1368,7 +1368,7 @@
     "weight": 13
   },
   {
-    "slug": "breastplate-armor-of-fire-resistance",
+    "slug": "srd-5e_item_breastplate-armor-of-fire-resistance",
     "name": "Breastplate, Armor of Fire Resistance",
     "edition": "2014",
     "source": "SRD 5.1",
@@ -1383,7 +1383,7 @@
     "weight": 20
   },
   {
-    "slug": "chain-mail-armor-of-fire-resistance",
+    "slug": "srd-5e_item_chain-mail-armor-of-fire-resistance",
     "name": "Chain Mail, Armor of Fire Resistance",
     "edition": "2014",
     "source": "SRD 5.1",
@@ -1398,7 +1398,7 @@
     "weight": 55
   },
   {
-    "slug": "chain-shirt-armor-of-fire-resistance",
+    "slug": "srd-5e_item_chain-shirt-armor-of-fire-resistance",
     "name": "Chain Shirt, Armor of Fire Resistance",
     "edition": "2014",
     "source": "SRD 5.1",
@@ -1413,7 +1413,7 @@
     "weight": 20
   },
   {
-    "slug": "half-plate-armor-armor-of-fire-resistance",
+    "slug": "srd-5e_item_half-plate-armor-armor-of-fire-resistance",
     "name": "Half Plate Armor, Armor of Fire Resistance",
     "edition": "2014",
     "source": "SRD 5.1",
@@ -1428,7 +1428,7 @@
     "weight": 40
   },
   {
-    "slug": "hide-armor-armor-of-fire-resistance",
+    "slug": "srd-5e_item_hide-armor-armor-of-fire-resistance",
     "name": "Hide Armor, Armor of Fire Resistance",
     "edition": "2014",
     "source": "SRD 5.1",
@@ -1443,7 +1443,7 @@
     "weight": 12
   },
   {
-    "slug": "leather-armor-armor-of-fire-resistance",
+    "slug": "srd-5e_item_leather-armor-armor-of-fire-resistance",
     "name": "Leather Armor, Armor of Fire Resistance",
     "edition": "2014",
     "source": "SRD 5.1",
@@ -1458,7 +1458,7 @@
     "weight": 10
   },
   {
-    "slug": "padded-armor-armor-of-fire-resistance",
+    "slug": "srd-5e_item_padded-armor-armor-of-fire-resistance",
     "name": "Padded Armor, Armor of Fire Resistance",
     "edition": "2014",
     "source": "SRD 5.1",
@@ -1473,7 +1473,7 @@
     "weight": 8
   },
   {
-    "slug": "plate-armor-armor-of-fire-resistance",
+    "slug": "srd-5e_item_plate-armor-armor-of-fire-resistance",
     "name": "Plate Armor, Armor of Fire Resistance",
     "edition": "2014",
     "source": "SRD 5.1",
@@ -1488,7 +1488,7 @@
     "weight": 65
   },
   {
-    "slug": "ring-mail-armor-of-fire-resistance",
+    "slug": "srd-5e_item_ring-mail-armor-of-fire-resistance",
     "name": "Ring Mail, Armor of Fire Resistance",
     "edition": "2014",
     "source": "SRD 5.1",
@@ -1503,7 +1503,7 @@
     "weight": 40
   },
   {
-    "slug": "scale-mail-armor-of-fire-resistance",
+    "slug": "srd-5e_item_scale-mail-armor-of-fire-resistance",
     "name": "Scale Mail, Armor of Fire Resistance",
     "edition": "2014",
     "source": "SRD 5.1",
@@ -1518,7 +1518,7 @@
     "weight": 45
   },
   {
-    "slug": "splint-armor-armor-of-fire-resistance",
+    "slug": "srd-5e_item_splint-armor-armor-of-fire-resistance",
     "name": "Splint Armor, Armor of Fire Resistance",
     "edition": "2014",
     "source": "SRD 5.1",
@@ -1533,7 +1533,7 @@
     "weight": 60
   },
   {
-    "slug": "studded-leather-armor-armor-of-fire-resistance",
+    "slug": "srd-5e_item_studded-leather-armor-armor-of-fire-resistance",
     "name": "Studded Leather Armor, Armor of Fire Resistance",
     "edition": "2014",
     "source": "SRD 5.1",
@@ -1548,7 +1548,7 @@
     "weight": 13
   },
   {
-    "slug": "breastplate-armor-of-force-resistance",
+    "slug": "srd-5e_item_breastplate-armor-of-force-resistance",
     "name": "Breastplate, Armor of Force Resistance",
     "edition": "2014",
     "source": "SRD 5.1",
@@ -1563,7 +1563,7 @@
     "weight": 20
   },
   {
-    "slug": "chain-mail-armor-of-force-resistance",
+    "slug": "srd-5e_item_chain-mail-armor-of-force-resistance",
     "name": "Chain Mail, Armor of Force Resistance",
     "edition": "2014",
     "source": "SRD 5.1",
@@ -1578,7 +1578,7 @@
     "weight": 55
   },
   {
-    "slug": "chain-shirt-armor-of-force-resistance",
+    "slug": "srd-5e_item_chain-shirt-armor-of-force-resistance",
     "name": "Chain Shirt, Armor of Force Resistance",
     "edition": "2014",
     "source": "SRD 5.1",
@@ -1593,7 +1593,7 @@
     "weight": 20
   },
   {
-    "slug": "half-plate-armor-armor-of-force-resistance",
+    "slug": "srd-5e_item_half-plate-armor-armor-of-force-resistance",
     "name": "Half Plate Armor, Armor of Force Resistance",
     "edition": "2014",
     "source": "SRD 5.1",
@@ -1608,7 +1608,7 @@
     "weight": 40
   },
   {
-    "slug": "hide-armor-armor-of-force-resistance",
+    "slug": "srd-5e_item_hide-armor-armor-of-force-resistance",
     "name": "Hide Armor, Armor of Force Resistance",
     "edition": "2014",
     "source": "SRD 5.1",
@@ -1623,7 +1623,7 @@
     "weight": 12
   },
   {
-    "slug": "leather-armor-armor-of-force-resistance",
+    "slug": "srd-5e_item_leather-armor-armor-of-force-resistance",
     "name": "Leather Armor, Armor of Force Resistance",
     "edition": "2014",
     "source": "SRD 5.1",
@@ -1638,7 +1638,7 @@
     "weight": 10
   },
   {
-    "slug": "padded-armor-armor-of-force-resistance",
+    "slug": "srd-5e_item_padded-armor-armor-of-force-resistance",
     "name": "Padded Armor, Armor of Force Resistance",
     "edition": "2014",
     "source": "SRD 5.1",
@@ -1653,7 +1653,7 @@
     "weight": 8
   },
   {
-    "slug": "plate-armor-armor-of-force-resistance",
+    "slug": "srd-5e_item_plate-armor-armor-of-force-resistance",
     "name": "Plate Armor, Armor of Force Resistance",
     "edition": "2014",
     "source": "SRD 5.1",
@@ -1668,7 +1668,7 @@
     "weight": 65
   },
   {
-    "slug": "ring-mail-armor-of-force-resistance",
+    "slug": "srd-5e_item_ring-mail-armor-of-force-resistance",
     "name": "Ring Mail, Armor of Force Resistance",
     "edition": "2014",
     "source": "SRD 5.1",
@@ -1683,7 +1683,7 @@
     "weight": 40
   },
   {
-    "slug": "scale-mail-armor-of-force-resistance",
+    "slug": "srd-5e_item_scale-mail-armor-of-force-resistance",
     "name": "Scale Mail, Armor of Force Resistance",
     "edition": "2014",
     "source": "SRD 5.1",
@@ -1698,7 +1698,7 @@
     "weight": 45
   },
   {
-    "slug": "splint-armor-armor-of-force-resistance",
+    "slug": "srd-5e_item_splint-armor-armor-of-force-resistance",
     "name": "Splint Armor, Armor of Force Resistance",
     "edition": "2014",
     "source": "SRD 5.1",
@@ -1713,7 +1713,7 @@
     "weight": 60
   },
   {
-    "slug": "studded-leather-armor-armor-of-force-resistance",
+    "slug": "srd-5e_item_studded-leather-armor-armor-of-force-resistance",
     "name": "Studded Leather Armor, Armor of Force Resistance",
     "edition": "2014",
     "source": "SRD 5.1",
@@ -1728,7 +1728,7 @@
     "weight": 13
   },
   {
-    "slug": "breastplate-armor-of-lightning-resistance",
+    "slug": "srd-5e_item_breastplate-armor-of-lightning-resistance",
     "name": "Breastplate, Armor of Lightning Resistance",
     "edition": "2014",
     "source": "SRD 5.1",
@@ -1743,7 +1743,7 @@
     "weight": 20
   },
   {
-    "slug": "chain-mail-armor-of-lightning-resistance",
+    "slug": "srd-5e_item_chain-mail-armor-of-lightning-resistance",
     "name": "Chain Mail, Armor of Lightning Resistance",
     "edition": "2014",
     "source": "SRD 5.1",
@@ -1758,7 +1758,7 @@
     "weight": 55
   },
   {
-    "slug": "chain-shirt-armor-of-lightning-resistance",
+    "slug": "srd-5e_item_chain-shirt-armor-of-lightning-resistance",
     "name": "Chain Shirt, Armor of Lightning Resistance",
     "edition": "2014",
     "source": "SRD 5.1",
@@ -1773,7 +1773,7 @@
     "weight": 20
   },
   {
-    "slug": "half-plate-armor-armor-of-lightning-resistance",
+    "slug": "srd-5e_item_half-plate-armor-armor-of-lightning-resistance",
     "name": "Half Plate Armor, Armor of Lightning Resistance",
     "edition": "2014",
     "source": "SRD 5.1",
@@ -1788,7 +1788,7 @@
     "weight": 40
   },
   {
-    "slug": "hide-armor-armor-of-lightning-resistance",
+    "slug": "srd-5e_item_hide-armor-armor-of-lightning-resistance",
     "name": "Hide Armor, Armor of Lightning Resistance",
     "edition": "2014",
     "source": "SRD 5.1",
@@ -1803,7 +1803,7 @@
     "weight": 12
   },
   {
-    "slug": "leather-armor-armor-of-lightning-resistance",
+    "slug": "srd-5e_item_leather-armor-armor-of-lightning-resistance",
     "name": "Leather Armor, Armor of Lightning Resistance",
     "edition": "2014",
     "source": "SRD 5.1",
@@ -1818,7 +1818,7 @@
     "weight": 10
   },
   {
-    "slug": "padded-armor-armor-of-lightning-resistance",
+    "slug": "srd-5e_item_padded-armor-armor-of-lightning-resistance",
     "name": "Padded Armor, Armor of Lightning Resistance",
     "edition": "2014",
     "source": "SRD 5.1",
@@ -1833,7 +1833,7 @@
     "weight": 8
   },
   {
-    "slug": "plate-armor-armor-of-lightning-resistance",
+    "slug": "srd-5e_item_plate-armor-armor-of-lightning-resistance",
     "name": "Plate Armor, Armor of Lightning Resistance",
     "edition": "2014",
     "source": "SRD 5.1",
@@ -1848,7 +1848,7 @@
     "weight": 65
   },
   {
-    "slug": "ring-mail-armor-of-lightning-resistance",
+    "slug": "srd-5e_item_ring-mail-armor-of-lightning-resistance",
     "name": "Ring Mail, Armor of Lightning Resistance",
     "edition": "2014",
     "source": "SRD 5.1",
@@ -1863,7 +1863,7 @@
     "weight": 40
   },
   {
-    "slug": "scale-mail-armor-of-lightning-resistance",
+    "slug": "srd-5e_item_scale-mail-armor-of-lightning-resistance",
     "name": "Scale Mail, Armor of Lightning Resistance",
     "edition": "2014",
     "source": "SRD 5.1",
@@ -1878,7 +1878,7 @@
     "weight": 45
   },
   {
-    "slug": "splint-armor-armor-of-lightning-resistance",
+    "slug": "srd-5e_item_splint-armor-armor-of-lightning-resistance",
     "name": "Splint Armor, Armor of Lightning Resistance",
     "edition": "2014",
     "source": "SRD 5.1",
@@ -1893,7 +1893,7 @@
     "weight": 60
   },
   {
-    "slug": "studded-leather-armor-armor-of-lightning-resistance",
+    "slug": "srd-5e_item_studded-leather-armor-armor-of-lightning-resistance",
     "name": "Studded Leather Armor, Armor of Lightning Resistance",
     "edition": "2014",
     "source": "SRD 5.1",
@@ -1908,7 +1908,7 @@
     "weight": 13
   },
   {
-    "slug": "breastplate-armor-of-necrotic-resistance",
+    "slug": "srd-5e_item_breastplate-armor-of-necrotic-resistance",
     "name": "Breastplate, Armor of Necrotic Resistance",
     "edition": "2014",
     "source": "SRD 5.1",
@@ -1923,7 +1923,7 @@
     "weight": 20
   },
   {
-    "slug": "chain-mail-armor-of-necrotic-resistance",
+    "slug": "srd-5e_item_chain-mail-armor-of-necrotic-resistance",
     "name": "Chain Mail, Armor of Necrotic Resistance",
     "edition": "2014",
     "source": "SRD 5.1",
@@ -1938,7 +1938,7 @@
     "weight": 55
   },
   {
-    "slug": "chain-shirt-armor-of-necrotic-resistance",
+    "slug": "srd-5e_item_chain-shirt-armor-of-necrotic-resistance",
     "name": "Chain Shirt, Armor of Necrotic Resistance",
     "edition": "2014",
     "source": "SRD 5.1",
@@ -1953,7 +1953,7 @@
     "weight": 20
   },
   {
-    "slug": "half-plate-armor-armor-of-necrotic-resistance",
+    "slug": "srd-5e_item_half-plate-armor-armor-of-necrotic-resistance",
     "name": "Half Plate Armor, Armor of Necrotic Resistance",
     "edition": "2014",
     "source": "SRD 5.1",
@@ -1968,7 +1968,7 @@
     "weight": 40
   },
   {
-    "slug": "hide-armor-armor-of-necrotic-resistance",
+    "slug": "srd-5e_item_hide-armor-armor-of-necrotic-resistance",
     "name": "Hide Armor, Armor of Necrotic Resistance",
     "edition": "2014",
     "source": "SRD 5.1",
@@ -1983,7 +1983,7 @@
     "weight": 12
   },
   {
-    "slug": "leather-armor-armor-of-necrotic-resistance",
+    "slug": "srd-5e_item_leather-armor-armor-of-necrotic-resistance",
     "name": "Leather Armor, Armor of Necrotic Resistance",
     "edition": "2014",
     "source": "SRD 5.1",
@@ -1998,7 +1998,7 @@
     "weight": 10
   },
   {
-    "slug": "padded-armor-armor-of-necrotic-resistance",
+    "slug": "srd-5e_item_padded-armor-armor-of-necrotic-resistance",
     "name": "Padded Armor, Armor of Necrotic Resistance",
     "edition": "2014",
     "source": "SRD 5.1",
@@ -2013,7 +2013,7 @@
     "weight": 8
   },
   {
-    "slug": "plate-armor-armor-of-necrotic-resistance",
+    "slug": "srd-5e_item_plate-armor-armor-of-necrotic-resistance",
     "name": "Plate Armor, Armor of Necrotic Resistance",
     "edition": "2014",
     "source": "SRD 5.1",
@@ -2028,7 +2028,7 @@
     "weight": 65
   },
   {
-    "slug": "ring-mail-armor-of-necrotic-resistance",
+    "slug": "srd-5e_item_ring-mail-armor-of-necrotic-resistance",
     "name": "Ring Mail, Armor of Necrotic Resistance",
     "edition": "2014",
     "source": "SRD 5.1",
@@ -2043,7 +2043,7 @@
     "weight": 40
   },
   {
-    "slug": "scale-mail-armor-of-necrotic-resistance",
+    "slug": "srd-5e_item_scale-mail-armor-of-necrotic-resistance",
     "name": "Scale Mail, Armor of Necrotic Resistance",
     "edition": "2014",
     "source": "SRD 5.1",
@@ -2058,7 +2058,7 @@
     "weight": 45
   },
   {
-    "slug": "splint-armor-armor-of-necrotic-resistance",
+    "slug": "srd-5e_item_splint-armor-armor-of-necrotic-resistance",
     "name": "Splint Armor, Armor of Necrotic Resistance",
     "edition": "2014",
     "source": "SRD 5.1",
@@ -2073,7 +2073,7 @@
     "weight": 60
   },
   {
-    "slug": "studded-leather-armor-armor-of-necrotic-resistance",
+    "slug": "srd-5e_item_studded-leather-armor-armor-of-necrotic-resistance",
     "name": "Studded Leather Armor, Armor of Necrotic Resistance",
     "edition": "2014",
     "source": "SRD 5.1",
@@ -2088,7 +2088,7 @@
     "weight": 13
   },
   {
-    "slug": "breastplate-armor-of-poison-resistance",
+    "slug": "srd-5e_item_breastplate-armor-of-poison-resistance",
     "name": "Breastplate, Armor of Poison Resistance",
     "edition": "2014",
     "source": "SRD 5.1",
@@ -2103,7 +2103,7 @@
     "weight": 20
   },
   {
-    "slug": "chain-mail-armor-of-poison-resistance",
+    "slug": "srd-5e_item_chain-mail-armor-of-poison-resistance",
     "name": "Chain Mail, Armor of Poison Resistance",
     "edition": "2014",
     "source": "SRD 5.1",
@@ -2118,7 +2118,7 @@
     "weight": 55
   },
   {
-    "slug": "chain-shirt-armor-of-poison-resistance",
+    "slug": "srd-5e_item_chain-shirt-armor-of-poison-resistance",
     "name": "Chain Shirt, Armor of Poison Resistance",
     "edition": "2014",
     "source": "SRD 5.1",
@@ -2133,7 +2133,7 @@
     "weight": 20
   },
   {
-    "slug": "half-plate-armor-armor-of-poison-resistance",
+    "slug": "srd-5e_item_half-plate-armor-armor-of-poison-resistance",
     "name": "Half Plate Armor, Armor of Poison Resistance",
     "edition": "2014",
     "source": "SRD 5.1",
@@ -2148,7 +2148,7 @@
     "weight": 40
   },
   {
-    "slug": "hide-armor-armor-of-poison-resistance",
+    "slug": "srd-5e_item_hide-armor-armor-of-poison-resistance",
     "name": "Hide Armor, Armor of Poison Resistance",
     "edition": "2014",
     "source": "SRD 5.1",
@@ -2163,7 +2163,7 @@
     "weight": 12
   },
   {
-    "slug": "leather-armor-armor-of-poison-resistance",
+    "slug": "srd-5e_item_leather-armor-armor-of-poison-resistance",
     "name": "Leather Armor, Armor of Poison Resistance",
     "edition": "2014",
     "source": "SRD 5.1",
@@ -2178,7 +2178,7 @@
     "weight": 10
   },
   {
-    "slug": "padded-armor-armor-of-poison-resistance",
+    "slug": "srd-5e_item_padded-armor-armor-of-poison-resistance",
     "name": "Padded Armor, Armor of Poison Resistance",
     "edition": "2014",
     "source": "SRD 5.1",
@@ -2193,7 +2193,7 @@
     "weight": 8
   },
   {
-    "slug": "plate-armor-armor-of-poison-resistance",
+    "slug": "srd-5e_item_plate-armor-armor-of-poison-resistance",
     "name": "Plate Armor, Armor of Poison Resistance",
     "edition": "2014",
     "source": "SRD 5.1",
@@ -2208,7 +2208,7 @@
     "weight": 65
   },
   {
-    "slug": "ring-mail-armor-of-poison-resistance",
+    "slug": "srd-5e_item_ring-mail-armor-of-poison-resistance",
     "name": "Ring Mail, Armor of Poison Resistance",
     "edition": "2014",
     "source": "SRD 5.1",
@@ -2223,7 +2223,7 @@
     "weight": 40
   },
   {
-    "slug": "scale-mail-armor-of-poison-resistance",
+    "slug": "srd-5e_item_scale-mail-armor-of-poison-resistance",
     "name": "Scale Mail, Armor of Poison Resistance",
     "edition": "2014",
     "source": "SRD 5.1",
@@ -2238,7 +2238,7 @@
     "weight": 45
   },
   {
-    "slug": "splint-armor-armor-of-poison-resistance",
+    "slug": "srd-5e_item_splint-armor-armor-of-poison-resistance",
     "name": "Splint Armor, Armor of Poison Resistance",
     "edition": "2014",
     "source": "SRD 5.1",
@@ -2253,7 +2253,7 @@
     "weight": 60
   },
   {
-    "slug": "studded-leather-armor-armor-of-poison-resistance",
+    "slug": "srd-5e_item_studded-leather-armor-armor-of-poison-resistance",
     "name": "Studded Leather Armor, Armor of Poison Resistance",
     "edition": "2014",
     "source": "SRD 5.1",
@@ -2268,7 +2268,7 @@
     "weight": 13
   },
   {
-    "slug": "breastplate-armor-of-psychic-resistance",
+    "slug": "srd-5e_item_breastplate-armor-of-psychic-resistance",
     "name": "Breastplate, Armor of Psychic Resistance",
     "edition": "2014",
     "source": "SRD 5.1",
@@ -2283,7 +2283,7 @@
     "weight": 20
   },
   {
-    "slug": "chain-mail-armor-of-psychic-resistance",
+    "slug": "srd-5e_item_chain-mail-armor-of-psychic-resistance",
     "name": "Chain Mail, Armor of Psychic Resistance",
     "edition": "2014",
     "source": "SRD 5.1",
@@ -2298,7 +2298,7 @@
     "weight": 55
   },
   {
-    "slug": "chain-shirt-armor-of-psychic-resistance",
+    "slug": "srd-5e_item_chain-shirt-armor-of-psychic-resistance",
     "name": "Chain Shirt, Armor of Psychic Resistance",
     "edition": "2014",
     "source": "SRD 5.1",
@@ -2313,7 +2313,7 @@
     "weight": 20
   },
   {
-    "slug": "half-plate-armor-armor-of-psychic-resistance",
+    "slug": "srd-5e_item_half-plate-armor-armor-of-psychic-resistance",
     "name": "Half Plate Armor, Armor of Psychic Resistance",
     "edition": "2014",
     "source": "SRD 5.1",
@@ -2328,7 +2328,7 @@
     "weight": 40
   },
   {
-    "slug": "hide-armor-armor-of-psychic-resistance",
+    "slug": "srd-5e_item_hide-armor-armor-of-psychic-resistance",
     "name": "Hide Armor, Armor of Psychic Resistance",
     "edition": "2014",
     "source": "SRD 5.1",
@@ -2343,7 +2343,7 @@
     "weight": 12
   },
   {
-    "slug": "leather-armor-armor-of-psychic-resistance",
+    "slug": "srd-5e_item_leather-armor-armor-of-psychic-resistance",
     "name": "Leather Armor, Armor of Psychic Resistance",
     "edition": "2014",
     "source": "SRD 5.1",
@@ -2358,7 +2358,7 @@
     "weight": 10
   },
   {
-    "slug": "padded-armor-armor-of-psychic-resistance",
+    "slug": "srd-5e_item_padded-armor-armor-of-psychic-resistance",
     "name": "Padded Armor, Armor of Psychic Resistance",
     "edition": "2014",
     "source": "SRD 5.1",
@@ -2373,7 +2373,7 @@
     "weight": 8
   },
   {
-    "slug": "plate-armor-armor-of-psychic-resistance",
+    "slug": "srd-5e_item_plate-armor-armor-of-psychic-resistance",
     "name": "Plate Armor, Armor of Psychic Resistance",
     "edition": "2014",
     "source": "SRD 5.1",
@@ -2388,7 +2388,7 @@
     "weight": 65
   },
   {
-    "slug": "ring-mail-armor-of-psychic-resistance",
+    "slug": "srd-5e_item_ring-mail-armor-of-psychic-resistance",
     "name": "Ring Mail, Armor of Psychic Resistance",
     "edition": "2014",
     "source": "SRD 5.1",
@@ -2403,7 +2403,7 @@
     "weight": 40
   },
   {
-    "slug": "scale-mail-armor-of-psychic-resistance",
+    "slug": "srd-5e_item_scale-mail-armor-of-psychic-resistance",
     "name": "Scale Mail, Armor of Psychic Resistance",
     "edition": "2014",
     "source": "SRD 5.1",
@@ -2418,7 +2418,7 @@
     "weight": 45
   },
   {
-    "slug": "splint-armor-armor-of-psychic-resistance",
+    "slug": "srd-5e_item_splint-armor-armor-of-psychic-resistance",
     "name": "Splint Armor, Armor of Psychic Resistance",
     "edition": "2014",
     "source": "SRD 5.1",
@@ -2433,7 +2433,7 @@
     "weight": 60
   },
   {
-    "slug": "studded-leather-armor-armor-of-psychic-resistance",
+    "slug": "srd-5e_item_studded-leather-armor-armor-of-psychic-resistance",
     "name": "Studded Leather Armor, Armor of Psychic Resistance",
     "edition": "2014",
     "source": "SRD 5.1",
@@ -2448,7 +2448,7 @@
     "weight": 13
   },
   {
-    "slug": "breastplate-armor-of-radiant-resistance",
+    "slug": "srd-5e_item_breastplate-armor-of-radiant-resistance",
     "name": "Breastplate, Armor of Radiant Resistance",
     "edition": "2014",
     "source": "SRD 5.1",
@@ -2463,7 +2463,7 @@
     "weight": 20
   },
   {
-    "slug": "chain-mail-armor-of-radiant-resistance",
+    "slug": "srd-5e_item_chain-mail-armor-of-radiant-resistance",
     "name": "Chain Mail, Armor of Radiant Resistance",
     "edition": "2014",
     "source": "SRD 5.1",
@@ -2478,7 +2478,7 @@
     "weight": 55
   },
   {
-    "slug": "chain-shirt-armor-of-radiant-resistance",
+    "slug": "srd-5e_item_chain-shirt-armor-of-radiant-resistance",
     "name": "Chain Shirt, Armor of Radiant Resistance",
     "edition": "2014",
     "source": "SRD 5.1",
@@ -2493,7 +2493,7 @@
     "weight": 20
   },
   {
-    "slug": "half-plate-armor-armor-of-radiant-resistance",
+    "slug": "srd-5e_item_half-plate-armor-armor-of-radiant-resistance",
     "name": "Half Plate Armor, Armor of Radiant Resistance",
     "edition": "2014",
     "source": "SRD 5.1",
@@ -2508,7 +2508,7 @@
     "weight": 40
   },
   {
-    "slug": "hide-armor-armor-of-radiant-resistance",
+    "slug": "srd-5e_item_hide-armor-armor-of-radiant-resistance",
     "name": "Hide Armor, Armor of Radiant Resistance",
     "edition": "2014",
     "source": "SRD 5.1",
@@ -2523,7 +2523,7 @@
     "weight": 12
   },
   {
-    "slug": "leather-armor-armor-of-radiant-resistance",
+    "slug": "srd-5e_item_leather-armor-armor-of-radiant-resistance",
     "name": "Leather Armor, Armor of Radiant Resistance",
     "edition": "2014",
     "source": "SRD 5.1",
@@ -2538,7 +2538,7 @@
     "weight": 10
   },
   {
-    "slug": "padded-armor-armor-of-radiant-resistance",
+    "slug": "srd-5e_item_padded-armor-armor-of-radiant-resistance",
     "name": "Padded Armor, Armor of Radiant Resistance",
     "edition": "2014",
     "source": "SRD 5.1",
@@ -2553,7 +2553,7 @@
     "weight": 8
   },
   {
-    "slug": "plate-armor-armor-of-radiant-resistance",
+    "slug": "srd-5e_item_plate-armor-armor-of-radiant-resistance",
     "name": "Plate Armor, Armor of Radiant Resistance",
     "edition": "2014",
     "source": "SRD 5.1",
@@ -2568,7 +2568,7 @@
     "weight": 65
   },
   {
-    "slug": "ring-mail-armor-of-radiant-resistance",
+    "slug": "srd-5e_item_ring-mail-armor-of-radiant-resistance",
     "name": "Ring Mail, Armor of Radiant Resistance",
     "edition": "2014",
     "source": "SRD 5.1",
@@ -2583,7 +2583,7 @@
     "weight": 40
   },
   {
-    "slug": "scale-mail-armor-of-radiant-resistance",
+    "slug": "srd-5e_item_scale-mail-armor-of-radiant-resistance",
     "name": "Scale Mail, Armor of Radiant Resistance",
     "edition": "2014",
     "source": "SRD 5.1",
@@ -2598,7 +2598,7 @@
     "weight": 45
   },
   {
-    "slug": "splint-armor-armor-of-radiant-resistance",
+    "slug": "srd-5e_item_splint-armor-armor-of-radiant-resistance",
     "name": "Splint Armor, Armor of Radiant Resistance",
     "edition": "2014",
     "source": "SRD 5.1",
@@ -2613,7 +2613,7 @@
     "weight": 60
   },
   {
-    "slug": "studded-leather-armor-armor-of-radiant-resistance",
+    "slug": "srd-5e_item_studded-leather-armor-armor-of-radiant-resistance",
     "name": "Studded Leather Armor, Armor of Radiant Resistance",
     "edition": "2014",
     "source": "SRD 5.1",
@@ -2628,7 +2628,7 @@
     "weight": 13
   },
   {
-    "slug": "breastplate-armor-of-thunder-resistance",
+    "slug": "srd-5e_item_breastplate-armor-of-thunder-resistance",
     "name": "Breastplate, Armor of Thunder Resistance",
     "edition": "2014",
     "source": "SRD 5.1",
@@ -2643,7 +2643,7 @@
     "weight": 20
   },
   {
-    "slug": "chain-mail-armor-of-thunder-resistance",
+    "slug": "srd-5e_item_chain-mail-armor-of-thunder-resistance",
     "name": "Chain Mail, Armor of Thunder Resistance",
     "edition": "2014",
     "source": "SRD 5.1",
@@ -2658,7 +2658,7 @@
     "weight": 55
   },
   {
-    "slug": "chain-shirt-armor-of-thunder-resistance",
+    "slug": "srd-5e_item_chain-shirt-armor-of-thunder-resistance",
     "name": "Chain Shirt, Armor of Thunder Resistance",
     "edition": "2014",
     "source": "SRD 5.1",
@@ -2673,7 +2673,7 @@
     "weight": 20
   },
   {
-    "slug": "half-plate-armor-armor-of-thunder-resistance",
+    "slug": "srd-5e_item_half-plate-armor-armor-of-thunder-resistance",
     "name": "Half Plate Armor, Armor of Thunder Resistance",
     "edition": "2014",
     "source": "SRD 5.1",
@@ -2688,7 +2688,7 @@
     "weight": 40
   },
   {
-    "slug": "hide-armor-armor-of-thunder-resistance",
+    "slug": "srd-5e_item_hide-armor-armor-of-thunder-resistance",
     "name": "Hide Armor, Armor of Thunder Resistance",
     "edition": "2014",
     "source": "SRD 5.1",
@@ -2703,7 +2703,7 @@
     "weight": 12
   },
   {
-    "slug": "leather-armor-armor-of-thunder-resistance",
+    "slug": "srd-5e_item_leather-armor-armor-of-thunder-resistance",
     "name": "Leather Armor, Armor of Thunder Resistance",
     "edition": "2014",
     "source": "SRD 5.1",
@@ -2718,7 +2718,7 @@
     "weight": 10
   },
   {
-    "slug": "padded-armor-armor-of-thunder-resistance",
+    "slug": "srd-5e_item_padded-armor-armor-of-thunder-resistance",
     "name": "Padded Armor, Armor of Thunder Resistance",
     "edition": "2014",
     "source": "SRD 5.1",
@@ -2733,7 +2733,7 @@
     "weight": 8
   },
   {
-    "slug": "plate-armor-armor-of-thunder-resistance",
+    "slug": "srd-5e_item_plate-armor-armor-of-thunder-resistance",
     "name": "Plate Armor, Armor of Thunder Resistance",
     "edition": "2014",
     "source": "SRD 5.1",
@@ -2748,7 +2748,7 @@
     "weight": 65
   },
   {
-    "slug": "ring-mail-armor-of-thunder-resistance",
+    "slug": "srd-5e_item_ring-mail-armor-of-thunder-resistance",
     "name": "Ring Mail, Armor of Thunder Resistance",
     "edition": "2014",
     "source": "SRD 5.1",
@@ -2763,7 +2763,7 @@
     "weight": 40
   },
   {
-    "slug": "scale-mail-armor-of-thunder-resistance",
+    "slug": "srd-5e_item_scale-mail-armor-of-thunder-resistance",
     "name": "Scale Mail, Armor of Thunder Resistance",
     "edition": "2014",
     "source": "SRD 5.1",
@@ -2778,7 +2778,7 @@
     "weight": 45
   },
   {
-    "slug": "splint-armor-armor-of-thunder-resistance",
+    "slug": "srd-5e_item_splint-armor-armor-of-thunder-resistance",
     "name": "Splint Armor, Armor of Thunder Resistance",
     "edition": "2014",
     "source": "SRD 5.1",
@@ -2793,7 +2793,7 @@
     "weight": 60
   },
   {
-    "slug": "studded-leather-armor-armor-of-thunder-resistance",
+    "slug": "srd-5e_item_studded-leather-armor-armor-of-thunder-resistance",
     "name": "Studded Leather Armor, Armor of Thunder Resistance",
     "edition": "2014",
     "source": "SRD 5.1",
@@ -2808,7 +2808,7 @@
     "weight": 13
   },
   {
-    "slug": "breastplate-barding",
+    "slug": "srd-5e_item_breastplate-barding",
     "name": "Breastplate, Barding",
     "edition": "2014",
     "source": "SRD 5.1",
@@ -2822,7 +2822,7 @@
     "weight": 20
   },
   {
-    "slug": "chain-mail-barding",
+    "slug": "srd-5e_item_chain-mail-barding",
     "name": "Chain Mail, Barding",
     "edition": "2014",
     "source": "SRD 5.1",
@@ -2836,7 +2836,7 @@
     "weight": 55
   },
   {
-    "slug": "chain-shirt-barding",
+    "slug": "srd-5e_item_chain-shirt-barding",
     "name": "Chain Shirt, Barding",
     "edition": "2014",
     "source": "SRD 5.1",
@@ -2850,7 +2850,7 @@
     "weight": 20
   },
   {
-    "slug": "half-plate-armor-barding",
+    "slug": "srd-5e_item_half-plate-armor-barding",
     "name": "Half Plate Armor, Barding",
     "edition": "2014",
     "source": "SRD 5.1",
@@ -2864,7 +2864,7 @@
     "weight": 40
   },
   {
-    "slug": "hide-armor-barding",
+    "slug": "srd-5e_item_hide-armor-barding",
     "name": "Hide Armor, Barding",
     "edition": "2014",
     "source": "SRD 5.1",
@@ -2878,7 +2878,7 @@
     "weight": 12
   },
   {
-    "slug": "leather-armor-barding",
+    "slug": "srd-5e_item_leather-armor-barding",
     "name": "Leather Armor, Barding",
     "edition": "2014",
     "source": "SRD 5.1",
@@ -2892,7 +2892,7 @@
     "weight": 10
   },
   {
-    "slug": "padded-armor-barding",
+    "slug": "srd-5e_item_padded-armor-barding",
     "name": "Padded Armor, Barding",
     "edition": "2014",
     "source": "SRD 5.1",
@@ -2906,7 +2906,7 @@
     "weight": 8
   },
   {
-    "slug": "plate-armor-barding",
+    "slug": "srd-5e_item_plate-armor-barding",
     "name": "Plate Armor, Barding",
     "edition": "2014",
     "source": "SRD 5.1",
@@ -2920,7 +2920,7 @@
     "weight": 65
   },
   {
-    "slug": "ring-mail-barding",
+    "slug": "srd-5e_item_ring-mail-barding",
     "name": "Ring Mail, Barding",
     "edition": "2014",
     "source": "SRD 5.1",
@@ -2934,7 +2934,7 @@
     "weight": 40
   },
   {
-    "slug": "scale-mail-barding",
+    "slug": "srd-5e_item_scale-mail-barding",
     "name": "Scale Mail, Barding",
     "edition": "2014",
     "source": "SRD 5.1",
@@ -2948,7 +2948,7 @@
     "weight": 45
   },
   {
-    "slug": "splint-armor-barding",
+    "slug": "srd-5e_item_splint-armor-barding",
     "name": "Splint Armor, Barding",
     "edition": "2014",
     "source": "SRD 5.1",
@@ -2962,7 +2962,7 @@
     "weight": 60
   },
   {
-    "slug": "studded-leather-armor-barding",
+    "slug": "srd-5e_item_studded-leather-armor-barding",
     "name": "Studded Leather Armor, Barding",
     "edition": "2014",
     "source": "SRD 5.1",
@@ -2976,7 +2976,7 @@
     "weight": 13
   },
   {
-    "slug": "berserker-battleaxe",
+    "slug": "srd-5e_item_berserker-battleaxe",
     "name": "Berserker Battleaxe",
     "edition": "2014",
     "source": "SRD 5.1",
@@ -2995,7 +2995,7 @@
     "weight": 4
   },
   {
-    "slug": "berserker-greataxe",
+    "slug": "srd-5e_item_berserker-greataxe",
     "name": "Berserker Greataxe",
     "edition": "2014",
     "source": "SRD 5.1",
@@ -3014,7 +3014,7 @@
     "weight": 7
   },
   {
-    "slug": "berserker-handaxe",
+    "slug": "srd-5e_item_berserker-handaxe",
     "name": "Berserker Handaxe",
     "edition": "2014",
     "source": "SRD 5.1",
@@ -3033,7 +3033,7 @@
     "weight": 2
   },
   {
-    "slug": "dancing-greatsword",
+    "slug": "srd-5e_item_dancing-greatsword",
     "name": "Dancing Greatsword",
     "edition": "2014",
     "source": "SRD 5.1",
@@ -3048,7 +3048,7 @@
     "weight": 6
   },
   {
-    "slug": "dancing-longsword",
+    "slug": "srd-5e_item_dancing-longsword",
     "name": "Dancing Longsword",
     "edition": "2014",
     "source": "SRD 5.1",
@@ -3063,7 +3063,7 @@
     "weight": 3
   },
   {
-    "slug": "dancing-rapier",
+    "slug": "srd-5e_item_dancing-rapier",
     "name": "Dancing Rapier",
     "edition": "2014",
     "source": "SRD 5.1",
@@ -3078,7 +3078,7 @@
     "weight": 2
   },
   {
-    "slug": "dancing-scimitar",
+    "slug": "srd-5e_item_dancing-scimitar",
     "name": "Dancing Scimitar",
     "edition": "2014",
     "source": "SRD 5.1",
@@ -3093,7 +3093,7 @@
     "weight": 3
   },
   {
-    "slug": "dancing-shortsword",
+    "slug": "srd-5e_item_dancing-shortsword",
     "name": "Dancing Shortsword",
     "edition": "2014",
     "source": "SRD 5.1",
@@ -3108,7 +3108,7 @@
     "weight": 2
   },
   {
-    "slug": "defender-scimitar",
+    "slug": "srd-5e_item_defender-scimitar",
     "name": "Defender Scimitar",
     "edition": "2014",
     "source": "SRD 5.1",
@@ -3128,7 +3128,7 @@
     "weight": 3
   },
   {
-    "slug": "dragon-slayer-scimitar",
+    "slug": "srd-5e_item_dragon-slayer-scimitar",
     "name": "Dragon Slayer Scimitar",
     "edition": "2014",
     "source": "SRD 5.1",
@@ -3147,7 +3147,7 @@
     "weight": 3
   },
   {
-    "slug": "flame-tongue-scimitar",
+    "slug": "srd-5e_item_flame-tongue-scimitar",
     "name": "Flame Tongue Scimitar",
     "edition": "2014",
     "source": "SRD 5.1",
@@ -3162,7 +3162,7 @@
     "weight": 3
   },
   {
-    "slug": "frost-brand-scimitar",
+    "slug": "srd-5e_item_frost-brand-scimitar",
     "name": "Frost Brand Scimitar",
     "edition": "2014",
     "source": "SRD 5.1",
@@ -3177,7 +3177,7 @@
     "weight": 3
   },
   {
-    "slug": "giant-slayer-scimitar",
+    "slug": "srd-5e_item_giant-slayer-scimitar",
     "name": "Giant Slayer Scimitar",
     "edition": "2014",
     "source": "SRD 5.1",
@@ -3196,7 +3196,7 @@
     "weight": 3
   },
   {
-    "slug": "holy-avenger-scimitar",
+    "slug": "srd-5e_item_holy-avenger-scimitar",
     "name": "Holy Avenger Scimitar",
     "edition": "2014",
     "source": "SRD 5.1",
@@ -3215,7 +3215,7 @@
     "weight": 3
   },
   {
-    "slug": "luck-blade-scimitar",
+    "slug": "srd-5e_item_luck-blade-scimitar",
     "name": "Luck Blade Scimitar",
     "edition": "2014",
     "source": "SRD 5.1",
@@ -3234,7 +3234,7 @@
     "weight": 3
   },
   {
-    "slug": "mithral-breastplate",
+    "slug": "srd-5e_item_mithral-breastplate",
     "name": "Mithral Breastplate",
     "edition": "2014",
     "source": "SRD 5.1",
@@ -3249,7 +3249,7 @@
     "weight": 20
   },
   {
-    "slug": "mithral-chain-mail",
+    "slug": "srd-5e_item_mithral-chain-mail",
     "name": "Mithral Chain Mail",
     "edition": "2014",
     "source": "SRD 5.1",
@@ -3264,7 +3264,7 @@
     "weight": 55
   },
   {
-    "slug": "mithral-chain-shirt",
+    "slug": "srd-5e_item_mithral-chain-shirt",
     "name": "Mithral Chain Shirt",
     "edition": "2014",
     "source": "SRD 5.1",
@@ -3279,7 +3279,7 @@
     "weight": 20
   },
   {
-    "slug": "mithral-half-plate-armor",
+    "slug": "srd-5e_item_mithral-half-plate-armor",
     "name": "Mithral Half Plate Armor",
     "edition": "2014",
     "source": "SRD 5.1",
@@ -3294,7 +3294,7 @@
     "weight": 40
   },
   {
-    "slug": "mithral-hide-armor",
+    "slug": "srd-5e_item_mithral-hide-armor",
     "name": "Mithral Hide Armor",
     "edition": "2014",
     "source": "SRD 5.1",
@@ -3309,7 +3309,7 @@
     "weight": 12
   },
   {
-    "slug": "mithral-plate-armor",
+    "slug": "srd-5e_item_mithral-plate-armor",
     "name": "Mithral Plate Armor",
     "edition": "2014",
     "source": "SRD 5.1",
@@ -3324,7 +3324,7 @@
     "weight": 65
   },
   {
-    "slug": "mithral-ring-mail",
+    "slug": "srd-5e_item_mithral-ring-mail",
     "name": "Mithral Ring Mail",
     "edition": "2014",
     "source": "SRD 5.1",
@@ -3339,7 +3339,7 @@
     "weight": 40
   },
   {
-    "slug": "mithral-scale-mail",
+    "slug": "srd-5e_item_mithral-scale-mail",
     "name": "Mithral Scale Mail",
     "edition": "2014",
     "source": "SRD 5.1",
@@ -3354,7 +3354,7 @@
     "weight": 45
   },
   {
-    "slug": "mithral-splint-armor",
+    "slug": "srd-5e_item_mithral-splint-armor",
     "name": "Mithral Splint Armor",
     "edition": "2014",
     "source": "SRD 5.1",
@@ -3369,7 +3369,7 @@
     "weight": 60
   },
   {
-    "slug": "nine-lives-stealer-scimitar",
+    "slug": "srd-5e_item_nine-lives-stealer-scimitar",
     "name": "Nine Lives Stealer Scimitar",
     "edition": "2014",
     "source": "SRD 5.1",
@@ -3388,7 +3388,7 @@
     "weight": 3
   },
   {
-    "slug": "greatsword-sword-of-life-stealing",
+    "slug": "srd-5e_item_greatsword-sword-of-life-stealing",
     "name": "Greatsword, Sword of Life Stealing",
     "edition": "2014",
     "source": "SRD 5.1",
@@ -3403,7 +3403,7 @@
     "weight": 6
   },
   {
-    "slug": "longsword-sword-of-life-stealing",
+    "slug": "srd-5e_item_longsword-sword-of-life-stealing",
     "name": "Longsword, Sword of Life Stealing",
     "edition": "2014",
     "source": "SRD 5.1",
@@ -3418,7 +3418,7 @@
     "weight": 3
   },
   {
-    "slug": "rapier-sword-of-life-stealing",
+    "slug": "srd-5e_item_rapier-sword-of-life-stealing",
     "name": "Rapier, Sword of Life Stealing",
     "edition": "2014",
     "source": "SRD 5.1",
@@ -3433,7 +3433,7 @@
     "weight": 2
   },
   {
-    "slug": "scimitar-sword-of-life-stealing",
+    "slug": "srd-5e_item_scimitar-sword-of-life-stealing",
     "name": "Scimitar, Sword of Life Stealing",
     "edition": "2014",
     "source": "SRD 5.1",
@@ -3448,7 +3448,7 @@
     "weight": 3
   },
   {
-    "slug": "shortsword-sword-of-life-stealing",
+    "slug": "srd-5e_item_shortsword-sword-of-life-stealing",
     "name": "Shortsword, Sword of Life Stealing",
     "edition": "2014",
     "source": "SRD 5.1",
@@ -3463,7 +3463,7 @@
     "weight": 2
   },
   {
-    "slug": "greatsword-sword-of-sharpness",
+    "slug": "srd-5e_item_greatsword-sword-of-sharpness",
     "name": "Greatsword, Sword of Sharpness",
     "edition": "2014",
     "source": "SRD 5.1",
@@ -3478,7 +3478,7 @@
     "weight": 6
   },
   {
-    "slug": "longsword-sword-of-sharpness",
+    "slug": "srd-5e_item_longsword-sword-of-sharpness",
     "name": "Longsword, Sword of Sharpness",
     "edition": "2014",
     "source": "SRD 5.1",
@@ -3493,7 +3493,7 @@
     "weight": 3
   },
   {
-    "slug": "scimitar-sword-of-sharpness",
+    "slug": "srd-5e_item_scimitar-sword-of-sharpness",
     "name": "Scimitar, Sword of Sharpness",
     "edition": "2014",
     "source": "SRD 5.1",
@@ -3508,7 +3508,7 @@
     "weight": 3
   },
   {
-    "slug": "greatsword-sword-of-wounding",
+    "slug": "srd-5e_item_greatsword-sword-of-wounding",
     "name": "Greatsword, Sword of Wounding",
     "edition": "2014",
     "source": "SRD 5.1",
@@ -3523,7 +3523,7 @@
     "weight": 6
   },
   {
-    "slug": "longsword-sword-of-wounding",
+    "slug": "srd-5e_item_longsword-sword-of-wounding",
     "name": "Longsword, Sword of Wounding",
     "edition": "2014",
     "source": "SRD 5.1",
@@ -3538,7 +3538,7 @@
     "weight": 3
   },
   {
-    "slug": "rapier-sword-of-wounding",
+    "slug": "srd-5e_item_rapier-sword-of-wounding",
     "name": "Rapier, Sword of Wounding",
     "edition": "2014",
     "source": "SRD 5.1",
@@ -3553,7 +3553,7 @@
     "weight": 2
   },
   {
-    "slug": "scimitar-sword-of-wounding",
+    "slug": "srd-5e_item_scimitar-sword-of-wounding",
     "name": "Scimitar, Sword of Wounding",
     "edition": "2014",
     "source": "SRD 5.1",
@@ -3568,7 +3568,7 @@
     "weight": 3
   },
   {
-    "slug": "shortsword-sword-of-wounding",
+    "slug": "srd-5e_item_shortsword-sword-of-wounding",
     "name": "Shortsword, Sword of Wounding",
     "edition": "2014",
     "source": "SRD 5.1",
@@ -3583,7 +3583,7 @@
     "weight": 2
   },
   {
-    "slug": "vicious-battleaxe",
+    "slug": "srd-5e_item_vicious-battleaxe",
     "name": "Vicious Battleaxe",
     "edition": "2014",
     "source": "SRD 5.1",
@@ -3598,7 +3598,7 @@
     "weight": 4
   },
   {
-    "slug": "vicious-blowgun",
+    "slug": "srd-5e_item_vicious-blowgun",
     "name": "Vicious Blowgun",
     "edition": "2014",
     "source": "SRD 5.1",
@@ -3613,7 +3613,7 @@
     "weight": 1
   },
   {
-    "slug": "vicious-club",
+    "slug": "srd-5e_item_vicious-club",
     "name": "Vicious Club",
     "edition": "2014",
     "source": "SRD 5.1",
@@ -3628,7 +3628,7 @@
     "weight": 2
   },
   {
-    "slug": "vicious-dagger",
+    "slug": "srd-5e_item_vicious-dagger",
     "name": "Vicious Dagger",
     "edition": "2014",
     "source": "SRD 5.1",
@@ -3643,7 +3643,7 @@
     "weight": 1
   },
   {
-    "slug": "vicious-dart",
+    "slug": "srd-5e_item_vicious-dart",
     "name": "Vicious Dart",
     "edition": "2014",
     "source": "SRD 5.1",
@@ -3658,7 +3658,7 @@
     "weight": 0.25
   },
   {
-    "slug": "vicious-flail",
+    "slug": "srd-5e_item_vicious-flail",
     "name": "Vicious Flail",
     "edition": "2014",
     "source": "SRD 5.1",
@@ -3673,7 +3673,7 @@
     "weight": 2
   },
   {
-    "slug": "vicious-glaive",
+    "slug": "srd-5e_item_vicious-glaive",
     "name": "Vicious Glaive",
     "edition": "2014",
     "source": "SRD 5.1",
@@ -3688,7 +3688,7 @@
     "weight": 6
   },
   {
-    "slug": "vicious-greataxe",
+    "slug": "srd-5e_item_vicious-greataxe",
     "name": "Vicious Greataxe",
     "edition": "2014",
     "source": "SRD 5.1",
@@ -3703,7 +3703,7 @@
     "weight": 7
   },
   {
-    "slug": "vicious-greatclub",
+    "slug": "srd-5e_item_vicious-greatclub",
     "name": "Vicious Greatclub",
     "edition": "2014",
     "source": "SRD 5.1",
@@ -3718,7 +3718,7 @@
     "weight": 10
   },
   {
-    "slug": "vicious-greatsword",
+    "slug": "srd-5e_item_vicious-greatsword",
     "name": "Vicious Greatsword",
     "edition": "2014",
     "source": "SRD 5.1",
@@ -3733,7 +3733,7 @@
     "weight": 6
   },
   {
-    "slug": "vicious-halberd",
+    "slug": "srd-5e_item_vicious-halberd",
     "name": "Vicious Halberd",
     "edition": "2014",
     "source": "SRD 5.1",
@@ -3748,7 +3748,7 @@
     "weight": 6
   },
   {
-    "slug": "vicious-hand-crossbow",
+    "slug": "srd-5e_item_vicious-hand-crossbow",
     "name": "Vicious Hand Crossbow",
     "edition": "2014",
     "source": "SRD 5.1",
@@ -3763,7 +3763,7 @@
     "weight": 3
   },
   {
-    "slug": "vicious-handaxe",
+    "slug": "srd-5e_item_vicious-handaxe",
     "name": "Vicious Handaxe",
     "edition": "2014",
     "source": "SRD 5.1",
@@ -3778,7 +3778,7 @@
     "weight": 2
   },
   {
-    "slug": "vicious-heavy-crossbow",
+    "slug": "srd-5e_item_vicious-heavy-crossbow",
     "name": "Vicious Heavy Crossbow",
     "edition": "2014",
     "source": "SRD 5.1",
@@ -3793,7 +3793,7 @@
     "weight": 18
   },
   {
-    "slug": "vicious-javelin",
+    "slug": "srd-5e_item_vicious-javelin",
     "name": "Vicious Javelin",
     "edition": "2014",
     "source": "SRD 5.1",
@@ -3808,7 +3808,7 @@
     "weight": 2
   },
   {
-    "slug": "vicious-lance",
+    "slug": "srd-5e_item_vicious-lance",
     "name": "Vicious Lance",
     "edition": "2014",
     "source": "SRD 5.1",
@@ -3823,7 +3823,7 @@
     "weight": 6
   },
   {
-    "slug": "vicious-light-crossbow",
+    "slug": "srd-5e_item_vicious-light-crossbow",
     "name": "Vicious Light Crossbow",
     "edition": "2014",
     "source": "SRD 5.1",
@@ -3838,7 +3838,7 @@
     "weight": 5
   },
   {
-    "slug": "vicious-light-hammer",
+    "slug": "srd-5e_item_vicious-light-hammer",
     "name": "Vicious Light Hammer",
     "edition": "2014",
     "source": "SRD 5.1",
@@ -3853,7 +3853,7 @@
     "weight": 2
   },
   {
-    "slug": "vicious-longbow",
+    "slug": "srd-5e_item_vicious-longbow",
     "name": "Vicious Longbow",
     "edition": "2014",
     "source": "SRD 5.1",
@@ -3868,7 +3868,7 @@
     "weight": 2
   },
   {
-    "slug": "vicious-longsword",
+    "slug": "srd-5e_item_vicious-longsword",
     "name": "Vicious Longsword",
     "edition": "2014",
     "source": "SRD 5.1",
@@ -3883,7 +3883,7 @@
     "weight": 3
   },
   {
-    "slug": "vicious-mace",
+    "slug": "srd-5e_item_vicious-mace",
     "name": "Vicious Mace",
     "edition": "2014",
     "source": "SRD 5.1",
@@ -3898,7 +3898,7 @@
     "weight": 4
   },
   {
-    "slug": "vicious-maul",
+    "slug": "srd-5e_item_vicious-maul",
     "name": "Vicious Maul",
     "edition": "2014",
     "source": "SRD 5.1",
@@ -3913,7 +3913,7 @@
     "weight": 10
   },
   {
-    "slug": "vicious-morningstar",
+    "slug": "srd-5e_item_vicious-morningstar",
     "name": "Vicious Morningstar",
     "edition": "2014",
     "source": "SRD 5.1",
@@ -3928,7 +3928,7 @@
     "weight": 4
   },
   {
-    "slug": "vicious-net",
+    "slug": "srd-5e_item_vicious-net",
     "name": "Vicious Net",
     "edition": "2014",
     "source": "SRD 5.1",
@@ -3943,7 +3943,7 @@
     "weight": 3
   },
   {
-    "slug": "vicious-pike",
+    "slug": "srd-5e_item_vicious-pike",
     "name": "Vicious Pike",
     "edition": "2014",
     "source": "SRD 5.1",
@@ -3958,7 +3958,7 @@
     "weight": 18
   },
   {
-    "slug": "vicious-quarterstaff",
+    "slug": "srd-5e_item_vicious-quarterstaff",
     "name": "Vicious Quarterstaff",
     "edition": "2014",
     "source": "SRD 5.1",
@@ -3973,7 +3973,7 @@
     "weight": 4
   },
   {
-    "slug": "vicious-rapier",
+    "slug": "srd-5e_item_vicious-rapier",
     "name": "Vicious Rapier",
     "edition": "2014",
     "source": "SRD 5.1",
@@ -3988,7 +3988,7 @@
     "weight": 2
   },
   {
-    "slug": "vicious-scimitar",
+    "slug": "srd-5e_item_vicious-scimitar",
     "name": "Vicious Scimitar",
     "edition": "2014",
     "source": "SRD 5.1",
@@ -4003,7 +4003,7 @@
     "weight": 3
   },
   {
-    "slug": "vicious-shortbow",
+    "slug": "srd-5e_item_vicious-shortbow",
     "name": "Vicious Shortbow",
     "edition": "2014",
     "source": "SRD 5.1",
@@ -4018,7 +4018,7 @@
     "weight": 2
   },
   {
-    "slug": "vicious-shortsword",
+    "slug": "srd-5e_item_vicious-shortsword",
     "name": "Vicious Shortsword",
     "edition": "2014",
     "source": "SRD 5.1",
@@ -4033,7 +4033,7 @@
     "weight": 2
   },
   {
-    "slug": "vicious-sickle",
+    "slug": "srd-5e_item_vicious-sickle",
     "name": "Vicious Sickle",
     "edition": "2014",
     "source": "SRD 5.1",
@@ -4048,7 +4048,7 @@
     "weight": 2
   },
   {
-    "slug": "vicious-sling",
+    "slug": "srd-5e_item_vicious-sling",
     "name": "Vicious Sling",
     "edition": "2014",
     "source": "SRD 5.1",
@@ -4062,7 +4062,7 @@
     "description": "When you roll a 20 with this magic weapon, the target takes an extra 7 {=dmgType} damage.\n\n{@note Note: According to the SRD, it is an extra {@damage 2d6} {=dmgType} damage, although {@link this is incorrect|https://rpg.stackexchange.com/a/174522/53884}.}"
   },
   {
-    "slug": "vicious-spear",
+    "slug": "srd-5e_item_vicious-spear",
     "name": "Vicious Spear",
     "edition": "2014",
     "source": "SRD 5.1",
@@ -4077,7 +4077,7 @@
     "weight": 3
   },
   {
-    "slug": "vicious-trident",
+    "slug": "srd-5e_item_vicious-trident",
     "name": "Vicious Trident",
     "edition": "2014",
     "source": "SRD 5.1",
@@ -4092,7 +4092,7 @@
     "weight": 4
   },
   {
-    "slug": "vicious-war-pick",
+    "slug": "srd-5e_item_vicious-war-pick",
     "name": "Vicious War Pick",
     "edition": "2014",
     "source": "SRD 5.1",
@@ -4107,7 +4107,7 @@
     "weight": 2
   },
   {
-    "slug": "vicious-warhammer",
+    "slug": "srd-5e_item_vicious-warhammer",
     "name": "Vicious Warhammer",
     "edition": "2014",
     "source": "SRD 5.1",
@@ -4122,7 +4122,7 @@
     "weight": 2
   },
   {
-    "slug": "vicious-whip",
+    "slug": "srd-5e_item_vicious-whip",
     "name": "Vicious Whip",
     "edition": "2014",
     "source": "SRD 5.1",
@@ -4137,7 +4137,7 @@
     "weight": 3
   },
   {
-    "slug": "vorpal-greatsword",
+    "slug": "srd-5e_item_vorpal-greatsword",
     "name": "Vorpal Greatsword",
     "edition": "2014",
     "source": "SRD 5.1",
@@ -4156,7 +4156,7 @@
     "weight": 6
   },
   {
-    "slug": "vorpal-longsword",
+    "slug": "srd-5e_item_vorpal-longsword",
     "name": "Vorpal Longsword",
     "edition": "2014",
     "source": "SRD 5.1",
@@ -4175,7 +4175,7 @@
     "weight": 3
   },
   {
-    "slug": "vorpal-scimitar",
+    "slug": "srd-5e_item_vorpal-scimitar",
     "name": "Vorpal Scimitar",
     "edition": "2014",
     "source": "SRD 5.1",

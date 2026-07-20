@@ -1,6 +1,6 @@
 [
   {
-    "slug": "srd-2024_acolyte",
+    "slug": "srd-2024_background_acolyte",
     "name": "Acolyte",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -69,7 +69,7 @@
     ]
   },
   {
-    "slug": "srd-2024_criminal",
+    "slug": "srd-2024_background_criminal",
     "name": "Criminal",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -142,7 +142,7 @@
     ]
   },
   {
-    "slug": "srd-2024_sage",
+    "slug": "srd-2024_background_sage",
     "name": "Sage",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -214,7 +214,7 @@
     ]
   },
   {
-    "slug": "srd-2024_soldier",
+    "slug": "srd-2024_background_soldier",
     "name": "Soldier",
     "edition": "2024",
     "source": "SRD 5.2",

@@ -1,6 +1,6 @@
 [
   {
-    "slug": "srd-5e_dragonborn",
+    "slug": "srd-5e_race_dragonborn",
     "name": "Dragonborn",
     "edition": "2014",
     "source": "SRD 5.1",
@@ -185,7 +185,7 @@
     ]
   },
   {
-    "slug": "srd-5e_dwarf",
+    "slug": "srd-5e_race_dwarf",
     "name": "Dwarf",
     "edition": "2014",
     "source": "SRD 5.1",
@@ -266,7 +266,7 @@
     ]
   },
   {
-    "slug": "srd-5e_elf",
+    "slug": "srd-5e_race_elf",
     "name": "Elf",
     "edition": "2014",
     "source": "SRD 5.1",
@@ -329,7 +329,7 @@
     ]
   },
   {
-    "slug": "srd-5e_gnome",
+    "slug": "srd-5e_race_gnome",
     "name": "Gnome",
     "edition": "2014",
     "source": "SRD 5.1",
@@ -384,7 +384,7 @@
     ]
   },
   {
-    "slug": "srd-5e_half-elf",
+    "slug": "srd-5e_race_half-elf",
     "name": "Half-Elf",
     "edition": "2014",
     "source": "SRD 5.1",
@@ -473,7 +473,7 @@
     ]
   },
   {
-    "slug": "srd-5e_half-orc",
+    "slug": "srd-5e_race_half-orc",
     "name": "Half-Orc",
     "edition": "2014",
     "source": "SRD 5.1",
@@ -546,7 +546,7 @@
     ]
   },
   {
-    "slug": "srd-5e_halfling",
+    "slug": "srd-5e_race_halfling",
     "name": "Halfling",
     "edition": "2014",
     "source": "SRD 5.1",
@@ -603,7 +603,7 @@
     ]
   },
   {
-    "slug": "srd-5e_high-elf",
+    "slug": "srd-5e_race_high-elf",
     "name": "High Elf",
     "edition": "2014",
     "source": "SRD 5.1",
@@ -648,7 +648,7 @@
     "subspecies_of": "[[SRD 5e/Races/Elf]]"
   },
   {
-    "slug": "srd-5e_hill-dwarf",
+    "slug": "srd-5e_race_hill-dwarf",
     "name": "Hill Dwarf",
     "edition": "2014",
     "source": "SRD 5.1",
@@ -676,7 +676,7 @@
     "subspecies_of": "[[SRD 5e/Races/Dwarf]]"
   },
   {
-    "slug": "srd-5e_human",
+    "slug": "srd-5e_race_human",
     "name": "Human",
     "edition": "2014",
     "source": "SRD 5.1",
@@ -729,7 +729,7 @@
     ]
   },
   {
-    "slug": "srd-5e_lightfoot",
+    "slug": "srd-5e_race_lightfoot",
     "name": "Lightfoot",
     "edition": "2014",
     "source": "SRD 5.1",
@@ -757,7 +757,7 @@
     "subspecies_of": "[[SRD 5e/Races/Halfling]]"
   },
   {
-    "slug": "srd-5e_rock-gnome",
+    "slug": "srd-5e_race_rock-gnome",
     "name": "Rock Gnome",
     "edition": "2014",
     "source": "SRD 5.1",
@@ -789,7 +789,7 @@
     "subspecies_of": "[[SRD 5e/Races/Gnome]]"
   },
   {
-    "slug": "srd-5e_tiefling",
+    "slug": "srd-5e_race_tiefling",
     "name": "Tiefling",
     "edition": "2014",
     "source": "SRD 5.1",

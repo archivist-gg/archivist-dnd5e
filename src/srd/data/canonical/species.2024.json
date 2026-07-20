@@ -1,6 +1,6 @@
 [
   {
-    "slug": "srd-2024_dragonborn",
+    "slug": "srd-2024_race_dragonborn",
     "name": "Dragonborn",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -175,7 +175,7 @@
     ]
   },
   {
-    "slug": "srd-2024_dwarf",
+    "slug": "srd-2024_race_dwarf",
     "name": "Dwarf",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -232,7 +232,7 @@
     ]
   },
   {
-    "slug": "srd-2024_elf",
+    "slug": "srd-2024_race_elf",
     "name": "Elf",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -348,7 +348,7 @@
     }
   },
   {
-    "slug": "srd-2024_gnome",
+    "slug": "srd-2024_race_gnome",
     "name": "Gnome",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -430,7 +430,7 @@
     ]
   },
   {
-    "slug": "srd-2024_goliath",
+    "slug": "srd-2024_race_goliath",
     "name": "Goliath",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -519,7 +519,7 @@
     ]
   },
   {
-    "slug": "srd-2024_halfling",
+    "slug": "srd-2024_race_halfling",
     "name": "Halfling",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -564,7 +564,7 @@
     ]
   },
   {
-    "slug": "srd-2024_human",
+    "slug": "srd-2024_race_human",
     "name": "Human",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -626,7 +626,7 @@
     ]
   },
   {
-    "slug": "srd-2024_orc",
+    "slug": "srd-2024_race_orc",
     "name": "Orc",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -679,7 +679,7 @@
     ]
   },
   {
-    "slug": "srd-2024_tiefling",
+    "slug": "srd-2024_race_tiefling",
     "name": "Tiefling",
     "edition": "2024",
     "source": "SRD 5.2",

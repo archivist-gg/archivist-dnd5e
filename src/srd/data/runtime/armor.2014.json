@@ -1,6 +1,6 @@
 [
   {
-    "slug": "srd-5e_breastplate",
+    "slug": "srd-5e_armor_breastplate",
     "name": "Breastplate",
     "edition": "2014",
     "source": "SRD 5.1",
@@ -13,7 +13,7 @@
     "stealth_disadvantage": false
   },
   {
-    "slug": "srd-5e_chain-mail",
+    "slug": "srd-5e_armor_chain-mail",
     "name": "Chain mail",
     "edition": "2014",
     "source": "SRD 5.1",
@@ -26,7 +26,7 @@
     "strength_required": 13
   },
   {
-    "slug": "srd-5e_chain-shirt",
+    "slug": "srd-5e_armor_chain-shirt",
     "name": "Chain shirt",
     "edition": "2014",
     "source": "SRD 5.1",
@@ -39,7 +39,7 @@
     "stealth_disadvantage": false
   },
   {
-    "slug": "srd-5e_half-plate",
+    "slug": "srd-5e_armor_half-plate",
     "name": "Half plate",
     "edition": "2014",
     "source": "SRD 5.1",
@@ -52,7 +52,7 @@
     "stealth_disadvantage": true
   },
   {
-    "slug": "srd-5e_hide",
+    "slug": "srd-5e_armor_hide",
     "name": "Hide",
     "edition": "2014",
     "source": "SRD 5.1",
@@ -65,7 +65,7 @@
     "stealth_disadvantage": false
   },
   {
-    "slug": "srd-5e_leather",
+    "slug": "srd-5e_armor_leather",
     "name": "Leather",
     "edition": "2014",
     "source": "SRD 5.1",
@@ -77,7 +77,7 @@
     "stealth_disadvantage": false
   },
   {
-    "slug": "srd-5e_padded",
+    "slug": "srd-5e_armor_padded",
     "name": "Padded",
     "edition": "2014",
     "source": "SRD 5.1",
@@ -89,7 +89,7 @@
     "stealth_disadvantage": true
   },
   {
-    "slug": "srd-5e_plate",
+    "slug": "srd-5e_armor_plate",
     "name": "Plate",
     "edition": "2014",
     "source": "SRD 5.1",
@@ -102,7 +102,7 @@
     "strength_required": 15
   },
   {
-    "slug": "srd-5e_ring-mail",
+    "slug": "srd-5e_armor_ring-mail",
     "name": "Ring mail",
     "edition": "2014",
     "source": "SRD 5.1",
@@ -114,7 +114,7 @@
     "stealth_disadvantage": true
   },
   {
-    "slug": "srd-5e_scale-mail",
+    "slug": "srd-5e_armor_scale-mail",
     "name": "Scale mail",
     "edition": "2014",
     "source": "SRD 5.1",
@@ -127,7 +127,7 @@
     "stealth_disadvantage": true
   },
   {
-    "slug": "srd-5e_splint",
+    "slug": "srd-5e_armor_splint",
     "name": "Splint",
     "edition": "2014",
     "source": "SRD 5.1",
@@ -140,7 +140,7 @@
     "strength_required": 15
   },
   {
-    "slug": "srd-5e_studded-leather",
+    "slug": "srd-5e_armor_studded-leather",
     "name": "Studded leather",
     "edition": "2014",
     "source": "SRD 5.1",

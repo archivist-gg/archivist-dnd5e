@@ -1,6 +1,6 @@
 [
   {
-    "slug": "srd-2024_breastplate",
+    "slug": "srd-2024_armor_breastplate",
     "name": "Breastplate",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -13,7 +13,7 @@
     "stealth_disadvantage": false
   },
   {
-    "slug": "srd-2024_chain-mail",
+    "slug": "srd-2024_armor_chain-mail",
     "name": "Chain Mail",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -26,7 +26,7 @@
     "strength_required": 13
   },
   {
-    "slug": "srd-2024_chain-shirt",
+    "slug": "srd-2024_armor_chain-shirt",
     "name": "Chain Shirt",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -39,7 +39,7 @@
     "stealth_disadvantage": false
   },
   {
-    "slug": "srd-2024_half-plate-armor",
+    "slug": "srd-2024_armor_half-plate-armor",
     "name": "Half Plate Armor",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -52,7 +52,7 @@
     "stealth_disadvantage": true
   },
   {
-    "slug": "srd-2024_hide-armor",
+    "slug": "srd-2024_armor_hide-armor",
     "name": "Hide Armor",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -65,7 +65,7 @@
     "stealth_disadvantage": false
   },
   {
-    "slug": "srd-2024_leather-armor",
+    "slug": "srd-2024_armor_leather-armor",
     "name": "Leather Armor",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -77,7 +77,7 @@
     "stealth_disadvantage": false
   },
   {
-    "slug": "srd-2024_padded-armor",
+    "slug": "srd-2024_armor_padded-armor",
     "name": "Padded Armor",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -89,7 +89,7 @@
     "stealth_disadvantage": true
   },
   {
-    "slug": "srd-2024_plate-armor",
+    "slug": "srd-2024_armor_plate-armor",
     "name": "Plate Armor",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -102,7 +102,7 @@
     "strength_required": 15
   },
   {
-    "slug": "srd-2024_ring-mail",
+    "slug": "srd-2024_armor_ring-mail",
     "name": "Ring Mail",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -114,7 +114,7 @@
     "stealth_disadvantage": true
   },
   {
-    "slug": "srd-2024_scale-mail",
+    "slug": "srd-2024_armor_scale-mail",
     "name": "Scale Mail",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -127,7 +127,7 @@
     "stealth_disadvantage": true
   },
   {
-    "slug": "srd-2024_shield",
+    "slug": "srd-2024_armor_shield",
     "name": "Shield",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -139,7 +139,7 @@
     "stealth_disadvantage": false
   },
   {
-    "slug": "srd-2024_splint-armor",
+    "slug": "srd-2024_armor_splint-armor",
     "name": "Splint Armor",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -152,7 +152,7 @@
     "strength_required": 15
   },
   {
-    "slug": "srd-2024_studded-leather-armor",
+    "slug": "srd-2024_armor_studded-leather-armor",
     "name": "Studded Leather Armor",
     "edition": "2024",
     "source": "SRD 5.2",

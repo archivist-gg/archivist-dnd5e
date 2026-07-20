@@ -1,6 +1,6 @@
 [
   {
-    "slug": "srd-5e_champion",
+    "slug": "srd-5e_subclass_champion",
     "name": "Champion",
     "edition": "2014",
     "source": "SRD 5.1",
@@ -58,7 +58,7 @@
     "resources": []
   },
   {
-    "slug": "srd-5e_circle-of-the-land",
+    "slug": "srd-5e_subclass_circle-of-the-land",
     "name": "Circle of the Land",
     "edition": "2014",
     "source": "SRD 5.1",
@@ -278,7 +278,7 @@
     "resources": []
   },
   {
-    "slug": "srd-5e_college-of-lore",
+    "slug": "srd-5e_subclass_college-of-lore",
     "name": "College of Lore",
     "edition": "2014",
     "source": "SRD 5.1",
@@ -323,7 +323,7 @@
     "resources": []
   },
   {
-    "slug": "srd-5e_draconic-bloodline",
+    "slug": "srd-5e_subclass_draconic-bloodline",
     "name": "Draconic Bloodline",
     "edition": "2014",
     "source": "SRD 5.1",
@@ -416,7 +416,7 @@
     "resources": []
   },
   {
-    "slug": "srd-5e_hunter",
+    "slug": "srd-5e_subclass_hunter",
     "name": "Hunter",
     "edition": "2014",
     "source": "SRD 5.1",
@@ -546,7 +546,7 @@
     "resources": []
   },
   {
-    "slug": "srd-5e_life-domain",
+    "slug": "srd-5e_subclass_life-domain",
     "name": "Life Domain",
     "edition": "2014",
     "source": "SRD 5.1",
@@ -602,7 +602,7 @@
     "resources": []
   },
   {
-    "slug": "srd-5e_oath-of-devotion",
+    "slug": "srd-5e_subclass_oath-of-devotion",
     "name": "Oath of Devotion",
     "edition": "2014",
     "source": "SRD 5.1",
@@ -614,6 +614,7 @@
           "id": "channel-divinity",
           "name": "Channel Divinity",
           "description": "When you take this oath at 3rd level, you gain the following two Channel Divinity options.\r\n\r\n**Sacred Weapon.** As an action, you can imbue one weapon that you are holding with positive energy, using your Channel Divinity. For 1 minute, you add your Charisma modifier to attack rolls made with that weapon (with a minimum bonus of +1). The weapon also emits bright light in a 20-foot radius and dim light 20 feet beyond that. If the weapon is not already magical, it becomes magical for the duration.\r\n\r\nYou can end this effect on your turn as part of any other action. If you are no longer holding or carrying this weapon, or if you fall unconscious, this effect ends.\r\n\r\n**Turn the Unholy.** As an action, you present your holy symbol and speak a prayer censuring fiends and undead, using your Channel Divinity. Each fiend or undead that can see or hear you within 30 feet of you must make a Wisdom saving throw. If the creature fails its saving throw, it is turned for 1 minute or until it takes damage.\r\n\r\nA turned creature must spend its turns trying to move as far away from you as it can, and it can't willingly move to a space within 30 feet of you. It also can't take reactions. For its action, it can use only the Dash action or try to escape from an effect that prevents it from moving. If there's nowhere to move, the creature can use the Dodge action.",
+          "action": "action",
           "resources": [
             {
               "id": "cleric:channel-divinity",
@@ -704,7 +705,7 @@
     "resources": []
   },
   {
-    "slug": "srd-5e_path-of-the-berserker",
+    "slug": "srd-5e_subclass_path-of-the-berserker",
     "name": "Path of the Berserker",
     "edition": "2014",
     "source": "SRD 5.1",
@@ -743,7 +744,7 @@
     "resources": []
   },
   {
-    "slug": "srd-5e_school-of-evocation",
+    "slug": "srd-5e_subclass_school-of-evocation",
     "name": "School of Evocation",
     "edition": "2014",
     "source": "SRD 5.1",
@@ -787,7 +788,7 @@
     "resources": []
   },
   {
-    "slug": "srd-5e_the-fiend",
+    "slug": "srd-5e_subclass_the-fiend",
     "name": "The Fiend",
     "edition": "2014",
     "source": "SRD 5.1",
@@ -831,7 +832,7 @@
     "resources": []
   },
   {
-    "slug": "srd-5e_thief",
+    "slug": "srd-5e_subclass_thief",
     "name": "Thief",
     "edition": "2014",
     "source": "SRD 5.1",
@@ -875,7 +876,7 @@
     "resources": []
   },
   {
-    "slug": "srd-5e_way-of-the-open-hand",
+    "slug": "srd-5e_subclass_way-of-the-open-hand",
     "name": "Way of the Open Hand",
     "edition": "2014",
     "source": "SRD 5.1",

@@ -1,6 +1,6 @@
 [
   {
-    "slug": "srd-2024_aboleth",
+    "slug": "srd-2024_monster_aboleth",
     "name": "Aboleth",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -147,7 +147,7 @@
     "legendary_resistance": 3
   },
   {
-    "slug": "srd-2024_adult-black-dragon",
+    "slug": "srd-2024_monster_adult-black-dragon",
     "name": "Adult Black Dragon",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -291,7 +291,7 @@
     "legendary_resistance": 3
   },
   {
-    "slug": "srd-2024_adult-blue-dragon",
+    "slug": "srd-2024_monster_adult-blue-dragon",
     "name": "Adult Blue Dragon",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -425,7 +425,7 @@
     "legendary_resistance": 3
   },
   {
-    "slug": "srd-2024_adult-brass-dragon",
+    "slug": "srd-2024_monster_adult-brass-dragon",
     "name": "Adult Brass Dragon",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -571,7 +571,7 @@
     "legendary_resistance": 3
   },
   {
-    "slug": "srd-2024_adult-bronze-dragon",
+    "slug": "srd-2024_monster_adult-bronze-dragon",
     "name": "Adult Bronze Dragon",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -639,7 +639,7 @@
               "reach": 10
             },
             "extra_damage": {
-              "dice": "1d1d10",
+              "dice": "1d8",
               "type": "lightning"
             }
           }
@@ -722,7 +722,7 @@
     "legendary_resistance": 3
   },
   {
-    "slug": "srd-2024_adult-copper-dragon",
+    "slug": "srd-2024_monster_adult-copper-dragon",
     "name": "Adult Copper Dragon",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -867,7 +867,7 @@
     "legendary_resistance": 3
   },
   {
-    "slug": "srd-2024_adult-gold-dragon",
+    "slug": "srd-2024_monster_adult-gold-dragon",
     "name": "Adult Gold Dragon",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -1019,7 +1019,7 @@
     "legendary_resistance": 3
   },
   {
-    "slug": "srd-2024_adult-green-dragon",
+    "slug": "srd-2024_monster_adult-green-dragon",
     "name": "Adult Green Dragon",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -1167,7 +1167,7 @@
     "legendary_resistance": 3
   },
   {
-    "slug": "srd-2024_adult-red-dragon",
+    "slug": "srd-2024_monster_adult-red-dragon",
     "name": "Adult Red Dragon",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -1305,7 +1305,7 @@
     "legendary_resistance": 3
   },
   {
-    "slug": "srd-2024_adult-silver-dragon",
+    "slug": "srd-2024_monster_adult-silver-dragon",
     "name": "Adult Silver Dragon",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -1449,7 +1449,7 @@
     "legendary_resistance": 3
   },
   {
-    "slug": "srd-2024_adult-white-dragon",
+    "slug": "srd-2024_monster_adult-white-dragon",
     "name": "Adult White Dragon",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -1588,7 +1588,7 @@
     "legendary_resistance": 3
   },
   {
-    "slug": "srd-2024_air-elemental",
+    "slug": "srd-2024_monster_air-elemental",
     "name": "Air Elemental",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -1701,7 +1701,7 @@
     "passive_perception": 10
   },
   {
-    "slug": "srd-2024_allosaurus",
+    "slug": "srd-2024_monster_allosaurus",
     "name": "Allosaurus",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -1793,7 +1793,7 @@
     "passive_perception": 15
   },
   {
-    "slug": "srd-2024_ancient-black-dragon",
+    "slug": "srd-2024_monster_ancient-black-dragon",
     "name": "Ancient Black Dragon",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -1937,7 +1937,7 @@
     "legendary_resistance": 4
   },
   {
-    "slug": "srd-2024_ancient-blue-dragon",
+    "slug": "srd-2024_monster_ancient-blue-dragon",
     "name": "Ancient Blue Dragon",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -2075,7 +2075,7 @@
     "legendary_resistance": 4
   },
   {
-    "slug": "srd-2024_ancient-brass-dragon",
+    "slug": "srd-2024_monster_ancient-brass-dragon",
     "name": "Ancient Brass Dragon",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -2221,7 +2221,7 @@
     "legendary_resistance": 4
   },
   {
-    "slug": "srd-2024_ancient-bronze-dragon",
+    "slug": "srd-2024_monster_ancient-bronze-dragon",
     "name": "Ancient Bronze Dragon",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -2372,7 +2372,7 @@
     "legendary_resistance": 4
   },
   {
-    "slug": "srd-2024_ancient-copper-dragon",
+    "slug": "srd-2024_monster_ancient-copper-dragon",
     "name": "Ancient Copper Dragon",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -2517,7 +2517,7 @@
     "legendary_resistance": 4
   },
   {
-    "slug": "srd-2024_ancient-gold-dragon",
+    "slug": "srd-2024_monster_ancient-gold-dragon",
     "name": "Ancient Gold Dragon",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -2669,7 +2669,7 @@
     "legendary_resistance": 4
   },
   {
-    "slug": "srd-2024_ancient-green-dragon",
+    "slug": "srd-2024_monster_ancient-green-dragon",
     "name": "Ancient Green Dragon",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -2817,7 +2817,7 @@
     "legendary_resistance": 4
   },
   {
-    "slug": "srd-2024_ancient-red-dragon",
+    "slug": "srd-2024_monster_ancient-red-dragon",
     "name": "Ancient Red Dragon",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -2955,7 +2955,7 @@
     "legendary_resistance": 4
   },
   {
-    "slug": "srd-2024_ancient-silver-dragon",
+    "slug": "srd-2024_monster_ancient-silver-dragon",
     "name": "Ancient Silver Dragon",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -3099,7 +3099,7 @@
     "legendary_resistance": 4
   },
   {
-    "slug": "srd-2024_ancient-white-dragon",
+    "slug": "srd-2024_monster_ancient-white-dragon",
     "name": "Ancient White Dragon",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -3238,7 +3238,7 @@
     "legendary_resistance": 4
   },
   {
-    "slug": "srd-2024_animated-armor",
+    "slug": "srd-2024_monster_animated-armor",
     "name": "Animated Armor",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -3328,7 +3328,7 @@
     "passive_perception": 6
   },
   {
-    "slug": "srd-2024_animated-flying-sword",
+    "slug": "srd-2024_monster_animated-flying-sword",
     "name": "Animated Flying Sword",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -3413,7 +3413,7 @@
     "passive_perception": 7
   },
   {
-    "slug": "srd-2024_animated-rug-of-smothering",
+    "slug": "srd-2024_monster_animated-rug-of-smothering",
     "name": "Animated Rug of Smothering",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -3497,7 +3497,7 @@
     "passive_perception": 6
   },
   {
-    "slug": "srd-2024_ankheg",
+    "slug": "srd-2024_monster_ankheg",
     "name": "Ankheg",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -3577,7 +3577,7 @@
     "passive_perception": 11
   },
   {
-    "slug": "srd-2024_ankylosaurus",
+    "slug": "srd-2024_monster_ankylosaurus",
     "name": "Ankylosaurus",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -3654,7 +3654,7 @@
     "passive_perception": 11
   },
   {
-    "slug": "srd-2024_ape",
+    "slug": "srd-2024_monster_ape",
     "name": "Ape",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -3759,7 +3759,7 @@
     "passive_perception": 13
   },
   {
-    "slug": "srd-2024_archelon",
+    "slug": "srd-2024_monster_archelon",
     "name": "Archelon",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -3847,7 +3847,7 @@
     "passive_perception": 12
   },
   {
-    "slug": "srd-2024_archmage",
+    "slug": "srd-2024_monster_archmage",
     "name": "Archmage",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -3970,7 +3970,7 @@
     "passive_perception": 16
   },
   {
-    "slug": "srd-2024_assassin",
+    "slug": "srd-2024_monster_assassin",
     "name": "Assassin",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -4089,7 +4089,7 @@
     "passive_perception": 16
   },
   {
-    "slug": "srd-2024_awakened-shrub",
+    "slug": "srd-2024_monster_awakened-shrub",
     "name": "Awakened Shrub",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -4150,7 +4150,7 @@
     "passive_perception": 10
   },
   {
-    "slug": "srd-2024_awakened-tree",
+    "slug": "srd-2024_monster_awakened-tree",
     "name": "Awakened Tree",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -4223,7 +4223,7 @@
     "passive_perception": 10
   },
   {
-    "slug": "srd-2024_axe-beak",
+    "slug": "srd-2024_monster_axe-beak",
     "name": "Axe Beak",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -4294,7 +4294,7 @@
     "passive_perception": 10
   },
   {
-    "slug": "srd-2024_azer-sentinel",
+    "slug": "srd-2024_monster_azer-sentinel",
     "name": "Azer Sentinel",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -4385,7 +4385,7 @@
     "passive_perception": 11
   },
   {
-    "slug": "srd-2024_baboon",
+    "slug": "srd-2024_monster_baboon",
     "name": "Baboon",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -4464,7 +4464,7 @@
     "passive_perception": 11
   },
   {
-    "slug": "srd-2024_badger",
+    "slug": "srd-2024_monster_badger",
     "name": "Badger",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -4531,7 +4531,7 @@
     "passive_perception": 13
   },
   {
-    "slug": "srd-2024_balor",
+    "slug": "srd-2024_monster_balor",
     "name": "Balor",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -4676,7 +4676,7 @@
     "legendary_resistance": 3
   },
   {
-    "slug": "srd-2024_bandit",
+    "slug": "srd-2024_monster_bandit",
     "name": "Bandit",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -4769,7 +4769,7 @@
     "passive_perception": 10
   },
   {
-    "slug": "srd-2024_bandit-captain",
+    "slug": "srd-2024_monster_bandit-captain",
     "name": "Bandit Captain",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -4879,7 +4879,7 @@
     "passive_perception": 10
   },
   {
-    "slug": "srd-2024_barbed-devil",
+    "slug": "srd-2024_monster_barbed-devil",
     "name": "Barbed Devil",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -5028,7 +5028,7 @@
     "passive_perception": 18
   },
   {
-    "slug": "srd-2024_basilisk",
+    "slug": "srd-2024_monster_basilisk",
     "name": "Basilisk",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -5111,7 +5111,7 @@
     "passive_perception": 9
   },
   {
-    "slug": "srd-2024_bat",
+    "slug": "srd-2024_monster_bat",
     "name": "Bat",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -5173,7 +5173,7 @@
     "passive_perception": 11
   },
   {
-    "slug": "srd-2024_bearded-devil",
+    "slug": "srd-2024_monster_bearded-devil",
     "name": "Bearded Devil",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -5287,7 +5287,7 @@
     "passive_perception": 10
   },
   {
-    "slug": "srd-2024_behir",
+    "slug": "srd-2024_monster_behir",
     "name": "Behir",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -5397,7 +5397,7 @@
     "passive_perception": 16
   },
   {
-    "slug": "srd-2024_berserker",
+    "slug": "srd-2024_monster_berserker",
     "name": "Berserker",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -5477,7 +5477,7 @@
     "passive_perception": 10
   },
   {
-    "slug": "srd-2024_black-bear",
+    "slug": "srd-2024_monster_black-bear",
     "name": "Black Bear",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -5561,7 +5561,7 @@
     "passive_perception": 15
   },
   {
-    "slug": "srd-2024_black-dragon-wyrmling",
+    "slug": "srd-2024_monster_black-dragon-wyrmling",
     "name": "Black Dragon Wyrmling",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -5672,7 +5672,7 @@
     "passive_perception": 14
   },
   {
-    "slug": "srd-2024_black-pudding",
+    "slug": "srd-2024_monster_black-pudding",
     "name": "Black Pudding",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -5784,7 +5784,7 @@
     "passive_perception": 8
   },
   {
-    "slug": "srd-2024_blink-dog",
+    "slug": "srd-2024_monster_blink-dog",
     "name": "Blink Dog",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -5873,7 +5873,7 @@
     "passive_perception": 15
   },
   {
-    "slug": "srd-2024_blood-hawk",
+    "slug": "srd-2024_monster_blood-hawk",
     "name": "Blood Hawk",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -5955,7 +5955,7 @@
     "passive_perception": 16
   },
   {
-    "slug": "srd-2024_blue-dragon-wyrmling",
+    "slug": "srd-2024_monster_blue-dragon-wyrmling",
     "name": "Blue Dragon Wyrmling",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -6059,7 +6059,7 @@
     "passive_perception": 14
   },
   {
-    "slug": "srd-2024_boar",
+    "slug": "srd-2024_monster_boar",
     "name": "Boar",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -6137,7 +6137,7 @@
     "passive_perception": 9
   },
   {
-    "slug": "srd-2024_bone-devil",
+    "slug": "srd-2024_monster_bone-devil",
     "name": "Bone Devil",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -6261,7 +6261,7 @@
     "passive_perception": 12
   },
   {
-    "slug": "srd-2024_brass-dragon-wyrmling",
+    "slug": "srd-2024_monster_brass-dragon-wyrmling",
     "name": "Brass Dragon Wyrmling",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -6361,7 +6361,7 @@
     "passive_perception": 14
   },
   {
-    "slug": "srd-2024_bronze-dragon-wyrmling",
+    "slug": "srd-2024_monster_bronze-dragon-wyrmling",
     "name": "Bronze Dragon Wyrmling",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -6474,7 +6474,7 @@
     "passive_perception": 14
   },
   {
-    "slug": "srd-2024_brown-bear",
+    "slug": "srd-2024_monster_brown-bear",
     "name": "Brown Bear",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -6575,7 +6575,7 @@
     "passive_perception": 13
   },
   {
-    "slug": "srd-2024_bugbear-stalker",
+    "slug": "srd-2024_monster_bugbear-stalker",
     "name": "Bugbear Stalker",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -6682,7 +6682,7 @@
     "passive_perception": 11
   },
   {
-    "slug": "srd-2024_bugbear-warrior",
+    "slug": "srd-2024_monster_bugbear-warrior",
     "name": "Bugbear Warrior",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -6775,7 +6775,7 @@
     "passive_perception": 10
   },
   {
-    "slug": "srd-2024_bulette",
+    "slug": "srd-2024_monster_bulette",
     "name": "Bulette",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -6871,7 +6871,7 @@
     "passive_perception": 16
   },
   {
-    "slug": "srd-2024_camel",
+    "slug": "srd-2024_monster_camel",
     "name": "Camel",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -6944,7 +6944,7 @@
     "passive_perception": 10
   },
   {
-    "slug": "srd-2024_cat",
+    "slug": "srd-2024_monster_cat",
     "name": "Cat",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -7017,7 +7017,7 @@
     "passive_perception": 13
   },
   {
-    "slug": "srd-2024_centaur-trooper",
+    "slug": "srd-2024_monster_centaur-trooper",
     "name": "Centaur Trooper",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -7130,7 +7130,7 @@
     "passive_perception": 13
   },
   {
-    "slug": "srd-2024_chain-devil",
+    "slug": "srd-2024_monster_chain-devil",
     "name": "Chain Devil",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -7244,7 +7244,7 @@
     "passive_perception": 11
   },
   {
-    "slug": "srd-2024_chimera",
+    "slug": "srd-2024_monster_chimera",
     "name": "Chimera",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -7375,7 +7375,7 @@
     "passive_perception": 18
   },
   {
-    "slug": "srd-2024_chuul",
+    "slug": "srd-2024_monster_chuul",
     "name": "Chuul",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -7483,7 +7483,7 @@
     "passive_perception": 14
   },
   {
-    "slug": "srd-2024_clay-golem",
+    "slug": "srd-2024_monster_clay-golem",
     "name": "Clay Golem",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -7502,7 +7502,7 @@
       "formula": "13d10 + 52"
     },
     "speed": {
-      "walk": 20
+      "walk": 30
     },
     "abilities": {
       "str": 20,
@@ -7610,7 +7610,7 @@
     "passive_perception": 9
   },
   {
-    "slug": "srd-2024_cloaker",
+    "slug": "srd-2024_monster_cloaker",
     "name": "Cloaker",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -7733,7 +7733,7 @@
     "passive_perception": 12
   },
   {
-    "slug": "srd-2024_cloud-giant",
+    "slug": "srd-2024_monster_cloud-giant",
     "name": "Cloud Giant",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -7848,7 +7848,7 @@
     "passive_perception": 21
   },
   {
-    "slug": "srd-2024_cockatrice",
+    "slug": "srd-2024_monster_cockatrice",
     "name": "Cockatrice",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -7922,7 +7922,7 @@
     "passive_perception": 11
   },
   {
-    "slug": "srd-2024_commoner",
+    "slug": "srd-2024_monster_commoner",
     "name": "Commoner",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -8002,7 +8002,7 @@
     "passive_perception": 10
   },
   {
-    "slug": "srd-2024_constrictor-snake",
+    "slug": "srd-2024_monster_constrictor-snake",
     "name": "Constrictor Snake",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -8086,7 +8086,7 @@
     "passive_perception": 12
   },
   {
-    "slug": "srd-2024_copper-dragon-wyrmling",
+    "slug": "srd-2024_monster_copper-dragon-wyrmling",
     "name": "Copper Dragon Wyrmling",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -8186,7 +8186,7 @@
     "passive_perception": 14
   },
   {
-    "slug": "srd-2024_couatl",
+    "slug": "srd-2024_monster_couatl",
     "name": "Couatl",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -8294,7 +8294,7 @@
     "passive_perception": 15
   },
   {
-    "slug": "srd-2024_crab",
+    "slug": "srd-2024_monster_crab",
     "name": "Crab",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -8366,7 +8366,7 @@
     "passive_perception": 9
   },
   {
-    "slug": "srd-2024_crocodile",
+    "slug": "srd-2024_monster_crocodile",
     "name": "Crocodile",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -8448,7 +8448,7 @@
     "passive_perception": 10
   },
   {
-    "slug": "srd-2024_cultist",
+    "slug": "srd-2024_monster_cultist",
     "name": "Cultist",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -8525,7 +8525,7 @@
     "passive_perception": 10
   },
   {
-    "slug": "srd-2024_cultist-fanatic",
+    "slug": "srd-2024_monster_cultist-fanatic",
     "name": "Cultist Fanatic",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -8619,7 +8619,7 @@
     "passive_perception": 12
   },
   {
-    "slug": "srd-2024_darkmantle",
+    "slug": "srd-2024_monster_darkmantle",
     "name": "Darkmantle",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -8706,7 +8706,7 @@
     "passive_perception": 10
   },
   {
-    "slug": "srd-2024_death-dog",
+    "slug": "srd-2024_monster_death-dog",
     "name": "Death Dog",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -8789,7 +8789,7 @@
     "passive_perception": 15
   },
   {
-    "slug": "srd-2024_deer",
+    "slug": "srd-2024_monster_deer",
     "name": "Deer",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -8872,7 +8872,7 @@
     "passive_perception": 14
   },
   {
-    "slug": "srd-2024_deva",
+    "slug": "srd-2024_monster_deva",
     "name": "Deva",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -8989,7 +8989,7 @@
     "passive_perception": 19
   },
   {
-    "slug": "srd-2024_dire-wolf",
+    "slug": "srd-2024_monster_dire-wolf",
     "name": "Dire Wolf",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -9073,7 +9073,7 @@
     "passive_perception": 15
   },
   {
-    "slug": "srd-2024_djinni",
+    "slug": "srd-2024_monster_djinni",
     "name": "Djinni",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -9183,7 +9183,7 @@
     "passive_perception": 13
   },
   {
-    "slug": "srd-2024_doppelganger",
+    "slug": "srd-2024_monster_doppelganger",
     "name": "Doppelganger",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -9278,7 +9278,7 @@
     "passive_perception": 11
   },
   {
-    "slug": "srd-2024_draft-horse",
+    "slug": "srd-2024_monster_draft-horse",
     "name": "Draft Horse",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -9349,7 +9349,7 @@
     "passive_perception": 10
   },
   {
-    "slug": "srd-2024_dragon-turtle",
+    "slug": "srd-2024_monster_dragon-turtle",
     "name": "Dragon Turtle",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -9469,7 +9469,7 @@
     "passive_perception": 11
   },
   {
-    "slug": "srd-2024_dretch",
+    "slug": "srd-2024_monster_dretch",
     "name": "Dretch",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -9562,7 +9562,7 @@
     "passive_perception": 9
   },
   {
-    "slug": "srd-2024_drider",
+    "slug": "srd-2024_monster_drider",
     "name": "Drider",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -9696,7 +9696,7 @@
     "passive_perception": 16
   },
   {
-    "slug": "srd-2024_druid",
+    "slug": "srd-2024_monster_druid",
     "name": "Druid",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -9806,7 +9806,7 @@
     "passive_perception": 15
   },
   {
-    "slug": "srd-2024_dryad",
+    "slug": "srd-2024_monster_dryad",
     "name": "Dryad",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -9935,7 +9935,7 @@
     "passive_perception": 14
   },
   {
-    "slug": "srd-2024_dust-mephit",
+    "slug": "srd-2024_monster_dust-mephit",
     "name": "Dust Mephit",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -10048,7 +10048,7 @@
     "passive_perception": 12
   },
   {
-    "slug": "srd-2024_eagle",
+    "slug": "srd-2024_monster_eagle",
     "name": "Eagle",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -10111,7 +10111,7 @@
     "passive_perception": 16
   },
   {
-    "slug": "srd-2024_earth-elemental",
+    "slug": "srd-2024_monster_earth-elemental",
     "name": "Earth Elemental",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -10233,7 +10233,7 @@
     "passive_perception": 10
   },
   {
-    "slug": "srd-2024_efreeti",
+    "slug": "srd-2024_monster_efreeti",
     "name": "Efreeti",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -10360,7 +10360,7 @@
     "passive_perception": 12
   },
   {
-    "slug": "srd-2024_elephant",
+    "slug": "srd-2024_monster_elephant",
     "name": "Elephant",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -10443,7 +10443,7 @@
     "passive_perception": 10
   },
   {
-    "slug": "srd-2024_elk",
+    "slug": "srd-2024_monster_elk",
     "name": "Elk",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -10519,7 +10519,7 @@
     "passive_perception": 12
   },
   {
-    "slug": "srd-2024_erinyes",
+    "slug": "srd-2024_monster_erinyes",
     "name": "Erinyes",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -10644,7 +10644,7 @@
     "passive_perception": 16
   },
   {
-    "slug": "srd-2024_ettercap",
+    "slug": "srd-2024_monster_ettercap",
     "name": "Ettercap",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -10776,7 +10776,7 @@
     "passive_perception": 13
   },
   {
-    "slug": "srd-2024_ettin",
+    "slug": "srd-2024_monster_ettin",
     "name": "Ettin",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -10878,7 +10878,7 @@
     "passive_perception": 14
   },
   {
-    "slug": "srd-2024_fire-elemental",
+    "slug": "srd-2024_monster_fire-elemental",
     "name": "Fire Elemental",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -10996,7 +10996,7 @@
     "passive_perception": 10
   },
   {
-    "slug": "srd-2024_fire-giant",
+    "slug": "srd-2024_monster_fire-giant",
     "name": "Fire Giant",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -11100,7 +11100,7 @@
     "passive_perception": 16
   },
   {
-    "slug": "srd-2024_flesh-golem",
+    "slug": "srd-2024_monster_flesh-golem",
     "name": "Flesh Golem",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -11222,7 +11222,7 @@
     "passive_perception": 10
   },
   {
-    "slug": "srd-2024_flying-snake",
+    "slug": "srd-2024_monster_flying-snake",
     "name": "Flying Snake",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -11279,7 +11279,7 @@
         ]
       }
     ],
-    "cr": "0.25",
+    "cr": "0.125",
     "saves": {
       "str": -3,
       "dex": 2,
@@ -11292,7 +11292,7 @@
     "passive_perception": 11
   },
   {
-    "slug": "srd-2024_frog",
+    "slug": "srd-2024_monster_frog",
     "name": "Frog",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -11371,7 +11371,7 @@
     "passive_perception": 11
   },
   {
-    "slug": "srd-2024_frost-giant",
+    "slug": "srd-2024_monster_frost-giant",
     "name": "Frost Giant",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -11485,7 +11485,7 @@
     "passive_perception": 13
   },
   {
-    "slug": "srd-2024_gargoyle",
+    "slug": "srd-2024_monster_gargoyle",
     "name": "Gargoyle",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -11583,7 +11583,7 @@
     "passive_perception": 10
   },
   {
-    "slug": "srd-2024_gelatinous-cube",
+    "slug": "srd-2024_monster_gelatinous-cube",
     "name": "Gelatinous Cube",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -11684,7 +11684,7 @@
     "passive_perception": 8
   },
   {
-    "slug": "srd-2024_ghast",
+    "slug": "srd-2024_monster_ghast",
     "name": "Ghast",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -11792,7 +11792,7 @@
     "passive_perception": 10
   },
   {
-    "slug": "srd-2024_ghost",
+    "slug": "srd-2024_monster_ghost",
     "name": "Ghost",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -11928,7 +11928,7 @@
     "passive_perception": 11
   },
   {
-    "slug": "srd-2024_ghoul",
+    "slug": "srd-2024_monster_ghoul",
     "name": "Ghoul",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -12033,7 +12033,7 @@
     "passive_perception": 10
   },
   {
-    "slug": "srd-2024_giant-ape",
+    "slug": "srd-2024_monster_giant-ape",
     "name": "Giant Ape",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -12132,7 +12132,7 @@
     "passive_perception": 14
   },
   {
-    "slug": "srd-2024_giant-badger",
+    "slug": "srd-2024_monster_giant-badger",
     "name": "Giant Badger",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -12211,7 +12211,7 @@
     "passive_perception": 13
   },
   {
-    "slug": "srd-2024_giant-bat",
+    "slug": "srd-2024_monster_giant-bat",
     "name": "Giant Bat",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -12285,7 +12285,7 @@
     "passive_perception": 11
   },
   {
-    "slug": "srd-2024_giant-boar",
+    "slug": "srd-2024_monster_giant-boar",
     "name": "Giant Boar",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -12363,7 +12363,7 @@
     "passive_perception": 8
   },
   {
-    "slug": "srd-2024_giant-centipede",
+    "slug": "srd-2024_monster_giant-centipede",
     "name": "Giant Centipede",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -12437,7 +12437,7 @@
     "passive_perception": 8
   },
   {
-    "slug": "srd-2024_giant-constrictor-snake",
+    "slug": "srd-2024_monster_giant-constrictor-snake",
     "name": "Giant Constrictor Snake",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -12526,7 +12526,7 @@
     "passive_perception": 12
   },
   {
-    "slug": "srd-2024_giant-crab",
+    "slug": "srd-2024_monster_giant-crab",
     "name": "Giant Crab",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -12610,7 +12610,7 @@
     "passive_perception": 9
   },
   {
-    "slug": "srd-2024_giant-crocodile",
+    "slug": "srd-2024_monster_giant-crocodile",
     "name": "Giant Crocodile",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -12716,7 +12716,7 @@
     "passive_perception": 10
   },
   {
-    "slug": "srd-2024_giant-eagle",
+    "slug": "srd-2024_monster_giant-eagle",
     "name": "Giant Eagle",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -12802,7 +12802,7 @@
     "passive_perception": 16
   },
   {
-    "slug": "srd-2024_giant-elk",
+    "slug": "srd-2024_monster_giant-elk",
     "name": "Giant Elk",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -12885,7 +12885,7 @@
     "passive_perception": 14
   },
   {
-    "slug": "srd-2024_giant-fire-beetle",
+    "slug": "srd-2024_monster_giant-fire-beetle",
     "name": "Giant Fire Beetle",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -12956,7 +12956,62 @@
     "passive_perception": 8
   },
   {
-    "slug": "srd-2024_giant-frog",
+    "slug": "srd-2024_monster_giant-fly",
+    "name": "Giant Fly",
+    "edition": "2024",
+    "source": "SRD 5.2",
+    "size": "large",
+    "type": "beast",
+    "ac": [
+      {
+        "ac": 11,
+        "from": [
+          "natural armor"
+        ]
+      }
+    ],
+    "hp": {
+      "average": 19,
+      "formula": "3d10 + 3"
+    },
+    "speed": {
+      "walk": 30,
+      "fly": 60
+    },
+    "abilities": {
+      "str": 14,
+      "dex": 13,
+      "con": 13,
+      "int": 2,
+      "wis": 10,
+      "cha": 3
+    },
+    "senses": [
+      "darkvision 60 ft."
+    ],
+    "languages": [],
+    "damage_vulnerabilities": [],
+    "damage_resistances": [],
+    "damage_immunities": [],
+    "condition_immunities": [],
+    "actions": [],
+    "reactions": [],
+    "legendary_actions": [],
+    "traits": [],
+    "cr": "0",
+    "saves": {
+      "str": 2,
+      "dex": 1,
+      "con": 1,
+      "int": -4,
+      "wis": 0,
+      "cha": -4
+    },
+    "alignment": "unaligned",
+    "passive_perception": 10
+  },
+  {
+    "slug": "srd-2024_monster_giant-frog",
     "name": "Giant Frog",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -13053,7 +13108,7 @@
     "passive_perception": 12
   },
   {
-    "slug": "srd-2024_giant-goat",
+    "slug": "srd-2024_monster_giant-goat",
     "name": "Giant Goat",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -13130,7 +13185,7 @@
     "passive_perception": 13
   },
   {
-    "slug": "srd-2024_giant-hyena",
+    "slug": "srd-2024_monster_giant-hyena",
     "name": "Giant Hyena",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -13216,7 +13271,7 @@
     "passive_perception": 13
   },
   {
-    "slug": "srd-2024_giant-lizard",
+    "slug": "srd-2024_monster_giant-lizard",
     "name": "Giant Lizard",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -13297,7 +13352,7 @@
     "passive_perception": 10
   },
   {
-    "slug": "srd-2024_giant-octopus",
+    "slug": "srd-2024_monster_giant-octopus",
     "name": "Giant Octopus",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -13393,7 +13448,7 @@
     "passive_perception": 14
   },
   {
-    "slug": "srd-2024_giant-owl",
+    "slug": "srd-2024_monster_giant-owl",
     "name": "Giant Owl",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -13491,7 +13546,7 @@
     "passive_perception": 16
   },
   {
-    "slug": "srd-2024_giant-rat",
+    "slug": "srd-2024_monster_giant-rat",
     "name": "Giant Rat",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -13563,7 +13618,7 @@
     "passive_perception": 12
   },
   {
-    "slug": "srd-2024_giant-scorpion",
+    "slug": "srd-2024_monster_giant-scorpion",
     "name": "Giant Scorpion",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -13660,7 +13715,7 @@
     "passive_perception": 9
   },
   {
-    "slug": "srd-2024_giant-seahorse",
+    "slug": "srd-2024_monster_giant-seahorse",
     "name": "Giant Seahorse",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -13745,7 +13800,7 @@
     "passive_perception": 11
   },
   {
-    "slug": "srd-2024_giant-shark",
+    "slug": "srd-2024_monster_giant-shark",
     "name": "Giant Shark",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -13823,7 +13878,7 @@
     "passive_perception": 13
   },
   {
-    "slug": "srd-2024_giant-spider",
+    "slug": "srd-2024_monster_giant-spider",
     "name": "Giant Spider",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -13924,7 +13979,7 @@
     "passive_perception": 14
   },
   {
-    "slug": "srd-2024_giant-toad",
+    "slug": "srd-2024_monster_giant-toad",
     "name": "Giant Toad",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -14017,7 +14072,7 @@
     "passive_perception": 10
   },
   {
-    "slug": "srd-2024_giant-venomous-snake",
+    "slug": "srd-2024_monster_giant-venomous-snake",
     "name": "Giant Venomous Snake",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -14094,7 +14149,7 @@
     "passive_perception": 12
   },
   {
-    "slug": "srd-2024_giant-vulture",
+    "slug": "srd-2024_monster_giant-vulture",
     "name": "Giant Vulture",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -14182,7 +14237,7 @@
     "passive_perception": 13
   },
   {
-    "slug": "srd-2024_giant-wasp",
+    "slug": "srd-2024_monster_giant-wasp",
     "name": "Giant Wasp",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -14261,7 +14316,7 @@
     "passive_perception": 10
   },
   {
-    "slug": "srd-2024_giant-weasel",
+    "slug": "srd-2024_monster_giant-weasel",
     "name": "Giant Weasel",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -14340,7 +14395,7 @@
     "passive_perception": 13
   },
   {
-    "slug": "srd-2024_giant-wolf-spider",
+    "slug": "srd-2024_monster_giant-wolf-spider",
     "name": "Giant Wolf Spider",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -14426,7 +14481,7 @@
     "passive_perception": 13
   },
   {
-    "slug": "srd-2024_gibbering-mouther",
+    "slug": "srd-2024_monster_gibbering-mouther",
     "name": "Gibbering Mouther",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -14523,7 +14578,7 @@
     "passive_perception": 10
   },
   {
-    "slug": "srd-2024_glabrezu",
+    "slug": "srd-2024_monster_glabrezu",
     "name": "Glabrezu",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -14641,7 +14696,7 @@
     "passive_perception": 17
   },
   {
-    "slug": "srd-2024_gladiator",
+    "slug": "srd-2024_monster_gladiator",
     "name": "Gladiator",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -14739,7 +14794,7 @@
     "passive_perception": 11
   },
   {
-    "slug": "srd-2024_gnoll-warrior",
+    "slug": "srd-2024_monster_gnoll-warrior",
     "name": "Gnoll Warrior",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -14843,7 +14898,7 @@
     "passive_perception": 10
   },
   {
-    "slug": "srd-2024_goat",
+    "slug": "srd-2024_monster_goat",
     "name": "Goat",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -14908,7 +14963,7 @@
     "passive_perception": 12
   },
   {
-    "slug": "srd-2024_goblin-boss",
+    "slug": "srd-2024_monster_goblin-boss",
     "name": "Goblin Boss",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -15025,7 +15080,7 @@
     "passive_perception": 9
   },
   {
-    "slug": "srd-2024_goblin-minion",
+    "slug": "srd-2024_monster_goblin-minion",
     "name": "Goblin Minion",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -15112,7 +15167,7 @@
     "passive_perception": 9
   },
   {
-    "slug": "srd-2024_goblin-warrior",
+    "slug": "srd-2024_monster_goblin-warrior",
     "name": "Goblin Warrior",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -15216,7 +15271,7 @@
     "passive_perception": 9
   },
   {
-    "slug": "srd-2024_gold-dragon-wyrmling",
+    "slug": "srd-2024_monster_gold-dragon-wyrmling",
     "name": "Gold Dragon Wyrmling",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -15329,7 +15384,7 @@
     "passive_perception": 14
   },
   {
-    "slug": "srd-2024_gorgon",
+    "slug": "srd-2024_monster_gorgon",
     "name": "Gorgon",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -15421,7 +15476,7 @@
     "passive_perception": 17
   },
   {
-    "slug": "srd-2024_gray-ooze",
+    "slug": "srd-2024_monster_gray-ooze",
     "name": "Gray Ooze",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -15515,7 +15570,7 @@
     "passive_perception": 8
   },
   {
-    "slug": "srd-2024_green-dragon-wyrmling",
+    "slug": "srd-2024_monster_green-dragon-wyrmling",
     "name": "Green Dragon Wyrmling",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -15628,7 +15683,7 @@
     "passive_perception": 14
   },
   {
-    "slug": "srd-2024_green-hag",
+    "slug": "srd-2024_monster_green-hag",
     "name": "Green Hag",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -15737,7 +15792,7 @@
     "passive_perception": 14
   },
   {
-    "slug": "srd-2024_grick",
+    "slug": "srd-2024_monster_grick",
     "name": "Grick",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -15838,7 +15893,7 @@
     "passive_perception": 12
   },
   {
-    "slug": "srd-2024_griffon",
+    "slug": "srd-2024_monster_griffon",
     "name": "Griffon",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -15921,7 +15976,7 @@
     "passive_perception": 15
   },
   {
-    "slug": "srd-2024_grimlock",
+    "slug": "srd-2024_monster_grimlock",
     "name": "Grimlock",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -16000,7 +16055,7 @@
     "passive_perception": 13
   },
   {
-    "slug": "srd-2024_guard",
+    "slug": "srd-2024_monster_guard",
     "name": "Guard",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -16078,7 +16133,7 @@
     "passive_perception": 12
   },
   {
-    "slug": "srd-2024_guard-captain",
+    "slug": "srd-2024_monster_guard-captain",
     "name": "Guard Captain",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -16181,7 +16236,7 @@
     "passive_perception": 14
   },
   {
-    "slug": "srd-2024_guardian-naga",
+    "slug": "srd-2024_monster_guardian-naga",
     "name": "Guardian Naga",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -16296,7 +16351,7 @@
     "passive_perception": 14
   },
   {
-    "slug": "srd-2024_half-dragon",
+    "slug": "srd-2024_monster_half-dragon",
     "name": "Half-Dragon",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -16407,7 +16462,7 @@
     "passive_perception": 15
   },
   {
-    "slug": "srd-2024_harpy",
+    "slug": "srd-2024_monster_harpy",
     "name": "Harpy",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -16487,7 +16542,7 @@
     "passive_perception": 10
   },
   {
-    "slug": "srd-2024_hawk",
+    "slug": "srd-2024_monster_hawk",
     "name": "Hawk",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -16550,7 +16605,7 @@
     "passive_perception": 16
   },
   {
-    "slug": "srd-2024_hell-hound",
+    "slug": "srd-2024_monster_hell-hound",
     "name": "Hell Hound",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -16653,7 +16708,7 @@
     "passive_perception": 15
   },
   {
-    "slug": "srd-2024_hezrou",
+    "slug": "srd-2024_monster_hezrou",
     "name": "Hezrou",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -16767,7 +16822,7 @@
     "passive_perception": 11
   },
   {
-    "slug": "srd-2024_hill-giant",
+    "slug": "srd-2024_monster_hill-giant",
     "name": "Hill Giant",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -16868,7 +16923,7 @@
     "passive_perception": 12
   },
   {
-    "slug": "srd-2024_hippogriff",
+    "slug": "srd-2024_monster_hippogriff",
     "name": "Hippogriff",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -16956,7 +17011,7 @@
     "passive_perception": 15
   },
   {
-    "slug": "srd-2024_hippopotamus",
+    "slug": "srd-2024_monster_hippopotamus",
     "name": "Hippopotamus",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -17044,7 +17099,7 @@
     "passive_perception": 13
   },
   {
-    "slug": "srd-2024_hobgoblin-captain",
+    "slug": "srd-2024_monster_hobgoblin-captain",
     "name": "Hobgoblin Captain",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -17152,7 +17207,7 @@
     "passive_perception": 10
   },
   {
-    "slug": "srd-2024_hobgoblin-warrior",
+    "slug": "srd-2024_monster_hobgoblin-warrior",
     "name": "Hobgoblin Warrior",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -17254,7 +17309,7 @@
     "passive_perception": 10
   },
   {
-    "slug": "srd-2024_homunculus",
+    "slug": "srd-2024_monster_homunculus",
     "name": "Homunculus",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -17330,7 +17385,7 @@
     "passive_perception": 10
   },
   {
-    "slug": "srd-2024_horned-devil",
+    "slug": "srd-2024_monster_horned-devil",
     "name": "Horned Devil",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -17454,7 +17509,7 @@
     "passive_perception": 13
   },
   {
-    "slug": "srd-2024_hunter-shark",
+    "slug": "srd-2024_monster_hunter-shark",
     "name": "Hunter Shark",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -17526,7 +17581,7 @@
     "passive_perception": 12
   },
   {
-    "slug": "srd-2024_hydra",
+    "slug": "srd-2024_monster_hydra",
     "name": "Hydra",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -17628,7 +17683,7 @@
     "passive_perception": 16
   },
   {
-    "slug": "srd-2024_hyena",
+    "slug": "srd-2024_monster_hyena",
     "name": "Hyena",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -17711,7 +17766,7 @@
     "passive_perception": 13
   },
   {
-    "slug": "srd-2024_ice-devil",
+    "slug": "srd-2024_monster_ice-devil",
     "name": "Ice Devil",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -17846,7 +17901,7 @@
     "passive_perception": 17
   },
   {
-    "slug": "srd-2024_ice-mephit",
+    "slug": "srd-2024_monster_ice-mephit",
     "name": "Ice Mephit",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -17960,7 +18015,7 @@
     "passive_perception": 12
   },
   {
-    "slug": "srd-2024_imp",
+    "slug": "srd-2024_monster_imp",
     "name": "Imp",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -18068,7 +18123,7 @@
     "passive_perception": 11
   },
   {
-    "slug": "srd-2024_incubus",
+    "slug": "srd-2024_monster_incubus",
     "name": "Incubus",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -18187,7 +18242,7 @@
     "passive_perception": 15
   },
   {
-    "slug": "srd-2024_invisible-stalker",
+    "slug": "srd-2024_monster_invisible-stalker",
     "name": "Invisible Stalker",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -18304,7 +18359,7 @@
     "passive_perception": 18
   },
   {
-    "slug": "srd-2024_iron-golem",
+    "slug": "srd-2024_monster_iron-golem",
     "name": "Iron Golem",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -18443,7 +18498,7 @@
     "passive_perception": 10
   },
   {
-    "slug": "srd-2024_jackal",
+    "slug": "srd-2024_monster_jackal",
     "name": "Jackal",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -18520,7 +18575,7 @@
     "passive_perception": 15
   },
   {
-    "slug": "srd-2024_killer-whale",
+    "slug": "srd-2024_monster_killer-whale",
     "name": "Killer Whale",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -18605,7 +18660,7 @@
     "passive_perception": 13
   },
   {
-    "slug": "srd-2024_knight",
+    "slug": "srd-2024_monster_knight",
     "name": "Knight",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -18710,7 +18765,7 @@
     "passive_perception": 10
   },
   {
-    "slug": "srd-2024_kobold-warrior",
+    "slug": "srd-2024_monster_kobold-warrior",
     "name": "Kobold Warrior",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -18801,7 +18856,7 @@
     "passive_perception": 8
   },
   {
-    "slug": "srd-2024_kraken",
+    "slug": "srd-2024_monster_kraken",
     "name": "Kraken",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -18949,7 +19004,7 @@
     "legendary_resistance": 4
   },
   {
-    "slug": "srd-2024_lamia",
+    "slug": "srd-2024_monster_lamia",
     "name": "Lamia",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -19054,7 +19109,7 @@
     "passive_perception": 12
   },
   {
-    "slug": "srd-2024_lemure",
+    "slug": "srd-2024_monster_lemure",
     "name": "Lemure",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -19145,7 +19200,7 @@
     "passive_perception": 10
   },
   {
-    "slug": "srd-2024_lich",
+    "slug": "srd-2024_monster_lich",
     "name": "Lich",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -19309,7 +19364,7 @@
     "legendary_resistance": 4
   },
   {
-    "slug": "srd-2024_lion",
+    "slug": "srd-2024_monster_lion",
     "name": "Lion",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -19411,7 +19466,7 @@
     "passive_perception": 13
   },
   {
-    "slug": "srd-2024_lizard",
+    "slug": "srd-2024_monster_lizard",
     "name": "Lizard",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -19480,7 +19535,7 @@
     "passive_perception": 9
   },
   {
-    "slug": "srd-2024_mage",
+    "slug": "srd-2024_monster_mage",
     "name": "Mage",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -19592,7 +19647,7 @@
     "passive_perception": 14
   },
   {
-    "slug": "srd-2024_magma-mephit",
+    "slug": "srd-2024_monster_magma-mephit",
     "name": "Magma Mephit",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -19695,7 +19750,7 @@
     "passive_perception": 10
   },
   {
-    "slug": "srd-2024_magmin",
+    "slug": "srd-2024_monster_magmin",
     "name": "Magmin",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -19785,7 +19840,7 @@
     "passive_perception": 10
   },
   {
-    "slug": "srd-2024_mammoth",
+    "slug": "srd-2024_monster_mammoth",
     "name": "Mammoth",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -19868,7 +19923,7 @@
     "passive_perception": 10
   },
   {
-    "slug": "srd-2024_manticore",
+    "slug": "srd-2024_monster_manticore",
     "name": "Manticore",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -19969,7 +20024,7 @@
     "passive_perception": 11
   },
   {
-    "slug": "srd-2024_marilith",
+    "slug": "srd-2024_monster_marilith",
     "name": "Marilith",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -20104,7 +20159,7 @@
     "passive_perception": 18
   },
   {
-    "slug": "srd-2024_mastiff",
+    "slug": "srd-2024_monster_mastiff",
     "name": "Mastiff",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -20180,7 +20235,7 @@
     "passive_perception": 15
   },
   {
-    "slug": "srd-2024_medusa",
+    "slug": "srd-2024_monster_medusa",
     "name": "Medusa",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -20312,7 +20367,7 @@
     "passive_perception": 14
   },
   {
-    "slug": "srd-2024_merfolk-skirmisher",
+    "slug": "srd-2024_monster_merfolk-skirmisher",
     "name": "Merfolk Skirmisher",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -20396,7 +20451,7 @@
     "passive_perception": 12
   },
   {
-    "slug": "srd-2024_merrow",
+    "slug": "srd-2024_monster_merrow",
     "name": "Merrow",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -20524,7 +20579,7 @@
     "passive_perception": 10
   },
   {
-    "slug": "srd-2024_mimic",
+    "slug": "srd-2024_monster_mimic",
     "name": "Mimic",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -20623,7 +20678,7 @@
     "passive_perception": 11
   },
   {
-    "slug": "srd-2024_minotaur-of-baphomet",
+    "slug": "srd-2024_monster_minotaur-of-baphomet",
     "name": "Minotaur of Baphomet",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -20724,7 +20779,7 @@
     "passive_perception": 17
   },
   {
-    "slug": "srd-2024_minotaur-skeleton",
+    "slug": "srd-2024_monster_minotaur-skeleton",
     "name": "Minotaur Skeleton",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -20822,7 +20877,7 @@
     "passive_perception": 9
   },
   {
-    "slug": "srd-2024_mule",
+    "slug": "srd-2024_monster_mule",
     "name": "Mule",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -20900,7 +20955,7 @@
     "passive_perception": 10
   },
   {
-    "slug": "srd-2024_mummy",
+    "slug": "srd-2024_monster_mummy",
     "name": "Mummy",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -20996,7 +21051,7 @@
     "passive_perception": 11
   },
   {
-    "slug": "srd-2024_mummy-lord",
+    "slug": "srd-2024_monster_mummy-lord",
     "name": "Mummy Lord",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -21167,7 +21222,7 @@
     "legendary_resistance": 3
   },
   {
-    "slug": "srd-2024_nalfeshnee",
+    "slug": "srd-2024_monster_nalfeshnee",
     "name": "Nalfeshnee",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -21294,7 +21349,7 @@
     "passive_perception": 11
   },
   {
-    "slug": "srd-2024_night-hag",
+    "slug": "srd-2024_monster_night-hag",
     "name": "Night Hag",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -21422,7 +21477,7 @@
     "passive_perception": 15
   },
   {
-    "slug": "srd-2024_nightmare",
+    "slug": "srd-2024_monster_nightmare",
     "name": "Nightmare",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -21519,7 +21574,7 @@
     "passive_perception": 11
   },
   {
-    "slug": "srd-2024_noble",
+    "slug": "srd-2024_monster_noble",
     "name": "Noble",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -21604,7 +21659,7 @@
     "passive_perception": 12
   },
   {
-    "slug": "srd-2024_ochre-jelly",
+    "slug": "srd-2024_monster_ochre-jelly",
     "name": "Ochre Jelly",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -21710,7 +21765,7 @@
     "passive_perception": 8
   },
   {
-    "slug": "srd-2024_octopus",
+    "slug": "srd-2024_monster_octopus",
     "name": "Octopus",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -21808,7 +21863,7 @@
     "passive_perception": 12
   },
   {
-    "slug": "srd-2024_ogre",
+    "slug": "srd-2024_monster_ogre",
     "name": "Ogre",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -21904,7 +21959,7 @@
     "passive_perception": 8
   },
   {
-    "slug": "srd-2024_ogre-zombie",
+    "slug": "srd-2024_monster_ogre-zombie",
     "name": "Ogre Zombie",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -21991,7 +22046,7 @@
     "passive_perception": 8
   },
   {
-    "slug": "srd-2024_oni",
+    "slug": "srd-2024_monster_oni",
     "name": "Oni",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -22124,7 +22179,7 @@
     "passive_perception": 14
   },
   {
-    "slug": "srd-2024_otyugh",
+    "slug": "srd-2024_monster_otyugh",
     "name": "Otyugh",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -22229,7 +22284,7 @@
     "passive_perception": 11
   },
   {
-    "slug": "srd-2024_owl",
+    "slug": "srd-2024_monster_owl",
     "name": "Owl",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -22302,7 +22357,7 @@
     "passive_perception": 15
   },
   {
-    "slug": "srd-2024_owlbear",
+    "slug": "srd-2024_monster_owlbear",
     "name": "Owlbear",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -22385,7 +22440,7 @@
     "passive_perception": 15
   },
   {
-    "slug": "srd-2024_panther",
+    "slug": "srd-2024_monster_panther",
     "name": "Panther",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -22452,7 +22507,7 @@
     "reactions": [],
     "legendary_actions": [],
     "traits": [],
-    "cr": "1",
+    "cr": "0.25",
     "saves": {
       "str": 2,
       "dex": 3,
@@ -22469,7 +22524,7 @@
     "passive_perception": 14
   },
   {
-    "slug": "srd-2024_pegasus",
+    "slug": "srd-2024_monster_pegasus",
     "name": "Pegasus",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -22549,7 +22604,7 @@
     "passive_perception": 16
   },
   {
-    "slug": "srd-2024_phase-spider",
+    "slug": "srd-2024_monster_phase-spider",
     "name": "Phase Spider",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -22657,7 +22712,7 @@
     "passive_perception": 10
   },
   {
-    "slug": "srd-2024_piranha",
+    "slug": "srd-2024_monster_piranha",
     "name": "Piranha",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -22726,7 +22781,7 @@
     "passive_perception": 8
   },
   {
-    "slug": "srd-2024_pirate",
+    "slug": "srd-2024_monster_pirate",
     "name": "Pirate",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -22813,7 +22868,7 @@
     "passive_perception": 11
   },
   {
-    "slug": "srd-2024_pirate-captain",
+    "slug": "srd-2024_monster_pirate-captain",
     "name": "Pirate Captain",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -22928,7 +22983,7 @@
     "passive_perception": 15
   },
   {
-    "slug": "srd-2024_pit-fiend",
+    "slug": "srd-2024_monster_pit-fiend",
     "name": "Pit Fiend",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -23093,7 +23148,7 @@
     "legendary_resistance": 4
   },
   {
-    "slug": "srd-2024_planetar",
+    "slug": "srd-2024_monster_planetar",
     "name": "Planetar",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -23221,7 +23276,7 @@
     "passive_perception": 21
   },
   {
-    "slug": "srd-2024_plesiosaurus",
+    "slug": "srd-2024_monster_plesiosaurus",
     "name": "Plesiosaurus",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -23304,7 +23359,7 @@
     "passive_perception": 13
   },
   {
-    "slug": "srd-2024_polar-bear",
+    "slug": "srd-2024_monster_polar-bear",
     "name": "Polar Bear",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -23390,7 +23445,7 @@
     "passive_perception": 15
   },
   {
-    "slug": "srd-2024_pony",
+    "slug": "srd-2024_monster_pony",
     "name": "Pony",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -23461,7 +23516,7 @@
     "passive_perception": 10
   },
   {
-    "slug": "srd-2024_priest",
+    "slug": "srd-2024_monster_priest",
     "name": "Priest",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -23579,7 +23634,7 @@
     "passive_perception": 15
   },
   {
-    "slug": "srd-2024_priest-acolyte",
+    "slug": "srd-2024_monster_priest-acolyte",
     "name": "Priest Acolyte",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -23690,7 +23745,7 @@
     "passive_perception": 12
   },
   {
-    "slug": "srd-2024_pseudodragon",
+    "slug": "srd-2024_monster_pseudodragon",
     "name": "Pseudodragon",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -23790,7 +23845,7 @@
     "passive_perception": 15
   },
   {
-    "slug": "srd-2024_pteranodon",
+    "slug": "srd-2024_monster_pteranodon",
     "name": "Pteranodon",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -23872,7 +23927,7 @@
     "passive_perception": 11
   },
   {
-    "slug": "srd-2024_purple-worm",
+    "slug": "srd-2024_monster_purple-worm",
     "name": "Purple Worm",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -23984,7 +24039,7 @@
     "passive_perception": 9
   },
   {
-    "slug": "srd-2024_quasit",
+    "slug": "srd-2024_monster_quasit",
     "name": "Quasit",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -24100,7 +24155,7 @@
     "passive_perception": 10
   },
   {
-    "slug": "srd-2024_rakshasa",
+    "slug": "srd-2024_monster_rakshasa",
     "name": "Rakshasa",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -24216,7 +24271,7 @@
     "passive_perception": 18
   },
   {
-    "slug": "srd-2024_rat",
+    "slug": "srd-2024_monster_rat",
     "name": "Rat",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -24288,7 +24343,7 @@
     "passive_perception": 12
   },
   {
-    "slug": "srd-2024_raven",
+    "slug": "srd-2024_monster_raven",
     "name": "Raven",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -24358,7 +24413,7 @@
     "passive_perception": 13
   },
   {
-    "slug": "srd-2024_red-dragon-wyrmling",
+    "slug": "srd-2024_monster_red-dragon-wyrmling",
     "name": "Red Dragon Wyrmling",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -24462,7 +24517,7 @@
     "passive_perception": 14
   },
   {
-    "slug": "srd-2024_reef-shark",
+    "slug": "srd-2024_monster_reef-shark",
     "name": "Reef Shark",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -24552,7 +24607,7 @@
     "passive_perception": 12
   },
   {
-    "slug": "srd-2024_remorhaz",
+    "slug": "srd-2024_monster_remorhaz",
     "name": "Remorhaz",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -24643,7 +24698,7 @@
     "passive_perception": 10
   },
   {
-    "slug": "srd-2024_rhinoceros",
+    "slug": "srd-2024_monster_rhinoceros",
     "name": "Rhinoceros",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -24714,7 +24769,7 @@
     "passive_perception": 11
   },
   {
-    "slug": "srd-2024_riding-horse",
+    "slug": "srd-2024_monster_riding-horse",
     "name": "Riding Horse",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -24785,7 +24840,7 @@
     "passive_perception": 10
   },
   {
-    "slug": "srd-2024_roc",
+    "slug": "srd-2024_monster_roc",
     "name": "Roc",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -24894,7 +24949,7 @@
     "passive_perception": 18
   },
   {
-    "slug": "srd-2024_roper",
+    "slug": "srd-2024_monster_roper",
     "name": "Roper",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -24997,7 +25052,7 @@
     "passive_perception": 16
   },
   {
-    "slug": "srd-2024_rust-monster",
+    "slug": "srd-2024_monster_rust-monster",
     "name": "Rust Monster",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -25102,7 +25157,7 @@
     "passive_perception": 11
   },
   {
-    "slug": "srd-2024_saber-toothed-tiger",
+    "slug": "srd-2024_monster_saber-toothed-tiger",
     "name": "Saber-Toothed Tiger",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -25198,7 +25253,7 @@
     "passive_perception": 15
   },
   {
-    "slug": "srd-2024_sahuagin-warrior",
+    "slug": "srd-2024_monster_sahuagin-warrior",
     "name": "Sahuagin Warrior",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -25311,7 +25366,7 @@
     "passive_perception": 15
   },
   {
-    "slug": "srd-2024_salamander",
+    "slug": "srd-2024_monster_salamander",
     "name": "Salamander",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -25410,7 +25465,7 @@
     "passive_perception": 10
   },
   {
-    "slug": "srd-2024_satyr",
+    "slug": "srd-2024_monster_satyr",
     "name": "Satyr",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -25503,7 +25558,7 @@
     "passive_perception": 12
   },
   {
-    "slug": "srd-2024_scorpion",
+    "slug": "srd-2024_monster_scorpion",
     "name": "Scorpion",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -25564,7 +25619,7 @@
     "passive_perception": 9
   },
   {
-    "slug": "srd-2024_scout",
+    "slug": "srd-2024_monster_scout",
     "name": "Scout",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -25668,7 +25723,7 @@
     "passive_perception": 15
   },
   {
-    "slug": "srd-2024_sea-hag",
+    "slug": "srd-2024_monster_sea-hag",
     "name": "Sea Hag",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -25775,7 +25830,7 @@
     "passive_perception": 11
   },
   {
-    "slug": "srd-2024_seahorse",
+    "slug": "srd-2024_monster_seahorse",
     "name": "Seahorse",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -25846,7 +25901,7 @@
     "passive_perception": 12
   },
   {
-    "slug": "srd-2024_shadow",
+    "slug": "srd-2024_monster_shadow",
     "name": "Shadow",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -25960,7 +26015,7 @@
     "passive_perception": 10
   },
   {
-    "slug": "srd-2024_shambling-mound",
+    "slug": "srd-2024_monster_shambling-mound",
     "name": "Shambling Mound",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -26064,7 +26119,7 @@
     "passive_perception": 10
   },
   {
-    "slug": "srd-2024_shield-guardian",
+    "slug": "srd-2024_monster_shield-guardian",
     "name": "Shield Guardian",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -26181,7 +26236,7 @@
     "passive_perception": 10
   },
   {
-    "slug": "srd-2024_shrieker-fungus",
+    "slug": "srd-2024_monster_shrieker-fungus",
     "name": "Shrieker Fungus",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -26242,7 +26297,7 @@
     "passive_perception": 6
   },
   {
-    "slug": "srd-2024_silver-dragon-wyrmling",
+    "slug": "srd-2024_monster_silver-dragon-wyrmling",
     "name": "Silver Dragon Wyrmling",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -26347,7 +26402,7 @@
     "passive_perception": 14
   },
   {
-    "slug": "srd-2024_skeleton",
+    "slug": "srd-2024_monster_skeleton",
     "name": "Skeleton",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -26446,7 +26501,7 @@
     "passive_perception": 9
   },
   {
-    "slug": "srd-2024_solar",
+    "slug": "srd-2024_monster_solar",
     "name": "Solar",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -26601,7 +26656,7 @@
     "legendary_resistance": 4
   },
   {
-    "slug": "srd-2024_specter",
+    "slug": "srd-2024_monster_specter",
     "name": "Specter",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -26709,7 +26764,7 @@
     "passive_perception": 10
   },
   {
-    "slug": "srd-2024_sphinx-of-lore",
+    "slug": "srd-2024_monster_sphinx-of-lore",
     "name": "Sphinx of Lore",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -26849,7 +26904,7 @@
     "legendary_resistance": 3
   },
   {
-    "slug": "srd-2024_sphinx-of-valor",
+    "slug": "srd-2024_monster_sphinx-of-valor",
     "name": "Sphinx of Valor",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -26988,7 +27043,7 @@
     "legendary_resistance": 3
   },
   {
-    "slug": "srd-2024_sphinx-of-wonder",
+    "slug": "srd-2024_monster_sphinx-of-wonder",
     "name": "Sphinx of Wonder",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -27092,7 +27147,7 @@
     "passive_perception": 11
   },
   {
-    "slug": "srd-2024_spider",
+    "slug": "srd-2024_monster_spider",
     "name": "Spider",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -27170,7 +27225,7 @@
     "passive_perception": 10
   },
   {
-    "slug": "srd-2024_spirit-naga",
+    "slug": "srd-2024_monster_spirit-naga",
     "name": "Spirit Naga",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -27288,7 +27343,7 @@
     "passive_perception": 12
   },
   {
-    "slug": "srd-2024_sprite",
+    "slug": "srd-2024_monster_sprite",
     "name": "Sprite",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -27386,7 +27441,7 @@
     "passive_perception": 13
   },
   {
-    "slug": "srd-2024_spy",
+    "slug": "srd-2024_monster_spy",
     "name": "Spy",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -27493,7 +27548,7 @@
     "passive_perception": 16
   },
   {
-    "slug": "srd-2024_steam-mephit",
+    "slug": "srd-2024_monster_steam-mephit",
     "name": "Steam Mephit",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -27602,7 +27657,7 @@
     "passive_perception": 10
   },
   {
-    "slug": "srd-2024_stirge",
+    "slug": "srd-2024_monster_stirge",
     "name": "Stirge",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -27676,7 +27731,7 @@
     "passive_perception": 9
   },
   {
-    "slug": "srd-2024_stone-giant",
+    "slug": "srd-2024_monster_stone-giant",
     "name": "Stone Giant",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -27792,7 +27847,7 @@
     "passive_perception": 14
   },
   {
-    "slug": "srd-2024_stone-golem",
+    "slug": "srd-2024_monster_stone-golem",
     "name": "Stone Golem",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -27924,7 +27979,7 @@
     "passive_perception": 10
   },
   {
-    "slug": "srd-2024_storm-giant",
+    "slug": "srd-2024_monster_storm-giant",
     "name": "Storm Giant",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -28061,7 +28116,7 @@
     "passive_perception": 20
   },
   {
-    "slug": "srd-2024_succubus",
+    "slug": "srd-2024_monster_succubus",
     "name": "Succubus",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -28182,7 +28237,7 @@
     "passive_perception": 15
   },
   {
-    "slug": "srd-2024_swarm-of-bats",
+    "slug": "srd-2024_monster_swarm-of-bats",
     "name": "Swarm of Bats",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -28263,7 +28318,7 @@
     "passive_perception": 11
   },
   {
-    "slug": "srd-2024_swarm-of-crawling-claws",
+    "slug": "srd-2024_monster_swarm-of-crawling-claws",
     "name": "Swarm of Crawling Claws",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -28361,7 +28416,7 @@
     "passive_perception": 10
   },
   {
-    "slug": "srd-2024_swarm-of-insects",
+    "slug": "srd-2024_monster_swarm-of-insects",
     "name": "Swarm of Insects",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -28380,7 +28435,8 @@
       "formula": "3d8 + 6"
     },
     "speed": {
-      "walk": 20
+      "walk": 20,
+      "fly": 20
     },
     "abilities": {
       "str": 3,
@@ -28447,7 +28503,7 @@
     "passive_perception": 8
   },
   {
-    "slug": "srd-2024_swarm-of-piranhas",
+    "slug": "srd-2024_monster_swarm-of-piranhas",
     "name": "Swarm of Piranhas",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -28522,7 +28578,7 @@
     "passive_perception": 8
   },
   {
-    "slug": "srd-2024_swarm-of-rats",
+    "slug": "srd-2024_monster_swarm-of-rats",
     "name": "Swarm of Rats",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -28590,7 +28646,7 @@
         ]
       }
     ],
-    "cr": "1",
+    "cr": "0.25",
     "saves": {
       "str": -1,
       "dex": 0,
@@ -28603,7 +28659,7 @@
     "passive_perception": 10
   },
   {
-    "slug": "srd-2024_swarm-of-ravens",
+    "slug": "srd-2024_monster_swarm-of-ravens",
     "name": "Swarm of Ravens",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -28695,7 +28751,7 @@
     "passive_perception": 15
   },
   {
-    "slug": "srd-2024_swarm-of-venomous-snakes",
+    "slug": "srd-2024_monster_swarm-of-venomous-snakes",
     "name": "Swarm of Venomous Snakes",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -28776,7 +28832,7 @@
     "passive_perception": 10
   },
   {
-    "slug": "srd-2024_tarrasque",
+    "slug": "srd-2024_monster_tarrasque",
     "name": "Tarrasque",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -28960,7 +29016,7 @@
     "legendary_resistance": 6
   },
   {
-    "slug": "srd-2024_tiger",
+    "slug": "srd-2024_monster_tiger",
     "name": "Tiger",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -29043,7 +29099,7 @@
     "passive_perception": 13
   },
   {
-    "slug": "srd-2024_tough",
+    "slug": "srd-2024_monster_tough",
     "name": "Tough",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -29142,7 +29198,7 @@
     "passive_perception": 10
   },
   {
-    "slug": "srd-2024_tough-boss",
+    "slug": "srd-2024_monster_tough-boss",
     "name": "Tough Boss",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -29247,7 +29303,7 @@
     "passive_perception": 10
   },
   {
-    "slug": "srd-2024_treant",
+    "slug": "srd-2024_monster_treant",
     "name": "Treant",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -29364,7 +29420,7 @@
     "passive_perception": 13
   },
   {
-    "slug": "srd-2024_triceratops",
+    "slug": "srd-2024_monster_triceratops",
     "name": "Triceratops",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -29441,7 +29497,7 @@
     "passive_perception": 10
   },
   {
-    "slug": "srd-2024_troll",
+    "slug": "srd-2024_monster_troll",
     "name": "Troll",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -29544,7 +29600,7 @@
     "passive_perception": 15
   },
   {
-    "slug": "srd-2024_troll-limb",
+    "slug": "srd-2024_monster_troll-limb",
     "name": "Troll Limb",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -29630,7 +29686,7 @@
     "passive_perception": 9
   },
   {
-    "slug": "srd-2024_tyrannosaurus-rex",
+    "slug": "srd-2024_monster_tyrannosaurus-rex",
     "name": "Tyrannosaurus Rex",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -29728,7 +29784,7 @@
     "passive_perception": 14
   },
   {
-    "slug": "srd-2024_unicorn",
+    "slug": "srd-2024_monster_unicorn",
     "name": "Unicorn",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -29878,7 +29934,7 @@
     "legendary_resistance": 3
   },
   {
-    "slug": "srd-2024_vampire",
+    "slug": "srd-2024_monster_vampire",
     "name": "Vampire",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -30027,7 +30083,7 @@
     "legendary_resistance": 3
   },
   {
-    "slug": "srd-2024_vampire-familiar",
+    "slug": "srd-2024_monster_vampire-familiar",
     "name": "Vampire Familiar",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -30131,7 +30187,7 @@
     "passive_perception": 14
   },
   {
-    "slug": "srd-2024_vampire-spawn",
+    "slug": "srd-2024_monster_vampire-spawn",
     "name": "Vampire Spawn",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -30243,7 +30299,7 @@
     "passive_perception": 13
   },
   {
-    "slug": "srd-2024_venomous-snake",
+    "slug": "srd-2024_monster_venomous-snake",
     "name": "Venomous Snake",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -30317,7 +30373,7 @@
     "passive_perception": 10
   },
   {
-    "slug": "srd-2024_violet-fungus",
+    "slug": "srd-2024_monster_violet-fungus",
     "name": "Violet Fungus",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -30396,7 +30452,7 @@
     "passive_perception": 6
   },
   {
-    "slug": "srd-2024_vrock",
+    "slug": "srd-2024_monster_vrock",
     "name": "Vrock",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -30519,7 +30575,7 @@
     "passive_perception": 11
   },
   {
-    "slug": "srd-2024_vulture",
+    "slug": "srd-2024_monster_vulture",
     "name": "Vulture",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -30601,7 +30657,7 @@
     "passive_perception": 13
   },
   {
-    "slug": "srd-2024_warhorse",
+    "slug": "srd-2024_monster_warhorse",
     "name": "Warhorse",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -30672,7 +30728,7 @@
     "passive_perception": 11
   },
   {
-    "slug": "srd-2024_warhorse-skeleton",
+    "slug": "srd-2024_monster_warhorse-skeleton",
     "name": "Warhorse Skeleton",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -30750,7 +30806,7 @@
     "passive_perception": 9
   },
   {
-    "slug": "srd-2024_warrior-infantry",
+    "slug": "srd-2024_monster_warrior-infantry",
     "name": "Warrior Infantry",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -30832,7 +30888,7 @@
     "passive_perception": 10
   },
   {
-    "slug": "srd-2024_warrior-veteran",
+    "slug": "srd-2024_monster_warrior-veteran",
     "name": "Warrior Veteran",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -30941,7 +30997,7 @@
     "passive_perception": 12
   },
   {
-    "slug": "srd-2024_water-elemental",
+    "slug": "srd-2024_monster_water-elemental",
     "name": "Water Elemental",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -31060,7 +31116,7 @@
     "passive_perception": 10
   },
   {
-    "slug": "srd-2024_weasel",
+    "slug": "srd-2024_monster_weasel",
     "name": "Weasel",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -31127,7 +31183,7 @@
     "passive_perception": 13
   },
   {
-    "slug": "srd-2024_werebear",
+    "slug": "srd-2024_monster_werebear",
     "name": "Werebear",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -31256,7 +31312,7 @@
     "passive_perception": 17
   },
   {
-    "slug": "srd-2024_wereboar",
+    "slug": "srd-2024_monster_wereboar",
     "name": "Wereboar",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -31382,7 +31438,7 @@
     "passive_perception": 12
   },
   {
-    "slug": "srd-2024_wererat",
+    "slug": "srd-2024_monster_wererat",
     "name": "Wererat",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -31511,7 +31567,7 @@
     "passive_perception": 14
   },
   {
-    "slug": "srd-2024_weretiger",
+    "slug": "srd-2024_monster_weretiger",
     "name": "Weretiger",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -31645,7 +31701,7 @@
     "passive_perception": 15
   },
   {
-    "slug": "srd-2024_werewolf",
+    "slug": "srd-2024_monster_werewolf",
     "name": "Werewolf",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -31780,7 +31836,7 @@
     "passive_perception": 14
   },
   {
-    "slug": "srd-2024_white-dragon-wyrmling",
+    "slug": "srd-2024_monster_white-dragon-wyrmling",
     "name": "White Dragon Wyrmling",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -31892,7 +31948,7 @@
     "passive_perception": 14
   },
   {
-    "slug": "srd-2024_wight",
+    "slug": "srd-2024_monster_wight",
     "name": "Wight",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -32016,7 +32072,7 @@
     "passive_perception": 13
   },
   {
-    "slug": "srd-2024_will-o-wisp",
+    "slug": "srd-2024_monster_will-o-wisp",
     "name": "Will-o'-Wisp",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -32140,7 +32196,7 @@
     "passive_perception": 12
   },
   {
-    "slug": "srd-2024_winter-wolf",
+    "slug": "srd-2024_monster_winter-wolf",
     "name": "Winter Wolf",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -32237,7 +32293,7 @@
     "passive_perception": 15
   },
   {
-    "slug": "srd-2024_wolf",
+    "slug": "srd-2024_monster_wolf",
     "name": "Wolf",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -32321,7 +32377,7 @@
     "passive_perception": 15
   },
   {
-    "slug": "srd-2024_worg",
+    "slug": "srd-2024_monster_worg",
     "name": "Worg",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -32400,7 +32456,7 @@
     "passive_perception": 14
   },
   {
-    "slug": "srd-2024_wraith",
+    "slug": "srd-2024_monster_wraith",
     "name": "Wraith",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -32512,7 +32568,7 @@
     "passive_perception": 12
   },
   {
-    "slug": "srd-2024_wyvern",
+    "slug": "srd-2024_monster_wyvern",
     "name": "Wyvern",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -32613,7 +32669,7 @@
     "passive_perception": 14
   },
   {
-    "slug": "srd-2024_xorn",
+    "slug": "srd-2024_monster_xorn",
     "name": "Xorn",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -32743,7 +32799,7 @@
     "passive_perception": 16
   },
   {
-    "slug": "srd-2024_young-black-dragon",
+    "slug": "srd-2024_monster_young-black-dragon",
     "name": "Young Black Dragon",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -32855,7 +32911,7 @@
     "passive_perception": 16
   },
   {
-    "slug": "srd-2024_young-blue-dragon",
+    "slug": "srd-2024_monster_young-blue-dragon",
     "name": "Young Blue Dragon",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -32960,7 +33016,7 @@
     "passive_perception": 19
   },
   {
-    "slug": "srd-2024_young-brass-dragon",
+    "slug": "srd-2024_monster_young-brass-dragon",
     "name": "Young Brass Dragon",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -33068,7 +33124,7 @@
     "passive_perception": 16
   },
   {
-    "slug": "srd-2024_young-bronze-dragon",
+    "slug": "srd-2024_monster_young-bronze-dragon",
     "name": "Young Bronze Dragon",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -33183,7 +33239,7 @@
     "passive_perception": 17
   },
   {
-    "slug": "srd-2024_young-copper-dragon",
+    "slug": "srd-2024_monster_young-copper-dragon",
     "name": "Young Copper Dragon",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -33291,7 +33347,7 @@
     "passive_perception": 17
   },
   {
-    "slug": "srd-2024_young-gold-dragon",
+    "slug": "srd-2024_monster_young-gold-dragon",
     "name": "Young Gold Dragon",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -33407,7 +33463,7 @@
     "passive_perception": 19
   },
   {
-    "slug": "srd-2024_young-green-dragon",
+    "slug": "srd-2024_monster_young-green-dragon",
     "name": "Young Green Dragon",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -33522,7 +33578,7 @@
     "passive_perception": 17
   },
   {
-    "slug": "srd-2024_young-red-dragon",
+    "slug": "srd-2024_monster_young-red-dragon",
     "name": "Young Red Dragon",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -33627,7 +33683,7 @@
     "passive_perception": 18
   },
   {
-    "slug": "srd-2024_young-silver-dragon",
+    "slug": "srd-2024_monster_young-silver-dragon",
     "name": "Young Silver Dragon",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -33734,7 +33790,7 @@
     "passive_perception": 18
   },
   {
-    "slug": "srd-2024_young-white-dragon",
+    "slug": "srd-2024_monster_young-white-dragon",
     "name": "Young White Dragon",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -33847,7 +33903,7 @@
     "passive_perception": 16
   },
   {
-    "slug": "srd-2024_zombie",
+    "slug": "srd-2024_monster_zombie",
     "name": "Zombie",
     "edition": "2024",
     "source": "SRD 5.2",

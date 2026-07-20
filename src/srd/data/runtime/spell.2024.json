@@ -1,6 +1,6 @@
 [
   {
-    "slug": "srd-2024_acid-arrow",
+    "slug": "srd-2024_spell_acid-arrow",
     "name": "Acid Arrow",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -56,7 +56,7 @@
     ]
   },
   {
-    "slug": "srd-2024_acid-splash",
+    "slug": "srd-2024_spell_acid-splash",
     "name": "Acid Splash",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -100,7 +100,7 @@
     ]
   },
   {
-    "slug": "srd-2024_aid",
+    "slug": "srd-2024_spell_aid",
     "name": "Aid",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -155,7 +155,7 @@
     ]
   },
   {
-    "slug": "srd-2024_alarm",
+    "slug": "srd-2024_spell_alarm",
     "name": "Alarm",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -167,14 +167,14 @@
     "duration": "8 hours",
     "concentration": false,
     "ritual": true,
-    "description": "You set an alarm against intrusion. Choose a door, a window, or an area within range that is no larger than a 20-foot Cube. Until the spell ends, an alarm alerts you whenever a creature touches or enters the warded area. When you cast the spell, you can designate creatures that won't set off the alarm. You also choose whether the alarm is audible or mental:",
+    "description": "You set an alarm against intrusion. Choose a door, a window, or an area within range that is no larger than a 20-foot Cube. Until the spell ends, an alarm alerts you whenever a creature touches or enters the warded area. When you cast the spell, you can designate creatures that won't set off the alarm. You also choose whether the alarm is audible or mental:\n\n**Audible Alarm.** The alarm produces the sound of a handbell for 10 seconds within 60 feet of the warded area.\n\n**Mental Alarm.** You are alerted by a mental ping if you are within 1 mile of the warded area. This ping awakens you if you're asleep.",
     "classes": [
       "ranger",
       "wizard"
     ]
   },
   {
-    "slug": "srd-2024_alter-self",
+    "slug": "srd-2024_spell_alter-self",
     "name": "Alter Self",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -200,7 +200,7 @@
     }
   },
   {
-    "slug": "srd-2024_animal-friendship",
+    "slug": "srd-2024_spell_animal-friendship",
     "name": "Animal Friendship",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -260,7 +260,7 @@
     ]
   },
   {
-    "slug": "srd-2024_animal-messenger",
+    "slug": "srd-2024_spell_animal-messenger",
     "name": "Animal Messenger",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -316,7 +316,7 @@
     ]
   },
   {
-    "slug": "srd-2024_animal-shapes",
+    "slug": "srd-2024_spell_animal-shapes",
     "name": "Animal Shapes",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -334,7 +334,7 @@
     ]
   },
   {
-    "slug": "srd-2024_animate-dead",
+    "slug": "srd-2024_spell_animate-dead",
     "name": "Animate Dead",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -388,7 +388,7 @@
     ]
   },
   {
-    "slug": "srd-2024_animate-objects",
+    "slug": "srd-2024_spell_animate-objects",
     "name": "Animate Objects",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -436,7 +436,7 @@
     ]
   },
   {
-    "slug": "srd-2024_antilife-shell",
+    "slug": "srd-2024_spell_antilife-shell",
     "name": "Antilife Shell",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -454,7 +454,7 @@
     ]
   },
   {
-    "slug": "srd-2024_antimagic-field",
+    "slug": "srd-2024_spell_antimagic-field",
     "name": "Antimagic Field",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -473,7 +473,7 @@
     ]
   },
   {
-    "slug": "srd-2024_antipathy-sympathy",
+    "slug": "srd-2024_spell_antipathy-sympathy",
     "name": "Antipathy/Sympathy",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -496,7 +496,7 @@
     }
   },
   {
-    "slug": "srd-2024_arcane-eye",
+    "slug": "srd-2024_spell_arcane-eye",
     "name": "Arcane Eye",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -514,7 +514,7 @@
     ]
   },
   {
-    "slug": "srd-2024_arcane-hand",
+    "slug": "srd-2024_spell_arcane-hand",
     "name": "Arcane Hand",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -526,7 +526,7 @@
     "duration": "1 minute",
     "concentration": true,
     "ritual": false,
-    "description": "You create a Large hand of shimmering magical energy in an unoccupied space that you can see within range. The hand lasts for the duration, and it moves at your command, mimicking the movements of your own hand. The hand is an object that has AC 20 and Hit Points equal to your Hit Point maximum. If it drops to 0 Hit Points, the spell ends. The hand doesn't occupy its space. When you cast the spell and as a Bonus Action on your later turns, you can move the hand up to 60 feet and then cause one of the following effects:",
+    "description": "You create a Large hand of shimmering magical energy in an unoccupied space that you can see within range. The hand lasts for the duration, and it moves at your command, mimicking the movements of your own hand. The hand is an object that has AC 20 and Hit Points equal to your Hit Point maximum. If it drops to 0 Hit Points, the spell ends. The hand doesn't occupy its space. When you cast the spell and as a Bonus Action on your later turns, you can move the hand up to 60 feet and then cause one of the following effects:\n\n**Clenched Fist.** The hand strikes a target within 5 feet of it. Make a melee spell attack. On a hit, the target takes 5d8 Force damage.\n\n**Forceful Hand.** The hand attempts to push a Huge or smaller creature within 5 feet of it. The target must succeed on a Strength saving throw, or the hand pushes the target up to 5 feet plus a number of feet equal to five times your spellcasting ability modifier. The hand moves with the target, remaining within 5 feet of it.\n\n**Grasping Hand.** The hand attempts to grapple a Huge or smaller creature within 5 feet of it. The target must succeed on a Dexterity saving throw, or the target has the Grappled condition, with an escape DC equal to your spell save DC. While the hand grapples the target, you can take a Bonus Action to cause the hand to crush it, dealing Bludgeoning damage to the target equal to 4d6 plus your spellcasting ability modifier.\n\n**Interposing Hand.** The hand grants you Half Cover against attacks and other effects that originate from its space or that pass through it. In addition, its space counts as Difficult Terrain for your enemies.",
     "classes": [
       "sorcerer",
       "wizard"
@@ -554,7 +554,7 @@
     ]
   },
   {
-    "slug": "srd-2024_arcane-lock",
+    "slug": "srd-2024_spell_arcane-lock",
     "name": "Arcane Lock",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -572,7 +572,7 @@
     ]
   },
   {
-    "slug": "srd-2024_arcane-sword",
+    "slug": "srd-2024_spell_arcane-sword",
     "name": "Arcane Sword",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -596,7 +596,7 @@
     }
   },
   {
-    "slug": "srd-2024_arcanists-magic-aura",
+    "slug": "srd-2024_spell_arcanists-magic-aura",
     "name": "Arcanist's Magic Aura",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -608,13 +608,13 @@
     "duration": "24 hours",
     "concentration": false,
     "ritual": false,
-    "description": "With a touch, you place an illusion on a willing creature or an object that isn't being worn or carried. A creature gains the Mask effect below, and an object gains the False Aura effect below. The effect lasts for the duration. If you cast the spell on the same target every day for 30 days, the illusion lasts until dispelled.",
+    "description": "With a touch, you place an illusion on a willing creature or an object that isn't being worn or carried. A creature gains the Mask effect below, and an object gains the False Aura effect below. The effect lasts for the duration. If you cast the spell on the same target every day for 30 days, the illusion lasts until dispelled.\n\n**Mask (Creature).** Choose a creature type other than the target's actual type. Spells and other magical effects treat the target as if it were a creature of the chosen type.\n\n**False Aura (Object).** You change the way the target appears to spells and magical effects that detect magical auras, such as Detect Magic. You can make a nonmagical object appear magical, make a magic item appear nonmagical, or change the object's aura so that it appears to belong to a school of magic you choose.",
     "classes": [
       "wizard"
     ]
   },
   {
-    "slug": "srd-2024_astral-projection",
+    "slug": "srd-2024_spell_astral-projection",
     "name": "Astral Projection",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -634,7 +634,7 @@
     ]
   },
   {
-    "slug": "srd-2024_augury",
+    "slug": "srd-2024_spell_augury",
     "name": "Augury",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -654,7 +654,7 @@
     ]
   },
   {
-    "slug": "srd-2024_aura-of-life",
+    "slug": "srd-2024_spell_aura-of-life",
     "name": "Aura of Life",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -678,7 +678,7 @@
     }
   },
   {
-    "slug": "srd-2024_awaken",
+    "slug": "srd-2024_spell_awaken",
     "name": "Awaken",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -697,7 +697,7 @@
     ]
   },
   {
-    "slug": "srd-2024_bane",
+    "slug": "srd-2024_spell_bane",
     "name": "Bane",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -757,7 +757,7 @@
     ]
   },
   {
-    "slug": "srd-2024_banishment",
+    "slug": "srd-2024_spell_banishment",
     "name": "Banishment",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -807,7 +807,7 @@
     ]
   },
   {
-    "slug": "srd-2024_barkskin",
+    "slug": "srd-2024_spell_barkskin",
     "name": "Barkskin",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -826,7 +826,7 @@
     ]
   },
   {
-    "slug": "srd-2024_beacon-of-hope",
+    "slug": "srd-2024_spell_beacon-of-hope",
     "name": "Beacon of Hope",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -847,7 +847,7 @@
     }
   },
   {
-    "slug": "srd-2024_befuddlement",
+    "slug": "srd-2024_spell_befuddlement",
     "name": "Befuddlement",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -876,7 +876,7 @@
     }
   },
   {
-    "slug": "srd-2024_bestow-curse",
+    "slug": "srd-2024_spell_bestow-curse",
     "name": "Bestow Curse",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -940,7 +940,7 @@
     ]
   },
   {
-    "slug": "srd-2024_black-tentacles",
+    "slug": "srd-2024_spell_black-tentacles",
     "name": "Black Tentacles",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -966,7 +966,7 @@
     }
   },
   {
-    "slug": "srd-2024_blade-barrier",
+    "slug": "srd-2024_spell_blade-barrier",
     "name": "Blade Barrier",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -992,7 +992,7 @@
     }
   },
   {
-    "slug": "srd-2024_bless",
+    "slug": "srd-2024_spell_bless",
     "name": "Bless",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -1048,7 +1048,7 @@
     ]
   },
   {
-    "slug": "srd-2024_blight",
+    "slug": "srd-2024_spell_blight",
     "name": "Blight",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -1102,7 +1102,7 @@
     ]
   },
   {
-    "slug": "srd-2024_blindness-deafness",
+    "slug": "srd-2024_spell_blindness-deafness",
     "name": "Blindness/Deafness",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -1159,7 +1159,7 @@
     ]
   },
   {
-    "slug": "srd-2024_blink",
+    "slug": "srd-2024_spell_blink",
     "name": "Blink",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -1178,7 +1178,7 @@
     ]
   },
   {
-    "slug": "srd-2024_blur",
+    "slug": "srd-2024_spell_blur",
     "name": "Blur",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -1197,7 +1197,7 @@
     ]
   },
   {
-    "slug": "srd-2024_burning-hands",
+    "slug": "srd-2024_spell_burning-hands",
     "name": "Burning Hands",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -1261,7 +1261,7 @@
     ]
   },
   {
-    "slug": "srd-2024_call-lightning",
+    "slug": "srd-2024_spell_call-lightning",
     "name": "Call Lightning",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -1316,7 +1316,7 @@
     ]
   },
   {
-    "slug": "srd-2024_calm-emotions",
+    "slug": "srd-2024_spell_calm-emotions",
     "name": "Calm Emotions",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -1338,7 +1338,7 @@
     }
   },
   {
-    "slug": "srd-2024_chain-lightning",
+    "slug": "srd-2024_spell_chain-lightning",
     "name": "Chain Lightning",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -1368,7 +1368,7 @@
     }
   },
   {
-    "slug": "srd-2024_charm-monster",
+    "slug": "srd-2024_spell_charm-monster",
     "name": "Charm Monster",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -1418,7 +1418,7 @@
     ]
   },
   {
-    "slug": "srd-2024_charm-person",
+    "slug": "srd-2024_spell_charm-person",
     "name": "Charm Person",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -1480,7 +1480,7 @@
     ]
   },
   {
-    "slug": "srd-2024_chill-touch",
+    "slug": "srd-2024_spell_chill-touch",
     "name": "Chill Touch",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -1522,7 +1522,7 @@
     ]
   },
   {
-    "slug": "srd-2024_chromatic-orb",
+    "slug": "srd-2024_spell_chromatic-orb",
     "name": "Chromatic Orb",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -1588,7 +1588,7 @@
     ]
   },
   {
-    "slug": "srd-2024_circle-of-death",
+    "slug": "srd-2024_spell_circle-of-death",
     "name": "Circle of Death",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -1633,7 +1633,7 @@
     ]
   },
   {
-    "slug": "srd-2024_clairvoyance",
+    "slug": "srd-2024_spell_clairvoyance",
     "name": "Clairvoyance",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -1654,7 +1654,7 @@
     ]
   },
   {
-    "slug": "srd-2024_clone",
+    "slug": "srd-2024_spell_clone",
     "name": "Clone",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -1672,7 +1672,7 @@
     ]
   },
   {
-    "slug": "srd-2024_cloudkill",
+    "slug": "srd-2024_spell_cloudkill",
     "name": "Cloudkill",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -1720,7 +1720,7 @@
     ]
   },
   {
-    "slug": "srd-2024_color-spray",
+    "slug": "srd-2024_spell_color-spray",
     "name": "Color Spray",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -1743,7 +1743,7 @@
     }
   },
   {
-    "slug": "srd-2024_command",
+    "slug": "srd-2024_spell_command",
     "name": "Command",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -1803,7 +1803,7 @@
     ]
   },
   {
-    "slug": "srd-2024_commune",
+    "slug": "srd-2024_spell_commune",
     "name": "Commune",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -1821,7 +1821,7 @@
     ]
   },
   {
-    "slug": "srd-2024_commune-with-nature",
+    "slug": "srd-2024_spell_commune-with-nature",
     "name": "Commune with Nature",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -1840,7 +1840,7 @@
     ]
   },
   {
-    "slug": "srd-2024_comprehend-languages",
+    "slug": "srd-2024_spell_comprehend-languages",
     "name": "Comprehend Languages",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -1861,7 +1861,7 @@
     ]
   },
   {
-    "slug": "srd-2024_compulsion",
+    "slug": "srd-2024_spell_compulsion",
     "name": "Compulsion",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -1882,7 +1882,7 @@
     }
   },
   {
-    "slug": "srd-2024_cone-of-cold",
+    "slug": "srd-2024_spell_cone-of-cold",
     "name": "Cone of Cold",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -1931,7 +1931,7 @@
     ]
   },
   {
-    "slug": "srd-2024_confusion",
+    "slug": "srd-2024_spell_confusion",
     "name": "Confusion",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -1980,7 +1980,7 @@
     ]
   },
   {
-    "slug": "srd-2024_conjure-animals",
+    "slug": "srd-2024_spell_conjure-animals",
     "name": "Conjure Animals",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -2036,7 +2036,7 @@
     ]
   },
   {
-    "slug": "srd-2024_conjure-celestial",
+    "slug": "srd-2024_spell_conjure-celestial",
     "name": "Conjure Celestial",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -2077,7 +2077,7 @@
     ]
   },
   {
-    "slug": "srd-2024_conjure-elemental",
+    "slug": "srd-2024_spell_conjure-elemental",
     "name": "Conjure Elemental",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -2128,7 +2128,7 @@
     ]
   },
   {
-    "slug": "srd-2024_conjure-fey",
+    "slug": "srd-2024_spell_conjure-fey",
     "name": "Conjure Fey",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -2168,7 +2168,7 @@
     ]
   },
   {
-    "slug": "srd-2024_conjure-minor-elementals",
+    "slug": "srd-2024_spell_conjure-minor-elementals",
     "name": "Conjure Minor Elementals",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -2220,7 +2220,7 @@
     ]
   },
   {
-    "slug": "srd-2024_conjure-woodland-beings",
+    "slug": "srd-2024_spell_conjure-woodland-beings",
     "name": "Conjure Woodland Beings",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -2272,7 +2272,7 @@
     ]
   },
   {
-    "slug": "srd-2024_contact-other-plane",
+    "slug": "srd-2024_spell_contact-other-plane",
     "name": "Contact Other Plane",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -2299,7 +2299,7 @@
     }
   },
   {
-    "slug": "srd-2024_contagion",
+    "slug": "srd-2024_spell_contagion",
     "name": "Contagion",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -2307,7 +2307,7 @@
     "school": "necromancy",
     "casting_time": "action",
     "range": "Touch",
-    "components": "",
+    "components": "V, S",
     "duration": "7 days",
     "concentration": false,
     "ritual": false,
@@ -2326,7 +2326,7 @@
     }
   },
   {
-    "slug": "srd-2024_contingency",
+    "slug": "srd-2024_spell_contingency",
     "name": "Contingency",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -2344,7 +2344,7 @@
     ]
   },
   {
-    "slug": "srd-2024_continual-flame",
+    "slug": "srd-2024_spell_continual-flame",
     "name": "Continual Flame",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -2364,7 +2364,7 @@
     ]
   },
   {
-    "slug": "srd-2024_control-water",
+    "slug": "srd-2024_spell_control-water",
     "name": "Control Water",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -2376,7 +2376,7 @@
     "duration": "10 minutes",
     "concentration": true,
     "ritual": false,
-    "description": "Until the spell ends, you control any water inside an area you choose that is a Cube up to 100 feet on a side, using one of the following effects. As a Magic action on your later turns, you can repeat the same effect or choose a different one. The water level remains elevated until the spell ends or you choose a different effect. If this effect produced a wave, the wave repeats on the start of your next turn while the flood effect lasts.",
+    "description": "Until the spell ends, you control any water inside an area you choose that is a Cube up to 100 feet on a side, using one of the following effects. As a Magic action on your later turns, you can repeat the same effect or choose a different one.\n\n**Flood.** You cause the water level of all standing water in the area to rise by as much as 20 feet. If you choose an area in a large body of water, you instead create a 20-foot tall wave that travels from one side of the area to the other and then crashes. Any Huge or smaller vehicles in the wave's path are carried with it to the other side. Any Huge or smaller vehicles struck by the wave have a 25 percent chance of capsizing.\n\nThe water level remains elevated until the spell ends or you choose a different effect. If this effect produced a wave, the wave repeats on the start of your next turn while the flood effect lasts.\n\n**Part Water.** You part water in the area and create a trench. The trench extends across the spell's area, and the separated water forms a wall to either side. The trench remains until the spell ends or you choose a different effect. The water then slowly fills in the trench over the course of the next round until the normal water level is restored.\n\n**Redirect Flow.** You cause flowing water in the area to move in a direction you choose, even if the water has to flow over obstacles, up walls, or in other unlikely directions. The water in the area moves as you direct it, but once it moves beyond the spell's area, it resumes its flow based on the terrain. The water continues to move in the direction you chose until the spell ends or you choose a different effect.\n\n**Whirlpool.** You cause a whirlpool to form in the center of the area, which must be at least 50 feet square and 25 feet deep. The whirlpool lasts until you choose a different effect or the spell ends. The whirlpool is 5 feet wide at the base, up to 50 feet wide at the top, and 25 feet tall. Any creature in the water and within 25 feet of the whirlpool is pulled 10 feet toward it. When a creature enters the whirlpool for the first time on a turn or ends its turn there, it makes a Strength saving throw. On a failed save, the creature takes 2d8 Bludgeoning damage. On a successful save, the creature takes half as much damage. A creature can swim away from the whirlpool only if it first takes an action to pull away and succeeds on a Strength (Athletics) check against your spell save DC.",
     "classes": [
       "cleric",
       "druid",
@@ -2392,7 +2392,7 @@
     }
   },
   {
-    "slug": "srd-2024_control-weather",
+    "slug": "srd-2024_spell_control-weather",
     "name": "Control Weather",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -2412,7 +2412,7 @@
     ]
   },
   {
-    "slug": "srd-2024_counterspell",
+    "slug": "srd-2024_spell_counterspell",
     "name": "Counterspell",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -2435,7 +2435,7 @@
     }
   },
   {
-    "slug": "srd-2024_create-food-and-water",
+    "slug": "srd-2024_spell_create-food-and-water",
     "name": "Create Food and Water",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -2454,7 +2454,7 @@
     ]
   },
   {
-    "slug": "srd-2024_create-or-destroy-water",
+    "slug": "srd-2024_spell_create-or-destroy-water",
     "name": "Create or Destroy Water",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -2466,7 +2466,7 @@
     "duration": "instantaneous",
     "concentration": false,
     "ritual": false,
-    "description": "You do one of the following:",
+    "description": "You do one of the following:\n\n**Create Water.** You create up to 10 gallons of clean water within range in an open container. Alternatively, the water falls as rain in a 30-foot Cube within range, extinguishing exposed flames there.\n\n**Destroy Water.** You destroy up to 10 gallons of water in an open container within range. Alternatively, you destroy fog in a 30-foot Cube within range.",
     "classes": [
       "cleric",
       "druid"
@@ -2518,7 +2518,7 @@
     ]
   },
   {
-    "slug": "srd-2024_create-undead",
+    "slug": "srd-2024_spell_create-undead",
     "name": "Create Undead",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -2555,7 +2555,7 @@
     ]
   },
   {
-    "slug": "srd-2024_creation",
+    "slug": "srd-2024_spell_creation",
     "name": "Creation",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -2595,7 +2595,7 @@
     ]
   },
   {
-    "slug": "srd-2024_cure-wounds",
+    "slug": "srd-2024_spell_cure-wounds",
     "name": "Cure Wounds",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -2654,7 +2654,7 @@
     ]
   },
   {
-    "slug": "srd-2024_dancing-lights",
+    "slug": "srd-2024_spell_dancing-lights",
     "name": "Dancing Lights",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -2674,7 +2674,7 @@
     ]
   },
   {
-    "slug": "srd-2024_darkness",
+    "slug": "srd-2024_spell_darkness",
     "name": "Darkness",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -2694,7 +2694,7 @@
     ]
   },
   {
-    "slug": "srd-2024_darkvision",
+    "slug": "srd-2024_spell_darkvision",
     "name": "Darkvision",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -2715,7 +2715,7 @@
     ]
   },
   {
-    "slug": "srd-2024_daylight",
+    "slug": "srd-2024_spell_daylight",
     "name": "Daylight",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -2737,7 +2737,7 @@
     ]
   },
   {
-    "slug": "srd-2024_death-ward",
+    "slug": "srd-2024_spell_death-ward",
     "name": "Death Ward",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -2756,7 +2756,7 @@
     ]
   },
   {
-    "slug": "srd-2024_delayed-blast-fireball",
+    "slug": "srd-2024_spell_delayed-blast-fireball",
     "name": "Delayed Blast Fireball",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -2796,7 +2796,7 @@
     ]
   },
   {
-    "slug": "srd-2024_demiplane",
+    "slug": "srd-2024_spell_demiplane",
     "name": "Demiplane",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -2816,7 +2816,7 @@
     ]
   },
   {
-    "slug": "srd-2024_detect-evil-and-good",
+    "slug": "srd-2024_spell_detect-evil-and-good",
     "name": "Detect Evil and Good",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -2835,7 +2835,7 @@
     ]
   },
   {
-    "slug": "srd-2024_detect-magic",
+    "slug": "srd-2024_spell_detect-magic",
     "name": "Detect Magic",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -2860,7 +2860,7 @@
     ]
   },
   {
-    "slug": "srd-2024_detect-poison-and-disease",
+    "slug": "srd-2024_spell_detect-poison-and-disease",
     "name": "Detect Poison and Disease",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -2881,7 +2881,7 @@
     ]
   },
   {
-    "slug": "srd-2024_detect-thoughts",
+    "slug": "srd-2024_spell_detect-thoughts",
     "name": "Detect Thoughts",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -2904,7 +2904,7 @@
     }
   },
   {
-    "slug": "srd-2024_dimension-door",
+    "slug": "srd-2024_spell_dimension-door",
     "name": "Dimension Door",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -2930,7 +2930,7 @@
     }
   },
   {
-    "slug": "srd-2024_disguise-self",
+    "slug": "srd-2024_spell_disguise-self",
     "name": "Disguise Self",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -2950,7 +2950,7 @@
     ]
   },
   {
-    "slug": "srd-2024_disintegrate",
+    "slug": "srd-2024_spell_disintegrate",
     "name": "Disintegrate",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -2994,7 +2994,7 @@
     ]
   },
   {
-    "slug": "srd-2024_dispel-evil-and-good",
+    "slug": "srd-2024_spell_dispel-evil-and-good",
     "name": "Dispel Evil and Good",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -3016,7 +3016,7 @@
     }
   },
   {
-    "slug": "srd-2024_dispel-magic",
+    "slug": "srd-2024_spell_dispel-magic",
     "name": "Dispel Magic",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -3074,7 +3074,7 @@
     ]
   },
   {
-    "slug": "srd-2024_dissonant-whispers",
+    "slug": "srd-2024_spell_dissonant-whispers",
     "name": "Dissonant Whispers",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -3103,7 +3103,7 @@
     }
   },
   {
-    "slug": "srd-2024_divination",
+    "slug": "srd-2024_spell_divination",
     "name": "Divination",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -3123,7 +3123,7 @@
     ]
   },
   {
-    "slug": "srd-2024_divine-favor",
+    "slug": "srd-2024_spell_divine-favor",
     "name": "Divine Favor",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -3146,7 +3146,7 @@
     }
   },
   {
-    "slug": "srd-2024_divine-smite",
+    "slug": "srd-2024_spell_divine-smite",
     "name": "Divine Smite",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -3154,7 +3154,7 @@
     "school": "evocation",
     "casting_time": "bonus-action",
     "range": "Self",
-    "components": "",
+    "components": "V",
     "duration": "instantaneous",
     "concentration": false,
     "ritual": false,
@@ -3206,7 +3206,7 @@
     ]
   },
   {
-    "slug": "srd-2024_divine-word",
+    "slug": "srd-2024_spell_divine-word",
     "name": "Divine Word",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -3227,7 +3227,7 @@
     }
   },
   {
-    "slug": "srd-2024_dominate-beast",
+    "slug": "srd-2024_spell_dominate-beast",
     "name": "Dominate Beast",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -3276,7 +3276,7 @@
     ]
   },
   {
-    "slug": "srd-2024_dominate-monster",
+    "slug": "srd-2024_spell_dominate-monster",
     "name": "Dominate Monster",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -3310,7 +3310,7 @@
     ]
   },
   {
-    "slug": "srd-2024_dominate-person",
+    "slug": "srd-2024_spell_dominate-person",
     "name": "Dominate Person",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -3355,7 +3355,7 @@
     ]
   },
   {
-    "slug": "srd-2024_dragons-breath",
+    "slug": "srd-2024_spell_dragons-breath",
     "name": "Dragon's Breath",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -3419,7 +3419,7 @@
     ]
   },
   {
-    "slug": "srd-2024_dream",
+    "slug": "srd-2024_spell_dream",
     "name": "Dream",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -3447,7 +3447,7 @@
     }
   },
   {
-    "slug": "srd-2024_druidcraft",
+    "slug": "srd-2024_spell_druidcraft",
     "name": "Druidcraft",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -3465,7 +3465,7 @@
     ]
   },
   {
-    "slug": "srd-2024_earthquake",
+    "slug": "srd-2024_spell_earthquake",
     "name": "Earthquake",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -3493,7 +3493,7 @@
     }
   },
   {
-    "slug": "srd-2024_eldritch-blast",
+    "slug": "srd-2024_spell_eldritch-blast",
     "name": "Eldritch Blast",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -3533,7 +3533,7 @@
     ]
   },
   {
-    "slug": "srd-2024_elementalism",
+    "slug": "srd-2024_spell_elementalism",
     "name": "Elementalism",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -3553,7 +3553,7 @@
     ]
   },
   {
-    "slug": "srd-2024_enhance-ability",
+    "slug": "srd-2024_spell_enhance-ability",
     "name": "Enhance Ability",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -3609,7 +3609,7 @@
     ]
   },
   {
-    "slug": "srd-2024_enlarge-reduce",
+    "slug": "srd-2024_spell_enlarge-reduce",
     "name": "Enlarge/Reduce",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -3633,7 +3633,7 @@
     }
   },
   {
-    "slug": "srd-2024_ensnaring-strike",
+    "slug": "srd-2024_spell_ensnaring-strike",
     "name": "Ensnaring Strike",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -3696,7 +3696,7 @@
     ]
   },
   {
-    "slug": "srd-2024_entangle",
+    "slug": "srd-2024_spell_entangle",
     "name": "Entangle",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -3718,7 +3718,7 @@
     }
   },
   {
-    "slug": "srd-2024_enthrall",
+    "slug": "srd-2024_spell_enthrall",
     "name": "Enthrall",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -3740,7 +3740,7 @@
     }
   },
   {
-    "slug": "srd-2024_etherealness",
+    "slug": "srd-2024_spell_etherealness",
     "name": "Etherealness",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -3780,7 +3780,7 @@
     ]
   },
   {
-    "slug": "srd-2024_expeditious-retreat",
+    "slug": "srd-2024_spell_expeditious-retreat",
     "name": "Expeditious Retreat",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -3800,7 +3800,7 @@
     ]
   },
   {
-    "slug": "srd-2024_eyebite",
+    "slug": "srd-2024_spell_eyebite",
     "name": "Eyebite",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -3824,7 +3824,7 @@
     }
   },
   {
-    "slug": "srd-2024_fabricate",
+    "slug": "srd-2024_spell_fabricate",
     "name": "Fabricate",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -3842,7 +3842,7 @@
     ]
   },
   {
-    "slug": "srd-2024_faerie-fire",
+    "slug": "srd-2024_spell_faerie-fire",
     "name": "Faerie Fire",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -3864,7 +3864,7 @@
     }
   },
   {
-    "slug": "srd-2024_faithful-hound",
+    "slug": "srd-2024_spell_faithful-hound",
     "name": "Faithful Hound",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -3890,7 +3890,7 @@
     }
   },
   {
-    "slug": "srd-2024_false-life",
+    "slug": "srd-2024_spell_false-life",
     "name": "False Life",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -3946,7 +3946,7 @@
     ]
   },
   {
-    "slug": "srd-2024_fear",
+    "slug": "srd-2024_spell_fear",
     "name": "Fear",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -3970,7 +3970,7 @@
     }
   },
   {
-    "slug": "srd-2024_feather-fall",
+    "slug": "srd-2024_spell_feather-fall",
     "name": "Feather Fall",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -3990,13 +3990,13 @@
     ]
   },
   {
-    "slug": "srd-2024_find-familiar",
+    "slug": "srd-2024_spell_find-familiar",
     "name": "Find Familiar",
     "edition": "2024",
     "source": "SRD 5.2",
     "level": 1,
     "school": "conjuration",
-    "casting_time": "action",
+    "casting_time": "1hour",
     "range": "10 feet",
     "components": "V, S, M (burning incense worth 10+ GP, which the spell consumes)",
     "duration": "instantaneous",
@@ -4008,7 +4008,7 @@
     ]
   },
   {
-    "slug": "srd-2024_find-steed",
+    "slug": "srd-2024_spell_find-steed",
     "name": "Find Steed",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -4016,7 +4016,7 @@
     "school": "conjuration",
     "casting_time": "action",
     "range": "30 feet",
-    "components": "",
+    "components": "V, S",
     "duration": "instantaneous",
     "concentration": false,
     "ritual": false,
@@ -4059,7 +4059,7 @@
     ]
   },
   {
-    "slug": "srd-2024_find-the-path",
+    "slug": "srd-2024_spell_find-the-path",
     "name": "Find the Path",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -4079,7 +4079,7 @@
     ]
   },
   {
-    "slug": "srd-2024_find-traps",
+    "slug": "srd-2024_spell_find-traps",
     "name": "Find Traps",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -4099,7 +4099,7 @@
     ]
   },
   {
-    "slug": "srd-2024_finger-of-death",
+    "slug": "srd-2024_spell_finger-of-death",
     "name": "Finger of Death",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -4127,7 +4127,7 @@
     }
   },
   {
-    "slug": "srd-2024_fire-bolt",
+    "slug": "srd-2024_spell_fire-bolt",
     "name": "Fire Bolt",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -4168,7 +4168,7 @@
     ]
   },
   {
-    "slug": "srd-2024_fire-shield",
+    "slug": "srd-2024_spell_fire-shield",
     "name": "Fire Shield",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -4194,7 +4194,7 @@
     }
   },
   {
-    "slug": "srd-2024_fire-storm",
+    "slug": "srd-2024_spell_fire-storm",
     "name": "Fire Storm",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -4222,7 +4222,7 @@
     }
   },
   {
-    "slug": "srd-2024_fireball",
+    "slug": "srd-2024_spell_fireball",
     "name": "Fireball",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -4278,7 +4278,7 @@
     ]
   },
   {
-    "slug": "srd-2024_flame-blade",
+    "slug": "srd-2024_spell_flame-blade",
     "name": "Flame Blade",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -4335,7 +4335,7 @@
     ]
   },
   {
-    "slug": "srd-2024_flame-strike",
+    "slug": "srd-2024_spell_flame-strike",
     "name": "Flame Strike",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -4383,7 +4383,7 @@
     ]
   },
   {
-    "slug": "srd-2024_flaming-sphere",
+    "slug": "srd-2024_spell_flaming-sphere",
     "name": "Flaming Sphere",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -4444,7 +4444,7 @@
     ]
   },
   {
-    "slug": "srd-2024_flesh-to-stone",
+    "slug": "srd-2024_spell_flesh-to-stone",
     "name": "Flesh to Stone",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -4467,7 +4467,7 @@
     }
   },
   {
-    "slug": "srd-2024_floating-disk",
+    "slug": "srd-2024_spell_floating-disk",
     "name": "Floating Disk",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -4485,7 +4485,7 @@
     ]
   },
   {
-    "slug": "srd-2024_fly",
+    "slug": "srd-2024_spell_fly",
     "name": "Fly",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -4497,7 +4497,7 @@
     "duration": "10 minutes",
     "concentration": true,
     "ritual": false,
-    "description": "",
+    "description": "You touch a willing creature. For the duration, the target gains a Fly Speed of 60 feet and can hover. When the spell ends, the target falls if it is still aloft unless it can stop the fall.",
     "classes": [
       "sorcerer",
       "warlock",
@@ -4534,7 +4534,7 @@
     ]
   },
   {
-    "slug": "srd-2024_fog-cloud",
+    "slug": "srd-2024_spell_fog-cloud",
     "name": "Fog Cloud",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -4592,13 +4592,13 @@
     ]
   },
   {
-    "slug": "srd-2024_forbiddance",
+    "slug": "srd-2024_spell_forbiddance",
     "name": "Forbiddance",
     "edition": "2024",
     "source": "SRD 5.2",
     "level": 6,
     "school": "abjuration",
-    "casting_time": "action",
+    "casting_time": "10minutes",
     "range": "Touch",
     "components": "V, S, M (ruby dust worth 1,000+ GP)",
     "duration": "1 day",
@@ -4615,19 +4615,19 @@
     }
   },
   {
-    "slug": "srd-2024_forcecage",
+    "slug": "srd-2024_spell_forcecage",
     "name": "Forcecage",
     "edition": "2024",
     "source": "SRD 5.2",
     "level": 7,
     "school": "evocation",
-    "casting_time": "1hour",
-    "range": "0 feet",
-    "components": "",
+    "casting_time": "action",
+    "range": "100 feet",
+    "components": "V, S, M (ruby dust worth 1,500+ GP, which the spell consumes)",
     "duration": "1 hour",
-    "concentration": false,
+    "concentration": true,
     "ritual": false,
-    "description": "",
+    "description": "An immobile, Invisible, Cube-shaped prison composed of magical force springs into existence around an area you choose within range. The prison can be a cage or a solid box, as you choose.\n\nA prison in the shape of a cage can be up to 20 feet on a side and is made from 1/2-inch diameter bars spaced 1/2 inch apart. A prison in the shape of a box can be up to 10 feet on a side, creating a solid barrier that prevents any matter from passing through it and blocking any spells cast into or out from the area.\n\nWhen you cast the spell, any creature that is completely inside the cage's area is trapped. Creatures only partially within the area, or those too large to fit inside it, are pushed away from the center of the area until they are completely outside it.\n\nA creature inside the cage can't leave it by nonmagical means. If the creature tries to use teleportation or interplanar travel to leave, it must first make a Charisma saving throw. On a successful save, the creature can use that magic to exit the cage. On a failed save, the creature doesn't exit the cage and wastes the spell or effect. The cage also extends into the Ethereal Plane, blocking ethereal travel.\n\nThis spell can't be dispelled by Dispel Magic.",
     "classes": [
       "bard",
       "warlock",
@@ -4638,7 +4638,7 @@
     }
   },
   {
-    "slug": "srd-2024_foresight",
+    "slug": "srd-2024_spell_foresight",
     "name": "Foresight",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -4659,7 +4659,7 @@
     ]
   },
   {
-    "slug": "srd-2024_freedom-of-movement",
+    "slug": "srd-2024_spell_freedom-of-movement",
     "name": "Freedom of Movement",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -4713,7 +4713,7 @@
     ]
   },
   {
-    "slug": "srd-2024_freezing-sphere",
+    "slug": "srd-2024_spell_freezing-sphere",
     "name": "Freezing Sphere",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -4760,7 +4760,7 @@
     ]
   },
   {
-    "slug": "srd-2024_gaseous-form",
+    "slug": "srd-2024_spell_gaseous-form",
     "name": "Gaseous Form",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -4817,7 +4817,7 @@
     ]
   },
   {
-    "slug": "srd-2024_gate",
+    "slug": "srd-2024_spell_gate",
     "name": "Gate",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -4838,7 +4838,7 @@
     ]
   },
   {
-    "slug": "srd-2024_geas",
+    "slug": "srd-2024_spell_geas",
     "name": "Geas",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -4881,7 +4881,7 @@
     ]
   },
   {
-    "slug": "srd-2024_gentle-repose",
+    "slug": "srd-2024_spell_gentle-repose",
     "name": "Gentle Repose",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -4901,7 +4901,7 @@
     ]
   },
   {
-    "slug": "srd-2024_giant-insect",
+    "slug": "srd-2024_spell_giant-insect",
     "name": "Giant Insect",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -4944,7 +4944,7 @@
     ]
   },
   {
-    "slug": "srd-2024_glibness",
+    "slug": "srd-2024_spell_glibness",
     "name": "Glibness",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -4963,7 +4963,7 @@
     ]
   },
   {
-    "slug": "srd-2024_globe-of-invulnerability",
+    "slug": "srd-2024_spell_globe-of-invulnerability",
     "name": "Globe of Invulnerability",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -4999,7 +4999,7 @@
     ]
   },
   {
-    "slug": "srd-2024_glyph-of-warding",
+    "slug": "srd-2024_spell_glyph-of-warding",
     "name": "Glyph of Warding",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -5066,7 +5066,7 @@
     ]
   },
   {
-    "slug": "srd-2024_goodberry",
+    "slug": "srd-2024_spell_goodberry",
     "name": "Goodberry",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -5085,7 +5085,7 @@
     ]
   },
   {
-    "slug": "srd-2024_grease",
+    "slug": "srd-2024_spell_grease",
     "name": "Grease",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -5107,7 +5107,7 @@
     }
   },
   {
-    "slug": "srd-2024_greater-invisibility",
+    "slug": "srd-2024_spell_greater-invisibility",
     "name": "Greater Invisibility",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -5127,7 +5127,7 @@
     ]
   },
   {
-    "slug": "srd-2024_greater-restoration",
+    "slug": "srd-2024_spell_greater-restoration",
     "name": "Greater Restoration",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -5149,7 +5149,7 @@
     ]
   },
   {
-    "slug": "srd-2024_guardian-of-faith",
+    "slug": "srd-2024_spell_guardian-of-faith",
     "name": "Guardian of Faith",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -5175,7 +5175,7 @@
     }
   },
   {
-    "slug": "srd-2024_guards-and-wards",
+    "slug": "srd-2024_spell_guards-and-wards",
     "name": "Guards and Wards",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -5194,7 +5194,7 @@
     ]
   },
   {
-    "slug": "srd-2024_guidance",
+    "slug": "srd-2024_spell_guidance",
     "name": "Guidance",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -5213,7 +5213,7 @@
     ]
   },
   {
-    "slug": "srd-2024_guiding-bolt",
+    "slug": "srd-2024_spell_guiding-bolt",
     "name": "Guiding Bolt",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -5273,7 +5273,7 @@
     ]
   },
   {
-    "slug": "srd-2024_gust-of-wind",
+    "slug": "srd-2024_spell_gust-of-wind",
     "name": "Gust of Wind",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -5297,7 +5297,7 @@
     }
   },
   {
-    "slug": "srd-2024_hallow",
+    "slug": "srd-2024_spell_hallow",
     "name": "Hallow",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -5315,7 +5315,7 @@
     ]
   },
   {
-    "slug": "srd-2024_hallucinatory-terrain",
+    "slug": "srd-2024_spell_hallucinatory-terrain",
     "name": "Hallucinatory Terrain",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -5336,7 +5336,7 @@
     ]
   },
   {
-    "slug": "srd-2024_harm",
+    "slug": "srd-2024_spell_harm",
     "name": "Harm",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -5362,7 +5362,7 @@
     }
   },
   {
-    "slug": "srd-2024_haste",
+    "slug": "srd-2024_spell_haste",
     "name": "Haste",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -5384,7 +5384,7 @@
     }
   },
   {
-    "slug": "srd-2024_heal",
+    "slug": "srd-2024_spell_heal",
     "name": "Heal",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -5420,7 +5420,7 @@
     ]
   },
   {
-    "slug": "srd-2024_healing-word",
+    "slug": "srd-2024_spell_healing-word",
     "name": "Healing Word",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -5477,7 +5477,7 @@
     ]
   },
   {
-    "slug": "srd-2024_heat-metal",
+    "slug": "srd-2024_spell_heat-metal",
     "name": "Heat Metal",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -5537,7 +5537,7 @@
     ]
   },
   {
-    "slug": "srd-2024_hellish-rebuke",
+    "slug": "srd-2024_spell_hellish-rebuke",
     "name": "Hellish Rebuke",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -5600,7 +5600,7 @@
     ]
   },
   {
-    "slug": "srd-2024_heroes-feast",
+    "slug": "srd-2024_spell_heroes-feast",
     "name": "Heroes' Feast",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -5625,7 +5625,7 @@
     }
   },
   {
-    "slug": "srd-2024_heroism",
+    "slug": "srd-2024_spell_heroism",
     "name": "Heroism",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -5681,7 +5681,7 @@
     ]
   },
   {
-    "slug": "srd-2024_hex",
+    "slug": "srd-2024_spell_hex",
     "name": "Hex",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -5742,7 +5742,7 @@
     ]
   },
   {
-    "slug": "srd-2024_hideous-laughter",
+    "slug": "srd-2024_spell_hideous-laughter",
     "name": "Hideous Laughter",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -5802,7 +5802,7 @@
     ]
   },
   {
-    "slug": "srd-2024_hold-monster",
+    "slug": "srd-2024_spell_hold-monster",
     "name": "Hold Monster",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -5847,7 +5847,7 @@
     ]
   },
   {
-    "slug": "srd-2024_hold-person",
+    "slug": "srd-2024_spell_hold-person",
     "name": "Hold Person",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -5906,7 +5906,7 @@
     ]
   },
   {
-    "slug": "srd-2024_holy-aura",
+    "slug": "srd-2024_spell_holy-aura",
     "name": "Holy Aura",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -5927,7 +5927,7 @@
     }
   },
   {
-    "slug": "srd-2024_hunters-mark",
+    "slug": "srd-2024_spell_hunters-mark",
     "name": "Hunter's Mark",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -5985,7 +5985,7 @@
     ]
   },
   {
-    "slug": "srd-2024_hypnotic-pattern",
+    "slug": "srd-2024_spell_hypnotic-pattern",
     "name": "Hypnotic Pattern",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -6009,7 +6009,7 @@
     }
   },
   {
-    "slug": "srd-2024_ice-knife",
+    "slug": "srd-2024_spell_ice-knife",
     "name": "Ice Knife",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -6075,7 +6075,7 @@
     ]
   },
   {
-    "slug": "srd-2024_ice-storm",
+    "slug": "srd-2024_spell_ice-storm",
     "name": "Ice Storm",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -6129,7 +6129,7 @@
     ]
   },
   {
-    "slug": "srd-2024_identify",
+    "slug": "srd-2024_spell_identify",
     "name": "Identify",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -6148,7 +6148,7 @@
     ]
   },
   {
-    "slug": "srd-2024_illusory-script",
+    "slug": "srd-2024_spell_illusory-script",
     "name": "Illusory Script",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -6168,7 +6168,7 @@
     ]
   },
   {
-    "slug": "srd-2024_imprisonment",
+    "slug": "srd-2024_spell_imprisonment",
     "name": "Imprisonment",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -6190,7 +6190,7 @@
     }
   },
   {
-    "slug": "srd-2024_incendiary-cloud",
+    "slug": "srd-2024_spell_incendiary-cloud",
     "name": "Incendiary Cloud",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -6218,7 +6218,7 @@
     }
   },
   {
-    "slug": "srd-2024_inflict-wounds",
+    "slug": "srd-2024_spell_inflict-wounds",
     "name": "Inflict Wounds",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -6281,7 +6281,7 @@
     ]
   },
   {
-    "slug": "srd-2024_insect-plague",
+    "slug": "srd-2024_spell_insect-plague",
     "name": "Insect Plague",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -6330,7 +6330,7 @@
     ]
   },
   {
-    "slug": "srd-2024_instant-summons",
+    "slug": "srd-2024_spell_instant-summons",
     "name": "Instant Summons",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -6348,7 +6348,7 @@
     ]
   },
   {
-    "slug": "srd-2024_invisibility",
+    "slug": "srd-2024_spell_invisibility",
     "name": "Invisibility",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -6402,7 +6402,7 @@
     ]
   },
   {
-    "slug": "srd-2024_irresistible-dance",
+    "slug": "srd-2024_spell_irresistible-dance",
     "name": "Irresistible Dance",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -6424,7 +6424,7 @@
     }
   },
   {
-    "slug": "srd-2024_jump",
+    "slug": "srd-2024_spell_jump",
     "name": "Jump",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -6432,7 +6432,7 @@
     "school": "transmutation",
     "casting_time": "bonus-action",
     "range": "Touch",
-    "components": "",
+    "components": "V, S, M",
     "duration": "1 minute",
     "concentration": false,
     "ritual": false,
@@ -6482,7 +6482,7 @@
     ]
   },
   {
-    "slug": "srd-2024_knock",
+    "slug": "srd-2024_spell_knock",
     "name": "Knock",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -6502,7 +6502,7 @@
     ]
   },
   {
-    "slug": "srd-2024_legend-lore",
+    "slug": "srd-2024_spell_legend-lore",
     "name": "Legend Lore",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -6522,7 +6522,7 @@
     ]
   },
   {
-    "slug": "srd-2024_lesser-restoration",
+    "slug": "srd-2024_spell_lesser-restoration",
     "name": "Lesser Restoration",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -6544,7 +6544,7 @@
     ]
   },
   {
-    "slug": "srd-2024_levitate",
+    "slug": "srd-2024_spell_levitate",
     "name": "Levitate",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -6566,7 +6566,7 @@
     }
   },
   {
-    "slug": "srd-2024_light",
+    "slug": "srd-2024_spell_light",
     "name": "Light",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -6587,7 +6587,7 @@
     ]
   },
   {
-    "slug": "srd-2024_lightning-bolt",
+    "slug": "srd-2024_spell_lightning-bolt",
     "name": "Lightning Bolt",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -6643,7 +6643,7 @@
     ]
   },
   {
-    "slug": "srd-2024_locate-animals-or-plants",
+    "slug": "srd-2024_spell_locate-animals-or-plants",
     "name": "Locate Animals or Plants",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -6663,7 +6663,7 @@
     ]
   },
   {
-    "slug": "srd-2024_locate-creature",
+    "slug": "srd-2024_spell_locate-creature",
     "name": "Locate Creature",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -6686,7 +6686,7 @@
     ]
   },
   {
-    "slug": "srd-2024_locate-object",
+    "slug": "srd-2024_spell_locate-object",
     "name": "Locate Object",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -6709,7 +6709,7 @@
     ]
   },
   {
-    "slug": "srd-2024_longstrider",
+    "slug": "srd-2024_spell_longstrider",
     "name": "Longstrider",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -6767,7 +6767,7 @@
     ]
   },
   {
-    "slug": "srd-2024_mage-armor",
+    "slug": "srd-2024_spell_mage-armor",
     "name": "Mage Armor",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -6786,7 +6786,7 @@
     ]
   },
   {
-    "slug": "srd-2024_mage-hand",
+    "slug": "srd-2024_spell_mage-hand",
     "name": "Mage Hand",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -6807,7 +6807,7 @@
     ]
   },
   {
-    "slug": "srd-2024_magic-circle",
+    "slug": "srd-2024_spell_magic-circle",
     "name": "Magic Circle",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -6860,7 +6860,7 @@
     ]
   },
   {
-    "slug": "srd-2024_magic-jar",
+    "slug": "srd-2024_spell_magic-jar",
     "name": "Magic Jar",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -6881,7 +6881,7 @@
     }
   },
   {
-    "slug": "srd-2024_magic-missile",
+    "slug": "srd-2024_spell_magic-missile",
     "name": "Magic Missile",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -6942,7 +6942,7 @@
     ]
   },
   {
-    "slug": "srd-2024_magic-mouth",
+    "slug": "srd-2024_spell_magic-mouth",
     "name": "Magic Mouth",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -6961,7 +6961,7 @@
     ]
   },
   {
-    "slug": "srd-2024_magic-weapon",
+    "slug": "srd-2024_spell_magic-weapon",
     "name": "Magic Weapon",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -7015,7 +7015,7 @@
     ]
   },
   {
-    "slug": "srd-2024_magnificent-mansion",
+    "slug": "srd-2024_spell_magnificent-mansion",
     "name": "Magnificent Mansion",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -7034,7 +7034,7 @@
     ]
   },
   {
-    "slug": "srd-2024_major-image",
+    "slug": "srd-2024_spell_major-image",
     "name": "Major Image",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -7090,7 +7090,7 @@
     ]
   },
   {
-    "slug": "srd-2024_mass-cure-wounds",
+    "slug": "srd-2024_spell_mass-cure-wounds",
     "name": "Mass Cure Wounds",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -7131,7 +7131,7 @@
     ]
   },
   {
-    "slug": "srd-2024_mass-heal",
+    "slug": "srd-2024_spell_mass-heal",
     "name": "Mass Heal",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -7149,7 +7149,7 @@
     ]
   },
   {
-    "slug": "srd-2024_mass-healing-word",
+    "slug": "srd-2024_spell_mass-healing-word",
     "name": "Mass Healing Word",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -7197,7 +7197,7 @@
     ]
   },
   {
-    "slug": "srd-2024_mass-suggestion",
+    "slug": "srd-2024_spell_mass-suggestion",
     "name": "Mass Suggestion",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -7237,7 +7237,7 @@
     ]
   },
   {
-    "slug": "srd-2024_maze",
+    "slug": "srd-2024_spell_maze",
     "name": "Maze",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -7255,7 +7255,7 @@
     ]
   },
   {
-    "slug": "srd-2024_meld-into-stone",
+    "slug": "srd-2024_spell_meld-into-stone",
     "name": "Meld into Stone",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -7280,7 +7280,7 @@
     }
   },
   {
-    "slug": "srd-2024_mending",
+    "slug": "srd-2024_spell_mending",
     "name": "Mending",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -7302,7 +7302,7 @@
     ]
   },
   {
-    "slug": "srd-2024_message",
+    "slug": "srd-2024_spell_message",
     "name": "Message",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -7323,7 +7323,7 @@
     ]
   },
   {
-    "slug": "srd-2024_meteor-swarm",
+    "slug": "srd-2024_spell_meteor-swarm",
     "name": "Meteor Swarm",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -7351,7 +7351,7 @@
     }
   },
   {
-    "slug": "srd-2024_mind-blank",
+    "slug": "srd-2024_spell_mind-blank",
     "name": "Mind Blank",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -7375,7 +7375,7 @@
     }
   },
   {
-    "slug": "srd-2024_mind-spike",
+    "slug": "srd-2024_spell_mind-spike",
     "name": "Mind Spike",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -7436,7 +7436,7 @@
     ]
   },
   {
-    "slug": "srd-2024_minor-illusion",
+    "slug": "srd-2024_spell_minor-illusion",
     "name": "Minor Illusion",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -7457,7 +7457,7 @@
     ]
   },
   {
-    "slug": "srd-2024_mirage-arcane",
+    "slug": "srd-2024_spell_mirage-arcane",
     "name": "Mirage Arcane",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -7477,7 +7477,7 @@
     ]
   },
   {
-    "slug": "srd-2024_mirror-image",
+    "slug": "srd-2024_spell_mirror-image",
     "name": "Mirror Image",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -7498,7 +7498,7 @@
     ]
   },
   {
-    "slug": "srd-2024_mislead",
+    "slug": "srd-2024_spell_mislead",
     "name": "Mislead",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -7518,7 +7518,7 @@
     ]
   },
   {
-    "slug": "srd-2024_misty-step",
+    "slug": "srd-2024_spell_misty-step",
     "name": "Misty Step",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -7538,7 +7538,7 @@
     ]
   },
   {
-    "slug": "srd-2024_modify-memory",
+    "slug": "srd-2024_spell_modify-memory",
     "name": "Modify Memory",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -7581,7 +7581,7 @@
     ]
   },
   {
-    "slug": "srd-2024_moonbeam",
+    "slug": "srd-2024_spell_moonbeam",
     "name": "Moonbeam",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -7640,7 +7640,7 @@
     ]
   },
   {
-    "slug": "srd-2024_move-earth",
+    "slug": "srd-2024_spell_move-earth",
     "name": "Move Earth",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -7660,7 +7660,7 @@
     ]
   },
   {
-    "slug": "srd-2024_nondetection",
+    "slug": "srd-2024_spell_nondetection",
     "name": "Nondetection",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -7680,7 +7680,7 @@
     ]
   },
   {
-    "slug": "srd-2024_pass-without-trace",
+    "slug": "srd-2024_spell_pass-without-trace",
     "name": "Pass without Trace",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -7699,7 +7699,7 @@
     ]
   },
   {
-    "slug": "srd-2024_passwall",
+    "slug": "srd-2024_spell_passwall",
     "name": "Passwall",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -7717,7 +7717,7 @@
     ]
   },
   {
-    "slug": "srd-2024_phantasmal-force",
+    "slug": "srd-2024_spell_phantasmal-force",
     "name": "Phantasmal Force",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -7745,7 +7745,7 @@
     }
   },
   {
-    "slug": "srd-2024_phantasmal-killer",
+    "slug": "srd-2024_spell_phantasmal-killer",
     "name": "Phantasmal Killer",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -7797,7 +7797,7 @@
     ]
   },
   {
-    "slug": "srd-2024_phantom-steed",
+    "slug": "srd-2024_spell_phantom-steed",
     "name": "Phantom Steed",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -7815,7 +7815,7 @@
     ]
   },
   {
-    "slug": "srd-2024_planar-ally",
+    "slug": "srd-2024_spell_planar-ally",
     "name": "Planar Ally",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -7833,7 +7833,7 @@
     ]
   },
   {
-    "slug": "srd-2024_planar-binding",
+    "slug": "srd-2024_spell_planar-binding",
     "name": "Planar Binding",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -7879,7 +7879,7 @@
     ]
   },
   {
-    "slug": "srd-2024_plane-shift",
+    "slug": "srd-2024_spell_plane-shift",
     "name": "Plane Shift",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -7901,7 +7901,7 @@
     ]
   },
   {
-    "slug": "srd-2024_plant-growth",
+    "slug": "srd-2024_spell_plant-growth",
     "name": "Plant Growth",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -7921,7 +7921,7 @@
     ]
   },
   {
-    "slug": "srd-2024_poison-spray",
+    "slug": "srd-2024_spell_poison-spray",
     "name": "Poison Spray",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -7964,7 +7964,7 @@
     ]
   },
   {
-    "slug": "srd-2024_polymorph",
+    "slug": "srd-2024_spell_polymorph",
     "name": "Polymorph",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -7988,7 +7988,7 @@
     }
   },
   {
-    "slug": "srd-2024_power-word-heal",
+    "slug": "srd-2024_spell_power-word-heal",
     "name": "Power Word Heal",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -7996,7 +7996,7 @@
     "school": "enchantment",
     "casting_time": "action",
     "range": "60 feet",
-    "components": "",
+    "components": "V",
     "duration": "instantaneous",
     "concentration": false,
     "ritual": false,
@@ -8007,7 +8007,7 @@
     ]
   },
   {
-    "slug": "srd-2024_power-word-kill",
+    "slug": "srd-2024_spell_power-word-kill",
     "name": "Power Word Kill",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -8015,7 +8015,7 @@
     "school": "enchantment",
     "casting_time": "action",
     "range": "60 feet",
-    "components": "",
+    "components": "V",
     "duration": "instantaneous",
     "concentration": false,
     "ritual": false,
@@ -8033,7 +8033,7 @@
     }
   },
   {
-    "slug": "srd-2024_power-word-stun",
+    "slug": "srd-2024_spell_power-word-stun",
     "name": "Power Word Stun",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -8057,7 +8057,7 @@
     }
   },
   {
-    "slug": "srd-2024_prayer-of-healing",
+    "slug": "srd-2024_spell_prayer-of-healing",
     "name": "Prayer of Healing",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -8109,7 +8109,7 @@
     ]
   },
   {
-    "slug": "srd-2024_prestidigitation",
+    "slug": "srd-2024_spell_prestidigitation",
     "name": "Prestidigitation",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -8130,7 +8130,7 @@
     ]
   },
   {
-    "slug": "srd-2024_prismatic-spray",
+    "slug": "srd-2024_spell_prismatic-spray",
     "name": "Prismatic Spray",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -8162,7 +8162,7 @@
     }
   },
   {
-    "slug": "srd-2024_prismatic-wall",
+    "slug": "srd-2024_spell_prismatic-wall",
     "name": "Prismatic Wall",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -8194,7 +8194,7 @@
     }
   },
   {
-    "slug": "srd-2024_private-sanctum",
+    "slug": "srd-2024_spell_private-sanctum",
     "name": "Private Sanctum",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -8242,7 +8242,7 @@
     ]
   },
   {
-    "slug": "srd-2024_produce-flame",
+    "slug": "srd-2024_spell_produce-flame",
     "name": "Produce Flame",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -8282,7 +8282,7 @@
     ]
   },
   {
-    "slug": "srd-2024_programmed-illusion",
+    "slug": "srd-2024_spell_programmed-illusion",
     "name": "Programmed Illusion",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -8301,7 +8301,7 @@
     ]
   },
   {
-    "slug": "srd-2024_project-image",
+    "slug": "srd-2024_spell_project-image",
     "name": "Project Image",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -8320,7 +8320,7 @@
     ]
   },
   {
-    "slug": "srd-2024_protection-from-energy",
+    "slug": "srd-2024_spell_protection-from-energy",
     "name": "Protection from Energy",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -8342,7 +8342,7 @@
     ]
   },
   {
-    "slug": "srd-2024_protection-from-evil-and-good",
+    "slug": "srd-2024_spell_protection-from-evil-and-good",
     "name": "Protection from Evil and Good",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -8364,7 +8364,7 @@
     ]
   },
   {
-    "slug": "srd-2024_protection-from-poison",
+    "slug": "srd-2024_spell_protection-from-poison",
     "name": "Protection from Poison",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -8390,7 +8390,7 @@
     }
   },
   {
-    "slug": "srd-2024_purify-food-and-drink",
+    "slug": "srd-2024_spell_purify-food-and-drink",
     "name": "Purify Food and Drink",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -8410,7 +8410,7 @@
     ]
   },
   {
-    "slug": "srd-2024_raise-dead",
+    "slug": "srd-2024_spell_raise-dead",
     "name": "Raise Dead",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -8430,7 +8430,7 @@
     ]
   },
   {
-    "slug": "srd-2024_ray-of-enfeeblement",
+    "slug": "srd-2024_spell_ray-of-enfeeblement",
     "name": "Ray of Enfeeblement",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -8452,7 +8452,7 @@
     }
   },
   {
-    "slug": "srd-2024_ray-of-frost",
+    "slug": "srd-2024_spell_ray-of-frost",
     "name": "Ray of Frost",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -8493,7 +8493,7 @@
     ]
   },
   {
-    "slug": "srd-2024_ray-of-sickness",
+    "slug": "srd-2024_spell_ray-of-sickness",
     "name": "Ray of Sickness",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -8554,7 +8554,7 @@
     ]
   },
   {
-    "slug": "srd-2024_regenerate",
+    "slug": "srd-2024_spell_regenerate",
     "name": "Regenerate",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -8574,7 +8574,7 @@
     ]
   },
   {
-    "slug": "srd-2024_reincarnate",
+    "slug": "srd-2024_spell_reincarnate",
     "name": "Reincarnate",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -8592,7 +8592,7 @@
     ]
   },
   {
-    "slug": "srd-2024_remove-curse",
+    "slug": "srd-2024_spell_remove-curse",
     "name": "Remove Curse",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -8613,7 +8613,7 @@
     ]
   },
   {
-    "slug": "srd-2024_resilient-sphere",
+    "slug": "srd-2024_spell_resilient-sphere",
     "name": "Resilient Sphere",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -8634,7 +8634,7 @@
     }
   },
   {
-    "slug": "srd-2024_resistance",
+    "slug": "srd-2024_spell_resistance",
     "name": "Resistance",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -8642,7 +8642,7 @@
     "school": "abjuration",
     "casting_time": "action",
     "range": "Touch",
-    "components": "",
+    "components": "V, S",
     "duration": "1 minute",
     "concentration": true,
     "ritual": false,
@@ -8653,7 +8653,7 @@
     ]
   },
   {
-    "slug": "srd-2024_resurrection",
+    "slug": "srd-2024_spell_resurrection",
     "name": "Resurrection",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -8672,7 +8672,7 @@
     ]
   },
   {
-    "slug": "srd-2024_reverse-gravity",
+    "slug": "srd-2024_spell_reverse-gravity",
     "name": "Reverse Gravity",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -8695,7 +8695,7 @@
     }
   },
   {
-    "slug": "srd-2024_revivify",
+    "slug": "srd-2024_spell_revivify",
     "name": "Revivify",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -8716,7 +8716,7 @@
     ]
   },
   {
-    "slug": "srd-2024_rope-trick",
+    "slug": "srd-2024_spell_rope-trick",
     "name": "Rope Trick",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -8734,7 +8734,7 @@
     ]
   },
   {
-    "slug": "srd-2024_sacred-flame",
+    "slug": "srd-2024_spell_sacred-flame",
     "name": "Sacred Flame",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -8777,7 +8777,7 @@
     ]
   },
   {
-    "slug": "srd-2024_sanctuary",
+    "slug": "srd-2024_spell_sanctuary",
     "name": "Sanctuary",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -8798,7 +8798,7 @@
     }
   },
   {
-    "slug": "srd-2024_scorching-ray",
+    "slug": "srd-2024_spell_scorching-ray",
     "name": "Scorching Ray",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -8855,7 +8855,7 @@
     ]
   },
   {
-    "slug": "srd-2024_scrying",
+    "slug": "srd-2024_spell_scrying",
     "name": "Scrying",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -8880,7 +8880,7 @@
     }
   },
   {
-    "slug": "srd-2024_searing-smite",
+    "slug": "srd-2024_spell_searing-smite",
     "name": "Searing Smite",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -8888,7 +8888,7 @@
     "school": "evocation",
     "casting_time": "bonus-action",
     "range": "Self",
-    "components": "",
+    "components": "V",
     "duration": "1 minute",
     "concentration": false,
     "ritual": false,
@@ -8943,7 +8943,7 @@
     ]
   },
   {
-    "slug": "srd-2024_secret-chest",
+    "slug": "srd-2024_spell_secret-chest",
     "name": "Secret Chest",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -8961,7 +8961,7 @@
     ]
   },
   {
-    "slug": "srd-2024_see-invisibility",
+    "slug": "srd-2024_spell_see-invisibility",
     "name": "See Invisibility",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -8981,7 +8981,7 @@
     ]
   },
   {
-    "slug": "srd-2024_seeming",
+    "slug": "srd-2024_spell_seeming",
     "name": "Seeming",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -9004,7 +9004,7 @@
     }
   },
   {
-    "slug": "srd-2024_sending",
+    "slug": "srd-2024_spell_sending",
     "name": "Sending",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -9024,7 +9024,7 @@
     ]
   },
   {
-    "slug": "srd-2024_sequester",
+    "slug": "srd-2024_spell_sequester",
     "name": "Sequester",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -9042,7 +9042,7 @@
     ]
   },
   {
-    "slug": "srd-2024_shapechange",
+    "slug": "srd-2024_spell_shapechange",
     "name": "Shapechange",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -9061,7 +9061,7 @@
     ]
   },
   {
-    "slug": "srd-2024_shatter",
+    "slug": "srd-2024_spell_shatter",
     "name": "Shatter",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -9122,7 +9122,7 @@
     ]
   },
   {
-    "slug": "srd-2024_shield",
+    "slug": "srd-2024_spell_shield",
     "name": "Shield",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -9141,7 +9141,7 @@
     ]
   },
   {
-    "slug": "srd-2024_shield-of-faith",
+    "slug": "srd-2024_spell_shield-of-faith",
     "name": "Shield of Faith",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -9160,7 +9160,7 @@
     ]
   },
   {
-    "slug": "srd-2024_shillelagh",
+    "slug": "srd-2024_spell_shillelagh",
     "name": "Shillelagh",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -9200,7 +9200,7 @@
     ]
   },
   {
-    "slug": "srd-2024_shining-smite",
+    "slug": "srd-2024_spell_shining-smite",
     "name": "Shining Smite",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -9208,7 +9208,7 @@
     "school": "transmutation",
     "casting_time": "bonus-action",
     "range": "Self",
-    "components": "",
+    "components": "V",
     "duration": "1 minute",
     "concentration": true,
     "ritual": false,
@@ -9256,7 +9256,7 @@
     ]
   },
   {
-    "slug": "srd-2024_shocking-grasp",
+    "slug": "srd-2024_spell_shocking-grasp",
     "name": "Shocking Grasp",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -9297,7 +9297,7 @@
     ]
   },
   {
-    "slug": "srd-2024_silence",
+    "slug": "srd-2024_spell_silence",
     "name": "Silence",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -9322,7 +9322,7 @@
     }
   },
   {
-    "slug": "srd-2024_silent-image",
+    "slug": "srd-2024_spell_silent-image",
     "name": "Silent Image",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -9342,7 +9342,7 @@
     ]
   },
   {
-    "slug": "srd-2024_simulacrum",
+    "slug": "srd-2024_spell_simulacrum",
     "name": "Simulacrum",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -9360,7 +9360,7 @@
     ]
   },
   {
-    "slug": "srd-2024_sleep",
+    "slug": "srd-2024_spell_sleep",
     "name": "Sleep",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -9383,7 +9383,7 @@
     }
   },
   {
-    "slug": "srd-2024_sleet-storm",
+    "slug": "srd-2024_spell_sleet-storm",
     "name": "Sleet Storm",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -9406,7 +9406,7 @@
     }
   },
   {
-    "slug": "srd-2024_slow",
+    "slug": "srd-2024_spell_slow",
     "name": "Slow",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -9429,7 +9429,7 @@
     }
   },
   {
-    "slug": "srd-2024_sorcerous-burst",
+    "slug": "srd-2024_spell_sorcerous-burst",
     "name": "Sorcerous Burst",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -9437,7 +9437,7 @@
     "school": "evocation",
     "casting_time": "action",
     "range": "120 feet",
-    "components": "",
+    "components": "V, S",
     "duration": "instantaneous",
     "concentration": false,
     "ritual": false,
@@ -9475,7 +9475,7 @@
     ]
   },
   {
-    "slug": "srd-2024_spare-the-dying",
+    "slug": "srd-2024_spell_spare-the-dying",
     "name": "Spare the Dying",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -9508,7 +9508,7 @@
     ]
   },
   {
-    "slug": "srd-2024_speak-with-animals",
+    "slug": "srd-2024_spell_speak-with-animals",
     "name": "Speak with Animals",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -9529,7 +9529,7 @@
     ]
   },
   {
-    "slug": "srd-2024_speak-with-dead",
+    "slug": "srd-2024_spell_speak-with-dead",
     "name": "Speak with Dead",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -9549,7 +9549,7 @@
     ]
   },
   {
-    "slug": "srd-2024_speak-with-plants",
+    "slug": "srd-2024_spell_speak-with-plants",
     "name": "Speak with Plants",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -9569,7 +9569,7 @@
     ]
   },
   {
-    "slug": "srd-2024_spider-climb",
+    "slug": "srd-2024_spell_spider-climb",
     "name": "Spider Climb",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -9622,7 +9622,7 @@
     ]
   },
   {
-    "slug": "srd-2024_spike-growth",
+    "slug": "srd-2024_spell_spike-growth",
     "name": "Spike Growth",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -9646,7 +9646,7 @@
     }
   },
   {
-    "slug": "srd-2024_spirit-guardians",
+    "slug": "srd-2024_spell_spirit-guardians",
     "name": "Spirit Guardians",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -9702,7 +9702,7 @@
     ]
   },
   {
-    "slug": "srd-2024_spiritual-weapon",
+    "slug": "srd-2024_spell_spiritual-weapon",
     "name": "Spiritual Weapon",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -9758,7 +9758,7 @@
     ]
   },
   {
-    "slug": "srd-2024_starry-wisp",
+    "slug": "srd-2024_spell_starry-wisp",
     "name": "Starry Wisp",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -9799,7 +9799,7 @@
     ]
   },
   {
-    "slug": "srd-2024_stinking-cloud",
+    "slug": "srd-2024_spell_stinking-cloud",
     "name": "Stinking Cloud",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -9822,7 +9822,7 @@
     }
   },
   {
-    "slug": "srd-2024_stone-shape",
+    "slug": "srd-2024_spell_stone-shape",
     "name": "Stone Shape",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -9842,7 +9842,7 @@
     ]
   },
   {
-    "slug": "srd-2024_stoneskin",
+    "slug": "srd-2024_spell_stoneskin",
     "name": "Stoneskin",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -9868,7 +9868,7 @@
     }
   },
   {
-    "slug": "srd-2024_storm-of-vengeance",
+    "slug": "srd-2024_spell_storm-of-vengeance",
     "name": "Storm of Vengeance",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -9894,7 +9894,7 @@
     }
   },
   {
-    "slug": "srd-2024_suggestion",
+    "slug": "srd-2024_spell_suggestion",
     "name": "Suggestion",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -9918,7 +9918,7 @@
     }
   },
   {
-    "slug": "srd-2024_summon-dragon",
+    "slug": "srd-2024_spell_summon-dragon",
     "name": "Summon Dragon",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -9957,7 +9957,7 @@
     ]
   },
   {
-    "slug": "srd-2024_sunbeam",
+    "slug": "srd-2024_spell_sunbeam",
     "name": "Sunbeam",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -9986,7 +9986,7 @@
     }
   },
   {
-    "slug": "srd-2024_sunburst",
+    "slug": "srd-2024_spell_sunburst",
     "name": "Sunburst",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -10015,7 +10015,7 @@
     }
   },
   {
-    "slug": "srd-2024_symbol",
+    "slug": "srd-2024_spell_symbol",
     "name": "Symbol",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -10044,7 +10044,7 @@
     }
   },
   {
-    "slug": "srd-2024_telekinesis",
+    "slug": "srd-2024_spell_telekinesis",
     "name": "Telekinesis",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -10066,7 +10066,7 @@
     }
   },
   {
-    "slug": "srd-2024_telepathic-bond",
+    "slug": "srd-2024_spell_telepathic-bond",
     "name": "Telepathic Bond",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -10085,7 +10085,7 @@
     ]
   },
   {
-    "slug": "srd-2024_teleport",
+    "slug": "srd-2024_spell_teleport",
     "name": "Teleport",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -10097,7 +10097,7 @@
     "duration": "instantaneous",
     "concentration": false,
     "ritual": false,
-    "description": "This spell instantly transports you and up to eight willing creatures that you can see within range, or a single object that you can see within range, to a destination you select. If you target an object, it must be Large or smaller, and it can't be held or carried by an unwilling creature. The destination you choose must be known to you, and it must be on the same plane of existence as you. Your familiarity with the destination determines whether you arrive there successfully. The GM rolls 1d100 and consults the Teleportation Outcome table and the explanations after it.\n\n| Familiarity | Mishap | Similar Area | Off Target | On Target |\n|---|---|---|---|---|\n| Permanent circle | — | — | — | 01–00 |\n| Linked object | — | — | — | 01–00 |\n| Very familiar | 01–05 | 06–13 | 14–24 | 25–00 |\n| Seen casually | 01–33 | 34–43 | 44–53 | 54–00 |\n| Viewed once or described | 01–43 | 44–53 | 54–73 | 74–00 |\n| False destination | 01–50 | 51–00 | — | — |\n\n- \"Permanent circle\" means a permanent teleportation circle whose sigil sequence you know.\n- \"Linked object\" means you possess an object taken from the desired destination within the last six months, such as a book from a wizard's library.\n- \"Very familiar\" is a place you have visited often, a place you have carefully studied, or a place you can see when you cast the spell.\n- \"Seen casually\" is a place you have seen more than once but with which you aren't very familiar.\n- \"Viewed once or described\" is a place you have seen once, possibly using magic, or a place you know through someone else's description, perhaps from a map.\n- \"False destination\" is a place that doesn't exist. Perhaps you tried to scry an enemy's sanctum but instead viewed an illusion, or you are attempting to teleport to a location that no longer exists.",
+    "description": "This spell instantly transports you and up to eight willing creatures that you can see within range, or a single object that you can see within range, to a destination you select. If you target an object, it must be Large or smaller, and it can't be held or carried by an unwilling creature. The destination you choose must be known to you, and it must be on the same plane of existence as you. Your familiarity with the destination determines whether you arrive there successfully. The GM rolls 1d100 and consults the Teleportation Outcome table and the explanations after it.\n\n| Familiarity | Mishap | Similar Area | Off Target | On Target |\n|---|---|---|---|---|\n| Permanent circle | — | — | — | 01–00 |\n| Linked object | — | — | — | 01–00 |\n| Very familiar | 01–05 | 06–13 | 14–24 | 25–00 |\n| Seen casually | 01–33 | 34–43 | 44–53 | 54–00 |\n| Viewed once or described | 01–43 | 44–53 | 54–73 | 74–00 |\n| False destination | 01–50 | 51–00 | — | — |\n\n- \"Permanent circle\" means a permanent teleportation circle whose sigil sequence you know.\n- \"Linked object\" means you possess an object taken from the desired destination within the last six months, such as a book from a wizard's library.\n- \"Very familiar\" is a place you have visited often, a place you have carefully studied, or a place you can see when you cast the spell.\n- \"Seen casually\" is a place you have seen more than once but with which you aren't very familiar.\n- \"Viewed once or described\" is a place you have seen once, possibly using magic, or a place you know through someone else's description, perhaps from a map.\n- \"False destination\" is a place that doesn't exist. Perhaps you tried to scry an enemy's sanctum but instead viewed an illusion, or you are attempting to teleport to a location that no longer exists.\n\n**Mishap.** The spell's unpredictable magic results in a difficult journey. Each teleporting creature (or the target object) takes 3d10 Force damage, and the GM rerolls on the table to see where you wind up (multiple mishaps can occur, dealing damage each time).\n\n**Similar Area.** You and your group (or the target object) appear in a different area that's visually or thematically similar to the target area. You appear in the closest similar place. If you are heading for your home laboratory, for example, you might appear in another person's laboratory in the same city.\n\n**Off Target.** You and your group (or the target object) appear 2d12 miles away from the destination in a random direction. Roll 1d8 for the direction: 1, east; 2, southeast; 3, south; 4, southwest; 5, west; 6, northwest; 7, north; or 8, northeast.\n\n**On Target.** You and your group (or the target object) appear where you intended.",
     "classes": [
       "bard",
       "sorcerer",
@@ -10110,7 +10110,7 @@
     }
   },
   {
-    "slug": "srd-2024_teleportation-circle",
+    "slug": "srd-2024_spell_teleportation-circle",
     "name": "Teleportation Circle",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -10131,7 +10131,7 @@
     ]
   },
   {
-    "slug": "srd-2024_thaumaturgy",
+    "slug": "srd-2024_spell_thaumaturgy",
     "name": "Thaumaturgy",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -10149,7 +10149,7 @@
     ]
   },
   {
-    "slug": "srd-2024_thunderwave",
+    "slug": "srd-2024_spell_thunderwave",
     "name": "Thunderwave",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -10215,7 +10215,7 @@
     ]
   },
   {
-    "slug": "srd-2024_time-stop",
+    "slug": "srd-2024_spell_time-stop",
     "name": "Time Stop",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -10234,7 +10234,7 @@
     ]
   },
   {
-    "slug": "srd-2024_tiny-hut",
+    "slug": "srd-2024_spell_tiny-hut",
     "name": "Tiny Hut",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -10253,7 +10253,7 @@
     ]
   },
   {
-    "slug": "srd-2024_tongues",
+    "slug": "srd-2024_spell_tongues",
     "name": "Tongues",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -10275,7 +10275,7 @@
     ]
   },
   {
-    "slug": "srd-2024_transport-via-plants",
+    "slug": "srd-2024_spell_transport-via-plants",
     "name": "Transport via Plants",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -10293,7 +10293,7 @@
     ]
   },
   {
-    "slug": "srd-2024_tree-stride",
+    "slug": "srd-2024_spell_tree-stride",
     "name": "Tree Stride",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -10312,7 +10312,7 @@
     ]
   },
   {
-    "slug": "srd-2024_true-polymorph",
+    "slug": "srd-2024_spell_true-polymorph",
     "name": "True Polymorph",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -10335,7 +10335,7 @@
     }
   },
   {
-    "slug": "srd-2024_true-resurrection",
+    "slug": "srd-2024_spell_true-resurrection",
     "name": "True Resurrection",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -10354,7 +10354,7 @@
     ]
   },
   {
-    "slug": "srd-2024_true-seeing",
+    "slug": "srd-2024_spell_true-seeing",
     "name": "True Seeing",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -10376,7 +10376,7 @@
     ]
   },
   {
-    "slug": "srd-2024_true-strike",
+    "slug": "srd-2024_spell_true-strike",
     "name": "True Strike",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -10419,7 +10419,7 @@
     ]
   },
   {
-    "slug": "srd-2024_tsunami",
+    "slug": "srd-2024_spell_tsunami",
     "name": "Tsunami",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -10445,7 +10445,7 @@
     }
   },
   {
-    "slug": "srd-2024_unseen-servant",
+    "slug": "srd-2024_spell_unseen-servant",
     "name": "Unseen Servant",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -10465,7 +10465,7 @@
     ]
   },
   {
-    "slug": "srd-2024_vampiric-touch",
+    "slug": "srd-2024_spell_vampiric-touch",
     "name": "Vampiric Touch",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -10519,7 +10519,7 @@
     ]
   },
   {
-    "slug": "srd-2024_vicious-mockery",
+    "slug": "srd-2024_spell_vicious-mockery",
     "name": "Vicious Mockery",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -10562,7 +10562,7 @@
     ]
   },
   {
-    "slug": "srd-2024_vitriolic-sphere",
+    "slug": "srd-2024_spell_vitriolic-sphere",
     "name": "Vitriolic Sphere",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -10614,7 +10614,7 @@
     ]
   },
   {
-    "slug": "srd-2024_wall-of-fire",
+    "slug": "srd-2024_spell_wall-of-fire",
     "name": "Wall of Fire",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -10667,7 +10667,7 @@
     ]
   },
   {
-    "slug": "srd-2024_wall-of-force",
+    "slug": "srd-2024_spell_wall-of-force",
     "name": "Wall of Force",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -10685,7 +10685,7 @@
     ]
   },
   {
-    "slug": "srd-2024_wall-of-ice",
+    "slug": "srd-2024_spell_wall-of-ice",
     "name": "Wall of Ice",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -10730,7 +10730,7 @@
     ]
   },
   {
-    "slug": "srd-2024_wall-of-stone",
+    "slug": "srd-2024_spell_wall-of-stone",
     "name": "Wall of Stone",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -10758,7 +10758,7 @@
     }
   },
   {
-    "slug": "srd-2024_wall-of-thorns",
+    "slug": "srd-2024_spell_wall-of-thorns",
     "name": "Wall of Thorns",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -10802,7 +10802,7 @@
     ]
   },
   {
-    "slug": "srd-2024_warding-bond",
+    "slug": "srd-2024_spell_warding-bond",
     "name": "Warding Bond",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -10821,7 +10821,7 @@
     ]
   },
   {
-    "slug": "srd-2024_water-breathing",
+    "slug": "srd-2024_spell_water-breathing",
     "name": "Water Breathing",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -10842,7 +10842,7 @@
     ]
   },
   {
-    "slug": "srd-2024_water-walk",
+    "slug": "srd-2024_spell_water-walk",
     "name": "Water Walk",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -10863,7 +10863,7 @@
     ]
   },
   {
-    "slug": "srd-2024_web",
+    "slug": "srd-2024_spell_web",
     "name": "Web",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -10890,7 +10890,7 @@
     }
   },
   {
-    "slug": "srd-2024_weird",
+    "slug": "srd-2024_spell_weird",
     "name": "Weird",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -10917,7 +10917,7 @@
     }
   },
   {
-    "slug": "srd-2024_wind-walk",
+    "slug": "srd-2024_spell_wind-walk",
     "name": "Wind Walk",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -10940,7 +10940,7 @@
     }
   },
   {
-    "slug": "srd-2024_wind-wall",
+    "slug": "srd-2024_spell_wind-wall",
     "name": "Wind Wall",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -10967,7 +10967,7 @@
     }
   },
   {
-    "slug": "srd-2024_wish",
+    "slug": "srd-2024_spell_wish",
     "name": "Wish",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -10991,7 +10991,7 @@
     }
   },
   {
-    "slug": "srd-2024_word-of-recall",
+    "slug": "srd-2024_spell_word-of-recall",
     "name": "Word of Recall",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -11009,7 +11009,7 @@
     ]
   },
   {
-    "slug": "srd-2024_zone-of-truth",
+    "slug": "srd-2024_spell_zone-of-truth",
     "name": "Zone of Truth",
     "edition": "2024",
     "source": "SRD 5.2",

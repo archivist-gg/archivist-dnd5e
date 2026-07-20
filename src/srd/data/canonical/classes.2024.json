@@ -1,6 +1,6 @@
 [
   {
-    "slug": "srd-2024_barbarian",
+    "slug": "srd-2024_class_barbarian",
     "name": "Barbarian",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -300,6 +300,7 @@
           "id": "rage",
           "name": "Rage",
           "description": "You can imbue yourself with a primal power called Rage, a force that grants you extraordinary might and resilience. You can enter it as a Bonus Action if you aren't wearing Heavy armor.\n\nYou can enter your Rage the number of times shown for your Barbarian level in the Rages column of the Barbarian Features table. You regain one expended use when you finish a Short Rest, and you regain all expended uses when you finish a Long Rest.\n\nWhile active, your Rage follows the rules below. *Damage Resistance.* You have Resistance to Bludgeoning, Piercing, and Slashing damage.\n\n**Rage Damage.** When you make an attack using Strength—with either a weapon or an Unarmed Strike—and deal damage to the target, you gain a bonus to the damage that increases as you gain levels as a Barbarian, as shown in the Rage Damage column of the Barbarian Features table.\n\n**Strength Advantage.** You have Advantage on Strength checks and Strength saving throws.\n\n**No Concentration or Spells.** You can't maintain Concentration, and you can't cast spells.\n\n**Duration.** The Rage lasts until the end of your next turn, and it ends early if you don Heavy armor or have the Incapacitated condition. If your Rage is still active on your next turn, you can extend the Rage for another round by doing one of the following:\n- Make an attack roll against an enemy.\n- Force an enemy to make a saving throw.\n- Take a Bonus Action to extend your Rage.\n\nEach time the Rage is extended, it lasts until the end of your next turn. You can maintain a Rage for up to 10 minutes.",
+          "action": "bonus-action",
           "resources": [
             {
               "id": "barbarian:rage",
@@ -567,6 +568,7 @@
           "id": "persistent-rage",
           "name": "Persistent Rage",
           "description": "When you roll Initiative, you can regain all expended uses of Rage. After you regain uses of Rage in this way, you can't do so again until you finish a Long Rest.\n\nIn addition, your Rage is so fierce that it now lasts for 10 minutes without you needing to do anything to extend it from round to round. Your Rage ends early if you have the Unconscious condition (not just the Incapacitated condition) or don Heavy armor.",
+          "action": "special",
           "resources": [
             {
               "id": "barbarian:persistent-rage",
@@ -660,7 +662,7 @@
     }
   },
   {
-    "slug": "srd-2024_bard",
+    "slug": "srd-2024_class_bard",
     "name": "Bard",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -680,6 +682,11 @@
       "weapons": {
         "categories": [
           "simple"
+        ]
+      },
+      "tools": {
+        "fixed": [
+          "Choose 3 Musical Instruments"
         ]
       }
     },
@@ -1070,6 +1077,7 @@
           "id": "bardic-inspiration",
           "name": "Bardic Inspiration",
           "description": "You can supernaturally inspire others through words, music, or dance. This inspiration is represented by your Bardic Inspiration die, which is a d6.\n\n**Using Bardic Inspiration.** As a Bonus Action, you can inspire another creature within 60 feet of yourself who can see or hear you. That creature gains one of your Bardic Inspiration dice. A creature can have only one Bardic Inspiration die at a time.\n\nOnce within the next hour when the creature fails a D20 Test, the creature can roll the Bardic Inspiration die and add the number rolled to the d20, potentially turning the failure into a success. A Bardic Inspiration die is expended when it's rolled.\n\n**Number of Uses.** You can confer a Bardic Inspiration die a number of times equal to your Charisma modifier (minimum of once), and you regain all expended uses when you finish a Long Rest.\n\n**At Higher Levels.** Your Bardic Inspiration die changes when you reach certain Bard levels, as shown in the Bardic Die column of the Bard Features table. The die becomes a d8 at level 5, a d10 at level 10, and a d12 at level 15.",
+          "action": "bonus-action",
           "resources": [
             {
               "id": "bard:bardic-inspiration",
@@ -1350,7 +1358,7 @@
     }
   },
   {
-    "slug": "srd-2024_cleric",
+    "slug": "srd-2024_class_cleric",
     "name": "Cleric",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -1780,6 +1788,7 @@
           "id": "channel-divinity",
           "name": "Channel Divinity",
           "description": "You can channel divine energy directly from the Outer Planes to fuel magical effects. You start with two such effects: Divine Spark and Turn Undead, each of which is described below. Each time you use this class's Channel Divinity, choose which Channel Divinity effect from this class to create. You gain additional effect options at higher Cleric levels.\n\nYou can use this class's Channel Divinity twice. You regain one of its expended uses when you finish a Short Rest, and you regain all expended uses when you finish a Long Rest. You gain additional uses when you reach certain Cleric levels, as shown in the Channel Divinity column of the Cleric Features table.\n\nIf a Channel Divinity effect requires a saving throw, the DC equals the spell save DC from this class's Spellcasting feature.\n\n**Divine Spark.** As a Magic action, you point your Holy Symbol at another creature you can see within 30 feet of yourself and focus divine energy at it. Roll 1d8 and add your Wisdom modifier. You either restore Hit Points to the creature equal to that total or force the creature to make a Constitution saving throw. On a failed save, the creature takes Necrotic or Radiant damage (your choice) equal to that total. On a successful save, the creature takes half as much damage (round down).\n\nYou roll an additional d8 when you reach Cleric levels 7 (2d8), 13 (3d8), and 18 (4d8).\n\n**Turn Undead.** As a Magic action, you present your Holy Symbol and censure Undead creatures. Each Undead of your choice within 30 feet of you must make a Wisdom saving throw. If the creature fails its save, it has the Frightened and Incapacitated conditions for 1 minute. For that duration, it tries to move as far from you as it can on its turns. This effect ends early on the creature if it takes any damage, if you have the Incapacitated condition, or if you die.",
+          "action": "action",
           "resources": [
             {
               "id": "channel-divinity",
@@ -2044,7 +2053,7 @@
     }
   },
   {
-    "slug": "srd-2024_druid",
+    "slug": "srd-2024_class_druid",
     "name": "Druid",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -2065,6 +2074,11 @@
       "weapons": {
         "categories": [
           "simple"
+        ]
+      },
+      "tools": {
+        "fixed": [
+          "Herbalism Kit"
         ]
       }
     },
@@ -2491,6 +2505,7 @@
           "id": "wild-shape",
           "name": "Wild Shape",
           "description": "The power of nature allows you to assume the form of an animal. As a Bonus Action, you shape-shift into a Beast form that you have learned for this feature (see \"Known Forms\" below). You stay in that form for a number of hours equal to half your Druid level or until you use Wild Shape again, have the Incapacitated condition, or die. You can also leave the form early as a Bonus Action.\n\n**Number of Uses.** You can use Wild Shape twice. You regain one expended use when you finish a Short Rest, and you regain all expended uses when you finish a Long Rest.\n\nYou gain additional uses when you reach certain Druid levels, as shown in the Wild Shape column of the Druid Features table.\n\n**Known Forms.** You know four Beast forms for this feature, chosen from among Beast stat blocks that have a maximum Challenge Rating of 1/4 and that lack a Fly Speed (see \"Animals\" in \"Monsters\" for stat block options). The **Rat**, **Riding Horse**, **Spider**, and **Wolf** are recommended. Whenever you finish a Long Rest, you can replace one of your known forms with another eligible form.\n\nWhen you reach certain Druid levels, your number of known forms and the maximum Challenge Rating for those forms increases, as shown in the Beast Shapes table. In addition, starting at level 8, you can adopt a form that has a Fly Speed.\n\nWhen choosing known forms, you may look in other sources for eligible Beasts if the Game Master permits you to do so.\n\nTable: Beast Shapes\n\n|Druid Level|Known Forms|Max CR|Fly Speed|\n|---|---|---|---|\n|2|4|1/4|No|\n|4|6|1/2|No|\n|8|8|1|Yes|\n\n**Rules While Shape-Shifted.** While in a form, you retain your personality, memories, and ability to speak, and the following rules apply:\n- **Temporary Hit Points.** When you assume a Wild Shape form, you gain a number of Temporary Hit Points equal to your Druid level.\n- **Game Statistics.** Your game statistics are replaced by the Beast's stat block, but you retain your creature type; Hit Points; Hit Point Dice; Intelligence, Wisdom, and Charisma scores; class features; languages; and feats. You also retain your skill and saving throw proficiencies and use your Proficiency Bonus for them, in addition to gaining the proficiencies of the creature. If a skill or saving throw modifier in the Beast's stat block is higher than yours, use the one in the stat block.\n- **No Spellcasting.** You can't cast spells, but shapeshifting doesn't break your Concentration or otherwise interfere with a spell you've already cast.\n- **Objects.** Your ability to handle objects is determined by the form's limbs rather than your own. In addition, you choose whether your equipment falls in your space, merges into your new form, or is worn by it. Worn equipment functions as normal, but the GM decides whether it's practical for the new form to wear a piece of equipment based on the creature's size and shape. Your equipment doesn't change size or shape to match the new form, and any equipment that the new form can't wear must either fall to the ground or merge with the form. Equipment that merges with the form has no effect while you're in that form.",
+          "action": "bonus-action",
           "resources": [
             {
               "id": "druid:wild-shape",
@@ -2765,7 +2780,7 @@
     }
   },
   {
-    "slug": "srd-2024_fighter",
+    "slug": "srd-2024_class_fighter",
     "name": "Fighter",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -3092,6 +3107,7 @@
           "id": "second-wind",
           "name": "Second Wind",
           "description": "You have a limited well of physical and mental stamina that you can draw on. As a Bonus Action, you can use it to regain Hit Points equal to 1d10 plus your Fighter level.\n\nYou can use this feature twice. You regain one expended use when you finish a Short Rest, and you regain all expended uses when you finish a Long Rest.\n\nWhen you reach certain Fighter levels, you gain more uses of this feature, as shown in the Second Wind column of the Fighter Features table.",
+          "action": "bonus-action",
           "resources": [
             {
               "id": "fighter:second-wind",
@@ -3130,6 +3146,7 @@
           "id": "action-surge",
           "name": "Action Surge",
           "description": "You can push yourself beyond your normal limits for a moment. On your turn, you can take one additional action, except the Magic action.\n\nOnce you use this feature, you can't do so again until you finish a Short or Long Rest. Starting at level 17, you can use it twice before a rest but only once on a turn.",
+          "action": "special",
           "resources": [
             {
               "id": "fighter:action-surge",
@@ -3457,6 +3474,7 @@
           "id": "action-surge",
           "name": "Action Surge",
           "description": "You can push yourself beyond your normal limits for a moment. On your turn, you can take one additional action, except the Magic action.\n\nOnce you use this feature, you can't do so again until you finish a Short or Long Rest. Starting at level 17, you can use it twice before a rest but only once on a turn.",
+          "action": "special",
           "resources": [
             {
               "id": "fighter:action-surge",
@@ -3507,7 +3525,7 @@
     }
   },
   {
-    "slug": "srd-2024_monk",
+    "slug": "srd-2024_class_monk",
     "name": "Monk",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -3527,6 +3545,11 @@
         "categories": [
           "simple",
           "martial"
+        ]
+      },
+      "tools": {
+        "fixed": [
+          "Choose one type of Artisan's Tools or Musical Instrument"
         ]
       }
     },
@@ -4135,7 +4158,7 @@
     }
   },
   {
-    "slug": "srd-2024_paladin",
+    "slug": "srd-2024_class_paladin",
     "name": "Paladin",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -4530,6 +4553,7 @@
           "id": "channel-divinity",
           "name": "Channel Divinity",
           "description": "You can channel divine energy directly from the Outer Planes, using it to fuel magical effects. You start with one such effect: Divine Sense, which is described below. Other Paladin features give additional Channel Divinity effect options. Each time you use this class's Channel Divinity, you choose which effect from this class to create.\n\nYou can use this class's Channel Divinity twice. You regain one of its expended uses when you finish a Short Rest, and you regain all expended uses when you finish a Long Rest. You gain an additional use when you reach Paladin level 11.\n\nIf a Channel Divinity effect requires a saving throw, the DC equals the spell save DC from this class's Spellcasting feature.\n\n**Divine Sense.** As a Bonus Action, you can open your awareness to detect Celestials, Fiends, and Undead. For the next 10 minutes or until you have the Incapacitated condition, you know the location of any creature of those types within 60 feet of yourself, and you know its creature type. Within the same radius, you also detect the presence of any place or object that has been consecrated or desecrated, as with the *Hallow* spell.",
+          "action": "action",
           "resources": [
             {
               "id": "channel-divinity",
@@ -4792,7 +4816,7 @@
     }
   },
   {
-    "slug": "srd-2024_ranger",
+    "slug": "srd-2024_class_ranger",
     "name": "Ranger",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -5362,6 +5386,7 @@
           "id": "tireless",
           "name": "Tireless",
           "description": "Primal forces now help fuel you on your journeys, granting you the following benefits.\n\n**Temporary Hit Points.** As a Magic action, you can give yourself a number of Temporary Hit Points equal to 1d8 plus your Wisdom modifier (minimum of 1). You can use this action a number of times equal to your Wisdom modifier (minimum of once), and you regain all expended uses when you finish a Long Rest.\n\n**Decrease Exhaustion.** Whenever you finish a Short Rest, your Exhaustion level, if any, decreases by 1.",
+          "action": "action",
           "resources": [
             {
               "id": "ranger:tireless",
@@ -5424,6 +5449,7 @@
           "id": "natures-veil",
           "name": "Nature's Veil",
           "description": "You invoke spirits of nature to magically hide yourself. As a Bonus Action, you can give yourself the Invisible condition until the end of your next turn.\n\nYou can use this feature a number of times equal to your Wisdom modifier (minimum of once), and you regain all expended uses when you finish a Long Rest.",
+          "action": "bonus-action",
           "resources": [
             {
               "id": "ranger:natures-veil",
@@ -5517,7 +5543,7 @@
     }
   },
   {
-    "slug": "srd-2024_rogue",
+    "slug": "srd-2024_class_rogue",
     "name": "Rogue",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -5538,6 +5564,11 @@
         "categories": [
           "simple",
           "martial"
+        ]
+      },
+      "tools": {
+        "fixed": [
+          "Thieves' Tools"
         ]
       }
     },
@@ -6114,7 +6145,7 @@
     }
   },
   {
-    "slug": "srd-2024_sorcerer",
+    "slug": "srd-2024_class_sorcerer",
     "name": "Sorcerer",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -6507,6 +6538,7 @@
           "id": "innate-sorcery",
           "name": "Innate Sorcery",
           "description": "An event in your past left an indelible mark on you, infusing you with simmering magic. As a Bonus Action, you can unleash that magic for 1 minute, during which you gain the following benefits:\n\n- The spell save DC of your Sorcerer spells increases by 1.\n- You have Advantage on the attack rolls of Sorcerer spells you cast.\n\nYou can use this feature twice, and you regain all expended uses of it when you finish a Long Rest.",
+          "action": "bonus-action",
           "resources": [
             {
               "id": "sorcerer:innate-sorcery",
@@ -6802,7 +6834,7 @@
     }
   },
   {
-    "slug": "srd-2024_warlock",
+    "slug": "srd-2024_class_warlock",
     "name": "Warlock",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -7161,6 +7193,7 @@
           "id": "magic-cunning",
           "name": "Magic Cunning",
           "description": "You can perform an esoteric rite for 1 minute. At the end of it, you regain expended Pact Magic spell slots but no more than a number equal to half your maximum (round up). Once you use this feature, you can't do so again until you finish a Long Rest.",
+          "action": "special",
           "resources": [
             {
               "id": "warlock:magic-cunning",
@@ -7413,7 +7446,7 @@
     }
   },
   {
-    "slug": "srd-2024_wizard",
+    "slug": "srd-2024_class_wizard",
     "name": "Wizard",
     "edition": "2024",
     "source": "SRD 5.2",
@@ -7786,6 +7819,7 @@
           "id": "arcane-recovery",
           "name": "Arcane Recovery",
           "description": "You can regain some of your magical energy by studying your spellbook. When you finish a Short Rest, you can choose expended spell slots to recover. The spell slots can have a combined level equal to no more than half your Wizard level (round up), and none of the slots can be level 6 or higher. For example, if you're a level 4 Wizard, you can recover up to two levels' worth of spell slots, regaining either one level 2 spell slot or two level 1 spell slots.\n\nOnce you use this feature, you can't do so again until you finish a Long Rest.",
+          "action": "special",
           "resources": [
             {
               "id": "wizard:arcane-recovery",
