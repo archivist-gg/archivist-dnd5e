@@ -15241,5 +15241,175 @@
     },
     "description": "When you hit a creature with an attack using this magic weapon, the target takes an extra {@damage 2d6} Necrotic damage and must succeed on a {@dc 15} Constitution saving throw or be unable to regain {@variantrule Hit Points|XPHB} for 1 hour. The target repeats the save at the end of each of its turns, ending the effect on itself on a success.",
     "weight": 2
+  },
+  {
+    "slug": "srd-2024_item_spell-scroll-cantrip",
+    "name": "Spell Scroll (Cantrip)",
+    "edition": "2024",
+    "source": "SRD 5.2",
+    "rarity": "common",
+    "description": "A spell scroll bears the words of a single spell inscribed in a mystical cipher. Choose the spell it holds. Reading the scroll casts that spell using the scroll's own save DC and attack bonus; once cast, the words fade and the scroll crumbles to dust.",
+    "type": "scroll",
+    "scroll_level": 0
+  },
+  {
+    "slug": "srd-2024_item_spell-scroll-1st-level",
+    "name": "Spell Scroll (1st Level)",
+    "edition": "2024",
+    "source": "SRD 5.2",
+    "rarity": "common",
+    "description": "A spell scroll bears the words of a single spell inscribed in a mystical cipher. Choose the spell it holds. Reading the scroll casts that spell using the scroll's own save DC and attack bonus; once cast, the words fade and the scroll crumbles to dust.",
+    "type": "scroll",
+    "scroll_level": 1
+  },
+  {
+    "slug": "srd-2024_item_spell-scroll-2nd-level",
+    "name": "Spell Scroll (2nd Level)",
+    "edition": "2024",
+    "source": "SRD 5.2",
+    "rarity": "uncommon",
+    "description": "A spell scroll bears the words of a single spell inscribed in a mystical cipher. Choose the spell it holds. Reading the scroll casts that spell using the scroll's own save DC and attack bonus; once cast, the words fade and the scroll crumbles to dust.",
+    "type": "scroll",
+    "scroll_level": 2
+  },
+  {
+    "slug": "srd-2024_item_spell-scroll-3rd-level",
+    "name": "Spell Scroll (3rd Level)",
+    "edition": "2024",
+    "source": "SRD 5.2",
+    "rarity": "uncommon",
+    "description": "A spell scroll bears the words of a single spell inscribed in a mystical cipher. Choose the spell it holds. Reading the scroll casts that spell using the scroll's own save DC and attack bonus; once cast, the words fade and the scroll crumbles to dust.",
+    "type": "scroll",
+    "scroll_level": 3
+  },
+  {
+    "slug": "srd-2024_item_spell-scroll-4th-level",
+    "name": "Spell Scroll (4th Level)",
+    "edition": "2024",
+    "source": "SRD 5.2",
+    "rarity": "rare",
+    "description": "A spell scroll bears the words of a single spell inscribed in a mystical cipher. Choose the spell it holds. Reading the scroll casts that spell using the scroll's own save DC and attack bonus; once cast, the words fade and the scroll crumbles to dust.",
+    "type": "scroll",
+    "scroll_level": 4
+  },
+  {
+    "slug": "srd-2024_item_spell-scroll-5th-level",
+    "name": "Spell Scroll (5th Level)",
+    "edition": "2024",
+    "source": "SRD 5.2",
+    "rarity": "rare",
+    "description": "A spell scroll bears the words of a single spell inscribed in a mystical cipher. Choose the spell it holds. Reading the scroll casts that spell using the scroll's own save DC and attack bonus; once cast, the words fade and the scroll crumbles to dust.",
+    "type": "scroll",
+    "scroll_level": 5
+  },
+  {
+    "slug": "srd-2024_item_spell-scroll-6th-level",
+    "name": "Spell Scroll (6th Level)",
+    "edition": "2024",
+    "source": "SRD 5.2",
+    "rarity": "very rare",
+    "description": "A spell scroll bears the words of a single spell inscribed in a mystical cipher. Choose the spell it holds. Reading the scroll casts that spell using the scroll's own save DC and attack bonus; once cast, the words fade and the scroll crumbles to dust.",
+    "type": "scroll",
+    "scroll_level": 6
+  },
+  {
+    "slug": "srd-2024_item_spell-scroll-7th-level",
+    "name": "Spell Scroll (7th Level)",
+    "edition": "2024",
+    "source": "SRD 5.2",
+    "rarity": "very rare",
+    "description": "A spell scroll bears the words of a single spell inscribed in a mystical cipher. Choose the spell it holds. Reading the scroll casts that spell using the scroll's own save DC and attack bonus; once cast, the words fade and the scroll crumbles to dust.",
+    "type": "scroll",
+    "scroll_level": 7
+  },
+  {
+    "slug": "srd-2024_item_spell-scroll-8th-level",
+    "name": "Spell Scroll (8th Level)",
+    "edition": "2024",
+    "source": "SRD 5.2",
+    "rarity": "very rare",
+    "description": "A spell scroll bears the words of a single spell inscribed in a mystical cipher. Choose the spell it holds. Reading the scroll casts that spell using the scroll's own save DC and attack bonus; once cast, the words fade and the scroll crumbles to dust.",
+    "type": "scroll",
+    "scroll_level": 8
+  },
+  {
+    "slug": "srd-2024_item_spell-scroll-9th-level",
+    "name": "Spell Scroll (9th Level)",
+    "edition": "2024",
+    "source": "SRD 5.2",
+    "rarity": "legendary",
+    "description": "A spell scroll bears the words of a single spell inscribed in a mystical cipher. Choose the spell it holds. Reading the scroll casts that spell using the scroll's own save DC and attack bonus; once cast, the words fade and the scroll crumbles to dust.",
+    "type": "scroll",
+    "scroll_level": 9
+  },
+  {
+    "slug": "srd-2024_item_unidentified-potion",
+    "name": "Unidentified Potion",
+    "edition": "2024",
+    "source": "SRD 5.2",
+    "description": "An unidentified item of unknown properties. Identify it to reveal what it truly is.",
+    "type": "potion",
+    "unidentified": true,
+    "masked_category": "potion"
+  },
+  {
+    "slug": "srd-2024_item_unidentified-scroll",
+    "name": "Unidentified Scroll",
+    "edition": "2024",
+    "source": "SRD 5.2",
+    "description": "An unidentified item of unknown properties. Identify it to reveal what it truly is.",
+    "type": "scroll",
+    "unidentified": true,
+    "masked_category": "scroll"
+  },
+  {
+    "slug": "srd-2024_item_unidentified-wondrous-item",
+    "name": "Unidentified Wondrous Item",
+    "edition": "2024",
+    "source": "SRD 5.2",
+    "description": "An unidentified item of unknown properties. Identify it to reveal what it truly is.",
+    "type": "wondrous item",
+    "unidentified": true,
+    "masked_category": "wondrous item"
+  },
+  {
+    "slug": "srd-2024_item_unidentified-weapon",
+    "name": "Unidentified Weapon",
+    "edition": "2024",
+    "source": "SRD 5.2",
+    "description": "An unidentified item of unknown properties. Identify it to reveal what it truly is.",
+    "type": "weapon",
+    "unidentified": true,
+    "masked_category": "weapon"
+  },
+  {
+    "slug": "srd-2024_item_unidentified-armor",
+    "name": "Unidentified Armor",
+    "edition": "2024",
+    "source": "SRD 5.2",
+    "description": "An unidentified item of unknown properties. Identify it to reveal what it truly is.",
+    "type": "armor",
+    "unidentified": true,
+    "masked_category": "armor"
+  },
+  {
+    "slug": "srd-2024_item_unidentified-ring",
+    "name": "Unidentified Ring",
+    "edition": "2024",
+    "source": "SRD 5.2",
+    "description": "An unidentified item of unknown properties. Identify it to reveal what it truly is.",
+    "type": "ring",
+    "unidentified": true,
+    "masked_category": "ring"
+  },
+  {
+    "slug": "srd-2024_item_unidentified-wand",
+    "name": "Unidentified Wand",
+    "edition": "2024",
+    "source": "SRD 5.2",
+    "description": "An unidentified item of unknown properties. Identify it to reveal what it truly is.",
+    "type": "wand",
+    "unidentified": true,
+    "masked_category": "wand"
   }
 ]

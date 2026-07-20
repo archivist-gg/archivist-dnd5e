@@ -258,7 +258,14 @@
     "repeatable": false,
     "effects": [],
     "grants_asi": null,
-    "choices": []
+    "choices": [
+      {
+        "kind": "ability-points",
+        "id": "asi",
+        "points": 1,
+        "max_per": 1
+      }
+    ]
   },
   {
     "slug": "srd-2024_feat_defense",
