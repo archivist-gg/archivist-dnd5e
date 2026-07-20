@@ -130,6 +130,14 @@ describe("resolveItemAction priority", () => {
     expect(a?.max_charges).toBe(9);
   });
 
+  it("resolves a 3-part type-namespaced slug (srd-2024_item_) to the curated map entry", () => {
+    const entry = { item: "[[srd-2024_item_wand-of-fireballs]]" } as EquipmentEntry;
+    const a = resolveItemAction("srd-2024_item_wand-of-fireballs", entry);
+    expect(a?.cost).toBe("action");
+    expect(a?.range).toBe("150 ft.");
+    expect(a?.max_charges).toBe(7);
+  });
+
   // ── Potion type default (B1) + 2024 healing-potion flip (B2) ──
   it("uncurated potion defaults to bonus-action", () => {
     const entry = { item: "[[srd-2024_potion-of-vitality]]", equipped: true } as EquipmentEntry;

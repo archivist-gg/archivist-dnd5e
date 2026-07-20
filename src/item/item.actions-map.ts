@@ -95,21 +95,21 @@ export const ITEM_ACTIONS: Record<string, ItemAction> = {
  * (`srd-5e_wand-of-fireballs`, `srd-2024_wand-of-fireballs`,
  * `homebrew_wand-of-fireballs`).
  *
- * Compendium-prefixed slugs follow the shape `<prefix>_<name-slug>` where
- * both prefix and name-slug are kebab-case (slugify strips underscores).
- * The first underscore is therefore the unambiguous prefix separator: we
- * try the bare slug after the first underscore first, then fall back to
- * the original slug for legacy bare-slug callers.
+ * Type-namespaced slugs follow the shape `<prefix>_<entity_type>_<name-slug>`
+ * (all kebab-case; slugify never emits `_`), so a slug splits on `_` into
+ * exactly 3 parts and the bare name is `parts.slice(2).join("_")`. This is
+ * arity-robust: it also recovers the bare name from a legacy 2-part
+ * `<prefix>_<name>` slug and an already-bare name. `ITEM_ACTIONS` is keyed by
+ * bare name.
  *
- * Returns `undefined` if no map entry matches either form. Does not crash
- * on slugs without an underscore — those are treated as already-bare.
+ * Returns `undefined` if no map entry matches. Does not crash on slugs
+ * without an underscore — those are treated as already-bare.
  */
 export function findItemAction(slug: string): ItemAction | undefined {
   if (slug in ITEM_ACTIONS) return ITEM_ACTIONS[slug];
-  const underscore = slug.indexOf("_");
-  if (underscore < 0) return undefined;
-  const bare = slug.slice(underscore + 1);
-  return ITEM_ACTIONS[bare];
+  const p = slug.split("_");
+  const bare = p.length >= 3 ? p.slice(2).join("_") : p[p.length - 1];
+  return bare === slug ? undefined : ITEM_ACTIONS[bare];
 }
 
 /**
