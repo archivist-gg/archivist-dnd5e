@@ -21,24 +21,27 @@ const LIMITED_USE = [
 // Features whose prose trips the regex but which legitimately have no pooled
 // resource (passive scaling, prose-only flavor, etc). Keep this list short and
 // justified; each entry is "<entity-slug>:<feature-or-trait-slug>".
+// Keys use the type-namespaced entity slug (`<prefix>_<entity_type>_<name>`)
+// that the runtime JSON now carries, matching the `${eslug}:${fslug}` key built
+// in collect(): classes → `_class_`, subclasses → `_subclass_`, races → `_race_`.
 const OPT_OUT = new Set<string>([
   // Spell slots — tracked by the spell system, not a per-feature resource pool.
-  "srd-5e_bard:spellcasting", "srd-5e_cleric:spellcasting", "srd-5e_druid:spellcasting",
-  "srd-5e_paladin:spellcasting", "srd-5e_ranger:spellcasting", "srd-5e_sorcerer:spellcasting",
-  "srd-5e_wizard:spellcasting", "srd-5e_warlock:pact-magic",
-  "srd-2024_bard:spellcasting", "srd-2024_cleric:spellcasting", "srd-2024_druid:spellcasting",
-  "srd-2024_paladin:spellcasting", "srd-2024_ranger:spellcasting", "srd-2024_sorcerer:spellcasting",
-  "srd-2024_wizard:spellcasting", "srd-2024_warlock:pact-magic",
+  "srd-5e_class_bard:spellcasting", "srd-5e_class_cleric:spellcasting", "srd-5e_class_druid:spellcasting",
+  "srd-5e_class_paladin:spellcasting", "srd-5e_class_ranger:spellcasting", "srd-5e_class_sorcerer:spellcasting",
+  "srd-5e_class_wizard:spellcasting", "srd-5e_class_warlock:pact-magic",
+  "srd-2024_class_bard:spellcasting", "srd-2024_class_cleric:spellcasting", "srd-2024_class_druid:spellcasting",
+  "srd-2024_class_paladin:spellcasting", "srd-2024_class_ranger:spellcasting", "srd-2024_class_sorcerer:spellcasting",
+  "srd-2024_class_wizard:spellcasting", "srd-2024_class_warlock:pact-magic",
   // Modifiers/automatic features with no discrete spendable pool of their own.
-  "srd-5e_bard:font-of-inspiration",        // changes Bardic Inspiration recovery; no own pool
-  "srd-5e_sorcerer:sorcerous-restoration",  // 2014: regains points every short rest (unlimited)
-  "srd-2024_bard:font-of-inspiration",      // changes Bardic Inspiration recovery; no own pool
-  "srd-2024_bard:superior-inspiration",     // auto-regain on initiative; no use count
-  "srd-2024_monk:perfect-focus",            // auto-regain Focus on initiative; no use count
-  "srd-2024_druid:archdruid",               // auto-regain Wild Shape on initiative; passive
-  "srd-2024_warlock:eldritch-master",       // modifies Magical Cunning; no own pool
-  "srd-2024_thief:use-magic-device",        // d6 magic-item charge saver; not a personal pool
-  "srd-2024_gnome:gnomish-lineage",         // lineage choice; any uses live in the sub-options
+  "srd-5e_class_bard:font-of-inspiration",        // changes Bardic Inspiration recovery; no own pool
+  "srd-5e_class_sorcerer:sorcerous-restoration",  // 2014: regains points every short rest (unlimited)
+  "srd-2024_class_bard:font-of-inspiration",      // changes Bardic Inspiration recovery; no own pool
+  "srd-2024_class_bard:superior-inspiration",     // auto-regain on initiative; no use count
+  "srd-2024_class_monk:perfect-focus",            // auto-regain Focus on initiative; no use count
+  "srd-2024_class_druid:archdruid",               // auto-regain Wild Shape on initiative; passive
+  "srd-2024_class_warlock:eldritch-master",       // modifies Magical Cunning; no own pool
+  "srd-2024_subclass_thief:use-magic-device",     // d6 magic-item charge saver; not a personal pool
+  "srd-2024_race_gnome:gnomish-lineage",          // lineage choice; any uses live in the sub-options
 ]);
 
 type FeatureLike = { id?: string; name?: string; description?: string; resources?: unknown[] };

@@ -8,10 +8,16 @@ import items14 from "../src/srd/data/runtime/item.2014.json";
 import weap14 from "../src/srd/data/runtime/weapon.2014.json";
 import arm14 from "../src/srd/data/runtime/armor.2014.json";
 
-// Runtime slugs are edition-prefixed (e.g. `srd-2024_chain-mail`, `srd-5e_battleaxe`).
-// Authored {item} grants reference the BARE slug (`chain-mail`), so we compare on
-// the bare form: everything after the first underscore.
-const bare = (s: string) => (s.includes("_") ? s.slice(s.indexOf("_") + 1) : s);
+// Runtime slugs are type-namespaced (`<prefix>_<entity_type>_<name>`, e.g.
+// `srd-2024_armor_chain-mail`, `srd-5e_weapon_battleaxe`). Authored {item}
+// grants reference the BARE slug (`chain-mail`), so we compare on the bare
+// form. Arity-robust: a 3-part slug yields its trailing name; legacy 2-part
+// (`srd-2024_chain-mail`) and bare (`chain-mail`) yield their last segment.
+// Name-slugs never contain `_`, so `slice(2).join("_")` is the unambiguous name.
+const bare = (s: string) => {
+  const p = s.split("_");
+  return p.length >= 3 ? p.slice(2).join("_") : p[p.length - 1];
+};
 const slugSet = (arrs: any[][]) =>
   new Set(arrs.flat().map((e) => bare(e.slug)));
 
