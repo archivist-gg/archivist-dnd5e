@@ -259,7 +259,20 @@ function assignSlots(
     if (!entity || !entityType) continue;
 
     const defaultSlot = defaultSlotForType(entityType, entity, registry);
-    if (!defaultSlot) continue;
+    if (!defaultSlot) {
+      // D7 fail-loud (primary guard): an equipped magic item whose non-empty
+      // `base_item` never resolved yields a null default slot, so it is never
+      // slotted — silently degrading a magic armor to unarmored AC 10. Warn
+      // before dropping it. The `base_item` string gate is essential: plain
+      // wondrous items (rings/cloaks) legitimately have no default slot and
+      // must NOT flood warnings.
+      if (isItemEntity(entity) && typeof entity.base_item === "string" && entity.base_item.length > 0) {
+        warnings.push(
+          `Magic item "${entity.name}" base_item ${entity.base_item} did not resolve to a base weapon or armor; not slotted (AC/attack not applied).`,
+        );
+      }
+      continue;
+    }
 
     const placed: ResolvedEquipped = { index: i, entity, entityType, entry };
     if (defaultSlot === "mainhand") {
@@ -289,11 +302,23 @@ function computeAC(
   resolved: ResolvedCharacter,
   mods: Record<Ability, number>,
   registry: EntityRegistry,
+  warnings: string[],
 ): { ac: number; breakdown: ACTerm[]; informational: InformationalBonus[] } {
   const breakdown: ACTerm[] = [];
   const armorSlot = equippedSlots.armor;
   const armorEntity = armorSlot?.entity ?? null;
   const armor = effectiveArmor(armorEntity, registry);
+
+  // D7 fail-loud (explicit-slot guard): a magic item explicitly slotted into
+  // `armor` whose `base_item` never resolves yields no effective armor, so
+  // computeAC would silently fall through to unarmored AC 10. Warn instead of
+  // degrading silently. Mirrors the weapon path in computeAttacks WITHOUT its
+  // double-wrap bug (`armorEntity.base_item` is already `[[…]]`-wrapped).
+  if (isItemEntity(armorEntity) && typeof armorEntity.base_item === "string" && !armor) {
+    warnings.push(
+      `Magic armor "${armorEntity.name}" base_item ${armorEntity.base_item} did not resolve to a base armor; AC not applied.`,
+    );
+  }
 
   let ac = 10;
   if (armor) {
@@ -635,7 +660,7 @@ function computeAttacks(
       if (found && found.entityType === "weapon" && isWeaponEntity(found.data)) {
         weapon = found.data;
       } else {
-        warnings.push(`Magic weapon ${entity.name} references missing base_item [[${baseSlug}]].`);
+        warnings.push(`Magic weapon ${entity.name} references missing base_item ${baseSlug}.`);
         continue;
       }
     } else {
@@ -767,7 +792,7 @@ export function computeSlotsAndAttacks(
   const equippedSlots = assignSlots(resolved, registry, warnings);
   const overrides = resolved.definition.overrides ?? {};
 
-  const acOut = computeAC(equippedSlots, resolved, mods, registry);
+  const acOut = computeAC(equippedSlots, resolved, mods, registry, warnings);
   const ctx = buildConditionContext(resolved, equippedSlots);
   const attacks = computeAttacks(equippedSlots, mods, profs, registry, warnings, proficiencyBonus, ctx, weaponMasteries, weaponAbilities);
   return {
