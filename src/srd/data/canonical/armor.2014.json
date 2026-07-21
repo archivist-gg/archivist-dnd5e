@@ -150,5 +150,17 @@
       "add_dex": true
     },
     "stealth_disadvantage": false
+  },
+  {
+    "slug": "srd-5e_armor_shield",
+    "name": "Shield",
+    "edition": "2014",
+    "source": "SRD 5.1",
+    "category": "heavy",
+    "ac": {
+      "base": 2,
+      "add_dex": false
+    },
+    "stealth_disadvantage": false
   }
 ]

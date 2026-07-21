@@ -2962,7 +2962,6 @@
     "description": "You can use an action to speak the horn's command word and then blow the horn, which emits a thunderous blast in a 30-foot cone that is audible 600 feet away. Each creature in the cone must make a DC 15 Constitution saving throw. On a failed save, a creature takes 5d6 thunder damage and is deafened for 1 minute. On a successful save, a creature takes half as much damage and isn't deafened. Creatures and objects made of glass or crystal have disadvantage on the saving throw and take 10d6 thunder damage instead of 5d6.\r\n\r\nEach use of the horn's magic has a 20 percent chance of causing the horn to explode. The explosion deals 10d6 fire damage to the blower and destroys the horn.",
     "type": "wondrous item",
     "weight": 2,
-    "base_item": "[[SRD 5e/Weapons/Horn]]",
     "tier": "major",
     "effects": [
       {
@@ -2979,7 +2978,6 @@
     "description": "You can use an action to blow this horn. In response, warrior spirits from the Valhalla appear within 60 feet of you. They use the statistics of a berserker. They return to Valhalla after 1 hour or when they drop to 0 hit points. Once you use the horn, it can't be used again until 7 days have passed.\n\nFour types of _horn of Valhalla_ are known to exist, each made of a different metal. The horn's type determines how many berserkers answer its summons, as well as the requirement for its use. The GM chooses the horn's type or determines it randomly.\n\n| d100   | Horn Type | Berserkers Summoned | Requirement                          |\n|--------|-----------|---------------------|--------------------------------------|\n| 01-40  | Silver    | 2d4 + 2             | None                                 |\n| 41-75  | Brass     | 3d4 + 3             | Proficiency with all simple weapons  |\n| 76-90  | Bronze    | 4d4 + 4             | Proficiency with all medium armor    |\n| 91-00  | Iron      | 5d4 + 5             | Proficiency with all martial weapons |\n\nIf you blow the horn without meeting its requirement, the summoned berserkers attack you. If you meet the requirement, they are friendly to you and your companions and follow your commands.",
     "type": "wondrous item",
     "weight": 2,
-    "base_item": "[[SRD 5e/Weapons/Horn]]",
     "tier": "major",
     "effects": [
       {
@@ -2996,7 +2994,6 @@
     "description": "You can use an action to blow this horn. In response, warrior spirits from the Valhalla appear within 60 feet of you. They use the statistics of a berserker. They return to Valhalla after 1 hour or when they drop to 0 hit points. Once you use the horn, it can't be used again until 7 days have passed.\n\nFour types of _horn of Valhalla_ are known to exist, each made of a different metal. The horn's type determines how many berserkers answer its summons, as well as the requirement for its use. The GM chooses the horn's type or determines it randomly.\n\n| d100   | Horn Type | Berserkers Summoned | Requirement                          |\n|--------|-----------|---------------------|--------------------------------------|\n| 01-40  | Silver    | 2d4 + 2             | None                                 |\n| 41-75  | Brass     | 3d4 + 3             | Proficiency with all simple weapons  |\n| 76-90  | Bronze    | 4d4 + 4             | Proficiency with all medium armor    |\n| 91-00  | Iron      | 5d4 + 5             | Proficiency with all martial weapons |\n\nIf you blow the horn without meeting its requirement, the summoned berserkers attack you. If you meet the requirement, they are friendly to you and your companions and follow your commands.",
     "type": "wondrous item",
     "weight": 2,
-    "base_item": "[[SRD 5e/Weapons/Horn]]",
     "tier": "major",
     "effects": [
       {
@@ -3013,7 +3010,6 @@
     "description": "You can use an action to blow this horn. In response, warrior spirits from the Valhalla appear within 60 feet of you. They use the statistics of a berserker. They return to Valhalla after 1 hour or when they drop to 0 hit points. Once you use the horn, it can't be used again until 7 days have passed.\n\nFour types of _horn of Valhalla_ are known to exist, each made of a different metal. The horn's type determines how many berserkers answer its summons, as well as the requirement for its use. The GM chooses the horn's type or determines it randomly.\n\n| d100   | Horn Type | Berserkers Summoned | Requirement                          |\n|--------|-----------|---------------------|--------------------------------------|\n| 01-40  | Silver    | 2d4 + 2             | None                                 |\n| 41-75  | Brass     | 3d4 + 3             | Proficiency with all simple weapons  |\n| 76-90  | Bronze    | 4d4 + 4             | Proficiency with all medium armor    |\n| 91-00  | Iron      | 5d4 + 5             | Proficiency with all martial weapons |\n\nIf you blow the horn without meeting its requirement, the summoned berserkers attack you. If you meet the requirement, they are friendly to you and your companions and follow your commands.",
     "type": "wondrous item",
     "weight": 2,
-    "base_item": "[[SRD 5e/Weapons/Horn]]",
     "tier": "major",
     "effects": [
       {
@@ -3030,7 +3026,6 @@
     "description": "You can use an action to blow this horn. In response, warrior spirits from the Valhalla appear within 60 feet of you. They use the statistics of a berserker. They return to Valhalla after 1 hour or when they drop to 0 hit points. Once you use the horn, it can't be used again until 7 days have passed.\n\nFour types of _horn of Valhalla_ are known to exist, each made of a different metal. The horn's type determines how many berserkers answer its summons, as well as the requirement for its use. The GM chooses the horn's type or determines it randomly.\n\n| d100   | Horn Type | Berserkers Summoned | Requirement                          |\n|--------|-----------|---------------------|--------------------------------------|\n| 01-40  | Silver    | 2d4 + 2             | None                                 |\n| 41-75  | Brass     | 3d4 + 3             | Proficiency with all simple weapons  |\n| 76-90  | Bronze    | 4d4 + 4             | Proficiency with all medium armor    |\n| 91-00  | Iron      | 5d4 + 5             | Proficiency with all martial weapons |\n\nIf you blow the horn without meeting its requirement, the summoned berserkers attack you. If you meet the requirement, they are friendly to you and your companions and follow your commands.",
     "type": "wondrous item",
     "weight": 2,
-    "base_item": "[[SRD 5e/Weapons/Horn]]",
     "attunement": {
       "required": true
     },
@@ -8042,7 +8037,7 @@
     "type": "armor",
     "rarity": "rare",
     "tier": "major",
-    "base_item": "[[SRD 5e/Armor/Chain Mail]]",
+    "base_item": "[[SRD 5e/Armor/Chain mail]]",
     "bonuses": {
       "ac": 1
     },
@@ -8060,7 +8055,7 @@
     "type": "armor",
     "rarity": "rare",
     "tier": "major",
-    "base_item": "[[SRD 5e/Armor/Chain Shirt]]",
+    "base_item": "[[SRD 5e/Armor/Chain shirt]]",
     "bonuses": {
       "ac": 1
     },
@@ -8078,7 +8073,7 @@
     "type": "armor",
     "rarity": "rare",
     "tier": "major",
-    "base_item": "[[SRD 5e/Armor/Half Plate Armor]]",
+    "base_item": "[[SRD 5e/Armor/Half plate]]",
     "bonuses": {
       "ac": 1
     },
@@ -8096,7 +8091,7 @@
     "type": "armor",
     "rarity": "rare",
     "tier": "major",
-    "base_item": "[[SRD 5e/Armor/Hide Armor]]",
+    "base_item": "[[SRD 5e/Armor/Hide]]",
     "bonuses": {
       "ac": 1
     },
@@ -8114,7 +8109,7 @@
     "type": "armor",
     "rarity": "rare",
     "tier": "major",
-    "base_item": "[[SRD 5e/Armor/Leather Armor]]",
+    "base_item": "[[SRD 5e/Armor/Leather]]",
     "bonuses": {
       "ac": 1
     },
@@ -8132,7 +8127,7 @@
     "type": "armor",
     "rarity": "rare",
     "tier": "major",
-    "base_item": "[[SRD 5e/Armor/Padded Armor]]",
+    "base_item": "[[SRD 5e/Armor/Padded]]",
     "bonuses": {
       "ac": 1
     },
@@ -8150,7 +8145,7 @@
     "type": "armor",
     "rarity": "rare",
     "tier": "major",
-    "base_item": "[[SRD 5e/Armor/Plate Armor]]",
+    "base_item": "[[SRD 5e/Armor/Plate]]",
     "bonuses": {
       "ac": 1
     },
@@ -8168,7 +8163,7 @@
     "type": "armor",
     "rarity": "rare",
     "tier": "major",
-    "base_item": "[[SRD 5e/Armor/Ring Mail]]",
+    "base_item": "[[SRD 5e/Armor/Ring mail]]",
     "bonuses": {
       "ac": 1
     },
@@ -8186,7 +8181,7 @@
     "type": "armor",
     "rarity": "rare",
     "tier": "major",
-    "base_item": "[[SRD 5e/Armor/Scale Mail]]",
+    "base_item": "[[SRD 5e/Armor/Scale mail]]",
     "bonuses": {
       "ac": 1
     },
@@ -8204,7 +8199,7 @@
     "type": "armor",
     "rarity": "rare",
     "tier": "major",
-    "base_item": "[[SRD 5e/Armor/Splint Armor]]",
+    "base_item": "[[SRD 5e/Armor/Splint]]",
     "bonuses": {
       "ac": 1
     },
@@ -8222,7 +8217,7 @@
     "type": "armor",
     "rarity": "rare",
     "tier": "major",
-    "base_item": "[[SRD 5e/Armor/Studded Leather Armor]]",
+    "base_item": "[[SRD 5e/Armor/Studded leather]]",
     "bonuses": {
       "ac": 1
     },
@@ -8258,7 +8253,7 @@
     "type": "weapon",
     "rarity": "uncommon",
     "tier": "major",
-    "base_item": "[[SRD 5e/Weapons/Hand Crossbow]]",
+    "base_item": "[[SRD 5e/Weapons/Crossbow, hand]]",
     "bonuses": {
       "weapon_attack": 1,
       "weapon_damage": 1
@@ -8277,7 +8272,7 @@
     "type": "weapon",
     "rarity": "uncommon",
     "tier": "major",
-    "base_item": "[[SRD 5e/Weapons/Heavy Crossbow]]",
+    "base_item": "[[SRD 5e/Weapons/Crossbow, heavy]]",
     "bonuses": {
       "weapon_attack": 1,
       "weapon_damage": 1
@@ -8296,7 +8291,7 @@
     "type": "weapon",
     "rarity": "uncommon",
     "tier": "major",
-    "base_item": "[[SRD 5e/Weapons/Light Crossbow]]",
+    "base_item": "[[SRD 5e/Weapons/Crossbow, light]]",
     "bonuses": {
       "weapon_attack": 1,
       "weapon_damage": 1
@@ -8333,7 +8328,7 @@
     "type": "armor",
     "rarity": "very rare",
     "tier": "major",
-    "base_item": "[[SRD 5e/Armor/Chain Mail]]",
+    "base_item": "[[SRD 5e/Armor/Chain mail]]",
     "bonuses": {
       "ac": 2
     },
@@ -8351,7 +8346,7 @@
     "type": "armor",
     "rarity": "very rare",
     "tier": "major",
-    "base_item": "[[SRD 5e/Armor/Chain Shirt]]",
+    "base_item": "[[SRD 5e/Armor/Chain shirt]]",
     "bonuses": {
       "ac": 2
     },
@@ -8369,7 +8364,7 @@
     "type": "armor",
     "rarity": "very rare",
     "tier": "major",
-    "base_item": "[[SRD 5e/Armor/Half Plate Armor]]",
+    "base_item": "[[SRD 5e/Armor/Half plate]]",
     "bonuses": {
       "ac": 2
     },
@@ -8387,7 +8382,7 @@
     "type": "armor",
     "rarity": "very rare",
     "tier": "major",
-    "base_item": "[[SRD 5e/Armor/Hide Armor]]",
+    "base_item": "[[SRD 5e/Armor/Hide]]",
     "bonuses": {
       "ac": 2
     },
@@ -8405,7 +8400,7 @@
     "type": "armor",
     "rarity": "very rare",
     "tier": "major",
-    "base_item": "[[SRD 5e/Armor/Leather Armor]]",
+    "base_item": "[[SRD 5e/Armor/Leather]]",
     "bonuses": {
       "ac": 2
     },
@@ -8423,7 +8418,7 @@
     "type": "armor",
     "rarity": "very rare",
     "tier": "major",
-    "base_item": "[[SRD 5e/Armor/Padded Armor]]",
+    "base_item": "[[SRD 5e/Armor/Padded]]",
     "bonuses": {
       "ac": 2
     },
@@ -8441,7 +8436,7 @@
     "type": "armor",
     "rarity": "very rare",
     "tier": "major",
-    "base_item": "[[SRD 5e/Armor/Plate Armor]]",
+    "base_item": "[[SRD 5e/Armor/Plate]]",
     "bonuses": {
       "ac": 2
     },
@@ -8459,7 +8454,7 @@
     "type": "armor",
     "rarity": "very rare",
     "tier": "major",
-    "base_item": "[[SRD 5e/Armor/Ring Mail]]",
+    "base_item": "[[SRD 5e/Armor/Ring mail]]",
     "bonuses": {
       "ac": 2
     },
@@ -8477,7 +8472,7 @@
     "type": "armor",
     "rarity": "very rare",
     "tier": "major",
-    "base_item": "[[SRD 5e/Armor/Scale Mail]]",
+    "base_item": "[[SRD 5e/Armor/Scale mail]]",
     "bonuses": {
       "ac": 2
     },
@@ -8495,7 +8490,7 @@
     "type": "armor",
     "rarity": "very rare",
     "tier": "major",
-    "base_item": "[[SRD 5e/Armor/Splint Armor]]",
+    "base_item": "[[SRD 5e/Armor/Splint]]",
     "bonuses": {
       "ac": 2
     },
@@ -8513,7 +8508,7 @@
     "type": "armor",
     "rarity": "very rare",
     "tier": "major",
-    "base_item": "[[SRD 5e/Armor/Studded Leather Armor]]",
+    "base_item": "[[SRD 5e/Armor/Studded leather]]",
     "bonuses": {
       "ac": 2
     },
@@ -8549,7 +8544,7 @@
     "type": "weapon",
     "rarity": "rare",
     "tier": "major",
-    "base_item": "[[SRD 5e/Weapons/Hand Crossbow]]",
+    "base_item": "[[SRD 5e/Weapons/Crossbow, hand]]",
     "bonuses": {
       "weapon_attack": 2,
       "weapon_damage": 2
@@ -8568,7 +8563,7 @@
     "type": "weapon",
     "rarity": "rare",
     "tier": "major",
-    "base_item": "[[SRD 5e/Weapons/Heavy Crossbow]]",
+    "base_item": "[[SRD 5e/Weapons/Crossbow, heavy]]",
     "bonuses": {
       "weapon_attack": 2,
       "weapon_damage": 2
@@ -8587,7 +8582,7 @@
     "type": "weapon",
     "rarity": "rare",
     "tier": "major",
-    "base_item": "[[SRD 5e/Weapons/Light Crossbow]]",
+    "base_item": "[[SRD 5e/Weapons/Crossbow, light]]",
     "bonuses": {
       "weapon_attack": 2,
       "weapon_damage": 2
@@ -8624,7 +8619,7 @@
     "type": "armor",
     "rarity": "legendary",
     "tier": "major",
-    "base_item": "[[SRD 5e/Armor/Chain Mail]]",
+    "base_item": "[[SRD 5e/Armor/Chain mail]]",
     "bonuses": {
       "ac": 3
     },
@@ -8642,7 +8637,7 @@
     "type": "armor",
     "rarity": "legendary",
     "tier": "major",
-    "base_item": "[[SRD 5e/Armor/Chain Shirt]]",
+    "base_item": "[[SRD 5e/Armor/Chain shirt]]",
     "bonuses": {
       "ac": 3
     },
@@ -8660,7 +8655,7 @@
     "type": "armor",
     "rarity": "legendary",
     "tier": "major",
-    "base_item": "[[SRD 5e/Armor/Half Plate Armor]]",
+    "base_item": "[[SRD 5e/Armor/Half plate]]",
     "bonuses": {
       "ac": 3
     },
@@ -8678,7 +8673,7 @@
     "type": "armor",
     "rarity": "legendary",
     "tier": "major",
-    "base_item": "[[SRD 5e/Armor/Hide Armor]]",
+    "base_item": "[[SRD 5e/Armor/Hide]]",
     "bonuses": {
       "ac": 3
     },
@@ -8696,7 +8691,7 @@
     "type": "armor",
     "rarity": "legendary",
     "tier": "major",
-    "base_item": "[[SRD 5e/Armor/Leather Armor]]",
+    "base_item": "[[SRD 5e/Armor/Leather]]",
     "bonuses": {
       "ac": 3
     },
@@ -8714,7 +8709,7 @@
     "type": "armor",
     "rarity": "legendary",
     "tier": "major",
-    "base_item": "[[SRD 5e/Armor/Padded Armor]]",
+    "base_item": "[[SRD 5e/Armor/Padded]]",
     "bonuses": {
       "ac": 3
     },
@@ -8732,7 +8727,7 @@
     "type": "armor",
     "rarity": "legendary",
     "tier": "major",
-    "base_item": "[[SRD 5e/Armor/Plate Armor]]",
+    "base_item": "[[SRD 5e/Armor/Plate]]",
     "bonuses": {
       "ac": 3
     },
@@ -8750,7 +8745,7 @@
     "type": "armor",
     "rarity": "legendary",
     "tier": "major",
-    "base_item": "[[SRD 5e/Armor/Ring Mail]]",
+    "base_item": "[[SRD 5e/Armor/Ring mail]]",
     "bonuses": {
       "ac": 3
     },
@@ -8768,7 +8763,7 @@
     "type": "armor",
     "rarity": "legendary",
     "tier": "major",
-    "base_item": "[[SRD 5e/Armor/Scale Mail]]",
+    "base_item": "[[SRD 5e/Armor/Scale mail]]",
     "bonuses": {
       "ac": 3
     },
@@ -8786,7 +8781,7 @@
     "type": "armor",
     "rarity": "legendary",
     "tier": "major",
-    "base_item": "[[SRD 5e/Armor/Splint Armor]]",
+    "base_item": "[[SRD 5e/Armor/Splint]]",
     "bonuses": {
       "ac": 3
     },
@@ -8804,7 +8799,7 @@
     "type": "armor",
     "rarity": "legendary",
     "tier": "major",
-    "base_item": "[[SRD 5e/Armor/Studded Leather Armor]]",
+    "base_item": "[[SRD 5e/Armor/Studded leather]]",
     "bonuses": {
       "ac": 3
     },
@@ -8840,7 +8835,7 @@
     "type": "weapon",
     "rarity": "very rare",
     "tier": "major",
-    "base_item": "[[SRD 5e/Weapons/Hand Crossbow]]",
+    "base_item": "[[SRD 5e/Weapons/Crossbow, hand]]",
     "bonuses": {
       "weapon_attack": 3,
       "weapon_damage": 3
@@ -8859,7 +8854,7 @@
     "type": "weapon",
     "rarity": "very rare",
     "tier": "major",
-    "base_item": "[[SRD 5e/Weapons/Heavy Crossbow]]",
+    "base_item": "[[SRD 5e/Weapons/Crossbow, heavy]]",
     "bonuses": {
       "weapon_attack": 3,
       "weapon_damage": 3
@@ -8878,7 +8873,7 @@
     "type": "weapon",
     "rarity": "very rare",
     "tier": "major",
-    "base_item": "[[SRD 5e/Weapons/Light Crossbow]]",
+    "base_item": "[[SRD 5e/Weapons/Crossbow, light]]",
     "bonuses": {
       "weapon_attack": 3,
       "weapon_damage": 3
@@ -8912,7 +8907,7 @@
     "type": "armor",
     "rarity": "uncommon",
     "tier": "major",
-    "base_item": "[[SRD 5e/Armor/Chain Mail]]",
+    "base_item": "[[SRD 5e/Armor/Chain mail]]",
     "attunement": {
       "required": false
     },
@@ -8927,7 +8922,7 @@
     "type": "armor",
     "rarity": "uncommon",
     "tier": "major",
-    "base_item": "[[SRD 5e/Armor/Chain Shirt]]",
+    "base_item": "[[SRD 5e/Armor/Chain shirt]]",
     "attunement": {
       "required": false
     },
@@ -8942,7 +8937,7 @@
     "type": "armor",
     "rarity": "uncommon",
     "tier": "major",
-    "base_item": "[[SRD 5e/Armor/Half Plate Armor]]",
+    "base_item": "[[SRD 5e/Armor/Half plate]]",
     "attunement": {
       "required": false
     },
@@ -8957,7 +8952,7 @@
     "type": "armor",
     "rarity": "uncommon",
     "tier": "major",
-    "base_item": "[[SRD 5e/Armor/Hide Armor]]",
+    "base_item": "[[SRD 5e/Armor/Hide]]",
     "attunement": {
       "required": false
     },
@@ -8972,7 +8967,7 @@
     "type": "armor",
     "rarity": "uncommon",
     "tier": "major",
-    "base_item": "[[SRD 5e/Armor/Plate Armor]]",
+    "base_item": "[[SRD 5e/Armor/Plate]]",
     "attunement": {
       "required": false
     },
@@ -8987,7 +8982,7 @@
     "type": "armor",
     "rarity": "uncommon",
     "tier": "major",
-    "base_item": "[[SRD 5e/Armor/Ring Mail]]",
+    "base_item": "[[SRD 5e/Armor/Ring mail]]",
     "attunement": {
       "required": false
     },
@@ -9002,7 +8997,7 @@
     "type": "armor",
     "rarity": "uncommon",
     "tier": "major",
-    "base_item": "[[SRD 5e/Armor/Scale Mail]]",
+    "base_item": "[[SRD 5e/Armor/Scale mail]]",
     "attunement": {
       "required": false
     },
@@ -9017,7 +9012,7 @@
     "type": "armor",
     "rarity": "uncommon",
     "tier": "major",
-    "base_item": "[[SRD 5e/Armor/Splint Armor]]",
+    "base_item": "[[SRD 5e/Armor/Splint]]",
     "attunement": {
       "required": false
     },
@@ -9047,7 +9042,7 @@
     "type": "armor",
     "rarity": "rare",
     "tier": "major",
-    "base_item": "[[SRD 5e/Armor/Chain Mail]]",
+    "base_item": "[[SRD 5e/Armor/Chain mail]]",
     "attunement": {
       "required": true
     },
@@ -9062,7 +9057,7 @@
     "type": "armor",
     "rarity": "rare",
     "tier": "major",
-    "base_item": "[[SRD 5e/Armor/Chain Shirt]]",
+    "base_item": "[[SRD 5e/Armor/Chain shirt]]",
     "attunement": {
       "required": true
     },
@@ -9077,7 +9072,7 @@
     "type": "armor",
     "rarity": "rare",
     "tier": "major",
-    "base_item": "[[SRD 5e/Armor/Half Plate Armor]]",
+    "base_item": "[[SRD 5e/Armor/Half plate]]",
     "attunement": {
       "required": true
     },
@@ -9092,7 +9087,7 @@
     "type": "armor",
     "rarity": "rare",
     "tier": "major",
-    "base_item": "[[SRD 5e/Armor/Hide Armor]]",
+    "base_item": "[[SRD 5e/Armor/Hide]]",
     "attunement": {
       "required": true
     },
@@ -9107,7 +9102,7 @@
     "type": "armor",
     "rarity": "rare",
     "tier": "major",
-    "base_item": "[[SRD 5e/Armor/Leather Armor]]",
+    "base_item": "[[SRD 5e/Armor/Leather]]",
     "attunement": {
       "required": true
     },
@@ -9122,7 +9117,7 @@
     "type": "armor",
     "rarity": "rare",
     "tier": "major",
-    "base_item": "[[SRD 5e/Armor/Padded Armor]]",
+    "base_item": "[[SRD 5e/Armor/Padded]]",
     "attunement": {
       "required": true
     },
@@ -9137,7 +9132,7 @@
     "type": "armor",
     "rarity": "rare",
     "tier": "major",
-    "base_item": "[[SRD 5e/Armor/Plate Armor]]",
+    "base_item": "[[SRD 5e/Armor/Plate]]",
     "attunement": {
       "required": true
     },
@@ -9152,7 +9147,7 @@
     "type": "armor",
     "rarity": "rare",
     "tier": "major",
-    "base_item": "[[SRD 5e/Armor/Ring Mail]]",
+    "base_item": "[[SRD 5e/Armor/Ring mail]]",
     "attunement": {
       "required": true
     },
@@ -9167,7 +9162,7 @@
     "type": "armor",
     "rarity": "rare",
     "tier": "major",
-    "base_item": "[[SRD 5e/Armor/Scale Mail]]",
+    "base_item": "[[SRD 5e/Armor/Scale mail]]",
     "attunement": {
       "required": true
     },
@@ -9182,7 +9177,7 @@
     "type": "armor",
     "rarity": "rare",
     "tier": "major",
-    "base_item": "[[SRD 5e/Armor/Splint Armor]]",
+    "base_item": "[[SRD 5e/Armor/Splint]]",
     "attunement": {
       "required": true
     },
@@ -9197,7 +9192,7 @@
     "type": "armor",
     "rarity": "rare",
     "tier": "major",
-    "base_item": "[[SRD 5e/Armor/Studded Leather Armor]]",
+    "base_item": "[[SRD 5e/Armor/Studded leather]]",
     "attunement": {
       "required": true
     },
@@ -9227,7 +9222,7 @@
     "type": "armor",
     "rarity": "rare",
     "tier": "major",
-    "base_item": "[[SRD 5e/Armor/Chain Mail]]",
+    "base_item": "[[SRD 5e/Armor/Chain mail]]",
     "attunement": {
       "required": true
     },
@@ -9242,7 +9237,7 @@
     "type": "armor",
     "rarity": "rare",
     "tier": "major",
-    "base_item": "[[SRD 5e/Armor/Chain Shirt]]",
+    "base_item": "[[SRD 5e/Armor/Chain shirt]]",
     "attunement": {
       "required": true
     },
@@ -9257,7 +9252,7 @@
     "type": "armor",
     "rarity": "rare",
     "tier": "major",
-    "base_item": "[[SRD 5e/Armor/Half Plate Armor]]",
+    "base_item": "[[SRD 5e/Armor/Half plate]]",
     "attunement": {
       "required": true
     },
@@ -9272,7 +9267,7 @@
     "type": "armor",
     "rarity": "rare",
     "tier": "major",
-    "base_item": "[[SRD 5e/Armor/Hide Armor]]",
+    "base_item": "[[SRD 5e/Armor/Hide]]",
     "attunement": {
       "required": true
     },
@@ -9287,7 +9282,7 @@
     "type": "armor",
     "rarity": "rare",
     "tier": "major",
-    "base_item": "[[SRD 5e/Armor/Leather Armor]]",
+    "base_item": "[[SRD 5e/Armor/Leather]]",
     "attunement": {
       "required": true
     },
@@ -9302,7 +9297,7 @@
     "type": "armor",
     "rarity": "rare",
     "tier": "major",
-    "base_item": "[[SRD 5e/Armor/Padded Armor]]",
+    "base_item": "[[SRD 5e/Armor/Padded]]",
     "attunement": {
       "required": true
     },
@@ -9317,7 +9312,7 @@
     "type": "armor",
     "rarity": "rare",
     "tier": "major",
-    "base_item": "[[SRD 5e/Armor/Plate Armor]]",
+    "base_item": "[[SRD 5e/Armor/Plate]]",
     "attunement": {
       "required": true
     },
@@ -9332,7 +9327,7 @@
     "type": "armor",
     "rarity": "rare",
     "tier": "major",
-    "base_item": "[[SRD 5e/Armor/Ring Mail]]",
+    "base_item": "[[SRD 5e/Armor/Ring mail]]",
     "attunement": {
       "required": true
     },
@@ -9347,7 +9342,7 @@
     "type": "armor",
     "rarity": "rare",
     "tier": "major",
-    "base_item": "[[SRD 5e/Armor/Scale Mail]]",
+    "base_item": "[[SRD 5e/Armor/Scale mail]]",
     "attunement": {
       "required": true
     },
@@ -9362,7 +9357,7 @@
     "type": "armor",
     "rarity": "rare",
     "tier": "major",
-    "base_item": "[[SRD 5e/Armor/Splint Armor]]",
+    "base_item": "[[SRD 5e/Armor/Splint]]",
     "attunement": {
       "required": true
     },
@@ -9377,7 +9372,7 @@
     "type": "armor",
     "rarity": "rare",
     "tier": "major",
-    "base_item": "[[SRD 5e/Armor/Studded Leather Armor]]",
+    "base_item": "[[SRD 5e/Armor/Studded leather]]",
     "attunement": {
       "required": true
     },
@@ -9407,7 +9402,7 @@
     "type": "armor",
     "rarity": "rare",
     "tier": "major",
-    "base_item": "[[SRD 5e/Armor/Chain Mail]]",
+    "base_item": "[[SRD 5e/Armor/Chain mail]]",
     "attunement": {
       "required": true
     },
@@ -9422,7 +9417,7 @@
     "type": "armor",
     "rarity": "rare",
     "tier": "major",
-    "base_item": "[[SRD 5e/Armor/Chain Shirt]]",
+    "base_item": "[[SRD 5e/Armor/Chain shirt]]",
     "attunement": {
       "required": true
     },
@@ -9437,7 +9432,7 @@
     "type": "armor",
     "rarity": "rare",
     "tier": "major",
-    "base_item": "[[SRD 5e/Armor/Half Plate Armor]]",
+    "base_item": "[[SRD 5e/Armor/Half plate]]",
     "attunement": {
       "required": true
     },
@@ -9452,7 +9447,7 @@
     "type": "armor",
     "rarity": "rare",
     "tier": "major",
-    "base_item": "[[SRD 5e/Armor/Hide Armor]]",
+    "base_item": "[[SRD 5e/Armor/Hide]]",
     "attunement": {
       "required": true
     },
@@ -9467,7 +9462,7 @@
     "type": "armor",
     "rarity": "rare",
     "tier": "major",
-    "base_item": "[[SRD 5e/Armor/Leather Armor]]",
+    "base_item": "[[SRD 5e/Armor/Leather]]",
     "attunement": {
       "required": true
     },
@@ -9482,7 +9477,7 @@
     "type": "armor",
     "rarity": "rare",
     "tier": "major",
-    "base_item": "[[SRD 5e/Armor/Padded Armor]]",
+    "base_item": "[[SRD 5e/Armor/Padded]]",
     "attunement": {
       "required": true
     },
@@ -9497,7 +9492,7 @@
     "type": "armor",
     "rarity": "rare",
     "tier": "major",
-    "base_item": "[[SRD 5e/Armor/Plate Armor]]",
+    "base_item": "[[SRD 5e/Armor/Plate]]",
     "attunement": {
       "required": true
     },
@@ -9512,7 +9507,7 @@
     "type": "armor",
     "rarity": "rare",
     "tier": "major",
-    "base_item": "[[SRD 5e/Armor/Ring Mail]]",
+    "base_item": "[[SRD 5e/Armor/Ring mail]]",
     "attunement": {
       "required": true
     },
@@ -9527,7 +9522,7 @@
     "type": "armor",
     "rarity": "rare",
     "tier": "major",
-    "base_item": "[[SRD 5e/Armor/Scale Mail]]",
+    "base_item": "[[SRD 5e/Armor/Scale mail]]",
     "attunement": {
       "required": true
     },
@@ -9542,7 +9537,7 @@
     "type": "armor",
     "rarity": "rare",
     "tier": "major",
-    "base_item": "[[SRD 5e/Armor/Splint Armor]]",
+    "base_item": "[[SRD 5e/Armor/Splint]]",
     "attunement": {
       "required": true
     },
@@ -9557,7 +9552,7 @@
     "type": "armor",
     "rarity": "rare",
     "tier": "major",
-    "base_item": "[[SRD 5e/Armor/Studded Leather Armor]]",
+    "base_item": "[[SRD 5e/Armor/Studded leather]]",
     "attunement": {
       "required": true
     },
@@ -9587,7 +9582,7 @@
     "type": "armor",
     "rarity": "rare",
     "tier": "major",
-    "base_item": "[[SRD 5e/Armor/Chain Mail]]",
+    "base_item": "[[SRD 5e/Armor/Chain mail]]",
     "attunement": {
       "required": true
     },
@@ -9602,7 +9597,7 @@
     "type": "armor",
     "rarity": "rare",
     "tier": "major",
-    "base_item": "[[SRD 5e/Armor/Chain Shirt]]",
+    "base_item": "[[SRD 5e/Armor/Chain shirt]]",
     "attunement": {
       "required": true
     },
@@ -9617,7 +9612,7 @@
     "type": "armor",
     "rarity": "rare",
     "tier": "major",
-    "base_item": "[[SRD 5e/Armor/Half Plate Armor]]",
+    "base_item": "[[SRD 5e/Armor/Half plate]]",
     "attunement": {
       "required": true
     },
@@ -9632,7 +9627,7 @@
     "type": "armor",
     "rarity": "rare",
     "tier": "major",
-    "base_item": "[[SRD 5e/Armor/Hide Armor]]",
+    "base_item": "[[SRD 5e/Armor/Hide]]",
     "attunement": {
       "required": true
     },
@@ -9647,7 +9642,7 @@
     "type": "armor",
     "rarity": "rare",
     "tier": "major",
-    "base_item": "[[SRD 5e/Armor/Leather Armor]]",
+    "base_item": "[[SRD 5e/Armor/Leather]]",
     "attunement": {
       "required": true
     },
@@ -9662,7 +9657,7 @@
     "type": "armor",
     "rarity": "rare",
     "tier": "major",
-    "base_item": "[[SRD 5e/Armor/Padded Armor]]",
+    "base_item": "[[SRD 5e/Armor/Padded]]",
     "attunement": {
       "required": true
     },
@@ -9677,7 +9672,7 @@
     "type": "armor",
     "rarity": "rare",
     "tier": "major",
-    "base_item": "[[SRD 5e/Armor/Plate Armor]]",
+    "base_item": "[[SRD 5e/Armor/Plate]]",
     "attunement": {
       "required": true
     },
@@ -9692,7 +9687,7 @@
     "type": "armor",
     "rarity": "rare",
     "tier": "major",
-    "base_item": "[[SRD 5e/Armor/Ring Mail]]",
+    "base_item": "[[SRD 5e/Armor/Ring mail]]",
     "attunement": {
       "required": true
     },
@@ -9707,7 +9702,7 @@
     "type": "armor",
     "rarity": "rare",
     "tier": "major",
-    "base_item": "[[SRD 5e/Armor/Scale Mail]]",
+    "base_item": "[[SRD 5e/Armor/Scale mail]]",
     "attunement": {
       "required": true
     },
@@ -9722,7 +9717,7 @@
     "type": "armor",
     "rarity": "rare",
     "tier": "major",
-    "base_item": "[[SRD 5e/Armor/Splint Armor]]",
+    "base_item": "[[SRD 5e/Armor/Splint]]",
     "attunement": {
       "required": true
     },
@@ -9737,7 +9732,7 @@
     "type": "armor",
     "rarity": "rare",
     "tier": "major",
-    "base_item": "[[SRD 5e/Armor/Studded Leather Armor]]",
+    "base_item": "[[SRD 5e/Armor/Studded leather]]",
     "attunement": {
       "required": true
     },
@@ -9767,7 +9762,7 @@
     "type": "armor",
     "rarity": "rare",
     "tier": "major",
-    "base_item": "[[SRD 5e/Armor/Chain Mail]]",
+    "base_item": "[[SRD 5e/Armor/Chain mail]]",
     "attunement": {
       "required": true
     },
@@ -9782,7 +9777,7 @@
     "type": "armor",
     "rarity": "rare",
     "tier": "major",
-    "base_item": "[[SRD 5e/Armor/Chain Shirt]]",
+    "base_item": "[[SRD 5e/Armor/Chain shirt]]",
     "attunement": {
       "required": true
     },
@@ -9797,7 +9792,7 @@
     "type": "armor",
     "rarity": "rare",
     "tier": "major",
-    "base_item": "[[SRD 5e/Armor/Half Plate Armor]]",
+    "base_item": "[[SRD 5e/Armor/Half plate]]",
     "attunement": {
       "required": true
     },
@@ -9812,7 +9807,7 @@
     "type": "armor",
     "rarity": "rare",
     "tier": "major",
-    "base_item": "[[SRD 5e/Armor/Hide Armor]]",
+    "base_item": "[[SRD 5e/Armor/Hide]]",
     "attunement": {
       "required": true
     },
@@ -9827,7 +9822,7 @@
     "type": "armor",
     "rarity": "rare",
     "tier": "major",
-    "base_item": "[[SRD 5e/Armor/Leather Armor]]",
+    "base_item": "[[SRD 5e/Armor/Leather]]",
     "attunement": {
       "required": true
     },
@@ -9842,7 +9837,7 @@
     "type": "armor",
     "rarity": "rare",
     "tier": "major",
-    "base_item": "[[SRD 5e/Armor/Padded Armor]]",
+    "base_item": "[[SRD 5e/Armor/Padded]]",
     "attunement": {
       "required": true
     },
@@ -9857,7 +9852,7 @@
     "type": "armor",
     "rarity": "rare",
     "tier": "major",
-    "base_item": "[[SRD 5e/Armor/Plate Armor]]",
+    "base_item": "[[SRD 5e/Armor/Plate]]",
     "attunement": {
       "required": true
     },
@@ -9872,7 +9867,7 @@
     "type": "armor",
     "rarity": "rare",
     "tier": "major",
-    "base_item": "[[SRD 5e/Armor/Ring Mail]]",
+    "base_item": "[[SRD 5e/Armor/Ring mail]]",
     "attunement": {
       "required": true
     },
@@ -9887,7 +9882,7 @@
     "type": "armor",
     "rarity": "rare",
     "tier": "major",
-    "base_item": "[[SRD 5e/Armor/Scale Mail]]",
+    "base_item": "[[SRD 5e/Armor/Scale mail]]",
     "attunement": {
       "required": true
     },
@@ -9902,7 +9897,7 @@
     "type": "armor",
     "rarity": "rare",
     "tier": "major",
-    "base_item": "[[SRD 5e/Armor/Splint Armor]]",
+    "base_item": "[[SRD 5e/Armor/Splint]]",
     "attunement": {
       "required": true
     },
@@ -9917,7 +9912,7 @@
     "type": "armor",
     "rarity": "rare",
     "tier": "major",
-    "base_item": "[[SRD 5e/Armor/Studded Leather Armor]]",
+    "base_item": "[[SRD 5e/Armor/Studded leather]]",
     "attunement": {
       "required": true
     },
@@ -9947,7 +9942,7 @@
     "type": "armor",
     "rarity": "rare",
     "tier": "major",
-    "base_item": "[[SRD 5e/Armor/Chain Mail]]",
+    "base_item": "[[SRD 5e/Armor/Chain mail]]",
     "attunement": {
       "required": true
     },
@@ -9962,7 +9957,7 @@
     "type": "armor",
     "rarity": "rare",
     "tier": "major",
-    "base_item": "[[SRD 5e/Armor/Chain Shirt]]",
+    "base_item": "[[SRD 5e/Armor/Chain shirt]]",
     "attunement": {
       "required": true
     },
@@ -9977,7 +9972,7 @@
     "type": "armor",
     "rarity": "rare",
     "tier": "major",
-    "base_item": "[[SRD 5e/Armor/Half Plate Armor]]",
+    "base_item": "[[SRD 5e/Armor/Half plate]]",
     "attunement": {
       "required": true
     },
@@ -9992,7 +9987,7 @@
     "type": "armor",
     "rarity": "rare",
     "tier": "major",
-    "base_item": "[[SRD 5e/Armor/Hide Armor]]",
+    "base_item": "[[SRD 5e/Armor/Hide]]",
     "attunement": {
       "required": true
     },
@@ -10007,7 +10002,7 @@
     "type": "armor",
     "rarity": "rare",
     "tier": "major",
-    "base_item": "[[SRD 5e/Armor/Leather Armor]]",
+    "base_item": "[[SRD 5e/Armor/Leather]]",
     "attunement": {
       "required": true
     },
@@ -10022,7 +10017,7 @@
     "type": "armor",
     "rarity": "rare",
     "tier": "major",
-    "base_item": "[[SRD 5e/Armor/Padded Armor]]",
+    "base_item": "[[SRD 5e/Armor/Padded]]",
     "attunement": {
       "required": true
     },
@@ -10037,7 +10032,7 @@
     "type": "armor",
     "rarity": "rare",
     "tier": "major",
-    "base_item": "[[SRD 5e/Armor/Plate Armor]]",
+    "base_item": "[[SRD 5e/Armor/Plate]]",
     "attunement": {
       "required": true
     },
@@ -10052,7 +10047,7 @@
     "type": "armor",
     "rarity": "rare",
     "tier": "major",
-    "base_item": "[[SRD 5e/Armor/Ring Mail]]",
+    "base_item": "[[SRD 5e/Armor/Ring mail]]",
     "attunement": {
       "required": true
     },
@@ -10067,7 +10062,7 @@
     "type": "armor",
     "rarity": "rare",
     "tier": "major",
-    "base_item": "[[SRD 5e/Armor/Scale Mail]]",
+    "base_item": "[[SRD 5e/Armor/Scale mail]]",
     "attunement": {
       "required": true
     },
@@ -10082,7 +10077,7 @@
     "type": "armor",
     "rarity": "rare",
     "tier": "major",
-    "base_item": "[[SRD 5e/Armor/Splint Armor]]",
+    "base_item": "[[SRD 5e/Armor/Splint]]",
     "attunement": {
       "required": true
     },
@@ -10097,7 +10092,7 @@
     "type": "armor",
     "rarity": "rare",
     "tier": "major",
-    "base_item": "[[SRD 5e/Armor/Studded Leather Armor]]",
+    "base_item": "[[SRD 5e/Armor/Studded leather]]",
     "attunement": {
       "required": true
     },
@@ -10127,7 +10122,7 @@
     "type": "armor",
     "rarity": "rare",
     "tier": "major",
-    "base_item": "[[SRD 5e/Armor/Chain Mail]]",
+    "base_item": "[[SRD 5e/Armor/Chain mail]]",
     "attunement": {
       "required": true
     },
@@ -10142,7 +10137,7 @@
     "type": "armor",
     "rarity": "rare",
     "tier": "major",
-    "base_item": "[[SRD 5e/Armor/Chain Shirt]]",
+    "base_item": "[[SRD 5e/Armor/Chain shirt]]",
     "attunement": {
       "required": true
     },
@@ -10157,7 +10152,7 @@
     "type": "armor",
     "rarity": "rare",
     "tier": "major",
-    "base_item": "[[SRD 5e/Armor/Half Plate Armor]]",
+    "base_item": "[[SRD 5e/Armor/Half plate]]",
     "attunement": {
       "required": true
     },
@@ -10172,7 +10167,7 @@
     "type": "armor",
     "rarity": "rare",
     "tier": "major",
-    "base_item": "[[SRD 5e/Armor/Hide Armor]]",
+    "base_item": "[[SRD 5e/Armor/Hide]]",
     "attunement": {
       "required": true
     },
@@ -10187,7 +10182,7 @@
     "type": "armor",
     "rarity": "rare",
     "tier": "major",
-    "base_item": "[[SRD 5e/Armor/Leather Armor]]",
+    "base_item": "[[SRD 5e/Armor/Leather]]",
     "attunement": {
       "required": true
     },
@@ -10202,7 +10197,7 @@
     "type": "armor",
     "rarity": "rare",
     "tier": "major",
-    "base_item": "[[SRD 5e/Armor/Padded Armor]]",
+    "base_item": "[[SRD 5e/Armor/Padded]]",
     "attunement": {
       "required": true
     },
@@ -10217,7 +10212,7 @@
     "type": "armor",
     "rarity": "rare",
     "tier": "major",
-    "base_item": "[[SRD 5e/Armor/Plate Armor]]",
+    "base_item": "[[SRD 5e/Armor/Plate]]",
     "attunement": {
       "required": true
     },
@@ -10232,7 +10227,7 @@
     "type": "armor",
     "rarity": "rare",
     "tier": "major",
-    "base_item": "[[SRD 5e/Armor/Ring Mail]]",
+    "base_item": "[[SRD 5e/Armor/Ring mail]]",
     "attunement": {
       "required": true
     },
@@ -10247,7 +10242,7 @@
     "type": "armor",
     "rarity": "rare",
     "tier": "major",
-    "base_item": "[[SRD 5e/Armor/Scale Mail]]",
+    "base_item": "[[SRD 5e/Armor/Scale mail]]",
     "attunement": {
       "required": true
     },
@@ -10262,7 +10257,7 @@
     "type": "armor",
     "rarity": "rare",
     "tier": "major",
-    "base_item": "[[SRD 5e/Armor/Splint Armor]]",
+    "base_item": "[[SRD 5e/Armor/Splint]]",
     "attunement": {
       "required": true
     },
@@ -10277,7 +10272,7 @@
     "type": "armor",
     "rarity": "rare",
     "tier": "major",
-    "base_item": "[[SRD 5e/Armor/Studded Leather Armor]]",
+    "base_item": "[[SRD 5e/Armor/Studded leather]]",
     "attunement": {
       "required": true
     },
@@ -10307,7 +10302,7 @@
     "type": "armor",
     "rarity": "rare",
     "tier": "major",
-    "base_item": "[[SRD 5e/Armor/Chain Mail]]",
+    "base_item": "[[SRD 5e/Armor/Chain mail]]",
     "attunement": {
       "required": true
     },
@@ -10322,7 +10317,7 @@
     "type": "armor",
     "rarity": "rare",
     "tier": "major",
-    "base_item": "[[SRD 5e/Armor/Chain Shirt]]",
+    "base_item": "[[SRD 5e/Armor/Chain shirt]]",
     "attunement": {
       "required": true
     },
@@ -10337,7 +10332,7 @@
     "type": "armor",
     "rarity": "rare",
     "tier": "major",
-    "base_item": "[[SRD 5e/Armor/Half Plate Armor]]",
+    "base_item": "[[SRD 5e/Armor/Half plate]]",
     "attunement": {
       "required": true
     },
@@ -10352,7 +10347,7 @@
     "type": "armor",
     "rarity": "rare",
     "tier": "major",
-    "base_item": "[[SRD 5e/Armor/Hide Armor]]",
+    "base_item": "[[SRD 5e/Armor/Hide]]",
     "attunement": {
       "required": true
     },
@@ -10367,7 +10362,7 @@
     "type": "armor",
     "rarity": "rare",
     "tier": "major",
-    "base_item": "[[SRD 5e/Armor/Leather Armor]]",
+    "base_item": "[[SRD 5e/Armor/Leather]]",
     "attunement": {
       "required": true
     },
@@ -10382,7 +10377,7 @@
     "type": "armor",
     "rarity": "rare",
     "tier": "major",
-    "base_item": "[[SRD 5e/Armor/Padded Armor]]",
+    "base_item": "[[SRD 5e/Armor/Padded]]",
     "attunement": {
       "required": true
     },
@@ -10397,7 +10392,7 @@
     "type": "armor",
     "rarity": "rare",
     "tier": "major",
-    "base_item": "[[SRD 5e/Armor/Plate Armor]]",
+    "base_item": "[[SRD 5e/Armor/Plate]]",
     "attunement": {
       "required": true
     },
@@ -10412,7 +10407,7 @@
     "type": "armor",
     "rarity": "rare",
     "tier": "major",
-    "base_item": "[[SRD 5e/Armor/Ring Mail]]",
+    "base_item": "[[SRD 5e/Armor/Ring mail]]",
     "attunement": {
       "required": true
     },
@@ -10427,7 +10422,7 @@
     "type": "armor",
     "rarity": "rare",
     "tier": "major",
-    "base_item": "[[SRD 5e/Armor/Scale Mail]]",
+    "base_item": "[[SRD 5e/Armor/Scale mail]]",
     "attunement": {
       "required": true
     },
@@ -10442,7 +10437,7 @@
     "type": "armor",
     "rarity": "rare",
     "tier": "major",
-    "base_item": "[[SRD 5e/Armor/Splint Armor]]",
+    "base_item": "[[SRD 5e/Armor/Splint]]",
     "attunement": {
       "required": true
     },
@@ -10457,7 +10452,7 @@
     "type": "armor",
     "rarity": "rare",
     "tier": "major",
-    "base_item": "[[SRD 5e/Armor/Studded Leather Armor]]",
+    "base_item": "[[SRD 5e/Armor/Studded leather]]",
     "attunement": {
       "required": true
     },
@@ -10487,7 +10482,7 @@
     "type": "armor",
     "rarity": "rare",
     "tier": "major",
-    "base_item": "[[SRD 5e/Armor/Chain Mail]]",
+    "base_item": "[[SRD 5e/Armor/Chain mail]]",
     "attunement": {
       "required": true
     },
@@ -10502,7 +10497,7 @@
     "type": "armor",
     "rarity": "rare",
     "tier": "major",
-    "base_item": "[[SRD 5e/Armor/Chain Shirt]]",
+    "base_item": "[[SRD 5e/Armor/Chain shirt]]",
     "attunement": {
       "required": true
     },
@@ -10517,7 +10512,7 @@
     "type": "armor",
     "rarity": "rare",
     "tier": "major",
-    "base_item": "[[SRD 5e/Armor/Half Plate Armor]]",
+    "base_item": "[[SRD 5e/Armor/Half plate]]",
     "attunement": {
       "required": true
     },
@@ -10532,7 +10527,7 @@
     "type": "armor",
     "rarity": "rare",
     "tier": "major",
-    "base_item": "[[SRD 5e/Armor/Hide Armor]]",
+    "base_item": "[[SRD 5e/Armor/Hide]]",
     "attunement": {
       "required": true
     },
@@ -10547,7 +10542,7 @@
     "type": "armor",
     "rarity": "rare",
     "tier": "major",
-    "base_item": "[[SRD 5e/Armor/Leather Armor]]",
+    "base_item": "[[SRD 5e/Armor/Leather]]",
     "attunement": {
       "required": true
     },
@@ -10562,7 +10557,7 @@
     "type": "armor",
     "rarity": "rare",
     "tier": "major",
-    "base_item": "[[SRD 5e/Armor/Padded Armor]]",
+    "base_item": "[[SRD 5e/Armor/Padded]]",
     "attunement": {
       "required": true
     },
@@ -10577,7 +10572,7 @@
     "type": "armor",
     "rarity": "rare",
     "tier": "major",
-    "base_item": "[[SRD 5e/Armor/Plate Armor]]",
+    "base_item": "[[SRD 5e/Armor/Plate]]",
     "attunement": {
       "required": true
     },
@@ -10592,7 +10587,7 @@
     "type": "armor",
     "rarity": "rare",
     "tier": "major",
-    "base_item": "[[SRD 5e/Armor/Ring Mail]]",
+    "base_item": "[[SRD 5e/Armor/Ring mail]]",
     "attunement": {
       "required": true
     },
@@ -10607,7 +10602,7 @@
     "type": "armor",
     "rarity": "rare",
     "tier": "major",
-    "base_item": "[[SRD 5e/Armor/Scale Mail]]",
+    "base_item": "[[SRD 5e/Armor/Scale mail]]",
     "attunement": {
       "required": true
     },
@@ -10622,7 +10617,7 @@
     "type": "armor",
     "rarity": "rare",
     "tier": "major",
-    "base_item": "[[SRD 5e/Armor/Splint Armor]]",
+    "base_item": "[[SRD 5e/Armor/Splint]]",
     "attunement": {
       "required": true
     },
@@ -10637,7 +10632,7 @@
     "type": "armor",
     "rarity": "rare",
     "tier": "major",
-    "base_item": "[[SRD 5e/Armor/Studded Leather Armor]]",
+    "base_item": "[[SRD 5e/Armor/Studded leather]]",
     "attunement": {
       "required": true
     },
@@ -10667,7 +10662,7 @@
     "type": "armor",
     "rarity": "rare",
     "tier": "major",
-    "base_item": "[[SRD 5e/Armor/Chain Mail]]",
+    "base_item": "[[SRD 5e/Armor/Chain mail]]",
     "attunement": {
       "required": true
     },
@@ -10682,7 +10677,7 @@
     "type": "armor",
     "rarity": "rare",
     "tier": "major",
-    "base_item": "[[SRD 5e/Armor/Chain Shirt]]",
+    "base_item": "[[SRD 5e/Armor/Chain shirt]]",
     "attunement": {
       "required": true
     },
@@ -10697,7 +10692,7 @@
     "type": "armor",
     "rarity": "rare",
     "tier": "major",
-    "base_item": "[[SRD 5e/Armor/Half Plate Armor]]",
+    "base_item": "[[SRD 5e/Armor/Half plate]]",
     "attunement": {
       "required": true
     },
@@ -10712,7 +10707,7 @@
     "type": "armor",
     "rarity": "rare",
     "tier": "major",
-    "base_item": "[[SRD 5e/Armor/Hide Armor]]",
+    "base_item": "[[SRD 5e/Armor/Hide]]",
     "attunement": {
       "required": true
     },
@@ -10727,7 +10722,7 @@
     "type": "armor",
     "rarity": "rare",
     "tier": "major",
-    "base_item": "[[SRD 5e/Armor/Leather Armor]]",
+    "base_item": "[[SRD 5e/Armor/Leather]]",
     "attunement": {
       "required": true
     },
@@ -10742,7 +10737,7 @@
     "type": "armor",
     "rarity": "rare",
     "tier": "major",
-    "base_item": "[[SRD 5e/Armor/Padded Armor]]",
+    "base_item": "[[SRD 5e/Armor/Padded]]",
     "attunement": {
       "required": true
     },
@@ -10757,7 +10752,7 @@
     "type": "armor",
     "rarity": "rare",
     "tier": "major",
-    "base_item": "[[SRD 5e/Armor/Plate Armor]]",
+    "base_item": "[[SRD 5e/Armor/Plate]]",
     "attunement": {
       "required": true
     },
@@ -10772,7 +10767,7 @@
     "type": "armor",
     "rarity": "rare",
     "tier": "major",
-    "base_item": "[[SRD 5e/Armor/Ring Mail]]",
+    "base_item": "[[SRD 5e/Armor/Ring mail]]",
     "attunement": {
       "required": true
     },
@@ -10787,7 +10782,7 @@
     "type": "armor",
     "rarity": "rare",
     "tier": "major",
-    "base_item": "[[SRD 5e/Armor/Scale Mail]]",
+    "base_item": "[[SRD 5e/Armor/Scale mail]]",
     "attunement": {
       "required": true
     },
@@ -10802,7 +10797,7 @@
     "type": "armor",
     "rarity": "rare",
     "tier": "major",
-    "base_item": "[[SRD 5e/Armor/Splint Armor]]",
+    "base_item": "[[SRD 5e/Armor/Splint]]",
     "attunement": {
       "required": true
     },
@@ -10817,7 +10812,7 @@
     "type": "armor",
     "rarity": "rare",
     "tier": "major",
-    "base_item": "[[SRD 5e/Armor/Studded Leather Armor]]",
+    "base_item": "[[SRD 5e/Armor/Studded leather]]",
     "attunement": {
       "required": true
     },
@@ -10845,7 +10840,7 @@
     "source": "SRD 5.1",
     "type": "armor",
     "rarity": "none",
-    "base_item": "[[SRD 5e/Armor/Chain Mail]]",
+    "base_item": "[[SRD 5e/Armor/Chain mail]]",
     "attunement": {
       "required": false
     },
@@ -10859,7 +10854,7 @@
     "source": "SRD 5.1",
     "type": "armor",
     "rarity": "none",
-    "base_item": "[[SRD 5e/Armor/Chain Shirt]]",
+    "base_item": "[[SRD 5e/Armor/Chain shirt]]",
     "attunement": {
       "required": false
     },
@@ -10873,7 +10868,7 @@
     "source": "SRD 5.1",
     "type": "armor",
     "rarity": "none",
-    "base_item": "[[SRD 5e/Armor/Half Plate Armor]]",
+    "base_item": "[[SRD 5e/Armor/Half plate]]",
     "attunement": {
       "required": false
     },
@@ -10887,7 +10882,7 @@
     "source": "SRD 5.1",
     "type": "armor",
     "rarity": "none",
-    "base_item": "[[SRD 5e/Armor/Hide Armor]]",
+    "base_item": "[[SRD 5e/Armor/Hide]]",
     "attunement": {
       "required": false
     },
@@ -10901,7 +10896,7 @@
     "source": "SRD 5.1",
     "type": "armor",
     "rarity": "none",
-    "base_item": "[[SRD 5e/Armor/Leather Armor]]",
+    "base_item": "[[SRD 5e/Armor/Leather]]",
     "attunement": {
       "required": false
     },
@@ -10915,7 +10910,7 @@
     "source": "SRD 5.1",
     "type": "armor",
     "rarity": "none",
-    "base_item": "[[SRD 5e/Armor/Padded Armor]]",
+    "base_item": "[[SRD 5e/Armor/Padded]]",
     "attunement": {
       "required": false
     },
@@ -10929,7 +10924,7 @@
     "source": "SRD 5.1",
     "type": "armor",
     "rarity": "none",
-    "base_item": "[[SRD 5e/Armor/Plate Armor]]",
+    "base_item": "[[SRD 5e/Armor/Plate]]",
     "attunement": {
       "required": false
     },
@@ -10943,7 +10938,7 @@
     "source": "SRD 5.1",
     "type": "armor",
     "rarity": "none",
-    "base_item": "[[SRD 5e/Armor/Ring Mail]]",
+    "base_item": "[[SRD 5e/Armor/Ring mail]]",
     "attunement": {
       "required": false
     },
@@ -10957,7 +10952,7 @@
     "source": "SRD 5.1",
     "type": "armor",
     "rarity": "none",
-    "base_item": "[[SRD 5e/Armor/Scale Mail]]",
+    "base_item": "[[SRD 5e/Armor/Scale mail]]",
     "attunement": {
       "required": false
     },
@@ -10971,7 +10966,7 @@
     "source": "SRD 5.1",
     "type": "armor",
     "rarity": "none",
-    "base_item": "[[SRD 5e/Armor/Splint Armor]]",
+    "base_item": "[[SRD 5e/Armor/Splint]]",
     "attunement": {
       "required": false
     },
@@ -10985,7 +10980,7 @@
     "source": "SRD 5.1",
     "type": "armor",
     "rarity": "none",
-    "base_item": "[[SRD 5e/Armor/Studded Leather Armor]]",
+    "base_item": "[[SRD 5e/Armor/Studded leather]]",
     "attunement": {
       "required": false
     },
@@ -11273,7 +11268,7 @@
     "type": "armor",
     "rarity": "uncommon",
     "tier": "minor",
-    "base_item": "[[SRD 5e/Armor/Chain Mail]]",
+    "base_item": "[[SRD 5e/Armor/Chain mail]]",
     "attunement": {
       "required": false
     },
@@ -11288,7 +11283,7 @@
     "type": "armor",
     "rarity": "uncommon",
     "tier": "minor",
-    "base_item": "[[SRD 5e/Armor/Chain Shirt]]",
+    "base_item": "[[SRD 5e/Armor/Chain shirt]]",
     "attunement": {
       "required": false
     },
@@ -11303,7 +11298,7 @@
     "type": "armor",
     "rarity": "uncommon",
     "tier": "minor",
-    "base_item": "[[SRD 5e/Armor/Half Plate Armor]]",
+    "base_item": "[[SRD 5e/Armor/Half plate]]",
     "attunement": {
       "required": false
     },
@@ -11318,7 +11313,7 @@
     "type": "armor",
     "rarity": "uncommon",
     "tier": "minor",
-    "base_item": "[[SRD 5e/Armor/Hide Armor]]",
+    "base_item": "[[SRD 5e/Armor/Hide]]",
     "attunement": {
       "required": false
     },
@@ -11333,7 +11328,7 @@
     "type": "armor",
     "rarity": "uncommon",
     "tier": "minor",
-    "base_item": "[[SRD 5e/Armor/Plate Armor]]",
+    "base_item": "[[SRD 5e/Armor/Plate]]",
     "attunement": {
       "required": false
     },
@@ -11348,7 +11343,7 @@
     "type": "armor",
     "rarity": "uncommon",
     "tier": "minor",
-    "base_item": "[[SRD 5e/Armor/Ring Mail]]",
+    "base_item": "[[SRD 5e/Armor/Ring mail]]",
     "attunement": {
       "required": false
     },
@@ -11363,7 +11358,7 @@
     "type": "armor",
     "rarity": "uncommon",
     "tier": "minor",
-    "base_item": "[[SRD 5e/Armor/Scale Mail]]",
+    "base_item": "[[SRD 5e/Armor/Scale mail]]",
     "attunement": {
       "required": false
     },
@@ -11378,7 +11373,7 @@
     "type": "armor",
     "rarity": "uncommon",
     "tier": "minor",
-    "base_item": "[[SRD 5e/Armor/Splint Armor]]",
+    "base_item": "[[SRD 5e/Armor/Splint]]",
     "attunement": {
       "required": false
     },
@@ -11772,7 +11767,7 @@
     "type": "weapon",
     "rarity": "rare",
     "tier": "major",
-    "base_item": "[[SRD 5e/Weapons/Hand Crossbow]]",
+    "base_item": "[[SRD 5e/Weapons/Crossbow, hand]]",
     "attunement": {
       "required": false
     },
@@ -11802,7 +11797,7 @@
     "type": "weapon",
     "rarity": "rare",
     "tier": "major",
-    "base_item": "[[SRD 5e/Weapons/Heavy Crossbow]]",
+    "base_item": "[[SRD 5e/Weapons/Crossbow, heavy]]",
     "attunement": {
       "required": false
     },
@@ -11847,7 +11842,7 @@
     "type": "weapon",
     "rarity": "rare",
     "tier": "major",
-    "base_item": "[[SRD 5e/Weapons/Light Crossbow]]",
+    "base_item": "[[SRD 5e/Weapons/Crossbow, light]]",
     "attunement": {
       "required": false
     },
@@ -11862,7 +11857,7 @@
     "type": "weapon",
     "rarity": "rare",
     "tier": "major",
-    "base_item": "[[SRD 5e/Weapons/Light Hammer]]",
+    "base_item": "[[SRD 5e/Weapons/Light hammer]]",
     "attunement": {
       "required": false
     },
