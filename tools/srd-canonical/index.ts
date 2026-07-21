@@ -12,6 +12,7 @@ import { mergeKind, buildCanonicalSlug, type MergeRule, type CanonicalEntry } fr
 import { projectToRuntime } from "./to-runtime";
 import { writeMd, writeCompendiumIndex } from "./to-md";
 import { SYNTHETIC_ITEM_SEEDS, type SyntheticItemSeed } from "./data/synthetic-item-seeds";
+import { SYNTHETIC_ARMOR_SEEDS, type SyntheticArmorSeed } from "./data/synthetic-armor-seeds";
 
 import { raceMergeRule, toRaceCanonical } from "./merger-rules/race-merge";
 import { classMergeRule, toClassCanonical } from "./merger-rules/class-merge";
@@ -27,6 +28,7 @@ import {
   enrichItemsWithFoundryEffects,
   enrichItemsWithCuratedConditions,
   enrichItemsWithDamageRiders,
+  setBaseResolutionPredicate,
 } from "./merger-rules/item-merge";
 import { readFoundryItemsIndex } from "./sources/foundry-items";
 import { spellMergeRule, toSpellCanonical } from "./merger-rules/spell-merge";
@@ -35,6 +37,12 @@ import { conditionMergeRule, toConditionCanonical, buildConditionsFromStructured
 import { mergeOptionalFeatures } from "./merger-rules/optional-feature-merge";
 import { expandVariants, type BaseItem, type VariantRule } from "./expand-variants";
 import { slugifyName } from "./sources/slug-normalize";
+import {
+  buildBaseEntityIndex,
+  remapVariantBaseItem,
+  buildBaseResolutionPredicate,
+  type BaseEntity,
+} from "./base-item-remap";
 
 /**
  * Map an Open5e kind name to the runtime/MD kind name. Open5e uses plural
@@ -207,6 +215,24 @@ async function main() {
     console.log(`[canonical] ${edition} foundry-items: ${foundryItemsIndex.size} indexed`);
     const expandedVariants = expandVariants(baseItemsForExpansion, variantRulesForExpansion, edition);
 
+    // P2 D5: build the base-resolution predicate from the real weapon/armor/
+    // shield bases available pre-loop (+ the injected Shield seed) and inject it
+    // into the item-merge structured fallback BEFORE the magicitems pass runs.
+    // ALL_KINDS runs magicitems BEFORE weapons/armor, so no post-loop base index
+    // exists yet when magic items merge; the predicate lets the fallback drop
+    // spurious bases (Horn) while keeping real ones (Mace).
+    const basePredicate = buildBaseResolutionPredicate([
+      ...baseItemsForExpansion.map(b => b.name),
+      "Shield",
+    ]);
+    setBaseResolutionPredicate(basePredicate);
+
+    // P2 D3: accumulate the generated weapon + armor base entities (INCLUDING the
+    // injected Shield) across the loop; after the loop this builds the
+    // per-edition base-entity index used to remap the variant grid's base_item
+    // links. One index per edition · never mixed.
+    const baseEntitiesThisEdition: BaseEntity[] = [];
+
     for (const kind of ALL_KINDS) {
       const open5e = await readOpen5eKind({
         kind,
@@ -298,6 +324,28 @@ async function main() {
         console.log(`[canonical]   conditional-bonus enrichment applied`);
       }
 
+      // P2 D4: inject the synthetic base-armor seed(s) into the armor pass so
+      // they flow through the SAME `canonical` array that feeds the emit AND the
+      // D3 index capture below. 2014 adds the base Shield (Open5e omits it);
+      // 2024 is a no-op (empty/absent seed list -> `?? []`).
+      if (kind === "armor") {
+        canonical.push(
+          ...(SYNTHETIC_ARMOR_SEEDS[edition] ?? []).map(s => buildSeedCanonicalArmor(s, edition)),
+        );
+      }
+
+      // P2 D3: record this pass's weapon/armor base entities (INCLUDING the just
+      // injected Shield) for the post-loop per-edition base-entity index.
+      if (kind === "weapons" || kind === "armor") {
+        for (const c of canonical) {
+          baseEntitiesThisEdition.push({
+            name: (c as { name: string }).name,
+            type: kind === "armor" ? "armor" : "weapon",
+            edition,
+          });
+        }
+      }
+
       emitForKind({
         canonical: canonical as Array<Record<string, unknown> & { name: string; slug: string }>,
         entityKind,
@@ -323,6 +371,12 @@ async function main() {
         });
       }
     }
+
+    // P2 D3: build THIS edition's base-entity index from the weapon/armor bases
+    // generated above (incl. the injected Shield). Throws on a normalized-name
+    // collision within one (edition,type): a genuine data collision must fail
+    // the build, so it is deliberately not swallowed.
+    const baseIndex = buildBaseEntityIndex(baseEntitiesThisEdition);
 
     // Optional-feature kind is overlay-driven (no Open5e endpoint exists).
     const optionalStructured = readOptionalFeaturesRaw(cfg.structuredRulesPath, edition);
@@ -361,6 +415,15 @@ async function main() {
     const filtered = expanded.filter(e => !openMagicItemNameSlugs.has(slugifyName(e.name)));
     const dropped = expanded.length - filtered.length;
     console.log(`[canonical] ${edition} variant dedup: kept ${filtered.length}, dropped ${dropped} duplicates of Open5e items`);
+
+    // P2 D3: rewrite each surviving variant's base_item link to the actual
+    // registered base entity name (e.g. "Plate Armor" -> "Plate", and a now
+    // resolvable Shield) using THIS edition's base index. Falls back to the
+    // original link when the base is unindexed. The mutated `filtered` then flows
+    // unchanged into all three emits (canonical / runtime / MD) below.
+    for (const v of filtered) {
+      v.base_item = remapVariantBaseItem(v.base_item, baseIndex);
+    }
 
     if (filtered.length > 0) {
       const compendium = edition === "2014" ? "SRD 5e" : "SRD 2024";
@@ -530,6 +593,33 @@ function buildSeedCanonicalItem(
   if (seed.unidentified !== undefined) entry.unidentified = seed.unidentified;
   if (seed.masked_category !== undefined) entry.masked_category = seed.masked_category;
   return entry;
+}
+
+/**
+ * Build the canonical armor record for one synthetic base-armor seed (P2 D4).
+ * Mirrors the exact shape of pipeline-generated armor canonical entities (see
+ * toArmorCanonical / ArmorCanonical) so the injected base joins the armor emit,
+ * runtime projection, and the D3 base-entity index byte-faithfully: the same
+ * field set/order as the real SRD-2024 Shield, only edition/source/slug differ.
+ * The generator owns the derived `slug` (canonical 3-part `srd-5e_armor_<name>`);
+ * name/source/category/ac/stealth_disadvantage come from the seed. NB: canonical
+ * armor entities carry NO `entity_type` field (frontmatter entity_type is set by
+ * writeMd's `kind` arg, and the runtime armor keep-set omits it), so none is
+ * emitted here.
+ */
+function buildSeedCanonicalArmor(
+  seed: SyntheticArmorSeed,
+  edition: "2014" | "2024",
+): Record<string, unknown> {
+  return {
+    slug: buildCanonicalSlug(edition, "armor", seed.name),
+    name: seed.name,
+    edition,
+    source: seed.source,
+    category: seed.category,
+    ac: { base: seed.ac.base, add_dex: seed.ac.add_dex },
+    stealth_disadvantage: seed.stealth_disadvantage,
+  };
 }
 
 main().catch(e => { console.error(e); process.exit(1); });
