@@ -61,7 +61,7 @@ function withClasses(cs: ResolvedClass[]): ResolvedCharacter {
   return r;
 }
 
-describe("recalc — HPBreakdown (P5 T4)", () => {
+describe("recalc: HPBreakdown (P5 T4)", () => {
   it("1. unset rolled/modifier: hp.max matches pre-phase multiclassMaxHP + level-bonus math; average dice source", () => {
     const rogue = mkClass("rogue", "d8", 5);
     const fighter = mkClass("fighter", "d10", 3);
