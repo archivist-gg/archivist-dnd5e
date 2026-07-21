@@ -173,6 +173,18 @@ describe("computeFeatureEffects", () => {
     expect(out).toEqual(emptyFeatureEffectTotals());
   });
 
+  it("hp-per-level-bonus emits labeled terms AND the sum stays equal", () => {
+    const totals = computeFeatureEffects([
+      rf([{ kind: "hp-per-level-bonus", value: 2 }], "Toughness"),
+      rf([{ kind: "hp-per-level-bonus", value: 1 }], "Dwarven Toughness"),
+    ]);
+    expect(totals.hp_per_level_terms).toEqual([
+      { label: "Toughness", value: 2 },
+      { label: "Dwarven Toughness", value: 1 },
+    ]);
+    expect(totals.hp_per_level_bonus).toBe(totals.hp_per_level_terms.reduce((s, t) => s + t.value, 0));
+  });
+
   describe("damage-bonus", () => {
     it("folds a weapon damage-bonus into damageBonuses with source = feature name", () => {
       const out = computeFeatureEffects([

@@ -28,6 +28,8 @@ export interface WeaponAbilityOverride {
 export interface FeatureEffectTotals {
   initiative_bonus: number;
   hp_per_level_bonus: number;
+  /** One term per hp-per-level-bonus effect, labeled with the owning feature's name. */
+  hp_per_level_terms: { label: string; value: number }[];
   speed_walk_bonus: number;
   /**
    * Absolute walk-speed FLOOR from `speed-bonus` effects with `set:true` (e.g.
@@ -100,6 +102,7 @@ export function emptyFeatureEffectTotals(): FeatureEffectTotals {
   return {
     initiative_bonus: 0,
     hp_per_level_bonus: 0,
+    hp_per_level_terms: [],
     speed_walk_bonus: 0,
     speed_walk_set: 0,
     senses: { darkvision: 0, blindsight: 0, tremorsense: 0, truesight: 0 },
@@ -175,6 +178,7 @@ function applyEffect(out: FeatureEffectTotals, eff: FeatureEffect, label: string
       break;
     case "hp-per-level-bonus":
       out.hp_per_level_bonus += eff.value;
+      out.hp_per_level_terms.push({ label, value: eff.value });
       break;
     case "speed-bonus":
       // Only walk reaches DerivedStats.speed; other modes have no derived surface yet.
