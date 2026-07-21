@@ -2,6 +2,7 @@ import type { MergeRule, CanonicalEntry } from "../merger";
 import type { Overlay } from "../overlay.schema";
 import { rewriteCrossRefs } from "../cross-ref-map";
 import { slugifyName } from "../sources/slug-normalize";
+import { structuredBaseResolves } from "../base-item-remap";
 import type {
   BonusFieldPath,
   Condition,
@@ -305,6 +306,43 @@ export function baseItemFromStructured(
   return `[[${compendium}/${subfolder}/${baseName}]]`;
 }
 
+// P2 D5: the structured fallback runs during the magicitems merge, which
+// executes BEFORE the weapons/armor generation passes, so no post-loop base
+// index exists yet. Task 4 builds a pre-loop normalized-name predicate (from
+// baseItemsForExpansion + the Shield seed) and injects it here via this
+// module-scoped setter immediately before the magicitems `.map`. The setter is
+// used (not a positional param) because `Array.map(toCanonical)` passes
+// `(entry, index, array)`, so a 2nd positional arg would be the map index.
+let _basePredicate: Set<string> | null = null;
+
+/** P2 D5: inject the pre-loop base-resolution predicate for the magicitems
+ *  merge (Task 4 calls this before the `.map`). Pass null to disable the gate. */
+export function setBaseResolutionPredicate(p: Set<string> | null): void {
+  _basePredicate = p;
+}
+
+/** P2 D5: gate `baseItemFromStructured` on whether the base name resolves to a
+ *  real registered weapon/armor/shield base.
+ *  - predicate null (default, and every DIRECT unit-test / non-generator call):
+ *    permissive, emit unchanged via baseItemFromStructured (gate OFF).
+ *  - predicate set but base does NOT resolve: emit nothing (drops Horn).
+ *  - predicate set and base resolves: emit via baseItemFromStructured (keeps
+ *    Mace, Longsword, etc.). */
+export function gatedStructuredBaseItem(
+  structuredBaseItem: string | null | undefined,
+  edition: "2014" | "2024",
+  fallbackType: string | undefined,
+  predicate: Set<string> | null,
+): string | undefined {
+  if (predicate == null) {
+    return baseItemFromStructured(structuredBaseItem, edition, fallbackType);
+  }
+  if (typeof structuredBaseItem !== "string" || !structuredBaseResolves(structuredBaseItem, predicate)) {
+    return undefined;
+  }
+  return baseItemFromStructured(structuredBaseItem, edition, fallbackType);
+}
+
 export function toItemCanonical(entry: CanonicalEntry): ItemCanonical {
   const base = entry.base as Record<string, unknown>;
   const structured = entry.structured as Record<string, unknown> | null;
@@ -370,7 +408,7 @@ export function toItemCanonical(entry: CanonicalEntry): ItemCanonical {
     // weapon nor armor sub-object. Type derived from out.type when set, else
     // assume "weapon" (most common case for magic items with bonusWeapon*).
     const fallbackType = out.type === "armor" || out.type === "shield" ? "armor" : "weapon";
-    const wikilink = baseItemFromStructured(structured.baseItem as string | undefined, entry.edition, fallbackType);
+    const wikilink = gatedStructuredBaseItem(structured.baseItem as string | undefined, entry.edition, fallbackType, _basePredicate);
     if (wikilink) out.base_item = wikilink;
   }
 
