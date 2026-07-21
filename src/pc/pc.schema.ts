@@ -85,7 +85,11 @@ const characterOverridesSchema = z.object({
     investigation: z.number().int().optional(),
     insight: z.number().int().optional(),
   }).partial().optional(),
-  hp: z.object({ max: z.number().int().positive().optional() }).optional(),
+  hp: z.object({
+    max: z.number().int().positive().optional(),
+    rolled: z.number().int().positive().optional(),
+    modifier: z.number().int().optional(),
+  }).optional(),
   ac: z.number().int().optional(),
   speed: z.number().int().optional(),
   initiative: z.number().int().optional(),

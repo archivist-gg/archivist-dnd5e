@@ -125,7 +125,7 @@ export interface CharacterOverrides {
   saves?: Partial<Record<Ability, { bonus?: number; proficient?: boolean }>>;
   skills?: Partial<Record<SkillSlug, { bonus: number; proficiency?: "none" | "proficient" | "expertise" }>>;
   passives?: Partial<{ perception: number; investigation: number; insight: number }>;
-  hp?: { max?: number };
+  hp?: { max?: number; rolled?: number; modifier?: number };
   ac?: number;
   speed?: number;
   initiative?: number;
