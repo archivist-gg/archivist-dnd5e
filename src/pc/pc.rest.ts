@@ -38,6 +38,7 @@ export type RestCategoryId =
   | "spell-slots"
   | "pact-slots"
   | "exhaustion"
+  | "hp-modifier-reset"
   | `feature:${string}`
   | `item:${number}`;
 
@@ -85,6 +86,16 @@ export function computeRestPlan(
         id: "exhaustion",
         label: "Exhaustion",
         preview: `${character.state.exhaustion} → ${character.state.exhaustion - 1}`,
+      });
+    }
+
+    const hpModifier = character.overrides?.hp?.modifier;
+    if (hpModifier !== undefined) {
+      const signed = hpModifier > 0 ? `+${hpModifier}` : `${hpModifier}`;
+      cats.push({
+        id: "hp-modifier-reset",
+        label: "Max HP Modifier",
+        preview: `${signed} → cleared`,
       });
     }
 
