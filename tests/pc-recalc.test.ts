@@ -2,6 +2,8 @@ import { describe, it, expect } from "vitest";
 import {
   recalc,
   multiclassMaxHP,
+  hitDiceAverageSum,
+  hpLevelCount,
   phbAverageForDie,
   parseDieSize,
   unarmoredAC,
@@ -49,6 +51,26 @@ describe("multiclassMaxHP", () => {
   it("null class entity contributes 0", () => {
     const missing: ResolvedClass = { entity: null, level: 5, subclass: null, choices: {} };
     expect(multiclassMaxHP([missing], 2)).toBe(1);
+  });
+});
+
+describe("hitDiceAverageSum / hpLevelCount (P5 decomposition)", () => {
+  it("dice-only sum: first valid level max die, later levels PHB average", () => {
+    expect(hitDiceAverageSum([mkClass("rogue", "d8", 5)])).toBe(8 + 4 * 5); // 28
+  });
+  it("multiclass continues the single first-level flag across classes", () => {
+    expect(hitDiceAverageSum([mkClass("rogue", "d8", 2), mkClass("fighter", "d10", 2)])).toBe(8 + 5 + 6 + 6);
+  });
+  it("skips invalid classes entirely; empty is 0", () => {
+    expect(hitDiceAverageSum([])).toBe(0);
+    expect(hpLevelCount([])).toBe(0);
+    expect(hpLevelCount([mkClass("rogue", "d8", 3), mkClass("broken", undefined as never, 4)])).toBe(3);
+  });
+  it("reassembly identity: multiclassMaxHP === max(1, diceSum + con * levels)", () => {
+    const cs = [mkClass("rogue", "d8", 5), mkClass("wizard", "d6", 3)];
+    for (const con of [-3, 0, 2]) {
+      expect(multiclassMaxHP(cs, con)).toBe(Math.max(1, hitDiceAverageSum(cs) + con * hpLevelCount(cs)));
+    }
   });
 });
 

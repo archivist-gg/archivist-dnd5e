@@ -168,13 +168,9 @@ export function abilityBonusBreakdown(
   return out;
 }
 
-/**
- * PC-oriented multiclass HP.
- * - First class's first level: max(hit_die) + conMod.
- * - Every subsequent level (in any class): phbAverageForDie(thatLevel'sClass) + conMod.
- * CON mod contributes once per total level.
- */
-export function multiclassMaxHP(classes: ResolvedClass[], conMod: number): number {
+/** Dice-only portion of PC max HP: first VALID level anywhere = max(die),
+ *  every later valid level = PHB average. Skip rule identical to hpLevelCount. */
+export function hitDiceAverageSum(classes: ResolvedClass[]): number {
   let total = 0;
   let firstLevelCounted = false;
   for (const c of classes) {
@@ -182,14 +178,37 @@ export function multiclassMaxHP(classes: ResolvedClass[], conMod: number): numbe
     if (!c.entity || die == null || c.level < 1) continue;
     for (let lvl = 1; lvl <= c.level; lvl++) {
       if (!firstLevelCounted) {
-        total += die + conMod;
+        total += die;
         firstLevelCounted = true;
       } else {
-        total += (Math.floor(die / 2) + 1) + conMod;
+        total += Math.floor(die / 2) + 1;
       }
     }
   }
-  return Math.max(1, total);
+  return total;
+}
+
+/** Count of levels that contribute to HP (valid class entries only). */
+export function hpLevelCount(classes: ResolvedClass[]): number {
+  let count = 0;
+  for (const c of classes) {
+    const die = parseDieSize(c.entity?.hit_die);
+    if (!c.entity || die == null || c.level < 1) continue;
+    count += c.level;
+  }
+  return count;
+}
+
+/**
+ * PC-oriented multiclass HP.
+ * - First class's first level: max(hit_die) + conMod.
+ * - Every subsequent level (in any class): phbAverageForDie(thatLevel'sClass) + conMod.
+ * CON mod contributes once per total level.
+ * Decomposed (P5 T2) into hitDiceAverageSum (dice-only) + hpLevelCount (level count),
+ * so a later popup can render the two components separately.
+ */
+export function multiclassMaxHP(classes: ResolvedClass[], conMod: number): number {
+  return Math.max(1, hitDiceAverageSum(classes) + conMod * hpLevelCount(classes));
 }
 
 /**
