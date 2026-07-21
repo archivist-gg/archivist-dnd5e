@@ -23,6 +23,7 @@ import type {
   ChoiceValue,
   DerivedEquipment,
   DerivedStats,
+  HPBreakdown,
   ProficiencySet,
   ResolvedCharacter,
   ResolvedClass,
@@ -694,11 +695,39 @@ export function recalc(resolved: ResolvedCharacter, registry?: EntityRegistry): 
     insight: overrides.passives?.insight ?? passive(scores.wis, insightTri, proficiencyBonus),
   };
 
-  // HP
-  const hpMaxDerived = multiclassMaxHP(resolved.classes, mods.con)
-    + featureEffects.hp_per_level_bonus * totalLevel;
-  const hpMaxAfterConditions = Math.floor(hpMaxDerived * conditionEffects.hp_max_multiplier);
+  // HP (P5): dice component is the recorded rolled sum when present, else the
+  // PHB-average sum; modifier is a user-entered in-game adjustment. The >=1
+  // clamp applies to dice+CON exactly as multiclassMaxHP always did; max(0,...)
+  // floors the degenerate negative-total case (spec #2 exception).
+  const hpRolled = overrides.hp?.rolled ?? null;
+  const hpModifier = overrides.hp?.modifier ?? null;
+  const averageDiceSum = hitDiceAverageSum(resolved.classes);
+  const conLevels = hpLevelCount(resolved.classes);
+  const diceSum = hpRolled ?? averageDiceSum;
+  const diceConRaw = diceSum + mods.con * conLevels;
+  const diceConClamped = Math.max(1, diceConRaw);
+  const hpMaxDerived = diceConClamped
+    + featureEffects.hp_per_level_bonus * totalLevel
+    + (hpModifier ?? 0);
+  const hpMaxAfterConditions = Math.max(0, Math.floor(hpMaxDerived * conditionEffects.hp_max_multiplier));
   const hpMax = overrides.hp?.max ?? hpMaxAfterConditions;
+  const hpBreakdown: HPBreakdown = {
+    diceSum,
+    diceSource: hpRolled != null ? "rolled" : "average",
+    averageDiceSum,
+    conMod: mods.con,
+    conLevels,
+    clampApplied: diceConClamped !== diceConRaw,
+    perLevelTerms: featureEffects.hp_per_level_terms.map((t) => ({
+      label: t.label, perLevel: t.value, levels: totalLevel, total: t.value * totalLevel,
+    })),
+    modifier: hpModifier,
+    exhaustionMultiplier: conditionEffects.hp_max_multiplier,
+    exhaustionLevel: conditionEffects.exhaustion_level,
+    derivedMax: hpMaxAfterConditions,
+    override: overrides.hp?.max ?? null,
+    final: hpMax,
+  };
 
   // AC + attacks (Pass B). Falls back to unarmored when no registry available.
   //
@@ -896,6 +925,7 @@ export function recalc(resolved: ResolvedCharacter, registry?: EntityRegistry): 
       current: resolved.state.hp.current,
       temp: resolved.state.hp.temp,
     },
+    hpBreakdown,
     ac,
     speed,
     initiative: init,

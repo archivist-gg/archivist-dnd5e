@@ -307,6 +307,23 @@ export interface ACTerm {
   kind: "armor" | "shield" | "item" | "unarmored" | "override" | "dex" | "ability" | "feature";
 }
 
+/** Structured max-HP math for the Max HP modal. Spec: P5 2026-07-21. */
+export interface HPBreakdown {
+  diceSum: number;
+  diceSource: "rolled" | "average";
+  averageDiceSum: number;
+  conMod: number;
+  conLevels: number;
+  clampApplied: boolean;
+  perLevelTerms: { label: string; perLevel: number; levels: number; total: number }[];
+  modifier: number | null;
+  exhaustionMultiplier: number;
+  exhaustionLevel: number;
+  derivedMax: number;
+  override: number | null;
+  final: number;
+}
+
 /** An additive on-hit damage rider (dice or flat) applied to an attack, from a
  *  feature (global — all weapon attacks) or a magic item (that weapon only).
  *  `amount` is a dice/flat string ("2d6", "1d8", "2"); `damage_type` optional
@@ -461,6 +478,7 @@ export interface DerivedStats {
     condition_immunities: string[];
   };
   acBreakdown: ACTerm[];
+  hpBreakdown: HPBreakdown;
   acInformational: import("@archivist-gg/dnd5e/item/item.conditions.types").InformationalBonus[];
   /** Situational saving-throw bonuses (e.g. +1 vs spells) for save tooltips. */
   savesInformational: import("@archivist-gg/dnd5e/item/item.conditions.types").InformationalBonus[];
