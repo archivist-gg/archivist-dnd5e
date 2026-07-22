@@ -16,6 +16,17 @@ export const ALL_SKILL_SLUGS: SkillSlug[] = [
   "sleight-of-hand", "stealth", "survival",
 ];
 
+/** The SRD language set: 8 standard + 8 exotic. Authoritative and reused as
+ *  KNOWN_LANGUAGES by the proficiency aggregate; slugs are edition-agnostic. */
+export const STANDARD_LANGUAGES: string[] = [
+  "common", "dwarvish", "elvish", "giant", "gnomish", "goblin", "halfling", "orc",
+];
+export const EXOTIC_LANGUAGES: string[] = [
+  "abyssal", "celestial", "deep-speech", "draconic", "infernal", "primordial",
+  "sylvan", "undercommon",
+];
+export const ALL_LANGUAGES: string[] = [...STANDARD_LANGUAGES, ...EXOTIC_LANGUAGES];
+
 export type FeatCategory = "origin" | "general" | "fighting-style" | "epic-boon";
 
 /** Closed, enumerated registry filter — YAML can never express a query the

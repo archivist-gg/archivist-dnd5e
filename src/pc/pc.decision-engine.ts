@@ -1,5 +1,5 @@
 import type { Choice, InlineOption, EntityFilter, Ability } from "@archivist-gg/dnd5e/types/choice";
-import { ALL_SKILL_SLUGS } from "@archivist-gg/dnd5e/types/choice";
+import { ALL_SKILL_SLUGS, ALL_LANGUAGES } from "@archivist-gg/dnd5e/types/choice";
 import { ABILITY_KEYS } from "@archivist-gg/dnd5e/dnd/constants";
 import type { ResolvedCharacter, ChoiceValue, FeatureSource } from "./pc.types";
 import type { EntityRegistry, RegisteredEntity } from "@archivist-gg/core";
@@ -176,7 +176,10 @@ function enumerateOptions(choice: Choice, ctx: DecisionContext, ownerBare: strin
       return filtered.map((e) => ({ value: e.slug, label: e.name, entity: e }));
     }
     case "select-proficiency": {
-      const pool = choice.from ?? (choice.domain === "skill" ? [...ALL_SKILL_SLUGS] : []);
+      const pool = choice.from
+        ?? (choice.domain === "skill" ? [...ALL_SKILL_SLUGS]
+            : choice.domain === "language" ? [...ALL_LANGUAGES]
+            : []);
       return pool.map((v) => ({ value: v, label: v.replace(/-/g, " ").replace(/\b\w/g, (c) => c.toUpperCase()) }));
     }
     case "ability-points": {
