@@ -2,7 +2,7 @@ import type { FeatureEffect, SenseType } from "@archivist-gg/dnd5e/types/feature
 import type { Ability } from "@archivist-gg/dnd5e";
 import { ABILITY_KEYS } from "@archivist-gg/dnd5e/dnd/constants";
 import type { DamageRider, ResolvedFeature, RollModifierEntry } from "./pc.types";
-import { bareEntitySlug } from "./pc.decision-engine";
+import { bareEntitySlug } from "../entities/slug";
 
 /**
  * A melee-attack ability override from a `weapon-ability` effect. `weaponSlugs`

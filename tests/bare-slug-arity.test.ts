@@ -1,5 +1,5 @@
 import { describe, it, expect } from "vitest";
-import { bareEntitySlug } from "@archivist-gg/dnd5e/pc/pc.decision-engine";
+import { bareEntitySlug } from "@archivist-gg/dnd5e/entities/slug";
 
 // Phase-1 slug namespacing (Task 3): entity slugs are migrating from a 2-part
 // `<prefix>_<name>` shape to a 3-part `<prefix>_<type>_<name>` shape. bareEntitySlug

@@ -13,3 +13,15 @@ export function slugify(name: string): string {
     .replace(/^-+|-+$/g, "");      // trim leading/trailing hyphens
 }
 
+/** "srd-2024_fighter" → "fighter", "srd-2024_background_acolyte" → "acolyte".
+ *  Arity-robust: strips a `<prefix>_<type>_<name>` (3-part) or legacy `<prefix>_<name>`
+ *  (2-part) slug down to the bare NAME, and passes a bare slug through unchanged.
+ *  Name-slugs never contain `_`, so for a 3-part-or-longer slug the name is
+ *  `parts.slice(2).join("_")`. Tolerates a nullish slug (degrades to "") so a
+ *  malformed entity can't hard-crash the builder; the resolver backfills real slugs. */
+export function bareEntitySlug(slug: string | null | undefined): string {
+  if (!slug) return "";
+  const p = slug.split("_");
+  return p.length >= 3 ? p.slice(2).join("_") : p[p.length - 1];
+}
+

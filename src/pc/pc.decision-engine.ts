@@ -5,6 +5,7 @@ import type { ResolvedCharacter, ChoiceValue, FeatureSource } from "./pc.types";
 import type { EntityRegistry, RegisteredEntity } from "@archivist-gg/core";
 import { recognizeDecision } from "./decision-recognizer";
 import { resolveOriginFeat } from "./pc.resolver";
+import { bareEntitySlug } from "../entities/slug";
 
 export interface DecisionRegistry {
   search(query: string, entityType: string, limit: number): RegisteredEntity[];
@@ -82,18 +83,6 @@ export function wikilinkTailSlug(link: string): string {
   const inner = link.replace(/^\[\[/, "").replace(/\]\]$/, "");
   const tail = inner.split("/").pop() ?? inner;
   return tail.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/(^-|-$)/g, "");
-}
-
-/** "srd-2024_fighter" → "fighter", "srd-2024_background_acolyte" → "acolyte".
- *  Arity-robust: strips a `<prefix>_<type>_<name>` (3-part) or legacy `<prefix>_<name>`
- *  (2-part) slug down to the bare NAME, and passes a bare slug through unchanged.
- *  Name-slugs never contain `_`, so for a 3-part-or-longer slug the name is
- *  `parts.slice(2).join("_")`. Tolerates a nullish slug (degrades to "") so a
- *  malformed entity can't hard-crash the builder; the resolver backfills real slugs. */
-export function bareEntitySlug(slug: string | null | undefined): string {
-  if (!slug) return "";
-  const p = slug.split("_");
-  return p.length >= 3 ? p.slice(2).join("_") : p[p.length - 1];
 }
 
 function matchesFilter(e: RegisteredEntity, where: EntityFilter, ownerBare: string): boolean {

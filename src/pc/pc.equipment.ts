@@ -27,7 +27,7 @@ import {
   isWeaponEntity, isItemEntity,
 } from "./pc.slotting";
 import { MASTERY, masteryDerived, masteryGist } from "../weapon/weapon-mastery";
-import { bareEntitySlug } from "./pc.decision-engine";
+import { bareEntitySlug } from "../entities/slug";
 import type { WeaponAbilityOverride } from "./pc.feature-effects";
 
 const ABILITY_KEYS: readonly Ability[] = ["str", "dex", "con", "int", "wis", "cha"];

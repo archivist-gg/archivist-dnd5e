@@ -3,7 +3,8 @@ import type { ResolvedCharacter, ResolvedClass, ResolvedPool, ResolvedPoolEntry 
 import type { SelectionPool } from "@archivist-gg/dnd5e/types/selection-pool";
 import type { OptionalFeatureEntity } from "@archivist-gg/dnd5e/types/optional-feature.types";
 import { readTableColumn } from "./pc.table-column";
-import { bareEntitySlug, wikilinkTailSlug } from "./pc.decision-engine";
+import { wikilinkTailSlug } from "./pc.decision-engine";
+import { bareEntitySlug } from "../entities/slug";
 
 /** Structural subset of EntityRegistry used here (lets tests pass a fake). */
 export interface PoolRegistry {

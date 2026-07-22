@@ -20,7 +20,8 @@ import type {
 import { normalizeKnownSpell, resolveSpellcasting } from "./pc.spellcasting";
 import { resolveAllPools } from "./pc.pools";
 import { resolveEntityForEntry, isItemEntity } from "./pc.slotting";
-import { bareEntitySlug, wikilinkTailSlug } from "./pc.decision-engine";
+import { wikilinkTailSlug } from "./pc.decision-engine";
+import { bareEntitySlug } from "../entities/slug";
 
 export interface ResolveResult {
   character: ResolvedCharacter;
