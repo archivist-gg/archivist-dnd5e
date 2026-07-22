@@ -662,6 +662,62 @@ describe("computeSlotsAndAttacks — attack rows", () => {
   });
 });
 
+describe("computeSlotsAndAttacks — thrown-melee attack ability (RAW, classifier-driven)", () => {
+  // SRD runtime data categorizes throwable MELEE weapons (spear/dagger/handaxe/
+  // javelin/trident/light-hammer) as `*-ranged`. Per RAW they keep melee ability
+  // rules (STR, or best-of for finesse) — NOT DEX. Standard stat block for these
+  // cases mirrors the STR-melee harness above: STR 16 (+3) / DEX 10 (+0),
+  // proficient (simple+martial), PB +2.
+  const registry = buildEquipmentRegistry();
+  const fullProfs = { armor: { categories: [], specific: [] }, weapons: { categories: ["simple", "martial"], specific: [] }, tools: { categories: [], specific: [] } };
+  const strDexMods = { str: 3, dex: 0, con: 0, int: 0, wis: 0, cha: 0 };
+
+  it("thrown spear uses STR (RAW): hit +5, dmg 1d6+3, breakdown says STR", () => {
+    const c = baseChar(); c.abilities.str = 16;
+    c.equipment = [{ item: "[[srd-2024_weapon_spear]]", equipped: true }];
+    const d = computeSlotsAndAttacks(mkResolved(c), strDexMods, fullProfs, registry, [], 2);
+    const main = d.attacks[0];
+    expect(main.toHit).toBe(5); // STR +3 + PB +2
+    expect(main.damageDice).toBe("1d6+3");
+    expect(main.breakdown.toHit[0].source).toBe("STR modifier");
+  });
+
+  it("dagger finesse max(STR,DEX): STR 16 / DEX 10 → STR-based (+5)", () => {
+    // Throwable-melee finesse: goes through the MELEE finesse branch
+    // (dex >= str ? dex : str) — STR 3 > DEX 0 → STR.
+    const c = baseChar(); c.abilities.str = 16;
+    c.equipment = [{ item: "[[srd-2024_weapon_dagger]]", equipped: true }];
+    const d = computeSlotsAndAttacks(mkResolved(c), strDexMods, fullProfs, registry, [], 2);
+    const main = d.attacks[0];
+    expect(main.toHit).toBe(5);
+    expect(main.damageDice).toBe("1d4+3");
+    expect(main.breakdown.toHit[0].source).toBe("STR modifier");
+  });
+
+  it("dart (pure ranged finesse) max(STR,DEX): STR 16 / DEX 10 → STR-based (+5)", () => {
+    // NEW branch — dart is a genuinely-ranged thrown weapon (PURE_RANGED_THROWN_SLUGS),
+    // so it takes the pure-ranged finesse path (str > dex ? str : dex), which the
+    // dagger (melee finesse) does NOT exercise.
+    const c = baseChar(); c.abilities.str = 16;
+    c.equipment = [{ item: "[[srd-5e_weapon_dart]]", equipped: true }];
+    const d = computeSlotsAndAttacks(mkResolved(c), strDexMods, fullProfs, registry, [], 2);
+    const main = d.attacks[0];
+    expect(main.toHit).toBe(5);
+    expect(main.damageDice).toBe("1d4+3");
+    expect(main.breakdown.toHit[0].source).toBe("STR modifier");
+  });
+
+  it("2014 heavy crossbow stays DEX (+2 when DEX 10, prof): loading-only discriminator", () => {
+    // martial-ranged + loading (NO ammunition, NO finesse) → PURE ranged → DEX.
+    const c = baseChar();
+    c.equipment = [{ item: "[[srd-5e_weapon_crossbow-heavy]]", equipped: true }];
+    const d = computeSlotsAndAttacks(mkResolved(c), strDexMods, fullProfs, registry, [], 2);
+    const main = d.attacks[0];
+    expect(main.toHit).toBe(2); // DEX +0 + PB +2
+    expect(main.breakdown.toHit[0].source).toBe("DEX modifier");
+  });
+});
+
 describe("recalc + Pass B", () => {
   const registry = buildEquipmentRegistry();
 

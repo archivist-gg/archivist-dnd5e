@@ -89,6 +89,33 @@ export const GREATSWORD: WeaponEntity = {
   properties: ["heavy", "two_handed"],
 };
 
+// Throwable MELEE weapons: the SRD runtime data miscategorizes these as
+// `*-ranged` (they carry a range struct for the thrown mode), but per RAW they
+// keep melee ability rules (STR, or best-of for finesse). classifyWeaponRange
+// reconstructs the melee mode from properties. Shapes mirror the real runtime
+// entities (src/srd/data/runtime/weapon.*.json) exactly.
+export const SPEAR: WeaponEntity = {
+  name: "Spear", slug: "srd-2024_weapon_spear", category: "simple-ranged",
+  damage: { dice: "1d6", type: "piercing", versatile_dice: "1d8" },
+  properties: ["thrown", "versatile"], range: { normal: 20, long: 60 }, edition: "2024",
+};
+export const DAGGER: WeaponEntity = {
+  name: "Dagger", slug: "srd-2024_weapon_dagger", category: "simple-ranged",
+  damage: { dice: "1d4", type: "piercing" },
+  properties: ["finesse", "light", "thrown"], range: { normal: 20, long: 60 }, edition: "2024",
+};
+export const DART: WeaponEntity = {
+  name: "Dart", slug: "srd-5e_weapon_dart", category: "simple-ranged",
+  damage: { dice: "1d4", type: "piercing" },
+  properties: ["finesse", "thrown"], range: { normal: 20, long: 60 }, edition: "2014",
+};
+export const HEAVY_CROSSBOW_2014: WeaponEntity = {
+  name: "Heavy Crossbow", slug: "srd-5e_weapon_crossbow-heavy", category: "martial-ranged",
+  damage: { dice: "1d10", type: "piercing" },
+  properties: ["loading", "two_handed"], range: { normal: 100, long: 400 }, edition: "2014",
+  // NOTE: deliberately NO "ammunition" — the loading-only discriminator is the point (Gate 0).
+};
+
 export const CLOAK_OF_PROTECTION: ItemEntity = {
   name: "Cloak of Protection",
   slug: "cloak-of-protection",
@@ -218,6 +245,10 @@ export function buildEquipmentRegistry(): EntityRegistry {
     { slug: "rapier", entityType: "weapon", name: "Rapier", data: RAPIER },
     { slug: "shortbow", entityType: "weapon", name: "Shortbow", data: SHORTBOW },
     { slug: "greatsword", entityType: "weapon", name: "Greatsword", data: GREATSWORD },
+    { slug: "srd-2024_weapon_spear", entityType: "weapon", name: "Spear", data: SPEAR },
+    { slug: "srd-2024_weapon_dagger", entityType: "weapon", name: "Dagger", data: DAGGER },
+    { slug: "srd-5e_weapon_dart", entityType: "weapon", name: "Dart", data: DART },
+    { slug: "srd-5e_weapon_crossbow-heavy", entityType: "weapon", name: "Heavy Crossbow", data: HEAVY_CROSSBOW_2014 },
     { slug: "cloak-of-protection", entityType: "item", name: "Cloak of Protection", data: CLOAK_OF_PROTECTION },
     { slug: "flame-tongue", entityType: "item", name: "Flame Tongue", data: FLAME_TONGUE },
     { slug: "plus-one-longsword", entityType: "item", name: "+1 Longsword", data: PLUS_ONE_LONGSWORD },

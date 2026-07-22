@@ -27,6 +27,7 @@ import {
   isWeaponEntity, isItemEntity,
 } from "./pc.slotting";
 import { MASTERY, masteryDerived, masteryGist } from "../weapon/weapon-mastery";
+import { classifyWeaponRange } from "../weapon/weapon.classify";
 import { bareEntitySlug } from "../entities/slug";
 import type { WeaponAbilityOverride } from "./pc.feature-effects";
 
@@ -402,20 +403,23 @@ function attackAbility(
   mods: Record<Ability, number>,
   weaponAbilities: WeaponAbilityOverride[],
 ): Ability {
-  const isRanged = /ranged/.test(weapon.category);
-  // A weapon-ability override (Hexblade "Lies", MCDM scoped "Lies") governs melee
-  // attacks only; pure ranged weapons keep DEX and never take the override.
-  // Thrown/finesse melee weapons are still melee and ARE overridden. A scoped
-  // override (matching weaponSlugs) wins over an unscoped global for that weapon.
-  if (!isRanged) {
+  const modes = classifyWeaponRange(weapon);
+  // Finesse is read from the BASE weapon's properties (same input the classifier
+  // sees) — never from a magic item's propertiesOverride (spec D3).
+  const finesse = hasProperty(weapon, "finesse");
+  if (modes.melee) {
+    // Melee + throwable-melee attacks: a weapon-ability override (Hexblade
+    // "Lies", MCDM scoped "Lies") governs; scoped (matching weaponSlugs) wins
+    // over an unscoped global. Thrown melee weapons keep melee rules (RAW).
     const scoped = weaponAbilities.find((o) => o.weaponSlugs?.includes(bareEntitySlug(weapon.slug)));
     const glob = weaponAbilities.find((o) => !o.weaponSlugs);
     const o = scoped ?? glob;
     if (o) return o.ability;
+    if (finesse) return mods.dex >= mods.str ? "dex" : "str";
+    return "str";
   }
-  if (isRanged) return "dex";
-  if (hasProperty(weapon, "finesse")) return mods.dex >= mods.str ? "dex" : "str";
-  return "str";
+  // Pure ranged: DEX, except finesse (dart) may use STR when strictly higher.
+  return finesse && mods.str > mods.dex ? "str" : "dex";
 }
 
 function isWeaponSlugProficient(

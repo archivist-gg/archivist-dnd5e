@@ -3,7 +3,7 @@ import { PCResolver } from "../src/pc/pc.resolver";
 import { recalc } from "../src/pc/pc.recalc";
 import { emptyFeatureEffectTotals } from "../src/pc/pc.feature-effects";
 import { buildMockRegistry } from "./mock-entity-registry";
-import { CLUB, GREATSWORD, LONGSWORD, SHORTBOW } from "./equipment-fixtures";
+import { CLUB, GREATSWORD, LONGSWORD, SHORTBOW, SPEAR } from "./equipment-fixtures";
 import type { Character, ResolvedCharacter, ResolvedClass } from "../src/pc/pc.types";
 
 // Task 4 (MCDM #2): a `weapon-ability` effect can now scope its melee ability
@@ -68,6 +68,7 @@ function runLies(opts: { scoped?: boolean; liesWeapon?: string; wield: string })
     { slug: "greatsword", entityType: "weapon", name: "Greatsword", data: GREATSWORD },
     { slug: "longsword", entityType: "weapon", name: "Longsword", data: LONGSWORD },
     { slug: "shortbow", entityType: "weapon", name: "Shortbow", data: SHORTBOW },
+    { slug: "spear", entityType: "weapon", name: "Spear", data: SPEAR },
   ]);
   const { character } = new PCResolver(reg).resolve(liesChar({ ...opts, scoped }));
   return recalc(character, reg).attacks;
@@ -109,6 +110,18 @@ describe("Task 4: scope MCDM Lies CHA override to a chosen weapon type", () => {
     // shortbow is simple-ranged ⇒ DEX 0 + prof +2 = 2 (NOT CHA's 6)
     expect(attacks[0].toHit).toBe(2);
     expect(attacks[0].toHit).not.toBe(6);
+  });
+
+  it("(6b) a global override APPLIES to a thrown-melee weapon (spear ⇒ CHA, RAW)", () => {
+    // spear is SRD-categorized `simple-ranged` but is a throwable MELEE weapon
+    // (no ammunition/loading; slug not dart/net). Per RAW it keeps melee rules,
+    // so a global weapon-ability override now governs it — unlike the true
+    // ranged shortbow above.
+    const attacks = runLies({ scoped: false, wield: "spear" });
+    expect(attacks[0].name).toBe("Spear");
+    // CHA +4 + prof +2 = 6 (NOT DEX 0 + 2 = 2, which the old ranged-category test would give)
+    expect(attacks[0].toHit).toBe(6);
+    expect(attacks[0].toHit).not.toBe(2);
   });
 
   it("[R-D2b] (6) weapon-ability:spellcasting sentinel ⇒ global caster ability wins over a concrete global", () => {
