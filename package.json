@@ -111,6 +111,7 @@
     "./types/optional-feature.types": "./src/types/optional-feature.types.ts",
     "./types/resource": "./src/types/resource.ts",
     "./types/selection-pool": "./src/types/selection-pool.ts",
+    "./weapon/weapon.classify": "./src/weapon/weapon.classify.ts",
     "./weapon/weapon.codec": "./src/weapon/weapon.codec.ts",
     "./weapon/weapon.parser": "./src/weapon/weapon.parser.ts",
     "./weapon/weapon.schema": "./src/weapon/weapon.schema.ts",
