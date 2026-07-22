@@ -28,6 +28,7 @@ import {
 } from "./pc.slotting";
 import { MASTERY, masteryDerived, masteryGist } from "../weapon/weapon-mastery";
 import { classifyWeaponRange } from "../weapon/weapon.classify";
+import type { WeaponRangeModes } from "../weapon/weapon.classify";
 import { bareEntitySlug } from "../entities/slug";
 import type { WeaponAbilityOverride } from "./pc.feature-effects";
 
@@ -564,10 +565,10 @@ function buildAttackRow(args: {
     { source: magicSource, amount: magic.dmg, kind: "item" },
   ];
 
-  const isRanged = /ranged/.test(weapon.category);
-  const range = isRanged && weapon.range
-    ? `${weapon.range.normal}/${weapon.range.long}`
-    : "melee";
+  const modes = classifyWeaponRange(weapon);
+  const fmtRanged = (r: { normal: number; long: number }) => `${r.normal}/${r.long} ft`;
+  const range = modes.melee ? `${modes.melee.reach} ft` : modes.ranged ? fmtRanged(modes.ranged) : undefined;
+  const thrownRange = modes.melee && modes.ranged ? fmtRanged(modes.ranged) : undefined;
 
   // Filter out conditional-property objects so the consumer gets a clean
   // list of property names. WeaponProperty is a union of string literals and
@@ -583,7 +584,8 @@ function buildAttackRow(args: {
   const row: AttackRow = {
     id,
     name,
-    range,
+    ...(range !== undefined ? { range } : {}),
+    ...(thrownRange !== undefined ? { thrownRange } : {}),
     toHit,
     damageDice,
     damageType: magic.damageTypeOverride ?? weapon.damage.type,
@@ -600,7 +602,7 @@ function buildAttackRow(args: {
     breakdown: { toHit: toHitBreakdown, damage: damageBreakdown },
     informational: args.magic.informational.length > 0 ? args.magic.informational : undefined,
     slotKey: args.slotKey,
-    subLabel: formatWeaponSubLabel(weapon, finalProps),
+    subLabel: formatWeaponSubLabel(weapon, finalProps, modes),
     actionCost: args.actionCost,
     versatile: args.versatileDice ? { damageDice: formatDice(args.versatileDice) } : undefined,
   };
@@ -623,10 +625,23 @@ function buildAttackRow(args: {
   return row;
 }
 
-function formatWeaponSubLabel(weapon: WeaponEntity, properties: string[]): string {
+/** Byte-identical regex to the plugin's shared humanizeToken (spec D7) — row and
+ *  card casing must never drift. */
+function humanizeWeaponToken(s: string): string {
+  return s.replace(/[-_]/g, " ").replace(/(^|[\s(])\w/g, (c) => c.toUpperCase());
+}
+
+function formatWeaponSubLabel(weapon: WeaponEntity, properties: string[], modes: WeaponRangeModes): string {
   const parts: string[] = [];
-  if (weapon.category) parts.push(weapon.category);
-  if (properties.length > 0) parts.push(properties.join(", "));
+  if (weapon.category) {
+    // The SRD data miscategorizes throwable melee weapons as *-ranged; show the
+    // reconstructed truth (classifier gave it a melee mode → it IS a melee weapon).
+    const cat = modes.melee && /ranged/.test(weapon.category)
+      ? weapon.category.replace("ranged", "melee")
+      : weapon.category;
+    parts.push(humanizeWeaponToken(cat));
+  }
+  if (properties.length > 0) parts.push(properties.map(humanizeWeaponToken).join(", "));
   return parts.join(" · ");
 }
 

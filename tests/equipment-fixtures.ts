@@ -1,7 +1,7 @@
 import { EntityRegistry } from "@archivist-gg/core";
 import { buildMockRegistry } from "./mock-entity-registry";
 import type { ArmorEntity } from "@archivist-gg/dnd5e/armor/armor.types";
-import type { WeaponEntity } from "@archivist-gg/dnd5e/weapon/weapon.types";
+import type { WeaponEntity, WeaponProperty } from "@archivist-gg/dnd5e/weapon/weapon.types";
 import type { ItemEntity } from "@archivist-gg/dnd5e/item/item.types";
 
 export const PLATE: ArmorEntity = {
@@ -114,6 +114,28 @@ export const HEAVY_CROSSBOW_2014: WeaponEntity = {
   damage: { dice: "1d10", type: "piercing" },
   properties: ["loading", "two_handed"], range: { normal: 100, long: 400 }, edition: "2014",
   // NOTE: deliberately NO "ammunition" — the loading-only discriminator is the point (Gate 0).
+};
+
+// Reach melee: classifyWeaponRange gives it a melee mode with reach 10 (5 + 5).
+export const GLAIVE: WeaponEntity = {
+  name: "Glaive", slug: "srd-5e_weapon_glaive", category: "martial-melee",
+  damage: { dice: "1d10", type: "slashing" },
+  properties: ["reach", "two_handed"], edition: "2014",
+};
+// Pure ranged (ammunition): melee mode reconstructed as null → range "150/600 ft".
+export const LONGBOW: WeaponEntity = {
+  name: "Longbow", slug: "srd-5e_weapon_longbow", category: "martial-ranged",
+  damage: { dice: "1d8", type: "piercing" },
+  properties: ["ammunition", "two_handed"], range: { normal: 150, long: 600 }, edition: "2014",
+};
+// Genuinely-ranged thrown (net ∈ PURE_RANGED_THROWN_SLUGS): stays pure ranged, so
+// the subLabel category is NOT corrected to melee. The runtime tag `special_(net)`
+// is not a WeaponProperty literal (mirrors the raw JSON), so widen through unknown.
+export const NET: WeaponEntity = {
+  name: "Net", slug: "srd-5e_weapon_net", category: "martial-ranged",
+  damage: { dice: "0", type: "bludgeoning" },
+  properties: ["special_(net)", "thrown"] as unknown as WeaponProperty[],
+  range: { normal: 5, long: 15 }, edition: "2014",
 };
 
 export const CLOAK_OF_PROTECTION: ItemEntity = {
@@ -249,6 +271,9 @@ export function buildEquipmentRegistry(): EntityRegistry {
     { slug: "srd-2024_weapon_dagger", entityType: "weapon", name: "Dagger", data: DAGGER },
     { slug: "srd-5e_weapon_dart", entityType: "weapon", name: "Dart", data: DART },
     { slug: "srd-5e_weapon_crossbow-heavy", entityType: "weapon", name: "Heavy Crossbow", data: HEAVY_CROSSBOW_2014 },
+    { slug: "srd-5e_weapon_glaive", entityType: "weapon", name: "Glaive", data: GLAIVE },
+    { slug: "srd-5e_weapon_longbow", entityType: "weapon", name: "Longbow", data: LONGBOW },
+    { slug: "srd-5e_weapon_net", entityType: "weapon", name: "Net", data: NET },
     { slug: "cloak-of-protection", entityType: "item", name: "Cloak of Protection", data: CLOAK_OF_PROTECTION },
     { slug: "flame-tongue", entityType: "item", name: "Flame Tongue", data: FLAME_TONGUE },
     { slug: "plus-one-longsword", entityType: "item", name: "+1 Longsword", data: PLUS_ONE_LONGSWORD },

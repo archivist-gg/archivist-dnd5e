@@ -339,6 +339,10 @@ export interface AttackRow {
   id: string;
   name: string;
   range?: string;
+  /** Secondary thrown-mode range ("20/60 ft") for a throwable melee weapon.
+   *  Display-only; rendered as a stacked muted second line in the Range cell.
+   *  Absent otherwise. */
+  thrownRange?: string;
   toHit: number;
   damageDice: string;
   damageType: string;

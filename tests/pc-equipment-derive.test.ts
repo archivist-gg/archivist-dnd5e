@@ -656,9 +656,60 @@ describe("computeSlotsAndAttacks — attack rows", () => {
     const c = baseChar(); c.abilities.str = 16;
     c.equipment = [{ item: "[[longsword]]", equipped: true }];
     const d = computeSlotsAndAttacks(mkResolved(c), { str: 3, dex: 0, con: 0, int: 0, wis: 0, cha: 0 }, fullProfs, registry, [], 2);
-    expect(d.attacks[0].range).toBe("melee");
+    expect(d.attacks[0].range).toBe("5 ft");
     expect(d.attacks[0].name).toBe("Longsword");
     expect(d.attacks[0].versatile?.damageDice).toBe("1d10+3");
+  });
+});
+
+describe("computeSlotsAndAttacks — range / thrownRange / humanized subLabel display strings", () => {
+  const registry = buildEquipmentRegistry();
+  const fullProfs = { armor: { categories: [], specific: [] }, weapons: { categories: ["simple", "martial"], specific: [] }, tools: { categories: [], specific: [] } };
+  const zeroMods = { str: 0, dex: 0, con: 0, int: 0, wis: 0, cha: 0 };
+
+  it("reach: glaive row range '10 ft'", () => {
+    const c = baseChar();
+    c.equipment = [{ item: "[[srd-5e_weapon_glaive]]", equipped: true }];
+    const d = computeSlotsAndAttacks(mkResolved(c), zeroMods, fullProfs, registry, [], 2);
+    expect(d.attacks[0].range).toBe("10 ft");
+    expect(d.attacks[0].thrownRange).toBeUndefined();
+  });
+
+  it("pure ranged: longbow '150/600 ft', no thrownRange", () => {
+    const c = baseChar();
+    c.equipment = [{ item: "[[srd-5e_weapon_longbow]]", equipped: true }];
+    const d = computeSlotsAndAttacks(mkResolved(c), zeroMods, fullProfs, registry, [], 2);
+    expect(d.attacks[0].range).toBe("150/600 ft");
+    expect(d.attacks[0].thrownRange).toBeUndefined();
+  });
+
+  it("throwable melee: spear range '5 ft' + thrownRange '20/60 ft'", () => {
+    const c = baseChar();
+    c.equipment = [{ item: "[[srd-2024_weapon_spear]]", equipped: true }];
+    const d = computeSlotsAndAttacks(mkResolved(c), zeroMods, fullProfs, registry, [], 2);
+    expect(d.attacks[0].range).toBe("5 ft");
+    expect(d.attacks[0].thrownRange).toBe("20/60 ft");
+  });
+
+  it("subLabel humanized: greatsword 'Martial Melee · Heavy, Two Handed'", () => {
+    const c = baseChar();
+    c.equipment = [{ item: "[[greatsword]]", equipped: true }];
+    const d = computeSlotsAndAttacks(mkResolved(c), zeroMods, fullProfs, registry, [], 2);
+    expect(d.attacks[0].subLabel).toBe("Martial Melee · Heavy, Two Handed");
+  });
+
+  it("subLabel category corrected: dagger 'Simple Melee · Finesse, Light, Thrown'", () => {
+    const c = baseChar();
+    c.equipment = [{ item: "[[srd-2024_weapon_dagger]]", equipped: true }];
+    const d = computeSlotsAndAttacks(mkResolved(c), zeroMods, fullProfs, registry, [], 2);
+    expect(d.attacks[0].subLabel).toBe("Simple Melee · Finesse, Light, Thrown");
+  });
+
+  it("subLabel pure-ranged keeps category: 2014 net 'Martial Ranged · Special (Net), Thrown'", () => {
+    const c = baseChar();
+    c.equipment = [{ item: "[[srd-5e_weapon_net]]", equipped: true }];
+    const d = computeSlotsAndAttacks(mkResolved(c), zeroMods, fullProfs, registry, [], 2);
+    expect(d.attacks[0].subLabel).toBe("Martial Ranged · Special (Net), Thrown");
   });
 });
 
