@@ -451,15 +451,21 @@ export function computeAbilityScores(
 
 interface ClassProficiencies {
   armor?: { categories?: string[]; specific?: string[] } | string[];
-  weapons?: { categories?: string[]; specific?: string[] } | string[];
-  tools?: { categories?: string[]; specific?: string[] } | string[];
+  weapons?: { categories?: string[]; fixed?: string[]; specific?: string[] } | string[];
+  tools?: { categories?: string[]; fixed?: string[]; specific?: string[] } | string[];
   languages?: string[];
 }
 
-function normalizeProfList(input: ClassProficiencies["armor"]): { categories: string[]; specific: string[] } {
+function normalizeArmorProf(input: ClassProficiencies["armor"]): { categories: string[]; specific: string[] } {
   if (!input) return { categories: [], specific: [] };
-  if (Array.isArray(input)) return { categories: [], specific: input };
+  if (Array.isArray(input)) return { categories: input, specific: [] };       // armor array = category names
   return { categories: input.categories ?? [], specific: input.specific ?? [] };
+}
+
+function normalizeWeaponToolProf(input: ClassProficiencies["weapons"]): { categories: string[]; specific: string[] } {
+  if (!input) return { categories: [], specific: [] };
+  if (Array.isArray(input)) return { categories: [], specific: input };       // bare array = specific
+  return { categories: input.categories ?? [], specific: (input.fixed ?? []).concat(input.specific ?? []) };
 }
 
 function mergeInto(target: ProficiencySet, source: { categories: string[]; specific: string[] }): void {
@@ -494,34 +500,34 @@ export function computeProficiencies(
   for (const c of resolved.classes) {
     const p = (c.entity as unknown as { proficiencies?: ClassProficiencies })?.proficiencies;
     if (!p) continue;
-    mergeInto(armor, normalizeProfList(p.armor));
-    mergeInto(weapons, normalizeProfList(p.weapons));
-    mergeInto(tools, normalizeProfList(p.tools));
+    mergeInto(armor, normalizeArmorProf(p.armor));
+    mergeInto(weapons, normalizeWeaponToolProf(p.weapons));
+    mergeInto(tools, normalizeWeaponToolProf(p.tools));
     p.languages?.forEach((l) => languages.add(l));
   }
 
   const racePr = (resolved.race as unknown as { proficiencies?: ClassProficiencies })?.proficiencies;
   if (racePr) {
-    mergeInto(armor, normalizeProfList(racePr.armor));
-    mergeInto(weapons, normalizeProfList(racePr.weapons));
-    mergeInto(tools, normalizeProfList(racePr.tools));
+    mergeInto(armor, normalizeArmorProf(racePr.armor));
+    mergeInto(weapons, normalizeWeaponToolProf(racePr.weapons));
+    mergeInto(tools, normalizeWeaponToolProf(racePr.tools));
     racePr.languages?.forEach((l) => languages.add(l));
   }
 
   const bgPr = (resolved.background as unknown as { proficiencies?: ClassProficiencies })?.proficiencies;
   if (bgPr) {
-    mergeInto(armor, normalizeProfList(bgPr.armor));
-    mergeInto(weapons, normalizeProfList(bgPr.weapons));
-    mergeInto(tools, normalizeProfList(bgPr.tools));
+    mergeInto(armor, normalizeArmorProf(bgPr.armor));
+    mergeInto(weapons, normalizeWeaponToolProf(bgPr.weapons));
+    mergeInto(tools, normalizeWeaponToolProf(bgPr.tools));
     bgPr.languages?.forEach((l) => languages.add(l));
   }
 
   for (const f of resolved.feats) {
     const grants = (f as unknown as { grants_proficiency?: ClassProficiencies }).grants_proficiency;
     if (!grants) continue;
-    mergeInto(armor, normalizeProfList(grants.armor));
-    mergeInto(weapons, normalizeProfList(grants.weapons));
-    mergeInto(tools, normalizeProfList(grants.tools));
+    mergeInto(armor, normalizeArmorProf(grants.armor));
+    mergeInto(weapons, normalizeWeaponToolProf(grants.weapons));
+    mergeInto(tools, normalizeWeaponToolProf(grants.tools));
     grants.languages?.forEach((l) => languages.add(l));
   }
 

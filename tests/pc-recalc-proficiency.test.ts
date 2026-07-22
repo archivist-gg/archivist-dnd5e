@@ -100,7 +100,28 @@ describe("computeProficiencies", () => {
       ],
     });
     const p = computeProficiencies(resolved);
-    expect(p.armor.specific).toEqual(["shield"]);
+    // legacy array armor shape now routes to CATEGORIES (D7)
+    expect(p.armor.categories).toContain("shield");
+    expect(p.armor.specific).toEqual([]);
+  });
+
+  it("routes class weapons.fixed into weapons.specific (D6 Layer 1)", () => {
+    const resolved = makeResolved({
+      classes: [
+        {
+          entity: {
+            proficiencies: { weapons: { fixed: ["rapiers"], categories: ["simple"] }, armor: ["light"] },
+          } as never,
+          level: 1,
+          subclass: null,
+          choices: {},
+        },
+      ],
+    });
+    const p = computeProficiencies(resolved);
+    expect(p.weapons.specific).toContain("rapiers");
+    expect(p.weapons.categories).toContain("simple");
+    expect(p.armor.categories).toContain("light");
   });
 
   it("merges from race + background + feats", () => {
