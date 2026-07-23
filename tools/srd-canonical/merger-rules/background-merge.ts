@@ -215,8 +215,11 @@ function parseSkillSlugs(desc: string): SkillSlug[] {
   return dedupe(out);
 }
 
-function parseToolProf(desc: string): ToolProf | null {
+export function parseToolProf(desc: string): ToolProf | null {
   if (!desc) return null;
+  // Real choices (e.g. "choose one kind of gaming set") are authored in the
+  // overlay's choices[]; drop the prose here to avoid a fake fixed slug.
+  if (/\b(choose|of your choice|one kind of)\b/i.test(desc)) return null;
   const items = splitFreeText(desc).map(s => s.toLowerCase().replace(/\s+/g, "-"));
   if (items.length === 0) return null;
   return { kind: "fixed", items };

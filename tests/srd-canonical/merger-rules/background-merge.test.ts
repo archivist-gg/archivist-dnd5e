@@ -1,5 +1,5 @@
 import { describe, it, expect } from "vitest";
-import { toBackgroundCanonical } from "../../../tools/srd-canonical/merger-rules/background-merge";
+import { toBackgroundCanonical, parseToolProf } from "../../../tools/srd-canonical/merger-rules/background-merge";
 import type { CanonicalEntry } from "../../../tools/srd-canonical/merger";
 
 describe("backgroundMergeRule", () => {
@@ -311,5 +311,14 @@ describe("backgroundMergeRule", () => {
     };
     const out = toBackgroundCanonical(canonical);
     expect((out.feature as { resources?: Array<{ id: string }> }).resources?.[0]?.id).toBe("background:haunted-one");
+  });
+});
+
+describe("parseToolProf", () => {
+  it("drops choice prose (gaming set) instead of slugifying it", () => {
+    expect(parseToolProf("choose one kind of gaming set")).toBeNull();
+  });
+  it("keeps a genuine fixed tool (apostrophe preserved, only whitespace slugified)", () => {
+    expect(parseToolProf("Thieves' tools")).toEqual({ kind: "fixed", items: ["thieves'-tools"] });
   });
 });
