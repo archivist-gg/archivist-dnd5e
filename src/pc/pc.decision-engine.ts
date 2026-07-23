@@ -321,30 +321,19 @@ function buildSubclassItem(
   };
 }
 
-/** Walk every decision definition + persisted selection and collect chosen
- *  proficiencies. Pure; called by recalc. Values are validated against the
- *  decision's option pool — stale slugs (outside `from`) are ignored. */
-export function collectChosenProficiencies(resolved: ResolvedCharacter): {
-  skills: string[]; expertise: string[]; languages: string[]; tools: string[];
-} {
-  const out = { skills: [] as string[], expertise: [] as string[], languages: [] as string[], tools: [] as string[] };
-
-  const apply = (choice: Choice, selected: ChoiceValue | undefined): void => {
-    if (choice.kind !== "select-proficiency") return;
-    const vals = Array.isArray(selected) ? selected : typeof selected === "string" ? [selected] : [];
-    const pool = choice.from;
-    const valid = pool ? vals.filter((v) => pool.includes(v)) : vals;
-    // domain:"save" is intentionally not collected here — saving-throw
-    // proficiencies come from class `saving_throws`, not decisions.
-    const bucket = choice.domain === "skill" ? (choice.expertise ? out.expertise : out.skills)
-      : choice.domain === "language" ? out.languages
-      : choice.domain === "tool" ? out.tools : null;
-    if (bucket) for (const v of valid) if (!bucket.includes(v)) bucket.push(v);
-  };
-
+/** Visits every (choice, persisted-selection) pair across the class L1 skill
+ *  choice, class/subclass features, race choices + traits, and background choices
+ *  + feature — the single decision walk shared by every proficiency consumer, so
+ *  chosen picks and required/selected counts can never diverge. `visit` is called
+ *  for EVERY choice (including non-select-proficiency ones); each consumer filters
+ *  by `choice.kind` itself. select-inline branches are recursed by selection. */
+function visitProficiencyChoices(
+  resolved: ResolvedCharacter,
+  visit: (choice: Choice, selected: ChoiceValue | undefined) => void,
+): void {
   const walk = (choices: Choice[] | undefined, read: (id: string) => ChoiceValue | undefined): void => {
     for (const ch of choices ?? []) {
-      apply(ch, read(ch.id));
+      visit(ch, read(ch.id));
       if (ch.kind === "select-inline") {
         const sel = read(ch.id);
         const branch = typeof sel === "string" ? ch.options.find((o) => o.value === sel) : undefined;
@@ -361,7 +350,7 @@ export function collectChosenProficiencies(resolved: ResolvedCharacter): {
 
     // Entity-level L1 skill choice (first class only — multiclass rules are Plan 5).
     if (i === 0 && entity.skill_choices?.from?.length) {
-      apply({ kind: "select-proficiency", id: "skills", count: entity.skill_choices.count,
+      visit({ kind: "select-proficiency", id: "skills", count: entity.skill_choices.count,
         domain: "skill", from: entity.skill_choices.from }, readAt(1)("skills"));
     }
 
@@ -383,11 +372,57 @@ export function collectChosenProficiencies(resolved: ResolvedCharacter): {
   if (resolved.background) {
     walk(resolved.background.choices, originRead("background"));
     if (resolved.background.feature) {
-      walk((resolved.background.feature as { choices?: Choice[] }).choices, originRead("background"));
+      // BackgroundEntity.feature's type omits `choices`, but homebrew backgrounds
+      // may author decisions on the feature note; read them through a narrow view.
+      const feature = resolved.background.feature as { choices?: Choice[] };
+      walk(feature.choices, originRead("background"));
     }
   }
+}
 
+/** Walk every decision definition + persisted selection and collect chosen
+ *  proficiencies. Pure; called by recalc. Values are validated against the
+ *  decision's option pool — stale slugs (outside `from`) are ignored. */
+export function collectChosenProficiencies(resolved: ResolvedCharacter): {
+  skills: string[]; expertise: string[]; languages: string[]; tools: string[];
+} {
+  const out = { skills: [] as string[], expertise: [] as string[], languages: [] as string[], tools: [] as string[] };
+  visitProficiencyChoices(resolved, (choice, selected) => {
+    if (choice.kind !== "select-proficiency") return;
+    const vals = Array.isArray(selected) ? selected : typeof selected === "string" ? [selected] : [];
+    const pool = choice.from;
+    const valid = pool ? vals.filter((v) => pool.includes(v)) : vals;
+    // domain:"save" is intentionally not collected here — saving-throw
+    // proficiencies come from class `saving_throws`, not decisions.
+    const bucket = choice.domain === "skill" ? (choice.expertise ? out.expertise : out.skills)
+      : choice.domain === "language" ? out.languages
+      : choice.domain === "tool" ? out.tools : null;
+    if (bucket) for (const v of valid) if (!bucket.includes(v)) bucket.push(v);
+  });
   return out;
+}
+
+export interface ChoiceStatus { id: string; count: number; selected: number; }
+
+/** Per-choice status for language/tool select-proficiency decisions, using the
+ *  SAME walk as collectChosenProficiencies so required/selected counts cannot
+ *  diverge from the picks. `selected` counts persisted picks validated against
+ *  the choice's `from` pool (stale slugs ignored, mirroring the pick fold). */
+export function collectLanguageToolChoiceStatus(resolved: ResolvedCharacter): {
+  languages: ChoiceStatus[]; tools: ChoiceStatus[];
+} {
+  const languages: ChoiceStatus[] = [];
+  const tools: ChoiceStatus[] = [];
+  visitProficiencyChoices(resolved, (choice, selected) => {
+    if (choice.kind !== "select-proficiency") return;
+    if (choice.domain !== "language" && choice.domain !== "tool") return;
+    const vals = Array.isArray(selected) ? selected : typeof selected === "string" ? [selected] : [];
+    const pool = choice.from;
+    const valid = pool ? vals.filter((v) => pool.includes(v)) : vals;
+    const status: ChoiceStatus = { id: choice.id, count: choice.count, selected: valid.length };
+    (choice.domain === "language" ? languages : tools).push(status);
+  });
+  return { languages, tools };
 }
 
 export interface OriginAbilityPoints {
