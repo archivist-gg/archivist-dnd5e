@@ -13,6 +13,14 @@ const shortsword: WeaponEntity = {
   name: "Shortsword", slug: "shortsword", edition: "2014", category: "martial-melee",
   damage: { dice: "1d6", type: "piercing" }, properties: ["finesse", "light"],
 };
+const rapier: WeaponEntity = {
+  name: "Rapier", slug: "srd-5e_weapon_rapier", edition: "2014", category: "martial-melee",
+  damage: { dice: "1d8", type: "piercing" }, properties: ["finesse"],
+};
+const longbow: WeaponEntity = {
+  name: "Longbow", slug: "srd-5e_weapon_longbow", edition: "2014", category: "martial-ranged",
+  damage: { dice: "1d8", type: "piercing" }, properties: ["ammunition", "heavy", "two-handed"],
+};
 
 const plate: ArmorEntity = {
   name: "Plate", slug: "plate", category: "heavy",
@@ -41,6 +49,14 @@ describe("isProficientWithWeapon", () => {
 
   it("returns true for specific slug match", () => {
     expect(isProficientWithWeapon(longsword, emptyProfs({ weapons: { categories: [], specific: ["longsword"] } }))).toBe(true);
+  });
+
+  it("matches a class fixed DISPLAY name via normKey (rapiers -> Rapier)", () => {
+    expect(isProficientWithWeapon(rapier, emptyProfs({ weapons: { categories: [], specific: ["rapiers"] } }))).toBe(true);
+  });
+
+  it("does not match an unrelated weapon via normKey (rapiers vs Longbow)", () => {
+    expect(isProficientWithWeapon(longbow, emptyProfs({ weapons: { categories: [], specific: ["rapiers"] } }))).toBe(false);
   });
 
   it("returns false when no category or slug matches", () => {

@@ -3,6 +3,7 @@
 import type { ArmorEntity } from "@archivist-gg/dnd5e/armor/armor.types";
 import type { WeaponEntity } from "@archivist-gg/dnd5e/weapon/weapon.types";
 import type { ProficiencySet } from "./pc.types";
+import { normKey } from "./pc.proficiency-normalize";
 
 interface ProficienciesForQuery {
   armor: ProficiencySet;
@@ -14,7 +15,7 @@ export function isProficientWithWeapon(
   weapon: WeaponEntity,
   profs: ProficienciesForQuery,
 ): boolean {
-  if (profs.weapons.specific.includes(weapon.slug)) return true;
+  if (profs.weapons.specific.some((e) => e === weapon.slug || normKey(e) === normKey(weapon.name))) return true;
   // weapon.category is "simple-melee" / "martial-ranged" / etc.;
   // class data uses "simple" / "martial" without melee/ranged split.
   const baseCategory = weapon.category.split("-")[0];

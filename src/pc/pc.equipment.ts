@@ -1,5 +1,6 @@
 import type { EntityRegistry } from "@archivist-gg/core";
 import { resolveBaseItem } from "../entities/base-item-resolver";
+import { normKey } from "./pc.proficiency-normalize";
 import type { Ability } from "@archivist-gg/dnd5e";
 import type { ItemEntity } from "@archivist-gg/dnd5e/item/item.types";
 import type { ArmorEntity } from "@archivist-gg/dnd5e/armor/armor.types";
@@ -429,7 +430,7 @@ function isWeaponSlugProficient(
   profs: ProficienciesForQuery,
 ): boolean {
   const wp = profs.weapons;
-  if (wp.specific.includes(weaponSlug)) return true;
+  if (wp.specific.some((e) => e === weaponSlug || normKey(e) === normKey(weapon.name))) return true;
   // WeaponEntity.category is like "martial-melee" / "simple-ranged"; map to
   // the simple/martial axis used in proficiency category lists.
   const cat = weapon.category;
