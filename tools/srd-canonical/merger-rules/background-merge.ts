@@ -99,7 +99,7 @@ export function toBackgroundCanonical(entry: CanonicalEntry): BackgroundCanonica
   // pickOverlay now returns { background_features, backgrounds }; unpack both.
   const ov = entry.overlay as {
     background_features: Record<string, { resources?: Resource[]; choices?: Choice[] }> | null;
-    backgrounds: Record<string, { choices?: Choice[]; equipment?: StartingEquipmentEntry[] }> | null;
+    backgrounds: Record<string, { choices?: Choice[]; equipment?: StartingEquipmentEntry[]; language_proficiencies?: LangProf[] }> | null;
   } | null;
   const overlaid = ov?.background_features?.[slugifyName(base.name as string)];
   const bgOverride = ov?.backgrounds?.[bareSlug(entry.slug)];
@@ -194,6 +194,9 @@ export function toBackgroundCanonical(entry: CanonicalEntry): BackgroundCanonica
     origin_feat: originFeat,
     suggested_characteristics: suggestedCharacteristics,
     ...(bgOverride?.choices ? { choices: bgOverride.choices } : {}),
+    // Overlay fixed language grant (e.g. 2024 "Common") beats the prose-derived
+    // value; 2024 prose yields [] so the overlay wins cleanly.
+    ...(bgOverride?.language_proficiencies ? { language_proficiencies: bgOverride.language_proficiencies } : {}),
   };
 
   // Entity-level overlay equipment (structured grants) takes precedence over the

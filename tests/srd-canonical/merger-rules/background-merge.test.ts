@@ -1,5 +1,7 @@
 import { describe, it, expect } from "vitest";
-import { toBackgroundCanonical, parseToolProf } from "../../../tools/srd-canonical/merger-rules/background-merge";
+import * as path from "node:path";
+import { backgroundMergeRule, toBackgroundCanonical, parseToolProf } from "../../../tools/srd-canonical/merger-rules/background-merge";
+import { loadOverlay } from "../../../tools/srd-canonical/sources/overlay";
 import type { CanonicalEntry } from "../../../tools/srd-canonical/merger";
 
 describe("backgroundMergeRule", () => {
@@ -320,5 +322,47 @@ describe("parseToolProf", () => {
   });
   it("keeps a genuine fixed tool (apostrophe preserved, only whitespace slugified)", () => {
     expect(parseToolProf("Thieves' tools")).toEqual({ kind: "fixed", items: ["thieves'-tools"] });
+  });
+});
+
+// R3-P2 D2: 2024 backgrounds model languages as "Common + choose 2". After the
+// merge pipeline applies the srd-2024.yaml overlay, each of the four 2024
+// backgrounds must carry a fixed Common grant plus a select-proficiency language
+// choice (count 2). Drives the real overlay through loadOverlay (which validates
+// the extended backgroundOverrideSchema) + backgroundMergeRule.pickOverlay +
+// toBackgroundCanonical, not the emitted JSON.
+describe("2024 background languages (Common + choose 2) [R3-P2 D2]", () => {
+  const overlayPath = path.resolve(__dirname, "../../../tools/srd-canonical/overlays/srd-2024.yaml");
+  const SLUGS = ["acolyte", "criminal", "sage", "soldier"] as const;
+
+  it.each(SLUGS)("merges fixed Common + select-proficiency languages choice for %s", async (slug) => {
+    const overlay = await loadOverlay(overlayPath);
+    const entrySlug = `srd-2024_${slug}`;
+    const canonical: CanonicalEntry = {
+      slug: entrySlug,
+      edition: "2024",
+      kind: "background",
+      base: {
+        key: entrySlug,
+        name: slug[0].toUpperCase() + slug.slice(1),
+        desc: "x",
+        document: { key: "srd-2024", name: "SRD 5.2" },
+        benefits: [{ name: "Feature", desc: "F.", type: "feature" }],
+      } as never,
+      structured: null,
+      activation: null,
+      overlay: backgroundMergeRule.pickOverlay(overlay, entrySlug) as never,
+    };
+    const out = toBackgroundCanonical(canonical);
+
+    // Part B: fixed Common grant (schema + merge extension).
+    expect(out.language_proficiencies).toEqual([{ kind: "fixed", languages: ["common"] }]);
+
+    // Part A: the "choose 2" pickable choice, appended to the existing choices list.
+    const choices = out.choices ?? [];
+    const langChoice = choices.find((c) => c.id === "languages");
+    expect(langChoice).toMatchObject({ kind: "select-proficiency", id: "languages", domain: "language", count: 2 });
+    // The existing ability-points entry must survive the append.
+    expect(choices.some((c) => c.kind === "ability-points")).toBe(true);
   });
 });

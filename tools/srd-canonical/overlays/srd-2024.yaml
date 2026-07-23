@@ -1179,12 +1179,19 @@ backgrounds:
             grants: [{ gold: 8 }]
           - label: "50 GP"
             grants: [{ gold: 50 }]
+    language_proficiencies:
+      - kind: fixed
+        languages: [common]
     choices:
       - kind: ability-points
         id: abilities
         points: 3
         max_per: 2
         pool: [int, wis, cha]
+      - kind: select-proficiency
+        id: languages
+        domain: language
+        count: 2
   criminal:
     equipment:
       - kind: choice
@@ -1195,12 +1202,19 @@ backgrounds:
               - { gold: 16 }
           - label: "50 GP"
             grants: [{ gold: 50 }]
+    language_proficiencies:
+      - kind: fixed
+        languages: [common]
     choices:
       - kind: ability-points
         id: abilities
         points: 3
         max_per: 2
         pool: [dex, con, int]
+      - kind: select-proficiency
+        id: languages
+        domain: language
+        count: 2
   sage:
     equipment:
       - kind: choice
@@ -1211,12 +1225,19 @@ backgrounds:
               - { gold: 8 }
           - label: "50 GP"
             grants: [{ gold: 50 }]
+    language_proficiencies:
+      - kind: fixed
+        languages: [common]
     choices:
       - kind: ability-points
         id: abilities
         points: 3
         max_per: 2
         pool: [con, int, wis]
+      - kind: select-proficiency
+        id: languages
+        domain: language
+        count: 2
   soldier:
     equipment:
       - kind: choice
@@ -1228,6 +1249,9 @@ backgrounds:
               - { gold: 14 }
           - label: "50 GP"
             grants: [{ gold: 50 }]
+    language_proficiencies:
+      - kind: fixed
+        languages: [common]
     choices:
       - kind: ability-points
         id: abilities
@@ -1241,6 +1265,10 @@ backgrounds:
         id: tool
         domain: tool
         count: 1
+      - kind: select-proficiency
+        id: languages
+        domain: language
+        count: 2
 
 # ===================================================================
 # Entity-level effect authoring (effects-application engine, 2026-06-10).

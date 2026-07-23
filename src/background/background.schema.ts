@@ -21,7 +21,7 @@ const toolProfSchema = z.discriminatedUnion("kind", [
   }),
 ]);
 
-const langProfSchema = z.discriminatedUnion("kind", [
+export const langProfSchema = z.discriminatedUnion("kind", [
   z.object({ kind: z.literal("fixed"), languages: z.array(z.string()).nonempty() }),
   z.object({
     kind: z.literal("choice"),

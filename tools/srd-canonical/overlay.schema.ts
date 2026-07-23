@@ -3,6 +3,7 @@ import { resourceSchema } from "@archivist-gg/dnd5e/schemas/resource-schema";
 import { choiceSchema } from "@archivist-gg/dnd5e/schemas/choice-schema";
 import { featureEffectSchema } from "@archivist-gg/dnd5e/schemas/feature-effect-schema";
 import { startingEquipmentEntrySchema, startingGoldSchema } from "@archivist-gg/dnd5e/schemas/equipment-grant-schema";
+import { langProfSchema } from "@archivist-gg/dnd5e/background/background.schema";
 
 const actionCost = z.enum(["action", "bonus-action", "reaction", "free", "special"]);
 const recharge = z.enum(["short-rest", "long-rest", "dawn", "dusk", "turn", "round", "custom"]);
@@ -53,10 +54,14 @@ const entityChoicesSchema = z.object({
 }).strict();
 
 // Background entity-level override: mirrors entityChoicesSchema's `choices`
-// plus a structured starting `equipment` package (override beats prose-derived).
+// plus a structured starting `equipment` package (override beats prose-derived)
+// and a fixed `language_proficiencies` grant (validated by the SAME langProfSchema
+// that backgroundEntitySchema validates canonical output with, so input + output
+// cannot drift).
 const backgroundOverrideSchema = z.object({
   choices: z.array(choiceSchema).optional(),
   equipment: z.array(startingEquipmentEntrySchema).optional(),
+  language_proficiencies: z.array(langProfSchema).optional(),
 }).strict();
 
 const entityEffectsSchema = z.object({
