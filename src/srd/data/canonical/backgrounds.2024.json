@@ -17,7 +17,14 @@
         ]
       }
     ],
-    "language_proficiencies": [],
+    "language_proficiencies": [
+      {
+        "kind": "fixed",
+        "languages": [
+          "common"
+        ]
+      }
+    ],
     "equipment": [
       {
         "kind": "choice",
@@ -65,6 +72,12 @@
           "wis",
           "cha"
         ]
+      },
+      {
+        "kind": "select-proficiency",
+        "id": "languages",
+        "count": 2,
+        "domain": "language"
       }
     ]
   },
@@ -86,7 +99,14 @@
         ]
       }
     ],
-    "language_proficiencies": [],
+    "language_proficiencies": [
+      {
+        "kind": "fixed",
+        "languages": [
+          "common"
+        ]
+      }
+    ],
     "equipment": [
       {
         "kind": "choice",
@@ -138,6 +158,12 @@
           "con",
           "int"
         ]
+      },
+      {
+        "kind": "select-proficiency",
+        "id": "languages",
+        "count": 2,
+        "domain": "language"
       }
     ]
   },
@@ -159,7 +185,14 @@
         ]
       }
     ],
-    "language_proficiencies": [],
+    "language_proficiencies": [
+      {
+        "kind": "fixed",
+        "languages": [
+          "common"
+        ]
+      }
+    ],
     "equipment": [
       {
         "kind": "choice",
@@ -210,6 +243,12 @@
           "int",
           "wis"
         ]
+      },
+      {
+        "kind": "select-proficiency",
+        "id": "languages",
+        "count": 2,
+        "domain": "language"
       }
     ]
   },
@@ -223,15 +262,15 @@
       "athletics",
       "intimidation"
     ],
-    "tool_proficiencies": [
+    "tool_proficiencies": [],
+    "language_proficiencies": [
       {
         "kind": "fixed",
-        "items": [
-          "choose-one-kind-of-gaming-set"
+        "languages": [
+          "common"
         ]
       }
     ],
-    "language_proficiencies": [],
     "equipment": [
       {
         "kind": "choice",
@@ -291,6 +330,12 @@
         "id": "tool",
         "count": 1,
         "domain": "tool"
+      },
+      {
+        "kind": "select-proficiency",
+        "id": "languages",
+        "count": 2,
+        "domain": "language"
       }
     ]
   }
