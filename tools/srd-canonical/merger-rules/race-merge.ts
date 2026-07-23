@@ -4,6 +4,7 @@ import { rewriteCrossRefs } from "../cross-ref-map";
 import { slugifyName } from "../sources/slug-normalize";
 import type { Resource } from "@archivist-gg/dnd5e/types/resource";
 import type { Choice } from "@archivist-gg/dnd5e/types/choice";
+import { ALL_LANGUAGES } from "@archivist-gg/dnd5e/types/choice";
 import { bareSlug } from "./class-merge";
 
 export interface RaceCanonical {
@@ -281,16 +282,40 @@ function extractFreeTextTrait(traits: OpenTrait[], name: string): string {
 }
 
 /**
- * Probe traits for a Languages entry. Schema requires `languages.fixed: string[]`,
- * so we always emit at least an empty array. Free-text desc is preserved on the
- * trait itself; structured language extraction is a future enrichment.
+ * SRD language set gating the prose parser. Shared with D4's ALL_LANGUAGES
+ * (src/types/choice.ts) so the parser's gate never drifts from the picker pool.
  */
-function extractLanguagesFromTraits(traits: OpenTrait[]): RaceCanonical["languages"] {
+const KNOWN_LANGUAGES = new Set(ALL_LANGUAGES);
+
+/** Anchor phrase preceding the language list in 2014 "Languages" trait prose. */
+const LANGUAGE_ANCHOR = "speak, read, and write";
+
+/**
+ * Extract the FIXED language names from the "Languages" trait description.
+ *
+ * 2014 species descriptions follow "You can speak, read, and write <list>."
+ * often trailed by descriptive sentences and, for Human/Half-Elf/High Elf, a
+ * "one extra language of your choice" clause. The parser (order matters):
+ *   1. find the "Languages" trait (case-insensitive);
+ *   2. take the substring after the anchor "speak, read, and write";
+ *   3. truncate at the first sentence boundary (first "."), dropping trailing prose;
+ *   4. strip the choice clause (the pickable "one extra" is modeled separately as a
+ *      select-proficiency choice, so we never emit languages.choice here);
+ *   5. split on commas and " and ", lowercase-trim each token;
+ *   6. gate against KNOWN_LANGUAGES (drop anything outside the SRD set), then
+ *      dedupe and sort.
+ * 2024 species carry no Languages trait, so this yields { fixed: [] }.
+ */
+export function extractLanguagesFromTraits(traits: OpenTrait[]): RaceCanonical["languages"] {
   const langTrait = traits.find(t => t.name?.toLowerCase() === "languages");
-  if (!langTrait) return { fixed: [] };
-  // Common Open5e shape: "You can speak, read, and write Common and one other
-  // language..." — the structured extraction is left for the canonical
-  // enrichment phase. For now, emit an empty fixed list and rely on the trait
-  // desc to carry the narrative content.
-  return { fixed: [] };
+  if (!langTrait?.desc) return { fixed: [] };
+  const anchor = langTrait.desc.toLowerCase().indexOf(LANGUAGE_ANCHOR);
+  if (anchor < 0) return { fixed: [] };
+  let frag = langTrait.desc.slice(anchor + LANGUAGE_ANCHOR.length);
+  const dot = frag.indexOf(".");
+  if (dot >= 0) frag = frag.slice(0, dot);
+  frag = frag.replace(/one (?:extra )?language of your choice/gi, "");
+  const tokens = frag.split(/,|\band\b/).map(s => s.trim().toLowerCase()).filter(Boolean);
+  const fixed = tokens.filter(t => KNOWN_LANGUAGES.has(t));
+  return { fixed: [...new Set(fixed)].sort() };
 }
