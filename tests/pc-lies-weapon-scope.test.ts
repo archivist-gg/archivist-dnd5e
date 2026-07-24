@@ -168,4 +168,39 @@ describe("Task 4: scope MCDM Lies CHA override to a chosen weapon type", () => {
     // The empty totals carry an empty override list (no scalar straggler).
     expect(emptyFeatureEffectTotals().weaponAbilities).toEqual([]);
   });
+
+  it("[R3-P4] weapon-ability:spellcasting honors the per-class ability override", () => {
+    const casterEntity = {
+      slug: "spellblade", name: "spellblade", edition: "2014", hit_die: "d8",
+      primary_abilities: ["int"], saving_throws: [], features_by_level: {}, table: {},
+      spellcasting: { caster_type: "full", ability: "int", preparation: "known", spell_list: "spellblade" },
+      proficiencies: { weapons: { categories: ["simple"] } },
+    };
+    const cls: ResolvedClass = { entity: casterEntity as never, level: 1, subclass: null, choices: {} };
+    const resolved: ResolvedCharacter = {
+      definition: {
+        name: "Arc", edition: "2014", race: null, subrace: null, background: null, class: [],
+        abilities: { str: 8, dex: 10, con: 10, int: 10, wis: 10, cha: 18 },
+        ability_method: "manual", skills: { proficient: [], expertise: [] },
+        spells: { known: [], overrides: [] },
+        equipment: [{ item: "[[club]]", equipped: true }],
+        overrides: { spellcasting_ability_by_class: { spellblade: "cha" } },
+        state: { hp: { current: 10, max: 10, temp: 0 }, hit_dice: {}, spell_slots: {}, concentration: null, conditions: [] },
+      } as never,
+      race: null, classes: [cls], background: null, feats: [], totalLevel: 1,
+      features: [{
+        feature: {
+          name: "Arcane Blade",
+          effects: [{ kind: "weapon-ability", ability: "spellcasting" }],
+        } as never,
+        source: { kind: "class", slug: "spellblade" } as never,
+      }],
+      spells: [],
+      state: { hp: { current: 10, max: 10, temp: 0 }, hit_dice: {}, spell_slots: {}, concentration: null, conditions: [] } as never,
+    };
+    const reg = buildMockRegistry([{ slug: "club", entityType: "weapon", name: "Club", data: CLUB }]);
+    const attacks = recalc(resolved, reg).attacks;
+    // CHA +4 (override) + prof +2 = 6 - NOT default INT +0 + prof +2 = 2.
+    expect(attacks[0].toHit).toBe(4 + 2);
+  });
 });

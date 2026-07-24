@@ -771,7 +771,7 @@ export function recalc(resolved: ResolvedCharacter, registry?: EntityRegistry): 
       if (!c.entity) continue;
       const profile = resolveSpellcasting(c);
       if (profile) {
-        primaryCasterAbility = profile.ability;
+        primaryCasterAbility = effectiveSpellcastingAbility(c.entity.slug, profile.ability, overrides);
         break;
       }
     }
