@@ -475,4 +475,39 @@ describe("PCResolver · item-granted spells (scroll → resolved.spells)", () =>
     expect(character.spells.filter((s) => s.source === "item")).toHaveLength(0);
     expect(warnings.some((w) => w.includes("fx_ghost-spell"))).toBe(true);
   });
+
+  // Site 3 (R3-P4): a caster's per-class spellcasting_ability override drives the
+  // scroll's own-ability fallback (not the class data ability). Red-driver.
+  it("a caster's per-class ability override drives the scroll's own-ability fallback", () => {
+    const ch = scrollChar("[[fx-wizard]]", [
+      { item: "[[srd-2024_spell-scroll-3rd-level]]", overrides: { spell: "fx_fireball" } },
+    ]);
+    ch.overrides = { spellcasting_ability_by_class: { "fx-wizard": "cha" } };
+    const { character } = new PCResolver(buildScrollRegistry()).resolve(ch);
+    const item = character.spells.find((s) => s.source === "item");
+    expect(item).toBeDefined();
+    expect(item!.ability).toBe("cha"); // the per-class override, not the wizard's INT
+  });
+
+  // C1 gating guard (Gate-1 finding): a NON-caster class carrying a per-class
+  // override key must NOT be promoted to first caster. A [fx-fighter, fx-wizard]
+  // character with an fx-fighter override key still casts scrolls with the wizard's
+  // own INT, never the fighter's "str". Already green pre-change: a regression guard.
+  it("C1 guard: a non-caster override key never promotes the non-caster over the real caster", () => {
+    const base = scrollChar("[[fx-wizard]]", [
+      { item: "[[srd-2024_spell-scroll-3rd-level]]", overrides: { spell: "fx_fireball" } },
+    ]);
+    const ch = {
+      ...base,
+      class: [
+        { name: "[[fx-fighter]]", level: 5, subclass: null, choices: {} },
+        { name: "[[fx-wizard]]", level: 5, subclass: null, choices: {} },
+      ],
+      overrides: { spellcasting_ability_by_class: { "fx-fighter": "str" } },
+    } as unknown as Character;
+    const { character } = new PCResolver(buildScrollRegistry()).resolve(ch);
+    const item = character.spells.find((s) => s.source === "item");
+    expect(item).toBeDefined();
+    expect(item!.ability).toBe("int"); // wizard's own ability; never the fighter's "str"
+  });
 });

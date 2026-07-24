@@ -17,7 +17,7 @@ import type {
   FeatureSource,
   LevelChoices,
 } from "./pc.types";
-import { normalizeKnownSpell, resolveSpellcasting } from "./pc.spellcasting";
+import { normalizeKnownSpell, resolveSpellcasting, effectiveSpellcastingAbility } from "./pc.spellcasting";
 import { resolveAllPools } from "./pc.pools";
 import { resolveEntityForEntry, isItemEntity } from "./pc.slotting";
 import { wikilinkTailSlug } from "./pc.decision-engine";
@@ -218,7 +218,11 @@ export class PCResolver {
     // one (first caster class wins), matching how a scroll cast by a caster uses their
     // own DC. `entryIndex` carries the originating equipment index for instance identity.
     const ownSpellcastingAbility = classes
-      .map((c) => resolveSpellcasting(c)?.ability ?? null)
+      .map((c) => {
+        if (!c.entity) return null;             // narrow c.entity for c.entity.slug (Gate 1 C-1)
+        const p = resolveSpellcasting(c);
+        return p ? effectiveSpellcastingAbility(c.entity.slug, p.ability, character.overrides) : null;
+      })
       .find((a): a is Ability => a != null) ?? null;
     spells.push(...collectItemGrantedSpells(character, ownSpellcastingAbility, this.entities, warnings));
 
