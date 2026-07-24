@@ -1,5 +1,5 @@
 import type { Ability } from "@archivist-gg/dnd5e";
-import type { KnownSpellEntry, ResolvedClass } from "./pc.types";
+import type { CharacterOverrides, KnownSpellEntry, ResolvedClass } from "./pc.types";
 import { abilityModifier } from "@archivist-gg/dnd5e/dnd/math";
 import type { CasterType } from "@archivist-gg/dnd5e/class/class.types";
 import { bareSlug } from "@archivist-gg/dnd5e/class/class.slug";
@@ -33,6 +33,17 @@ export function resolveSpellcasting(rc: ResolvedClass): SpellcastingProfile | nu
     spellList: sc.spell_list,
     table,
   };
+}
+
+/** The ability a class actually casts with: a per-class override wins, else the
+ *  data ability from resolveSpellcasting. `dataAbility` is non-nullable by
+ *  contract: resolve caster-ness (a non-null SpellcastingProfile) BEFORE calling. */
+export function effectiveSpellcastingAbility(
+  classSlug: string,
+  dataAbility: Ability,
+  overrides: CharacterOverrides,
+): Ability {
+  return overrides.spellcasting_ability_by_class?.[classSlug] ?? dataAbility;
 }
 
 export interface NormalizedKnownSpell {
