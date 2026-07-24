@@ -512,6 +512,7 @@ export interface SpellcastingClassInfo {
   classSlug: string;
   className: string;
   ability: Ability;
+  defaultAbility: Ability;
   saveDC: number;
   attackBonus: number;
   casterType: "full" | "half" | "third" | "pact";

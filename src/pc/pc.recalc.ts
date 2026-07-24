@@ -17,7 +17,7 @@ import { computeAppliedBonuses, computeSlotsAndAttacks, emptyAppliedBonuses } fr
 import { collectChosenProficiencies, collectChosenAbilityPoints } from "./pc.decision-engine";
 import { computeFeatureEffects } from "./pc.feature-effects";
 import { computeConditionEffects } from "./pc.conditions";
-import { resolveSpellcasting, deriveSpellSlots, computeSpellLimits, type CasterClassInput, type LimitClassInput } from "./pc.spellcasting";
+import { resolveSpellcasting, effectiveSpellcastingAbility, deriveSpellSlots, computeSpellLimits, type CasterClassInput, type LimitClassInput } from "./pc.spellcasting";
 import type {
   ACTerm,
   ChoiceValue,
@@ -851,19 +851,21 @@ export function recalc(resolved: ResolvedCharacter, registry?: EntityRegistry): 
     if (!c.entity) continue;
     const profile = resolveSpellcasting(c);
     if (!profile) continue;
-    const dc = saveDC(scores[profile.ability], proficiencyBonus) + applied.spell_save_dc;
-    const atk = attackBonus(scores[profile.ability], proficiencyBonus) + applied.spell_attack;
+    const ab = effectiveSpellcastingAbility(c.entity.slug, profile.ability, overrides);
+    const dc = saveDC(scores[ab], proficiencyBonus) + applied.spell_save_dc;
+    const atk = attackBonus(scores[ab], proficiencyBonus) + applied.spell_attack;
     spellcastingClasses.push({
       classSlug: c.entity.slug,
       className: c.entity.name,
-      ability: profile.ability,
-      saveDC: overrides.spellcasting?.saveDC ?? dc,
-      attackBonus: overrides.spellcasting?.attackBonus ?? atk,
+      ability: ab,
+      defaultAbility: profile.ability,
+      saveDC: dc,
+      attackBonus: atk,
       casterType: profile.casterType,
       preparation: profile.preparation,
     });
     slotInputs.push({ casterType: profile.casterType, level: c.level });
-    limitInputs.push({ classSlug: c.entity.slug, level: c.level, profile, abilityScore: scores[profile.ability] });
+    limitInputs.push({ classSlug: c.entity.slug, level: c.level, profile, abilityScore: scores[ab] });
   }
 
   // Back-compat single object: first casting class (or null).
