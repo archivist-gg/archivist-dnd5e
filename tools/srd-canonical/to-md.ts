@@ -68,7 +68,6 @@ export function writeMd(rootDir: string, input: WriteMdInput): void {
     name: input.data.name,
     compendium: input.compendium,
     source: input.data.source ?? (input.edition === "2014" ? "SRD 5.1" : "SRD 5.2"),
-    archivist_compendium_imported_at: new Date().toISOString(),
   };
 
   const fmYaml = yaml.dump(frontmatter, { lineWidth: -1, noRefs: true }).trimEnd();
@@ -99,7 +98,6 @@ export function writeCompendiumIndex(rootDir: string, compendium: string, editio
     readonly: true,
     homebrew: false,
     archivist_compendium_version: version,
-    archivist_compendium_imported_at: new Date().toISOString(),
   };
   fs.mkdirSync(rootDir, { recursive: true });
   const md = `---\n${yaml.dump(fm, { lineWidth: -1 }).trimEnd()}\n---\n\n# ${compendium}\n`;
