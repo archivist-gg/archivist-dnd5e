@@ -821,7 +821,17 @@ describe("class tool prose: choice prose drops per item, fixed prose survives [P
     const read = (rel: string) => fs.readFileSync(path.resolve(__dirname, "../../../tools/srd-canonical/merger-rules", rel), "utf8");
 
     // Anchored to the NAMED constant, so this can never drift away from the literal
-    // the per-item filter actually uses.
+    // the per-item filter actually uses. The constant's DEFINITION alone does not
+    // establish that: dnd5e has neither `noUnusedLocals` nor eslint, so inlining a
+    // divergent literal at the filter site while leaving the constant defined
+    // typechecks and passes every other assertion in this suite. The use-site
+    // anchor below is what closes that mutant, and it is load-bearing · without it
+    // the sentence above is false.
+    expect(
+      read("class-merge.ts"),
+      "the per-item filter must go through TOOL_CHOICE_PROSE, not an inlined literal",
+    ).toContain("!TOOL_CHOICE_PROSE.test(s)");
+
     const classLiteral = /const TOOL_CHOICE_PROSE = (.+);/.exec(read("class-merge.ts"))?.[1];
     // Scoped to parseToolProf's body, then the regex it `.test()`s the desc with.
     const bgBody = /export function parseToolProf\([\s\S]*?\n}/.exec(read("background-merge.ts"))?.[0] ?? "";

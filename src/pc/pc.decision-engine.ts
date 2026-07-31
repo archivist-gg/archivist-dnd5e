@@ -466,10 +466,23 @@ function visitProficiencyChoices(
  *  out-of-pool slug is a stale/hand-edited grant that must not take effect,
  *  whereas the ledger only DISPLAYS the pick, where dropping would destroy it.
  *
- *  Provably the IDENTITY for skills and languages: toProfSlug is the identity
- *  over ALL_SKILL_SLUGS and ALL_LANGUAGES, both already canonical, so the
- *  `.skills`/`.expertise` fold into the live skill tri is untouched. The 2014
- *  Dwarf tool triple is the only non-canonical `from` in all runtime data.
+ *  Provably the identity on the POOL side for skills and languages: toProfSlug
+ *  is the identity over ALL_SKILL_SLUGS and ALL_LANGUAGES, both already
+ *  canonical, so no pool entry changes spelling · the 2014 Dwarf tool triple is
+ *  the only non-canonical `from` in all runtime data.
+ *
+ *  That constrains the POOL only. The VALUE side is deliberately WIDENED, so
+ *  the `.skills`/`.expertise` fold into the live skill tri is NOT untouched:
+ *  this body replaced `pool.includes(v)`, under which a pick persisted in any
+ *  other spelling matched nothing and was silently DROPPED. It now folds onto
+ *  the pool's spelling and takes effect · a stored "Sleight Of Hand" on the
+ *  synthesized class skill row (which always carries a `from`, see :408-410)
+ *  now grants sleight-of-hand where it previously granted nothing.
+ *  {@link canonicalizeSelection} widens the ledger the same way, including for
+ *  a from-less domain:"skill" choice, whose enumerated pool is all 18 slugs.
+ *  Recovering those picks is the POINT of this change, not a regression · but
+ *  it IS a behavioural delta, so do not read this paragraph as "nothing
+ *  changed here" and skip testing the value side.
  *
  *  ONE helper shared by BOTH collectors below, deliberately: the pick fold and
  *  the choice-status half must never drift, or the sheet renders a resolved pick

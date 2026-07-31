@@ -103,6 +103,25 @@ describe("the reported bug, against the real SRD Soldier background", () => {
     expect(tool).toEqual({ kind: "select-proficiency", id: "tool", count: 1, domain: "tool" });
   });
 
+  // REGEN NOTE · three assertions in THIS describe (the real-Soldier one) are
+  // pinned to the CURRENT generated tree, and the NEXT SRD regeneration will
+  // legitimately change them. A red here after a regen is expected behaviour,
+  // not a regression:
+  //   :103 `expect(tool).toEqual({...})`, the exact-equality pinning the shipped
+  //        Soldier tool choice as having NO `from`
+  //   :131 `expect(item.options).toHaveLength(35)`
+  //   :132 `expect(item.options.map((o) => o.value)).toEqual(ALL_TOOLS)`
+  // The identical-looking pair at :55-56 is NOT affected: it runs over the
+  // synthetic fixture built at the top of this file, which no regen touches.
+  // Later in the SAME phase that added this file, the overlay task authored
+  // `from: [dice-set, playing-cards]` for the 2024 Soldier
+  // (tools/srd-canonical/overlays/srd-2024.yaml, `backgrounds.soldier`), and
+  // background-merge.test.ts drives the real overlay through the merge to prove
+  // that `from` lands on the canonical entity. So after the regen the choice
+  // carries a `from` and the picker offers 2 options, not 35. Re-point the
+  // three lines at the gaming-set pair THEN · do not weaken them now, while
+  // they are still true. Either way the property this file exists to defend
+  // survives: the tool picker is NON-EMPTY, where the reported bug rendered 0.
   it("offers all 35 tools in the builder's tool picker", () => {
     const ledger = soldierLedger();
     // A background choice is an ORIGIN choice: the ledger is {classes, origin}

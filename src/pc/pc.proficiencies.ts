@@ -163,10 +163,11 @@ function placeholders(choices: ChoiceStatus[]): string[] {
  *  `_` is PRESERVED deliberately: this splits on `-` only, matching the plugin's
  *  humanizeSlug, where the pre-R4-P3a body here split on `[-_]`. That matters
  *  because underscore is live slug vocabulary in this engine (edition-namespaced
- *  entity slugs like "srd-2024_magic-initiate", see pc.decision-engine.ts:233),
+ *  entity slugs like "srd-2024_magic-initiate", see `resolveEntityRef` at
+ *  pc.decision-engine.ts:274-276 · :233 is `matchPool` and never named one),
  *  so routing an entity slug through here now yields "A_b" where it once gave
  *  "A B". Safe today: 0 of the 50 distinct values that can reach this function
- *  contain `_`, counted over every fixed grant read at :115-127, every
+ *  contain `_`, counted over every fixed grant read at :116-128, every
  *  language/tool select-proficiency `from` pool in runtime data, and the
  *  ALL_LANGUAGES fallback · 7 of those 50 change output. Re-derive that census
  *  before widening what feeds this. */

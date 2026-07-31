@@ -98,20 +98,46 @@ describe("authored tool `from` pools are subsets of the tool vocabulary", () => 
   });
 
   // Exhaustive sweep: catches any FUTURE authored tool pool too, not just the
-  // four entries this task added. The `toHaveLength` on the collected list is
-  // the vacuity guard for the walk itself.
+  // four entries this task added.
+  //
+  // "Anywhere" is RECURSIVE. A select-inline option's nested `choices` are
+  // authored decisions like any other, and the flat predecessor of this walk
+  // descended into NONE of them. The 2024 overlay has 9 select-inline options
+  // carrying nested choices, 3 of which already hold a domain:"tool" choice
+  // (feat_features.skilled.choices[0].options[1..3], the Skilled feat's tool
+  // branches), so a bogus slug authored into a constrained pool at any of those
+  // sites was invisible: the flat walk collected 3, matched `expected: 3` and
+  // went green. Those branches are precisely where the next constrained tool
+  // pool would be authored.
+  //
+  // Both counts are pinned LITERALLY, deliberately NOT derived from the data
+  // under test · that is what makes them an exhaustiveness guard rather than a
+  // bare maintenance touchpoint:
+  //   - `expected` counts EVERY domain:"tool" choice, `from` or not, so a newly
+  //     authored nested choice cannot slip past the walk unnoticed.
+  //   - `expectedPooled` pins how many of those carry a `from`. The subset loop
+  //     is gated on `from` (a from-less choice enumerates ALL_TOOLS and has no
+  //     pool to check), so by rule 1 at the top of this file that gated loop
+  //     needs its own length pin: without it, converting the last pooled choice
+  //     to from-less would leave the subset check silently vacuous.
+  // Today: 2014 has 3 tool choices, all 3 pooled. 2024 has 6, of which 3 are
+  // pooled (Bard, Monk, Soldier) and 3 are the from-less Skilled branches.
   it.each([
-    { edition: "2014", file: OVERLAY_2014, expected: 3 },
-    { edition: "2024", file: OVERLAY_2024, expected: 3 },
-  ])("every domain:tool `from` anywhere in the $edition overlay is a subset of ALL_TOOLS", async ({ file, expected }) => {
+    { edition: "2014", file: OVERLAY_2014, expected: 3, expectedPooled: 3 },
+    { edition: "2024", file: OVERLAY_2024, expected: 6, expectedPooled: 3 },
+  ])("every domain:tool `from` anywhere in the $edition overlay is a subset of ALL_TOOLS", async ({ file, expected, expectedPooled }) => {
     const overlay = await loadOverlay(file);
-    const pools: Array<{ where: string; from: string[] }> = [];
+    const found: Array<{ where: string; from?: string[] }> = [];
     const collect = (where: string, choices: Choice[] | undefined): void => {
-      for (const c of choices ?? []) {
-        if (c.kind === "select-proficiency" && c.domain === "tool" && c.from) {
-          pools.push({ where, from: c.from });
+      (choices ?? []).forEach((c, i) => {
+        const at = `${where}.choices[${i}]`;
+        if (c.kind === "select-proficiency" && c.domain === "tool") {
+          found.push({ where: at, from: c.from });
         }
-      }
+        if (c.kind === "select-inline") {
+          (c.options ?? []).forEach((opt, j) => collect(`${at}.options[${j}]`, opt.choices));
+        }
+      });
     };
     for (const [k, v] of Object.entries(overlay.class_features ?? {})) collect(`class_features.${k}`, v.choices);
     for (const [k, v] of Object.entries(overlay.race_traits ?? {})) collect(`race_traits.${k}`, v.choices);
@@ -121,8 +147,10 @@ describe("authored tool `from` pools are subsets of the tool vocabulary", () => 
     for (const [k, v] of Object.entries(overlay.races ?? {})) collect(`races.${k}`, v.choices);
     for (const [k, v] of Object.entries(overlay.backgrounds ?? {})) collect(`backgrounds.${k}`, v.choices);
 
-    expect(pools).toHaveLength(expected);
-    for (const p of pools) {
+    expect(found.map((p) => p.where)).toHaveLength(expected);
+    const pooled = found.filter((p): p is { where: string; from: string[] } => !!p.from);
+    expect(pooled.map((p) => p.where)).toHaveLength(expectedPooled);
+    for (const p of pooled) {
       const strays = p.from.filter((s) => !ALL_TOOLS.includes(s));
       expect(strays, `${p.where} authored slugs outside ALL_TOOLS`).toEqual([]);
     }
@@ -158,7 +186,7 @@ describe("authored tool `from` pools are subsets of the tool vocabulary", () => 
  *   - every level-1 class feature choice,
  *   - every level-1 subclass feature choice, when subclass_level === 1,
  *   - the synthesized `"skills"` row (pc.decision-engine.ts:408-410),
- *   - the synthesized `equipment-{i}` rows (pc.decision-engine.ts:635), which
+ *   - the synthesized `equipment-{i}` rows (pc.decision-engine.ts:648), which
  *     `class-chronicle.ts:244` additionally filters out of the owned strip by
  *     prefix, so an authored `equipment-*` id would be counted in the browse
  *     preview and silently dropped from the strip.
