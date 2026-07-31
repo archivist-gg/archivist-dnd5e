@@ -1,4 +1,5 @@
 import { describe, it, expect } from "vitest";
+import * as fs from "node:fs";
 import * as path from "node:path";
 import { toClassCanonical, classMergeRule } from "../../../tools/srd-canonical/merger-rules/class-merge";
 import { loadOverlay } from "../../../tools/srd-canonical/sources/overlay";
@@ -807,6 +808,31 @@ describe("class tool prose: choice prose drops per item, fixed prose survives [P
     const out = runTools(edition, bare, prose);
     if (expected === null) expect(out.proficiencies.tools).toBeUndefined();
     else expect(out.proficiencies.tools).toEqual({ fixed: expected });
+  });
+
+  // The divergence comment at the filter claims class-merge and background-merge
+  // share the same choice VOCABULARY and differ only in PLACEMENT, and the standing
+  // decision NOT to widen the regex rests on that claim. The two are a verbatim
+  // COPY, not a shared constant, and nothing else links them: a one-sided
+  // vocabulary edit would silently falsify the comment and the decision together.
+  // Guarded at SOURCE level rather than by exporting the two module-private
+  // regexes, which would widen the surface of two modules to buy one assertion.
+  it("shares its choice-prose vocabulary verbatim with background-merge's parseToolProf", () => {
+    const read = (rel: string) => fs.readFileSync(path.resolve(__dirname, "../../../tools/srd-canonical/merger-rules", rel), "utf8");
+
+    // Anchored to the NAMED constant, so this can never drift away from the literal
+    // the per-item filter actually uses.
+    const classLiteral = /const TOOL_CHOICE_PROSE = (.+);/.exec(read("class-merge.ts"))?.[1];
+    // Scoped to parseToolProf's body, then the regex it `.test()`s the desc with.
+    const bgBody = /export function parseToolProf\([\s\S]*?\n}/.exec(read("background-merge.ts"))?.[0] ?? "";
+    const bgLiteral = /(\/[^\n]*?\/i)\.test\(desc\)/.exec(bgBody)?.[1];
+
+    // Both `toBeDefined` guards are load-bearing: if a rename breaks either anchor,
+    // the equality below would compare undefined to undefined and pass VACUOUSLY.
+    expect(classLiteral, "TOOL_CHOICE_PROSE literal not found in class-merge.ts").toBeDefined();
+    expect(bgLiteral, "choice-prose literal not found in parseToolProf").toBeDefined();
+    // Whole-literal equality, so the `i` flag is compared too, not just `.source`.
+    expect(classLiteral).toBe(bgLiteral);
   });
 });
 
