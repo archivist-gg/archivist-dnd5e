@@ -223,6 +223,42 @@ function statusOf(choice: Choice, selected: ChoiceValue | undefined): DecisionSt
   return n >= need ? "resolved" : "partial";
 }
 
+/** Match ONE persisted value against a proficiency pool, comparing CANONICALLY
+ *  and returning the POOL's spelling (or undefined when nothing matches). The
+ *  single comparison shared by the ledger-item canonicalization below and the
+ *  collectors' `filterToPool`, deliberately: the builder's chips and the sheet's
+ *  proficiency fold must never disagree about what counts as the same
+ *  proficiency. The two callers differ ONLY in what they do with a no-match. */
+const matchPool = (v: string, pool: string[]): string | undefined =>
+  pool.find((p) => toProfSlug(p) === toProfSlug(v));
+
+/** Fold a persisted select-proficiency pick onto the ENUMERATED pool's spelling.
+ *
+ *  `DecisionItem.selected` is what the builder's chip row matches against the
+ *  option values (`selected.has(o.value)`), so a pick persisted in a pre-re-slug
+ *  spelling ("smith's tools" against a pool of "smith's-tools") renders the row
+ *  `resolved` with a `✓ smith's tools` header while NO chip carries the check:
+ *  the picker looks empty. At count 1 a click self-heals but silently CHANGES
+ *  the pick; at count > 1 the stale value holds a slot no chip can free. Folding
+ *  here rather than in the strip gives the chips, the selected summary and the
+ *  write path ONE canon, so the next write migrates the file.
+ *
+ *  A value matching NOTHING in the pool survives VERBATIM (`?? v`) and MUST NOT
+ *  be dropped: dropping flips a resolved row to unresolved and erases the pick
+ *  from the summary, which is the very data loss this fold exists to prevent.
+ *  That path is live, not hypothetical · a `domain: "tool"` choice with no `from`
+ *  enumerates the 35-slug ALL_TOOLS, so any homebrew or legacy tool value outside
+ *  it lands here. An empty pool (domain:"save") therefore leaves input unchanged.
+ *  The ability-points record shape passes through untouched. */
+const canonicalizeSelection = (
+  value: ChoiceValue | undefined,
+  pool: string[],
+): ChoiceValue | undefined => {
+  if (typeof value === "string") return matchPool(value, pool) ?? value;
+  if (Array.isArray(value)) return value.map((v) => matchPool(v, pool) ?? v);
+  return value;
+};
+
 // ── the engine ─────────────────────────────────────────────────────────────
 
 /** Resolve the registered entity behind a persisted select-entity value (a bare
@@ -265,11 +301,20 @@ function buildItem(
   // grandchildren (cheap infinite-loop guard — real SRD data never nests so).
   const expandFeatChildren = opts?.expandFeatChildren ?? true;
   const key = keyPrefix + choice.id;
-  const selected = readValue(key);
+  const options = enumerateOptions(choice, ctx, ownerBare);
+  // Canonicalize ONLY select-proficiency picks, and against the options actually
+  // enumerated for THIS choice (which already honour `choice.from` when present
+  // and the domain vocabulary otherwise). Every other kind stays byte-untouched:
+  // an entity slug, feat ref, subclass or inline branch value is not a
+  // proficiency slug, and folding one would silently rewrite a reference.
+  const raw = readValue(key);
+  const selected = choice.kind === "select-proficiency"
+    ? canonicalizeSelection(raw, options.map((o) => o.value))
+    : raw;
   const item: DecisionItem = {
     key, source, level, featureName, choice,
     description: opts?.description,
-    options: enumerateOptions(choice, ctx, ownerBare),
+    options,
     selected, status: statusOf(choice, selected),
   };
   // Nested choices of the selected select-inline branch.
@@ -391,12 +436,18 @@ function visitProficiencyChoices(
   }
 }
 
-/** Validate persisted picks against the choice's pool, comparing CANONICALLY and
- *  returning the POOL's spelling. A pool re-slug (e.g. "smith's tools" ->
- *  "smith's-tools") must not silently drop an existing pick: exact `includes`
- *  would, and the loss is INVISIBLE because the sheet renders no pending-choice
- *  marker beside the burned pick. Input ordering is preserved, and no pool means
- *  no validation, so `vals` comes back byte-unchanged.
+/** Validate persisted picks against the choice's pool through the SAME canonical
+ *  comparison as the ledger fold ({@link matchPool}), returning the POOL's
+ *  spelling. A pool re-slug (e.g. "smith's tools" -> "smith's-tools") must not
+ *  silently drop an existing pick: exact `includes` would, and the loss is
+ *  INVISIBLE because the sheet renders no pending-choice marker beside the
+ *  burned pick. Input ordering is preserved, and no pool means no validation, so
+ *  `vals` comes back byte-unchanged.
+ *
+ *  Unlike {@link canonicalizeSelection} this one DROPS a no-match, and that
+ *  asymmetry is deliberate: the collectors grant real proficiencies, where an
+ *  out-of-pool slug is a stale/hand-edited grant that must not take effect,
+ *  whereas the ledger only DISPLAYS the pick, where dropping would destroy it.
  *
  *  Provably the IDENTITY for skills and languages: toProfSlug is the identity
  *  over ALL_SKILL_SLUGS and ALL_LANGUAGES, both already canonical, so the
@@ -408,7 +459,7 @@ function visitProficiencyChoices(
  *  beside a stale "choose N". */
 const filterToPool = (vals: string[], pool: string[] | undefined): string[] =>
   pool
-    ? vals.map((v) => pool.find((p) => toProfSlug(p) === toProfSlug(v))).filter((v): v is string => !!v)
+    ? vals.map((v) => matchPool(v, pool)).filter((v): v is string => !!v)
     : vals;
 
 /** Walk every decision definition + persisted selection and collect chosen

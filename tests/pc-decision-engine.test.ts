@@ -1,5 +1,6 @@
 import { describe, it, expect, vi } from "vitest";
 import { buildDecisionLedger, collectChosenProficiencies, __matchesFilterForTest } from "../src/pc/pc.decision-engine";
+import type { DecisionItem, DecisionLedger } from "../src/pc/pc.decision-engine";
 import { aggregateProficiencies } from "../src/pc/pc.proficiencies";
 import { choiceSchema } from "../src/schemas/choice-schema";
 import type { ResolvedCharacter } from "../src/pc/pc.types";
@@ -113,6 +114,26 @@ function resolvedMulticlass(): ResolvedCharacter {
   ];
   return { definition, race: null, classes, background: null, feats: [],
     totalLevel: 2, features, spells: [], pools: [], state: definition.state } as unknown as ResolvedCharacter;
+}
+
+/**
+ * Find a top-level DecisionItem by key in ONE named section of the ledger.
+ * `DecisionLedger` is `{classes, origin}` and the two halves are NOT
+ * interchangeable: a race-trait or background pick lands in `origin`, a class
+ * entity-level / feature-level pick in `classes[i].levels[].items`. The section
+ * is therefore passed EXPLICITLY · a helper that only walked one half would
+ * return undefined for the other and fail a test for the wrong reason. Missing
+ * keys throw with the section's actual key list, so "searched the wrong half"
+ * can never be mistaken for "got the wrong value". Children are not searched;
+ * reach into `.children` at the call site.
+ */
+function findItem(ledger: DecisionLedger, section: "origin" | "classes", key: string): DecisionItem {
+  const items = section === "origin"
+    ? ledger.origin
+    : ledger.classes.flatMap((c) => c.levels.flatMap((l) => l.items));
+  const hit = items.find((i) => i.key === key);
+  if (!hit) throw new Error(`no DecisionItem "${key}" in ledger.${section} · keys: ${items.map((i) => i.key).join(", ")}`);
+  return hit;
 }
 
 describe("buildDecisionLedger — multiclass routing", () => {
@@ -384,6 +405,88 @@ describe("collectChosenProficiencies", () => {
     const out = collectChosenProficiencies(c);
     expect(out.tools).toEqual(["smith's-tools"]);          // survives AND is canonicalized
     expect(aggregateProficiencies(c).choices.tools).toEqual([]);   // no stale "choose 1"
+  });
+});
+
+// ── DecisionItem.selected canonicalization ──────────────────────────────────
+//
+// The collectors above fixed the SHEET half. `DecisionItem.selected` is the
+// BUILDER half, and it was still the raw persisted value: the strip seeds
+// `new Set(selectedSlugs(item))` from it and highlights a chip with
+// `selected.has(o.value)` against the POOL's spelling. A legacy pick therefore
+// renders the row `resolved` with a `✓ smith's tools` header while NO chip
+// carries the check · the picker looks empty. For count 1 a click self-heals but
+// silently CHANGES the pick; for count > 1 the stale value occupies a slot with
+// no chip that can toggle it off, which is hard stuck. Canonicalizing in
+// buildItem (not in the strip) gives the chips, `selectedSummary` and the write
+// path ONE canon, so the next write migrates the file.
+describe("buildDecisionLedger · selected canonicalization", () => {
+  /** Fighter carrying a 2014-Dwarf-shaped race trait: a select-proficiency
+   *  `id: "tool"` plus the persisted origin pick, mirroring the live vault note
+   *  (Volker.md persists `race:tool`). A race trait lands in `ledger.origin`. */
+  function dwarfWithToolTrait(choice: Record<string, unknown>, persisted: unknown): ResolvedCharacter {
+    const c = resolvedFighter(1);
+    (c as { race: unknown }).race = {
+      slug: "srd-2014_dwarf", name: "Dwarf", choices: [],
+      traits: [{ name: "Tool Proficiency", choices: [choice] }],
+    };
+    (c.definition as { origin_choices: Record<string, unknown> }).origin_choices = { "race:tool": persisted };
+    return c;
+  }
+
+  it("canonicalizes DecisionItem.selected onto the pool spelling so the builder chip matches", () => {
+    const c = dwarfWithToolTrait(
+      { kind: "select-proficiency", id: "tool", count: 1, domain: "tool",
+        from: ["smith's-tools", "brewer's-supplies", "mason's-tools"] },
+      "smith's tools",
+    );
+    const ledger = buildDecisionLedger(c, { registry } as never);
+    const item = findItem(ledger, "origin", "tool");   // ledger.origin, NOT ledger.classes
+    expect(item.selected).toBe("smith's-tools");
+    expect(item.status).toBe("resolved");
+    // The chip the strip highlights must EXIST in the option pool, or the row
+    // reads resolved above an apparently empty picker.
+    expect(item.options.some((o) => o.value === item.selected)).toBe(true);
+  });
+
+  it("leaves a pick absent from the pool VERBATIM, keeping the row resolved", () => {
+    // Live-reachable, not hypothetical: a `domain: "tool"` choice with no `from`
+    // enumerates the 35-slug ALL_TOOLS vocabulary, so any homebrew or legacy tool
+    // value outside it takes the no-match path. DROPPING it here would flip the
+    // row to `unresolved` and erase the pick from selectedSummary · exactly the
+    // data loss this canonicalization exists to prevent, inside the fix for it.
+    const c = dwarfWithToolTrait(
+      { kind: "select-proficiency", id: "tool", count: 1, domain: "tool" },
+      "grandpa's whittling knife",
+    );
+    const ledger = buildDecisionLedger(c, { registry } as never);
+    const item = findItem(ledger, "origin", "tool");
+    expect(item.options).toHaveLength(35);
+    expect(item.selected).toBe("grandpa's whittling knife");   // verbatim: spaces and all
+    expect(item.status).toBe("resolved");
+  });
+
+  it("canonicalizes every entry of the string[] shape, preserving order and unknowns", () => {
+    const c = dwarfWithToolTrait(
+      { kind: "select-proficiency", id: "tool", count: 2, domain: "tool" },
+      ["Thieves’ Tools", "grandpa's whittling knife"],   // U+2019 + casing, then an unknown
+    );
+    const ledger = buildDecisionLedger(c, { registry } as never);
+    const item = findItem(ledger, "origin", "tool");
+    expect(item.selected).toEqual(["thieves'-tools", "grandpa's whittling knife"]);
+    expect(item.status).toBe("resolved");               // 2 of 2, the unknown still counts
+  });
+
+  it("leaves every other choice kind untouched, canonicalizing ONLY select-proficiency", () => {
+    // A select-entity persists an ENTITY REF, not a proficiency slug: folding it
+    // would silently rewrite the ref (here "Archery" would become the pool's
+    // "archery" and appear to match). ability-points persists a record, which the
+    // string/array guards must pass through by identity.
+    const c = resolvedFighter(4, { 1: { "fighting-style": "Archery" }, 4: { "asi-or-feat": "asi", asi: { str: 2 } } });
+    const ledger = buildDecisionLedger(c, { registry } as never);
+    expect(findItem(ledger, "classes", "fighting-style").selected).toBe("Archery");
+    const asi = findItem(ledger, "classes", "asi-or-feat").children?.find((k) => k.key === "asi");
+    expect(asi?.selected).toEqual({ str: 2 });
   });
 });
 
