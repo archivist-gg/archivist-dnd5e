@@ -5,7 +5,7 @@ import type { ResolvedCharacter, ChoiceValue, FeatureSource } from "./pc.types";
 import type { EntityRegistry, RegisteredEntity } from "@archivist-gg/core";
 import { recognizeDecision } from "./decision-recognizer";
 import { resolveOriginFeat } from "./pc.resolver";
-import { humanizeProficiency } from "./pc.proficiency-normalize";
+import { humanizeProficiency, toProfSlug } from "./pc.proficiency-normalize";
 import { bareEntitySlug } from "../entities/slug";
 
 export interface DecisionRegistry {
@@ -391,9 +391,30 @@ function visitProficiencyChoices(
   }
 }
 
+/** Validate persisted picks against the choice's pool, comparing CANONICALLY and
+ *  returning the POOL's spelling. A pool re-slug (e.g. "smith's tools" ->
+ *  "smith's-tools") must not silently drop an existing pick: exact `includes`
+ *  would, and the loss is INVISIBLE because the sheet renders no pending-choice
+ *  marker beside the burned pick. Input ordering is preserved, and no pool means
+ *  no validation, so `vals` comes back byte-unchanged.
+ *
+ *  Provably the IDENTITY for skills and languages: toProfSlug is the identity
+ *  over ALL_SKILL_SLUGS and ALL_LANGUAGES, both already canonical, so the
+ *  `.skills`/`.expertise` fold into the live skill tri is untouched. The 2014
+ *  Dwarf tool triple is the only non-canonical `from` in all runtime data.
+ *
+ *  ONE helper shared by BOTH collectors below, deliberately: the pick fold and
+ *  the choice-status half must never drift, or the sheet renders a resolved pick
+ *  beside a stale "choose N". */
+const filterToPool = (vals: string[], pool: string[] | undefined): string[] =>
+  pool
+    ? vals.map((v) => pool.find((p) => toProfSlug(p) === toProfSlug(v))).filter((v): v is string => !!v)
+    : vals;
+
 /** Walk every decision definition + persisted selection and collect chosen
  *  proficiencies. Pure; called by recalc. Values are validated against the
- *  decision's option pool — stale slugs (outside `from`) are ignored. */
+ *  decision's option pool via filterToPool: slugs outside `from` are ignored,
+ *  and a pick matching under canon is kept in the POOL's spelling. */
 export function collectChosenProficiencies(resolved: ResolvedCharacter): {
   skills: string[]; expertise: string[]; languages: string[]; tools: string[];
 } {
@@ -402,7 +423,7 @@ export function collectChosenProficiencies(resolved: ResolvedCharacter): {
     if (choice.kind !== "select-proficiency") return;
     const vals = Array.isArray(selected) ? selected : typeof selected === "string" ? [selected] : [];
     const pool = choice.from;
-    const valid = pool ? vals.filter((v) => pool.includes(v)) : vals;
+    const valid = filterToPool(vals, pool);
     // domain:"save" is intentionally not collected here — saving-throw
     // proficiencies come from class `saving_throws`, not decisions.
     const bucket = choice.domain === "skill" ? (choice.expertise ? out.expertise : out.skills)
@@ -417,8 +438,9 @@ export interface ChoiceStatus { id: string; count: number; selected: number; }
 
 /** Per-choice status for language/tool select-proficiency decisions, using the
  *  SAME walk as collectChosenProficiencies so required/selected counts cannot
- *  diverge from the picks. `selected` counts persisted picks validated against
- *  the choice's `from` pool (stale slugs ignored, mirroring the pick fold). */
+ *  diverge from the picks. `selected` counts persisted picks validated through
+ *  the SAME filterToPool as the pick fold, so a legacy-spelling pick that
+ *  survives the fold also clears its "choose N" placeholder here. */
 export function collectLanguageToolChoiceStatus(resolved: ResolvedCharacter): {
   languages: ChoiceStatus[]; tools: ChoiceStatus[];
 } {
@@ -429,7 +451,7 @@ export function collectLanguageToolChoiceStatus(resolved: ResolvedCharacter): {
     if (choice.domain !== "language" && choice.domain !== "tool") return;
     const vals = Array.isArray(selected) ? selected : typeof selected === "string" ? [selected] : [];
     const pool = choice.from;
-    const valid = pool ? vals.filter((v) => pool.includes(v)) : vals;
+    const valid = filterToPool(vals, pool);
     const status: ChoiceStatus = { id: choice.id, count: choice.count, selected: valid.length };
     (choice.domain === "language" ? languages : tools).push(status);
   });
