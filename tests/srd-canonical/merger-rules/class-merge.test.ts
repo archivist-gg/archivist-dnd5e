@@ -689,6 +689,127 @@ describe("class-merge: Open5e v2 class shape", () => {
   });
 });
 
+// P3a task 8: a class's "Tools" prose is sometimes a CHOICE ("Three musical
+// instruments of your choice"), and it used to land in `tools.fixed` verbatim,
+// so the sheet showed a fake fixed proficiency literally named after the prose.
+// The real picks are authored as overlay `choices` (task 7); these cases pin
+// that the prose stops becoming a grant WITHOUT taking genuinely fixed tools
+// (Herbalism kit, Thieves' tools) down with it.
+describe("class tool prose: choice prose drops per item, fixed prose survives [P3a task 8]", () => {
+  /**
+   * Drives a Tools value through the ONLY exported entry point. The inline tool
+   * parse lives in module-private `parseProficienciesProse`, so the value has to
+   * arrive the way the real pipeline delivers it: a 2014 `PROFICIENCIES` prose
+   * feature (`**Tools:** …`) or a 2024 `CORE_TRAITS_TABLE` row
+   * (`|Tool Proficiencies|…|`).
+   */
+  const runTools = (
+    edition: "2014" | "2024",
+    bare: string,
+    toolsValue: string,
+    overlay: unknown = null,
+  ) => {
+    const prefix = edition === "2014" ? "srd-5e" : "srd-2024";
+    const slug = `${prefix}_class_${bare}`;
+    const feature = edition === "2014"
+      ? {
+        key: `${slug}_proficiencies`,
+        name: "Proficiencies",
+        desc: `**Armor:** Light armor\n**Weapons:** Simple weapons\n**Tools:** ${toolsValue}\n**Skills:** Choose any three`,
+        feature_type: "PROFICIENCIES",
+        gained_at: [],
+        data_for_class_table: [],
+      }
+      : {
+        key: `${slug}_core-traits`,
+        name: "Core Traits",
+        desc: `|Armor Training|Light armor|\n|Weapon Proficiencies|Simple weapons|\n|Tool Proficiencies|${toolsValue}|\n|Skill Proficiencies|Choose any three|`,
+        feature_type: "CORE_TRAITS_TABLE",
+        gained_at: [],
+        data_for_class_table: [],
+      };
+    return toClassCanonical(baseEntry({
+      slug,
+      edition,
+      base: {
+        key: slug,
+        name: bare[0].toUpperCase() + bare.slice(1),
+        desc: "",
+        hit_dice: "D8",
+        subclass_of: null,
+        saving_throws: [{ name: "Dexterity" }, { name: "Charisma" }],
+        features: [feature],
+      },
+      overlay,
+    })) as {
+      proficiencies: { tools?: { fixed: string[] } };
+      choices?: Array<{ id: string }>;
+    };
+  };
+
+  // Binds tasks 6a and 8, NOT 7 and 8: the overlay here is SYNTHETIC, so a
+  // mis-keyed real overlay entry would still pass. The real-overlay evidence is
+  // the `real overlay:` describe below. What this pins is that the two halves
+  // land together: a partial implementation yields "fake fixed row AND a picker"
+  // or "neither".
+  it("drops Bard's instrument prose from tools.fixed while the overlay choice supplies the picker", () => {
+    const out = runTools("2014", "bard", "Three musical instruments of your choice", {
+      class_features: null,
+      classes: {
+        bard: {
+          choices: [{
+            kind: "select-proficiency",
+            id: "tool",
+            label: "Musical Instruments",
+            count: 3,
+            domain: "tool",
+            from: MUSICAL_INSTRUMENTS,
+          }],
+        },
+      },
+    });
+    expect(out.proficiencies.tools).toBeUndefined();
+    expect(out.choices?.some((c) => c.id === "tool")).toBe(true);
+  });
+
+  // The whole justification for filtering PER ITEM rather than rejecting the
+  // whole string the way background-merge's `parseToolProf` does. None of the 8
+  // live strings is mixed, so nothing else in the suite can catch a regression
+  // to the whole-string form.
+  it("keeps the fixed half of a MIXED grant and drops only the choice item", () => {
+    const out = runTools("2014", "rogue", "Thieves' tools, choose one artisan's tool");
+    expect(out.proficiencies.tools).toEqual({ fixed: ["Thieves' tools"] });
+  });
+
+  // All 8 non-null `Tools` values shipped today, hardcoded rather than read from
+  // src/srd/data/runtime/class.*.json: a future regen empties four of them, and a
+  // test that reads its own expectations out of regenerated output proves nothing.
+  interface LiveCase {
+    label: string;
+    edition: "2014" | "2024";
+    bare: string;
+    prose: string;
+    /** null = the whole value was choice prose, so `tools` must be absent. */
+    expected: string[] | null;
+  }
+  const LIVE: LiveCase[] = [
+    { label: "bard 2014 (drop)", edition: "2014", bare: "bard", prose: "Three musical instruments of your choice", expected: null },
+    { label: "druid 2014 (keep)", edition: "2014", bare: "druid", prose: "Herbalism kit", expected: ["Herbalism kit"] },
+    { label: "monk 2014 (drop)", edition: "2014", bare: "monk", prose: "Choose one type of artisan’s tools or one musical instrument", expected: null },
+    { label: "rogue 2014 (keep, curly apostrophe)", edition: "2014", bare: "rogue", prose: "Thieves’ tools", expected: ["Thieves’ tools"] },
+    { label: "bard 2024 (drop)", edition: "2024", bare: "bard", prose: "Choose 3 Musical Instruments", expected: null },
+    { label: "druid 2024 (keep)", edition: "2024", bare: "druid", prose: "Herbalism Kit", expected: ["Herbalism Kit"] },
+    { label: "monk 2024 (drop)", edition: "2024", bare: "monk", prose: "Choose one type of Artisan's Tools or Musical Instrument", expected: null },
+    { label: "rogue 2024 (keep)", edition: "2024", bare: "rogue", prose: "Thieves' Tools", expected: ["Thieves' Tools"] },
+  ];
+
+  it.each(LIVE)("live Tools string: $label", ({ edition, bare, prose, expected }) => {
+    const out = runTools(edition, bare, prose);
+    if (expected === null) expect(out.proficiencies.tools).toBeUndefined();
+    else expect(out.proficiencies.tools).toEqual({ fixed: expected });
+  });
+});
+
 // P3a task 7: the REAL overlays, not a hand-built one. The authored Bard and
 // Monk tool pools are inert until the next SRD regeneration (which this phase
 // does not run), so driving the shipped YAML through loadOverlay +

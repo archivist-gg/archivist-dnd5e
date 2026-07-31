@@ -242,6 +242,15 @@ function clampSavingThrows(saves: Ability[]): Ability[] {
   return padded.slice(0, 2);
 }
 
+/**
+ * A tool "proficiency" that is really a CHOICE the player makes at character
+ * creation ("Three musical instruments of your choice", "Choose 3 Musical
+ * Instruments"). Same vocabulary as background-merge's `parseToolProf`; the
+ * PLACEMENT differs, see the call site. No `g` flag: `test()` must not carry
+ * `lastIndex` between items.
+ */
+const TOOL_CHOICE_PROSE = /\b(choose|of your choice|one kind of)\b/i;
+
 function parseProficienciesProse(features: Open5eClassFeature[]): {
   proficiencies: ClassProficiencies;
   skill_choices: { count: number; from: SkillSlug[] };
@@ -316,10 +325,21 @@ function parseProficienciesProse(features: Open5eClassFeature[]): {
   const result: ClassProficiencies = { armor, weapons };
   const toolsClean = toolsRaw.replace(/none\.?$/i, "").trim();
   if (toolsClean.length > 0) {
+    // Filter PER ITEM, after the comma split: a mixed grant ("Thieves' tools,
+    // choose one artisan's tool") must keep its real fixed half while the choice
+    // half is dropped. This deliberately DIVERGES from background-merge's
+    // `parseToolProf`, which returns null for the whole string · a background
+    // block carries one homogeneous grant, whereas a class Tools line can carry
+    // both kinds at once.
+    // The dropped half is not lost: the real pick is authored as an overlay
+    // `choices` entry (Bard/Monk). Without this filter the prose lands verbatim
+    // in `tools.fixed` and the sheet shows a fake fixed proficiency literally
+    // named "Three musical instruments of your choice".
     const fixed = toolsClean
       .split(",")
       .map((s) => s.trim().replace(/\.$/, ""))
-      .filter(Boolean);
+      .filter(Boolean)
+      .filter((s) => !TOOL_CHOICE_PROSE.test(s));
     if (fixed.length > 0) result.tools = { fixed };
   }
 
