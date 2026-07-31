@@ -1,5 +1,6 @@
 import { z } from "zod";
 import { featureSchema } from "@archivist-gg/dnd5e/schemas/feature-schema";
+import { choiceSchema } from "@archivist-gg/dnd5e/schemas/choice-schema";
 import { resourceSchema } from "@archivist-gg/dnd5e/schemas/resource-schema";
 import { startingEquipmentEntrySchema, startingGoldSchema } from "@archivist-gg/dnd5e/schemas/equipment-grant-schema";
 import { selectionPoolSchema, poolGrantSchema, tabDeclSchema } from "@archivist-gg/dnd5e/schemas/selection-pool-schema";
@@ -76,6 +77,10 @@ export const classEntitySchema = z.object({
     count: z.number().int().positive(),
     from: z.array(skillEnum).nonempty(),
   }),
+  // Zod strips unknown keys by default, so without this declaration an authored
+  // `choices:` block is silently deleted by `parseClass`. Same spelling as
+  // `raceEntitySchema` / `backgroundEntitySchema`.
+  choices: z.array(choiceSchema).optional(),
   starting_equipment: z.array(startingEquipmentEntrySchema),
   starting_gold: startingGoldSchema.optional(),
   spellcasting: spellcastingSchema.nullable(),

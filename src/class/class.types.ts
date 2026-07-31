@@ -1,4 +1,4 @@
-import type { Feature, Ability, SkillSlug, Resource } from "@archivist-gg/dnd5e";
+import type { Feature, Ability, SkillSlug, Resource, Choice } from "@archivist-gg/dnd5e";
 import type { StartingEquipmentEntry, StartingGold } from "@archivist-gg/dnd5e/types/equipment-grant";
 export type { StartingEquipmentEntry, StartingGold } from "@archivist-gg/dnd5e/types/equipment-grant";
 import type { SelectionPool, PoolGrant, TabDecl } from "@archivist-gg/dnd5e/types/selection-pool";
@@ -62,6 +62,14 @@ export interface ClassEntity {
   saving_throws: Ability[];
   proficiencies: ClassProficiencies;
   skill_choices: SkillChoices;
+  /**
+   * Entity-level decisions the class grants at L1, mirroring the long-standing
+   * `RaceEntity.choices` / `BackgroundEntity.choices` precedent. Classes were the
+   * sole holdout: a tool pick like the Bard's "three musical instruments of your
+   * choice" belongs to the CLASS, not to any one of its L1 features, so before
+   * this there was nowhere to author it.
+   */
+  choices?: Choice[];
   starting_equipment: StartingEquipmentEntry[];
   starting_gold?: StartingGold;
   spellcasting: SpellcastingConfig | null;

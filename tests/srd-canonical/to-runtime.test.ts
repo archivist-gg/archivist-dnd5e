@@ -164,6 +164,19 @@ describe("to-runtime keep-list includes structured fields", () => {
     expect(runtime.description).toBe("A skilled warrior.");
   });
 
+  // Gate 2 of 3 for entity-level class `choices`: the per-kind field whitelist.
+  // `to-md.ts` dumps the rewritten data wholesale, so this whitelist is the only
+  // thing standing between a merged `choices` and the emitted YAML. `race` and
+  // `background` already list it; `class` did not, and an omission here is silent.
+  it("retains entity-level choices on a class projection", () => {
+    const runtime = projectToRuntime("class", {
+      slug: "x_class_bard",
+      name: "Bard",
+      choices: [{ kind: "select-proficiency", id: "tool", count: 3, domain: "tool", from: ["lute"] }],
+    });
+    expect(runtime.choices).toHaveLength(1);
+  });
+
   it("background runtime preserves description, suggested_characteristics", () => {
     const canonical = {
       slug: "srd-5e_acolyte",

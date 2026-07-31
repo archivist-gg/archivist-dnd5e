@@ -303,6 +303,41 @@ describe("class-merge: Open5e v2 class shape", () => {
     expect(out.subclass_feature_name).toBe("Martial Archetype");
   });
 
+  // Gate 3 of 3 for entity-level class `choices`: the merge-rule apply.
+  // `ClassOverride.choices` and `classOverrideSchema.choices` have always existed,
+  // so the overlay PARSES today and then the value is dropped on the floor: nothing
+  // copies it onto the canonical entity. Races and backgrounds already apply theirs.
+  it("applies an entity-level overlay `choices` onto the canonical class", () => {
+    const out = toClassCanonical(baseEntry({
+      slug: "srd-2024_bard",
+      edition: "2024",
+      base: {
+        key: "srd-2024_bard",
+        name: "Bard",
+        desc: "",
+        hit_dice: "D8",
+        subclass_of: null,
+        saving_throws: [{ name: "Dexterity" }, { name: "Charisma" }],
+        features: [],
+      },
+      overlay: {
+        classes: {
+          bard: {
+            choices: [{
+              kind: "select-proficiency", id: "bard-instruments", label: "Musical Instruments",
+              count: 3, domain: "tool", from: ["lute", "flute", "drum"],
+            }],
+          },
+        },
+      },
+    })) as { choices?: Array<{ kind: string; id: string; count: number; domain: string }> };
+
+    expect(out.choices).toHaveLength(1);
+    expect(out.choices?.[0]).toMatchObject({
+      kind: "select-proficiency", id: "bard-instruments", count: 3, domain: "tool",
+    });
+  });
+
   it("prefers the class-scoped overlay key over the bare key when both exist (SP2 Plan 3)", () => {
     const out = toClassCanonical(baseEntry({
       slug: "srd-2024_fighter",

@@ -28,6 +28,8 @@ const FIELDS_TO_KEEP_PER_KIND: Record<string, Set<string>> = {
     "starting_equipment", "spellcasting", "subclass_level",
     "subclass_feature_name", "weapon_mastery", "epic_boon_level", "table",
     "features_by_level", "resources",
+    // Entity-level decision data, matching `race` / `background` above.
+    "choices",
     // Backwards-compat / future fields.
     "hit_dice", "weapon_mastery_count", "data_for_class_table", "features",
     "multiclassing",

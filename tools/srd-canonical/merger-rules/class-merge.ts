@@ -22,6 +22,8 @@ export interface ClassCanonical {
   saving_throws: Ability[];
   proficiencies: ClassProficiencies;
   skill_choices: { count: number; from: SkillSlug[] };
+  /** Entity-level decisions, mirroring `ClassEntity.choices`. */
+  choices?: Choice[];
   starting_equipment: StartingEquipmentEntry[];
   starting_gold?: StartingGold;
   spellcasting: SpellcastingConfig | null;
@@ -687,6 +689,7 @@ export function toClassCanonical(entry: CanonicalEntry): ClassCanonical {
   // Entity-level overrides from the overlay `classes:` section take precedence
   // over values derived from Open5e prose / defaults.
   if (classOverride?.skill_choices) out.skill_choices = classOverride.skill_choices;
+  if (classOverride?.choices) out.choices = classOverride.choices;
   if (classOverride?.starting_equipment) out.starting_equipment = classOverride.starting_equipment;
   if (classOverride?.starting_gold) out.starting_gold = classOverride.starting_gold;
 
