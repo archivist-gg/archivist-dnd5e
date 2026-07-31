@@ -1,5 +1,5 @@
 import type { Choice, InlineOption, EntityFilter, Ability } from "@archivist-gg/dnd5e/types/choice";
-import { ALL_SKILL_SLUGS, ALL_LANGUAGES } from "@archivist-gg/dnd5e/types/choice";
+import { ALL_SKILL_SLUGS, ALL_LANGUAGES, ALL_TOOLS } from "@archivist-gg/dnd5e/types/choice";
 import { ABILITY_KEYS } from "@archivist-gg/dnd5e/dnd/constants";
 import type { ResolvedCharacter, ChoiceValue, FeatureSource } from "./pc.types";
 import type { EntityRegistry, RegisteredEntity } from "@archivist-gg/core";
@@ -177,9 +177,14 @@ function enumerateOptions(choice: Choice, ctx: DecisionContext, ownerBare: strin
       return filtered.map((e) => ({ value: e.slug, label: e.name, entity: e }));
     }
     case "select-proficiency": {
+      // domain:"save" is the one arm that deliberately stays at []: saving-throw
+      // proficiencies come from class `saving_throws`, never from a decision, so
+      // there is no pool to enumerate. Mirrors collectChosenProficiencies' bucket
+      // fold, which skips "save" for the same reason.
       const pool = choice.from
         ?? (choice.domain === "skill" ? [...ALL_SKILL_SLUGS]
             : choice.domain === "language" ? [...ALL_LANGUAGES]
+            : choice.domain === "tool" ? [...ALL_TOOLS]
             : []);
       // Label only, no toProfSlug: humanizeProficiency already renders the one
       // non-canonical runtime pool right, because it turns "-" into a space and
