@@ -27,6 +27,42 @@ export const EXOTIC_LANGUAGES: string[] = [
 ];
 export const ALL_LANGUAGES: string[] = [...STANDARD_LANGUAGES, ...EXOTIC_LANGUAGES];
 
+/** The SRD tool set: 17 artisan's tools + 10 musical instruments + 2 gaming sets
+ *  + 6 other tools = 35. Like ALL_LANGUAGES this is a SINGLE edition-agnostic
+ *  list covering 2014 and 2024, and where the two editions name the same tool
+ *  differently the 2024 name wins. Across all 35 entries there is exactly one
+ *  such delta: `Playing Card Set` (2014) vs `Playing Cards` (2024), resolved
+ *  here to "playing-cards".
+ *
+ *  Apostrophes are RETAINED ("thieves'-tools", "calligrapher's-supplies").
+ *  These are the slugs the product already emits · see
+ *  `tools/srd-canonical/merger-rules/background-merge.ts`, whose output is live
+ *  in `background.2024.json` · and humanizeProficiency is apostrophe-safe.
+ *  Stripping the apostrophes would diverge from that live data and CREATE the
+ *  collision it would claim to avoid.
+ *
+ *  Every entry is already canonical under toProfSlug (identity) and the set is
+ *  collision-free under it. Ordering is alphabetical within each subset, and
+ *  ALL_TOOLS composes the four subsets in that order, mirroring
+ *  ALL_LANGUAGES = STANDARD + EXOTIC. The list is a cross-repo contract: a
+ *  one-entry divergence is silent and permanent, so it is pinned verbatim. */
+export const ARTISANS_TOOLS: string[] = [
+  "alchemist's-supplies", "brewer's-supplies", "calligrapher's-supplies", "carpenter's-tools",
+  "cartographer's-tools", "cobbler's-tools", "cook's-utensils", "glassblower's-tools", "jeweler's-tools",
+  "leatherworker's-tools", "mason's-tools", "painter's-supplies", "potter's-tools", "smith's-tools",
+  "tinker's-tools", "weaver's-tools", "woodcarver's-tools",
+];                                                                                    // 17
+export const MUSICAL_INSTRUMENTS: string[] = [
+  "bagpipes", "drum", "dulcimer", "flute", "horn", "lute", "lyre", "pan-flute", "shawm", "viol",
+];                                                                                    // 10
+export const GAMING_SETS: string[] = ["dice-set", "playing-cards"];                   //  2
+export const OTHER_TOOLS: string[] = [
+  "disguise-kit", "forgery-kit", "herbalism-kit", "navigator's-tools", "poisoner's-kit", "thieves'-tools",
+];                                                                                    //  6
+export const ALL_TOOLS: string[] = [
+  ...ARTISANS_TOOLS, ...MUSICAL_INSTRUMENTS, ...GAMING_SETS, ...OTHER_TOOLS,
+];                                                                                    // 35
+
 export type FeatCategory = "origin" | "general" | "fighting-style" | "epic-boon";
 
 /** Closed, enumerated registry filter — YAML can never express a query the
