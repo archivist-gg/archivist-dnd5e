@@ -488,6 +488,32 @@ describe("buildDecisionLedger · entity-level class choices", () => {
     // select-inline itself and stops, so the nested tool pick never folds.
     expect(collectChosenProficiencies(c).tools).toEqual(["viol"]);
   });
+
+  // The OTHER property entity-level choices mirror from the synthesized skill row
+  // (the first is the "Proficiencies" header): the `classIndex === 0` / `i === 0`
+  // guard, because multiclass proficiency rules are Plan 5. The sibling skill
+  // row's identical guard is pinned by the "multiclass routing" describe above;
+  // without this case BOTH new guards could be deleted and the entire
+  // suite would stay green, so the mirrored property would be asserted in prose
+  // with nothing able to see it. Covers both emission sites at once: the ledger
+  // half and the fold half fail independently.
+  it("ignores entity-level choices on a SECOND class (first class only)", () => {
+    const c = resolvedMulticlass();
+    (c.classes[1].entity as unknown as { choices: unknown[] }).choices = [
+      { kind: "select-proficiency", id: "sorcerer-tools", count: 1, domain: "tool",
+        from: ["lute", "drum"] },
+    ];
+    (c.classes[1] as unknown as { choices: Record<number, unknown> }).choices[1] = { "sorcerer-tools": "lute" };
+
+    const ledger = buildDecisionLedger(c, { registry: multiRegistry } as never);
+    // Ledger half: no item under the second class...
+    expect(ledger.classes[1].levels.flatMap((l) => l.items).map((i) => i.key)).not.toContain("sorcerer-tools");
+    // ...and it must not leak onto the FIRST class either (a push that read
+    // classes[0].entity instead of the loop's entity would land here).
+    expect(ledger.classes[0].levels.flatMap((l) => l.items).map((i) => i.key)).not.toContain("sorcerer-tools");
+    // Fold half: the sheet must not grant the proficiency either.
+    expect(collectChosenProficiencies(c).tools).toEqual([]);
+  });
 });
 
 // ── DecisionItem.selected canonicalization ──────────────────────────────────
