@@ -2,6 +2,7 @@ import { describe, it, expect } from "vitest";
 import * as path from "node:path";
 import { backgroundMergeRule, toBackgroundCanonical, parseToolProf } from "../../../tools/srd-canonical/merger-rules/background-merge";
 import { loadOverlay } from "../../../tools/srd-canonical/sources/overlay";
+import { GAMING_SETS } from "../../../src/types/choice";
 import type { CanonicalEntry } from "../../../tools/srd-canonical/merger";
 
 describe("backgroundMergeRule", () => {
@@ -364,5 +365,41 @@ describe("2024 background languages (Common + choose 2) [R3-P2 D2]", () => {
     expect(langChoice).toMatchObject({ kind: "select-proficiency", id: "languages", domain: "language", count: 2 });
     // The existing ability-points entry must survive the append.
     expect(choices.some((c) => c.kind === "ability-points")).toBe(true);
+  });
+
+  // P3a task 7: the Soldier's open tool pick is now constrained to the canonical
+  // GAMING_SETS pair. Same real-overlay fixture as above (loadOverlay +
+  // backgroundMergeRule.pickOverlay + toBackgroundCanonical), because a
+  // background is out of class-merge.test.ts's reach and the authored value is
+  // inert until the next SRD regeneration.
+  it("constrains the Soldier's tool pick to the two gaming sets [P3a task 7]", async () => {
+    const overlay = await loadOverlay(overlayPath);
+    const entrySlug = "srd-2024_soldier";
+    const canonical: CanonicalEntry = {
+      slug: entrySlug,
+      edition: "2024",
+      kind: "background",
+      base: {
+        key: entrySlug,
+        name: "Soldier",
+        desc: "x",
+        document: { key: "srd-2024", name: "SRD 5.2" },
+        benefits: [{ name: "Feature", desc: "F.", type: "feature" }],
+      } as never,
+      structured: null,
+      activation: null,
+      overlay: backgroundMergeRule.pickOverlay(overlay, entrySlug) as never,
+    };
+    const out = toBackgroundCanonical(canonical);
+
+    const toolChoice = (out.choices ?? []).find(
+      (c): c is Extract<typeof c, { kind: "select-proficiency" }> =>
+        c.kind === "select-proficiency" && c.domain === "tool",
+    );
+    expect(toolChoice).toMatchObject({ kind: "select-proficiency", id: "tool", domain: "tool", count: 1 });
+    const from = toolChoice?.from;
+    expect(from).toHaveLength(2);
+    expect(from!.every((s) => GAMING_SETS.includes(s))).toBe(true);
+    expect(from).toEqual(["dice-set", "playing-cards"]);
   });
 });

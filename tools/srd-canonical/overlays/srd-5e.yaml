@@ -573,15 +573,20 @@ race_traits:
             effects: [{ kind: resistance, damage_type: Cold }]
 
   # --- Dwarf -- Tool Proficiency: "the artisan's tools of your choice: smith's
-  # tools, brewer's supplies, or mason's tools." Tool slugs are the prose
-  # strings. The trait slug `tool-proficiency` is unique to base Dwarf. ---
+  # tools, brewer's supplies, or mason's tools." Tool slugs are the CANONICAL
+  # 35-slug tool vocabulary (ARTISANS_TOOLS in src/types/choice.ts), not the
+  # prose strings: hyphenated, apostrophes retained. A character note that
+  # persisted a pick under the old prose spelling ("smith's tools") keeps it,
+  # because the collectors and DecisionItem.selected both canonicalize the
+  # persisted value against this pool, and it migrates on the next write.
+  # The trait slug `tool-proficiency` is unique to base Dwarf. ---
   tool-proficiency:
     choices:
       - kind: select-proficiency
         id: tool
         domain: tool
         count: 1
-        from: ["smith's tools", "brewer's supplies", "mason's tools"]
+        from: ["smith's-tools", "brewer's-supplies", "mason's-tools"]
 
   # --- High Elf (subrace) -- Cantrip: "one cantrip of your choice from the
   # wizard spell list" -- spell selection (SP4c deferral). Trait slug `cantrip`
@@ -709,6 +714,19 @@ classes:
       preparation: known
       spell_list: bard
     subclass_feature_name: Bard College
+    # Tools: "three musical instruments of your choice." The pool is the
+    # canonical MUSICAL_INSTRUMENTS list of the 35-slug tool vocabulary
+    # (src/types/choice.ts), written out literally because YAML cannot
+    # reference a TS constant. Id `tool` is deliberate: it collides with no
+    # level-1 feature choice id, and it is neither `skills` (owned by
+    # skill_choices) nor `equipment-*` (owned by the synthesized
+    # starting-equipment decisions), both of which share the L1 id namespace.
+    choices:
+      - kind: select-proficiency
+        id: tool
+        domain: tool
+        count: 3
+        from: ["bagpipes", "drum", "dulcimer", "flute", "horn", "lute", "lyre", "pan-flute", "shawm", "viol"]
     starting_equipment:
       - kind: choice
         options:
@@ -838,6 +856,22 @@ classes:
     starting_gold: { dice: "5d4", multiplier: 10 }
   monk:
     subclass_feature_name: Monastic Tradition
+    # Tools: "one type of artisan's tools or one musical instrument of your
+    # choice." Pool = ARTISANS_TOOLS + MUSICAL_INSTRUMENTS (17 + 10 = 27) of
+    # the 35-slug tool vocabulary (src/types/choice.ts), literal because YAML
+    # cannot reference a TS constant. Id `tool`: see the bard note above.
+    choices:
+      - kind: select-proficiency
+        id: tool
+        domain: tool
+        count: 1
+        from: [
+          "alchemist's-supplies", "brewer's-supplies", "calligrapher's-supplies", "carpenter's-tools",
+          "cartographer's-tools", "cobbler's-tools", "cook's-utensils", "glassblower's-tools", "jeweler's-tools",
+          "leatherworker's-tools", "mason's-tools", "painter's-supplies", "potter's-tools", "smith's-tools",
+          "tinker's-tools", "weaver's-tools", "woodcarver's-tools",
+          "bagpipes", "drum", "dulcimer", "flute", "horn", "lute", "lyre", "pan-flute", "shawm", "viol"
+        ]
     starting_equipment:
       - kind: choice
         options:

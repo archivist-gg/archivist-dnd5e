@@ -594,6 +594,19 @@ classes:
     skill_choices:
       count: 3
       from: [acrobatics, animal-handling, arcana, athletics, deception, history, insight, intimidation, investigation, medicine, nature, perception, performance, persuasion, religion, sleight-of-hand, stealth, survival]
+    # Tool Proficiencies: "three Musical Instruments of your choice." The pool
+    # is the canonical MUSICAL_INSTRUMENTS list of the 35-slug tool vocabulary
+    # (src/types/choice.ts), written out literally because YAML cannot
+    # reference a TS constant. Id `tool` is deliberate: it collides with no
+    # level-1 feature choice id, and it is neither `skills` (owned by
+    # skill_choices) nor `equipment-*` (owned by the synthesized
+    # starting-equipment decisions), both of which share the L1 id namespace.
+    choices:
+      - kind: select-proficiency
+        id: tool
+        domain: tool
+        count: 3
+        from: ["bagpipes", "drum", "dulcimer", "flute", "horn", "lute", "lyre", "pan-flute", "shawm", "viol"]
     starting_equipment:
       - kind: choice
         options:
@@ -680,6 +693,22 @@ classes:
     skill_choices:
       count: 2
       from: [acrobatics, athletics, history, insight, religion, stealth]
+    # Tool Proficiencies: "one kind of Artisan's Tools or Musical Instrument of
+    # your choice." Pool = ARTISANS_TOOLS + MUSICAL_INSTRUMENTS (17 + 10 = 27)
+    # of the 35-slug tool vocabulary (src/types/choice.ts), literal because
+    # YAML cannot reference a TS constant. Id `tool`: see the bard note above.
+    choices:
+      - kind: select-proficiency
+        id: tool
+        domain: tool
+        count: 1
+        from: [
+          "alchemist's-supplies", "brewer's-supplies", "calligrapher's-supplies", "carpenter's-tools",
+          "cartographer's-tools", "cobbler's-tools", "cook's-utensils", "glassblower's-tools", "jeweler's-tools",
+          "leatherworker's-tools", "mason's-tools", "painter's-supplies", "potter's-tools", "smith's-tools",
+          "tinker's-tools", "weaver's-tools", "woodcarver's-tools",
+          "bagpipes", "drum", "dulcimer", "flute", "horn", "lute", "lyre", "pan-flute", "shawm", "viol"
+        ]
     starting_equipment:
       - kind: choice
         options:
@@ -1258,13 +1287,15 @@ backgrounds:
         points: 3
         max_per: 2
         pool: [str, dex, con]
-      # Soldier's tool proficiency is a Gaming Set of your choice (the specific
-      # gaming-set tool list isn't enumerated in the runtime data, so this is an
-      # open tool pick of count 1).
+      # Soldier's tool proficiency is a Gaming Set of your choice. The pool is
+      # the canonical GAMING_SETS pair of the 35-slug tool vocabulary
+      # (src/types/choice.ts), written out literally because YAML cannot
+      # reference a TS constant, so the pick is constrained rather than open.
       - kind: select-proficiency
         id: tool
         domain: tool
         count: 1
+        from: ["dice-set", "playing-cards"]
       - kind: select-proficiency
         id: languages
         domain: language

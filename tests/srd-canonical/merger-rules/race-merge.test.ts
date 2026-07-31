@@ -1,5 +1,8 @@
 import { describe, it, expect } from "vitest";
-import { toRaceCanonical } from "../../../tools/srd-canonical/merger-rules/race-merge";
+import * as path from "node:path";
+import { toRaceCanonical, raceMergeRule } from "../../../tools/srd-canonical/merger-rules/race-merge";
+import { loadOverlay } from "../../../tools/srd-canonical/sources/overlay";
+import { ARTISANS_TOOLS } from "../../../src/types/choice";
 import type { CanonicalEntry } from "../../../tools/srd-canonical/merger";
 
 const baseEntry = (overrides: Partial<CanonicalEntry> & { base: unknown }): CanonicalEntry => ({
@@ -319,5 +322,52 @@ describe("raceMergeRule (legacy/structural cases)", () => {
     const bw = out.traits.find(t => t.name === "Breath Weapon");
     expect(bw?.resources?.[0]?.id).toBe("dragonborn:breath-weapon");
     expect(bw?.id).toBe("breath-weapon");
+  });
+});
+
+// P3a task 7: the Dwarf's Tool Proficiency pool re-slugged from the old prose
+// spellings ("smith's tools") to the canonical 35-slug vocabulary
+// ("smith's-tools"). `class-merge.test.ts` cannot cover this: the Dwarf pool is
+// a RACE TRAIT. Driven off the real srd-5e.yaml through loadOverlay (nothing
+// else in this suite parses that file) + raceMergeRule.pickOverlay, because the
+// authored value is otherwise inert until the next SRD regeneration.
+describe("real overlay: Dwarf Tool Proficiency canonical slugs [P3a task 7]", () => {
+  it("merges the three artisan's-tool slugs onto the tool-proficiency trait", async () => {
+    const overlayPath = path.resolve(__dirname, "../../../tools/srd-canonical/overlays/srd-5e.yaml");
+    const overlay = await loadOverlay(overlayPath);
+    const out = toRaceCanonical(baseEntry({
+      slug: "srd-5e_dwarf",
+      edition: "2014",
+      base: {
+        key: "srd_dwarf",
+        name: "Dwarf",
+        desc: "",
+        is_subspecies: false,
+        subspecies_of: null,
+        traits: [
+          { name: "Size", desc: "Your size is Medium.", type: null, order: null },
+          { name: "Speed", desc: "Your base walking speed is 25 feet.", type: null, order: null },
+          {
+            name: "Tool Proficiency",
+            desc: "You gain proficiency with the artisan's tools of your choice: smith's tools, brewer's supplies, or mason's tools.",
+            type: null, order: null,
+          },
+        ],
+      },
+      overlay: raceMergeRule.pickOverlay(overlay, "srd-5e_dwarf") as never,
+    }));
+
+    const trait = out.traits.find(t => t.name === "Tool Proficiency");
+    expect(trait?.id).toBe("tool-proficiency");
+    expect(trait?.choices).toHaveLength(1);
+    const choice = trait?.choices?.[0];
+    expect(choice).toMatchObject({ kind: "select-proficiency", id: "tool", domain: "tool", count: 1 });
+    const from = (choice as { from?: string[] } | undefined)?.from;
+    expect(from).toHaveLength(3);
+    expect(from!.every(s => ARTISANS_TOOLS.includes(s))).toBe(true);
+    expect(from).toEqual(["smith's-tools", "brewer's-supplies", "mason's-tools"]);
+    // The old prose spelling must be GONE: it is what Volker.md persists today,
+    // and it survives only via pool canonicalization, not by staying in the pool.
+    expect(from).not.toContain("smith's tools");
   });
 });

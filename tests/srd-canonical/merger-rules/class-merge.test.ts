@@ -1,5 +1,8 @@
 import { describe, it, expect } from "vitest";
-import { toClassCanonical } from "../../../tools/srd-canonical/merger-rules/class-merge";
+import * as path from "node:path";
+import { toClassCanonical, classMergeRule } from "../../../tools/srd-canonical/merger-rules/class-merge";
+import { loadOverlay } from "../../../tools/srd-canonical/sources/overlay";
+import { ARTISANS_TOOLS, MUSICAL_INSTRUMENTS } from "../../../src/types/choice";
 import type { CanonicalEntry } from "../../../tools/srd-canonical/merger";
 
 const baseEntry = (overrides: Partial<CanonicalEntry> & { base: unknown }): CanonicalEntry => ({
@@ -683,5 +686,56 @@ describe("class-merge: Open5e v2 class shape", () => {
     })) as { features_by_level: Record<string, Array<{ name: string; action?: string }>> };
     const secondWind = Object.values(result.features_by_level).flat().find((f) => f.name === "Second Wind");
     expect(secondWind?.action).toBe("bonus-action");
+  });
+});
+
+// P3a task 7: the REAL overlays, not a hand-built one. The authored Bard and
+// Monk tool pools are inert until the next SRD regeneration (which this phase
+// does not run), so driving the shipped YAML through loadOverlay +
+// classMergeRule.pickOverlay + toClassCanonical is the only evidence that what
+// was authored actually lands on the canonical class.
+describe("real overlay: entity-level tool `choices` for Bard and Monk [P3a task 7]", () => {
+  const OVERLAYS = {
+    "2014": path.resolve(__dirname, "../../../tools/srd-canonical/overlays/srd-5e.yaml"),
+    "2024": path.resolve(__dirname, "../../../tools/srd-canonical/overlays/srd-2024.yaml"),
+  } as const;
+
+  const drive = async (edition: "2014" | "2024", bare: string, hitDice: string) => {
+    const overlay = await loadOverlay(OVERLAYS[edition]);
+    const prefix = edition === "2014" ? "srd-5e" : "srd-2024";
+    const entrySlug = `${prefix}_class_${bare}`;
+    return toClassCanonical(baseEntry({
+      slug: entrySlug,
+      edition,
+      base: {
+        key: entrySlug,
+        name: bare[0].toUpperCase() + bare.slice(1),
+        desc: "",
+        hit_dice: hitDice,
+        subclass_of: null,
+        saving_throws: [{ name: "Dexterity" }, { name: "Charisma" }],
+        features: [],
+      },
+      overlay: classMergeRule.pickOverlay(overlay, entrySlug) as never,
+    })) as { choices?: Array<{ kind: string; id: string; count: number; domain: string; from?: string[] }> };
+  };
+
+  it.each(["2014", "2024"] as const)("Bard %s gets a count-3 tool pick over the 10 musical instruments", async (edition) => {
+    const out = await drive(edition, "bard", "D8");
+    expect(out.choices).toHaveLength(1);
+    expect(out.choices?.[0]).toMatchObject({
+      kind: "select-proficiency", id: "tool", domain: "tool", count: 3,
+    });
+    expect(out.choices?.[0]?.from).toEqual(MUSICAL_INSTRUMENTS);
+  });
+
+  it.each(["2014", "2024"] as const)("Monk %s gets a count-1 tool pick over artisan's tools plus instruments", async (edition) => {
+    const out = await drive(edition, "monk", "D8");
+    expect(out.choices).toHaveLength(1);
+    expect(out.choices?.[0]).toMatchObject({
+      kind: "select-proficiency", id: "tool", domain: "tool", count: 1,
+    });
+    expect(out.choices?.[0]?.from).toHaveLength(27);
+    expect(out.choices?.[0]?.from).toEqual([...ARTISANS_TOOLS, ...MUSICAL_INSTRUMENTS]);
   });
 });
