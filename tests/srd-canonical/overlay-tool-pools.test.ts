@@ -129,22 +129,24 @@ describe("authored tool `from` pools are subsets of the tool vocabulary", () => 
   });
 
   /**
-   * `loadOverlay` passes `{ json: true }` to `yaml.load` and its comment claims
-   * that is what makes js-yaml error on duplicate map keys. Measured on the
-   * pinned js-yaml 4.3.0, `json: true` does the OPPOSITE: it is the
-   * JSON.parse-compatibility flag, so a duplicate key silently takes the LAST
-   * value, while the DEFAULT options throw "duplicated mapping key". That is a
-   * pre-existing loader defect and changing the loader is out of scope here
-   * (flipping the flag could turn a silently-tolerated overlay into a hard
-   * regen failure, which is not a data-authoring task's call). This test is the
-   * guard in the meantime: it re-reads each overlay with the THROWING default,
-   * so a duplicated `choices:` key of exactly the kind this task authored into
-   * four class blocks cannot be swallowed unnoticed.
+   * `loadOverlay` used to pass `{ json: true }` to `yaml.load` under a comment
+   * claiming that is what makes js-yaml error on duplicate map keys. Measured on
+   * the pinned js-yaml 4.3.0, `json: true` does the OPPOSITE: it is the
+   * JSON.parse-compatibility flag, so a duplicate key silently keeps the LAST
+   * value, while the DEFAULT options throw "duplicated mapping key". The flag
+   * has been dropped, so `loadOverlay` now genuinely has the detection that the
+   * design spec and the task brief both already believed it had.
+   *
+   * This test is KEPT as belt and braces even though the loader is fixed: it
+   * names the two shipped overlays explicitly and re-reads them with the
+   * throwing default itself, so it keeps failing loudly no matter what a future
+   * refactor does to `loadOverlay`. A duplicated `choices:` key of exactly the
+   * kind authored into four class blocks here cannot be swallowed unnoticed.
    */
   it.each([
     { edition: "2014", file: OVERLAY_2014 },
     { edition: "2024", file: OVERLAY_2024 },
-  ])("the $edition overlay has no duplicate map keys (loadOverlay's json:true cannot see them)", ({ file }) => {
+  ])("the $edition overlay has no duplicate map keys, independent of loadOverlay", ({ file }) => {
     expect(() => yaml.load(fs.readFileSync(file, "utf8"))).not.toThrow();
   });
 });
