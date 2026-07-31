@@ -410,6 +410,23 @@ function visitProficiencyChoices(
         domain: "skill", from: entity.skill_choices.from }, readAt(1)("skills"));
     }
 
+    // Entity-level class `choices` (first class only, same multiclass scoping as
+    // the skill row above · a Bard's "three musical instruments of your choice"
+    // belongs to the CLASS, not to any one of its L1 features).
+    //
+    // Walked with the RECURSIVE `walk`, exactly as RaceEntity.choices and
+    // BackgroundEntity.choices are below. The flat `visit` used for the skill row
+    // is correct THERE only because that row is synthesized from skill_choices and
+    // can never nest; an authored entity-level select-inline can, and a flat visit
+    // would drop its sub-choices SILENTLY · the pick would render in the builder
+    // and then never fold into the sheet's proficiencies.
+    //
+    // Read through readAt(1): `c.choices[1]` is a flat per-level namespace, the
+    // same one the ledger's entity-level items persist to. Note the synthesized
+    // skill row hardcodes `id: "skills"` in it, so a class-authored choice with
+    // that id would collide exactly · author any other id.
+    if (i === 0) walk(entity.choices, readAt(1));
+
     for (const rf of resolved.features) {
       if (rf.source.kind !== "class" && rf.source.kind !== "subclass") continue;
       const belongs = rf.source.kind === "class" ? rf.source.slug === entity.slug
@@ -580,6 +597,21 @@ export function buildDecisionLedger(resolved: ResolvedCharacter, ctx: DecisionCo
       };
       push(1, buildItem(skillChoice, { kind: "class", slug: entity.slug, level: 1 }, 1,
         "Proficiencies", readAt(1), ctx, ownerBare));
+    }
+
+    // Entity-level: class `choices` (first class only, as above), grouped under
+    // the SAME "Proficiencies" header as the skill row · both are class-wide
+    // grants belonging to no single feature.
+    //
+    // This loop IS the recursive push: buildItem expands a selected select-inline
+    // branch's nested sub-choices into `item.children` itself, so a flat loop over
+    // the top-level choices reaches the whole tree. It mirrors pushOrigin's
+    // treatment of RaceEntity/BackgroundEntity entity-level choices exactly.
+    if (classIndex === 0) {
+      for (const ch of entity.choices ?? []) {
+        push(1, buildItem(ch, { kind: "class", slug: entity.slug, level: 1 }, 1,
+          "Proficiencies", readAt(1), ctx, ownerBare));
+      }
     }
 
     // Entity-level: starting-equipment choices (the Equipment step renders +

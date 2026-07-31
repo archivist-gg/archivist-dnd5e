@@ -408,6 +408,88 @@ describe("collectChosenProficiencies", () => {
   });
 });
 
+// ── entity-level class choices (ClassEntity.choices) ────────────────────────
+//
+// `RaceEntity.choices` and `BackgroundEntity.choices` have always been walked;
+// classes were the sole holdout, so a Bard's "three musical instruments of your
+// choice" had nowhere to live (none of its L1 features can host a tool pick).
+// Two properties are pinned here and they fail for DIFFERENT reasons:
+//   1. WHERE the item lands · `ledger.classes[0].levels`, never `ledger.origin`.
+//      A class entity-level pick is the mirror image of a race-trait pick.
+//   2. WHICH primitive walks it · the RECURSIVE `walk`, not the flat `visit` the
+//      synthesized skill row uses. The flat primitive is right for that row only
+//      because a synthesized row can never nest; an authored select-inline can,
+//      and a flat visit drops its sub-choices SILENTLY (the pick simply never
+//      folds into the sheet's proficiencies). Only the nested case below can
+//      tell the two primitives apart.
+describe("buildDecisionLedger · entity-level class choices", () => {
+  /** Fighter carrying `choices` on the class ENTITY itself (the field wired in
+   *  task 6a), plus the persisted picks. Picks live under
+   *  `classes[0].choices[1]` · the flat per-level namespace `readAt(1)` indexes.
+   *  Ids deliberately avoid "skills": the synthesized L1 skill row hardcodes
+   *  that id in the SAME namespace, so a class-authored `id: "skills"` would
+   *  collide exactly. */
+  function fighterWithClassChoices(
+    choices: unknown[],
+    persisted: Record<string, unknown> = {},
+  ): ResolvedCharacter {
+    const c = resolvedFighter(1);
+    (c.classes[0].entity as unknown as { choices: unknown[] }).choices = choices;
+    c.classes[0].choices[1] = { ...(c.classes[0].choices[1] ?? {}), ...persisted } as never;
+    return c;
+  }
+
+  it("emits a flat entity-level choice into ledger.classes at L1 and folds the pick", () => {
+    const c = fighterWithClassChoices(
+      [{ kind: "select-proficiency", id: "bard-instruments", label: "Musical Instruments",
+        count: 1, domain: "tool", from: ["lute", "drum"] }],
+      { "bard-instruments": "lute" },
+    );
+    const ledger = buildDecisionLedger(c, { registry } as never);
+
+    const item = findItem(ledger, "classes", "bard-instruments");   // classes, NOT origin
+    expect(item.level).toBe(1);
+    expect(item.featureName).toBe("Proficiencies");
+    expect(item.selected).toBe("lute");
+    expect(item.status).toBe("resolved");
+    // Pin the SECTION, not just "somewhere in the ledger": a class entity-level
+    // item belongs to classIndex 0's level 1, and origin must stay untouched.
+    const l1 = ledger.classes.find((k) => k.classIndex === 0)!.levels.find((l) => l.level === 1)!;
+    expect(l1.items.map((i) => i.key)).toContain("bard-instruments");
+    expect(ledger.origin.map((i) => i.key)).not.toContain("bard-instruments");
+    // And the pick must reach the sheet's proficiency fold, not just the builder.
+    expect(collectChosenProficiencies(c).tools).toEqual(["lute"]);
+  });
+
+  it("recurses into the selected branch's nested sub-choice (walk, not visit)", () => {
+    const c = fighterWithClassChoices(
+      [{ kind: "select-inline", id: "bard-tradition", label: "Tradition", count: 1, options: [
+        { value: "minstrel", label: "Minstrel", choices: [
+          { kind: "select-proficiency", id: "minstrel-instrument", count: 1, domain: "tool",
+            from: ["lute", "viol"] },
+        ] },
+        { value: "skald", label: "Skald", choices: [
+          { kind: "select-proficiency", id: "skald-instrument", count: 1, domain: "tool",
+            from: ["horn", "drum"] },
+        ] },
+      ] }],
+      { "bard-tradition": "minstrel", "minstrel-instrument": "viol" },
+    );
+    const ledger = buildDecisionLedger(c, { registry } as never);
+
+    const parent = findItem(ledger, "classes", "bard-tradition");
+    const child = parent.children?.find((k) => k.key === "minstrel-instrument");
+    expect(child).toBeDefined();
+    expect(child!.selected).toBe("viol");
+    expect(parent.status).toBe("resolved");                 // branch + its child both picked
+    // The unselected branch's sub-choice must stay hidden (revealed-on-selection).
+    expect(parent.children?.map((k) => k.key)).not.toContain("skald-instrument");
+    // THE discriminator between `walk` and `visit`: a flat visit emits the
+    // select-inline itself and stops, so the nested tool pick never folds.
+    expect(collectChosenProficiencies(c).tools).toEqual(["viol"]);
+  });
+});
+
 // ── DecisionItem.selected canonicalization ──────────────────────────────────
 //
 // The collectors above fixed the SHEET half. `DecisionItem.selected` is the
