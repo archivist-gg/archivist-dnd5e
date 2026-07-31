@@ -4,6 +4,7 @@ import {
   collectLanguageToolChoiceStatus,
   type ChoiceStatus,
 } from "./pc.decision-engine";
+import { humanizeProficiency, toProfSlug } from "./pc.proficiency-normalize";
 
 export interface ProficiencyAggregate {
   armor: string[];
@@ -153,6 +154,22 @@ function placeholders(choices: ChoiceStatus[]): string[] {
   return out;
 }
 
+/** Display string for one proficiency, from EITHER a 2024 slug ("thieves'-tools")
+ *  or 2014 prose ("Thieves’ tools"). The COMPOSITION is the fix: toProfSlug folds
+ *  U+2019 to ASCII and collapses whitespace, so the two spellings land on one
+ *  string and the sheet renders one row instead of two. humanizeProficiency alone
+ *  fixes the casing and leaves the duplicate row standing.
+ *
+ *  `_` is PRESERVED deliberately: this splits on `-` only, matching the plugin's
+ *  humanizeSlug, where the pre-R4-P3a body here split on `[-_]`. That matters
+ *  because underscore is live slug vocabulary in this engine (edition-namespaced
+ *  entity slugs like "srd-2024_magic-initiate", see pc.decision-engine.ts:233),
+ *  so routing an entity slug through here now yields "A_b" where it once gave
+ *  "A B". Safe today: 0 of the 50 distinct values that can reach this function
+ *  contain `_`, counted over every fixed grant read at :115-127, every
+ *  language/tool select-proficiency `from` pool in runtime data, and the
+ *  ALL_LANGUAGES fallback · 7 of those 50 change output. Re-derive that census
+ *  before widening what feeds this. */
 function prettyName(slug: string): string {
-  return slug.replace(/[-_]/g, " ").replace(/\b\w/g, (c) => c.toUpperCase());
+  return humanizeProficiency(toProfSlug(slug));
 }

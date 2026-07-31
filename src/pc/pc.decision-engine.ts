@@ -5,6 +5,7 @@ import type { ResolvedCharacter, ChoiceValue, FeatureSource } from "./pc.types";
 import type { EntityRegistry, RegisteredEntity } from "@archivist-gg/core";
 import { recognizeDecision } from "./decision-recognizer";
 import { resolveOriginFeat } from "./pc.resolver";
+import { humanizeProficiency } from "./pc.proficiency-normalize";
 import { bareEntitySlug } from "../entities/slug";
 
 export interface DecisionRegistry {
@@ -180,7 +181,12 @@ function enumerateOptions(choice: Choice, ctx: DecisionContext, ownerBare: strin
         ?? (choice.domain === "skill" ? [...ALL_SKILL_SLUGS]
             : choice.domain === "language" ? [...ALL_LANGUAGES]
             : []);
-      return pool.map((v) => ({ value: v, label: v.replace(/-/g, " ").replace(/\b\w/g, (c) => c.toUpperCase()) }));
+      // Label only, no toProfSlug: humanizeProficiency already renders the one
+      // non-canonical runtime pool right, because it turns "-" into a space and
+      // then capitalizes after whitespace, so the Dwarf triple ["smith's tools",
+      // ...] reads "Smith's Tools" either way. Folding here would be redundant,
+      // not corrective; persisted non-canonical VALUES are handled at ledger-build.
+      return pool.map((v) => ({ value: v, label: humanizeProficiency(v) }));
     }
     case "ability-points": {
       const pool = choice.pool ?? (["str", "dex", "con", "int", "wis", "cha"] as Ability[]);

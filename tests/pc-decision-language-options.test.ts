@@ -2,6 +2,9 @@ import { describe, it, expect } from "vitest";
 import { ALL_LANGUAGES, STANDARD_LANGUAGES, EXOTIC_LANGUAGES } from "@archivist-gg/dnd5e/types/choice";
 import { buildDecisionLedger } from "@archivist-gg/dnd5e/pc/pc.decision-engine";
 import type { ResolvedCharacter } from "@archivist-gg/dnd5e/pc/pc.types";
+// Relative on purpose: pc.proficiency-normalize is engine-internal and stays out
+// of the package `exports` map.
+import { humanizeProficiency } from "../src/pc/pc.proficiency-normalize";
 
 // A minimal registry: the select-proficiency branch never consults it.
 const registry = {
@@ -66,10 +69,11 @@ describe("buildDecisionLedger: language picker options", () => {
     expect(item).toBeDefined();
     expect(item.choice.kind).toBe("select-proficiency");
 
-    const expected = ALL_LANGUAGES.map((v) => ({
-      value: v,
-      label: v.replace(/-/g, " ").replace(/\b\w/g, (c) => c.toUpperCase()),
-    }));
+    // Call the shared humanizer rather than transcribing a formula inline: the
+    // old copy locked `\b\w`, which the implementation no longer uses. No label
+    // here changes (no language slug contains an apostrophe, the only input the
+    // two formulas disagree on), so this is hygiene, not a repair.
+    const expected = ALL_LANGUAGES.map((v) => ({ value: v, label: humanizeProficiency(v) }));
     expect(item.options).toEqual(expected);
 
     // The compound slug humanizes both words.
