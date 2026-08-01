@@ -6,6 +6,11 @@ import type { EntityRegistry, RegisteredEntity } from "@archivist-gg/core";
 import { recognizeDecision } from "./decision-recognizer";
 import { resolveOriginFeat } from "./pc.resolver";
 import { humanizeProficiency, toProfSlug } from "./pc.proficiency-normalize";
+import {
+  collectProficiencyGrants,
+  type ProficiencyEntry,
+  type ProficiencyOrigin,
+} from "./pc.proficiency-grants";
 import { bareEntitySlug } from "../entities/slug";
 
 export interface DecisionRegistry {
@@ -513,6 +518,106 @@ export function collectChosenProficiencies(resolved: ResolvedCharacter): {
     if (bucket) for (const v of valid) if (!bucket.includes(v)) bucket.push(v);
   });
   return out;
+}
+
+type ProficiencyDomain = "languages" | "tools";
+
+/** One raw value plus its provenance, folded to the spec §3.3 canonical form.
+ *
+ *  The `label` rule has THREE branches and the middle one is the whole point:
+ *  a value the USER TYPED (off-vocabulary and sourced from `add[]`) renders
+ *  VERBATIM, because humanizing "MCDM" yields "Mcdm" and destroys the casing
+ *  the raw store exists to preserve. Off-vocabulary GRANT/PICK prose still
+ *  routes through humanizeProficiency(toProfSlug(...)) · byte-identical to the
+ *  module-private prettyName in pc.proficiencies.ts, and deliberately so: three
+ *  off-vocabulary tool grants ship in the SRD bundle today (Bard and Monk, both
+ *  editions) and one carries a U+2019, so a blanket verbatim rule would put a
+ *  curly apostrophe in the DOM and regress the fold R4-P3a landed. */
+function proficiencyEntryFor(
+  raw: string,
+  vocab: string[],
+  origin: ProficiencyOrigin,
+  sources: string[],
+): ProficiencyEntry {
+  const hit = matchPool(raw, vocab);
+  const value = hit ? toProfSlug(hit) : raw;
+  const label = hit
+    ? humanizeProficiency(value)
+    : origin === "custom"
+      ? raw                                     // USER-TYPED off-vocabulary: verbatim, preserve casing
+      : humanizeProficiency(toProfSlug(raw));   // grant/pick prose: byte-identical to today's prettyName
+  return { value, label, sources, origin };
+}
+
+/** The single primitive for "what languages/tools does this character actually
+ *  have": grants + picks + manual adds, MINUS suppressions (spec §4.1).
+ *
+ *  Suppressions are applied INSIDE this function precisely so that no reader can
+ *  forget them · the sheet panel's display, the builder picker's option
+ *  exclusion and the "already satisfied" test all read this one function and
+ *  therefore agree by construction.
+ *
+ *  Built on the grant walk, NEVER on computeProficiencies (spec §4.2): recalc's
+ *  proficiency fold is missing the race and background grants.
+ *
+ *  ONE argument. `Character.overrides` is non-optional with a schema default, so
+ *  a second parameter would be redundant and would force an optionality decision
+ *  at nine existing aggregateProficiencies call sites (spec §4.1). */
+export function computeEffectiveProficiencies(
+  resolved: ResolvedCharacter,
+): { languages: ProficiencyEntry[]; tools: ProficiencyEntry[] } {
+  const grants = collectProficiencyGrants(resolved);
+  const chosen = collectChosenProficiencies(resolved);
+
+  const build = (domain: ProficiencyDomain): ProficiencyEntry[] => {
+    const vocab = domain === "languages" ? ALL_LANGUAGES : ALL_TOOLS;
+    // Optional-chain the CONTAINER too. The type says `overrides` is non-optional,
+    // but engine test fixtures build ResolvedCharacter by cast and `tests/` is
+    // typechecked by nothing, so the compiler never sees the omission: seven live
+    // call sites pass a `definition` with no `overrides` key at all.
+    const ov = resolved.definition?.overrides?.[domain];
+    const adds = ov?.add ?? [];
+    const removes = ov?.remove ?? [];
+
+    const byValue = new Map<string, ProficiencyEntry>();
+    const push = (raw: string, origin: ProficiencyOrigin, source?: string): void => {
+      const probe = proficiencyEntryFor(raw, vocab, origin, source ? [source] : []);
+      const existing = byValue.get(probe.value);
+      if (!existing) { byValue.set(probe.value, probe); return; }
+      // Same value from more than one place: keep every source, strongest origin
+      // wins. The double grant is already shipped data · a 2014 Rogue's
+      // "Thieves’ tools" (U+2019) and a 2024 Criminal's "thieves'-tools" fold to
+      // one value with two granting entities (spec §7.2).
+      if (source && !existing.sources.includes(source)) existing.sources.push(source);
+      // Precedence guard. The push ORDER below already runs grants(0) -> picks(1)
+      // -> adds(2/3), so this can never fire today: it is unreachable by
+      // construction, kept as defence against a future reordering. There is
+      // deliberately NO test claiming to exercise it.
+      const rank: Record<ProficiencyOrigin, number> = { grant: 0, pick: 1, manual: 2, custom: 3 };
+      if (rank[origin] < rank[existing.origin]) existing.origin = origin;
+    };
+
+    const grantBuckets = domain === "languages"
+      ? [grants.raceLangFixed, grants.bgLangFixed, grants.featLanguages]
+      : [grants.classToolFixed, grants.bgToolFixed, grants.featTools];
+    for (const b of grantBuckets) for (const g of b) push(g.value, "grant", g.source);
+    for (const v of (domain === "languages" ? chosen.languages : chosen.tools)) push(v, "pick");
+    for (const v of adds) push(v, matchPool(v, vocab) ? "manual" : "custom");
+
+    const suppressed = new Set(removes.map((r) => toProfSlug(r)));
+    return [...byValue.values()]
+      .filter((e) => !suppressed.has(toProfSlug(e.value)))
+      // SORT BY LABEL. Today aggregateProficiencies returns `[...languages].sort()`
+      // over the DISPLAY strings (pc.proficiencies.ts:104-107). Returning Map
+      // insertion order instead (race -> background -> feats -> picks -> adds)
+      // would silently reorder every sheet row and falsify spec §3.3's
+      // "byte-identical to today's" guarantee. Nothing else catches it: the
+      // aggregate tests use toContain, and the panel test mocks the aggregate
+      // wholesale.
+      .sort((a, b) => (a.label < b.label ? -1 : a.label > b.label ? 1 : 0));
+  };
+
+  return { languages: build("languages"), tools: build("tools") };
 }
 
 export interface ChoiceStatus { id: string; count: number; selected: number; }
