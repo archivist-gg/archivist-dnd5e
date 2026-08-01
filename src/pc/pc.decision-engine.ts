@@ -267,10 +267,18 @@ function statusOf(
 
 /** Match ONE persisted value against a proficiency pool, comparing CANONICALLY
  *  and returning the POOL's spelling (or undefined when nothing matches). The
- *  single comparison shared by the ledger-item canonicalization below and the
- *  collectors' `filterToPool`, deliberately: the builder's chips and the sheet's
- *  proficiency fold must never disagree about what counts as the same
- *  proficiency. The two callers differ ONLY in what they do with a no-match. */
+ *  ONE canonical comparison for this module, deliberately: the builder's chips
+ *  and the sheet's proficiency fold must never disagree about what counts as the
+ *  same proficiency.
+ *
+ *  FIVE call sites across FOUR functions, and a no-match means something
+ *  different in each · `canonicalizeSelection` just below KEEPS the value
+ *  verbatim (twice, string and array); `filterToPool` DROPS it;
+ *  `proficiencyEntryFor` reads it as off-vocabulary and falls back to the raw
+ *  spelling; `computeEffectiveProficiencies` uses it as a bare predicate, to tag
+ *  a manual add "manual" rather than "custom". RE-DERIVE this count before ever
+ *  restating it · an earlier pass recorded the then-current "two callers" claim
+ *  as verified-still-true without recounting, and it was already false. */
 const matchPool = (v: string, pool: string[]): string | undefined =>
   pool.find((p) => toProfSlug(p) === toProfSlug(v));
 
@@ -766,9 +774,23 @@ export function collectChosenAbilityPoints(resolved: ResolvedCharacter): OriginA
 export function buildDecisionLedger(resolved: ResolvedCharacter, ctx: DecisionContext): DecisionLedger {
   // ONE effective set for the whole ledger, computed before any walk and shared
   // by every item and every child (spec §5.4). That sharing is what implements
-  // decision 6: a pick made on one choice is already in the set, so a SIBLING
-  // choice cannot offer it again. Suppressions are subtracted inside
-  // computeEffectiveProficiencies, so a removed grant becomes pickable again.
+  // decision 6: a pick already in the set is not offered again by a SIBLING
+  // choice. Suppressions are subtracted inside computeEffectiveProficiencies, so
+  // a removed grant becomes pickable again.
+  //
+  // SCOPED, not universal · it holds only for the choices the collector actually
+  // reaches. The set is fed by collectChosenProficiencies over
+  // visitProficiencyChoices, and that walk recurses into `select-inline`
+  // branches ONLY. It never expands a `select-entity` child, so a language or
+  // tool picked UNDER A FEAT (`entity_type:"feat"` · the Skilled feat's own
+  // proficiency children, for one) never enters `chosen`, never enters this set,
+  // and is never excluded from a sibling choice.
+  //
+  // That direction is SAFE: a pick the collector cannot see can only fail to
+  // exclude, never wrongly exclude, so no already-made pick is burned. Do NOT
+  // widen the walk to close the gap (fence F4) · feat children are owned and
+  // enumerated elsewhere, and pulling them in here would change what the sheet
+  // FOLDS, not merely what the picker offers.
   const eff = computeEffectiveProficiencies(resolved);
   const effective: EffectiveSets = {
     language: new Set(eff.languages.map((e) => toProfSlug(e.value))),

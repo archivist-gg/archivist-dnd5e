@@ -17,7 +17,11 @@ import type { RegisteredEntity } from "@archivist-gg/core";
 // pc-decision-tool-options.test.ts, where the real-Soldier describe already
 // carries its REGEN NOTE.
 
-/** A minimal registry: the select-proficiency branch never consults it. */
+/** A minimal registry. The select-proficiency branch never consults it, but this
+ *  object is NOT inert: the "does NOT mark an empty-registry select-entity
+ *  satisfied" negative below turns on `search` returning [] · that empty result
+ *  is precisely what makes the entity choice enumerate zero options. Tests that
+ *  need real feats pass their own `featRegistry` instead. */
 const registry = { search: () => [], getByTypeAndSlug: () => undefined };
 
 interface FixtureOpts {
@@ -313,8 +317,8 @@ describe("DecisionItem.satisfied: exclusion emptied the pool", () => {
   // ── the three shapes that must NOT be satisfied ────────────────────────────
   //
   // Each ALREADY returns zero options today, so an unscoped
-  // `options.length === 0` predicate would flip all three to satisfied and (at
-  // the later statusOf change) to `resolved`: a green ✓ row with an empty
+  // `options.length === 0` predicate would flip all three to satisfied and,
+  // through the shipped `statusOf`, on to `resolved`: a green ✓ row with an empty
   // summary that the user provably cannot satisfy, and a "0 open" step counter.
   // Nothing else in either suite stands here, so each test asserts the
   // zero-option state itself rather than trusting the fixture to reach it.

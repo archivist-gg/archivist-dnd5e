@@ -80,7 +80,7 @@ export function aggregateProficiencies(resolved: ResolvedCharacter): Proficiency
   return {
     // Walk order defines `sources` order (spec §4.1): class before feats, and
     // for weapons the class `fixed` names before the class categories, matching
-    // the pre-T8 insertion order exactly.
+    // the insertion order of the bucket this replaced, exactly.
     armor: composeGrantEntries([src.classArmor, src.featArmor]),
     weapons: composeGrantEntries([src.classWeaponFixed, src.classWeaponCategories, src.featWeapons]),
     tools: effective.tools,
@@ -96,13 +96,14 @@ export function aggregateProficiencies(resolved: ResolvedCharacter): Proficiency
  *  composed HERE rather than in the grant leaf precisely so `prettyName` can
  *  stay unexported (spec §7.1, fence F8).
  *
- *  DEDUPE is keyed on `toProfSlug`, not on the raw value. The pre-T8 bucket was
+ *  DEDUPE is keyed on `toProfSlug`, not on the raw value. The bucket this
+ *  replaced was
  *  a `Set<prettyName(raw)>`, and prettyName is `humanizeProficiency(toProfSlug(raw))`,
  *  so slug-keying reproduces the shipped collapse exactly: a Fighter/Paladin
  *  double grant of `heavy` stays ONE row, and two spellings of one category
  *  ("hand crossbows" / "hand-crossbows") do not split into two.
  *
- *  SORT is by label, because the pre-T8 bucket returned `[...set].sort()` over
+ *  SORT is by label, because the bucket this replaced returned `[...set].sort()` over
  *  the display strings. Dropping it is a visible regression on a single-class
  *  sheet: the 2014 Fighter authors `armor: [shield, light, medium, heavy]` and
  *  renders "Heavy, Light, Medium, Shield". `<`/`>` on strings is the same
@@ -136,8 +137,9 @@ function composeGrantEntries(buckets: ProficiencyGrant[][]): ProficiencyEntry[] 
  *  `_` is PRESERVED deliberately: this splits on `-` only, matching the plugin's
  *  humanizeSlug, where the pre-R4-P3a body here split on `[-_]`. That matters
  *  because underscore is live slug vocabulary in this engine (edition-namespaced
- *  entity slugs like "srd-2024_magic-initiate", see `resolveEntityRef` at
- *  pc.decision-engine.ts:274-276 · :233 is `matchPool` and never named one),
+ *  entity slugs like "srd-2024_magic-initiate", which `resolveEntityRef` in
+ *  pc.decision-engine.ts handles · the canonical comparison in that module,
+ *  `matchPool`, is never handed one),
  *  so routing an entity slug through here now yields "A_b" where it once gave
  *  "A B". Safe today: 0 of the 50 distinct values that can reach this function
  *  contain `_`, counted over every fixed grant read at :116-128, every

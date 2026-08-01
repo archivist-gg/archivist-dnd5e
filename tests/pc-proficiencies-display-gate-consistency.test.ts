@@ -32,7 +32,7 @@ function findEntity(d: unknown, slug: string): { slug: string } {
   return hit;
 }
 
-// Minimal shell carrying real class entities — the only fields display/gate read
+// Minimal shell carrying real class entities · the only fields display/gate read
 // for a class-only character (mirrors pc-recalc-proficiency-characterization).
 function resolvedFromClasses(entities: Array<{ slug: string }>): ResolvedCharacter {
   const classes: ResolvedClass[] = entities.map(

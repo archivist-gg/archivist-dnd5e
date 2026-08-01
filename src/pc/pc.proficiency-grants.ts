@@ -53,8 +53,9 @@ const UNKNOWN_SOURCE = "Unknown";
  *
  *  This module is a LEAF on purpose: it must import nothing from the decision
  *  engine module, so that the engine can import it without a cycle (spec §4.3).
- *  T3's acceptance check is a literal grep for that module's name over this
- *  file, so do not name it here either · describe it, as this comment does.
+ *  That invariant is enforced by a literal grep for the engine module's name
+ *  over this file, so do not name it here either · describe it, as this comment
+ *  does.
  *  The walk returns raw `{value, source}` buckets and nothing else · no
  *  humanizing, no sorting, no dedupe. Label composition stays with the
  *  module-private `prettyName` in `pc.proficiencies.ts` (spec §7.1). */

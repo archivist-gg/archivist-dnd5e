@@ -44,8 +44,10 @@ describe("computeEffectiveProficiencies", () => {
     // NON-DOWNGRADE path: a grant that also appears in `add[]` must keep its grant
     // dress and its sources. A regression to an unconditional
     // `byValue.set(probe.value, probe)` on collision would flip it to `manual` with
-    // an empty `sources`, and test 7's grant+grant collision cannot detect that
-    // because both sides there have equal origin.
+    // an empty `sources`, and the "keeps EVERY granting entity when two entities
+    // grant one value" test cannot detect that, because both sides THERE have
+    // equal origin. (Cite sibling tests by NAME · ordinals renumber silently
+    // every time a test is inserted above them.)
     const eff = computeEffectiveProficiencies(dwarf({ languages: { add: ["dwarvish"] } }));
     expect(eff.languages.map((e) => e.value)).toEqual(["common", "dwarvish"]);  // still ONE row
     expect(eff.languages.find((e) => e.value === "dwarvish")).toMatchObject({
