@@ -133,9 +133,19 @@ describe("the reported bug, against the real SRD Soldier background", () => {
     expect(item.status).toBe("unresolved");   // nothing picked yet, but pickable
   });
 
-  it("leaves the same entity's language pick at its 16 options", () => {
+  // MOVED, and it is exclusion WORKING, not a regression. This assertion used to
+  // read `toEqual(ALL_LANGUAGES)` (16) under the name "leaves the same entity's
+  // language pick at its 16 options". The Soldier's `language_proficiencies`
+  // GRANTS common ([{kind:"fixed",languages:["common"]}]), so offering it again
+  // burns the pick: the player spends one of two choices on a language they
+  // already have and the sheet shows nothing new. 15 is the correct count, and
+  // the assertion is written as an exact list so a wrong-but-same-length pool
+  // still fails. The tool assertions above are UNAFFECTED · the Soldier's
+  // `tool_proficiencies` is `[]`, so nothing is excluded from the 35.
+  it("drops the granted `common` from the same entity's language pick, leaving 15", () => {
     const ledger = soldierLedger();
     const item = ledger.origin.find((i) => i.key === "languages")!;
-    expect(item.options.map((o) => o.value)).toEqual(ALL_LANGUAGES);
+    expect(item.options.map((o) => o.value)).toEqual(ALL_LANGUAGES.filter((l) => l !== "common"));
+    expect(item.options).toHaveLength(15);
   });
 });

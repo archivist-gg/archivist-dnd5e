@@ -76,6 +76,16 @@ export interface DecisionLedger {
 
 export interface DecisionContext { registry: DecisionRegistry }
 
+/** The language/tool slugs a character ALREADY HOLDS, folded through
+ *  {@link toProfSlug} so both sides of every comparison are canonical.
+ *
+ *  Computed ONCE per ledger in {@link buildDecisionLedger} and threaded to every
+ *  buildItem call, including the two recursive ones (spec §5.1). The keys are the
+ *  `select-proficiency` domain names verbatim, so `effective[choice.domain]`
+ *  needs no mapping table between the two vocabularies. Skills and saves are
+ *  deliberately absent · fence F4, see the exclusion block in buildItem. */
+interface EffectiveSets { language: Set<string>; tool: Set<string> }
+
 /** Module-level dedup set for the degraded-starting-equipment warning: a class
  *  whose `starting_equipment` is in an outdated/unstructured shape warns ONCE per
  *  unique slug (not on every builder render), so the regression is surfaced
@@ -298,6 +308,7 @@ function buildItem(
   readValue: (id: string) => ChoiceValue | undefined,
   ctx: DecisionContext,
   ownerBare: string,
+  effective: EffectiveSets,
   opts?: { keyPrefix?: string; expandFeatChildren?: boolean; description?: string },
 ): DecisionItem {
   const keyPrefix = opts?.keyPrefix ?? "";
@@ -306,13 +317,37 @@ function buildItem(
   // grandchildren (cheap infinite-loop guard — real SRD data never nests so).
   const expandFeatChildren = opts?.expandFeatChildren ?? true;
   const key = keyPrefix + choice.id;
-  const options = enumerateOptions(choice, ctx, ownerBare);
+  // Read the persisted pick BEFORE enumerating. It used to sit below, but the
+  // per-choice exemption in the exclusion block needs it (spec §5.1's required
+  // reorder); there is exactly ONE read, do not reintroduce a second one.
+  const raw = readValue(key);
+  let options = enumerateOptions(choice, ctx, ownerBare);
+  // EXCLUSION (spec §5) · the fix for the burned pick: a picker must never offer
+  // something the character already holds, because spending the choice on it
+  // grants nothing and the sheet then shows no change. `enumerateOptions` stays
+  // pure over (choice, ctx, ownerBare) and knows nothing of the character
+  // (fence F9), so the filter lives here, between enumerate and canonicalize.
+  //
+  // Language and tool ONLY (fence F4). domain:"skill"/"expertise" share one walk
+  // and one bucket dispatch with these, so widening "for symmetry" would reach
+  // the live skill fold in pc.recalc.ts, which this phase does not touch.
+  if (choice.kind === "select-proficiency" && (choice.domain === "language" || choice.domain === "tool")) {
+    const known = effective[choice.domain];
+    const mine = new Set(
+      (Array.isArray(raw) ? raw : raw === undefined ? [] : [raw]).map((v) => toProfSlug(String(v))),
+    );
+    // Canonicalize BOTH sides. An exact-string exemption reintroduces the burned
+    // pick INSIDE its own fix: a persisted "smith's tools" against a pool of
+    // "smith's-tools" would be excluded rather than exempted, matchPool would then
+    // find nothing, canonicalizeSelection's `?? v` KEEP arm would hold the raw
+    // string, and the strip would render a bare slug with no matching chip.
+    options = options.filter((o) => !known.has(toProfSlug(o.value)) || mine.has(toProfSlug(o.value)));
+  }
   // Canonicalize ONLY select-proficiency picks, and against the options actually
   // enumerated for THIS choice (which already honour `choice.from` when present
   // and the domain vocabulary otherwise). Every other kind stays byte-untouched:
   // an entity slug, feat ref, subclass or inline branch value is not a
   // proficiency slug, and folding one would silently rewrite a reference.
-  const raw = readValue(key);
   const selected = choice.kind === "select-proficiency"
     ? canonicalizeSelection(raw, options.map((o) => o.value))
     : raw;
@@ -326,8 +361,14 @@ function buildItem(
   if (choice.kind === "select-inline" && typeof selected === "string") {
     const branch: InlineOption | undefined = choice.options.find((o) => o.value === selected);
     if (branch?.choices?.length) {
+      // `effective` is FORWARDED, and it is the one deliberate exception to the
+      // "a child inherits NOTHING from its parent" contract above · that rule is
+      // about DISPLAY (the dropped `description`), whereas the effective set is a
+      // property of the character, identical at every depth. Dropping it here
+      // silently disables exclusion for every child choice.
       item.children = branch.choices.map((c) =>
-        buildItem(c, source, level, featureName, readValue, ctx, ownerBare, { keyPrefix, expandFeatChildren }));
+        buildItem(c, source, level, featureName, readValue, ctx, ownerBare, effective,
+          { keyPrefix, expandFeatChildren }));
       if (item.status === "resolved" && item.children.some((c) => c.status !== "resolved")) {
         item.status = "partial";
       }
@@ -347,8 +388,10 @@ function buildItem(
     const featChoices: Choice[] = Array.isArray(rawChoices) ? (rawChoices as Choice[]) : [];
     if (featChoices.length) {
       const childPrefix = `${keyPrefix}feat:`;
+      // `effective` is FORWARDED here for the same reason as the select-inline
+      // recursion above: it is the exception to "a child inherits nothing".
       item.children = featChoices.map((c) =>
-        buildItem(c, source, level, featureName, readValue, ctx, ownerBare,
+        buildItem(c, source, level, featureName, readValue, ctx, ownerBare, effective,
           { keyPrefix: childPrefix, expandFeatChildren: false }));
       if (item.status === "resolved" && item.children.some((c) => c.status !== "resolved")) {
         item.status = "partial";
@@ -695,6 +738,16 @@ export function collectChosenAbilityPoints(resolved: ResolvedCharacter): OriginA
 }
 
 export function buildDecisionLedger(resolved: ResolvedCharacter, ctx: DecisionContext): DecisionLedger {
+  // ONE effective set for the whole ledger, computed before any walk and shared
+  // by every item and every child (spec §5.4). That sharing is what implements
+  // decision 6: a pick made on one choice is already in the set, so a SIBLING
+  // choice cannot offer it again. Suppressions are subtracted inside
+  // computeEffectiveProficiencies, so a removed grant becomes pickable again.
+  const eff = computeEffectiveProficiencies(resolved);
+  const effective: EffectiveSets = {
+    language: new Set(eff.languages.map((e) => toProfSlug(e.value))),
+    tool: new Set(eff.tools.map((e) => toProfSlug(e.value))),
+  };
   const classes: DecisionLedger["classes"] = [];
 
   resolved.classes.forEach((c, classIndex) => {
@@ -718,7 +771,7 @@ export function buildDecisionLedger(resolved: ResolvedCharacter, ctx: DecisionCo
         from: entity.skill_choices.from,
       };
       push(1, buildItem(skillChoice, { kind: "class", slug: entity.slug, level: 1 }, 1,
-        "Proficiencies", readAt(1), ctx, ownerBare));
+        "Proficiencies", readAt(1), ctx, ownerBare, effective));
     }
 
     // Entity-level: class `choices` (first class only, as above), grouped under
@@ -732,7 +785,7 @@ export function buildDecisionLedger(resolved: ResolvedCharacter, ctx: DecisionCo
     if (classIndex === 0) {
       for (const ch of entity.choices ?? []) {
         push(1, buildItem(ch, { kind: "class", slug: entity.slug, level: 1 }, 1,
-          "Proficiencies", readAt(1), ctx, ownerBare));
+          "Proficiencies", readAt(1), ctx, ownerBare, effective));
       }
     }
 
@@ -785,7 +838,7 @@ export function buildDecisionLedger(resolved: ResolvedCharacter, ctx: DecisionCo
           );
         }
         push(1, buildItem(ch, { kind: "class", slug: entity.slug, level: 1 }, 1,
-          "Starting Equipment", readAt(1), ctx, ownerBare));
+          "Starting Equipment", readAt(1), ctx, ownerBare, effective));
       });
     }
 
@@ -841,7 +894,7 @@ export function buildDecisionLedger(resolved: ResolvedCharacter, ctx: DecisionCo
           push(lvl, buildSubclassItem(ch, src, lvl, rf.feature.name, c, ctx, ownerBare, rf.feature.description));
           continue;
         }
-        push(lvl, buildItem(ch, src, lvl, rf.feature.name, readAt(lvl), ctx, ownerBare,
+        push(lvl, buildItem(ch, src, lvl, rf.feature.name, readAt(lvl), ctx, ownerBare, effective,
           { description: rf.feature.description }));
       }
     }
@@ -882,7 +935,7 @@ export function buildDecisionLedger(resolved: ResolvedCharacter, ctx: DecisionCo
       };
       push(pool.anchorLevel, buildItem(
         synth, { kind: "class", slug: entity.slug, level: pool.anchorLevel },
-        pool.anchorLevel, pool.label, readAt(pool.anchorLevel), ctx, ownerBare));
+        pool.anchorLevel, pool.label, readAt(pool.anchorLevel), ctx, ownerBare, effective));
     }
 
     const levels = [...byLevel.entries()]
@@ -898,7 +951,8 @@ export function buildDecisionLedger(resolved: ResolvedCharacter, ctx: DecisionCo
   const pushOrigin = (choices: Choice[] | undefined, ns: "race" | "background",
     source: FeatureSource, featureName: string, ownerBare: string, description?: string) => {
     for (const ch of choices ?? []) {
-      origin.push(buildItem(ch, source, 0, featureName, originRead(ns), ctx, ownerBare, { description }));
+      origin.push(buildItem(ch, source, 0, featureName, originRead(ns), ctx, ownerBare, effective,
+        { description }));
     }
   };
   if (resolved.race) {
@@ -936,7 +990,7 @@ export function buildDecisionLedger(resolved: ResolvedCharacter, ctx: DecisionCo
         const featBare = bareEntitySlug(originFeat.feat.slug);
         for (const ch of originFeat.feat.choices ?? []) {
           origin.push(buildItem(ch, featSource, 0, originFeat.display, originRead("background"),
-            ctx, featBare, { keyPrefix: "feat:" }));
+            ctx, featBare, effective, { keyPrefix: "feat:" }));
         }
       }
     }
