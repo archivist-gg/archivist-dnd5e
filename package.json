@@ -64,6 +64,7 @@
     "./pc/pc.parser": "./src/pc/pc.parser.ts",
     "./pc/pc.pools": "./src/pc/pc.pools.ts",
     "./pc/pc.proficiencies": "./src/pc/pc.proficiencies.ts",
+    "./pc/pc.proficiency-normalize": "./src/pc/pc.proficiency-normalize.ts",
     "./pc/pc.proficiency-query": "./src/pc/pc.proficiency-query.ts",
     "./pc/pc.recalc": "./src/pc/pc.recalc.ts",
     "./pc/pc.resolver": "./src/pc/pc.resolver.ts",

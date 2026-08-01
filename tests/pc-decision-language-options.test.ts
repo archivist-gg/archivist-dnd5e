@@ -2,8 +2,8 @@ import { describe, it, expect } from "vitest";
 import { ALL_LANGUAGES, STANDARD_LANGUAGES, EXOTIC_LANGUAGES } from "@archivist-gg/dnd5e/types/choice";
 import { buildDecisionLedger } from "@archivist-gg/dnd5e/pc/pc.decision-engine";
 import type { ResolvedCharacter } from "@archivist-gg/dnd5e/pc/pc.types";
-// Relative on purpose: pc.proficiency-normalize is engine-internal and stays out
-// of the package `exports` map.
+// Relative import retained for locality; the module is also reachable as
+// `@archivist-gg/dnd5e/pc/pc.proficiency-normalize` (added R4-P3b for plugin-side slug matching).
 import { humanizeProficiency } from "../src/pc/pc.proficiency-normalize";
 
 // A minimal registry: the select-proficiency branch never consults it.

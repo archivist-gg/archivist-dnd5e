@@ -136,6 +136,13 @@ export interface CharacterOverrides {
   spellcasting_ability?: Ability;
   spell_slots?: Record<number, number>;
   attunement_limit?: number;
+  /** Manual proficiency edits, mirroring `characterOverridesShape` (pc.schema.ts). `remove`
+   *  SUPPRESSES a rules-granted entry ("a dwarf who doesn't know dwarvish"). Both keys and both
+   *  leaf arrays are optional with no defaults, so an untouched note stays byte-identical:
+   *  every reader uses `?? []`. Adding a key here without adding it to the schema silently strips
+   *  it on every save: tests/pc-overrides-proficiency-schema.test.ts pins the two key sets equal. */
+  languages?: { add?: string[]; remove?: string[] };
+  tools?: { add?: string[]; remove?: string[] };
 }
 
 export interface CharacterState {

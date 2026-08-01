@@ -70,7 +70,10 @@ const equipmentEntrySchema = z.object({
   granted_by: z.string().optional(),
 });
 
-const characterOverridesSchema = z.object({
+// Exported as a bare ZodObject so the parity guard can read `.shape`: the schema
+// actually mounted on the character is the `.default({})` wrapper below, and a
+// ZodDefault has no `.shape`.
+export const characterOverridesShape = z.object({
   scores: z.partialRecord(abilityEnum, z.number().int()).optional(),
   saves: z.partialRecord(abilityEnum, z.object({
     bonus: z.number().int().optional(),
@@ -99,7 +102,16 @@ const characterOverridesSchema = z.object({
   spellcasting_ability: abilityEnum.optional(),
   spell_slots: z.record(z.coerce.number().int(), z.number().int().nonnegative()).optional(),
   attunement_limit: z.number().int().nonnegative().optional(),
-}).default({});
+  /** Manual proficiency edits. `remove` SUPPRESSES a rules-granted entry ("a dwarf who doesn't know
+   *  dwarvish"). `.optional()` with NO default, on purpose: a note that never used the feature must
+   *  stay byte-identical, and a `.default({})` here would materialize the key on every note that
+   *  carries any `overrides` block at all. The leaf arrays likewise take no `.default([])`, which
+   *  could never fire while the parent key is absent. Every reader uses `?? []`. */
+  languages: z.object({ add: z.array(z.string()).optional(), remove: z.array(z.string()).optional() }).optional(),
+  tools:     z.object({ add: z.array(z.string()).optional(), remove: z.array(z.string()).optional() }).optional(),
+});
+
+const characterOverridesSchema = characterOverridesShape.default({});
 
 const characterStateSchema = z.object({
   hp: z.object({
