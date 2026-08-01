@@ -529,10 +529,14 @@ type ProficiencyDomain = "languages" | "tools";
  *  VERBATIM, because humanizing "MCDM" yields "Mcdm" and destroys the casing
  *  the raw store exists to preserve. Off-vocabulary GRANT/PICK prose still
  *  routes through humanizeProficiency(toProfSlug(...)) · byte-identical to the
- *  module-private prettyName in pc.proficiencies.ts, and deliberately so: three
- *  off-vocabulary tool grants ship in the SRD bundle today (Bard and Monk, both
- *  editions) and one carries a U+2019, so a blanket verbatim rule would put a
- *  curly apostrophe in the DOM and regress the fold R4-P3a landed. */
+ *  module-private prettyName in pc.proficiencies.ts, and deliberately so: FOUR
+ *  off-vocabulary tool grants ship in the SRD bundle today, all of them in
+ *  `classToolFixed` · Bard and Monk in BOTH editions, 2 x 2, censused over
+ *  src/srd/data/runtime/*.json against ALL_TOOLS. (Spec §3.3's table lists only
+ *  three: it omits the 2024 Bard's "Choose 3 Musical Instruments". Count the
+ *  census, not the table.) The 2014 Monk's value carries a U+2019, so a blanket
+ *  verbatim rule would put a curly apostrophe in the DOM and regress the fold
+ *  R4-P3a landed. */
 function proficiencyEntryFor(
   raw: string,
   vocab: string[],

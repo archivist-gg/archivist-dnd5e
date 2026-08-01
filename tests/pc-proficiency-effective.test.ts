@@ -30,8 +30,26 @@ describe("computeEffectiveProficiencies", () => {
   it("keeps a CUSTOM entry verbatim, preserving the user's casing", () => {
     const eff = computeEffectiveProficiencies(dwarf({ languages: { add: ["MCDM Cant"] } }));
     // Off-vocabulary AND user-typed => verbatim. Humanizing would render "Mcdm Cant".
-    expect(eff.languages.find((e) => e.origin === "custom")).toMatchObject({
-      value: "MCDM Cant", label: "MCDM Cant",
+    // Select by VALUE, not by `origin`: selecting on the field under assertion would
+    // turn an origin regression into "expected undefined to match object" instead of a
+    // value diff, and would stop the selector being independent of the assertion.
+    expect(eff.languages.find((e) => e.value === "MCDM Cant")).toMatchObject({
+      label: "MCDM Cant", origin: "custom", sources: [],
+    });
+  });
+
+  it("keeps origin=grant when a granted value is ALSO manually added (spec §4.1)", () => {
+    // NOT the precedence GUARD (`rank[origin] < rank[existing.origin]`), which is
+    // unreachable by construction and deliberately untested. This is the reachable
+    // NON-DOWNGRADE path: a grant that also appears in `add[]` must keep its grant
+    // dress and its sources. A regression to an unconditional
+    // `byValue.set(probe.value, probe)` on collision would flip it to `manual` with
+    // an empty `sources`, and test 7's grant+grant collision cannot detect that
+    // because both sides there have equal origin.
+    const eff = computeEffectiveProficiencies(dwarf({ languages: { add: ["dwarvish"] } }));
+    expect(eff.languages.map((e) => e.value)).toEqual(["common", "dwarvish"]);  // still ONE row
+    expect(eff.languages.find((e) => e.value === "dwarvish")).toMatchObject({
+      label: "Dwarvish", origin: "grant", sources: ["Dwarf"],
     });
   });
 
@@ -51,6 +69,49 @@ describe("computeEffectiveProficiencies", () => {
     // the aggregate wholesale, and the other cases here happen to be already sorted.
     const eff = computeEffectiveProficiencies(dwarf({ languages: { add: ["abyssal"] } }));
     expect(eff.languages.map((e) => e.label)).toEqual(["Abyssal", "Common", "Dwarvish"]);
+  });
+
+  // ───────────────────────────────────────────────────────────────────────────
+  // The THIRD label branch (spec §3.3): off-vocabulary GRANT/PICK prose renders
+  // `humanizeProficiency(toProfSlug(raw))`, byte-identical to the module-private
+  // prettyName, NOT verbatim. Verbatim is reserved for values the user typed.
+  //
+  // This branch is LIVE in shipped data. Census over src/srd/data/runtime/*.json
+  // against ALL_TOOLS finds exactly FOUR off-vocabulary fixed grants, all in
+  // classToolFixed: Bard and Monk in both editions. The 2014 Monk below is the
+  // one that carries a U+2019, and so the only one where "humanize" and
+  // "verbatim" differ by more than casing · a blanket verbatim rule would put a
+  // curly apostrophe on screen, undoing the fold R4-P3a landed.
+  // ───────────────────────────────────────────────────────────────────────────
+  it("humanizes an OFF-VOCABULARY GRANT rather than passing it through verbatim", () => {
+    const monk2014 = {
+      race: undefined,
+      classes: [{
+        entity: {
+          slug: "monk", name: "Monk",
+          // Verbatim from src/srd/data/runtime/class.2014.json · note the U+2019.
+          proficiencies: { tools: { fixed: ["Choose one type of artisan’s tools or one musical instrument"] } },
+        },
+        level: 1, subclass: null, choices: {},
+      }],
+      background: undefined, feats: [], features: [],
+      definition: { origin_choices: {}, overrides: {} },
+    } as never;
+
+    const eff = computeEffectiveProficiencies(monk2014);
+
+    expect(eff.tools).toHaveLength(1);
+    expect(eff.tools[0]).toMatchObject({
+      // Off-vocabulary, so `value` is the raw string · U+2019 and all.
+      value: "Choose one type of artisan’s tools or one musical instrument",
+      // ...but the LABEL is humanized through toProfSlug, which folds U+2019 to
+      // ASCII. This exact string is what the sheet renders today.
+      label: "Choose One Type Of Artisan's Tools Or One Musical Instrument",
+      origin: "grant",
+      sources: ["Monk"],
+    });
+    // Belt and braces: no curly apostrophe may reach the display string.
+    expect(eff.tools[0].label).not.toContain("’");
   });
 
   // ───────────────────────────────────────────────────────────────────────────
