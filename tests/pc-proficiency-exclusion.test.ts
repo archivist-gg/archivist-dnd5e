@@ -273,6 +273,10 @@ describe("DecisionItem.satisfied: exclusion emptied the pool", () => {
     const item = classItems(ledger).find((i) => i.key === "languages")!;
     expect(item.options).toHaveLength(0);          // the pool really is empty
     expect(item.satisfied).toBe(true);
+    // §6.2: satisfied RESOLVES. Three step-header counters (background-step,
+    // race-step, class-chronicle) count `status === "resolved"` directly, so a
+    // row carrying only the boolean would read "1 open" forever.
+    expect(item.status).toBe("resolved");
   });
 
   it("marks a tool choice satisfied when every option is already known", () => {
@@ -288,6 +292,7 @@ describe("DecisionItem.satisfied: exclusion emptied the pool", () => {
     const item = classItems(ledger).find((i) => i.key === "tool")!;
     expect(item.options).toHaveLength(0);
     expect(item.satisfied).toBe(true);
+    expect(item.status).toBe("resolved");
   });
 
   it("does NOT mark a choice with options still on offer satisfied", () => {
@@ -358,5 +363,103 @@ describe("DecisionItem.satisfied: exclusion emptied the pool", () => {
     expect(item.options).toHaveLength(0);
     expect(item.satisfied).toBe(false);
     expect(item.status).toBe("unresolved");
+  });
+});
+
+describe("a satisfied CHILD stops downgrading its parent", () => {
+  // `item.status` is MUTATED AFTER construction at buildItem's two recursion
+  // sites: a parent that statusOf called `resolved` drops to `partial` when any
+  // child is not `resolved`. `satisfied` is computed once and never revisited,
+  // and no parent can itself be satisfied (select-inline / select-entity fail
+  // the predicate's first clause), so the interaction runs in exactly ONE
+  // direction: child satisfied -> child resolved -> parent no longer downgraded.
+  //
+  // That is the point of the feature (the user cannot discharge the child, so
+  // the parent is genuinely done), but before the statusOf flip the child read
+  // `unresolved` and dragged the parent to `partial`. Nothing pinned the
+  // transition, and each recursion site carries its OWN copy of the downgrade,
+  // so both are asserted: deleting either one leaves the other green.
+
+  it("leaves a select-inline parent resolved when its only child is satisfied", () => {
+    const ledger = buildDecisionLedger(
+      fabricate({
+        classTools: [...ALL_TOOLS],
+        featureChoices: [{
+          kind: "select-inline", id: "kit", count: 1, options: [
+            {
+              value: "musician", label: "Musician", choices: [
+                { kind: "select-proficiency", id: "kit-tool", count: 1, domain: "tool" },
+              ],
+            },
+          ],
+        }],
+        classPersisted: { kit: "musician" },
+      }),
+      { registry } as never,
+    );
+    const parent = classItems(ledger).find((i) => i.key === "kit")!;
+    const child = parent.children!.find((c) => c.key === "kit-tool")!;
+    // The child really is the emptied-by-exclusion shape, not merely zero-option.
+    expect(child.options).toHaveLength(0);
+    expect(child.satisfied).toBe(true);
+    expect(child.status).toBe("resolved");
+    // ... so the downgrade at the select-inline recursion site does not fire.
+    expect(parent.status).toBe("resolved");
+  });
+
+  it("leaves a chosen-feat parent resolved when its only child is satisfied", () => {
+    // The Skilled-feat shape the spec uses as its example, at the SECOND
+    // downgrade site (the feat-children recursion).
+    const feats: RegisteredEntity[] = [{
+      slug: "srd-2024_skilled", name: "Skilled", entityType: "feat", filePath: "sk.md",
+      data: { choices: [{ kind: "select-proficiency", id: "tools", count: 1, domain: "tool" }] },
+      compendium: "Mock", readonly: true, homebrew: false,
+    }];
+    const featRegistry = {
+      search: (_q: string, type: string) => feats.filter((f) => f.entityType === type),
+      getByTypeAndSlug: (type: string, slug: string) =>
+        feats.find((f) => f.entityType === type && (f.slug === slug || f.slug.endsWith(`_${slug}`))),
+    };
+    const ledger = buildDecisionLedger(
+      fabricate({
+        classTools: [...ALL_TOOLS],
+        featureChoices: [{ kind: "select-entity", id: "feat-pick", count: 1, entity_type: "feat" }],
+        classPersisted: { "feat-pick": "[[srd-2024_skilled]]" },
+      }),
+      { registry: featRegistry } as never,
+    );
+    const parent = classItems(ledger).find((i) => i.key === "feat-pick")!;
+    const child = parent.children!.find((c) => c.key === "feat:tools")!;
+    expect(child.options).toHaveLength(0);
+    expect(child.satisfied).toBe(true);
+    expect(child.status).toBe("resolved");
+    expect(parent.status).toBe("resolved");
+  });
+
+  it("still downgrades a parent whose child is genuinely open", () => {
+    // The control. Without it the two assertions above pass just as well against
+    // a build that deleted the downgrade outright, which would silently mark
+    // every parent of an unmade child `resolved`.
+    const ledger = buildDecisionLedger(
+      fabricate({
+        featureChoices: [{
+          kind: "select-inline", id: "kit", count: 1, options: [
+            {
+              value: "musician", label: "Musician", choices: [
+                { kind: "select-proficiency", id: "kit-tool", count: 1, domain: "tool" },
+              ],
+            },
+          ],
+        }],
+        classPersisted: { kit: "musician" },
+      }),
+      { registry } as never,
+    );
+    const parent = classItems(ledger).find((i) => i.key === "kit")!;
+    const child = parent.children!.find((c) => c.key === "kit-tool")!;
+    expect(child.options).toHaveLength(ALL_TOOLS.length);   // nothing excluded
+    expect(child.satisfied).toBe(false);
+    expect(child.status).toBe("unresolved");
+    expect(parent.status).toBe("partial");
   });
 });

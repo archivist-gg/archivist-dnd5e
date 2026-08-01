@@ -249,9 +249,18 @@ function requiredCount(choice: Choice): number {
   return choice.count ?? 1;
 }
 
-function statusOf(choice: Choice, selected: ChoiceValue | undefined): DecisionStatus {
+/** `satisfied` (spec §6.1's four-clause predicate, computed by the caller) adds
+ *  ONE resolved path · it does not replace the others. "resolved when and only
+ *  when satisfied" is literally false and would strip `resolved` from every
+ *  normally-completed choice. The existing body below is untouched. */
+function statusOf(
+  choice: Choice,
+  selected: ChoiceValue | undefined,
+  satisfied: boolean,
+): DecisionStatus {
   const n = selectionCount(choice, selected);
   const need = requiredCount(choice);
+  if (satisfied) return "resolved";
   if (n === 0) return "unresolved";
   return n >= need ? "resolved" : "partial";
 }
@@ -367,8 +376,10 @@ function buildItem(
   }
   // SATISFIED (spec §6.1). All four clauses are load-bearing · see the field's
   // doc comment on DecisionItem for the three zero-option shapes an unscoped
-  // test would wrongly claim. This records the fact only; `statusOf` is not
-  // consulted and does not consult it.
+  // test would wrongly claim. It is BOTH recorded on the item and passed to
+  // `statusOf` below, which resolves on it (spec §6.2): three step-header
+  // counters in the builder count `status === "resolved"` directly, so a row
+  // carrying only the boolean would report itself open forever.
   const satisfied =
     choice.kind === "select-proficiency" &&
     (choice.domain === "language" || choice.domain === "tool") &&
@@ -386,7 +397,7 @@ function buildItem(
     key, source, level, featureName, choice,
     description: opts?.description,
     options,
-    selected, status: statusOf(choice, selected),
+    selected, status: statusOf(choice, selected, satisfied),
     satisfied,
   };
   // Nested choices of the selected select-inline branch.
