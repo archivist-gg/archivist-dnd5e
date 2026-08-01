@@ -5,6 +5,12 @@ import {
   type ChoiceStatus,
 } from "./pc.decision-engine";
 import { humanizeProficiency, toProfSlug } from "./pc.proficiency-normalize";
+import { collectProficiencyGrants, type ProficiencyGrant } from "./pc.proficiency-grants";
+
+/** Re-exported for the plugin: both types are DECLARED in the leaf so that
+ *  pc.decision-engine can reference them without importing this module, which
+ *  would close a cycle (spec §4.3). */
+export type { ProficiencyEntry, ProficiencyOrigin } from "./pc.proficiency-grants";
 
 export interface ProficiencyAggregate {
   armor: string[];
@@ -40,64 +46,26 @@ export interface ProficiencySources {
   toolChoices: ChoiceStatus[];
 }
 
-interface FeatProficiencyGrants {
-  armor?: string[];
-  weapons?: string[];
-  tools?: string[];
-  languages?: string[];
-}
-
 export function collectProficiencySources(resolved: ResolvedCharacter): ProficiencySources {
-  const classArmor: string[] = [];
-  const classWeaponFixed: string[] = [];
-  const classWeaponCategories: string[] = [];
-  const classToolFixed: string[] = [];
-  for (const c of resolved.classes) {
-    const prof = c.entity?.proficiencies;
-    if (!prof) continue;
-    for (const a of prof.armor ?? []) classArmor.push(a);
-    for (const w of prof.weapons?.fixed ?? []) classWeaponFixed.push(w);
-    for (const w of prof.weapons?.categories ?? []) classWeaponCategories.push(w);
-    for (const t of prof.tools?.fixed ?? []) classToolFixed.push(t);
-  }
-
-  const raceLangFixed = [...(resolved.race?.languages?.fixed ?? [])];
-
-  const bgToolFixed: string[] = [];
-  const bgLangFixed: string[] = [];
-  const bg = resolved.background;
-  if (bg) {
-    for (const entry of bg.tool_proficiencies ?? []) {
-      if (entry.kind === "fixed") bgToolFixed.push(...entry.items);
-    }
-    for (const entry of bg.language_proficiencies ?? []) {
-      if (entry.kind === "fixed") bgLangFixed.push(...entry.languages);
-    }
-  }
-
-  const featArmor: string[] = [];
-  const featWeapons: string[] = [];
-  const featTools: string[] = [];
-  const featLanguages: string[] = [];
-  for (const f of resolved.feats) {
-    // FeatEntity has no typed proficiency-grant bag; some feats carry one as an
-    // opaque authored field. Read it through a narrow structural view.
-    const featView = f as unknown as { proficiencies?: FeatProficiencyGrants };
-    const grants = featView.proficiencies;
-    if (!grants) continue;
-    featArmor.push(...(grants.armor ?? []));
-    featWeapons.push(...(grants.weapons ?? []));
-    featTools.push(...(grants.tools ?? []));
-    featLanguages.push(...(grants.languages ?? []));
-  }
-
+  const g = collectProficiencyGrants(resolved);
   const chosen = collectChosenProficiencies(resolved);
   const status = collectLanguageToolChoiceStatus(resolved);
+  // The grant walk now carries the granting entity per value; this shape drops
+  // it. T8 reshapes ProficiencySources to keep it.
+  const flat = (b: ProficiencyGrant[]) => b.map((e) => e.value);
 
   return {
-    classArmor, classWeaponFixed, classWeaponCategories, classToolFixed,
-    raceLangFixed, bgToolFixed, bgLangFixed,
-    featArmor, featWeapons, featTools, featLanguages,
+    classArmor: flat(g.classArmor),
+    classWeaponFixed: flat(g.classWeaponFixed),
+    classWeaponCategories: flat(g.classWeaponCategories),
+    classToolFixed: flat(g.classToolFixed),
+    raceLangFixed: flat(g.raceLangFixed),
+    bgToolFixed: flat(g.bgToolFixed),
+    bgLangFixed: flat(g.bgLangFixed),
+    featArmor: flat(g.featArmor),
+    featWeapons: flat(g.featWeapons),
+    featTools: flat(g.featTools),
+    featLanguages: flat(g.featLanguages),
     chosenLanguages: chosen.languages,
     chosenTools: chosen.tools,
     languageChoices: status.languages,
