@@ -103,15 +103,23 @@ export const characterOverridesShape = z.object({
   spell_slots: z.record(z.coerce.number().int(), z.number().int().nonnegative()).optional(),
   attunement_limit: z.number().int().nonnegative().optional(),
   /** Manual proficiency edits. `remove` SUPPRESSES a rules-granted entry ("a dwarf who doesn't know
-   *  dwarvish"). `.optional()` with NO default, on purpose: a note that never used the feature must
-   *  stay byte-identical, and a `.default({})` here would materialize the key on every note that
-   *  carries any `overrides` block at all. The leaf arrays likewise take no `.default([])`, which
-   *  could never fire while the parent key is absent. Every reader uses `?? []`. */
+   *  dwarvish"). NOTHING here may carry a default, at either level, or an untouched note stops being
+   *  byte-identical:
+   *    - a `.default({})` on `languages`/`tools` materializes the key on every note that carries any
+   *      `overrides` block at all;
+   *    - a `.default([])` on `add`/`remove` materializes the sibling array whenever the parent key IS
+   *      present, which is every add-only entry the mutators write. (It cannot fire while the parent
+   *      is absent, but that is the uninteresting half of the case.)
+   *  Every reader uses `?? []`. */
   languages: z.object({ add: z.array(z.string()).optional(), remove: z.array(z.string()).optional() }).optional(),
   tools:     z.object({ add: z.array(z.string()).optional(), remove: z.array(z.string()).optional() }).optional(),
 });
 
 const characterOverridesSchema = characterOverridesShape.default({});
+
+/** The overrides key set as a type. Paired with `keyof CharacterOverrides` by the compile-time parity
+ *  assertion in pc.types.ts, which is what actually stops a one-sided addition. */
+export type CharacterOverridesSchemaKeys = keyof z.infer<typeof characterOverridesShape>;
 
 const characterStateSchema = z.object({
   hp: z.object({

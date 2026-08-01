@@ -19,6 +19,7 @@ import type { FeatEntity } from "@archivist-gg/dnd5e/feat/feat.types";
 import type { Spell } from "@archivist-gg/dnd5e/spell/spell.types";
 import type { OptionalFeatureEntity } from "@archivist-gg/dnd5e/types/optional-feature.types";
 import type { ConditionSlug } from "./conditions.constants";
+import type { CharacterOverridesSchemaKeys } from "./pc.schema";
 
 /** A persisted decision value: entity slug / inline value (string), multi-select
  *  slugs (string[]), or an ability-points allocation. Stale/odd legacy values
@@ -139,11 +140,25 @@ export interface CharacterOverrides {
   /** Manual proficiency edits, mirroring `characterOverridesShape` (pc.schema.ts). `remove`
    *  SUPPRESSES a rules-granted entry ("a dwarf who doesn't know dwarvish"). Both keys and both
    *  leaf arrays are optional with no defaults, so an untouched note stays byte-identical:
-   *  every reader uses `?? []`. Adding a key here without adding it to the schema silently strips
-   *  it on every save: tests/pc-overrides-proficiency-schema.test.ts pins the two key sets equal. */
+   *  every reader uses `?? []`. */
   languages?: { add?: string[]; remove?: string[] };
   tools?: { add?: string[]; remove?: string[] };
 }
+
+/* Compile-time parity between this interface and `characterOverridesShape` (pc.schema.ts).
+ * `tsc -b --force` compiles this file, so BOTH drift directions are BUILD errors that name the
+ * offending key:
+ *   - a key here that the schema lacks is SILENTLY STRIPPED on every save (zod drops unknown keys,
+ *     and `CharacterOutput`/`CharacterInput` have zero consumers, so nothing else would notice);
+ *   - a key on the schema that is missing here round-trips but is untyped.
+ * Add `overrides.defenses` (P5) to one side only and the build fails here. The runtime twin in
+ * tests/pc-overrides-proficiency-schema.test.ts pins the schema against an explicit literal, a THIRD
+ * artifact, and by construction cannot see either of these two directions. */
+type NoOverridesKeyDrift<T extends never> = T;
+type _OverridesKeysMissingFromSchema =
+  NoOverridesKeyDrift<Exclude<keyof CharacterOverrides, CharacterOverridesSchemaKeys>>;
+type _OverridesKeysMissingFromInterface =
+  NoOverridesKeyDrift<Exclude<CharacterOverridesSchemaKeys, keyof CharacterOverrides>>;
 
 export interface CharacterState {
   hp: { current: number; max: number; temp: number };
