@@ -61,6 +61,24 @@ export interface DecisionItem {
   selected: ChoiceValue | undefined;
   status: DecisionStatus;
   /**
+   * True when this choice has nothing left to grant: every proficiency it could
+   * have offered is one the character ALREADY holds, so the exclusion filter
+   * (spec §5) emptied its pool. Such a row is complete, not an open obligation
+   * the user has no way to discharge.
+   *
+   * Deliberately NOT a bare `options.length === 0`. Three other shapes reach
+   * zero options and are genuinely still open: a `domain:"save"` choice (no
+   * pool exists at all), a select-entity whose registry holds no candidates
+   * (an empty vault), and an authored `from: []`. Emptied-BY-EXCLUSION is the
+   * only one where the character is already whole, so the flag is scoped to
+   * select-proficiency in the language/tool domains (fence F4 keeps it off
+   * skills and saves) AND requires the pool to have been non-empty BEFORE
+   * exclusion ran.
+   *
+   * `false` for every other item, informational ones included.
+   */
+  satisfied: boolean;
+  /**
    * Populated only for the selected branch of a select-inline (the
    * revealed-on-selection rule): a child decision becomes visible once its
    * parent option is chosen. An unresolved child downgrades the parent's
@@ -321,7 +339,11 @@ function buildItem(
   // per-choice exemption in the exclusion block needs it (spec §5.1's required
   // reorder); there is exactly ONE read, do not reintroduce a second one.
   const raw = readValue(key);
-  let options = enumerateOptions(choice, ctx, ownerBare);
+  // Kept as its own binding because the `satisfied` predicate below needs the
+  // PRE-exclusion pool, and `filter` rebinds `options` to a new array. Never
+  // re-derive it by calling enumerateOptions a second time.
+  const preExclusionOptions = enumerateOptions(choice, ctx, ownerBare);
+  let options = preExclusionOptions;
   // EXCLUSION (spec §5) · the fix for the burned pick: a picker must never offer
   // something the character already holds, because spending the choice on it
   // grants nothing and the sheet then shows no change. `enumerateOptions` stays
@@ -343,6 +365,15 @@ function buildItem(
     // string, and the strip would render a bare slug with no matching chip.
     options = options.filter((o) => !known.has(toProfSlug(o.value)) || mine.has(toProfSlug(o.value)));
   }
+  // SATISFIED (spec §6.1). All four clauses are load-bearing · see the field's
+  // doc comment on DecisionItem for the three zero-option shapes an unscoped
+  // test would wrongly claim. This records the fact only; `statusOf` is not
+  // consulted and does not consult it.
+  const satisfied =
+    choice.kind === "select-proficiency" &&
+    (choice.domain === "language" || choice.domain === "tool") &&
+    preExclusionOptions.length > 0 &&
+    options.length === 0;
   // Canonicalize ONLY select-proficiency picks, and against the options actually
   // enumerated for THIS choice (which already honour `choice.from` when present
   // and the domain vocabulary otherwise). Every other kind stays byte-untouched:
@@ -356,6 +387,7 @@ function buildItem(
     description: opts?.description,
     options,
     selected, status: statusOf(choice, selected),
+    satisfied,
   };
   // Nested choices of the selected select-inline branch.
   if (choice.kind === "select-inline" && typeof selected === "string") {
@@ -422,6 +454,9 @@ function buildSubclassItem(
     key: "subclass", source, level, featureName, description,
     choice, options: enumerateOptions(choice, ctx, ownerBare),
     selected, status: selected ? "resolved" : "unresolved",
+    // A subclass pick is a select-entity, never a proficiency choice, so no
+    // exclusion can empty its pool.
+    satisfied: false,
   };
 }
 
@@ -866,6 +901,7 @@ export function buildDecisionLedger(resolved: ResolvedCharacter, ctx: DecisionCo
             description: rf.feature.description ?? rf.feature.entries?.join("\n\n"),
             choice: { kind: "select-inline", id: rf.feature.id ?? rf.feature.name, options: [{ value: "_", label: "_" }] },
             options: [], selected: undefined, status: "informational",
+            satisfied: false,
           });
           continue;
         }
@@ -883,6 +919,7 @@ export function buildDecisionLedger(resolved: ResolvedCharacter, ctx: DecisionCo
             description: rf.feature.description ?? rf.feature.entries?.join("\n\n"),
             choice: { kind: "select-inline", id: rf.feature.id ?? rf.feature.name, options: [{ value: "_", label: "_" }] },
             options: [], selected: undefined, status: "informational",
+            satisfied: false,
           });
         }
         continue;

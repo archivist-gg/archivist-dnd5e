@@ -256,3 +256,107 @@ describe("effective-set exclusion: the picker never offers what you already have
     expect(values(b)).toContain("athletics");
   });
 });
+
+describe("DecisionItem.satisfied: exclusion emptied the pool", () => {
+  it("marks a language choice satisfied when every option is already known", () => {
+    // The state exclusion newly makes reachable: all 16 languages held, so a
+    // from-less count:2 language pick enumerates 16 and excludes 16. There is
+    // nothing left to grant, so the row is done rather than an obligation the
+    // user could never discharge.
+    const ledger = buildDecisionLedger(
+      fabricate({
+        raceLanguages: [...ALL_LANGUAGES],
+        featureChoices: [{ kind: "select-proficiency", id: "languages", count: 2, domain: "language" }],
+      }),
+      { registry } as never,
+    );
+    const item = classItems(ledger).find((i) => i.key === "languages")!;
+    expect(item.options).toHaveLength(0);          // the pool really is empty
+    expect(item.satisfied).toBe(true);
+  });
+
+  it("marks a tool choice satisfied when every option is already known", () => {
+    // The `|| domain === "tool"` disjunct, pinned on its own: dropping it leaves
+    // every language assertion above green.
+    const ledger = buildDecisionLedger(
+      fabricate({
+        classTools: [...ALL_TOOLS],
+        featureChoices: [{ kind: "select-proficiency", id: "tool", count: 1, domain: "tool" }],
+      }),
+      { registry } as never,
+    );
+    const item = classItems(ledger).find((i) => i.key === "tool")!;
+    expect(item.options).toHaveLength(0);
+    expect(item.satisfied).toBe(true);
+  });
+
+  it("does NOT mark a choice with options still on offer satisfied", () => {
+    // The `options.length === 0` clause. None of the three negatives below
+    // catches its removal: each of them fails an EARLIER clause.
+    const ledger = buildDecisionLedger(
+      fabricate({
+        raceLanguages: ["common"],
+        featureChoices: [{ kind: "select-proficiency", id: "languages", count: 2, domain: "language" }],
+      }),
+      { registry } as never,
+    );
+    const item = classItems(ledger).find((i) => i.key === "languages")!;
+    expect(item.options).toHaveLength(ALL_LANGUAGES.length - 1);
+    expect(item.satisfied).toBe(false);
+  });
+
+  // ── the three shapes that must NOT be satisfied ────────────────────────────
+  //
+  // Each ALREADY returns zero options today, so an unscoped
+  // `options.length === 0` predicate would flip all three to satisfied and (at
+  // the later statusOf change) to `resolved`: a green ✓ row with an empty
+  // summary that the user provably cannot satisfy, and a "0 open" step counter.
+  // Nothing else in either suite stands here, so each test asserts the
+  // zero-option state itself rather than trusting the fixture to reach it.
+
+  it("does NOT mark a save-domain choice satisfied", () => {
+    // domain:"save" enumerates [] by design (saving throws come from the class,
+    // never from a decision). Fence F4 keeps satisfied off saves and skills.
+    const ledger = buildDecisionLedger(
+      fabricate({
+        featureChoices: [{ kind: "select-proficiency", id: "saves", count: 1, domain: "save" }],
+      }),
+      { registry } as never,
+    );
+    const item = classItems(ledger).find((i) => i.key === "saves")!;
+    expect(item.options).toHaveLength(0);
+    expect(item.satisfied).toBe(false);
+    expect(item.status).toBe("unresolved");
+  });
+
+  it("does NOT mark an empty-registry select-entity satisfied", () => {
+    // No entity of the type is registered (an empty vault), so the pool is empty
+    // for a reason that has nothing to do with what the character already holds.
+    const ledger = buildDecisionLedger(
+      fabricate({
+        featureChoices: [{ kind: "select-entity", id: "weapon-pick", count: 1, entity_type: "weapon" }],
+      }),
+      { registry } as never,
+    );
+    const item = classItems(ledger).find((i) => i.key === "weapon-pick")!;
+    expect(item.options).toHaveLength(0);
+    expect(item.satisfied).toBe(false);
+    expect(item.status).toBe("unresolved");
+  });
+
+  it("does NOT mark an authored `from: []` language choice satisfied", () => {
+    // preExclusionOptions.length > 0 is the clause that catches this one: an
+    // authored empty `from` never had anything to offer, so exclusion took
+    // nothing away and the choice stays open.
+    const ledger = buildDecisionLedger(
+      fabricate({
+        featureChoices: [{ kind: "select-proficiency", id: "languages", count: 1, domain: "language", from: [] }],
+      }),
+      { registry } as never,
+    );
+    const item = classItems(ledger).find((i) => i.key === "languages")!;
+    expect(item.options).toHaveLength(0);
+    expect(item.satisfied).toBe(false);
+    expect(item.status).toBe("unresolved");
+  });
+});
