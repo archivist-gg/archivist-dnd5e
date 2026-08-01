@@ -1,9 +1,7 @@
 import type { ResolvedCharacter } from "./pc.types";
 import {
   collectChosenProficiencies,
-  collectLanguageToolChoiceStatus,
   computeEffectiveProficiencies,
-  type ChoiceStatus,
 } from "./pc.decision-engine";
 import { humanizeProficiency, toProfSlug } from "./pc.proficiency-normalize";
 import {
@@ -26,17 +24,14 @@ export interface ProficiencyAggregate {
   weapons: ProficiencyEntry[];
   tools: ProficiencyEntry[];
   languages: ProficiencyEntry[];
-  /** Unresolved language/tool decisions as "choose N" placeholders (N = count -
-   *  selected, only when > 0). Additive; consumed by the plugin proficiency panel. */
-  choices: { languages: string[]; tools: string[] };
 }
 
 /** Normalized intermediate of every proficiency/language source the DISPLAY path
  *  reads, in one place. Only the class branch is a live proficiency source today
  *  (race/bg/feat `.proficiencies` object fields do not exist on those entities);
  *  race languages, bg tool/lang, and feat grants read their real fields. Chosen
- *  picks + per-choice status come from the single decision walk in
- *  pc.decision-engine so display can never diverge from the persisted picks.
+ *  picks come from the single decision walk in pc.decision-engine so display can
+ *  never diverge from the persisted picks.
  *
  *  Every grant bucket carries `{value, source}` rather than a bare value: the
  *  walk holds the granting entity and the aggregate needs it to fill
@@ -59,21 +54,16 @@ export interface ProficiencySources {
   featLanguages: ProficiencyGrant[];
   chosenLanguages: string[];         // from collectChosenProficiencies (flat, per-domain)
   chosenTools: string[];
-  languageChoices: ChoiceStatus[];   // per-choice descriptors for placeholder derivation
-  toolChoices: ChoiceStatus[];
 }
 
 export function collectProficiencySources(resolved: ResolvedCharacter): ProficiencySources {
   const g = collectProficiencyGrants(resolved);
   const chosen = collectChosenProficiencies(resolved);
-  const status = collectLanguageToolChoiceStatus(resolved);
 
   return {
     ...g,
     chosenLanguages: chosen.languages,
     chosenTools: chosen.tools,
-    languageChoices: status.languages,
-    toolChoices: status.tools,
   };
 }
 
@@ -95,10 +85,6 @@ export function aggregateProficiencies(resolved: ResolvedCharacter): Proficiency
     weapons: composeGrantEntries([src.classWeaponFixed, src.classWeaponCategories, src.featWeapons]),
     tools: effective.tools,
     languages: effective.languages,
-    choices: {
-      languages: placeholders(src.languageChoices),
-      tools: placeholders(src.toolChoices),
-    },
   };
 }
 
@@ -139,16 +125,6 @@ function composeGrantEntries(buckets: ProficiencyGrant[][]): ProficiencyEntry[] 
     }
   }
   return [...byKey.values()].sort((a, b) => (a.label < b.label ? -1 : a.label > b.label ? 1 : 0));
-}
-
-/** One "choose N" string per unresolved choice (N = count - selected, > 0). */
-function placeholders(choices: ChoiceStatus[]): string[] {
-  const out: string[] = [];
-  for (const c of choices) {
-    const remaining = c.count - c.selected;
-    if (remaining > 0) out.push("choose " + remaining);
-  }
-  return out;
 }
 
 /** Display string for one proficiency, from EITHER a 2024 slug ("thieves'-tools")

@@ -157,4 +157,46 @@ describe("computeEffectiveProficiencies", () => {
       label: "Thieves' Tools", origin: "grant", sources: ["Rogue", "Criminal"],
     });
   });
+
+  // ───────────────────────────────────────────────────────────────────────────
+  // R4-P3b §14: re-pinned here after the "choose N" placeholder limb was
+  // deleted. pc-proficiencies-aggregate.test.ts' "emits 'choose N' for a partial
+  // pick" `it` was removed with its subject, and it carried the ONLY assertion
+  // in either repo that a PARTIALLY resolved pick folds into the language set.
+  // The surviving aggregate coverage exercises the FULLY resolved case only, so
+  // without this a fold that dropped every under-filled choice would go green:
+  // the count-2/one-picked shape is the live one on a half-built character, and
+  // it is the shape the sheet must still show.
+  //
+  // Asserted on computeEffectiveProficiencies, which is where the fold actually
+  // lives (`push(v, "pick")`); aggregateProficiencies passes its output through
+  // unmodified. `origin` is asserted too, not just membership: a pick that
+  // arrived as a "grant" would still satisfy a bare toContain while meaning the
+  // provenance walk had broken.
+  // ───────────────────────────────────────────────────────────────────────────
+  it("folds a PARTIALLY resolved pick (1 of 2) into the effective set as origin=pick", () => {
+    const halfPicked = {
+      race: {
+        name: "Half-Elf",
+        languages: { fixed: ["common"] },
+        choices: [],
+        traits: [{ name: "Versatile", choices: [
+          { kind: "select-proficiency", id: "langs", count: 2, domain: "language",
+            from: ["elvish", "dwarvish", "giant"] },
+        ] }],
+      },
+      classes: [], feats: [], background: undefined, features: [],
+      // ONE of the two allowed picks is made · the choice stays under-filled.
+      definition: { origin_choices: { "race:langs": ["elvish"] }, overrides: {} },
+    } as never;
+
+    const eff = computeEffectiveProficiencies(halfPicked);
+
+    expect(eff.languages.find((e) => e.value === "elvish")).toMatchObject({
+      label: "Elvish", origin: "pick", sources: [],
+    });
+    // The grant is untouched, and the UNPICKED options never leak in: an
+    // under-filled choice contributes exactly its made picks, not its pool.
+    expect(eff.languages.map((e) => e.value)).toEqual(["common", "elvish"]);
+  });
 });

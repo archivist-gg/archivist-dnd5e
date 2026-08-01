@@ -7,10 +7,14 @@ import bg2024 from "../src/srd/data/runtime/background.2024.json";
 
 // ─────────────────────────────────────────────────────────────────────────────
 // R3-P2 D5: the DISPLAY path (`aggregateProficiencies`) must fold chosen picks
-// AND surface unresolved select-proficiency choices as "choose N" placeholders,
-// on top of the pre-existing fixed reads. Placeholders derive from the SAME
+// on top of the pre-existing fixed reads. Picks come from the SAME
 // select-proficiency choices `collectChosenProficiencies` walks (entity/trait/
 // feature/background `choices[]`), NOT `language_proficiencies`.
+//
+// R4-P3b §14 deleted the "choose N" placeholder limb (`agg.choices`) · unspent
+// picks are the BUILDER's subject, so the sheet aggregate no longer reports
+// them. The partial-fold property that the deleted placeholder test also
+// covered is re-pinned in tests/pc-proficiency-effective.test.ts.
 // ─────────────────────────────────────────────────────────────────────────────
 
 interface MakeOpts {
@@ -67,19 +71,8 @@ function makeResolved(opts: MakeOpts = {}): ResolvedCharacter {
   } as unknown as ResolvedCharacter;
 }
 
-describe("aggregateProficiencies — chosen picks + choice placeholders (D5)", () => {
-  it("surfaces a fixed race language and an unresolved count-2 language choice", () => {
-    const agg = aggregateProficiencies(
-      makeResolved({
-        raceLangFixed: ["common"],
-        bgLangChoice: { id: "langs", count: 2, from: ["elvish", "dwarvish", "giant"] },
-      }),
-    );
-    expect(agg.languages.map((e) => e.label)).toContain("Common"); // fixed
-    expect(agg.choices.languages).toContain("choose 2"); // unresolved choice
-  });
-
-  it("folds resolved picks into languages and clears the placeholder", () => {
+describe("aggregateProficiencies · chosen picks (D5)", () => {
+  it("folds resolved picks into languages, alongside the fixed race grant", () => {
     const agg = aggregateProficiencies(
       makeResolved({
         raceLangFixed: ["common"],
@@ -87,27 +80,14 @@ describe("aggregateProficiencies — chosen picks + choice placeholders (D5)", (
         originChoices: { "background:langs": ["elvish", "dwarvish"] },
       }),
     );
-    expect(agg.choices.languages).toEqual([]);
     expect(agg.languages.map((e) => e.label)).toContain("Common");
     expect(agg.languages.map((e) => e.label)).toContain("Elvish");
     expect(agg.languages.map((e) => e.label)).toContain("Dwarvish");
   });
 
-  it("returns empty arrays for an empty tool bucket (panel renders None)", () => {
+  it("returns an empty array for an empty tool bucket (panel renders None)", () => {
     const agg = aggregateProficiencies(makeResolved({ raceLangFixed: ["common"] }));
     expect(agg.tools).toEqual([]);
-    expect(agg.choices.tools).toEqual([]);
-  });
-
-  it("emits 'choose N' with N = count - selected for a partial pick", () => {
-    const agg = aggregateProficiencies(
-      makeResolved({
-        bgLangChoice: { id: "langs", count: 2, from: ["elvish", "dwarvish", "giant"] },
-        originChoices: { "background:langs": ["elvish"] },
-      }),
-    );
-    expect(agg.choices.languages).toContain("choose 1");
-    expect(agg.languages.map((e) => e.label)).toContain("Elvish");
   });
 });
 

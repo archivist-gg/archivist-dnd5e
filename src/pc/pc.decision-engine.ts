@@ -545,7 +545,7 @@ function visitProficiencyChoices(
  *  `vals` comes back byte-unchanged.
  *
  *  Unlike {@link canonicalizeSelection} this one DROPS a no-match, and that
- *  asymmetry is deliberate: the collectors grant real proficiencies, where an
+ *  asymmetry is deliberate: the collector grants real proficiencies, where an
  *  out-of-pool slug is a stale/hand-edited grant that must not take effect,
  *  whereas the ledger only DISPLAYS the pick, where dropping would destroy it.
  *
@@ -567,9 +567,13 @@ function visitProficiencyChoices(
  *  it IS a behavioural delta, so do not read this paragraph as "nothing
  *  changed here" and skip testing the value side.
  *
- *  ONE helper shared by BOTH collectors below, deliberately: the pick fold and
- *  the choice-status half must never drift, or the sheet renders a resolved pick
- *  beside a stale "choose N". */
+ *  ONE caller today: the pick fold in {@link collectChosenProficiencies} below.
+ *  It was shared with a second collector until R4-P3b §14 deleted the
+ *  choice-status half along with the "choose N" placeholder it fed, so the
+ *  "these two must never drift" rationale is retired · nothing is left to drift
+ *  against. Still a named helper because the drop-a-no-match contract above is
+ *  worth stating once: inlining it would bury the asymmetry with
+ *  {@link canonicalizeSelection}. */
 const filterToPool = (vals: string[], pool: string[] | undefined): string[] =>
   pool
     ? vals.map((v) => matchPool(v, pool)).filter((v): v is string => !!v)
@@ -700,30 +704,6 @@ export function computeEffectiveProficiencies(
   };
 
   return { languages: build("languages"), tools: build("tools") };
-}
-
-export interface ChoiceStatus { id: string; count: number; selected: number; }
-
-/** Per-choice status for language/tool select-proficiency decisions, using the
- *  SAME walk as collectChosenProficiencies so required/selected counts cannot
- *  diverge from the picks. `selected` counts persisted picks validated through
- *  the SAME filterToPool as the pick fold, so a legacy-spelling pick that
- *  survives the fold also clears its "choose N" placeholder here. */
-export function collectLanguageToolChoiceStatus(resolved: ResolvedCharacter): {
-  languages: ChoiceStatus[]; tools: ChoiceStatus[];
-} {
-  const languages: ChoiceStatus[] = [];
-  const tools: ChoiceStatus[] = [];
-  visitProficiencyChoices(resolved, (choice, selected) => {
-    if (choice.kind !== "select-proficiency") return;
-    if (choice.domain !== "language" && choice.domain !== "tool") return;
-    const vals = Array.isArray(selected) ? selected : typeof selected === "string" ? [selected] : [];
-    const pool = choice.from;
-    const valid = filterToPool(vals, pool);
-    const status: ChoiceStatus = { id: choice.id, count: choice.count, selected: valid.length };
-    (choice.domain === "language" ? languages : tools).push(status);
-  });
-  return { languages, tools };
 }
 
 export interface OriginAbilityPoints {

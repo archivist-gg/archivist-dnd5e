@@ -1,7 +1,6 @@
 import { describe, it, expect, vi } from "vitest";
 import { buildDecisionLedger, collectChosenProficiencies, __matchesFilterForTest } from "../src/pc/pc.decision-engine";
 import type { DecisionItem, DecisionLedger } from "../src/pc/pc.decision-engine";
-import { aggregateProficiencies } from "../src/pc/pc.proficiencies";
 import { choiceSchema } from "../src/schemas/choice-schema";
 import type { ResolvedCharacter } from "../src/pc/pc.types";
 import type { RegisteredEntity } from "@archivist-gg/core";
@@ -386,10 +385,9 @@ describe("collectChosenProficiencies", () => {
   // The live-vault case: a character note persists the 2014 Dwarf tool pick in
   // prose ("smith's tools") while the pool is re-slugged to "smith's-tools".
   // Exact `includes` drops the pick, and the loss is INVISIBLE because the sheet
-  // renders no pending-choice marker. Both halves of the walk must agree: the
-  // pick fold (collectChosenProficiencies) AND the choice-status half
-  // (collectLanguageToolChoiceStatus, reached here through aggregateProficiencies)
-  // · fixing only the first renders a resolved pick beside a stale "choose 1".
+  // renders no pending-choice marker. The pick fold (collectChosenProficiencies)
+  // must canonicalize the prose spelling to the pool's, or the pick is silently
+  // lost and the language never reaches the sheet.
   it("keeps a legacy prose pick when the pool has been re-slugged, folding it to the pool spelling", () => {
     const c = resolvedFighter(1);
     const race = {
@@ -404,7 +402,6 @@ describe("collectChosenProficiencies", () => {
     (c.definition as { origin_choices: Record<string, unknown> }).origin_choices = { "race:tool": "smith's tools" };
     const out = collectChosenProficiencies(c);
     expect(out.tools).toEqual(["smith's-tools"]);          // survives AND is canonicalized
-    expect(aggregateProficiencies(c).choices.tools).toEqual([]);   // no stale "choose 1"
   });
 });
 
