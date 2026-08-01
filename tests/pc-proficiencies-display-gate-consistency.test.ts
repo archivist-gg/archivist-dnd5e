@@ -17,6 +17,10 @@ import armor2024 from "../src/srd/data/runtime/armor.2024.json";
 // a future change to one path that silently disagrees with the other fails here.
 //   - 2014 Rogue → the WEAPON axis: a class `weapons.fixed` name (rapier).
 //   - 2024 Fighter → the ARMOR axis: a class armor category (heavy, via plate).
+// R4-P3b §7.1 reshaped the display buckets to `ProficiencyEntry[]`, so both
+// halves read `.value` · the RAW authored string, which is what the gate side
+// compares against. Reading `.label` instead would loosen the guard by letting
+// the two paths agree only after humanization.
 // ─────────────────────────────────────────────────────────────────────────────
 
 const arr = (d: unknown): Array<{ slug: string }> =>
@@ -59,7 +63,14 @@ describe("display/gate proficiency consistency (real SRD entities)", () => {
     const resolved = resolvedFromClasses([findEntity(cls2014, "rogue")]);
 
     const display = aggregateProficiencies(resolved);
-    expect(display.weapons.some((w) => w.toLowerCase().includes("rapier"))).toBe(true);
+    expect(display.weapons.some((w) => w.value.toLowerCase().includes("rapier"))).toBe(true);
+    // BOTH halves, deliberately. The pre-R4-P3b assertion ran through prettyName,
+    // so moving it to `.value` traded away its incidental cover of display
+    // humanization. `.value` is the half the GATE compares against and must stay
+    // · this line restores the other half. The 2014 Rogue weapons LABEL is
+    // pinned nowhere else (the armor and tools axes have cover in
+    // pc-proficiencies-aggregate.test.ts, the weapons-label axis does not).
+    expect(display.weapons.some((w) => w.label.toLowerCase().includes("rapier"))).toBe(true);
 
     expect(isProficientWithWeapon(rapier, computeProficiencies(resolved))).toBe(true);
   });
@@ -68,7 +79,7 @@ describe("display/gate proficiency consistency (real SRD entities)", () => {
     const resolved = resolvedFromClasses([findEntity(cls2024, "fighter")]);
 
     const display = aggregateProficiencies(resolved);
-    expect(display.armor.some((a) => a.toLowerCase() === plate.category)).toBe(true);
+    expect(display.armor.some((a) => a.value.toLowerCase() === plate.category)).toBe(true);
 
     expect(isProficientWithArmor(plate, computeProficiencies(resolved))).toBe(true);
   });

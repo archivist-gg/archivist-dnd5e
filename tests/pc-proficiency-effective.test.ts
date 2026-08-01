@@ -121,12 +121,13 @@ describe("computeEffectiveProficiencies", () => {
   // (U+0027, slug) fold to ONE `toProfSlug`, so the pair is one value with two
   // granting entities.
   //
-  // This is the ONLY assertion in either repo on `ProficiencyGrant.source`:
-  // `collectProficiencySources` maps every bucket down to `e.value`
-  // (pc.proficiencies.ts:55), so without this test every source in the repo
-  // could read "Unknown", or name the wrong entity, and both suites would stay
-  // green. It pins provenance AND the documented walk order (class → race →
-  // background → feats, spec §4.1) in a single `toEqual`.
+  // This was the ONLY assertion in either repo on `ProficiencyGrant.source`,
+  // because `collectProficiencySources` mapped every bucket down to `e.value`
+  // and threw the granting entity away. R4-P3b T8 reshaped that intermediate to
+  // keep `{value, source}`, and pc-proficiencies-aggregate.test.ts now pins the
+  // armor side too · this stays the only one on the language/tool side. It pins
+  // provenance AND the documented walk order (class → race → background →
+  // feats, spec §4.1) in a single `toEqual`.
   // ───────────────────────────────────────────────────────────────────────────
   it("keeps EVERY granting entity when two entities grant one value (spec §7.2)", () => {
     const rogueCriminal = {

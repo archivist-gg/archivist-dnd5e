@@ -2,6 +2,8 @@ import { describe, it, expect } from "vitest";
 import { aggregateProficiencies } from "../src/pc/pc.proficiencies";
 import { humanizeProficiency, toProfSlug } from "../src/pc/pc.proficiency-normalize";
 import type { ResolvedCharacter, ChoiceValue } from "../src/pc/pc.types";
+import cls2014 from "../src/srd/data/runtime/class.2014.json";
+import bg2024 from "../src/srd/data/runtime/background.2024.json";
 
 // ─────────────────────────────────────────────────────────────────────────────
 // R3-P2 D5: the DISPLAY path (`aggregateProficiencies`) must fold chosen picks
@@ -73,7 +75,7 @@ describe("aggregateProficiencies — chosen picks + choice placeholders (D5)", (
         bgLangChoice: { id: "langs", count: 2, from: ["elvish", "dwarvish", "giant"] },
       }),
     );
-    expect(agg.languages).toContain("Common"); // fixed
+    expect(agg.languages.map((e) => e.label)).toContain("Common"); // fixed
     expect(agg.choices.languages).toContain("choose 2"); // unresolved choice
   });
 
@@ -86,9 +88,9 @@ describe("aggregateProficiencies — chosen picks + choice placeholders (D5)", (
       }),
     );
     expect(agg.choices.languages).toEqual([]);
-    expect(agg.languages).toContain("Common");
-    expect(agg.languages).toContain("Elvish");
-    expect(agg.languages).toContain("Dwarvish");
+    expect(agg.languages.map((e) => e.label)).toContain("Common");
+    expect(agg.languages.map((e) => e.label)).toContain("Elvish");
+    expect(agg.languages.map((e) => e.label)).toContain("Dwarvish");
   });
 
   it("returns empty arrays for an empty tool bucket (panel renders None)", () => {
@@ -105,7 +107,7 @@ describe("aggregateProficiencies — chosen picks + choice placeholders (D5)", (
       }),
     );
     expect(agg.choices.languages).toContain("choose 1");
-    expect(agg.languages).toContain("Elvish");
+    expect(agg.languages.map((e) => e.label)).toContain("Elvish");
   });
 });
 
@@ -124,12 +126,145 @@ describe("aggregateProficiencies · apostrophe canon", () => {
       bgToolsFixed:    ["thieves'-tools"],   // 2024 background slug, U+0027
     });
     const agg = aggregateProficiencies(resolved);
-    expect(agg.tools).toEqual(["Thieves' Tools"]);
+    expect(agg.tools.map((e) => e.label)).toEqual(["Thieves' Tools"]);
     expect(agg.tools).toHaveLength(1);
   });
 
   it("exposes the two halves of the canon: an apostrophe-safe humanizer over a folding slugger", () => {
     expect(humanizeProficiency("smith's-tools")).toBe("Smith's Tools");
     expect(toProfSlug("Thieves’ tools")).toBe("thieves'-tools");
+  });
+});
+
+// ─────────────────────────────────────────────────────────────────────────────
+// R4-P3b T8: PROVENANCE. All four buckets are `ProficiencyEntry[]` (spec §7.1).
+//   - `languages`/`tools` ARE computeEffectiveProficiencies' output, passed
+//     through UNMODIFIED. A second composition here is what spec §4.1 exists to
+//     eliminate: it is how the sheet would come to render a suppressed value the
+//     modal does not.
+//   - `armor`/`weapons` are composed in pc.proficiencies.ts under §3.3's SECOND
+//     rule (no vocabulary constant): value = raw, label = today's prettyName.
+//
+// These fixtures read the REAL runtime entities rather than hand-built shells,
+// so the strings below are the shipped ones rather than a fixture author's
+// guess · that is what makes the ordering assertion a regression guard.
+// ─────────────────────────────────────────────────────────────────────────────
+
+const entities = (d: unknown): Array<{ slug: string }> =>
+  (Array.isArray(d) ? d : Object.values(d as object)) as Array<{ slug: string }>;
+
+function findEntity(d: unknown, slug: string): unknown {
+  const hit = entities(d).find((e) => e.slug === slug || e.slug.endsWith(`_${slug}`));
+  if (!hit) throw new Error(`entity not found: ${slug}`);
+  return hit;
+}
+
+/** `definition` deliberately carries NO `overrides` key: the aggregate must keep
+ *  surviving the fixtures spec §4.1 `[Gd-1]` documents. */
+function srdResolved(opts: { classes?: unknown[]; background?: unknown }): ResolvedCharacter {
+  const classes = (opts.classes ?? []).map((entity) => ({ entity, level: 1, subclass: null, choices: {} }));
+  return {
+    definition: { origin_choices: {} },
+    race: null, classes, background: opts.background ?? null,
+    feats: [], totalLevel: classes.length || 1,
+    features: [], spells: [], pools: [], weaponMasteries: [], state: {},
+  } as unknown as ResolvedCharacter;
+}
+
+const rogue2014WithCriminal2024 = (): ResolvedCharacter =>
+  srdResolved({ classes: [findEntity(cls2014, "rogue")], background: findEntity(bg2024, "criminal") });
+/** 2014 Fighter authors `armor: [shield, light, medium, heavy]` · authored order
+ *  is NOT display order, which is the whole point of the ordering test below. */
+const fighter = (): ResolvedCharacter => srdResolved({ classes: [findEntity(cls2014, "fighter")] });
+const fighterPaladin = (): ResolvedCharacter =>
+  srdResolved({ classes: [findEntity(cls2014, "fighter"), findEntity(cls2014, "paladin")] });
+const bard2014 = (): ResolvedCharacter => srdResolved({ classes: [findEntity(cls2014, "bard")] });
+
+describe("aggregateProficiencies · provenance on every bucket (R4-P3b §7.1)", () => {
+  it("carries EVERY granting entity when two sources grant one value", () => {
+    // 2014 Rogue grants "Thieves’ tools" (U+2019); 2024 Criminal grants "thieves'-tools" (U+0027).
+    // Both fold to one toProfSlug, so this is ONE value with TWO sources · already shipped, not theoretical.
+    const agg = aggregateProficiencies(rogue2014WithCriminal2024());
+    const entry = agg.tools.find((e) => e.value === "thieves'-tools")!;
+    expect(entry.sources).toEqual(["Rogue", "Criminal"]);
+    expect(entry.origin).toBe("grant");
+  });
+
+  it("renders armor and weapons exactly as today", () => {
+    const agg = aggregateProficiencies(fighter());
+    expect(agg.armor.map((e) => e.label)).toContain("Heavy");
+  });
+
+  it("does NOT change the rendering of the Bard tool-prose grant", () => {
+    // D-D: class choice prose leaking into the fixed tool list. P3a fixed it in the GENERATOR
+    // (class-merge.ts:252 TOOL_CHOICE_PROSE), inert until P4's regen. Until then it must not move.
+    const agg = aggregateProficiencies(bard2014());
+    expect(agg.tools.map((e) => e.label)).toContain("Three Musical Instruments Of Your Choice");
+  });
+
+  it("keeps armor deduped and label-sorted", () => {
+    // The ONLY ordering assertion on armor in either repo. The pre-T8 aggregate
+    // returned `[...armor].sort()` over the display strings; dropping that sort
+    // while reshaping is a VISIBLE regression on a single-class Fighter sheet
+    // (authored shield/light/medium/heavy would render in authored order), and
+    // nothing else catches it: every other bucket assertion is toContain/.some.
+    expect(aggregateProficiencies(fighter()).armor.map((e) => e.label))
+      .toEqual(["Heavy", "Light", "Medium", "Shield"]);
+  });
+
+  it("keeps weapons label-sorted", () => {
+    // Same guard on the other locally-composed bucket: 2014 Fighter authors
+    // `weapons.categories: [simple, martial]`, so authored order renders
+    // "Simple, Martial" and display order is "Martial, Simple".
+    expect(aggregateProficiencies(fighter()).weapons.map((e) => e.label))
+      .toEqual(["Martial", "Simple"]);
+  });
+
+  it("collapses a double-granted armor category to ONE row naming BOTH classes", () => {
+    // Dedupe half of the same guard, plus the ONLY assertion in either repo on
+    // an armor/weapon `sources` value: the pre-T8 bucket was a Set<string> and
+    // had no provenance at all, so an aggregate that named "Unknown" or the
+    // wrong entity would otherwise stay green everywhere.
+    const agg = aggregateProficiencies(fighterPaladin());
+    expect(agg.armor.map((e) => e.label)).toEqual(["Heavy", "Light", "Medium", "Shield"]);
+    expect(agg.armor.find((e) => e.value === "heavy")).toMatchObject({
+      label: "Heavy", origin: "grant", sources: ["Fighter", "Paladin"],
+    });
+  });
+
+  it("folds two SPELLINGS of one weapon grant into one row", () => {
+    // Pins the dedupe KEY, not merely the presence of a dedupe: the pre-T8
+    // bucket was a `Set<prettyName(raw)>`, so it collapsed spellings that differ
+    // only by separator or apostrophe. Keying the reshaped bucket on the raw
+    // value instead of toProfSlug would split them and put two identical-looking
+    // rows on the sheet. No shipped class pair spells one category two ways, so
+    // this fixture is synthetic on purpose · without it the keying rule is a
+    // claim in a comment with nothing holding it.
+    const twoSpellings = srdResolved({
+      classes: [
+        { slug: "a", name: "Alpha", proficiencies: { weapons: { fixed: ["hand crossbows"] } } },
+        { slug: "b", name: "Beta", proficiencies: { weapons: { fixed: ["hand-crossbows"] } } },
+      ],
+    });
+    const agg = aggregateProficiencies(twoSpellings);
+    expect(agg.weapons.map((e) => e.label)).toEqual(["Hand Crossbows"]);
+    expect(agg.weapons[0].sources).toEqual(["Alpha", "Beta"]);
+  });
+
+  it("applies an override SUPPRESSION to the sheet bucket, not just to the modal primitive", () => {
+    // The pass-through property, asserted behaviourally rather than by identity:
+    // languages/tools must be computeEffectiveProficiencies' output untouched.
+    // Any second composition inside aggregateProficiencies re-adds the value the
+    // user suppressed, and the sheet then disagrees with the modal (spec §4.1).
+    const suppressed = rogue2014WithCriminal2024();
+    (suppressed.definition as unknown as Record<string, unknown>).overrides = {
+      tools: { remove: ["thieves'-tools"] },
+    };
+    // POSITIVE CONTROL first, or the negative assertion passes vacuously: the
+    // pre-T8 bucket held display strings, so `not.toContain(<slug>)` was true
+    // whether or not suppression ran.
+    expect(aggregateProficiencies(rogue2014WithCriminal2024()).tools.map((e) => e.value))
+      .toContain("thieves'-tools");
+    expect(aggregateProficiencies(suppressed).tools.map((e) => e.value)).not.toContain("thieves'-tools");
   });
 });
