@@ -171,6 +171,49 @@ export function computeFeatureEffects(
   return out;
 }
 
+/** The ONE interpreter of `kind: "proficiency"` effects (spec fence F3).
+ *
+ *  Two consumers with different needs, so the return carries BOTH forms:
+ *  `applyEffect` pushes `value` (normalized) into FeatureEffectTotals, while the
+ *  display collector reads `raw` for armor/weapons · composeGrantEntries stores
+ *  the raw authored string as ProficiencyEntry.value (spec §4.8 #1) and computes
+ *  its dedupe key separately. Tools/languages read `value`.
+ *
+ *  `saves` is discriminated because FeatureEffectTotals.proficiencies.saves is
+ *  Ability[], not string[] (fence F1). A null return means "not a proficiency
+ *  effect, or an unresolvable ability". */
+export type ProficiencyClassification =
+  | { bucket: "skills" | "tools" | "languages" | "armor" | "weapons"; value: string; raw: string }
+  | { bucket: "saves"; value: Ability; raw: string };
+
+export function classifyProficiencyEffect(eff: FeatureEffect): ProficiencyClassification | null {
+  if (eff.kind !== "proficiency") return null;
+  const raw = eff.value;
+  switch (eff.proficiency_type) {
+    case "skill":
+      return { bucket: "skills", value: raw.toLowerCase().replace(/\s+/g, "-"), raw };
+    case "tool":
+      return { bucket: "tools", value: raw, raw };
+    case "language":
+      return { bucket: "languages", value: raw, raw };
+    case "armor":
+      // Armor/weapon grants are CATEGORIES ("heavy"/"shield", "simple"/"martial"),
+      // not per-item slugs. Stored lowercase (bare word) to match the form
+      // class/race/feat grants use; recalc folds these into
+      // proficiencies.armor.categories, where the matcher compares them against
+      // armor.category (`.specific` is for per-item slugs only).
+      return { bucket: "armor", value: raw.toLowerCase(), raw };
+    case "weapon":
+      // Weapon categories ("simple"/"martial") fold into weapons.categories,
+      // matched against weapon.category's base ("martial-melee" → "martial").
+      return { bucket: "weapons", value: raw.toLowerCase(), raw };
+    default: {
+      const ab = normalizeAbility(raw);
+      return ab ? { bucket: "saves", value: ab, raw } : null;
+    }
+  }
+}
+
 function applyEffect(out: FeatureEffectTotals, eff: FeatureEffect, label: string): void {
   switch (eff.kind) {
     case "initiative-bonus":
@@ -199,26 +242,15 @@ function applyEffect(out: FeatureEffectTotals, eff: FeatureEffect, label: string
       if (!eff.while) pushUnique(out.condition_immunities, eff.condition);
       break;
     case "proficiency": {
-      if (eff.proficiency_type === "skill") {
-        pushUnique(out.proficiencies.skills, eff.value.toLowerCase().replace(/\s+/g, "-"));
-      } else if (eff.proficiency_type === "tool") {
-        pushUnique(out.proficiencies.tools, eff.value);
-      } else if (eff.proficiency_type === "language") {
-        pushUnique(out.proficiencies.languages, eff.value);
-      } else if (eff.proficiency_type === "armor") {
-        // Armor/weapon grants are CATEGORIES ("heavy"/"shield", "simple"/"martial"),
-        // not per-item slugs. Stored lowercase (bare word) to match the form
-        // class/race/feat grants use; recalc folds these into
-        // proficiencies.armor.categories, where the matcher compares them against
-        // armor.category (`.specific` is for per-item slugs only).
-        pushUnique(out.proficiencies.armor, eff.value.toLowerCase());
-      } else if (eff.proficiency_type === "weapon") {
-        // Weapon categories ("simple"/"martial") fold into weapons.categories,
-        // matched against weapon.category's base ("martial-melee" → "martial").
-        pushUnique(out.proficiencies.weapons, eff.value.toLowerCase());
+      const c = classifyProficiencyEffect(eff);
+      if (!c) break;
+      if (c.bucket === "saves") {
+        // pushUnique's trim/case-fold coincides exactly with the previous
+        // `.includes` here: normalizeAbility only ever returns a canonical
+        // lowercase key.
+        pushUnique(out.proficiencies.saves as string[], c.value);
       } else {
-        const ab = normalizeAbility(eff.value);
-        if (ab && !out.proficiencies.saves.includes(ab)) out.proficiencies.saves.push(ab);
+        pushUnique(out.proficiencies[c.bucket], c.value);
       }
       break;
     }

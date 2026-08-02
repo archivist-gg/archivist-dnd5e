@@ -1,5 +1,5 @@
 import { describe, it, expect } from "vitest";
-import { computeFeatureEffects, emptyFeatureEffectTotals } from "../src/pc/pc.feature-effects";
+import { classifyProficiencyEffect, computeFeatureEffects, emptyFeatureEffectTotals } from "../src/pc/pc.feature-effects";
 import type { ResolvedFeature } from "../src/pc/pc.types";
 import type { FeatureEffect } from "@archivist-gg/dnd5e/types/feature-effect";
 
@@ -202,5 +202,27 @@ describe("computeFeatureEffects", () => {
       ]);
       expect(out.damageBonuses).toEqual([]);
     });
+  });
+});
+
+describe("classifyProficiencyEffect", () => {
+  it("routes each proficiency_type to its bucket", () => {
+    expect(classifyProficiencyEffect({ kind: "proficiency", proficiency_type: "skill", value: "Perception" }))
+      .toEqual({ bucket: "skills", value: "perception", raw: "Perception" });
+    expect(classifyProficiencyEffect({ kind: "proficiency", proficiency_type: "armor", value: "Heavy" }))
+      .toEqual({ bucket: "armor", value: "heavy", raw: "Heavy" });
+    expect(classifyProficiencyEffect({ kind: "proficiency", proficiency_type: "weapon", value: "Martial" }))
+      .toEqual({ bucket: "weapons", value: "martial", raw: "Martial" });
+    expect(classifyProficiencyEffect({ kind: "proficiency", proficiency_type: "saving-throw", value: "Strength" }))
+      .toEqual({ bucket: "saves", value: "str", raw: "Strength" });
+  });
+
+  it("returns null for an unrecognized saving-throw value", () => {
+    expect(classifyProficiencyEffect({ kind: "proficiency", proficiency_type: "saving-throw", value: "nonsense" }))
+      .toBeNull();
+  });
+
+  it("returns null for a non-proficiency effect", () => {
+    expect(classifyProficiencyEffect({ kind: "resistance", damage_type: "fire" })).toBeNull();
   });
 });
