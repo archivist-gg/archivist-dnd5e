@@ -515,6 +515,78 @@ race_traits:
     trigger: "reduced to 0 HP but not killed outright"
 
   # ===================================================================
+  # Prose-only proficiency grants (R4-P3c). Five 2014 traits STATE a proficiency
+  # in their description and grant nothing structurally: the canonical species
+  # records carry no skill/weapon/tool field for any of them, so a Half-Orc had
+  # no Intimidation on the sheet and a Dwarf was not proficient with his own
+  # battleaxe at the attack gate. These `effects:` blocks ARE the grant. Four
+  # are keyed here; the fifth, Rock Gnome's `tinker`, is authored at its
+  # pre-existing key at the bottom of this section.
+  #
+  # Keys are BARE trait-slugs and so land on EVERY species whose trait
+  # slugifies to them. Checked against species.2014.json: each of these four is
+  # unique to a single species (Elf, Half-Orc, Dwarf, High Elf).
+  #
+  # WEAPON values are PLURAL on purpose, not a typo. The attack gate matches
+  # through `normKey`, which singularizes tokens, so either spelling arms it;
+  # but the sheet dedupes proficiency ROWS on a slug that does NOT singularize,
+  # and the class data's `weapons.fixed` display names are plural ("longswords",
+  # "shortswords"). Authoring the singular would render "Longsword, Longswords"
+  # as two rows on a High Elf Rogue. Skill and tool values are the canonical
+  # slugs (ALL_SKILL_SLUGS / ALL_TOOLS in src/types/choice.ts); apostrophes are
+  # ASCII (U+0027), as toProfSlug's fold expects.
+  # ===================================================================
+
+  # --- Elf -- Keen Senses: "You have proficiency in the Perception skill." ---
+  keen-senses:
+    effects:
+      - kind: proficiency
+        proficiency_type: skill
+        value: perception
+
+  # --- Half-Orc -- Menacing: "You gain proficiency in the Intimidation
+  # skill." ---
+  menacing:
+    effects:
+      - kind: proficiency
+        proficiency_type: skill
+        value: intimidation
+
+  # --- Dwarf -- Dwarven Combat Training: "You have proficiency with the
+  # battleaxe, handaxe, light hammer, and warhammer." ---
+  dwarven-combat-training:
+    effects:
+      - kind: proficiency
+        proficiency_type: weapon
+        value: battleaxes
+      - kind: proficiency
+        proficiency_type: weapon
+        value: handaxes
+      - kind: proficiency
+        proficiency_type: weapon
+        value: light hammers
+      - kind: proficiency
+        proficiency_type: weapon
+        value: warhammers
+
+  # --- High Elf (subrace) -- Elf Weapon Training: "You have proficiency with
+  # the longsword, shortsword, shortbow, and longbow." ---
+  elf-weapon-training:
+    effects:
+      - kind: proficiency
+        proficiency_type: weapon
+        value: longswords
+      - kind: proficiency
+        proficiency_type: weapon
+        value: shortswords
+      - kind: proficiency
+        proficiency_type: weapon
+        value: shortbows
+      - kind: proficiency
+        proficiency_type: weapon
+        value: longbows
+
+  # ===================================================================
   # Species trait decision data (SP2 Plan 3). race_traits keys are BARE
   # trait-slugs (slugifyName(trait.name)), NOT owner-scoped -- so a key lands
   # on EVERY species whose trait slugifies to it. The "Ability Score Increase"
@@ -624,8 +696,17 @@ race_traits:
     noChoices: true # Human/Half-Elf language picks are authored at entity level (races: below); all other species' Languages traits are fixed
   # --- Rock Gnome (subrace) -- Tinker: the clockwork-device option ("choose
   # one of the following") is picked each time a device is crafted, in play.
+  # The trait ALSO opens with "You have proficiency with artisan's tools
+  # (tinker's tools)", a prose-only grant the canonical record never carried:
+  # that is the `effects:` block below (see the prose-only grants header at the
+  # top of this section). The two are independent · `noChoices` is about the
+  # device pick and must stay.
   tinker:
     noChoices: true # in-play crafting pick, not a build decision
+    effects:
+      - kind: proficiency
+        proficiency_type: tool
+        value: tinker's-tools
 
 # ===================================================================
 # Entity-level species choices (SP2 Plan 3). Keyed by bare species slug. Used

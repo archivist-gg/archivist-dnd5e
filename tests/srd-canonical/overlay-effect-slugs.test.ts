@@ -154,21 +154,29 @@ function allEffects(overlay: unknown): Array<{ where: string; eff: unknown }> {
   return out;
 }
 
-function badSlugs(overlay: unknown, weapons: WeaponLike[]): string[] {
+/** `bad` is the vocabulary verdict; `checked` is how many effects actually
+ *  REACHED a verdict · incremented immediately before each decision, so it can
+ *  only be read off the same predicates that produce `bad`. A separate counting
+ *  helper would not do: it would keep counting 11 while the real walk skipped
+ *  everything, which is the exact hole task 11 was asked to close. */
+function badSlugs(overlay: unknown, weapons: WeaponLike[]): { bad: string[]; checked: number } {
   const categoryWords = weaponCategoryWords(weapons);
   const bad: string[] = [];
+  let checked = 0;
   for (const { where, eff } of allEffects(overlay)) {
     const e = eff as { kind?: string; proficiency_type?: string; value?: string };
     if (e.kind !== "proficiency") continue;
     if (e.proficiency_type === "weapon") {
+      checked++;
       if (!weaponValueResolves(e.value ?? "", weapons, categoryWords)) bad.push(`${where}: ${e.value}`);
       continue;
     }
     const vocab = VOCAB[e.proficiency_type ?? ""];
     if (!vocab) continue;               // armor/saving-throw are not authored by this phase
+    checked++;
     if (!vocab.includes(toProfSlug(e.value ?? ""))) bad.push(`${where}: ${e.value}`);
   }
-  return bad;
+  return { bad, checked };
 }
 
 describe("authored overlay effect slugs are in vocabulary", () => {
@@ -185,7 +193,33 @@ describe("authored overlay effect slugs are in vocabulary", () => {
   ])("every authored effect slug is in vocabulary ($edition)", async ({ edition, file, minEffects }) => {
     const overlay = await loadOverlay(file);
     expect(allEffects(overlay).length).toBeGreaterThanOrEqual(minEffects);
-    expect(badSlugs(overlay, WEAPONS[edition])).toEqual([]);
+    expect(badSlugs(overlay, WEAPONS[edition]).bad).toEqual([]);
+  });
+
+  /* The SECOND non-vacuity floor, and the one `minEffects` cannot give.
+   *
+   * `minEffects` counts every effect object the walk reaches · today mostly
+   * `resistance` / `ac-bonus`. If `badSlugs`'s `kind !== "proficiency"` line
+   * ever started skipping EVERYTHING (a renamed discriminant, a typo'd literal),
+   * the walk count would stay well above its floor, `bad` would be `[]`, and the
+   * test above would pass green for exactly the wrong reason · one predicate in.
+   * Task 10 could not pin this: no overlay authored a single proficiency effect,
+   * so the true count was ZERO and any floor above it was red on arrival.
+   *
+   * ELEVEN, not five: eleven is one per authored VALUE (keen-senses 1,
+   * menacing 1, dwarven-combat-training 4, elf-weapon-training 4, tinker 1), so
+   * it also catches a walk that finds all five traits but drops values WITHIN a
+   * trait's `effects` array. A floor of five would only notice whole traits
+   * going missing. A floor, not a pin, because authoring more is the expected
+   * direction of travel.
+   *
+   * 2014 ONLY, deliberately. The 2024 overlay authors no proficiency effect at
+   * all, so its honest floor is zero · an assertion that cannot fail. Rather
+   * than write one, this names the file that carries the data. The 2024 row of
+   * the `it.each` above stays covered by its own `minEffects`. */
+  it("the vocabulary check actually REACHES the authored proficiency effects (2014)", async () => {
+    const overlay = await loadOverlay(OVERLAY_2014);
+    expect(badSlugs(overlay, WEAPONS["2014"]).checked).toBeGreaterThanOrEqual(11);
   });
 
   /* The weapon arm of `badSlugs` is ARMED BUT UNFIRED on real data: no overlay
@@ -235,5 +269,61 @@ describe("authored overlay effect slugs are in vocabulary", () => {
     // walked list plus that one key must be exactly the schema's key set.
     expect([...SECTIONS_WITH_EFFECTS, "optional_feature_slugs"].sort())
       .toEqual(Object.keys(overlaySchema.shape).sort());
+  });
+});
+
+/**
+ * R4-P3c task 11 · the five SRD-2014 race traits that state a proficiency in
+ * prose and, until this phase, granted nothing: Elf Keen Senses, Half-Orc
+ * Menacing, Dwarf Dwarven Combat Training, High Elf Elf Weapon Training, Rock
+ * Gnome Tinker.
+ *
+ * ⚠️ `EXPECTED` is TRANSCRIBED from the spec's authoring table (§4.13), NOT
+ * copied from `merger-rules/race-merge.test.ts`. That file's merge assertion is
+ * tautological in its VALUES (it asserts `toEqual(effects)` against the same
+ * literal it fed in), so the only real exact-value guard this phase has is two
+ * INDEPENDENT transcriptions of one table agreeing. Copy either from the other
+ * and that guard silently becomes nothing. Keep them independent.
+ *
+ * ⚠️ Weapon values are PLURAL, and that is a ruling, not a typo. The attack gate
+ * matches through `normKey`, which singularizes tokens, so either spelling
+ * arms it · but the sheet dedupes proficiency ROWS on an un-singularized slug,
+ * and the class data's `weapons.fixed` display names are plural ("longswords",
+ * "shortswords", measured in classes.2014.json). Author the singular and a High
+ * Elf Rogue renders "Longsword, Longswords" as two rows · the duplicate-row
+ * defect this arc already fixed once for tools.
+ *
+ * OBSERVED RED before the YAML landed: all five exact-value cases (`effects`
+ * undefined) plus the reach floor above (`checked` was 0). Two further controls,
+ * both RED on the finished tree and then reverted: raising that floor to 12
+ * reported `checked` as exactly 11, and mutating `battleaxes` to `battleaxen` in
+ * the overlay produced `race_traits.dwarven-combat-training: battleaxen` out of
+ * the LIVE weapon gate · which is what proves these eight weapon spellings are
+ * really being resolved rather than walked past.
+ */
+describe("the five prose-only race proficiency grants are authored exactly", () => {
+  const EXPECTED: Record<string, { proficiency_type: string; values: string[] }> = {
+    "keen-senses":             { proficiency_type: "skill",  values: ["perception"] },
+    "menacing":                { proficiency_type: "skill",  values: ["intimidation"] },
+    "dwarven-combat-training": { proficiency_type: "weapon", values: ["battleaxes", "handaxes", "light hammers", "warhammers"] },
+    "elf-weapon-training":     { proficiency_type: "weapon", values: ["longswords", "shortswords", "shortbows", "longbows"] },
+    "tinker":                  { proficiency_type: "tool",   values: ["tinker's-tools"] },
+  };
+
+  const raceTraits = async (): Promise<Record<string, Record<string, unknown>>> =>
+    ((await loadOverlay(OVERLAY_2014)).race_traits ?? {}) as Record<string, Record<string, unknown>>;
+
+  it.each(Object.entries(EXPECTED))("authors %s with exact values", async (slug, { proficiency_type, values }) => {
+    const rec = (await raceTraits())[slug];
+    expect(rec?.effects).toEqual(
+      values.map((value) => ({ kind: "proficiency", proficiency_type, value })),
+    );
+  });
+
+  // `tinker` is the one EDIT among the five · it already carried `noChoices`
+  // (the clockwork-device option is an in-play crafting pick, not a build
+  // decision). Adding `effects` must not cost it that flag.
+  it("keeps tinker's pre-existing noChoices flag", async () => {
+    expect((await raceTraits()).tinker?.noChoices).toBe(true);
   });
 });
