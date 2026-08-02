@@ -58,6 +58,10 @@ function resolvedFromClasses(entities: Array<{ slug: string }>): ResolvedCharact
 const rapier = findEntity(weapon2014, "srd-5e_weapon_rapier") as unknown as WeaponEntity;
 const plate = findEntity(armor2024, "srd-2024_armor_plate-armor") as unknown as ArmorEntity;
 
+// NOTE (R4-P3c): this file pins display-vs-gate parity for CLASS grants only.
+// aggregateProficiencies now also includes feature-effect grants while
+// computeProficiencies does not, so these assertions no longer prove parity in
+// the effect dimension. Do not read them as if they did.
 describe("display/gate proficiency consistency (real SRD entities)", () => {
   it("2014 Rogue: rapier shows in display weapons AND passes the weapon gate", () => {
     const resolved = resolvedFromClasses([findEntity(cls2014, "rogue")]);

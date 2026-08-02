@@ -10,7 +10,9 @@ export interface ProficiencyEntry {
   value: string;
   /** Display form. Spec §3.3's first code block (languages/tools) or second (armor/weapons). */
   label: string;
-  /** EVERY granting entity's display name, in walk order: class, race, background, feats. */
+  /** EVERY granting entity's display name, in walk order: class, race,
+   *  background, feats, then feature EFFECTS last (R4-P3c · both composers order
+   *  the effect bucket last so a first-seen entity grant keeps its own label). */
   sources: string[];
   origin: ProficiencyOrigin;
 }
@@ -129,8 +131,10 @@ export function collectProficiencyGrants(resolved: ResolvedCharacter): Proficien
   }
 
   // Feature-effect grants. The walk order comment above still holds for the
-  // pre-existing buckets; effect grants are appended LAST by the composers
-  // (pc.proficiencies.ts), so an existing class or feat grant keeps its shipped
+  // pre-existing buckets; effect grants are appended LAST by BOTH composers
+  // (composeGrantEntries in pc.proficiencies.ts for armor/weapons,
+  // computeEffectiveProficiencies' grantBuckets in pc.decision-engine.ts for
+  // tools/languages), so an existing class or feat grant keeps its shipped
   // spelling and the effect only contributes another source name.
   const { features: effectFeatures, activeBuffs } = assembleEffectFeatures(resolved);
   const fx = collectProficiencyEffectGrants(effectFeatures, activeBuffs);

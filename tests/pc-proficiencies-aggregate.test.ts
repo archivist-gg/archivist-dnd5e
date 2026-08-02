@@ -248,3 +248,57 @@ describe("aggregateProficiencies · provenance on every bucket (R4-P3b §7.1)", 
     expect(aggregateProficiencies(suppressed).tools.map((e) => e.value)).not.toContain("thieves'-tools");
   });
 });
+
+// ─────────────────────────────────────────────────────────────────────────────
+// R4-P3c: a proficiency granted by a feature EFFECT reaches the sheet. Five
+// SRD-2014 race traits state a proficiency in prose and grant it through a
+// `kind: "proficiency"` effect · before this the effect reached recalc's combat
+// gate and nothing else, so the Proficiencies panel never showed the row.
+//
+// The effect bucket composes LAST, and that is load-bearing rather than
+// cosmetic: composeGrantEntries is FIRST-SEEN-WINS on the dedupe key, so an
+// existing class or feat grant keeps its shipped `value` and `label` and the
+// effect only appends its granting entity's name. Reordering the buckets
+// silently RELABELS rows to the effect's spelling.
+// ─────────────────────────────────────────────────────────────────────────────
+
+/** A 2014 Rogue whose race grants four weapons through a trait effect.
+ *  Rogue's real shipped data is weapons.fixed = ["hand crossbows","longswords",
+ *  "rapiers","shortswords"] + categories ["simple"], so `longswords` and
+ *  `shortswords` COLLIDE with the effect grant · that collision is the point. */
+function highElfRogue(effectValues: string[]) {
+  return {
+    definition: { overrides: {} },
+    classes: [{
+      entity: {
+        slug: "srd-5e_class_rogue", name: "Rogue",
+        proficiencies: {
+          armor: ["light"],
+          weapons: { fixed: ["hand crossbows", "longswords", "rapiers", "shortswords"], categories: ["simple"] },
+          tools: { fixed: [] },
+        },
+      },
+      subclass: null, level: 1, choices: {},
+    }],
+    race: { slug: "srd-5e_race_high-elf", name: "High Elf", languages: { fixed: [] } },
+    background: null, feats: [], pools: [], state: {},
+    features: [{
+      feature: {
+        id: "elf-weapon-training", name: "Elf Weapon Training", activatable: false,
+        effects: effectValues.map((value) => ({ kind: "proficiency", proficiency_type: "weapon", value })),
+      },
+      source: { kind: "race", slug: "srd-5e_race_high-elf" },
+    }],
+  } as never;
+}
+
+describe("aggregateProficiencies · feature-effect grants (R4-P3c)", () => {
+  it("renders an effect-granted weapon, and a colliding class spelling stays ONE row", () => {
+    const r = highElfRogue(["longswords", "shortswords", "shortbows", "longbows"]);
+    const weapons = aggregateProficiencies(r).weapons;
+    expect(weapons.map((e) => e.label).join(", "))
+      .toBe("Hand Crossbows, Longbows, Longswords, Rapiers, Shortbows, Shortswords, Simple");
+    const longswords = weapons.find((e) => e.label === "Longswords")!;
+    expect(longswords.sources).toEqual(["Rogue", "High Elf"]); // class first, effect LAST
+  });
+});

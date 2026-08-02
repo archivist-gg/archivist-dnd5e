@@ -201,4 +201,38 @@ describe("computeEffectiveProficiencies", () => {
     // under-filled choice contributes exactly its made picks, not its pool.
     expect(eff.languages.map((e) => e.value)).toEqual(["common", "elvish"]);
   });
+
+  // ───────────────────────────────────────────────────────────────────────────
+  // R4-P3c: a tool/language granted by a feature EFFECT folds in HERE, not in a
+  // second composer. Routing it through this function is what buys the rest for
+  // free: `overrides.tools.remove` already subtracts inside this function, and
+  // buildDecisionLedger's picker exclusion already reads this function, so an
+  // effect grant becomes suppressible and un-offerable by construction rather
+  // than by a new store. The suppression half is asserted after a POSITIVE
+  // control, or the negative passes vacuously against a build that never folded
+  // the grant at all.
+  // ───────────────────────────────────────────────────────────────────────────
+
+  /** A Rock Gnome whose Tinker trait grants tinker's-tools by effect.
+   *  `overrides` is threaded so the suppression half can be exercised. */
+  function rockGnome(overrides: unknown = {}) {
+    return {
+      definition: { overrides },
+      classes: [], race: { slug: "srd-5e_race_rock-gnome", name: "Rock Gnome", languages: { fixed: [] } },
+      background: null, feats: [], pools: [], state: {},
+      features: [{
+        feature: {
+          id: "tinker", name: "Tinker", activatable: false,
+          effects: [{ kind: "proficiency", proficiency_type: "tool", value: "tinker's-tools" }],
+        },
+        source: { kind: "race", slug: "srd-5e_race_rock-gnome" },
+      }],
+    } as never;
+  }
+
+  it("folds an effect-granted tool in as a grant, and it is suppressible", () => {
+    expect(computeEffectiveProficiencies(rockGnome()).tools.map((e) => e.value)).toContain("tinker's-tools");
+    const suppressed = rockGnome({ tools: { remove: ["tinker's-tools"] } });
+    expect(computeEffectiveProficiencies(suppressed).tools.map((e) => e.value)).not.toContain("tinker's-tools");
+  });
 });

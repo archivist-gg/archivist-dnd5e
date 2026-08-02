@@ -667,7 +667,12 @@ function proficiencyEntryFor(
  *
  *  ONE argument. `Character.overrides` is non-optional with a schema default, so
  *  a second parameter would be redundant and would force an optionality decision
- *  at nine existing aggregateProficiencies call sites (spec §4.1). */
+ *  at seventeen existing aggregateProficiencies call sites (spec §4.1). Counted
+ *  R4-P3c as invocation expressions of `aggregateProficiencies(`, repo-wide over
+ *  *.ts/*.tsx excluding node_modules and dist: 2 production (the plugin's
+ *  proficiencies-panel and proficiency-edit-modal) + 15 in tests (14 here, 1 in
+ *  the plugin's pc-proficiency-edit-modal counting passthrough). The declaration
+ *  itself and the two mock property definitions are not call sites. */
 export function computeEffectiveProficiencies(
   resolved: ResolvedCharacter,
 ): { languages: ProficiencyEntry[]; tools: ProficiencyEntry[] } {
@@ -702,9 +707,16 @@ export function computeEffectiveProficiencies(
       if (rank[origin] < rank[existing.origin]) existing.origin = origin;
     };
 
+    // Effect buckets go LAST, for the same reason composeGrantEntries orders
+    // them last: `push` is first-seen-wins on the value, so an entity grant
+    // keeps its own label and the effect only appends its source name.
+    // Routing effect grants through HERE rather than composing them separately
+    // is what makes them suppressible by `overrides.<domain>.remove` and
+    // excluded from the builder's pickers, both by construction and with no new
+    // store · that is the whole reason this function is the single primitive.
     const grantBuckets = domain === "languages"
-      ? [grants.raceLangFixed, grants.bgLangFixed, grants.featLanguages]
-      : [grants.classToolFixed, grants.bgToolFixed, grants.featTools];
+      ? [grants.raceLangFixed, grants.bgLangFixed, grants.featLanguages, grants.effectLanguages]
+      : [grants.classToolFixed, grants.bgToolFixed, grants.featTools, grants.effectTools];
     for (const b of grantBuckets) for (const g of b) push(g.value, "grant", g.source);
     for (const v of (domain === "languages" ? chosen.languages : chosen.tools)) push(v, "pick");
     for (const v of adds) push(v, matchPool(v, vocab) ? "manual" : "custom");

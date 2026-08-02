@@ -27,11 +27,13 @@ export interface ProficiencyAggregate {
 }
 
 /** Normalized intermediate of every proficiency/language source the DISPLAY path
- *  reads, in one place. Only the class branch is a live proficiency source today
- *  (race/bg/feat `.proficiencies` object fields do not exist on those entities);
- *  race languages, bg tool/lang, and feat grants read their real fields. Chosen
- *  picks come from the single decision walk in pc.decision-engine so display can
- *  never diverge from the persisted picks.
+ *  reads, in one place. Among the ENTITY branches only the class one is a live
+ *  proficiency source today (race/bg/feat `.proficiencies` object fields do not
+ *  exist on those entities); race languages, bg tool/lang, and feat grants read
+ *  their real fields, and the four `effect*` buckets carry what a feature's
+ *  `kind: "proficiency"` effects grant · that is the live path a 2014 race trait
+ *  actually uses (R4-P3c). Chosen picks come from the single decision walk in
+ *  pc.decision-engine so display can never diverge from the persisted picks.
  *
  *  Every grant bucket carries `{value, source}` rather than a bare value: the
  *  walk holds the granting entity and the aggregate needs it to fill
@@ -39,7 +41,15 @@ export interface ProficiencyAggregate {
  *  language/tool grant buckets are still surfaced here for completeness, but
  *  the aggregate no longer reads them · languages and tools come from
  *  computeEffectiveProficiencies, which does its own grant walk so that
- *  suppressions and manual adds can never be skipped by a second composer. */
+ *  suppressions and manual adds can never be skipped by a second composer.
+ *
+ *  These names are RE-DECLARED by hand rather than inherited: this interface
+ *  does not `extends ProficiencyGrants`, so a bucket added to the grant walk
+ *  stays invisible here until it is added here too. `collectProficiencySources`
+ *  spreads the grants object, so an undeclared bucket still flows at RUNTIME ·
+ *  the compiler is the only thing that notices, and only where the field is
+ *  read. Nothing iterates these objects with Object.keys/values/entries, so a
+ *  declaration gap is inert rather than corrupting; it is still a gap. */
 export interface ProficiencySources {
   classArmor: ProficiencyGrant[];              // ArmorCategory[] · category names
   classWeaponFixed: ProficiencyGrant[];        // WeaponProficiency.fixed · display names (D6 matches via normKey)
@@ -52,6 +62,10 @@ export interface ProficiencySources {
   featWeapons: ProficiencyGrant[];
   featTools: ProficiencyGrant[];
   featLanguages: ProficiencyGrant[];
+  effectArmor: ProficiencyGrant[];             // from `kind: "proficiency"` effects · RAW authored string
+  effectWeapons: ProficiencyGrant[];
+  effectTools: ProficiencyGrant[];             // ...canonical slug, for the vocabulary matcher
+  effectLanguages: ProficiencyGrant[];
   chosenLanguages: string[];         // from collectChosenProficiencies (flat, per-domain)
   chosenTools: string[];
 }
@@ -81,8 +95,12 @@ export function aggregateProficiencies(resolved: ResolvedCharacter): Proficiency
     // Walk order defines `sources` order (spec §4.1): class before feats, and
     // for weapons the class `fixed` names before the class categories, matching
     // the insertion order of the bucket this replaced, exactly.
-    armor: composeGrantEntries([src.classArmor, src.featArmor]),
-    weapons: composeGrantEntries([src.classWeaponFixed, src.classWeaponCategories, src.featWeapons]),
+    //
+    // Effect buckets go LAST: first-seen wins the dedupe key, so an existing
+    // class or feat grant keeps its shipped spelling and label and the effect
+    // only appends its source name. Reordering these silently relabels rows.
+    armor: composeGrantEntries([src.classArmor, src.featArmor, src.effectArmor]),
+    weapons: composeGrantEntries([src.classWeaponFixed, src.classWeaponCategories, src.featWeapons, src.effectWeapons]),
     tools: effective.tools,
     languages: effective.languages,
   };
