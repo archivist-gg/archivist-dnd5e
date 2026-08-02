@@ -14,8 +14,17 @@ import { normKey } from "./pc.proficiency-normalize";
 // fact about these two repos, not a licence to trim branches an outside
 // consumer may rely on.
 //
-// Deleting the pair is a 4-file change (this module plus the three tests that
-// import it) and would strand three prose references: the
+// Deleting the pair is a FIVE-file change: this module, its `package.json`
+// exports key (`./pc/pc.proficiency-query`), and the three tests that import
+// it. Do not skip the key · `scripts/esbuild-dist.mjs` derives dist entry
+// points from that hand-maintained map with no existence check, so a leftover
+// key fails `prepare-publish` at RELEASE while `npm test` and `npm run
+// typecheck` both stay green. That key is also what resolves the package
+// subpath import in `tests/pc-recalc-feature-effects.test.ts` (vitest uses
+// native self-reference · the alias fallback is commented out), so module and
+// key have to go in the same commit, neither one first.
+//
+// Deleting would also strand three prose references: the
 // `isWeaponSlugProficient` docblock in `pc.equipment.ts`, and comments in
 // `tests/pc-recalc-proficiency-characterization.test.ts` and
 // `tests/srd-canonical/overlay-effect-slugs.test.ts`. Deliberately out of scope.
@@ -43,11 +52,14 @@ export function isProficientWithWeapon(
 }
 
 /** No live armor gate exists at all · nothing in the product gates on armor
- *  proficiency today, so this has no production caller either. Do NOT read that
- *  as "the `.specific` branch is dead": `normalizeArmorProf` in `pc.recalc.ts`
- *  routes an authored `armor: { specific: [...] }` block straight into it (no
- *  SRD entity uses that object form yet), and the function is published API
- *  besides, so trimming that branch could silently regress either. */
+ *  proficiency today (`computeAppliedBonuses` takes `_profs` and ignores it),
+ *  so this has no production caller either. Do NOT read that as "the
+ *  `.specific` branch is dead": `normalizeArmorProf` in `pc.recalc.ts` routes
+ *  an authored `armor: { specific: [...] }` block straight into it. No SRD
+ *  entity uses that object form for armor yet, but `weapons:` and `tools:`
+ *  already do in the same `proficiencies:` block, so it is one plausible
+ *  keystroke away · and the function is published API besides. Trimming that
+ *  branch could silently regress either. */
 export function isProficientWithArmor(
   armor: ArmorEntity,
   profs: ProficienciesForQuery,
