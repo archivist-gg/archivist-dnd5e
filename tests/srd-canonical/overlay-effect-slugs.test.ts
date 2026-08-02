@@ -180,15 +180,23 @@ function badSlugs(overlay: unknown, weapons: WeaponLike[]): { bad: string[]; che
 }
 
 describe("authored overlay effect slugs are in vocabulary", () => {
-  // `minEffects` is the NON-VACUITY floor, measured on the tree this guard
-  // landed on (2014: 11, 2024: 19). It is the permanent form of the one-shot
-  // count the brief asked for: a walk that reaches ZERO effect objects returns
-  // an empty `bad` list and passes for the wrong reason, which is precisely how
-  // a wrong `loadOverlay` call or a lost descent would look. A FLOOR rather
-  // than an exact pin, because authoring more effects is the expected direction
-  // of travel and must not turn this red.
+  // `minEffects` is the NON-VACUITY floor, RE-MEASURED on the committed tree
+  // after task 11's data landed: 2014 = 22 effect objects (11 proficiency, 10
+  // resistance, 1 ac-bonus); 2024 = 19 (18 resistance, 1 ac-bonus, no
+  // proficiency). It is the permanent form of the one-shot count the brief
+  // asked for: a walk that reaches ZERO effect objects returns an empty `bad`
+  // list and passes for the wrong reason, which is precisely how a wrong
+  // `loadOverlay` call or a lost descent would look.
+  //
+  // A FLOOR rather than an exact pin, because authoring more effects is the
+  // expected direction of travel and must not turn this red · but the floor is
+  // kept AT the measured count, never left behind at an older one. Task 10
+  // measured 11 for 2014; task 11 then added 11 more and, had the number been
+  // left alone, the walk could have lost HALF its reach and still passed. So
+  // the rule is: author effects, re-measure, raise this. Both numbers here are
+  // the output of that re-measure, not a carried-forward guess.
   it.each([
-    { edition: "2014", file: OVERLAY_2014, minEffects: 11 },
+    { edition: "2014", file: OVERLAY_2014, minEffects: 22 },
     { edition: "2024", file: OVERLAY_2024, minEffects: 19 },
   ])("every authored effect slug is in vocabulary ($edition)", async ({ edition, file, minEffects }) => {
     const overlay = await loadOverlay(file);
@@ -198,11 +206,13 @@ describe("authored overlay effect slugs are in vocabulary", () => {
 
   /* The SECOND non-vacuity floor, and the one `minEffects` cannot give.
    *
-   * `minEffects` counts every effect object the walk reaches · today mostly
-   * `resistance` / `ac-bonus`. If `badSlugs`'s `kind !== "proficiency"` line
-   * ever started skipping EVERYTHING (a renamed discriminant, a typo'd literal),
-   * the walk count would stay well above its floor, `bad` would be `[]`, and the
-   * test above would pass green for exactly the wrong reason · one predicate in.
+   * `minEffects` is measured off `allEffects`, which is entirely KIND-BLIND: it
+   * counts objects, never asks what they are. So if `badSlugs`'s
+   * `kind !== "proficiency"` line ever started skipping EVERYTHING (a renamed
+   * discriminant, a typo'd literal), `allEffects` would still return all 22 and
+   * all 19, that floor would not budge, `bad` would be `[]`, and the test above
+   * would pass green for exactly the wrong reason · one predicate in. No value
+   * of `minEffects` can ever catch this, which is why it takes a second floor.
    * Task 10 could not pin this: no overlay authored a single proficiency effect,
    * so the true count was ZERO and any floor above it was red on arrival.
    *
@@ -222,11 +232,24 @@ describe("authored overlay effect slugs are in vocabulary", () => {
     expect(badSlugs(overlay, WEAPONS["2014"]).checked).toBeGreaterThanOrEqual(11);
   });
 
-  /* The weapon arm of `badSlugs` is ARMED BUT UNFIRED on real data: no overlay
-   * authors a `kind: proficiency` effect yet (all 30 effect objects today are
-   * resistance / ac-bonus). So the predicate itself is pinned here in BOTH
-   * directions, because a weapon check that silently accepted everything and one
-   * that silently rejected everything would both leave the it.each above green.
+  /* The weapon PREDICATE is pinned here in BOTH directions, because a weapon
+   * check that silently accepted everything and one that silently rejected
+   * everything would both leave the it.each above green.
+   *
+   * ⚠️ HISTORY, because the previous wording is now false and the correction is
+   * load-bearing. Task 10 wrote this as "ARMED BUT UNFIRED on real data: no
+   * overlay authors a `kind: proficiency` effect yet (all 30 effect objects
+   * today are resistance / ac-bonus)". True then. FALSE SINCE TASK 11: the 2014
+   * overlay now carries ELEVEN proficiency effects, EIGHT of them weapons, and
+   * the tree holds 41 effect objects, not 30. That data is exactly what fired
+   * the arm.
+   *
+   * So do NOT read this block as evidence that nothing live exercises the weapon
+   * check, and do NOT delete the reach floor above as redundant scaffolding ·
+   * that would restore the blind state task 11 closed. The two guard different
+   * things and neither implies the other: THIS one pins the predicate against
+   * synthetic values, including REJECTIONS, which real data can never
+   * demonstrate; the FLOOR pins that real authored data actually reaches it.
    *
    * The eight accepted values are exactly the ones R4-P3c task 11 authors, in
    * the plural display spelling the SRD prose uses. A false positive on any of
