@@ -1,4 +1,7 @@
-import type { ResolvedCharacter } from "./pc.types";
+import type { ResolvedCharacter, FeatureSource } from "./pc.types";
+import {
+  assembleEffectFeatures, collectProficiencyEffectGrants, type EffectProficiencyGrant,
+} from "./pc.feature-effects";
 
 export type ProficiencyOrigin = "grant" | "pick" | "manual" | "custom";
 
@@ -27,6 +30,10 @@ export interface ProficiencyGrants {
   featWeapons: ProficiencyGrant[];
   featTools: ProficiencyGrant[];
   featLanguages: ProficiencyGrant[];
+  effectArmor: ProficiencyGrant[];
+  effectWeapons: ProficiencyGrant[];
+  effectTools: ProficiencyGrant[];
+  effectLanguages: ProficiencyGrant[];
 }
 
 interface FeatProficiencyGrants {
@@ -36,14 +43,20 @@ interface FeatProficiencyGrants {
   languages?: string[];
 }
 
-/** Stand-in when a granting entity carries no display name. Unreachable through
- *  the typed shapes: every entity here declares `name: string`, and every push
- *  already sits behind a guard that implies its entity exists (a null
- *  `c.entity` yields no `prof`, a null `race` yields an empty fixed list, `bg`
- *  is behind `if (bg)`). It exists because `ProficiencyGrant.source` is
- *  `string`, and cast-built fixtures can omit a field the type says is there ·
- *  the same class of defence as the `resolved.feats ?? []` guard below. A
- *  visible token beats the empty string, which renders as a blank source chip. */
+/** Stand-in when a granting entity carries no display name.
+ *  In the FIXED walks below it is unreachable through the typed shapes: every
+ *  entity there declares `name: string`, and every push already sits behind a
+ *  guard that implies its entity exists (a null `c.entity` yields no `prof`, a
+ *  null `race` yields an empty fixed list, `bg` is behind `if (bg)`). Those uses
+ *  exist because `ProficiencyGrant.source` is `string`, and cast-built fixtures
+ *  can omit a field the type says is there · the same class of defence as the
+ *  `resolved.feats ?? []` guard below.
+ *  In `nameFor` (the effect walk) it is GENUINELY reachable, not merely a
+ *  fixture guard: an effect's source slug is matched against the character's
+ *  current entities and can legitimately miss with fully typed inputs. Only that
+ *  switch's `default:` arm stays type-unreachable, `FeatureSource["kind"]` being
+ *  a closed five-member union.
+ *  A visible token beats the empty string, which renders as a blank source chip. */
 const UNKNOWN_SOURCE = "Unknown";
 
 /** Every FIXED proficiency/language a character's entities grant, each paired
@@ -52,10 +65,10 @@ const UNKNOWN_SOURCE = "Unknown";
  *  downstream (spec §4.1).
  *
  *  This module is a LEAF on purpose: it must import nothing from the decision
- *  engine module, so that the engine can import it without a cycle (spec §4.3).
- *  That invariant is enforced by a literal grep for the engine module's name
- *  over this file, so do not name it here either · describe it, as this comment
- *  does.
+ *  engine module, so that the engine can import it without a cycle. NOT enforced
+ *  by any test or lint rule · a previous comment claimed a grep guard that has
+ *  never existed. It is a convention, and this phase adds a feature-effects
+ *  import that is cycle-free by inspection, not by tooling.
  *  The walk returns raw `{value, source}` buckets and nothing else · no
  *  humanizing, no sorting, no dedupe. Label composition stays with the
  *  module-private `prettyName` in `pc.proficiencies.ts` (spec §7.1). */
@@ -115,9 +128,43 @@ export function collectProficiencyGrants(resolved: ResolvedCharacter): Proficien
     for (const l of grants.languages ?? []) featLanguages.push({ value: l, source });
   }
 
+  // Feature-effect grants. The walk order comment above still holds for the
+  // pre-existing buckets; effect grants are appended LAST by the composers
+  // (pc.proficiencies.ts), so an existing class or feat grant keeps its shipped
+  // spelling and the effect only contributes another source name.
+  const { features: effectFeatures, activeBuffs } = assembleEffectFeatures(resolved);
+  const fx = collectProficiencyEffectGrants(effectFeatures, activeBuffs);
+  const nameFor = (kind: FeatureSource["kind"], slug: string): string => {
+    switch (kind) {
+      case "class":
+        return resolved.classes?.find((c) => c.entity?.slug === slug)?.entity?.name ?? UNKNOWN_SOURCE;
+      case "subclass":
+        return resolved.classes?.find((c) => c.subclass?.slug === slug)?.subclass?.name ?? UNKNOWN_SOURCE;
+      case "race":
+        return resolved.race?.name ?? UNKNOWN_SOURCE;
+      case "background":
+        return resolved.background?.name ?? UNKNOWN_SOURCE;
+      case "feat":
+        return resolved.feats?.find((f) => f.slug === slug)?.name ?? UNKNOWN_SOURCE;
+      default:
+        return UNKNOWN_SOURCE;
+    }
+  };
+  // armor/weapons take the RAW authored string (composeGrantEntries stores it as
+  // ProficiencyEntry.value); tools/languages take the canonical slug, which is
+  // what computeEffectiveProficiencies matches its vocabulary and suppressions on.
+  const toGrants = (list: EffectProficiencyGrant[], useRaw: boolean): ProficiencyGrant[] =>
+    list.map((g) => ({ value: useRaw ? g.raw : g.value, source: nameFor(g.sourceKind, g.sourceSlug) }));
+
+  const effectArmor = toGrants(fx.armor, true);
+  const effectWeapons = toGrants(fx.weapons, true);
+  const effectTools = toGrants(fx.tools, false);
+  const effectLanguages = toGrants(fx.languages, false);
+
   return {
     classArmor, classWeaponFixed, classWeaponCategories, classToolFixed,
     raceLangFixed, bgToolFixed, bgLangFixed,
     featArmor, featWeapons, featTools, featLanguages,
+    effectArmor, effectWeapons, effectTools, effectLanguages,
   };
 }
