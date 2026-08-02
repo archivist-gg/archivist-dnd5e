@@ -57,17 +57,26 @@ describe("collectProficiencyGrants · effect buckets", () => {
     expect(collectProficiencyGrants(resolved).effectTools).toEqual([{ value: "smith's-tools", source: "Unknown" }]);
   });
 
-  it("carries the RAW authored string for armor and weapons, and the slug for tools", () => {
+  // Every authored value here is chosen so `raw !== value`, in ALL FOUR buckets.
+  // A bucket whose authored form already equals its slug (e.g. the "orc" above)
+  // pins nothing about routing: flipping its `useRaw` stays green. Keep it that
+  // way · this is the only guard on which of the two EffectProficiencyGrant
+  // fields each bucket reads, and reaching for the wrong one is silently wrong.
+  it("carries the RAW authored string for armor and weapons, and the canonical slug for tools and languages", () => {
     const resolved = {
       classes: [], feats: [], race: { slug: "r", name: "R", languages: { fixed: [] } },
       background: null, pools: [], state: {},
       features: [traitGranting([
+        { kind: "proficiency", proficiency_type: "armor", value: "Heavy" },
         { kind: "proficiency", proficiency_type: "weapon", value: "Light Hammers" },
         { kind: "proficiency", proficiency_type: "tool", value: "Tinker’s Tools" },
+        { kind: "proficiency", proficiency_type: "language", value: "Deep Speech" },
       ], "race", "r")],
     } as never;
     const g = collectProficiencyGrants(resolved);
+    expect(g.effectArmor[0].value).toBe("Heavy");             // raw, NOT "heavy"
     expect(g.effectWeapons[0].value).toBe("Light Hammers");   // raw
     expect(g.effectTools[0].value).toBe("tinker's-tools");    // normalized
+    expect(g.effectLanguages[0].value).toBe("deep-speech");   // normalized, NOT "Deep Speech"
   });
 });
