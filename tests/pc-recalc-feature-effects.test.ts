@@ -188,8 +188,8 @@ describe("recalc — feature effects: proficiencies", () => {
       { kind: "proficiency", proficiency_type: "tool", value: "Thieves' Tools" },
       { kind: "proficiency", proficiency_type: "language", value: "Draconic" },
     ]));
-    expect(d.proficiencies.tools.specific).toContain("Thieves' Tools");
-    expect(d.proficiencies.languages).toContain("Draconic");
+    expect(d.proficiencies.tools.specific).toContain("thieves'-tools");
+    expect(d.proficiencies.languages).toContain("draconic");
   });
 
   it("proficiency armor effect (category) lands in proficiencies.armor.categories", () => {

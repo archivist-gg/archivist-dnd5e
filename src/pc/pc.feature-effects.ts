@@ -3,6 +3,7 @@ import type { Ability } from "@archivist-gg/dnd5e";
 import { ABILITY_KEYS } from "@archivist-gg/dnd5e/dnd/constants";
 import type { DamageRider, ResolvedFeature, RollModifierEntry } from "./pc.types";
 import { bareEntitySlug } from "../entities/slug";
+import { toProfSlug } from "./pc.proficiency-normalize";
 
 /**
  * A melee-attack ability override from a `weapon-ability` effect. `weaponSlugs`
@@ -45,11 +46,13 @@ export interface FeatureEffectTotals {
   resistances: string[];
   condition_immunities: string[];
   /**
-   * skills are kebab-case lowercase slugs (matching skill slugs). armor/weapons
-   * are lowercase CATEGORY words ("heavy"/"shield", "simple"/"martial") — the
-   * same form class/race/feat grants use; recalc folds them into the matcher's
-   * `.categories` bucket, NOT `.specific` (which is per-item slugs). tools/languages
-   * keep their display spelling; saves are canonical ability keys.
+   * skills, tools and languages are canonical slugs (toProfSlug: lowercase, U+2019
+   * folded to ASCII, whitespace collapsed to hyphens) · they land on
+   * ALL_SKILL_SLUGS / ALL_TOOLS / ALL_LANGUAGES, over which toProfSlug is the
+   * identity. armor/weapons are lowercase authored words; saves are canonical
+   * ability keys.
+   * (Task 4 extends the armor/weapon sentence once routing changes · do NOT
+   * write "category or specific" here yet, it is not true until then.)
    */
   proficiencies: { skills: string[]; tools: string[]; languages: string[]; saves: Ability[]; armor: string[]; weapons: string[] };
   /**
@@ -191,11 +194,11 @@ export function classifyProficiencyEffect(eff: FeatureEffect): ProficiencyClassi
   const raw = eff.value;
   switch (eff.proficiency_type) {
     case "skill":
-      return { bucket: "skills", value: raw.toLowerCase().replace(/\s+/g, "-"), raw };
+      return { bucket: "skills", value: toProfSlug(raw), raw };
     case "tool":
-      return { bucket: "tools", value: raw, raw };
+      return { bucket: "tools", value: toProfSlug(raw), raw };
     case "language":
-      return { bucket: "languages", value: raw, raw };
+      return { bucket: "languages", value: toProfSlug(raw), raw };
     case "armor":
       // Armor/weapon grants are CATEGORIES ("heavy"/"shield", "simple"/"martial"),
       // not per-item slugs. Stored lowercase (bare word) to match the form

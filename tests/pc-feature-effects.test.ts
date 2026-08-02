@@ -71,8 +71,8 @@ describe("computeFeatureEffects", () => {
       ]),
     ]);
     expect(out.proficiencies.skills).toEqual(["animal-handling"]);
-    expect(out.proficiencies.tools).toEqual(["Thieves' Tools"]);
-    expect(out.proficiencies.languages).toEqual(["Draconic"]);
+    expect(out.proficiencies.tools).toEqual(["thieves'-tools"]);
+    expect(out.proficiencies.languages).toEqual(["draconic"]);
     expect(out.proficiencies.saves).toEqual(["wis", "dex"]);
   });
 
@@ -224,5 +224,17 @@ describe("classifyProficiencyEffect", () => {
 
   it("returns null for a non-proficiency effect", () => {
     expect(classifyProficiencyEffect({ kind: "resistance", damage_type: "fire" })).toBeNull();
+  });
+
+  it("canonicalizes tool and language values, folding the curly apostrophe", () => {
+    expect(classifyProficiencyEffect({ kind: "proficiency", proficiency_type: "tool", value: "Tinker’s Tools" }))
+      .toEqual({ bucket: "tools", value: "tinker's-tools", raw: "Tinker’s Tools" });
+    expect(classifyProficiencyEffect({ kind: "proficiency", proficiency_type: "language", value: "Draconic" }))
+      .toEqual({ bucket: "languages", value: "draconic", raw: "Draconic" });
+  });
+
+  it("trims padded skill values, which the previous hand-rolled normalizer did not", () => {
+    expect(classifyProficiencyEffect({ kind: "proficiency", proficiency_type: "skill", value: " Perception " }))
+      .toEqual({ bucket: "skills", value: "perception", raw: " Perception " });
   });
 });
