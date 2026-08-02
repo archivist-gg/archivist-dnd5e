@@ -48,14 +48,36 @@ export interface FeatureEffectTotals {
   condition_immunities: string[];
   /**
    * skills, tools and languages are canonical slugs (toProfSlug: lowercase, U+2019
-   * folded to ASCII, whitespace collapsed to hyphens) · they land on
-   * ALL_SKILL_SLUGS / ALL_TOOLS / ALL_LANGUAGES, over which toProfSlug is the
-   * identity. armor entries are lowercase CATEGORY words ("heavy"/"shield") and
-   * recalc folds them into armor.categories ONLY. weapons entries are lowercase
-   * too, but are either a CATEGORY word ("simple"/"martial", or an entity-level
-   * "martial-melee" form) or an authored weapon NAME: recalc folds every one into
-   * weapons.categories and additionally routes a non-category value into
-   * weapons.specific. saves are canonical ability keys.
+   * folded to ASCII, whitespace collapsed to hyphens). armor and weapons entries
+   * are only `.toLowerCase()`d, NOT slugified, so an authored value keeps its
+   * spaces. recalc folds armor into armor.categories ONLY; it folds every weapons
+   * value into weapons.categories and additionally routes a non-category value
+   * into weapons.specific. saves are canonical ability keys, and are the one
+   * bucket a closed vocabulary genuinely guarantees: normalizeAbility returns null
+   * for anything else and the effect is dropped.
+   *
+   * What is INTENDED and what is ENFORCED differ here, and the gap is silent.
+   * INTENDED: skills/tools/languages land on ALL_SKILL_SLUGS / ALL_TOOLS /
+   * ALL_LANGUAGES, over which toProfSlug is the identity; armor values are
+   * CATEGORY words ("heavy"/"shield"); weapons values are a category word
+   * ("simple"/"martial", or an entity-level "martial-melee" form) or an authored
+   * weapon NAME. ENFORCED at runtime: nothing. feature-effect-schema's proficiency
+   * arm is `value: z.string().min(1)`, an OPEN string, and classifyProficiencyEffect
+   * does no membership test. The only guard is
+   * tests/srd-canonical/overlay-effect-slugs.test.ts, and it sees OVERLAY-AUTHORED
+   * data only · there skill/tool/language are checked against those three lists and
+   * weapon against the live gate, while armor and saving-throw are unchecked even
+   * there. Vault homebrew reaching this at runtime is checked by nothing.
+   *
+   * An off-vocabulary value does not crash and does not disappear · it becomes a
+   * value that can never coincide with the canonical one. Measured: an authored
+   * `{proficiency_type:"tool", value:"Playing Card Set"}` normalizes to
+   * "playing-card-set", which is NOT in ALL_TOOLS (that list carries the 2024
+   * spelling "playing-cards"). It still folds, and still renders as its own row
+   * labeled "Playing Card Set", but everything keyed on the canonical slug · the
+   * first-seen-wins dedupe in computeEffectiveProficiencies, an
+   * `overrides.tools.remove` suppression, the builder's already-satisfied
+   * exclusion · misses it, so the character ends up able to hold both.
    */
   proficiencies: { skills: string[]; tools: string[]; languages: string[]; saves: Ability[]; armor: string[]; weapons: string[] };
   /**
@@ -178,16 +200,29 @@ export function foldsNow(rf: ResolvedFeature, activeBuffs: Set<string>): boolean
  *  The guards defend against CAST-BUILT FIXTURES, not against the type: `features`,
  *  `pools` and `state` are all non-optional on ResolvedCharacter, but `tests/` is
  *  typechecked by nothing. Only fixtures that actually reach this function count,
- *  and today that means recalc's callers plus this function's own direct tests:
+ *  and today that is THREE entry points: recalc, the display-side walk
+ *  (computeEffectiveProficiencies → collectProficiencyGrants), and this
+ *  function's own direct tests. All three guards are LIVE. Counts below were
+ *  measured by deleting each guard and running the suite · re-derive them the
+ *  same way rather than trusting the numbers, which drift as tests are added:
  *    · `pools ?? []` is exercised by `emptyResolved()` in
- *      tests/pc-recalc-feature-effects.test.ts:27, which omits pools and IS fed to
- *      recalc. This guard predates the extraction; it was already here.
- *    · `state?.` is exercised by tests/pc-feature-effects.test.ts:249, which calls
- *      this function directly with `{ features: [...] } as never`. Without it that
- *      test throws on `state.active_buffs`.
- *    · `features ?? []` is NOT exercised today, and is the one kept purely for the
- *      display-side callers. Before the extraction recalc spread `resolved.features`
- *      unguarded, which is proof that every fixture reaching recalc supplies it.
+ *      tests/pc-recalc-feature-effects.test.ts, which omits pools and IS fed to
+ *      recalc, and by `dwarf()` in tests/pc-proficiency-effective.test.ts. This
+ *      guard predates the extraction; it was already here. Deleting it: 149 tests
+ *      red across 13 files.
+ *    · `state?.` is exercised by the "survives a cast-built fixture with no pools
+ *      and no state" case in tests/pc-feature-effects.test.ts, which calls this
+ *      function directly with `{ features: [...] } as never`, and again by
+ *      `dwarf()`. Deleting it: 11 red across 2 files.
+ *    · `features ?? []` is exercised by `dwarf()` in
+ *      tests/pc-proficiency-effective.test.ts, which omits `features` and reaches
+ *      here through the display walk. Deleting it: 7 red, all in that file.
+ *      ⚠️ This bullet used to read "NOT exercised today, and is the one kept
+ *      purely for the display-side callers". That was TRUE when written and was
+ *      falsified LATER IN THIS SAME PHASE by the tasks that wired the display
+ *      path, because nobody re-read it. A guard's own justification is the thing
+ *      most likely to go stale under you · re-run the deletion before restating
+ *      any of these three.
  *  Do not "simplify" any of the three away. */
 export function assembleEffectFeatures(
   resolved: ResolvedCharacter,
@@ -306,10 +341,14 @@ export type EffectProficiencyGrants =
  *  value, so collapsing on value alone here would silently drop the second
  *  granting entity and blank half the provenance.
  *
- *  `skills` and `saves` are collected for symmetry with FeatureEffectTotals and
- *  for tests, but have NO display consumer: effect-granted skills already reach
- *  the sheet via recalc's skill union and saves via its save set. The
- *  Proficiencies panel has only four rows. This is deliberate, not an oversight.
+ *  `skills` and `saves` are collected because classifyProficiencyEffect's bucket
+ *  union has SIX members and this function indexes the record by it · drop either
+ *  key and `out[c.bucket].push(...)` is a type error, and a hand-built record
+ *  missing one crashes on the first such effect. They have NO display consumer:
+ *  effect-granted skills already reach the sheet via recalc's skill union and
+ *  saves via its save set, and the Proficiencies panel has only four rows. No
+ *  test asserts either bucket, and `toGrants` in pc.proficiency-grants.ts reads
+ *  only the other four. That is deliberate, not an oversight.
  *
  *  Reads the same two rules as the fold, and NOTHING else: foldsNow decides what
  *  is active and classifyProficiencyEffect decides what a proficiency effect

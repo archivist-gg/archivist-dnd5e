@@ -106,10 +106,13 @@ function weaponCategoryWords(weapons: WeaponLike[]): Set<string> {
  *  would silently desync the moment someone fixed the live one.
  *
  *  This is strictly stronger than the skill/tool/language checks above, which
- *  compare against a hand-maintained vocabulary that can itself drift. Here the
- *  fold in `pc.recalc.ts:602-606` is reproduced (every value into `.categories`;
- *  a non-category value ALSO into `.specific`) and the gate is asked whether any
- *  weapon in the edition comes out proficient.
+ *  compare against a hand-maintained vocabulary that can itself drift. Here
+ *  `pc.recalc.ts`'s fold over `featureEffects.proficiencies.weapons` is
+ *  reproduced (every value into `.categories`; a value outside that file's
+ *  private `WEAPON_CATEGORY_WORDS` ALSO into `.specific`) and the gate is asked
+ *  whether any weapon in the edition comes out proficient. Cited by SYMBOL, not
+ *  by line range · the range this once carried was already off by a line when it
+ *  was checked, and a fold that moves takes the citation's meaning with it.
  *
  *  Why it must be the real gate and not a slug list: the `.specific` arm matches
  *  `normKey(authored) === normKey(weapon.name)`, and `normKey` token-SORTS, so

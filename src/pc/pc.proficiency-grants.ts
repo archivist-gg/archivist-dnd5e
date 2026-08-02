@@ -53,11 +53,15 @@ interface FeatProficiencyGrants {
  *  exist because `ProficiencyGrant.source` is `string`, and cast-built fixtures
  *  can omit a field the type says is there · the same class of defence as the
  *  `resolved.feats ?? []` guard below.
- *  In `nameFor` (the effect walk) it is GENUINELY reachable, not merely a
- *  fixture guard: an effect's source slug is matched against the character's
- *  current entities and can legitimately miss with fully typed inputs. Only that
- *  switch's `default:` arm stays type-unreachable, `FeatureSource["kind"]` being
- *  a closed five-member union.
+ *  In `nameFor` (the effect walk) it is GENUINELY reachable with fully typed
+ *  inputs, but by TWO different mechanisms, and only one of them is a slug miss:
+ *  the `class`, `subclass` and `feat` arms match the effect's source slug against
+ *  the character's current entities and can legitimately find nothing; the `race`
+ *  and `background` arms ignore `slug` entirely and fall through only when the
+ *  character HAS no race / no background (or one with no name). Do not describe
+ *  all five as slug matching · the last two never look at it. Only that switch's
+ *  `default:` arm stays type-unreachable, `FeatureSource["kind"]` being a closed
+ *  five-member union.
  *  A visible token beats the empty string, which renders as a blank source chip. */
 const UNKNOWN_SOURCE = "Unknown";
 
