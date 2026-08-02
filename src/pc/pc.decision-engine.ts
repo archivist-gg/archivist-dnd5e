@@ -667,12 +667,25 @@ function proficiencyEntryFor(
  *
  *  ONE argument. `Character.overrides` is non-optional with a schema default, so
  *  a second parameter would be redundant and would force an optionality decision
- *  at seventeen existing aggregateProficiencies call sites (spec §4.1). Counted
- *  R4-P3c as invocation expressions of `aggregateProficiencies(`, repo-wide over
- *  *.ts/*.tsx excluding node_modules and dist: 2 production (the plugin's
- *  proficiencies-panel and proficiency-edit-modal) + 15 in tests (14 here, 1 in
- *  the plugin's pc-proficiency-edit-modal counting passthrough). The declaration
- *  itself and the two mock property definitions are not call sites. */
+ *  at seventeen existing aggregateProficiencies call sites (spec §4.1).
+ *
+ *  SEVENTEEN is a PRE-R4-P3c SNAPSHOT (dnd5e 433cc72 · plugin 90394e9, which this
+ *  phase never touches), and that is what "existing" means above: the sites that
+ *  existed when the one-argument decision was taken. It is NOT today's count. Do
+ *  not re-"correct" it to today's · that number moves on every new test that
+ *  calls the function, while the cost this sentence is weighing does not.
+ *
+ *  Reproduce the snapshot with `git grep -c "aggregateProficiencies(" <rev>` over
+ *  *.ts/*.tsx, node_modules and dist excluded: 15 raw lines in dnd5e + 3 in the
+ *  plugin = 18, minus the DECLARATION in pc.proficiencies.ts = 17 · namely 2
+ *  production (the plugin's proficiencies-panel and proficiency-edit-modal) + 15
+ *  in tests (14 in dnd5e, 1 in the plugin's pc-proficiency-edit-modal counting
+ *  passthrough). Two traps in that census. The plugin's two mock bindings are NOT
+ *  a subtraction: `aggregateProficiencies:` has no paren, so the pattern never
+ *  matched them. THIS DOCBLOCK's own backticked mention above IS one, and only
+ *  from R4-P3c onward · immediately after that phase the same grep returns 20
+ *  raw, which is 18 call sites once the declaration AND this docblock come off,
+ *  not the 19 you get by subtracting the declaration alone. */
 export function computeEffectiveProficiencies(
   resolved: ResolvedCharacter,
 ): { languages: ProficiencyEntry[]; tools: ProficiencyEntry[] } {
