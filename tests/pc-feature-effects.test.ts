@@ -1,5 +1,5 @@
 import { describe, it, expect } from "vitest";
-import { classifyProficiencyEffect, computeFeatureEffects, emptyFeatureEffectTotals } from "../src/pc/pc.feature-effects";
+import { assembleEffectFeatures, classifyProficiencyEffect, computeFeatureEffects, emptyFeatureEffectTotals, foldsNow } from "../src/pc/pc.feature-effects";
 import type { ResolvedFeature } from "../src/pc/pc.types";
 import type { FeatureEffect } from "@archivist-gg/dnd5e/types/feature-effect";
 
@@ -236,5 +236,37 @@ describe("classifyProficiencyEffect", () => {
   it("trims padded skill values, which the previous hand-rolled normalizer did not", () => {
     expect(classifyProficiencyEffect({ kind: "proficiency", proficiency_type: "skill", value: " Perception " }))
       .toEqual({ bucket: "skills", value: "perception", raw: " Perception " });
+  });
+});
+
+describe("assembleEffectFeatures", () => {
+  const trait = (id: string, activatable: boolean) => ({
+    feature: { id, name: "T", activatable, effects: [{ kind: "resistance", damage_type: "fire" }] },
+    source: { kind: "race" as const, slug: "r" },
+  });
+
+  it("survives a cast-built fixture with no pools and no state", () => {
+    const resolved = { features: [trait("a", false)] } as never;
+    const out = assembleEffectFeatures(resolved);
+    expect(out.features).toHaveLength(1);
+    expect(out.activeBuffs.size).toBe(0);
+  });
+
+  it("returns activeBuffs so an activatable boon still folds", () => {
+    const resolved = {
+      features: [trait("buff", true)],
+      pools: [],
+      state: { active_buffs: ["buff"] },
+    } as never;
+    const out = assembleEffectFeatures(resolved);
+    expect(out.activeBuffs.has("buff")).toBe(true);
+    expect(computeFeatureEffects(out.features, { activeBuffs: out.activeBuffs }).resistances).toEqual(["fire"]);
+  });
+
+  it("folds nothing for an activatable feature that is not toggled on", () => {
+    const resolved = { features: [trait("buff", true)], pools: [], state: {} } as never;
+    const out = assembleEffectFeatures(resolved);
+    expect(computeFeatureEffects(out.features, { activeBuffs: out.activeBuffs }).resistances).toEqual([]);
+    expect(foldsNow(out.features[0], out.activeBuffs)).toBe(false);
   });
 });

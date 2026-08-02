@@ -1,7 +1,8 @@
 import type { FeatureEffect, SenseType } from "@archivist-gg/dnd5e/types/feature-effect";
 import type { Ability } from "@archivist-gg/dnd5e";
 import { ABILITY_KEYS } from "@archivist-gg/dnd5e/dnd/constants";
-import type { DamageRider, ResolvedFeature, RollModifierEntry } from "./pc.types";
+import type { DamageRider, ResolvedCharacter, ResolvedFeature, ResolvedPool, RollModifierEntry } from "./pc.types";
+import type { OptionalFeatureEntity } from "@archivist-gg/dnd5e/types/optional-feature.types";
 import { bareEntitySlug } from "../entities/slug";
 import { toProfSlug } from "./pc.proficiency-normalize";
 
@@ -155,18 +156,68 @@ export interface FeatureEffectsOpts {
   activeBuffs?: Set<string>;
 }
 
+/** Does this feature's effects fold right now? An activatable feature folds ONLY
+ *  while its id is in the active set; a buff is off until toggled. Shared by
+ *  computeFeatureEffects and the display-side proficiency collector so the fold
+ *  and the display can never disagree about boons (spec fence F3). */
+export function foldsNow(rf: ResolvedFeature, activeBuffs: Set<string>): boolean {
+  if (rf.feature.activatable !== true) return true;
+  const id = rf.feature.id;
+  return !!id && activeBuffs.has(id);
+}
+
+/** The ONE assembly of everything whose effects fold: authored features plus
+ *  pool-granted and pool-selected boons, with the active-buff set.
+ *
+ *  Returning BOTH halves is load-bearing: a caller handed only the feature list
+ *  would drop activeBuffs and computeFeatureEffects would skip every activatable
+ *  boon · exactly the display/gate divergence this helper exists to close.
+ *
+ *  The guards defend against CAST-BUILT FIXTURES, not against the type: `features`,
+ *  `pools` and `state` are all non-optional on ResolvedCharacter, but `tests/` is
+ *  typechecked by nothing. Only fixtures that actually reach this function count,
+ *  and today that means recalc's callers plus this function's own direct tests:
+ *    · `pools ?? []` is exercised by `emptyResolved()` in
+ *      tests/pc-recalc-feature-effects.test.ts:27, which omits pools and IS fed to
+ *      recalc. This guard predates the extraction; it was already here.
+ *    · `state?.` is exercised by tests/pc-feature-effects.test.ts:249, which calls
+ *      this function directly with `{ features: [...] } as never`. Without it that
+ *      test throws on `state.active_buffs`.
+ *    · `features ?? []` is NOT exercised today, and is the one kept purely for the
+ *      display-side callers. Before the extraction recalc spread `resolved.features`
+ *      unguarded, which is proof that every fixture reaching recalc supplies it.
+ *  Do not "simplify" any of the three away. */
+export function assembleEffectFeatures(
+  resolved: ResolvedCharacter,
+): { features: ResolvedFeature[]; activeBuffs: Set<string> } {
+  const activeBuffs = new Set(resolved.state?.active_buffs ?? []);
+  const buffFeatures: ResolvedFeature[] = [];
+  const pushBoon = (item: { slug: string; entity?: OptionalFeatureEntity | null }, pool: ResolvedPool): void => {
+    const e = item.entity;
+    if (!e || (e.effects?.length ?? 0) === 0) return;
+    buffFeatures.push({
+      feature: { id: item.slug, name: e.name, activatable: e.activatable ?? false, effects: e.effects },
+      // source is inert for the fold; attribute to the pool's owning class
+      // (never a hardcoded class) so the generic engine carries no homebrew name.
+      source: { kind: "class", slug: resolved.classes?.[pool.classIndex]?.entity?.slug ?? pool.id, level: pool.anchorLevel },
+    });
+  };
+  for (const pool of resolved.pools ?? []) {
+    for (const sel of pool.selected ?? []) pushBoon(sel, pool);
+    for (const g of pool.grants ?? []) pushBoon(g, pool);
+  }
+  return { features: [...(resolved.features ?? []), ...buffFeatures], activeBuffs };
+}
+
 export function computeFeatureEffects(
   features: ResolvedFeature[],
   opts?: FeatureEffectsOpts,
 ): FeatureEffectTotals {
   const out = emptyFeatureEffectTotals();
   for (const rf of features) {
-    // Activatable buffs fold their effects only while toggled on (their id is in
-    // the active set). Off by default — no opts / not in the set ⇒ skipped.
-    if (rf.feature.activatable === true) {
-      const id = rf.feature.id;
-      if (!id || !opts?.activeBuffs?.has(id)) continue;
-    }
+    // Activatable-buff gating lives in foldsNow (the one shared predicate); no
+    // opts means an empty active set, so a buff is off by default.
+    if (!foldsNow(rf, opts?.activeBuffs ?? new Set())) continue;
     for (const eff of rf.feature.effects ?? []) {
       applyEffect(out, eff, rf.feature.name ?? "Feature");
     }

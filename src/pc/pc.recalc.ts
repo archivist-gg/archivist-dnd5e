@@ -15,7 +15,7 @@ import type { RaceEntity } from "@archivist-gg/dnd5e/race/race.types";
 import type { EntityRegistry } from "@archivist-gg/core";
 import { computeAppliedBonuses, computeSlotsAndAttacks, emptyAppliedBonuses } from "./pc.equipment";
 import { collectChosenProficiencies, collectChosenAbilityPoints } from "./pc.decision-engine";
-import { computeFeatureEffects } from "./pc.feature-effects";
+import { assembleEffectFeatures, computeFeatureEffects } from "./pc.feature-effects";
 import { computeConditionEffects } from "./pc.conditions";
 import { resolveSpellcasting, effectiveSpellcastingAbility, deriveSpellSlots, computeSpellLimits, type CasterClassInput, type LimitClassInput } from "./pc.spellcasting";
 import type {
@@ -27,13 +27,10 @@ import type {
   ProficiencySet,
   ResolvedCharacter,
   ResolvedClass,
-  ResolvedFeature,
-  ResolvedPool,
   CharacterOverrides,
   SpellcastingClassInfo,
   SpellLimitInfo,
 } from "./pc.types";
-import type { OptionalFeatureEntity } from "@archivist-gg/dnd5e/types/optional-feature.types";
 import type { InformationalBonus } from "../item/item.conditions.types";
 
 type ProficiencyTri = "none" | "proficient" | "expertise";
@@ -550,32 +547,13 @@ export function recalc(resolved: ResolvedCharacter, registry?: EntityRegistry): 
   // Chosen proficiencies from persisted decisions (SP2 Plan 3): skills/expertise
   // fold into the skill tri below; languages/tools fold into the proficiency set.
   const chosenProfs = collectChosenProficiencies(resolved);
-  // Feature-effects pass (effects-application engine): one pure aggregation
-  // over resolved.features + pool boons; threaded into each stat below, before
-  // overrides. Both SELECTED (player picks) and GRANTED (subclass auto-grants)
-  // boons are surfaced as synthetic ResolvedFeatures (id = the boon slug),
-  // tagged with the boon's real `activatable` flag. computeFeatureEffects then
-  // gates each: an activatable boon folds ONLY while its slug is in
-  // state.active_buffs (a buff is off by default); a passive (non-activatable)
-  // boon folds unconditionally. This lets granted boons and passive picks reach
-  // DerivedStats, while an activatable pick still folds only when toggled on.
-  const activeBuffs = new Set(resolved.state.active_buffs ?? []);
-  const buffFeatures: ResolvedFeature[] = [];
-  const pushBoon = (item: { slug: string; entity?: OptionalFeatureEntity | null }, pool: ResolvedPool) => {
-    const e = item.entity;
-    if (!e || (e.effects?.length ?? 0) === 0) return;
-    buffFeatures.push({
-      feature: { id: item.slug, name: e.name, activatable: e.activatable ?? false, effects: e.effects },
-      // source is inert for the fold; attribute to the pool's owning class
-      // (never a hardcoded class) so the generic engine carries no homebrew name.
-      source: { kind: "class", slug: resolved.classes[pool.classIndex]?.entity?.slug ?? pool.id, level: pool.anchorLevel },
-    });
-  };
-  for (const pool of resolved.pools ?? []) {
-    for (const sel of pool.selected ?? []) pushBoon(sel, pool);
-    for (const g of pool.grants ?? []) pushBoon(g, pool);
-  }
-  const featureEffects = computeFeatureEffects([...resolved.features, ...buffFeatures], { activeBuffs });
+  // Feature-effects pass (effects-application engine): one pure aggregation over
+  // everything whose effects fold (authored features + SELECTED and GRANTED pool
+  // boons), threaded into each stat below, BEFORE overrides. assembleEffectFeatures
+  // owns the assembly and foldsNow owns the activatable gating, so the display-side
+  // proficiency collector reads exactly the same two rules (spec fence F3).
+  const { features: effectFeatures, activeBuffs } = assembleEffectFeatures(resolved);
+  const featureEffects = computeFeatureEffects(effectFeatures, { activeBuffs });
   const profsForApply = computeProficiencies(resolved);
   for (const t of chosenProfs.tools) {
     if (!profsForApply.tools.specific.includes(t)) profsForApply.tools.specific.push(t);
