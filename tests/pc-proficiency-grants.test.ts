@@ -80,3 +80,67 @@ describe("collectProficiencyGrants · effect buckets", () => {
     expect(g.effectLanguages[0].value).toBe("deep-speech");   // normalized, NOT "Deep Speech"
   });
 });
+
+// These pin the DISPLAY path's use of assembleEffectFeatures, which nothing else
+// sees: replacing that call with `resolved.features ?? []` + `new Set()` left the
+// whole suite green before they existed. Every fixture below keeps `features: []`,
+// so the ONLY way a grant can reach a bucket is through the pool assembly, and the
+// activatable pair is the only guard that the display honours state.active_buffs
+// the same way the fold does (spec fence F3).
+describe("collectProficiencyGrants · pool boons reach the display buckets", () => {
+  /** One pool holding a single boon in `grants` or `selected`. Shape per
+   *  ResolvedPool / ResolvedPoolEntry: assembleEffectFeatures' pushBoon reads
+   *  `item.entity` (skipping an entity with no effects), `item.slug` as the
+   *  feature id the buff toggle keys on, and `pool.classIndex` to attribute the
+   *  synthesized source to the owning class. */
+  const poolWithBoon = (
+    where: "grants" | "selected",
+    entity: { slug: string; name: string; activatable: boolean; effects: unknown[] },
+  ) => ({
+    id: "interdict-boons", label: "Interdict Boons", classIndex: 0, count: 1, anchorLevel: 1,
+    selected: where === "selected" ? [{ slug: entity.slug, entity }] : [],
+    available: [],
+    grants: where === "grants" ? [{ slug: entity.slug, entity }] : [],
+  });
+
+  /** `features: []` is load-bearing: it forces every expectation below through
+   *  the pool half of the assembly. classIndex 0 resolves the boon's synthesized
+   *  `class` source to "Reaver". */
+  const resolvedWith = (pool: unknown, activeBuffs?: string[]) => ({
+    classes: [{ entity: { slug: "srd-5e_class_reaver", name: "Reaver" }, subclass: null, level: 1, choices: {} }],
+    feats: [], race: null, background: null,
+    features: [],
+    pools: [pool],
+    state: activeBuffs ? { active_buffs: activeBuffs } : {},
+  }) as never;
+
+  const tinkersTools = { kind: "proficiency", proficiency_type: "tool", value: "Tinker’s Tools" };
+
+  it("surfaces a subclass-GRANTED boon's proficiency effect", () => {
+    const g = collectProficiencyGrants(resolvedWith(poolWithBoon("grants", {
+      slug: "iron-hide", name: "Iron Hide", activatable: false, effects: [tinkersTools],
+    })));
+    expect(g.effectTools).toEqual([{ value: "tinker's-tools", source: "Reaver" }]);
+  });
+
+  it("surfaces a player-SELECTED boon's proficiency effect", () => {
+    const g = collectProficiencyGrants(resolvedWith(poolWithBoon("selected", {
+      slug: "hand-of-war", name: "Hand of War", activatable: false,
+      effects: [{ kind: "proficiency", proficiency_type: "weapon", value: "Longswords" }],
+    })));
+    expect(g.effectWeapons).toEqual([{ value: "Longswords", source: "Reaver" }]);
+  });
+
+  const activatableBoon = poolWithBoon("selected", {
+    slug: "infernal-majesty", name: "Infernal Majesty", activatable: true, effects: [tinkersTools],
+  });
+
+  it("withholds an ACTIVATABLE boon's grant while its slug is absent from state.active_buffs", () => {
+    expect(collectProficiencyGrants(resolvedWith(activatableBoon)).effectTools).toEqual([]);
+  });
+
+  it("surfaces an ACTIVATABLE boon's grant only once its slug is in state.active_buffs", () => {
+    const g = collectProficiencyGrants(resolvedWith(activatableBoon, ["infernal-majesty"]));
+    expect(g.effectTools).toEqual([{ value: "tinker's-tools", source: "Reaver" }]);
+  });
+});
