@@ -27,6 +27,20 @@ const featureOverrideSchema = z.object({
   noChoices: z.literal(true).optional(),
 });
 
+/** Race traits get their OWN schema, and it is STRICT.
+ *
+ *  Own, because featureOverrideSchema is shared with class_features,
+ *  feat_features and background_features · and feat_features is NOT inert:
+ *  feat-merge already reads `overlaid?.effects`, so widening the shared schema
+ *  would silently open a second, undocumented authoring route for feat effects.
+ *
+ *  Strict, because the non-strict parent is exactly why an authored `effects:`
+ *  key used to vanish with exit 0 and no warning. Every field race traits
+ *  discard is declared, so strictness is free here. */
+const raceTraitOverrideSchema = featureOverrideSchema
+  .extend({ effects: z.array(featureEffectSchema).nonempty().optional() })
+  .strict();
+
 const skillEnum = z.enum([
   "acrobatics", "animal-handling", "arcana", "athletics", "deception",
   "history", "insight", "intimidation", "investigation", "medicine",
@@ -72,7 +86,7 @@ const optionalFeatureKind = z.enum(["invocation", "fighting_style", "metamagic",
 
 export const overlaySchema = z.object({
   class_features: z.record(z.string(), featureOverrideSchema).optional(),
-  race_traits: z.record(z.string(), featureOverrideSchema).optional(),
+  race_traits: z.record(z.string(), raceTraitOverrideSchema).optional(),
   feat_features: z.record(z.string(), featureOverrideSchema).optional(),
   background_features: z.record(z.string(), featureOverrideSchema).optional(),
   optional_feature_slugs: z.partialRecord(optionalFeatureKind, z.array(z.string())).optional(),

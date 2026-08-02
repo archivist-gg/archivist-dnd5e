@@ -325,6 +325,48 @@ describe("raceMergeRule (legacy/structural cases)", () => {
   });
 });
 
+// R4-P3c: the five SRD-2014 traits that state a proficiency in prose and grant
+// nothing. Task 11 authors these exact values into srd-5e.yaml; this pins that
+// an authored `effects:` block survives the merge onto the matching trait.
+// Weapon values are PLURAL on purpose: singular would render duplicate rows
+// against the class data's display vocabulary.
+const FIXED_GRANT_TRAITS: Array<[string, string, "skill" | "tool" | "weapon", string[]]> = [
+  ["Keen Senses", "keen-senses", "skill", ["perception"]],
+  ["Menacing", "menacing", "skill", ["intimidation"]],
+  ["Dwarven Combat Training", "dwarven-combat-training", "weapon",
+    ["battleaxes", "handaxes", "light hammers", "warhammers"]],
+  ["Elf Weapon Training", "elf-weapon-training", "weapon",
+    ["longswords", "shortswords", "shortbows", "longbows"]],
+  ["Tinker", "tinker", "tool", ["tinker's-tools"]],
+];
+
+describe("race-merge: authored trait effects reach canonical (R4-P3c)", () => {
+  it.each(FIXED_GRANT_TRAITS)(
+    "carries the authored %s effects into the canonical trait",
+    (traitName, traitSlug, proficiencyType, values) => {
+      const effects = values.map(value => ({
+        kind: "proficiency", proficiency_type: proficiencyType, value,
+      }));
+      const out = toRaceCanonical(baseEntry({
+        slug: "srd-5e_elf",
+        edition: "2014",
+        base: {
+          key: "srd_elf",
+          name: "Elf",
+          desc: "...",
+          is_subspecies: false,
+          subspecies_of: null,
+          traits: [
+            { name: traitName, desc: "You have proficiency (stated in prose only).", type: null, order: null },
+          ],
+        },
+        overlay: { race_traits: { [traitSlug]: { effects } }, races: null } as never,
+      }));
+      expect(out.traits.find(t => t.name === traitName)?.effects).toEqual(effects);
+    },
+  );
+});
+
 // P3a task 7: the Dwarf's Tool Proficiency pool re-slugged from the old prose
 // spellings ("smith's tools") to the canonical 35-slug vocabulary
 // ("smith's-tools"). `class-merge.test.ts` cannot cover this: the Dwarf pool is

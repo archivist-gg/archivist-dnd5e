@@ -142,3 +142,25 @@ describe("overlay choices (SP2 Plan 3)", () => {
     }).success).toBe(false); // missing count
   });
 });
+
+describe("race_traits overlay effects (R4-P3c)", () => {
+  it("keeps an effects block on a race trait", () => {
+    const parsed = overlaySchema.parse({
+      race_traits: { "keen-senses": { effects: [{ kind: "proficiency", proficiency_type: "skill", value: "perception" }] } },
+    });
+    expect(parsed.race_traits!["keen-senses"].effects).toEqual([
+      { kind: "proficiency", proficiency_type: "skill", value: "perception" },
+    ]);
+  });
+
+  it("REJECTS an unknown key on a race trait instead of silently stripping it", () => {
+    expect(() => overlaySchema.parse({ race_traits: { tinker: { totallyBogusKey: 42 } } })).toThrow();
+  });
+
+  it("still strips an unknown key on the other three feature sections", () => {
+    // Unchanged behaviour · widening featureOverrideSchema would open a second
+    // authoring route for feat effects, which feat-merge already reads.
+    expect(overlaySchema.parse({ class_features: { x: { totallyBogusKey: 42 } } }).class_features!.x)
+      .toEqual({});
+  });
+});

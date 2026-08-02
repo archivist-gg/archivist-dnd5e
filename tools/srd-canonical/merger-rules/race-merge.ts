@@ -4,6 +4,7 @@ import { rewriteCrossRefs } from "../cross-ref-map";
 import { slugifyName } from "../sources/slug-normalize";
 import type { Resource } from "@archivist-gg/dnd5e/types/resource";
 import type { Choice } from "@archivist-gg/dnd5e/types/choice";
+import type { FeatureEffect } from "@archivist-gg/dnd5e/types/feature-effect";
 import { ALL_LANGUAGES } from "@archivist-gg/dnd5e/types/choice";
 import { bareSlug } from "./class-merge";
 
@@ -48,6 +49,12 @@ export interface RaceTrait {
   recharge?: "short-rest" | "long-rest" | "dawn" | "dusk" | "turn" | "round" | "custom";
   resources?: Resource[];
   choices?: Choice[];
+  /**
+   * Authored proficiency (and other) grants for traits that state a grant in
+   * prose and would otherwise grant nothing. Emitted into the canonical trait,
+   * where featureSchema's `effects` already accepts it.
+   */
+  effects?: FeatureEffect[];
 }
 
 /** Per-trait overlay record from the overlay `race_traits:` section. */
@@ -58,6 +65,7 @@ type TraitOverlay = {
   recharge?: RaceTrait["recharge"];
   resources?: Resource[];
   choices?: Choice[];
+  effects?: FeatureEffect[];
 };
 
 /** Entity-level race override from the overlay `races:` section. */
@@ -179,6 +187,7 @@ export function toRaceCanonical(entry: CanonicalEntry): RaceCanonical {
       ...(overlaid?.recharge ? { recharge: overlaid.recharge } : {}),
       ...(overlaid?.resources ? { id: traitSlug, resources: overlaid.resources } : {}),
       ...(overlaid?.choices ? { id: traitSlug, choices: overlaid.choices } : {}),
+      ...(overlaid?.effects ? { effects: overlaid.effects } : {}),
     };
   });
 
