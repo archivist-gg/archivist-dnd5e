@@ -1,7 +1,7 @@
 import type { FeatureEffect, SenseType } from "@archivist-gg/dnd5e/types/feature-effect";
 import type { Ability } from "@archivist-gg/dnd5e";
 import { ABILITY_KEYS } from "@archivist-gg/dnd5e/dnd/constants";
-import type { DamageRider, ResolvedCharacter, ResolvedFeature, ResolvedPool, RollModifierEntry } from "./pc.types";
+import type { DamageRider, FeatureSource, ResolvedCharacter, ResolvedFeature, ResolvedPool, RollModifierEntry } from "./pc.types";
 import type { OptionalFeatureEntity } from "@archivist-gg/dnd5e/types/optional-feature.types";
 import { bareEntitySlug } from "../entities/slug";
 import { toProfSlug } from "./pc.proficiency-normalize";
@@ -275,6 +275,63 @@ export function classifyProficiencyEffect(eff: FeatureEffect): ProficiencyClassi
       return ab ? { bucket: "saves", value: ab, raw } : null;
     }
   }
+}
+
+/** One proficiency an effect grants, tagged with the source it came from.
+ *
+ *  BOTH forms are carried because the two display consumers need different ones
+ *  and, since the tool/language canonicalization landed, they no longer coincide:
+ *  armor/weapons read `raw` (composeGrantEntries stores the raw authored string
+ *  as ProficiencyEntry.value and keys its dedupe on toProfSlug separately), while
+ *  tools/languages read `value`, the canonical slug the effective-proficiency
+ *  matcher matches its vocabulary and suppressions on. Reaching for the wrong
+ *  field is silently wrong, not harmlessly identical.
+ *
+ *  `sourceSlug` is the source's slug VERBATIM (namespace and all), because the
+ *  consumer resolves it against the resolved character's entities to get a
+ *  display name. */
+export interface EffectProficiencyGrant {
+  value: string;
+  raw: string;
+  sourceKind: FeatureSource["kind"];
+  sourceSlug: string;
+}
+
+export type EffectProficiencyGrants =
+  Record<"skills" | "tools" | "languages" | "saves" | "armor" | "weapons", EffectProficiencyGrant[]>;
+
+/** Every proficiency an effect grants, tagged with the FeatureSource it came from.
+ *
+ *  Deliberately NOT deduped: composeGrantEntries collects distinct SOURCES per
+ *  value, so collapsing on value alone here would silently drop the second
+ *  granting entity and blank half the provenance.
+ *
+ *  `skills` and `saves` are collected for symmetry with FeatureEffectTotals and
+ *  for tests, but have NO display consumer: effect-granted skills already reach
+ *  the sheet via recalc's skill union and saves via its save set. The
+ *  Proficiencies panel has only four rows. This is deliberate, not an oversight.
+ *
+ *  Reads the same two rules as the fold, and NOTHING else: foldsNow decides what
+ *  is active and classifyProficiencyEffect decides what a proficiency effect
+ *  means (spec fence F3), so the display can never disagree with the engine. */
+export function collectProficiencyEffectGrants(
+  features: ResolvedFeature[],
+  activeBuffs: Set<string>,
+): EffectProficiencyGrants {
+  const out: EffectProficiencyGrants = {
+    skills: [], tools: [], languages: [], saves: [], armor: [], weapons: [],
+  };
+  for (const rf of features) {
+    if (!foldsNow(rf, activeBuffs)) continue;
+    for (const eff of rf.feature.effects ?? []) {
+      const c = classifyProficiencyEffect(eff);
+      if (!c) continue;
+      out[c.bucket].push({
+        value: c.value, raw: c.raw, sourceKind: rf.source.kind, sourceSlug: rf.source.slug,
+      });
+    }
+  }
+  return out;
 }
 
 function applyEffect(out: FeatureEffectTotals, eff: FeatureEffect, label: string): void {

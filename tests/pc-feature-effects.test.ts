@@ -1,5 +1,5 @@
 import { describe, it, expect } from "vitest";
-import { assembleEffectFeatures, classifyProficiencyEffect, computeFeatureEffects, emptyFeatureEffectTotals, foldsNow } from "../src/pc/pc.feature-effects";
+import { assembleEffectFeatures, classifyProficiencyEffect, collectProficiencyEffectGrants, computeFeatureEffects, emptyFeatureEffectTotals, foldsNow } from "../src/pc/pc.feature-effects";
 import type { ResolvedFeature } from "../src/pc/pc.types";
 import type { FeatureEffect } from "@archivist-gg/dnd5e/types/feature-effect";
 
@@ -268,5 +268,43 @@ describe("assembleEffectFeatures", () => {
     const out = assembleEffectFeatures(resolved);
     expect(computeFeatureEffects(out.features, { activeBuffs: out.activeBuffs }).resistances).toEqual([]);
     expect(foldsNow(out.features[0], out.activeBuffs)).toBe(false);
+  });
+});
+
+describe("collectProficiencyEffectGrants", () => {
+  const feat = (name: string, slug: string, effects: unknown[], activatable = false) => ({
+    feature: { id: slug, name, activatable, effects },
+    source: { kind: "race" as const, slug },
+  });
+
+  it("collects per bucket, carrying both the normalized and the raw value", () => {
+    const out = collectProficiencyEffectGrants(
+      [feat("Tinker", "srd-5e_race_rock-gnome", [
+        { kind: "proficiency", proficiency_type: "tool", value: "Tinker’s Tools" },
+        { kind: "proficiency", proficiency_type: "weapon", value: "battleaxes" },
+      ])],
+      new Set(),
+    );
+    expect(out.tools).toEqual([
+      { value: "tinker's-tools", raw: "Tinker’s Tools", sourceKind: "race", sourceSlug: "srd-5e_race_rock-gnome" },
+    ]);
+    expect(out.weapons[0].raw).toBe("battleaxes");
+    expect(out.languages).toEqual([]);
+  });
+
+  it("does NOT dedupe across sources: two entities granting one value yield two entries", () => {
+    const out = collectProficiencyEffectGrants(
+      [feat("A", "slug-a", [{ kind: "proficiency", proficiency_type: "language", value: "Dwarvish" }]),
+       feat("B", "slug-b", [{ kind: "proficiency", proficiency_type: "language", value: "Dwarvish" }])],
+      new Set(),
+    );
+    expect(out.languages).toHaveLength(2);
+    expect(out.languages.map((g) => g.sourceSlug)).toEqual(["slug-a", "slug-b"]);
+  });
+
+  it("skips an activatable feature that is not toggled on", () => {
+    const effects = [{ kind: "proficiency", proficiency_type: "tool", value: "thieves'-tools" }];
+    expect(collectProficiencyEffectGrants([feat("B", "b", effects, true)], new Set()).tools).toEqual([]);
+    expect(collectProficiencyEffectGrants([feat("B", "b", effects, true)], new Set(["b"])).tools).toHaveLength(1);
   });
 });
