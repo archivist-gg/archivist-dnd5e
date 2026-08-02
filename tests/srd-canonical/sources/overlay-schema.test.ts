@@ -158,9 +158,24 @@ describe("race_traits overlay effects (R4-P3c)", () => {
   });
 
   it("still strips an unknown key on the other three feature sections", () => {
-    // Unchanged behaviour · widening featureOverrideSchema would open a second
-    // authoring route for feat effects, which feat-merge already reads.
-    expect(overlaySchema.parse({ class_features: { x: { totallyBogusKey: 42 } } }).class_features!.x)
+    // Unchanged behaviour: only race_traits went strict.
+    const parsed = overlaySchema.parse({
+      class_features: { x: { totallyBogusKey: 42 } },
+      feat_features: { x: { totallyBogusKey: 42 } },
+      background_features: { x: { totallyBogusKey: 42 } },
+    });
+    expect(parsed.class_features!.x).toEqual({});
+    expect(parsed.feat_features!.x).toEqual({});
+    expect(parsed.background_features!.x).toEqual({});
+  });
+
+  it("keeps `effects` OFF the shared feature schema, so feat_features cannot author it", () => {
+    // The Critical invariant the race-specific schema exists to hold. feat-merge.ts:92
+    // reads `overlaid?.effects`, and its pickOverlay spreads feat_features[slug] into
+    // the per-slug record, so an `effects` field added to the SHARED schema would
+    // silently become a second, undocumented authoring route for feat effects.
+    // The three tests above cannot see that: all of them stay green either way.
+    expect(overlaySchema.parse({ feat_features: { lucky: { effects: [{ kind: "ac-bonus", value: 1 }] } } }).feat_features!.lucky)
       .toEqual({});
   });
 });
