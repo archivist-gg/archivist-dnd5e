@@ -424,7 +424,16 @@ function attackAbility(
   return finesse && mods.str > mods.dex ? "str" : "dex";
 }
 
-function isWeaponSlugProficient(
+/** The LIVE weapon-proficiency gate · the one the attack pipeline calls at
+ *  `computeAttacks` below. Exported for the overlay effect-slug guard
+ *  (`tests/srd-canonical/overlay-effect-slugs.test.ts`), which validates
+ *  authored `proficiency_type: weapon` values by asking this function whether
+ *  any SRD weapon comes out proficient. Note `pc.proficiency-query.ts`'s
+ *  `isProficientWithWeapon` is a near-twin with NO production callers · it
+ *  differs on the third arm (it compares only the base category, this one also
+ *  accepts the full hyphenated form), so guards wanting runtime fidelity must
+ *  use THIS one. */
+export function isWeaponSlugProficient(
   weapon: WeaponEntity,
   weaponSlug: string,
   profs: ProficienciesForQuery,

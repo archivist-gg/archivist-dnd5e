@@ -4,7 +4,7 @@ import { loadOverlay } from "../../tools/srd-canonical/sources/overlay";
 import { overlaySchema } from "../../tools/srd-canonical/overlay.schema";
 import { ALL_SKILL_SLUGS, ALL_TOOLS, ALL_LANGUAGES } from "../../src/types/choice";
 import { toProfSlug } from "../../src/pc/pc.proficiency-normalize";
-import { isProficientWithWeapon } from "../../src/pc/pc.proficiency-query";
+import { isWeaponSlugProficient } from "../../src/pc/pc.equipment";
 import weapons2014 from "../../src/srd/data/canonical/weapons.2014.json";
 import weapons2024 from "../../src/srd/data/canonical/weapons.2024.json";
 
@@ -29,9 +29,10 @@ import weapons2024 from "../../src/srd/data/canonical/weapons.2024.json";
  *      `effects` array and recursive `choices`), and that nesting is live
  *      shipped data: `draconic-ancestry` authors ten such blocks in EACH
  *      overlay (the 2024 file carries 18 nested option-effect blocks in all ·
- *      draconic-ancestry 10, wholeness-of-body 5, fiendish-legacy 3). P3a's
- *      tool-pool guard shipped BLIND for exactly this reason · it walked
- *      `choices` and descended into no option. Descend it.
+ *      race_traits.draconic-ancestry 10, race_traits.fiendish-legacy 3, and
+ *      class_features."draconic-sorcery:elemental-affinity" 5). P3a's tool-pool
+ *      guard shipped BLIND for exactly this reason · it walked `choices` and
+ *      descended into no option. Descend it.
  *
  * SIX mutation controls, every one OBSERVED RED before this file was trusted:
  * a bogus `value:` at a top-level `race_traits` effect; at a nested
@@ -73,18 +74,17 @@ const WEAPONS: Record<string, WeaponLike[]> = {
 
 /** The category words the weapon gate can actually see, DERIVED from the
  *  shipped weapon data rather than guessed: every `category` a weapon declares
- *  ("martial-melee", ...) plus its base form, which is what
- *  `isProficientWithWeapon` compares `.categories` against
- *  (`weapon.category.split("-")[0]`).
+ *  ("martial-melee", ...) plus its base form. The live gate tests both · arms
+ *  one and two match the base word, arm three the full hyphenated form.
  *
  *  This reproduces six of the seven entries in `pc.recalc.ts`'s private
- *  `WEAPON_CATEGORY_WORDS`. The seventh is "natural", which no SRD weapon
- *  declares in either edition and which nothing authors · deriving it is not
- *  possible without exporting that constant from `src/`, which is outside this
- *  task's scope. A future overlay authoring `value: natural` therefore gets a
- *  RED here rather than silence, which is the safe direction to fail: the
- *  message names the value, and "natural" grants zero weapons through the gate
- *  anyway (measured: 0 hits in both editions, same as "martial-melee"). */
+ *  `WEAPON_CATEGORY_WORDS`. The seventh is "natural", which ZERO SRD weapons
+ *  declare in either edition, so it grants nothing through any gate and cannot
+ *  be derived from the data. Deliberately left out rather than hardcoded: a
+ *  future overlay authoring `value: natural` gets a RED naming the value, which
+ *  is a loud false alarm on a value nobody can usefully author · the safe
+ *  direction to fail, and cheaper than a production export that would exist
+ *  only for it. */
 function weaponCategoryWords(weapons: WeaponLike[]): Set<string> {
   const out = new Set<string>();
   for (const w of weapons) {
@@ -94,22 +94,29 @@ function weaponCategoryWords(weapons: WeaponLike[]): Set<string> {
   return out;
 }
 
-/** Does an authored weapon `value` resolve to ANYTHING, judged by the
- *  resolver's OWN matcher rather than by a parallel list?
+/** Does an authored weapon `value` resolve to ANYTHING, judged by the LIVE
+ *  runtime gate rather than by a parallel list?
+ *
+ *  The gate is `isWeaponSlugProficient` (`pc.equipment.ts`), which is the one
+ *  the attack pipeline actually calls (`computeAttacks`, twice). It is NOT
+ *  `pc.proficiency-query.ts`'s `isProficientWithWeapon`: that near-twin has
+ *  zero production callers, and its third arm compares only the base category
+ *  where the live one also accepts the full hyphenated form. The two agree on
+ *  every value this guard can see today, but validating against the dead twin
+ *  would silently desync the moment someone fixed the live one.
  *
  *  This is strictly stronger than the skill/tool/language checks above, which
  *  compare against a hand-maintained vocabulary that can itself drift. Here the
  *  fold in `pc.recalc.ts:602-606` is reproduced (every value into `.categories`;
- *  a non-category value ALSO into `.specific`) and the real
- *  `isProficientWithWeapon` gate is asked whether any weapon in the edition
- *  comes out proficient.
+ *  a non-category value ALSO into `.specific`) and the gate is asked whether any
+ *  weapon in the edition comes out proficient.
  *
- *  Why it must be the real matcher and not a slug list: the gate's `.specific`
- *  arm matches `normKey(authored) === normKey(weapon.name)`, and `normKey`
- *  token-SORTS, so the display spelling "hand crossbow" resolves against the
- *  2014 entity name "Crossbow, hand" (both normalize to "crossbow hand"). A
- *  naive slug-equality check would flag that legitimate value as bogus and
- *  block authoring it. Measured, both editions. */
+ *  Why it must be the real gate and not a slug list: the `.specific` arm matches
+ *  `normKey(authored) === normKey(weapon.name)`, and `normKey` token-SORTS, so
+ *  the display spelling "hand crossbow" resolves against the 2014 entity name
+ *  "Crossbow, hand" (both normalize to "crossbow hand"). A naive slug-equality
+ *  check would flag that legitimate value as bogus and block authoring it.
+ *  Measured, both editions. */
 function weaponValueResolves(value: string, weapons: WeaponLike[], categoryWords: Set<string>): boolean {
   const v = value.toLowerCase();
   if (categoryWords.has(v)) return true;
@@ -119,7 +126,7 @@ function weaponValueResolves(value: string, weapons: WeaponLike[], categoryWords
     armor: { ...empty },
     tools: { ...empty },
   };
-  return weapons.some((w) => isProficientWithWeapon(w as never, profs as never));
+  return weapons.some((w) => isWeaponSlugProficient(w as never, w.slug, profs as never));
 }
 
 /** Walk `effects[]` AND `choices[].options[].effects` recursively. */
