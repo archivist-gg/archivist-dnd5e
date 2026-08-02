@@ -50,10 +50,12 @@ export interface FeatureEffectTotals {
    * skills, tools and languages are canonical slugs (toProfSlug: lowercase, U+2019
    * folded to ASCII, whitespace collapsed to hyphens) · they land on
    * ALL_SKILL_SLUGS / ALL_TOOLS / ALL_LANGUAGES, over which toProfSlug is the
-   * identity. armor/weapons are lowercase authored words; saves are canonical
-   * ability keys.
-   * (Task 4 extends the armor/weapon sentence once routing changes · do NOT
-   * write "category or specific" here yet, it is not true until then.)
+   * identity. armor entries are lowercase CATEGORY words ("heavy"/"shield") and
+   * recalc folds them into armor.categories ONLY. weapons entries are lowercase
+   * too, but are either a CATEGORY word ("simple"/"martial", or an entity-level
+   * "martial-melee" form) or an authored weapon NAME: recalc folds every one into
+   * weapons.categories and additionally routes a non-category value into
+   * weapons.specific. saves are canonical ability keys.
    */
   proficiencies: { skills: string[]; tools: string[]; languages: string[]; saves: Ability[]; armor: string[]; weapons: string[] };
   /**
@@ -251,15 +253,22 @@ export function classifyProficiencyEffect(eff: FeatureEffect): ProficiencyClassi
     case "language":
       return { bucket: "languages", value: toProfSlug(raw), raw };
     case "armor":
-      // Armor/weapon grants are CATEGORIES ("heavy"/"shield", "simple"/"martial"),
-      // not per-item slugs. Stored lowercase (bare word) to match the form
-      // class/race/feat grants use; recalc folds these into
-      // proficiencies.armor.categories, where the matcher compares them against
-      // armor.category (`.specific` is for per-item slugs only).
+      // Armor grants are CATEGORIES ("heavy"/"shield"), not per-item slugs: recalc
+      // folds them into proficiencies.armor.categories only. Armor is deliberately
+      // NOT routed to .specific · nothing in the product gates on armor proficiency.
+      // Stored lowercase (bare word) to match the form class/race/feat grants use;
+      // the matcher compares them against armor.category.
       return { bucket: "armor", value: raw.toLowerCase(), raw };
     case "weapon":
-      // Weapon categories ("simple"/"martial") fold into weapons.categories,
-      // matched against weapon.category's base ("martial-melee" → "martial").
+      // Weapon grants are EITHER a category word ("simple"/"martial", or an
+      // entity-level "martial-melee" form) OR an authored weapon NAME. Stored
+      // lowercase (bare word) to match the form class/race/feat grants use; recalc
+      // folds every value into weapons.categories (matched against
+      // weapon.category's base, "martial-melee" → "martial") and ADDITIONALLY
+      // routes a non-category value into weapons.specific.
+      // `.specific` holds per-item identifiers AND authored weapon names · the gate
+      // matches it by slug equality or normKey against weapon.name, so a display
+      // spelling like "battleaxes" resolves. Category words stay out of it.
       return { bucket: "weapons", value: raw.toLowerCase(), raw };
     default: {
       const ab = normalizeAbility(raw);

@@ -4,7 +4,7 @@ import type { ResolvedCharacter, ResolvedClass, ResolvedFeature } from "../src/p
 import type { Character } from "../src/pc/pc.types";
 import type { FeatureEffect } from "@archivist-gg/dnd5e/types/feature-effect";
 import { buildMockRegistry } from "./mock-entity-registry";
-import { STUDDED_LEATHER, CLUB, PLATE, BREASTPLATE, LONGSWORD } from "./equipment-fixtures";
+import { STUDDED_LEATHER, CLUB, PLATE, BREASTPLATE, LONGSWORD, BATTLEAXE } from "./equipment-fixtures";
 import { isProficientWithArmor, isProficientWithWeapon } from "@archivist-gg/dnd5e/pc/pc.proficiency-query";
 
 function mkClass(slug: string, die: string, level: number): ResolvedClass {
@@ -556,5 +556,54 @@ describe("recalc — granted + passive pool boons fold effects", () => {
     // 13 (passive picks/grants) + activatable granted buff 4 = 17
     expect(d.ac).toBe(17);
     expect(d.acBreakdown).toContainEqual({ source: "Granted Buff", amount: 4, kind: "feature" });
+  });
+});
+
+const registryWithBattleaxe = () =>
+  buildMockRegistry([
+    { slug: "battleaxe", entityType: "weapon", name: "Battleaxe", data: BATTLEAXE },
+  ]);
+
+describe("recalc — feature effects: additive weapon routing (R4-P3c)", () => {
+  it("routes a specific weapon name into .specific while LEAVING it in .categories", () => {
+    const d = recalc(resolvedWith(mkClass("rogue", "d8", 1), [
+      { kind: "proficiency", proficiency_type: "weapon", value: "battleaxes" },
+    ]));
+    expect(d.proficiencies.weapons.categories).toContain("battleaxes"); // unchanged behaviour
+    expect(d.proficiencies.weapons.specific).toContain("battleaxes");   // the fix
+  });
+
+  it("keeps the class-level category words OUT of .specific", () => {
+    const d = recalc(resolvedWith(mkClass("rogue", "d8", 1), [
+      { kind: "proficiency", proficiency_type: "weapon", value: "martial" },
+    ]));
+    expect(d.proficiencies.weapons.specific).not.toContain("martial");
+  });
+
+  it("keeps entity-level category forms OUT of .specific, so nothing that grants today stops", () => {
+    // A value like "simple-ranged" grants today through isWeaponSlugProficient's
+    // third fallback (exact equality with weapon.category). Exclusive routing
+    // would move it to .specific and kill it silently.
+    const d = recalc(resolvedWith(mkClass("rogue", "d8", 1), [
+      { kind: "proficiency", proficiency_type: "weapon", value: "simple-ranged" },
+    ]));
+    expect(d.proficiencies.weapons.categories).toContain("simple-ranged");
+    expect(d.proficiencies.weapons.specific).not.toContain("simple-ranged");
+  });
+
+  it("flips the LIVE attack gate for a granted specific weapon name", () => {
+    // isWeaponSlugProficient matches .specific by normKey, which singularizes:
+    // "battleaxes" -> "battleaxe" -> the Battleaxe entity's name.
+    // ⚠️ EquipmentEntry is { item, equipped?, qty? } (pc.types.ts:64-80) and `item`
+    // is a WIKILINK · computeAttacks resolves it via resolveEntityForEntry.
+    // `{ slug, quantity }` resolves to null, produces NO attack row, and
+    // `attacks[0].proficient` throws. All six sibling call sites use this form.
+    const equipment = [{ item: "[[battleaxe]]", equipped: true }] as never;
+    const before = recalc(resolvedWithEquipment([], equipment), registryWithBattleaxe());
+    const after = recalc(resolvedWithEquipment(
+      [{ kind: "proficiency", proficiency_type: "weapon", value: "battleaxes" }], equipment,
+    ), registryWithBattleaxe());
+    expect(before.attacks[0].proficient).toBe(false);
+    expect(after.attacks[0].proficient).toBe(true);
   });
 });

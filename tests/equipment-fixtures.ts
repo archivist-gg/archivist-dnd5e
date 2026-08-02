@@ -52,6 +52,15 @@ export const CLUB: WeaponEntity = {
   properties: ["light"],
 };
 
+export const BATTLEAXE: WeaponEntity = {
+  name: "Battleaxe",
+  slug: "battleaxe",
+  edition: "2014",
+  category: "martial-melee",
+  damage: { dice: "1d8", type: "slashing", versatile_dice: "1d10" },
+  properties: ["versatile"],
+};
+
 export const SHORTSWORD: WeaponEntity = {
   name: "Shortsword",
   slug: "shortsword",

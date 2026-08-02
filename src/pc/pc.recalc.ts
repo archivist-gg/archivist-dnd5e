@@ -35,6 +35,22 @@ import type { InformationalBonus } from "../item/item.conditions.types";
 
 type ProficiencyTri = "none" | "proficient" | "expertise";
 
+// Category words that the weapon gate can actually match: the class-level
+// vocabulary (isWeaponSlugProficient's `simple`/`martial` literals) plus the
+// entity-level `weapon.category` forms its third fallback compares by exact
+// equality. Anything else is a specific weapon NAME, which can only ever match
+// through `.specific` (normKey against weapon.name).
+//
+// ADDITIVE on purpose. weapon.category is an OPEN union (`| string`, and
+// z.string() at runtime), so this list can never be proven exhaustive over
+// homebrew · a vault weapon may declare any category at all. Pushing to
+// .categories unconditionally means nothing that grants today can stop
+// granting; the extra .specific push is what makes a specific name work.
+const WEAPON_CATEGORY_WORDS = new Set([
+  "simple", "martial",
+  "simple-melee", "simple-ranged", "martial-melee", "martial-ranged", "natural",
+]);
+
 /**
  * PHB "fixed average" value per hit die (per level beyond first). Called
  * "average" in the PHB but actually ceil((die + 1) / 2); equivalent to
@@ -567,15 +583,27 @@ export function recalc(resolved: ResolvedCharacter, registry?: EntityRegistry): 
   for (const l of featureEffects.proficiencies.languages) {
     if (!profsForApply.languages.includes(l)) profsForApply.languages.push(l);
   }
-  // Effect-granted armor/weapon proficiencies are CATEGORIES ("heavy"/"shield",
-  // "simple"/"martial") — same form class/race/feat grants use — so they must
-  // land in the `.categories` bucket the proficiency-query matcher reads (incl.
-  // the heavy→medium→light implication). `.specific` is per-item slugs only.
+  // Effect-granted ARMOR proficiencies are CATEGORIES ("heavy"/"shield"), the
+  // same form class/race/feat grants use, so they must land in the `.categories`
+  // bucket the proficiency-query matcher reads (incl. the heavy → medium → light
+  // implication). Armor is deliberately NOT routed to `.specific` · nothing in
+  // the product gates on armor proficiency per item.
+  //
+  // Effect-granted WEAPON proficiencies are either a category word or an
+  // authored weapon NAME, so this fold is ADDITIVE (see WEAPON_CATEGORY_WORDS):
+  // every value still goes to `.categories` exactly as before, and a
+  // non-category value ALSO goes to `.specific`.
+  // `.specific` holds per-item identifiers AND authored weapon names · the gate
+  // matches it by slug equality or normKey against weapon.name, so a display
+  // spelling like "battleaxes" resolves. Category words stay out of it.
   for (const a of featureEffects.proficiencies.armor) {
     if (!profsForApply.armor.categories.includes(a)) profsForApply.armor.categories.push(a);
   }
   for (const w of featureEffects.proficiencies.weapons) {
     if (!profsForApply.weapons.categories.includes(w)) profsForApply.weapons.categories.push(w);
+    if (!WEAPON_CATEGORY_WORDS.has(w) && !profsForApply.weapons.specific.includes(w)) {
+      profsForApply.weapons.specific.push(w);
+    }
   }
   profsForApply.languages.sort();
   const applied = registry
