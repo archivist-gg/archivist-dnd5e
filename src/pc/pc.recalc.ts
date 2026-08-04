@@ -338,13 +338,30 @@ export function speedFromRace(resolved: ResolvedCharacter): number {
  * Folds class-level CHOSEN-FEAT ability-points into per-ability totals.
  *
  * When the L4-style "asi or feat" decision resolves to a feat that carries
- * `ability-points` choices (e.g. Ability Score Improvement, the epic Boons),
- * the picker persists the allocation under the namespaced key
+ * `ability-points` choices (e.g. Ability Score Improvement), the picker
+ * persists the allocation under the namespaced key
  * `choices[lvl]["feat:" + choice.id]` (the engine's `buildItem` surfaces those
  * children; see pc.decision-engine.ts). This is disjoint from both the legacy
  * asi-BRANCH key (`choices[lvl].asi`) and origin ability-points, so no source
  * double-counts. The chosen feat entity is resolved from `resolved.feats`
  * (already looked up by the resolver) — no registry needed here.
+ *
+ * The L19 Epic Boon folds through this SAME path, but only as of R4-P4's
+ * re-key (live in the SRD data from that phase's regeneration). This docblock
+ * earlier cited it as an existing example, which it was not. EVERY reader of a
+ * saved class choice block keys on the LITERAL string `feat`, and there are
+ * THREE of them, not the two the R4-P4 spec §2.3 and task brief enumerate:
+ * this function (`block.feat`, below), `collectFeatSlugs` (pc.resolver.ts:298)
+ * and `PCResolver.resolve`'s feat-to-spell pass (pc.resolver.ts:200), the one
+ * that makes a SPELL-granting boon work. pc.decision-engine.ts is NOT a fourth:
+ * it reads generically by `choice.id`, which is exactly why re-keying works at
+ * all. srd-2024.yaml authored the boon's pick `id: epic-boon`, so an L19
+ * selection persisted under `choices[19]["epic-boon"]`, which no reader looks
+ * at: the boon resolved to no feat, granted no spells, and contributed no
+ * ability points at all. Re-keying the authored pick to `id: feat` is what
+ * makes it fold. No persisted GRANDCHILD key moved with it ·
+ * pc.decision-engine.ts builds `feat:<childId>` off a hardcoded prefix,
+ * independent of the parent choice's own id.
  *
  * Clamps defensively (per-ability max_per, then stops at the points total in
  * ABILITY_KEYS order), mirroring collectChosenAbilityPoints.

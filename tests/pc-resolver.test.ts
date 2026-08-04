@@ -160,6 +160,23 @@ describe("collectFeatSlugs", () => {
     char.class[0].choices = { 4: { feat: "[[sure-step]]" }, 8: { feat: "[[sure-step]]" } };
     expect(collectFeatSlugs(char)).toEqual(["sure-step"]);
   });
+
+  // CHARACTERISATION LOCK, not proof of R4-P4's epic-boon re-key. This reader
+  // keys on the literal `feat` string at any level, so it passed identically
+  // before and after that re-key: the authored id it fixes is inert until the
+  // SRD regeneration. What genuinely reds on the un-re-keyed file is the real
+  // overlay assertion in tests/srd-canonical/sources/overlay-schema.test.ts.
+  // This locks the reader half of the contract the re-key targets: an L19
+  // block keyed `feat` resolves, and its `feat:<child>` grandchild key sits
+  // beside it without being mistaken for the pick. `toEqual` on the WHOLE
+  // array, not `toContain`, is what makes the second half real: `toContain`
+  // stays green against a prefix-scanning reader that also returns the
+  // grandchild (measured: `["srd-2024_feat_boon-of-fate", "[object Object]"]`).
+  it("(characterisation) a level-19 block keyed `feat` resolves the boon, and only the boon", () => {
+    const char = minimalCharacter();
+    char.class[0].choices = { 19: { feat: "srd-2024_feat_boon-of-fate", "feat:asi": { cha: 1 } } };
+    expect(collectFeatSlugs(char)).toEqual(["srd-2024_feat_boon-of-fate"]);
+  });
 });
 
 describe("PCResolver", () => {

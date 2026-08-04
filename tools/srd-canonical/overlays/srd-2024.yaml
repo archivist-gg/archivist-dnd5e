@@ -178,10 +178,19 @@ class_features:
   # Epic Boon (shared, L19) -- an Epic Boon feat or another feat of your
   # choice. No epic-boon feat category exists in SRD feat data, so this is an
   # open feat pick (the "another feat of your choice" clause).
+  # The pick id is `feat` for the same load-bearing reason as the ASI block
+  # above: EVERY reader of a saved class choice block keys on the literal string
+  # `feat`, and there are THREE (pc.resolver.ts:298 collectFeatSlugs,
+  # pc.resolver.ts:200 the feat-to-spell pass, pc.recalc.ts:376
+  # collectClassFeatAbilityPoints). It was authored `id: epic-boon` until R4-P4,
+  # which persisted the L19 pick under a key NO reader looks at, so the boon was
+  # silently discarded: no feat resolved, no granted spells, no ability points.
+  # Do not re-key it. The feature slug stays `epic-boon`; only the CHOICE id is
+  # constrained.
   epic-boon:
     choices:
       - kind: select-entity
-        id: epic-boon
+        id: feat
         count: 1
         entity_type: feat
 

@@ -1,5 +1,9 @@
+import path from "node:path";
 import { describe, it, expect } from "vitest";
 import { overlaySchema } from "../../../tools/srd-canonical/overlay.schema";
+import { loadOverlay } from "../../../tools/srd-canonical/sources/overlay";
+
+const OVERLAY_DIR = path.resolve(__dirname, "../../../tools/srd-canonical/overlays");
 
 describe("overlaySchema", () => {
   it("accepts class_features with action economy", () => {
@@ -177,5 +181,25 @@ describe("race_traits overlay effects (R4-P3c)", () => {
     // The three tests above cannot see that: all of them stay green either way.
     expect(overlaySchema.parse({ feat_features: { lucky: { effects: [{ kind: "ac-bonus", value: 1 }] } } }).feat_features!.lucky)
       .toEqual({});
+  });
+});
+
+describe("real overlay: the L19 Epic Boon pick key (R4-P4)", () => {
+  // Reads the REAL srd-2024.yaml, deliberately. EVERY reader of a persisted
+  // class choice block keys on the literal string `feat`, and there are THREE:
+  // collectFeatSlugs (pc.resolver.ts:298), PCResolver.resolve's feat-to-spell
+  // pass (pc.resolver.ts:200) and collectClassFeatAbilityPoints
+  // (pc.recalc.ts:376). While this pick was authored `id: epic-boon` the L19
+  // selection persisted under `choices[19]["epic-boon"]` and was silently
+  // discarded, so the boon never resolved at all. A reader-side test cannot see
+  // this: the authored id is inert until the next SRD regeneration, so such a
+  // test passes identically with either id. Only parsing the authored file
+  // catches a regression here.
+  it("the 2024 epic-boon feature offers a pick keyed `feat`, not `epic-boon`", async () => {
+    const ov = await loadOverlay(path.join(OVERLAY_DIR, "srd-2024.yaml"));
+    // Asserted separately so a RENAMED feature key fails by name here, rather
+    // than throwing an anonymous "cannot read properties of undefined" below.
+    expect(ov.class_features?.["epic-boon"], "class_features['epic-boon'] is missing from srd-2024.yaml").toBeDefined();
+    expect(ov.class_features!["epic-boon"].choices![0].id).toBe("feat");
   });
 });
