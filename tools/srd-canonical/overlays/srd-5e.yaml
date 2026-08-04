@@ -728,14 +728,39 @@ race_traits:
 #   pick is a UNIQUE trait slug, authored in race_traits above.)
 # - All other species' shared Ability Score Increase / Languages traits are
 #   fully fixed, so they carry no entity-level choice.
+#
+# R4-P4: this section ALSO carries `ability_score_increases`, the FIXED arm of
+# each species' Ability Score Increase trait. The merger emitted a hardcoded []
+# for every species since it was written, so all 13 SRD-2014 species stated
+# their increase in prose and granted nothing. The array REPLACES (there is no
+# per-ability merge) and a choice-shaped {choose, pool, amount} entry is
+# REJECTED at load: the choice arm folds nothing, and where a species has one it
+# stays in `choices:` above (Half-Elf).
+# ⚠️ Each species carries its OWN increment, never a cumulative total. A Hill
+# Dwarf gets +1 Wis and NOT the Dwarf's +2 Con, because subrace entities are
+# built independently and nothing aggregates a parent's increases. That is a
+# KNOWN PARTIAL this phase records rather than fixes (same root as the Keen
+# Senses partial), so never verify this behaviour on a subrace.
+# ⚠️ The record key is UNVALIDATED: a mis-typed species slug parses fine and
+# applies to nothing. Every key below is a real bare slug from
+# `src/srd/data/canonical/species.2014.json`, pinned by
+# `tests/srd-canonical/overlay-race-asi.test.ts`.
 # ===================================================================
 races:
+  # Human -- "Your ability scores each increase by 1." All six, fully fixed.
   human:
     choices:
       - kind: select-proficiency
         id: languages
         domain: language
         count: 1
+    ability_score_increases:
+      - { ability: str, amount: 1 }
+      - { ability: dex, amount: 1 }
+      - { ability: con, amount: 1 }
+      - { ability: int, amount: 1 }
+      - { ability: wis, amount: 1 }
+      - { ability: cha, amount: 1 }
   half-elf:
     choices:
       - kind: ability-points
@@ -747,6 +772,65 @@ races:
         id: languages
         domain: language
         count: 1
+  # --- The remaining 11 species: fixed increases only. Each comment quotes the
+  # shipped Ability Score Increase prose verbatim, which is the source of truth.
+  # Half-Elf is absent above by design: its fixed +2 Cha rides beside the
+  # two-ability choice already authored in its `choices:` block.
+  # Dragonborn
+  dragonborn:
+    # "Your Strength score increases by 2, and your Charisma score increases by 1."
+    ability_score_increases:
+      - { ability: str, amount: 2 }
+      - { ability: cha, amount: 1 }
+  # Dwarf, and its Hill Dwarf subrace
+  dwarf:
+    # "Your Constitution score increases by 2."
+    ability_score_increases:
+      - { ability: con, amount: 2 }
+  hill-dwarf:
+    # "Your Wisdom score increases by 1." Its OWN increment only: the parent
+    # Dwarf's +2 Con is NOT repeated here. See the known-partial note above.
+    ability_score_increases:
+      - { ability: wis, amount: 1 }
+  # Elf, and its High Elf subrace
+  elf:
+    # "Your Dexterity score increases by 2."
+    ability_score_increases:
+      - { ability: dex, amount: 2 }
+  high-elf:
+    # "Your Intelligence score increases by 1." Own increment only.
+    ability_score_increases:
+      - { ability: int, amount: 1 }
+  # Gnome, and its Rock Gnome subrace
+  gnome:
+    # "Your Intelligence score increases by 2."
+    ability_score_increases:
+      - { ability: int, amount: 2 }
+  rock-gnome:
+    # "Your Constitution score increases by 1." Own increment only.
+    ability_score_increases:
+      - { ability: con, amount: 1 }
+  # Half-Orc
+  half-orc:
+    # "Your Strength score increases by 2, and your Constitution score increases by 1."
+    ability_score_increases:
+      - { ability: str, amount: 2 }
+      - { ability: con, amount: 1 }
+  # Halfling, and its Lightfoot subrace
+  halfling:
+    # "Your Dexterity score increases by 2."
+    ability_score_increases:
+      - { ability: dex, amount: 2 }
+  lightfoot:
+    # "Your Charisma score increases by 1." Own increment only.
+    ability_score_increases:
+      - { ability: cha, amount: 1 }
+  # Tiefling
+  tiefling:
+    # "Your Intelligence score increases by 1, and your Charisma score increases by 2."
+    ability_score_increases:
+      - { ability: int, amount: 1 }
+      - { ability: cha, amount: 2 }
 
 # ===================================================================
 # Entity-level class overrides (SP2 Plan 3). Keyed by bare class slug.
