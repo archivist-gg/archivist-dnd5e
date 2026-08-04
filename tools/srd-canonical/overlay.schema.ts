@@ -4,6 +4,7 @@ import { choiceSchema } from "@archivist-gg/dnd5e/schemas/choice-schema";
 import { featureEffectSchema } from "@archivist-gg/dnd5e/schemas/feature-effect-schema";
 import { startingEquipmentEntrySchema, startingGoldSchema } from "@archivist-gg/dnd5e/schemas/equipment-grant-schema";
 import { langProfSchema } from "@archivist-gg/dnd5e/background/background.schema";
+import { fixedAsiSchema } from "@archivist-gg/dnd5e/race/race.schema";
 
 const actionCost = z.enum(["action", "bonus-action", "reaction", "free", "special"]);
 const recharge = z.enum(["short-rest", "long-rest", "dawn", "dusk", "turn", "round", "custom"]);
@@ -63,11 +64,18 @@ const classOverrideSchema = z.object({
   choices: z.array(choiceSchema).optional(),
 }).strict();
 
-const entityChoicesSchema = z.object({
+// Race entity-level override: keeps the entity-level `choices` array (BOTH
+// `human:` and `half-elf:` already depend on it) and adds the fixed ability
+// score increases the merger has never emitted. Validated by the SAME fixedAsiSchema
+// raceEntitySchema validates canonical output with, so input and output cannot
+// drift. Deliberately NOT the asiSchema union: the choice-shaped arm folds
+// nothing, so rejecting it here is a guard, not a limitation.
+const raceOverrideSchema = z.object({
   choices: z.array(choiceSchema).optional(),
+  ability_score_increases: z.array(fixedAsiSchema).optional(),
 }).strict();
 
-// Background entity-level override: mirrors entityChoicesSchema's `choices`
+// Background entity-level override: the entity-level `choices` array
 // plus a structured starting `equipment` package (override beats prose-derived)
 // and a fixed `language_proficiencies` grant (validated by the SAME langProfSchema
 // that backgroundEntitySchema validates canonical output with, so input + output
@@ -91,7 +99,7 @@ export const overlaySchema = z.object({
   background_features: z.record(z.string(), featureOverrideSchema).optional(),
   optional_feature_slugs: z.partialRecord(optionalFeatureKind, z.array(z.string())).optional(),
   classes: z.record(z.string(), classOverrideSchema).optional(),
-  races: z.record(z.string(), entityChoicesSchema).optional(),
+  races: z.record(z.string(), raceOverrideSchema).optional(),
   backgrounds: z.record(z.string(), backgroundOverrideSchema).optional(),
   optional_features: z.record(z.string(), entityEffectsSchema).optional(),
   feats: z.record(z.string(), entityEffectsSchema).optional(),

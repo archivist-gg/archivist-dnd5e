@@ -413,3 +413,33 @@ describe("real overlay: Dwarf Tool Proficiency canonical slugs [P3a task 7]", ()
     expect(from).not.toContain("smith's tools");
   });
 });
+
+// R4-P4 task 7: the merger emitted a hardcoded `ability_score_increases: []` for
+// every species since it was written, so all 13 SRD-2014 species state their
+// increase in prose and grant nothing (flattenRaceAsi reads only the structured
+// field). A SYNTHETIC overlay object here, deliberately: task 8 is what exercises
+// the real YAML. There is exactly ONE RaceCanonical construction site, so
+// subspecies entities take this same path.
+describe("race-merge: overlay-authored ability score increases (R4-P4)", () => {
+  const asiBase = (name: string): unknown => ({
+    key: `srd_${name.toLowerCase()}`,
+    name,
+    desc: "",
+    is_subspecies: false,
+    subspecies_of: null,
+    traits: [],
+  });
+
+  it("applies an authored ability_score_increases override, and defaults to [] without one", () => {
+    const ov = { races: { dwarf: { ability_score_increases: [{ ability: "con", amount: 2 }] } } };
+    const withOverride = toRaceCanonical(baseEntry({ slug: "srd-5e_race_dwarf",
+      base: asiBase("Dwarf"),
+      overlay: raceMergeRule.pickOverlay(ov as never, "srd-5e_race_dwarf") as never }));
+    expect(withOverride.ability_score_increases).toEqual([{ ability: "con", amount: 2 }]);
+
+    const without = toRaceCanonical(baseEntry({ slug: "srd-5e_race_elf",
+      base: asiBase("Elf"),
+      overlay: raceMergeRule.pickOverlay(ov as never, "srd-5e_race_elf") as never }));
+    expect(without.ability_score_increases).toEqual([]);
+  });
+});

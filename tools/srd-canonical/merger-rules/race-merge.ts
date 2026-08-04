@@ -68,8 +68,17 @@ type TraitOverlay = {
   effects?: FeatureEffect[];
 };
 
-/** Entity-level race override from the overlay `races:` section. */
-type RaceOverride = { choices?: Choice[] };
+/** The FIXED arm of a canonical ability score increase, derived from RaceCanonical
+ *  so the two cannot drift. It is the ONLY arm an overlay may author: the
+ *  choice-shaped arm folds nothing at runtime (flattenRaceAsi reads only
+ *  `"ability" in asi`), so overlay.schema.ts validates authored increases with the
+ *  narrow fixedAsiSchema rather than the asiSchema union. */
+type FixedAsi = Extract<RaceCanonical["ability_score_increases"][number], { ability: unknown }>;
+
+/** Entity-level race override from the overlay `races:` section. NOT zod-inferred ·
+ *  this is the hand-written mirror of overlay.schema.ts's raceOverrideSchema, so it
+ *  has to be widened by hand whenever that schema grows a field. */
+type RaceOverride = { choices?: Choice[]; ability_score_increases?: FixedAsi[] };
 
 export const raceMergeRule: MergeRule = {
   kind: "race",
@@ -207,7 +216,16 @@ export function toRaceCanonical(entry: CanonicalEntry): RaceCanonical {
     speed,
     vision,
     description: rewriteCrossRefs((base.desc as string) ?? "", entry.edition),
-    ability_score_increases: [],
+    // Overlay-authored fixed increases. The merger has emitted [] since it was
+    // written ("the structured-rules canonical enrichment is a future phase",
+    // in the comment above the vision/age/alignment block), which is why all 13
+    // SRD-2014 species state their increase in prose and grant nothing. Default
+    // stays [] so 2024 is untouched.
+    //
+    // REPLACES the old hardcoded []. Deliberately NOT a spread after a `[]`
+    // default like the `choices` line below: a spread reintroduces the hazard
+    // that a mis-ordered default silently wins. Do not "correct" this back.
+    ability_score_increases: raceOverride?.ability_score_increases ?? [],
     age,
     alignment,
     languages,

@@ -23,7 +23,10 @@ const visionSchema = z.object({
   truesight: z.number().int().nonnegative().optional(),
 });
 
-const fixedAsiSchema = z.object({ ability: abilityEnum, amount: z.number().int() });
+/** Exported so the SRD overlay validates AUTHORED fixed increases with the very
+ *  schema canonical output is validated against · input and output cannot drift.
+ *  Deliberately NOT `asiSchema` below: the overlay authors only this arm. */
+export const fixedAsiSchema = z.object({ ability: abilityEnum, amount: z.number().int() });
 const choiceAsiSchema = z.object({
   choose: z.number().int().positive(),
   pool: z.array(abilityEnum).nonempty(),

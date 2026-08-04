@@ -184,6 +184,41 @@ describe("race_traits overlay effects (R4-P3c)", () => {
   });
 });
 
+describe("race entity-level override: fixed ability score increases (R4-P4)", () => {
+  it("accepts a race override carrying BOTH choices and ability_score_increases", () => {
+    const r = overlaySchema.safeParse({ races: { "half-elf": {
+      ability_score_increases: [{ ability: "cha", amount: 2 }],
+      choices: [{ kind: "ability-points", id: "abilities", points: 2, max_per: 1,
+                  pool: ["str","dex","con","int","wis"] }],
+    } } });
+    expect(r.success).toBe(true);
+  });
+
+  it("REJECTS the inert choice-shaped ASI arm", () => {
+    const r = overlaySchema.safeParse({ races: { "half-elf": {
+      ability_score_increases: [{ choose: 2, pool: ["str","dex"], amount: 1 }],
+    } } });
+    expect(r.success).toBe(false);
+    // Pins WHERE the rejection comes from. Without this the test passes for the
+    // wrong reason while `races:` is still the strict choices-only schema, which
+    // rejects the unknown `ability_score_increases` key at the ENTRY path. Only a
+    // schema that accepts the field and validates it with the NARROW
+    // fixedAsiSchema reports the issue inside the array.
+    const paths = r.success ? [] : r.error.issues.map(i => i.path.join("."));
+    expect(paths.some(p => p.startsWith("races.half-elf.ability_score_increases."))).toBe(true);
+  });
+
+  it("still parses the REAL srd-5e.yaml, whose human + half-elf entries carry `choices`", async () => {
+    // Constraint on the new schema, not a restatement of the one above: both
+    // shipped `races:` entries author ONLY `choices`, so a schema carrying just
+    // ability_score_increases rejects them and every loadOverlay of the 2014
+    // overlay throws. loadOverlay is async and REJECTS on a schema failure.
+    const ov = await loadOverlay(path.join(OVERLAY_DIR, "srd-5e.yaml"));
+    expect(ov.races?.human?.choices, "races.human.choices vanished from the parse").toBeDefined();
+    expect(ov.races?.["half-elf"]?.choices, "races['half-elf'].choices vanished from the parse").toBeDefined();
+  });
+});
+
 describe("real overlay: the L19 Epic Boon pick key (R4-P4)", () => {
   // Reads the REAL srd-2024.yaml, deliberately. EVERY reader OF THE FEAT PICK
   // keys on the literal string `feat`, and there are THREE: collectFeatSlugs
