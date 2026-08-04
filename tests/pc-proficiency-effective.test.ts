@@ -235,4 +235,101 @@ describe("computeEffectiveProficiencies", () => {
     const suppressed = rockGnome({ tools: { remove: ["tinker's-tools"] } });
     expect(computeEffectiveProficiencies(suppressed).tools.map((e) => e.value)).not.toContain("tinker's-tools");
   });
+
+  // ───────────────────────────────────────────────────────────────────────────
+  // R4-P4 (P3c carry-forward 8): the LANGUAGE half of the same limb.
+  //
+  // `grants.effectLanguages` sits in the `domain === "languages"` grantBuckets
+  // alongside its `effectTools` twin, but until these cases it was covered by
+  // NOTHING: P3c removed it from that array and the whole suite stayed green.
+  // pc-proficiency-grants.test.ts pins the COLLECTOR (that the bucket is filled,
+  // with the canonical slug and the granting entity's display name) · what was
+  // unpinned is that computeEffectiveProficiencies then FOLDS the bucket.
+  // These are CHARACTERISATION cases: they passed on first run, and the mutation
+  // above is what makes them worth having.
+  //
+  // Deliberately exercised with an OFF-VOCABULARY language, which is the failure
+  // mode P3c named: `proficiencyEntryFor` keys an off-vocabulary value on the RAW
+  // string (only a vocabulary HIT is folded through toProfSlug), so one language
+  // spelled two ways becomes two rows carrying the SAME label. The effect side
+  // always arrives canonical (classifyProficiencyEffect slugs it), so the
+  // spelling that has to coincide is the entity grant's.
+  // ───────────────────────────────────────────────────────────────────────────
+
+  /** A Rogue whose Thieves' Cant feature grants the language by EFFECT.
+   *  "thieves'-cant" is not in ALL_LANGUAGES (8 standard + 8 exotic, no cant),
+   *  and the authored value carries the U+2019 the 2014 SRD prose uses.
+   *  `raceLanguages` threads a SECOND granting entity for the dedupe half,
+   *  `overrides` the suppression half. */
+  function cantRogue(opts: { overrides?: unknown; raceLanguages?: string[] } = {}) {
+    return {
+      definition: { overrides: opts.overrides ?? {} },
+      classes: [{
+        entity: { slug: "srd-5e_class_rogue", name: "Rogue" }, subclass: null, level: 1, choices: {},
+      }],
+      race: opts.raceLanguages
+        ? { slug: "srd-5e_race_human", name: "Human", languages: { fixed: opts.raceLanguages } }
+        : undefined,
+      background: null, feats: [], pools: [], state: {},
+      features: [{
+        feature: {
+          id: "thieves-cant", name: "Thieves' Cant", activatable: false,
+          effects: [{ kind: "proficiency", proficiency_type: "language", value: "Thieves’ Cant" }],
+        },
+        source: { kind: "class", slug: "srd-5e_class_rogue" },
+      }],
+    } as never;
+  }
+
+  it("folds an effect-granted LANGUAGE in as a grant, carrying the granting entity", () => {
+    const eff = computeEffectiveProficiencies(cantRogue());
+    // The ONLY language on this character, so a dropped fold empties the list
+    // rather than merely thinning one row's provenance.
+    expect(eff.languages).toHaveLength(1);
+    expect(eff.languages[0]).toMatchObject({
+      value: "thieves'-cant",
+      label: "Thieves' Cant",
+      origin: "grant",
+      sources: ["Rogue"],
+    });
+  });
+
+  it("dedupes an effect-granted language against an identically-spelled entity grant", () => {
+    // Race and effect agree byte-for-byte on the key, so they fold to ONE row
+    // and the effect only appends its source. Walk order: race bucket before the
+    // effect bucket, which goes last.
+    const shared = computeEffectiveProficiencies(cantRogue({ raceLanguages: ["thieves'-cant"] }));
+    expect(shared.languages).toHaveLength(1);
+    expect(shared.languages[0]).toMatchObject({
+      value: "thieves'-cant", label: "Thieves' Cant", origin: "grant", sources: ["Human", "Rogue"],
+    });
+
+    // CHARACTERISATION of today's keying, NOT a desideratum. Respell the race's
+    // grant as prose and the same language SPLITS: the off-vocabulary key is the
+    // raw string, so "Thieves' Cant" and "thieves'-cant" are two entries · and
+    // because the label branch DOES slug-fold, both rows render identically. If a
+    // later change keys off-vocabulary values on toProfSlug too, this assertion
+    // is the one that reports it.
+    const split = computeEffectiveProficiencies(cantRogue({ raceLanguages: ["Thieves' Cant"] }));
+    expect(split.languages.map((e) => e.value)).toEqual(["Thieves' Cant", "thieves'-cant"]);
+    expect(split.languages.map((e) => e.label)).toEqual(["Thieves' Cant", "Thieves' Cant"]);
+  });
+
+  it("suppresses an effect-granted language via overrides.languages.remove", () => {
+    // Positive control in the same case: a negative asserted alone would pass
+    // against a build that never folded the grant at all (the file's convention,
+    // see the effect-granted TOOL case above).
+    expect(computeEffectiveProficiencies(cantRogue()).languages.map((e) => e.value))
+      .toEqual(["thieves'-cant"]);
+
+    const bySlug = cantRogue({ overrides: { languages: { remove: ["thieves'-cant"] } } });
+    expect(computeEffectiveProficiencies(bySlug).languages).toEqual([]);
+
+    // The suppression filter runs toProfSlug over BOTH sides, so the PROSE
+    // spelling suppresses the same row · an asymmetry with the dedupe key above,
+    // which does not fold. Pin it: a suppression narrowed to exact equality
+    // would leave the row on screen with the remove silently inert.
+    const byProse = cantRogue({ overrides: { languages: { remove: ["Thieves’ Cant"] } } });
+    expect(computeEffectiveProficiencies(byProse).languages).toEqual([]);
+  });
 });
