@@ -348,8 +348,13 @@ function buildItem(
   opts?: { keyPrefix?: string; expandFeatChildren?: boolean; description?: string },
 ): DecisionItem {
   // Normalize the authored two-step ASI shape to the flat feat pick BEFORE the
-  // key is computed: the key becomes `feat`, which is exactly the key every
-  // affected vault record already persists, so no data migration is needed.
+  // key is computed: the key becomes `feat`, which is the key every affected
+  // FEAT-BRANCH vault record already persists (spec §3.4 scopes that to the five
+  // persisted feat blocks), so those need no data migration. It is NOT a claim
+  // about every affected record: an ASI-BRANCH record persists
+  // `{"asi-or-feat":"asi", asi:{…}}` with no `feat` key at all, and a record that
+  // switched branches keeps BOTH. Those two cases are handled downstream, not
+  // here · see R4-P4 Decision B, collectClassAsiBranch in pc.recalc.ts.
   // Placed here rather than at a walk because all three authored Choice[] entry
   // points funnel through buildItem, as do both recursions.
   const choice = flattenAsiOrFeat(inputChoice);

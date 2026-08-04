@@ -732,6 +732,11 @@ describe("buildDecisionLedger — chosen-feat children", () => {
     // Same level carries BOTH a stale asi-branch allocation AND a feat pick with
     // its own feat:asi allocation; they must read independently. The stale `asi`
     // key is exactly what a vault record persisted BEFORE the flatten holds.
+    // Scope note (R4-P4 Decision B): the LEDGER still reads the two keys
+    // independently, exactly as asserted below · that is what this test pins.
+    // RECALC no longer does: collectClassAsiBranch (pc.recalc.ts) now DISCARDS an
+    // `asi` sharing a level with a string `feat` key as branch-switch residue, so
+    // this same fixture contributes only the feat:asi points to ability scores.
     const featItem = featBranchChild({
       4: { asi: { dex: 2 },
         feat: "[[srd-2024_ability-score-improvement]]", "feat:asi": { str: 1, con: 1 } },

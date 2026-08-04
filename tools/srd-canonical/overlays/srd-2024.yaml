@@ -179,10 +179,13 @@ class_features:
   # choice. No epic-boon feat category exists in SRD feat data, so this is an
   # open feat pick (the "another feat of your choice" clause).
   # The pick id is `feat` for the same load-bearing reason as the ASI block
-  # above: EVERY reader of a saved class choice block keys on the literal string
-  # `feat`, and there are THREE (pc.resolver.ts:298 collectFeatSlugs,
-  # pc.resolver.ts:200 the feat-to-spell pass, pc.recalc.ts:376
-  # collectClassFeatAbilityPoints). It was authored `id: epic-boon` until R4-P4,
+  # above: EVERY reader OF THE FEAT PICK keys on the literal string `feat`, and
+  # there are THREE (collectFeatSlugs at pc.resolver.ts:298, the feat-to-spell
+  # pass at pc.resolver.ts:200, and collectClassFeatAbilityPoints in
+  # pc.recalc.ts · cited by SYMBOL because its line moves every time that
+  # docblock grows, and a stale `:376` shipped here once already). Readers of
+  # OTHER keys on the same block are not in that count, e.g. collectClassAsiBranch
+  # reads `.asi`. It was authored `id: epic-boon` until R4-P4,
   # which persisted the L19 pick under a key NO reader looks at, so the boon was
   # silently discarded: no feat resolved, no granted spells, no ability points.
   # Do not re-key it. The feature slug stays `epic-boon`; only the CHOICE id is

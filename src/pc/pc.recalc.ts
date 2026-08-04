@@ -130,7 +130,12 @@ function subraceAsi(
  * `abilityBonusBreakdown`'s `class` bucket so the two reads can never drift.
  *
  * Disjoint from chosen-feat ability-points (`choices[lvl]["feat:<id>"]`) and from
- * origin ability-points — no source double-counts.
+ * origin ability-points · no source double-counts.
+ *
+ * Since R4-P4 Decision B an `asi` that SHARES a level with a string `feat` key is
+ * discarded as an orphan rather than folded: that level took the feat branch, and
+ * the `asi` beside it is residue the picker never cleared on a branch switch.
+ * Folding both paid the same slot twice (Volker.md drew FOUR points from one L4).
  */
 export function collectClassAsiBranch(
   resolved: ResolvedCharacter,
@@ -138,7 +143,17 @@ export function collectClassAsiBranch(
   const out: Partial<Record<Ability, number>> = {};
   for (const c of resolved.classes) {
     for (const [, choice] of Object.entries(c.choices)) {
-      const asi = (choice as { asi?: Partial<Record<Ability, number>> })?.asi;
+      const block = choice as { asi?: Partial<Record<Ability, number>>; feat?: unknown };
+      // A level that also carries a chosen feat took the feat branch; any `asi`
+      // beside it is an orphan left by a branch switch (the picker never cleared
+      // the abandoned branch's child keys). `typeof … === "string"` MIRRORS
+      // collectClassFeatAbilityPoints' own gate exactly, so the two can never both
+      // decline the same block and silently drop the allocation. Do NOT loosen it
+      // to `"feat" in block` or a `startsWith("feat")` prefix test: the first
+      // strands a non-string `feat` (a legacy hand edit) with no fold at all, the
+      // second skips every correctly-flattened block.
+      if (typeof block.feat === "string") continue;
+      const asi = block.asi;
       if (!asi) continue;
       for (const ab of ABILITY_KEYS) {
         const v = asi[ab];
@@ -152,7 +167,9 @@ export function collectClassAsiBranch(
 /** Per-ability bonus provenance for the builder's obelisk captions:
  *  species = fixed race ASI + subrace fixed ASI + race ability-points choices;
  *  background = background ability-points choices;
- *  class = legacy class ASI-BRANCH allocations (the L4 asi-or-feat → asi path);
+ *  class = legacy class ASI-BRANCH allocations (the L4 asi-or-feat → asi path),
+ *          MINUS any `asi` sharing a level with a string `feat` key, which
+ *          collectClassAsiBranch discards as branch-switch residue (R4-P4 Dec. B);
  *  feat = class chosen-feat ability-points (the L4 asi-or-feat → feat path) +
  *         flat feat ability_bonuses (e.g. Athlete +1 STR). All already fold into
  *         computeAbilityScores totals, so the caption must account for them or a
@@ -348,12 +365,18 @@ export function speedFromRace(resolved: ResolvedCharacter): number {
  *
  * The L19 Epic Boon folds through this SAME path, but only as of R4-P4's
  * re-key (live in the SRD data from that phase's regeneration). This docblock
- * earlier cited it as an existing example, which it was not. EVERY reader of a
- * saved class choice block keys on the LITERAL string `feat`, and there are
- * THREE of them, not the two the R4-P4 spec §2.3 and task brief enumerate:
- * this function (`block.feat`, below), `collectFeatSlugs` (pc.resolver.ts:298)
- * and `PCResolver.resolve`'s feat-to-spell pass (pc.resolver.ts:200), the one
- * that makes a SPELL-granting boon work. pc.decision-engine.ts is NOT a fourth:
+ * earlier cited it as an existing example, which it was not. EVERY reader OF THE
+ * FEAT PICK keys on the LITERAL string `feat`, and there are THREE of them, not
+ * the two the R4-P4 spec §2.3 and task brief enumerate: this function
+ * (`block.feat`, below), `collectFeatSlugs` (pc.resolver.ts:298) and
+ * `PCResolver.resolve`'s feat-to-spell pass (pc.resolver.ts:200), the one that
+ * makes a SPELL-granting boon work. Note the qualifier: this is NOT a claim that
+ * every reader of a saved class choice block keys on `feat`. Others read the very
+ * same block by OTHER keys · `collectClassAsiBranch` (above) reads the literal
+ * `.asi`, while `resolvePool` (pc.pools.ts) and `resolveChosenInline`
+ * (pc.resolver.ts) read by a DYNAMIC pool/choice id. As of R4-P4 Decision B
+ * `collectClassAsiBranch` also tests `block.feat`, but only to DETECT the feat
+ * branch, not to consume the pick. pc.decision-engine.ts is NOT a fourth:
  * it reads generically by `choice.id`, which is exactly why re-keying works at
  * all. srd-2024.yaml authored the boon's pick `id: epic-boon`, so an L19
  * selection persisted under `choices[19]["epic-boon"]`, which no reader looks

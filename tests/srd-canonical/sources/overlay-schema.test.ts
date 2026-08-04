@@ -185,11 +185,14 @@ describe("race_traits overlay effects (R4-P3c)", () => {
 });
 
 describe("real overlay: the L19 Epic Boon pick key (R4-P4)", () => {
-  // Reads the REAL srd-2024.yaml, deliberately. EVERY reader of a persisted
-  // class choice block keys on the literal string `feat`, and there are THREE:
-  // collectFeatSlugs (pc.resolver.ts:298), PCResolver.resolve's feat-to-spell
-  // pass (pc.resolver.ts:200) and collectClassFeatAbilityPoints
-  // (pc.recalc.ts:376). While this pick was authored `id: epic-boon` the L19
+  // Reads the REAL srd-2024.yaml, deliberately. EVERY reader OF THE FEAT PICK
+  // keys on the literal string `feat`, and there are THREE: collectFeatSlugs
+  // (pc.resolver.ts:298), PCResolver.resolve's feat-to-spell pass
+  // (pc.resolver.ts:200) and collectClassFeatAbilityPoints (in pc.recalc.ts ·
+  // cited by SYMBOL, not line: a stale `:376` shipped here once already, and the
+  // true line moves whenever that docblock grows). Readers of OTHER keys on the
+  // same block are not in that count, e.g. collectClassAsiBranch reads `.asi`.
+  // While this pick was authored `id: epic-boon` the L19
   // selection persisted under `choices[19]["epic-boon"]` and was silently
   // discarded, so the boon never resolved at all. A reader-side test cannot see
   // this: the authored id is inert until the next SRD regeneration, so such a

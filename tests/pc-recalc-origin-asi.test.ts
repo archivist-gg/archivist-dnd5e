@@ -1,6 +1,6 @@
 import { describe, it, expect } from "vitest";
 import { collectChosenAbilityPoints } from "@archivist-gg/dnd5e/pc/pc.decision-engine";
-import { computeAbilityScores, abilityBonusBreakdown } from "../src/pc/pc.recalc";
+import { computeAbilityScores, abilityBonusBreakdown, collectClassAsiBranch } from "../src/pc/pc.recalc";
 import type { ResolvedCharacter } from "../src/pc/pc.types";
 
 function resolvedWith(over: Record<string, unknown>): ResolvedCharacter {
@@ -246,5 +246,32 @@ describe("computeAbilityScores — class chosen-feat ability-points", () => {
     const out = computeAbilityScores(r, {});
     expect(out.str).toBe(10);
     expect(out.con).toBe(10);
+  });
+});
+
+// ── the orphaned-asi sibling guard (R4-P4 Decision B) ────────────────────────
+//
+// A level that carries a chosen feat took the feat branch; any `asi` beside it
+// is an orphan the picker left behind on a branch switch. Volker.md persisted
+// exactly that shape and drew FOUR points from one L4 slot.
+describe("collectClassAsiBranch · orphaned asi beside a feat pick", () => {
+  it("ignores an orphaned `asi` when the same level also holds a feat pick", () => {
+    const r = fighterWith({ 4: { asi: { con: 1, wis: 1 }, "asi-or-feat": "feat",
+                                 feat: "srd-2024_feat_ability-score-improvement",
+                                 "feat:asi": { int: 2 } } });
+    expect(collectClassAsiBranch(r)).toEqual({});          // was {con:1, wis:1}
+  });
+
+  it("still folds `asi` when the level holds no feat pick", () => {
+    const r = fighterWith({ 4: { "asi-or-feat": "asi", asi: { str: 2 } } });
+    expect(collectClassAsiBranch(r)).toEqual({ str: 2 });
+  });
+
+  it("still folds `asi` when `feat` is present but NOT a string", () => {
+    // Mirrors collectClassFeatAbilityPoints' `typeof … === "string"` gate: if this
+    // guard were `"feat" in block`, BOTH functions would decline the block and the
+    // allocation would vanish with no error.
+    const r = fighterWith({ 4: { feat: null as unknown as string, asi: { str: 2 } } });
+    expect(collectClassAsiBranch(r)).toEqual({ str: 2 });
   });
 });
