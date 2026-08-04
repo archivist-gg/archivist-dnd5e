@@ -25,7 +25,11 @@ const FIELDS_TO_KEEP_PER_KIND: Record<string, Set<string>> = {
   class: new Set([
     "slug", "name", "edition", "source", "description", "hit_die",
     "primary_abilities", "saving_throws", "proficiencies", "skill_choices",
-    "starting_equipment", "spellcasting", "subclass_level",
+    // `starting_gold` reaches the emitted markdown regardless of this list,
+    // because `emitForKind` hands `writeMd` the CANONICAL entry rather than this
+    // projection. Listing it here is canonical/runtime parity for
+    // `src/srd/data/runtime/class.*.json`, not a fix to anything rendered.
+    "starting_equipment", "starting_gold", "spellcasting", "subclass_level",
     "subclass_feature_name", "weapon_mastery", "epic_boon_level", "table",
     "features_by_level", "resources",
     // Entity-level decision data, matching `race` / `background` above.

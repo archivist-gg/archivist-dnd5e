@@ -164,10 +164,17 @@ describe("to-runtime keep-list includes structured fields", () => {
     expect(runtime.description).toBe("A skilled warrior.");
   });
 
-  // Gate 2 of 3 for entity-level class `choices`: the per-kind field whitelist.
-  // `to-md.ts` dumps the rewritten data wholesale, so this whitelist is the only
-  // thing standing between a merged `choices` and the emitted YAML. `race` and
-  // `background` already list it; `class` did not, and an omission here is silent.
+  // The per-kind field whitelist gates `src/srd/data/runtime/*.json` ONLY, never
+  // the emitted markdown: `emitForKind` (index.ts) builds the runtime entries from
+  // this projection but then loops the CANONICAL records into `writeMd`, which
+  // dumps them wholesale. `starting_gold` is how that was caught: it was absent
+  // from the projected `runtime/class.*.json` for this list's whole life while
+  // reaching `Classes/Wizard.md` all along. That retroactively falsifies R4-P3a's
+  // rationale for adding `class.choices` here ("to-md.ts dumps the rewritten data
+  // wholesale, so that whitelist is the only filter"): it was right about the
+  // runtime JSON, which `src/srd-store.ts` imports, and wrong about the markdown.
+  // `race` and `background` list `choices`; `class` did not, and an omission here
+  // is silent either way.
   it("retains entity-level choices on a class projection", () => {
     const runtime = projectToRuntime("class", {
       slug: "x_class_bard",
@@ -175,6 +182,11 @@ describe("to-runtime keep-list includes structured fields", () => {
       choices: [{ kind: "select-proficiency", id: "tool", count: 3, domain: "tool", from: ["lute"] }],
     });
     expect(runtime.choices).toHaveLength(1);
+  });
+
+  it("projects starting_gold onto the runtime class record", () => {
+    const out = projectToRuntime("class", { slug: "x", name: "X", starting_gold: { dice: "4d4", multiplier: 10 } });
+    expect(out.starting_gold).toEqual({ dice: "4d4", multiplier: 10 });
   });
 
   it("background runtime preserves description, suggested_characteristics", () => {
