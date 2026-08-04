@@ -110,19 +110,23 @@ class_features:
   # Ability Score Improvement (shared) -- 2014 all 12 classes share the bare
   # feature slug `ability-score-improvement`, so one bare key covers them all.
   # 2014's feature is the ASI rule (+2 / +1+1); the optional-feat variant rule
-  # lets you take a feat instead, modeled here as the agreed asi-or-feat block.
+  # lets you take a feat instead. Authored FLAT: one open feat pick. The
+  # ability increase is modeled as the `Ability Score Improvement` feat itself
+  # rather than as a second branch, so the builder asks one question, not two.
+  # `id: feat` is a permanent persistence key and is load-bearing beyond that:
+  # the resolver and the recalc read that literal `feat` key out of the saved
+  # choice block, so any other id breaks feat resolution silently.
+  # The two-step `asi-or-feat` select-inline is still a VALID authored shape --
+  # hand-written homebrew keeps emitting it and the schema keeps accepting it --
+  # and the engine normalizes it to exactly the choice below
+  # (src/pc/pc.asi-flatten.ts). Flattening here is authoring hygiene: it makes
+  # the authored data match what the engine already produces.
   ability-score-improvement:
     choices:
-      - kind: select-inline
-        id: asi-or-feat
+      - kind: select-entity
+        id: feat
         count: 1
-        options:
-          - value: asi
-            label: Ability Score Increase
-            choices: [{ kind: ability-points, id: asi, points: 2, max_per: 2 }]
-          - value: feat
-            label: Feat
-            choices: [{ kind: select-entity, id: feat, entity_type: feat, count: 1 }]
+        entity_type: feat
 
   # --- Subclass selection (scoped; one per class) ---
   # 2014 subclass-choice feature slugs differ per class, so each is its own

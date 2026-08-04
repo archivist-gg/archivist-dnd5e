@@ -2,9 +2,9 @@ import { describe, it, expect } from "vitest";
 import { recognizeDecision } from "../src/pc/decision-recognizer";
 
 describe("recognizeDecision (homebrew fallback)", () => {
-  it("maps ability-score-improvement by id", () => {
+  it("maps ability-score-improvement by id to a flat feat pick", () => {
     const r = recognizeDecision({ id: "ability-score-improvement", name: "Ability Score Improvement", description: "increase…" });
-    expect(Array.isArray(r) && r[0].id === "asi-or-feat").toBe(true);
+    expect(Array.isArray(r) && r[0]).toMatchObject({ kind: "select-entity", id: "feat", entity_type: "feat", count: 1 });
   });
   it("maps expertise by id", () => {
     const r = recognizeDecision({ id: "expertise", name: "Expertise", description: "Choose two of your skill proficiencies…" });

@@ -157,19 +157,24 @@ class_features:
 
   # Ability Score Improvement (shared) -- 2024 ASI is a feat grant: the
   # Ability Score Improvement feat (+2 / +1+1) OR another feat of your choice.
-  # Represented as the agreed asi-or-feat select-inline.
+  # Authored FLAT: one open feat pick, because the +2 / +1+1 option IS a feat
+  # here (`srd-2024_feat_ability-score-improvement`, in the same feat list), so
+  # an outer "increase or feat" step decided nothing the feat pick does not.
+  # `id: feat` is a permanent persistence key and is load-bearing beyond that:
+  # the resolver and the recalc read that literal `feat` key out of the saved
+  # choice block, so any other id breaks feat resolution silently.
+  # The two-step `asi-or-feat` select-inline is still a VALID authored shape --
+  # hand-written homebrew keeps emitting it and the schema keeps accepting it --
+  # and the engine normalizes it to exactly the choice below
+  # (src/pc/pc.asi-flatten.ts). Flattening here is authoring hygiene: it makes
+  # the authored data match what the engine already produces.
   ability-score-improvement:
     choices:
-      - kind: select-inline
-        id: asi-or-feat
+      - kind: select-entity
+        id: feat
         count: 1
-        options:
-          - value: asi
-            label: Ability Score Increase
-            choices: [{ kind: ability-points, id: asi, points: 2, max_per: 2 }]
-          - value: feat
-            label: Feat
-            choices: [{ kind: select-entity, id: feat, entity_type: feat, count: 1 }]
+        entity_type: feat
+
   # Epic Boon (shared, L19) -- an Epic Boon feat or another feat of your
   # choice. No epic-boon feat category exists in SRD feat data, so this is an
   # open feat pick (the "another feat of your choice" clause).
