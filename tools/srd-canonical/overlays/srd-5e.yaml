@@ -762,6 +762,15 @@ races:
       - { ability: wis, amount: 1 }
       - { ability: cha, amount: 1 }
   half-elf:
+    # "Charisma score increases by 2, and two other ability scores of your
+    # choice increase by 1." The +2 Cha is the FIXED arm; the two +1s are the
+    # `ability-points` choice below. Both arms, one species.
+    ability_score_increases:
+      - { ability: cha, amount: 2 }
+    # UNCHANGED. `id: abilities` is the SHIPPED key that live characters
+    # persist under `origin_choices["race:abilities"]`; re-keying it would
+    # silently unbind every existing allocation, and adding a second
+    # ability-points choice here would grant +4 instead of +2.
     choices:
       - kind: ability-points
         id: abilities
@@ -774,8 +783,8 @@ races:
         count: 1
   # --- The remaining 11 species: fixed increases only. Each comment quotes the
   # shipped Ability Score Increase prose verbatim, which is the source of truth.
-  # Half-Elf is absent above by design: its fixed +2 Cha rides beside the
-  # two-ability choice already authored in its `choices:` block.
+  # Half-Elf is not in this list: it is authored above, where its fixed +2 Cha
+  # rides beside the two-ability choice in its own `choices:` block.
   # Dragonborn
   dragonborn:
     # "Your Strength score increases by 2, and your Charisma score increases by 1."
