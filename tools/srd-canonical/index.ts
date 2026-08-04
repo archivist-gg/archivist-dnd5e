@@ -13,6 +13,7 @@ import { projectToRuntime } from "./to-runtime";
 import { writeMd, writeCompendiumIndex } from "./to-md";
 import { SYNTHETIC_ITEM_SEEDS, type SyntheticItemSeed } from "./data/synthetic-item-seeds";
 import { SYNTHETIC_ARMOR_SEEDS, type SyntheticArmorSeed } from "./data/synthetic-armor-seeds";
+import { SYNTHETIC_FEAT_SEEDS, buildSeedCanonicalFeat } from "./data/synthetic-feat-seeds";
 
 import { raceMergeRule, toRaceCanonical } from "./merger-rules/race-merge";
 import { classMergeRule, toClassCanonical } from "./merger-rules/class-merge";
@@ -331,6 +332,18 @@ async function main() {
       if (kind === "armor") {
         canonical.push(
           ...(SYNTHETIC_ARMOR_SEEDS[edition] ?? []).map(s => buildSeedCanonicalArmor(s, edition)),
+        );
+      }
+
+      // R4-P4: inject the synthetic feat seed(s). Mirrors the armor seed block
+      // directly above: push into the SAME `canonical` array that feeds
+      // emitForKind, so the seed flows through the canonical write, the runtime
+      // projection and the bundle MD with no separate path. 2014 adds the
+      // Ability Score Improvement feat entity SRD 5.1 never shipped; 2024 is a
+      // natural no-op (no "2024" key -> `?? []`).
+      if (kind === "feats") {
+        canonical.push(
+          ...(SYNTHETIC_FEAT_SEEDS[edition] ?? []).map(s => buildSeedCanonicalFeat(s, edition)),
         );
       }
 
