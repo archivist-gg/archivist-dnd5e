@@ -12,6 +12,7 @@ import {
   type ProficiencyOrigin,
 } from "./pc.proficiency-grants";
 import { bareEntitySlug } from "../entities/slug";
+import { flattenAsiOrFeat } from "./pc.asi-flatten";
 
 export interface DecisionRegistry {
   search(query: string, entityType: string, limit: number): RegisteredEntity[];
@@ -336,7 +337,7 @@ function resolveEntityRef(
 }
 
 function buildItem(
-  choice: Choice,
+  inputChoice: Choice,
   source: FeatureSource,
   level: number,
   featureName: string,
@@ -346,6 +347,12 @@ function buildItem(
   effective: EffectiveSets,
   opts?: { keyPrefix?: string; expandFeatChildren?: boolean; description?: string },
 ): DecisionItem {
+  // Normalize the authored two-step ASI shape to the flat feat pick BEFORE the
+  // key is computed: the key becomes `feat`, which is exactly the key every
+  // affected vault record already persists, so no data migration is needed.
+  // Placed here rather than at a walk because all three authored Choice[] entry
+  // points funnel through buildItem, as do both recursions.
+  const choice = flattenAsiOrFeat(inputChoice);
   const keyPrefix = opts?.keyPrefix ?? "";
   // `expandFeatChildren` defaults true at the top level; we set it false inside a
   // feat's own children so a feat-select-entity nested under a feat never grows

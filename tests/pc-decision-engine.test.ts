@@ -3,6 +3,7 @@ import { buildDecisionLedger, collectChosenProficiencies, __matchesFilterForTest
 import type { DecisionItem, DecisionLedger } from "../src/pc/pc.decision-engine";
 import { choiceSchema } from "../src/schemas/choice-schema";
 import type { ResolvedCharacter } from "../src/pc/pc.types";
+import type { Choice } from "../src/types/choice";
 import type { RegisteredEntity } from "@archivist-gg/core";
 
 const styles: RegisteredEntity[] = [
@@ -34,6 +35,33 @@ const multiRegistry = {
 const registry = {
   search: (_q: string, type: string) => styles.filter(s => s.entityType === type),
   getByTypeAndSlug: (type: string, slug: string) => styles.find(s => s.entityType === type && s.slug === slug),
+};
+
+// A feat-aware registry: the engine resolves the chosen feat slug here to read
+// its `choices`. Keyed by both the registered slug and the bare slug.
+// MODULE-SCOPE because the flatten (R4-P4) moved every ability-points child out
+// of the class asi-branch and under the CHOSEN FEAT, so the status, description
+// and canonicalization describes all need a feat behind the L4 pick now.
+const feats: RegisteredEntity[] = [
+  { slug: "srd-2024_ability-score-improvement", name: "Ability Score Improvement",
+    entityType: "feat", filePath: "asi.md",
+    data: { choices: [{ kind: "ability-points", id: "asi", points: 2, max_per: 2 }] },
+    compendium: "SRD 2024", readonly: true, homebrew: false },
+  { slug: "srd-2024_magic-initiate", name: "Magic Initiate", entityType: "feat", filePath: "mi.md",
+    data: { choices: [
+      { kind: "select-inline", id: "spell-list", count: 1, options: [
+        { value: "cleric", label: "Cleric" }, { value: "wizard", label: "Wizard" }] },
+      { kind: "select-inline", id: "spellcasting-ability", count: 1, options: [
+        { value: "int", label: "Intelligence" }, { value: "wis", label: "Wisdom" }] },
+    ] },
+    compendium: "SRD 2024", readonly: true, homebrew: false },
+  { slug: "srd-2024_alert", name: "Alert", entityType: "feat", filePath: "al.md",
+    data: { choices: [] }, compendium: "SRD 2024", readonly: true, homebrew: false },
+];
+const featRegistry = {
+  search: (_q: string, type: string) => feats.filter((s) => s.entityType === type),
+  getByTypeAndSlug: (type: string, slug: string) =>
+    feats.find((s) => s.entityType === type && (s.slug === slug || s.slug.endsWith(`_${slug}`))),
 };
 
 function resolvedFighter(level: number, choices: Record<number, Record<string, unknown>> = {}): ResolvedCharacter {
@@ -168,26 +196,34 @@ describe("buildDecisionLedger — feature-level", () => {
     expect(fs.level).toBe(1);
     expect(fs.status).toBe("unresolved");
     expect(fs.options.map(o => o.value)).toEqual(["archery", "defense"]);
-    expect(items.find(i => i.key === "asi-or-feat")).toBeUndefined(); // L4 not reached
+    // The L4 decision is keyed `feat` post-flatten; asserting the OLD `asi-or-feat`
+    // key here would be permanently true and would guard nothing.
+    expect(items.find(i => i.key === "feat")).toBeUndefined(); // L4 not reached
   });
 
-  it("joins persisted selections → resolved, and reveals nested children", () => {
+  it("joins persisted selections → resolved, including the flattened L4 feat pick", () => {
     const ledger = buildDecisionLedger(
-      resolvedFighter(4, { 1: { "fighting-style": "defense" }, 4: { "asi-or-feat": "asi", asi: { str: 1, con: 1 } } }),
+      resolvedFighter(4, { 1: { "fighting-style": "defense" }, 4: { feat: "alert" } }),
       { registry } as never);
     const items = ledger.classes[0].levels.flatMap(l => l.items);
     expect(items.find(i => i.key === "fighting-style")!.status).toBe("resolved");
-    const aof = items.find(i => i.key === "asi-or-feat")!;
-    expect(aof.status).toBe("resolved");
-    expect(aof.children?.[0].key).toBe("asi");
-    expect(aof.children?.[0].status).toBe("resolved"); // 2 points allocated
+    // The authored two-step is normalized away: no `asi-or-feat` row and no
+    // revealed `asi` child, just the flat feat pick. (The select-inline
+    // child-reveal path itself is covered by the `kit` fixtures in
+    // pc-proficiency-exclusion.test.ts and by Magic Initiate below.)
+    expect(items.find(i => i.key === "asi-or-feat")).toBeUndefined();
+    const feat = items.find(i => i.key === "feat")!;
+    expect(feat.status).toBe("resolved");
   });
 
   it("marks partial allocations and unresolvable from-slugs", () => {
+    // Post-flatten the only ability-points child under a class level is the
+    // CHOSEN feat's own, so the 1-of-2 partial is asserted through `feat:asi`.
     const ledger = buildDecisionLedger(
-      resolvedFighter(4, { 4: { "asi-or-feat": "asi", asi: { str: 1 } } }), { registry } as never);
-    const aof = ledger.classes[0].levels.flatMap(l => l.items).find(i => i.key === "asi-or-feat")!;
-    expect(aof.children?.[0].status).toBe("partial"); // 1 of 2 points
+      resolvedFighter(4, { 4: { feat: "[[srd-2024_ability-score-improvement]]", "feat:asi": { str: 1 } } }),
+      { registry: featRegistry } as never);
+    const feat = ledger.classes[0].levels.flatMap(l => l.items).find(i => i.key === "feat")!;
+    expect(feat.children?.[0].status).toBe("partial"); // 1 of 2 points
   });
 
   it("synthesizes the L1 skills decision from class.skill_choices", () => {
@@ -196,6 +232,41 @@ describe("buildDecisionLedger — feature-level", () => {
     expect(sk.level).toBe(1);
     expect(sk.choice.kind).toBe("select-proficiency");
     expect(sk.options).toHaveLength(2);
+  });
+});
+
+// ⚠️ A LOCAL copy of the two-step fixture, deliberately duplicated from
+// tests/pc-asi-flatten.test.ts. MEASURED: importing any symbol from a vitest
+// test file re-registers and RE-RUNS that file's whole suite inside the
+// importer, silently inflating every recorded suite count.
+const TWO_STEP_LOCAL = {
+  kind: "select-inline", id: "asi-or-feat", count: 1,
+  options: [
+    { value: "asi", label: "Ability Score Increase",
+      choices: [{ kind: "ability-points", id: "asi", points: 2, max_per: 2 }] },
+    { value: "feat", label: "Feat",
+      choices: [{ kind: "select-entity", id: "feat", entity_type: "feat", count: 1 }] },
+  ],
+} as Choice;
+
+describe("asi-or-feat normalization", () => {
+  it("the class FEATURE walk yields one flat item keyed `feat`, with no children until picked", () => {
+    const ledger = buildDecisionLedger(resolvedFighter(4), { registry } as never);
+    const items = ledger.classes[0].levels.find(l => l.level === 4)!.items;
+    expect(items.map(i => i.key)).toEqual(["feat"]);
+    expect(items[0].choice).toMatchObject({ kind: "select-entity", entity_type: "feat" });
+    expect(items[0].children).toBeUndefined();
+  });
+
+  it("pushOrigin's walk normalizes an entity-level asi-or-feat on a race", () => {
+    const c = resolvedFighter(1);
+    (c as { race: unknown }).race = {
+      slug: "hb_race_test", name: "Test", traits: [],
+      choices: [structuredClone(TWO_STEP_LOCAL)],     // local copy, NOT imported from the other test file
+    };
+    const keys = buildDecisionLedger(c, { registry } as never).origin.map(i => i.key);
+    expect(keys).toContain("feat");
+    expect(keys).not.toContain("asi-or-feat");
   });
 });
 
@@ -229,12 +300,16 @@ describe("buildDecisionLedger — decision descriptions (smoke r7)", () => {
     (c.definition as { origin_choices: Record<string, unknown> }).origin_choices = {};
   });
 
-  it("a revealed select-inline child carries no inherited description", () => {
-    const choices = { 4: { "asi-or-feat": "asi" } };
-    const ledger = buildDecisionLedger(resolvedFighter(4, choices), { registry } as never);
-    const aof = ledger.classes[0].levels.flatMap(l => l.items).find(i => i.key === "asi-or-feat")!;
-    expect(aof.description).toBe("choose one…");          // the parent feature's description
-    expect(aof.children?.[0].description).toBeUndefined(); // the child inherits nothing
+  it("a revealed child carries no inherited description", () => {
+    // The flatten (R4-P4) drops the select-inline wrapper, so the ASI feature's
+    // description now lands on the FLAT feat item and the revealed child is the
+    // chosen feat's own `feat:asi`. Both recursion sites obey the same contract:
+    // a child inherits NO description.
+    const choices = { 4: { feat: "[[srd-2024_ability-score-improvement]]" } };
+    const ledger = buildDecisionLedger(resolvedFighter(4, choices), { registry: featRegistry } as never);
+    const feat = ledger.classes[0].levels.flatMap(l => l.items).find(i => i.key === "feat")!;
+    expect(feat.description).toBe("choose one…");           // the parent feature's description
+    expect(feat.children?.[0].description).toBeUndefined(); // the child inherits nothing
   });
 });
 
@@ -587,58 +662,37 @@ describe("buildDecisionLedger · selected canonicalization", () => {
     // would silently rewrite the ref (here "Archery" would become the pool's
     // "archery" and appear to match). ability-points persists a record, which the
     // string/array guards must pass through by identity.
-    const c = resolvedFighter(4, { 1: { "fighting-style": "Archery" }, 4: { "asi-or-feat": "asi", asi: { str: 2 } } });
-    const ledger = buildDecisionLedger(c, { registry } as never);
+    const c = resolvedFighter(4, {
+      1: { "fighting-style": "Archery" },
+      4: { feat: "[[srd-2024_ability-score-improvement]]", "feat:asi": { str: 2 } },
+    });
+    const ledger = buildDecisionLedger(c, { registry: featRegistry } as never);
     expect(findItem(ledger, "classes", "fighting-style").selected).toBe("Archery");
-    const asi = findItem(ledger, "classes", "asi-or-feat").children?.find((k) => k.key === "asi");
+    const asi = findItem(ledger, "classes", "feat").children?.find((k) => k.key === "feat:asi");
     expect(asi?.selected).toEqual({ str: 2 });
   });
 });
 
 // ── chosen-feat children (SP2 Plan 5: surface a chosen feat's own decisions) ──
 //
-// When the L4 asi-or-feat branch resolves to a concrete feat, that feat's own
+// When the flattened L4 feat pick resolves to a concrete feat, that feat's own
 // `choices` (e.g. Ability Score Improvement's ability-points pick, Magic
 // Initiate's two select-inline picks) must surface as ledger children under the
 // feat select-entity, namespaced `feat:<choiceId>` so they never collide with
-// the asi-branch's literal `asi` key.
+// the legacy asi-branch's literal `asi` key.
 describe("buildDecisionLedger — chosen-feat children", () => {
-  // A feat-aware registry: the engine resolves the chosen feat slug here to read
-  // its `choices`. Keyed by both the registered slug and the bare slug.
-  const feats: RegisteredEntity[] = [
-    { slug: "srd-2024_ability-score-improvement", name: "Ability Score Improvement",
-      entityType: "feat", filePath: "asi.md",
-      data: { choices: [{ kind: "ability-points", id: "asi", points: 2, max_per: 2 }] },
-      compendium: "SRD 2024", readonly: true, homebrew: false },
-    { slug: "srd-2024_magic-initiate", name: "Magic Initiate", entityType: "feat", filePath: "mi.md",
-      data: { choices: [
-        { kind: "select-inline", id: "spell-list", count: 1, options: [
-          { value: "cleric", label: "Cleric" }, { value: "wizard", label: "Wizard" }] },
-        { kind: "select-inline", id: "spellcasting-ability", count: 1, options: [
-          { value: "int", label: "Intelligence" }, { value: "wis", label: "Wisdom" }] },
-      ] },
-      compendium: "SRD 2024", readonly: true, homebrew: false },
-    { slug: "srd-2024_alert", name: "Alert", entityType: "feat", filePath: "al.md",
-      data: { choices: [] }, compendium: "SRD 2024", readonly: true, homebrew: false },
-  ];
-  const featRegistry = {
-    search: (_q: string, type: string) => feats.filter((s) => s.entityType === type),
-    getByTypeAndSlug: (type: string, slug: string) =>
-      feats.find((s) => s.entityType === type && (s.slug === slug || s.slug.endsWith(`_${slug}`))),
-  };
-
-  // The feat branch of the L4 asi-or-feat item.
+  // The flattened L4 feat item. Since R4-P4 it is a TOP-LEVEL item keyed `feat`,
+  // no longer a child of an `asi-or-feat` select-inline.
   const featBranchChild = (
     choices: Record<number, Record<string, unknown>>,
   ) => {
     const ledger = buildDecisionLedger(resolvedFighter(4, choices), { registry: featRegistry } as never);
-    const aof = ledger.classes[0].levels.flatMap((l) => l.items).find((i) => i.key === "asi-or-feat")!;
-    return aof.children?.find((c) => c.key === "feat");
+    return ledger.classes[0].levels.flatMap((l) => l.items).find((i) => i.key === "feat");
   };
 
   it("surfaces ONE ability-points child (key feat:asi) for a chosen ASI feat", () => {
     const featItem = featBranchChild({
-      4: { "asi-or-feat": "feat", feat: "[[srd-2024_ability-score-improvement]]" },
+      4: { feat: "[[srd-2024_ability-score-improvement]]" },
     })!;
     expect(featItem.children).toHaveLength(1);
     const child = featItem.children![0];
@@ -650,7 +704,7 @@ describe("buildDecisionLedger — chosen-feat children", () => {
 
   it("downgrades the feat item to partial when the feat child is unresolved", () => {
     const featItem = featBranchChild({
-      4: { "asi-or-feat": "feat", feat: "[[srd-2024_ability-score-improvement]]" },
+      4: { feat: "[[srd-2024_ability-score-improvement]]" },
     })!;
     // feat:asi has no allocation yet → child unresolved → feat item partial.
     expect(featItem.children![0].status).toBe("unresolved");
@@ -659,7 +713,7 @@ describe("buildDecisionLedger — chosen-feat children", () => {
 
   it("resolves the feat item once the namespaced feat:asi allocation is full", () => {
     const featItem = featBranchChild({
-      4: { "asi-or-feat": "feat", feat: "[[srd-2024_ability-score-improvement]]", "feat:asi": { str: 2 } },
+      4: { feat: "[[srd-2024_ability-score-improvement]]", "feat:asi": { str: 2 } },
     })!;
     expect(featItem.children![0].status).toBe("resolved");
     expect(featItem.status).toBe("resolved");
@@ -667,7 +721,7 @@ describe("buildDecisionLedger — chosen-feat children", () => {
 
   it("surfaces Magic Initiate's two select-inline children, namespaced feat:*", () => {
     const featItem = featBranchChild({
-      4: { "asi-or-feat": "feat", feat: "[[srd-2024_magic-initiate]]" },
+      4: { feat: "[[srd-2024_magic-initiate]]" },
     })!;
     expect(featItem.children).toHaveLength(2);
     expect(featItem.children!.map((c) => c.key)).toEqual(["feat:spell-list", "feat:spellcasting-ability"]);
@@ -676,9 +730,10 @@ describe("buildDecisionLedger — chosen-feat children", () => {
 
   it("does not collide the chosen-feat asi child with the legacy asi-branch key", () => {
     // Same level carries BOTH a stale asi-branch allocation AND a feat pick with
-    // its own feat:asi allocation; they must read independently.
+    // its own feat:asi allocation; they must read independently. The stale `asi`
+    // key is exactly what a vault record persisted BEFORE the flatten holds.
     const featItem = featBranchChild({
-      4: { "asi-or-feat": "feat", asi: { dex: 2 },
+      4: { asi: { dex: 2 },
         feat: "[[srd-2024_ability-score-improvement]]", "feat:asi": { str: 1, con: 1 } },
     })!;
     const child = featItem.children![0];
@@ -687,14 +742,14 @@ describe("buildDecisionLedger — chosen-feat children", () => {
 
   it("adds no children for an unresolvable feat slug, and does not crash", () => {
     const featItem = featBranchChild({
-      4: { "asi-or-feat": "feat", feat: "[[srd-2024_does-not-exist]]" },
+      4: { feat: "[[srd-2024_does-not-exist]]" },
     })!;
     expect(featItem.children).toBeUndefined();
   });
 
   it("adds no children for a feat whose choices are empty", () => {
     const featItem = featBranchChild({
-      4: { "asi-or-feat": "feat", feat: "[[srd-2024_alert]]" },
+      4: { feat: "[[srd-2024_alert]]" },
     })!;
     expect(featItem.children).toBeUndefined();
   });
