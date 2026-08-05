@@ -17,10 +17,13 @@ export const DECISION_SIGNAL = [/\bchoose (one|two|three|a|an)\b/i, /\bof your c
 // `collectClassFeatAbilityPoints` (pc.recalc.ts). A fourth site,
 // `collectClassAsiBranch` (pc.recalc.ts), reads the same key since R4-P4 but only
 // to DETECT the feat branch by `typeof`, never to consume the value. All four are
-// cited by SYMBOL, not line: line citations into these two files have already gone
-// stale twice on this branch (a `pc.recalc.ts:376` in the overlays, and a
-// `pc.decision-engine.ts:428` in the plugin's decision-strip test, each falsified
-// by a LATER commit on the same branch that added lines above the target).
+// cited by SYMBOL, not line: line citations into these two files have already
+// failed twice on this branch, in TWO DIFFERENT WAYS. A `pc.decision-engine.ts:428`
+// in the plugin's decision-strip test was true when written and was then falsified
+// by a LATER dnd5e commit on the same branch that added lines above the target.
+// A `pc.recalc.ts:376` in the overlays never went stale at all: it was WRONG ON
+// ARRIVAL, because the very commit that wrote the cite also added the docblock
+// lines that pushed `block.feat` down to :381, leaving :376 a blank line.
 // Separately, buildItem namespaces this choice's grandchildren
 // with the hardcoded prefix `feat:` rather than with the choice's own id · that
 // is why pc.decision-engine.ts is NOT among the readers above, and why the R4-P4

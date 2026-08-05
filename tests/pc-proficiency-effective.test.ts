@@ -63,8 +63,10 @@ describe("computeEffectiveProficiencies", () => {
 
   it("orders rows by LABEL, not by the order the sources were walked", () => {
     // Insertion order here is grants(common, dwarvish) THEN adds(abyssal), so a
-    // Map-order return puts "Abyssal" last. Today's aggregate returns
-    // `[...languages].sort()` over the display strings (pc.proficiencies.ts:104-107);
+    // Map-order return puts "Abyssal" last. The bucket this replaced (the return
+    // of `aggregateProficiencies` in pc.proficiencies.ts) returned
+    // `[...languages].sort()` over the display strings, and that function now
+    // passes this output straight through;
     // returning insertion order would silently reorder every sheet row and falsify
     // spec §3.3's "byte-identical to today's" guarantee. Nothing else in either
     // suite catches it: the aggregate tests use toContain and the panel test mocks

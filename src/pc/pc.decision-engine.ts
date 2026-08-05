@@ -749,9 +749,11 @@ export function computeEffectiveProficiencies(
     const suppressed = new Set(removes.map((r) => toProfSlug(r)));
     return [...byValue.values()]
       .filter((e) => !suppressed.has(toProfSlug(e.value)))
-      // SORT BY LABEL. Today aggregateProficiencies returns `[...languages].sort()`
-      // over the DISPLAY strings (pc.proficiencies.ts:104-107). Returning Map
-      // insertion order instead (race -> background -> feats -> picks -> adds)
+      // SORT BY LABEL. The bucket this replaced (the return of
+      // `aggregateProficiencies` in pc.proficiencies.ts) returned
+      // `[...languages].sort()` over the DISPLAY strings; that function now passes
+      // this output straight through, so THIS sort is the only one left. Returning
+      // Map insertion order instead (race -> background -> feats -> picks -> adds)
       // would silently reorder every sheet row and falsify spec §3.3's
       // "byte-identical to today's" guarantee. Nothing else catches it: the
       // aggregate tests use toContain, and the panel test mocks the aggregate

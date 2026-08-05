@@ -175,9 +175,13 @@ describe("to-runtime keep-list includes structured fields", () => {
   // runtime JSON, which `src/srd-store.ts` imports, and wrong about the markdown.
   // ONLY THE RATIONALE IS FALSIFIED, NOT THE ENTRY. P3a's `choices` line in the
   // `class` keep-set STILL STANDS and must not be removed: it is the only thing
-  // putting entity-level class choices into `runtime/class.*.json`, which is what
-  // `src/srd-store.ts` imports and what the decision engine reads, so deleting it
-  // silently turns the class-level choices wiring back into a no-op. `race` and
+  // putting entity-level class choices into `runtime/class.*.json`, whose live
+  // consumer is archivist-generators via `src/srd-store.ts`, so deleting it
+  // silently strips them there. It is NOT what the decision engine reads: the
+  // engine reads the vault EntityRegistry, built from the emitted markdown, and
+  // `emitForKind` dumps markdown from CANONICAL, so `Classes/Bard.md` ships
+  // `choices` either way. The plugin does construct a `SrdStore` in main.ts, but
+  // only ever null-guards it; it never reaches the engine. `race` and
   // `background` list `choices`; `class` did not, and an omission here is silent
   // either way, which is exactly why this test exists.
   it("retains entity-level choices on a class projection", () => {
