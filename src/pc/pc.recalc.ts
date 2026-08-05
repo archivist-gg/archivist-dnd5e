@@ -143,17 +143,31 @@ export function collectClassAsiBranch(
   const out: Partial<Record<Ability, number>> = {};
   for (const c of resolved.classes) {
     for (const [, choice] of Object.entries(c.choices)) {
-      const block = choice as { asi?: Partial<Record<Ability, number>>; feat?: unknown };
+      // Optional-chained on purpose: pc.schema.ts deliberately PRESERVES a
+      // non-object level value rather than dropping it, so `choice` can be null
+      // or undefined here. The sibling collectClassFeatAbilityPoints guards the
+      // same hazard with its own `if (!block) continue;`, and the pre-R4-P4 base
+      // of this loop read `(choice as {...})?.asi`. A plain `block.feat` throws
+      // on `choices: {4: null}` where every other reader returns empty.
+      const block = choice as { asi?: Partial<Record<Ability, number>>; feat?: unknown } | null | undefined;
       // A level that also carries a chosen feat took the feat branch; any `asi`
       // beside it is an orphan left by a branch switch (the picker never cleared
       // the abandoned branch's child keys). `typeof … === "string"` MIRRORS
       // collectClassFeatAbilityPoints' own gate exactly, so the two can never both
-      // decline the same block and silently drop the allocation. Do NOT loosen it
-      // to `"feat" in block` or a `startsWith("feat")` prefix test: the first
-      // strands a non-string `feat` (a legacy hand edit) with no fold at all, the
-      // second skips every correctly-flattened block.
-      if (typeof block.feat === "string") continue;
-      const asi = block.asi;
+      // decline ON THIS PREDICATE: whichever way the typeof test falls, exactly
+      // one of them takes the block. That is NOT a claim that they can never both
+      // decline · downstream of its own gate collectClassFeatAbilityPoints still
+      // bails when the feat slug resolves to no entity (`if (!feat) continue`), and
+      // then a block like `{asi:{con:1,wis:1}, feat:"<slug not loaded>"}` folds
+      // nowhere and the two points vanish silently. Measured, not assumed. That is
+      // by design (an unresolvable pick grants nothing); reaching it needs a
+      // compendium that is not loaded, NOT a rename: R4-P4's regen renamed zero of
+      // the 3329 shipped slugs (measured base-vs-HEAD; it added exactly one).
+      // Do NOT loosen the gate to `"feat" in block` or a `startsWith("feat")`
+      // prefix test: the first strands a non-string `feat` (a legacy hand edit)
+      // with no fold at all, the second skips every correctly-flattened block.
+      if (typeof block?.feat === "string") continue;
+      const asi = block?.asi;
       if (!asi) continue;
       for (const ab of ABILITY_KEYS) {
         const v = asi[ab];

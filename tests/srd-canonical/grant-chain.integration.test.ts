@@ -29,14 +29,23 @@ import type { EntityRegistry } from "@archivist-gg/core";
 // `tools/srd-canonical/**`, which is not in this package's `exports` map and is
 // therefore unreachable from a plugin test.
 //
-// WHY THE BASE TRAITS ARE STRIPPED OF `effects` BELOW: post-regeneration
+// WHY THIS TEST IS SENSITIVE TO THE AUTHORING: post-regeneration
 // `race.2014.json` already carries the authored effects, so a test that merely
 // read it would stay green after the overlay was gutted · it would pin the
-// generator's OUTPUT, not the authoring. `speciesBase` therefore rebuilds the
-// Open5e-shaped base from the runtime record with `effects` dropped, and the
-// overlay is the only thing that can put them back. The Step-4 mutation control
-// is what proves it: deleting `dwarven-combat-training.effects` from a scratch
-// copy of the YAML turns assertion 1 red.
+// generator's OUTPUT, not the authoring. `speciesBase` therefore rebuilds an
+// Open5e-shaped base from the runtime record, keeping only `name` and `desc` per
+// trait, and `mergedSpecies` feeds it back through the REAL
+// pickOverlay -> toRaceCanonical -> projectToRuntime chain.
+// The sensitivity comes from the MERGER, not from that trait rebuild:
+// `toRaceCanonical` reads trait `effects` in exactly one place (race-merge.ts)
+// and the expression there is `overlaid?.effects`, off the OVERLAY record alone.
+// A base trait's own `effects` is never read, so it could not have reached the
+// output even if `speciesBase` had carried it forward · dropping it is causally
+// INERT. Keep the narrow rebuild anyway: it keeps the fixture honest about what
+// Open5e actually supplies, and widening it would change no result.
+// The Step-4 mutation control is what proves the sensitivity is real: deleting
+// `dwarven-combat-training.effects` from a scratch copy of the YAML turns
+// assertion 1 red.
 
 const RUNTIME_DIR = path.resolve(__dirname, "../../src/srd/data/runtime");
 

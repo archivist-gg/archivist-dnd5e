@@ -220,13 +220,18 @@ describe("race entity-level override: fixed ability score increases (R4-P4)", ()
 });
 
 describe("real overlay: the L19 Epic Boon pick key (R4-P4)", () => {
-  // Reads the REAL srd-2024.yaml, deliberately. EVERY reader OF THE FEAT PICK
-  // keys on the literal string `feat`, and there are THREE: collectFeatSlugs
-  // (pc.resolver.ts:298), PCResolver.resolve's feat-to-spell pass
-  // (pc.resolver.ts:200) and collectClassFeatAbilityPoints (in pc.recalc.ts ·
-  // cited by SYMBOL, not line: a stale `:376` shipped here once already, and the
-  // true line moves whenever that docblock grows). Readers of OTHER keys on the
-  // same block are not in that count, e.g. collectClassAsiBranch reads `.asi`.
+  // Reads the REAL srd-2024.yaml, deliberately. THREE readers CONSUME the
+  // literal string `feat` off the persisted choice block: collectFeatSlugs and
+  // PCResolver.resolve's feat-to-spell pass (both in pc.resolver.ts) and
+  // collectClassFeatAbilityPoints (pc.recalc.ts). ONE more only DETECTS it:
+  // collectClassAsiBranch (pc.recalc.ts) tests `typeof block.feat` to spot the
+  // feat branch and never reads the value. All four are cited by SYMBOL, not
+  // line: a stale `:376` shipped here once already, and these lines move
+  // whenever a docblock grows. The count covers readers OF THE FEAT PICK only ·
+  // readers of OTHER keys on the same block (resolvePool and resolveChosenInline,
+  // both by dynamic id) are outside it, and pc.decision-engine.ts is outside it
+  // too because it reads generically by `choice.id`, which is what makes this
+  // re-key safe.
   // While this pick was authored `id: epic-boon` the L19
   // selection persisted under `choices[19]["epic-boon"]` and was silently
   // discarded, so the boon never resolved at all. A reader-side test cannot see

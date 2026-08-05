@@ -173,8 +173,13 @@ describe("to-runtime keep-list includes structured fields", () => {
   // rationale for adding `class.choices` here ("to-md.ts dumps the rewritten data
   // wholesale, so that whitelist is the only filter"): it was right about the
   // runtime JSON, which `src/srd-store.ts` imports, and wrong about the markdown.
-  // `race` and `background` list `choices`; `class` did not, and an omission here
-  // is silent either way.
+  // ONLY THE RATIONALE IS FALSIFIED, NOT THE ENTRY. P3a's `choices` line in the
+  // `class` keep-set STILL STANDS and must not be removed: it is the only thing
+  // putting entity-level class choices into `runtime/class.*.json`, which is what
+  // `src/srd-store.ts` imports and what the decision engine reads, so deleting it
+  // silently turns the class-level choices wiring back into a no-op. `race` and
+  // `background` list `choices`; `class` did not, and an omission here is silent
+  // either way, which is exactly why this test exists.
   it("retains entity-level choices on a class projection", () => {
     const runtime = projectToRuntime("class", {
       slug: "x_class_bard",

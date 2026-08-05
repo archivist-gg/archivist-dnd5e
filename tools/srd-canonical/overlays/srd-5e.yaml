@@ -118,9 +118,13 @@ class_features:
   # choice block, so any other id breaks feat resolution silently.
   # The two-step `asi-or-feat` select-inline is still a VALID authored shape --
   # hand-written homebrew keeps emitting it and the schema keeps accepting it --
-  # and the engine normalizes it to exactly the choice below
-  # (src/pc/pc.asi-flatten.ts). Flattening here is authoring hygiene: it makes
-  # the authored data match what the engine already produces.
+  # and the engine normalizes the SRD FORM of it to exactly the choice below
+  # (src/pc/pc.asi-flatten.ts). Not every two-step: `flattenAsiOrFeat` lifts the
+  # AUTHORED inner choice verbatim, so a homebrew inner carrying its own
+  # `where` / `count` / `label` normalizes to THAT, and the whole two-step is
+  # returned untouched when the feat branch holds more than one child choice or
+  # when there is not exactly one feat branch. Flattening here is authoring
+  # hygiene: it makes the authored data match what the engine already produces.
   ability-score-improvement:
     choices:
       - kind: select-entity

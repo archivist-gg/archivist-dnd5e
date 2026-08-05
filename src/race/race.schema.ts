@@ -23,9 +23,14 @@ const visionSchema = z.object({
   truesight: z.number().int().nonnegative().optional(),
 });
 
-/** Exported so the SRD overlay validates AUTHORED fixed increases with the very
- *  schema canonical output is validated against · input and output cannot drift.
- *  Deliberately NOT `asiSchema` below: the overlay authors only this arm. */
+/** Exported so the SRD overlay validates AUTHORED fixed increases against the
+ *  FIXED ARM canonical output is validated against, derived from this one
+ *  definition so the two cannot drift. Note the precise relationship:
+ *  `raceEntitySchema` below validates `ability_score_increases` with `asiSchema`,
+ *  the UNION, of which this is one arm · `overlay.schema.ts` deliberately narrows
+ *  to this arm alone, because the choice-shaped arm folds nothing at runtime
+ *  (`flattenRaceAsi` reads only `"ability" in asi`), so rejecting it at authoring
+ *  time is a guard, not a limitation. */
 export const fixedAsiSchema = z.object({ ability: abilityEnum, amount: z.number().int() });
 const choiceAsiSchema = z.object({
   choose: z.number().int().positive(),

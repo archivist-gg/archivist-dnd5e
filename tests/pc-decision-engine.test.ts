@@ -210,7 +210,12 @@ describe("buildDecisionLedger — feature-level", () => {
     // The authored two-step is normalized away: no `asi-or-feat` row and no
     // revealed `asi` child, just the flat feat pick. (The select-inline
     // child-reveal path itself is covered by the `kit` fixtures in
-    // pc-proficiency-exclusion.test.ts and by Magic Initiate below.)
+    // pc-proficiency-exclusion.test.ts, which persist `kit: "musician"` and so
+    // satisfy the reveal's `typeof selected === "string"` test on the PARENT.
+    // The Magic Initiate case below is NOT a second cover for it: it persists
+    // only the feat ref, so its two children come from buildItem's chosen-feat
+    // recursion, never from the select-inline reveal. Deleting the `kit` fixtures
+    // on the strength of a second citation would zero this path's coverage.)
     expect(items.find(i => i.key === "asi-or-feat")).toBeUndefined();
     const feat = items.find(i => i.key === "feat")!;
     expect(feat.status).toBe("resolved");

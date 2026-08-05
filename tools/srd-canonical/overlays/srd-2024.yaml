@@ -165,9 +165,13 @@ class_features:
   # choice block, so any other id breaks feat resolution silently.
   # The two-step `asi-or-feat` select-inline is still a VALID authored shape --
   # hand-written homebrew keeps emitting it and the schema keeps accepting it --
-  # and the engine normalizes it to exactly the choice below
-  # (src/pc/pc.asi-flatten.ts). Flattening here is authoring hygiene: it makes
-  # the authored data match what the engine already produces.
+  # and the engine normalizes the SRD FORM of it to exactly the choice below
+  # (src/pc/pc.asi-flatten.ts). Not every two-step: `flattenAsiOrFeat` lifts the
+  # AUTHORED inner choice verbatim, so a homebrew inner carrying its own
+  # `where` / `count` / `label` normalizes to THAT, and the whole two-step is
+  # returned untouched when the feat branch holds more than one child choice or
+  # when there is not exactly one feat branch. Flattening here is authoring
+  # hygiene: it makes the authored data match what the engine already produces.
   ability-score-improvement:
     choices:
       - kind: select-entity
@@ -179,13 +183,18 @@ class_features:
   # choice. No epic-boon feat category exists in SRD feat data, so this is an
   # open feat pick (the "another feat of your choice" clause).
   # The pick id is `feat` for the same load-bearing reason as the ASI block
-  # above: EVERY reader OF THE FEAT PICK keys on the literal string `feat`, and
-  # there are THREE (collectFeatSlugs at pc.resolver.ts:298, the feat-to-spell
-  # pass at pc.resolver.ts:200, and collectClassFeatAbilityPoints in
-  # pc.recalc.ts · cited by SYMBOL because its line moves every time that
-  # docblock grows, and a stale `:376` shipped here once already). Readers of
-  # OTHER keys on the same block are not in that count, e.g. collectClassAsiBranch
-  # reads `.asi`. It was authored `id: epic-boon` until R4-P4,
+  # above: THREE readers CONSUME the literal string `feat` off the persisted
+  # block (collectFeatSlugs and the feat-to-spell pass, both in pc.resolver.ts,
+  # and collectClassFeatAbilityPoints in pc.recalc.ts), plus ONE that only
+  # DETECTS it: collectClassAsiBranch (pc.recalc.ts) tests `typeof block.feat`
+  # to spot the feat branch and never reads the value. All four are cited by
+  # SYMBOL, never by line: these lines move every time a docblock grows, and a
+  # stale `:376` shipped here once already. The count covers readers OF THE FEAT
+  # PICK only · readers of OTHER keys on the same block (resolvePool and
+  # resolveChosenInline, both by dynamic id) are outside it, and
+  # pc.decision-engine.ts is outside it too because it reads generically by
+  # `choice.id`, which is exactly why this re-key works.
+  # It was authored `id: epic-boon` until R4-P4,
   # which persisted the L19 pick under a key NO reader looks at, so the boon was
   # silently discarded: no feat resolved, no granted spells, no ability points.
   # Do not re-key it. The feature slug stays `epic-boon`; only the CHOICE id is

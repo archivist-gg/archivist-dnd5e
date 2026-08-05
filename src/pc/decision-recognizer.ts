@@ -10,11 +10,22 @@ export const DECISION_SIGNAL = [/\bchoose (one|two|three|a|an)\b/i, /\bof your c
 // select-inline down to. Emitting it flat here means the normalizer is a no-op
 // on this value; it stays in place because hand-authored homebrew still emits
 // the two-step shape and `choiceSchema` still accepts it.
-// `id: "feat"` is load-bearing, not cosmetic: `collectFeatSlugs`
-// (pc.resolver.ts) and `collectClassFeatAbilityPoints` (pc.recalc.ts) read the
-// literal `feat` key out of the persisted choice block, and buildItem
-// namespaces this choice's grandchildren with the hardcoded prefix `feat:`
-// rather than with the choice's own id. Any other id breaks both, silently.
+// `id: "feat"` is load-bearing, not cosmetic. THREE readers CONSUME the literal
+// `feat` key out of the persisted choice block · `collectFeatSlugs`
+// (pc.resolver.ts), `PCResolver.resolve`'s feat-to-spell pass (pc.resolver.ts,
+// the one that makes a SPELL-granting feat work) and
+// `collectClassFeatAbilityPoints` (pc.recalc.ts). A fourth site,
+// `collectClassAsiBranch` (pc.recalc.ts), reads the same key since R4-P4 but only
+// to DETECT the feat branch by `typeof`, never to consume the value. All four are
+// cited by SYMBOL, not line: line citations into these two files have already gone
+// stale twice on this branch (a `pc.recalc.ts:376` in the overlays, and a
+// `pc.decision-engine.ts:428` in the plugin's decision-strip test, each falsified
+// by a LATER commit on the same branch that added lines above the target).
+// Separately, buildItem namespaces this choice's grandchildren
+// with the hardcoded prefix `feat:` rather than with the choice's own id · that
+// is why pc.decision-engine.ts is NOT among the readers above, and why the R4-P4
+// epic-boon re-key moved no grandchild key. Any other id breaks all three
+// consumers, silently.
 const ASI_FEAT: Choice = { kind: "select-entity", id: "feat", entity_type: "feat", count: 1 };
 
 /** id/name-slug → synthesized decision. Keep small and justified: this only

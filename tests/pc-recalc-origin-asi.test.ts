@@ -274,4 +274,19 @@ describe("collectClassAsiBranch · orphaned asi beside a feat pick", () => {
     const r = fighterWith({ 4: { feat: null as unknown as string, asi: { str: 2 } } });
     expect(collectClassAsiBranch(r)).toEqual({ str: 2 });
   });
+
+  it("does not throw when a LEVEL VALUE itself is null, and still folds its siblings", () => {
+    // Not a hypothetical shape: pc.schema.ts deliberately PRESERVES a non-object
+    // level value instead of dropping it, so `choices: {4: null}` survives a load.
+    // The pre-R4-P4 loop read `(choice as {...})?.asi` and returned {} here; the
+    // feat-branch gate must keep that optional chaining or the whole fold dies on
+    // one malformed level. collectClassFeatAbilityPoints' own `if (!block) continue;`
+    // is the sibling guard this mirrors · the two must not diverge.
+    const r = fighterWith({
+      4: null as unknown as Record<string, unknown>,
+      8: { asi: { str: 2 } },
+    });
+    expect(() => collectClassAsiBranch(r)).not.toThrow();
+    expect(collectClassAsiBranch(r)).toEqual({ str: 2 });
+  });
 });

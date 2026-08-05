@@ -66,10 +66,14 @@ const classOverrideSchema = z.object({
 
 // Race entity-level override: keeps the entity-level `choices` array (BOTH
 // `human:` and `half-elf:` already depend on it) and adds the fixed ability
-// score increases the merger has never emitted. Validated by the SAME fixedAsiSchema
-// raceEntitySchema validates canonical output with, so input and output cannot
-// drift. Deliberately NOT the asiSchema union: the choice-shaped arm folds
-// nothing, so rejecting it here is a guard, not a limitation.
+// score increases the merger has never emitted. Validated with `fixedAsiSchema`,
+// imported from race.schema.ts so authoring and canonical output share ONE
+// definition of the fixed arm and cannot drift. That is narrower than canonical
+// validation, deliberately: `raceEntitySchema` validates
+// `ability_score_increases` with the `asiSchema` UNION, of which fixedAsiSchema
+// is one arm, and the choice-shaped arm folds nothing at runtime
+// (`flattenRaceAsi` reads only `"ability" in asi`), so rejecting it here is a
+// guard, not a limitation.
 const raceOverrideSchema = z.object({
   choices: z.array(choiceSchema).optional(),
   ability_score_increases: z.array(fixedAsiSchema).optional(),
