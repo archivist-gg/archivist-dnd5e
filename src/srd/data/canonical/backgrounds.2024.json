@@ -329,7 +329,11 @@
         "kind": "select-proficiency",
         "id": "tool",
         "count": 1,
-        "domain": "tool"
+        "domain": "tool",
+        "from": [
+          "dice-set",
+          "playing-cards"
+        ]
       },
       {
         "kind": "select-proficiency",

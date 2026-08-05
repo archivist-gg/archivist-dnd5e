@@ -377,35 +377,10 @@
           "description": "When you reach 4th level, and again at 8th, 12th, 16th, and 19th level, you can increase one ability score of your choice by 2, or you can increase two ability scores of your choice by 1. As normal, you can’t increase an ability score above 20 using this feature.",
           "choices": [
             {
-              "kind": "select-inline",
-              "id": "asi-or-feat",
+              "kind": "select-entity",
+              "id": "feat",
               "count": 1,
-              "options": [
-                {
-                  "value": "asi",
-                  "label": "Ability Score Increase",
-                  "choices": [
-                    {
-                      "kind": "ability-points",
-                      "id": "asi",
-                      "points": 2,
-                      "max_per": 2
-                    }
-                  ]
-                },
-                {
-                  "value": "feat",
-                  "label": "Feat",
-                  "choices": [
-                    {
-                      "kind": "select-entity",
-                      "id": "feat",
-                      "count": 1,
-                      "entity_type": "feat"
-                    }
-                  ]
-                }
-              ]
+              "entity_type": "feat"
             }
           ]
         }
@@ -436,35 +411,10 @@
           "description": "When you reach 4th level, and again at 8th, 12th, 16th, and 19th level, you can increase one ability score of your choice by 2, or you can increase two ability scores of your choice by 1. As normal, you can’t increase an ability score above 20 using this feature.",
           "choices": [
             {
-              "kind": "select-inline",
-              "id": "asi-or-feat",
+              "kind": "select-entity",
+              "id": "feat",
               "count": 1,
-              "options": [
-                {
-                  "value": "asi",
-                  "label": "Ability Score Increase",
-                  "choices": [
-                    {
-                      "kind": "ability-points",
-                      "id": "asi",
-                      "points": 2,
-                      "max_per": 2
-                    }
-                  ]
-                },
-                {
-                  "value": "feat",
-                  "label": "Feat",
-                  "choices": [
-                    {
-                      "kind": "select-entity",
-                      "id": "feat",
-                      "count": 1,
-                      "entity_type": "feat"
-                    }
-                  ]
-                }
-              ]
+              "entity_type": "feat"
             }
           ]
         }
@@ -490,35 +440,10 @@
           "description": "When you reach 4th level, and again at 8th, 12th, 16th, and 19th level, you can increase one ability score of your choice by 2, or you can increase two ability scores of your choice by 1. As normal, you can’t increase an ability score above 20 using this feature.",
           "choices": [
             {
-              "kind": "select-inline",
-              "id": "asi-or-feat",
+              "kind": "select-entity",
+              "id": "feat",
               "count": 1,
-              "options": [
-                {
-                  "value": "asi",
-                  "label": "Ability Score Increase",
-                  "choices": [
-                    {
-                      "kind": "ability-points",
-                      "id": "asi",
-                      "points": 2,
-                      "max_per": 2
-                    }
-                  ]
-                },
-                {
-                  "value": "feat",
-                  "label": "Feat",
-                  "choices": [
-                    {
-                      "kind": "select-entity",
-                      "id": "feat",
-                      "count": 1,
-                      "entity_type": "feat"
-                    }
-                  ]
-                }
-              ]
+              "entity_type": "feat"
             }
           ]
         }
@@ -544,35 +469,10 @@
           "description": "When you reach 4th level, and again at 8th, 12th, 16th, and 19th level, you can increase one ability score of your choice by 2, or you can increase two ability scores of your choice by 1. As normal, you can’t increase an ability score above 20 using this feature.",
           "choices": [
             {
-              "kind": "select-inline",
-              "id": "asi-or-feat",
+              "kind": "select-entity",
+              "id": "feat",
               "count": 1,
-              "options": [
-                {
-                  "value": "asi",
-                  "label": "Ability Score Increase",
-                  "choices": [
-                    {
-                      "kind": "ability-points",
-                      "id": "asi",
-                      "points": 2,
-                      "max_per": 2
-                    }
-                  ]
-                },
-                {
-                  "value": "feat",
-                  "label": "Feat",
-                  "choices": [
-                    {
-                      "kind": "select-entity",
-                      "id": "feat",
-                      "count": 1,
-                      "entity_type": "feat"
-                    }
-                  ]
-                }
-              ]
+              "entity_type": "feat"
             }
           ]
         }
@@ -598,35 +498,10 @@
           "description": "When you reach 4th level, and again at 8th, 12th, 16th, and 19th level, you can increase one ability score of your choice by 2, or you can increase two ability scores of your choice by 1. As normal, you can’t increase an ability score above 20 using this feature.",
           "choices": [
             {
-              "kind": "select-inline",
-              "id": "asi-or-feat",
+              "kind": "select-entity",
+              "id": "feat",
               "count": 1,
-              "options": [
-                {
-                  "value": "asi",
-                  "label": "Ability Score Increase",
-                  "choices": [
-                    {
-                      "kind": "ability-points",
-                      "id": "asi",
-                      "points": 2,
-                      "max_per": 2
-                    }
-                  ]
-                },
-                {
-                  "value": "feat",
-                  "label": "Feat",
-                  "choices": [
-                    {
-                      "kind": "select-entity",
-                      "id": "feat",
-                      "count": 1,
-                      "entity_type": "feat"
-                    }
-                  ]
-                }
-              ]
+              "entity_type": "feat"
             }
           ]
         }
@@ -672,11 +547,6 @@
           "longswords",
           "rapiers",
           "shortswords"
-        ]
-      },
-      "tools": {
-        "fixed": [
-          "Three musical instruments of your choice"
         ]
       }
     },
@@ -1175,35 +1045,10 @@
           "description": "When you reach 4th level, and again at 8th, 12th, 16th, and 19th level, you can increase one ability score of your choice by 2, or you can increase two ability scores of your choice by 1. As normal, you can't increase an ability score above 20 using this feature.",
           "choices": [
             {
-              "kind": "select-inline",
-              "id": "asi-or-feat",
+              "kind": "select-entity",
+              "id": "feat",
               "count": 1,
-              "options": [
-                {
-                  "value": "asi",
-                  "label": "Ability Score Increase",
-                  "choices": [
-                    {
-                      "kind": "ability-points",
-                      "id": "asi",
-                      "points": 2,
-                      "max_per": 2
-                    }
-                  ]
-                },
-                {
-                  "value": "feat",
-                  "label": "Feat",
-                  "choices": [
-                    {
-                      "kind": "select-entity",
-                      "id": "feat",
-                      "count": 1,
-                      "entity_type": "feat"
-                    }
-                  ]
-                }
-              ]
+              "entity_type": "feat"
             }
           ]
         }
@@ -1251,35 +1096,10 @@
           "description": "When you reach 4th level, and again at 8th, 12th, 16th, and 19th level, you can increase one ability score of your choice by 2, or you can increase two ability scores of your choice by 1. As normal, you can't increase an ability score above 20 using this feature.",
           "choices": [
             {
-              "kind": "select-inline",
-              "id": "asi-or-feat",
+              "kind": "select-entity",
+              "id": "feat",
               "count": 1,
-              "options": [
-                {
-                  "value": "asi",
-                  "label": "Ability Score Increase",
-                  "choices": [
-                    {
-                      "kind": "ability-points",
-                      "id": "asi",
-                      "points": 2,
-                      "max_per": 2
-                    }
-                  ]
-                },
-                {
-                  "value": "feat",
-                  "label": "Feat",
-                  "choices": [
-                    {
-                      "kind": "select-entity",
-                      "id": "feat",
-                      "count": 1,
-                      "entity_type": "feat"
-                    }
-                  ]
-                }
-              ]
+              "entity_type": "feat"
             }
           ]
         }
@@ -1342,35 +1162,10 @@
           "description": "When you reach 4th level, and again at 8th, 12th, 16th, and 19th level, you can increase one ability score of your choice by 2, or you can increase two ability scores of your choice by 1. As normal, you can't increase an ability score above 20 using this feature.",
           "choices": [
             {
-              "kind": "select-inline",
-              "id": "asi-or-feat",
+              "kind": "select-entity",
+              "id": "feat",
               "count": 1,
-              "options": [
-                {
-                  "value": "asi",
-                  "label": "Ability Score Increase",
-                  "choices": [
-                    {
-                      "kind": "ability-points",
-                      "id": "asi",
-                      "points": 2,
-                      "max_per": 2
-                    }
-                  ]
-                },
-                {
-                  "value": "feat",
-                  "label": "Feat",
-                  "choices": [
-                    {
-                      "kind": "select-entity",
-                      "id": "feat",
-                      "count": 1,
-                      "entity_type": "feat"
-                    }
-                  ]
-                }
-              ]
+              "entity_type": "feat"
             }
           ]
         }
@@ -1420,35 +1215,10 @@
           "description": "When you reach 4th level, and again at 8th, 12th, 16th, and 19th level, you can increase one ability score of your choice by 2, or you can increase two ability scores of your choice by 1. As normal, you can't increase an ability score above 20 using this feature.",
           "choices": [
             {
-              "kind": "select-inline",
-              "id": "asi-or-feat",
+              "kind": "select-entity",
+              "id": "feat",
               "count": 1,
-              "options": [
-                {
-                  "value": "asi",
-                  "label": "Ability Score Increase",
-                  "choices": [
-                    {
-                      "kind": "ability-points",
-                      "id": "asi",
-                      "points": 2,
-                      "max_per": 2
-                    }
-                  ]
-                },
-                {
-                  "value": "feat",
-                  "label": "Feat",
-                  "choices": [
-                    {
-                      "kind": "select-entity",
-                      "id": "feat",
-                      "count": 1,
-                      "entity_type": "feat"
-                    }
-                  ]
-                }
-              ]
+              "entity_type": "feat"
             }
           ]
         }
@@ -1474,35 +1244,10 @@
           "description": "When you reach 4th level, and again at 8th, 12th, 16th, and 19th level, you can increase one ability score of your choice by 2, or you can increase two ability scores of your choice by 1. As normal, you can't increase an ability score above 20 using this feature.",
           "choices": [
             {
-              "kind": "select-inline",
-              "id": "asi-or-feat",
+              "kind": "select-entity",
+              "id": "feat",
               "count": 1,
-              "options": [
-                {
-                  "value": "asi",
-                  "label": "Ability Score Increase",
-                  "choices": [
-                    {
-                      "kind": "ability-points",
-                      "id": "asi",
-                      "points": 2,
-                      "max_per": 2
-                    }
-                  ]
-                },
-                {
-                  "value": "feat",
-                  "label": "Feat",
-                  "choices": [
-                    {
-                      "kind": "select-entity",
-                      "id": "feat",
-                      "count": 1,
-                      "entity_type": "feat"
-                    }
-                  ]
-                }
-              ]
+              "entity_type": "feat"
             }
           ]
         }
@@ -1516,6 +1261,26 @@
       ]
     },
     "resources": [],
+    "choices": [
+      {
+        "kind": "select-proficiency",
+        "id": "tool",
+        "count": 3,
+        "domain": "tool",
+        "from": [
+          "bagpipes",
+          "drum",
+          "dulcimer",
+          "flute",
+          "horn",
+          "lute",
+          "lyre",
+          "pan-flute",
+          "shawm",
+          "viol"
+        ]
+      }
+    ],
     "starting_gold": {
       "dice": "5d4",
       "multiplier": 10
@@ -1998,35 +1763,10 @@
           "description": "When you reach 4th level, and again at 8th, 12th, 16th, and 19th level, you can increase one ability score of your choice by 2, or you can increase two ability scores of your choice by 1. As normal, you can't increase an ability score above 20 using this feature.",
           "choices": [
             {
-              "kind": "select-inline",
-              "id": "asi-or-feat",
+              "kind": "select-entity",
+              "id": "feat",
               "count": 1,
-              "options": [
-                {
-                  "value": "asi",
-                  "label": "Ability Score Increase",
-                  "choices": [
-                    {
-                      "kind": "ability-points",
-                      "id": "asi",
-                      "points": 2,
-                      "max_per": 2
-                    }
-                  ]
-                },
-                {
-                  "value": "feat",
-                  "label": "Feat",
-                  "choices": [
-                    {
-                      "kind": "select-entity",
-                      "id": "feat",
-                      "count": 1,
-                      "entity_type": "feat"
-                    }
-                  ]
-                }
-              ]
+              "entity_type": "feat"
             }
           ]
         }
@@ -2071,35 +1811,10 @@
           "description": "When you reach 4th level, and again at 8th, 12th, 16th, and 19th level, you can increase one ability score of your choice by 2, or you can increase two ability scores of your choice by 1. As normal, you can't increase an ability score above 20 using this feature.",
           "choices": [
             {
-              "kind": "select-inline",
-              "id": "asi-or-feat",
+              "kind": "select-entity",
+              "id": "feat",
               "count": 1,
-              "options": [
-                {
-                  "value": "asi",
-                  "label": "Ability Score Increase",
-                  "choices": [
-                    {
-                      "kind": "ability-points",
-                      "id": "asi",
-                      "points": 2,
-                      "max_per": 2
-                    }
-                  ]
-                },
-                {
-                  "value": "feat",
-                  "label": "Feat",
-                  "choices": [
-                    {
-                      "kind": "select-entity",
-                      "id": "feat",
-                      "count": 1,
-                      "entity_type": "feat"
-                    }
-                  ]
-                }
-              ]
+              "entity_type": "feat"
             }
           ]
         },
@@ -2137,35 +1852,10 @@
           "description": "When you reach 4th level, and again at 8th, 12th, 16th, and 19th level, you can increase one ability score of your choice by 2, or you can increase two ability scores of your choice by 1. As normal, you can't increase an ability score above 20 using this feature.",
           "choices": [
             {
-              "kind": "select-inline",
-              "id": "asi-or-feat",
+              "kind": "select-entity",
+              "id": "feat",
               "count": 1,
-              "options": [
-                {
-                  "value": "asi",
-                  "label": "Ability Score Increase",
-                  "choices": [
-                    {
-                      "kind": "ability-points",
-                      "id": "asi",
-                      "points": 2,
-                      "max_per": 2
-                    }
-                  ]
-                },
-                {
-                  "value": "feat",
-                  "label": "Feat",
-                  "choices": [
-                    {
-                      "kind": "select-entity",
-                      "id": "feat",
-                      "count": 1,
-                      "entity_type": "feat"
-                    }
-                  ]
-                }
-              ]
+              "entity_type": "feat"
             }
           ]
         }
@@ -2210,35 +1900,10 @@
           "description": "When you reach 4th level, and again at 8th, 12th, 16th, and 19th level, you can increase one ability score of your choice by 2, or you can increase two ability scores of your choice by 1. As normal, you can't increase an ability score above 20 using this feature.",
           "choices": [
             {
-              "kind": "select-inline",
-              "id": "asi-or-feat",
+              "kind": "select-entity",
+              "id": "feat",
               "count": 1,
-              "options": [
-                {
-                  "value": "asi",
-                  "label": "Ability Score Increase",
-                  "choices": [
-                    {
-                      "kind": "ability-points",
-                      "id": "asi",
-                      "points": 2,
-                      "max_per": 2
-                    }
-                  ]
-                },
-                {
-                  "value": "feat",
-                  "label": "Feat",
-                  "choices": [
-                    {
-                      "kind": "select-entity",
-                      "id": "feat",
-                      "count": 1,
-                      "entity_type": "feat"
-                    }
-                  ]
-                }
-              ]
+              "entity_type": "feat"
             }
           ]
         }
@@ -2696,35 +2361,10 @@
           "description": "When you reach 4th level, and again at 8th, 12th, 16th, and 19th level, you can increase one ability score of your choice by 2, or you can increase two ability scores of your choice by 1. As normal, you can't increase an ability score above 20 using this feature.",
           "choices": [
             {
-              "kind": "select-inline",
-              "id": "asi-or-feat",
+              "kind": "select-entity",
+              "id": "feat",
               "count": 1,
-              "options": [
-                {
-                  "value": "asi",
-                  "label": "Ability Score Increase",
-                  "choices": [
-                    {
-                      "kind": "ability-points",
-                      "id": "asi",
-                      "points": 2,
-                      "max_per": 2
-                    }
-                  ]
-                },
-                {
-                  "value": "feat",
-                  "label": "Feat",
-                  "choices": [
-                    {
-                      "kind": "select-entity",
-                      "id": "feat",
-                      "count": 1,
-                      "entity_type": "feat"
-                    }
-                  ]
-                }
-              ]
+              "entity_type": "feat"
             }
           ]
         },
@@ -2750,35 +2390,10 @@
           "description": "When you reach 4th level, and again at 8th, 12th, 16th, and 19th level, you can increase one ability score of your choice by 2, or you can increase two ability scores of your choice by 1. As normal, you can't increase an ability score above 20 using this feature.",
           "choices": [
             {
-              "kind": "select-inline",
-              "id": "asi-or-feat",
+              "kind": "select-entity",
+              "id": "feat",
               "count": 1,
-              "options": [
-                {
-                  "value": "asi",
-                  "label": "Ability Score Increase",
-                  "choices": [
-                    {
-                      "kind": "ability-points",
-                      "id": "asi",
-                      "points": 2,
-                      "max_per": 2
-                    }
-                  ]
-                },
-                {
-                  "value": "feat",
-                  "label": "Feat",
-                  "choices": [
-                    {
-                      "kind": "select-entity",
-                      "id": "feat",
-                      "count": 1,
-                      "entity_type": "feat"
-                    }
-                  ]
-                }
-              ]
+              "entity_type": "feat"
             }
           ]
         },
@@ -2804,35 +2419,10 @@
           "description": "When you reach 4th level, and again at 8th, 12th, 16th, and 19th level, you can increase one ability score of your choice by 2, or you can increase two ability scores of your choice by 1. As normal, you can't increase an ability score above 20 using this feature.",
           "choices": [
             {
-              "kind": "select-inline",
-              "id": "asi-or-feat",
+              "kind": "select-entity",
+              "id": "feat",
               "count": 1,
-              "options": [
-                {
-                  "value": "asi",
-                  "label": "Ability Score Increase",
-                  "choices": [
-                    {
-                      "kind": "ability-points",
-                      "id": "asi",
-                      "points": 2,
-                      "max_per": 2
-                    }
-                  ]
-                },
-                {
-                  "value": "feat",
-                  "label": "Feat",
-                  "choices": [
-                    {
-                      "kind": "select-entity",
-                      "id": "feat",
-                      "count": 1,
-                      "entity_type": "feat"
-                    }
-                  ]
-                }
-              ]
+              "entity_type": "feat"
             }
           ]
         }
@@ -2844,35 +2434,10 @@
           "description": "When you reach 4th level, and again at 8th, 12th, 16th, and 19th level, you can increase one ability score of your choice by 2, or you can increase two ability scores of your choice by 1. As normal, you can't increase an ability score above 20 using this feature.",
           "choices": [
             {
-              "kind": "select-inline",
-              "id": "asi-or-feat",
+              "kind": "select-entity",
+              "id": "feat",
               "count": 1,
-              "options": [
-                {
-                  "value": "asi",
-                  "label": "Ability Score Increase",
-                  "choices": [
-                    {
-                      "kind": "ability-points",
-                      "id": "asi",
-                      "points": 2,
-                      "max_per": 2
-                    }
-                  ]
-                },
-                {
-                  "value": "feat",
-                  "label": "Feat",
-                  "choices": [
-                    {
-                      "kind": "select-entity",
-                      "id": "feat",
-                      "count": 1,
-                      "entity_type": "feat"
-                    }
-                  ]
-                }
-              ]
+              "entity_type": "feat"
             }
           ]
         }
@@ -2891,35 +2456,10 @@
           "description": "When you reach 4th level, and again at 8th, 12th, 16th, and 19th level, you can increase one ability score of your choice by 2, or you can increase two ability scores of your choice by 1. As normal, you can't increase an ability score above 20 using this feature.",
           "choices": [
             {
-              "kind": "select-inline",
-              "id": "asi-or-feat",
+              "kind": "select-entity",
+              "id": "feat",
               "count": 1,
-              "options": [
-                {
-                  "value": "asi",
-                  "label": "Ability Score Increase",
-                  "choices": [
-                    {
-                      "kind": "ability-points",
-                      "id": "asi",
-                      "points": 2,
-                      "max_per": 2
-                    }
-                  ]
-                },
-                {
-                  "value": "feat",
-                  "label": "Feat",
-                  "choices": [
-                    {
-                      "kind": "select-entity",
-                      "id": "feat",
-                      "count": 1,
-                      "entity_type": "feat"
-                    }
-                  ]
-                }
-              ]
+              "entity_type": "feat"
             }
           ]
         }
@@ -3270,35 +2810,10 @@
           "description": "When you reach 4th level, and again at 6th, 8th, 12th, 14th, 16th, and 19th level, you can increase one ability score of your choice by 2, or you can increase two ability scores of your choice by 1. As normal, you can't increase an ability score above 20 using this feature.",
           "choices": [
             {
-              "kind": "select-inline",
-              "id": "asi-or-feat",
+              "kind": "select-entity",
+              "id": "feat",
               "count": 1,
-              "options": [
-                {
-                  "value": "asi",
-                  "label": "Ability Score Increase",
-                  "choices": [
-                    {
-                      "kind": "ability-points",
-                      "id": "asi",
-                      "points": 2,
-                      "max_per": 2
-                    }
-                  ]
-                },
-                {
-                  "value": "feat",
-                  "label": "Feat",
-                  "choices": [
-                    {
-                      "kind": "select-entity",
-                      "id": "feat",
-                      "count": 1,
-                      "entity_type": "feat"
-                    }
-                  ]
-                }
-              ]
+              "entity_type": "feat"
             }
           ]
         }
@@ -3317,35 +2832,10 @@
           "description": "When you reach 4th level, and again at 6th, 8th, 12th, 14th, 16th, and 19th level, you can increase one ability score of your choice by 2, or you can increase two ability scores of your choice by 1. As normal, you can't increase an ability score above 20 using this feature.",
           "choices": [
             {
-              "kind": "select-inline",
-              "id": "asi-or-feat",
+              "kind": "select-entity",
+              "id": "feat",
               "count": 1,
-              "options": [
-                {
-                  "value": "asi",
-                  "label": "Ability Score Increase",
-                  "choices": [
-                    {
-                      "kind": "ability-points",
-                      "id": "asi",
-                      "points": 2,
-                      "max_per": 2
-                    }
-                  ]
-                },
-                {
-                  "value": "feat",
-                  "label": "Feat",
-                  "choices": [
-                    {
-                      "kind": "select-entity",
-                      "id": "feat",
-                      "count": 1,
-                      "entity_type": "feat"
-                    }
-                  ]
-                }
-              ]
+              "entity_type": "feat"
             }
           ]
         }
@@ -3357,35 +2847,10 @@
           "description": "When you reach 4th level, and again at 6th, 8th, 12th, 14th, 16th, and 19th level, you can increase one ability score of your choice by 2, or you can increase two ability scores of your choice by 1. As normal, you can't increase an ability score above 20 using this feature.",
           "choices": [
             {
-              "kind": "select-inline",
-              "id": "asi-or-feat",
+              "kind": "select-entity",
+              "id": "feat",
               "count": 1,
-              "options": [
-                {
-                  "value": "asi",
-                  "label": "Ability Score Increase",
-                  "choices": [
-                    {
-                      "kind": "ability-points",
-                      "id": "asi",
-                      "points": 2,
-                      "max_per": 2
-                    }
-                  ]
-                },
-                {
-                  "value": "feat",
-                  "label": "Feat",
-                  "choices": [
-                    {
-                      "kind": "select-entity",
-                      "id": "feat",
-                      "count": 1,
-                      "entity_type": "feat"
-                    }
-                  ]
-                }
-              ]
+              "entity_type": "feat"
             }
           ]
         }
@@ -3411,35 +2876,10 @@
           "description": "When you reach 4th level, and again at 6th, 8th, 12th, 14th, 16th, and 19th level, you can increase one ability score of your choice by 2, or you can increase two ability scores of your choice by 1. As normal, you can't increase an ability score above 20 using this feature.",
           "choices": [
             {
-              "kind": "select-inline",
-              "id": "asi-or-feat",
+              "kind": "select-entity",
+              "id": "feat",
               "count": 1,
-              "options": [
-                {
-                  "value": "asi",
-                  "label": "Ability Score Increase",
-                  "choices": [
-                    {
-                      "kind": "ability-points",
-                      "id": "asi",
-                      "points": 2,
-                      "max_per": 2
-                    }
-                  ]
-                },
-                {
-                  "value": "feat",
-                  "label": "Feat",
-                  "choices": [
-                    {
-                      "kind": "select-entity",
-                      "id": "feat",
-                      "count": 1,
-                      "entity_type": "feat"
-                    }
-                  ]
-                }
-              ]
+              "entity_type": "feat"
             }
           ]
         }
@@ -3458,35 +2898,10 @@
           "description": "When you reach 4th level, and again at 6th, 8th, 12th, 14th, 16th, and 19th level, you can increase one ability score of your choice by 2, or you can increase two ability scores of your choice by 1. As normal, you can't increase an ability score above 20 using this feature.",
           "choices": [
             {
-              "kind": "select-inline",
-              "id": "asi-or-feat",
+              "kind": "select-entity",
+              "id": "feat",
               "count": 1,
-              "options": [
-                {
-                  "value": "asi",
-                  "label": "Ability Score Increase",
-                  "choices": [
-                    {
-                      "kind": "ability-points",
-                      "id": "asi",
-                      "points": 2,
-                      "max_per": 2
-                    }
-                  ]
-                },
-                {
-                  "value": "feat",
-                  "label": "Feat",
-                  "choices": [
-                    {
-                      "kind": "select-entity",
-                      "id": "feat",
-                      "count": 1,
-                      "entity_type": "feat"
-                    }
-                  ]
-                }
-              ]
+              "entity_type": "feat"
             }
           ]
         }
@@ -3498,35 +2913,10 @@
           "description": "When you reach 4th level, and again at 6th, 8th, 12th, 14th, 16th, and 19th level, you can increase one ability score of your choice by 2, or you can increase two ability scores of your choice by 1. As normal, you can't increase an ability score above 20 using this feature.",
           "choices": [
             {
-              "kind": "select-inline",
-              "id": "asi-or-feat",
+              "kind": "select-entity",
+              "id": "feat",
               "count": 1,
-              "options": [
-                {
-                  "value": "asi",
-                  "label": "Ability Score Increase",
-                  "choices": [
-                    {
-                      "kind": "ability-points",
-                      "id": "asi",
-                      "points": 2,
-                      "max_per": 2
-                    }
-                  ]
-                },
-                {
-                  "value": "feat",
-                  "label": "Feat",
-                  "choices": [
-                    {
-                      "kind": "select-entity",
-                      "id": "feat",
-                      "count": 1,
-                      "entity_type": "feat"
-                    }
-                  ]
-                }
-              ]
+              "entity_type": "feat"
             }
           ]
         }
@@ -3565,35 +2955,10 @@
           "description": "When you reach 4th level, and again at 6th, 8th, 12th, 14th, 16th, and 19th level, you can increase one ability score of your choice by 2, or you can increase two ability scores of your choice by 1. As normal, you can't increase an ability score above 20 using this feature.",
           "choices": [
             {
-              "kind": "select-inline",
-              "id": "asi-or-feat",
+              "kind": "select-entity",
+              "id": "feat",
               "count": 1,
-              "options": [
-                {
-                  "value": "asi",
-                  "label": "Ability Score Increase",
-                  "choices": [
-                    {
-                      "kind": "ability-points",
-                      "id": "asi",
-                      "points": 2,
-                      "max_per": 2
-                    }
-                  ]
-                },
-                {
-                  "value": "feat",
-                  "label": "Feat",
-                  "choices": [
-                    {
-                      "kind": "select-entity",
-                      "id": "feat",
-                      "count": 1,
-                      "entity_type": "feat"
-                    }
-                  ]
-                }
-              ]
+              "entity_type": "feat"
             }
           ]
         }
@@ -3635,11 +3000,6 @@
         ],
         "fixed": [
           "shortswords"
-        ]
-      },
-      "tools": {
-        "fixed": [
-          "Choose one type of artisan’s tools or one musical instrument"
         ]
       }
     },
@@ -3980,35 +3340,10 @@
           "description": "When you reach 4th level, and again at 8th, 12th, 16th, and 19th level, you can increase one ability score of your choice by 2, or you can increase two ability scores of your choice by 1. As normal, you can't increase an ability score above 20 using this feature.",
           "choices": [
             {
-              "kind": "select-inline",
-              "id": "asi-or-feat",
+              "kind": "select-entity",
+              "id": "feat",
               "count": 1,
-              "options": [
-                {
-                  "value": "asi",
-                  "label": "Ability Score Increase",
-                  "choices": [
-                    {
-                      "kind": "ability-points",
-                      "id": "asi",
-                      "points": 2,
-                      "max_per": 2
-                    }
-                  ]
-                },
-                {
-                  "value": "feat",
-                  "label": "Feat",
-                  "choices": [
-                    {
-                      "kind": "select-entity",
-                      "id": "feat",
-                      "count": 1,
-                      "entity_type": "feat"
-                    }
-                  ]
-                }
-              ]
+              "entity_type": "feat"
             }
           ]
         },
@@ -4056,35 +3391,10 @@
           "description": "When you reach 4th level, and again at 8th, 12th, 16th, and 19th level, you can increase one ability score of your choice by 2, or you can increase two ability scores of your choice by 1. As normal, you can't increase an ability score above 20 using this feature.",
           "choices": [
             {
-              "kind": "select-inline",
-              "id": "asi-or-feat",
+              "kind": "select-entity",
+              "id": "feat",
               "count": 1,
-              "options": [
-                {
-                  "value": "asi",
-                  "label": "Ability Score Increase",
-                  "choices": [
-                    {
-                      "kind": "ability-points",
-                      "id": "asi",
-                      "points": 2,
-                      "max_per": 2
-                    }
-                  ]
-                },
-                {
-                  "value": "feat",
-                  "label": "Feat",
-                  "choices": [
-                    {
-                      "kind": "select-entity",
-                      "id": "feat",
-                      "count": 1,
-                      "entity_type": "feat"
-                    }
-                  ]
-                }
-              ]
+              "entity_type": "feat"
             }
           ]
         }
@@ -4103,35 +3413,10 @@
           "description": "When you reach 4th level, and again at 8th, 12th, 16th, and 19th level, you can increase one ability score of your choice by 2, or you can increase two ability scores of your choice by 1. As normal, you can't increase an ability score above 20 using this feature.",
           "choices": [
             {
-              "kind": "select-inline",
-              "id": "asi-or-feat",
+              "kind": "select-entity",
+              "id": "feat",
               "count": 1,
-              "options": [
-                {
-                  "value": "asi",
-                  "label": "Ability Score Increase",
-                  "choices": [
-                    {
-                      "kind": "ability-points",
-                      "id": "asi",
-                      "points": 2,
-                      "max_per": 2
-                    }
-                  ]
-                },
-                {
-                  "value": "feat",
-                  "label": "Feat",
-                  "choices": [
-                    {
-                      "kind": "select-entity",
-                      "id": "feat",
-                      "count": 1,
-                      "entity_type": "feat"
-                    }
-                  ]
-                }
-              ]
+              "entity_type": "feat"
             }
           ]
         }
@@ -4164,35 +3449,10 @@
           "description": "When you reach 4th level, and again at 8th, 12th, 16th, and 19th level, you can increase one ability score of your choice by 2, or you can increase two ability scores of your choice by 1. As normal, you can't increase an ability score above 20 using this feature.",
           "choices": [
             {
-              "kind": "select-inline",
-              "id": "asi-or-feat",
+              "kind": "select-entity",
+              "id": "feat",
               "count": 1,
-              "options": [
-                {
-                  "value": "asi",
-                  "label": "Ability Score Increase",
-                  "choices": [
-                    {
-                      "kind": "ability-points",
-                      "id": "asi",
-                      "points": 2,
-                      "max_per": 2
-                    }
-                  ]
-                },
-                {
-                  "value": "feat",
-                  "label": "Feat",
-                  "choices": [
-                    {
-                      "kind": "select-entity",
-                      "id": "feat",
-                      "count": 1,
-                      "entity_type": "feat"
-                    }
-                  ]
-                }
-              ]
+              "entity_type": "feat"
             }
           ]
         }
@@ -4211,35 +3471,10 @@
           "description": "When you reach 4th level, and again at 8th, 12th, 16th, and 19th level, you can increase one ability score of your choice by 2, or you can increase two ability scores of your choice by 1. As normal, you can't increase an ability score above 20 using this feature.",
           "choices": [
             {
-              "kind": "select-inline",
-              "id": "asi-or-feat",
+              "kind": "select-entity",
+              "id": "feat",
               "count": 1,
-              "options": [
-                {
-                  "value": "asi",
-                  "label": "Ability Score Increase",
-                  "choices": [
-                    {
-                      "kind": "ability-points",
-                      "id": "asi",
-                      "points": 2,
-                      "max_per": 2
-                    }
-                  ]
-                },
-                {
-                  "value": "feat",
-                  "label": "Feat",
-                  "choices": [
-                    {
-                      "kind": "select-entity",
-                      "id": "feat",
-                      "count": 1,
-                      "entity_type": "feat"
-                    }
-                  ]
-                }
-              ]
+              "entity_type": "feat"
             }
           ]
         }
@@ -4253,6 +3488,43 @@
       ]
     },
     "resources": [],
+    "choices": [
+      {
+        "kind": "select-proficiency",
+        "id": "tool",
+        "count": 1,
+        "domain": "tool",
+        "from": [
+          "alchemist's-supplies",
+          "brewer's-supplies",
+          "calligrapher's-supplies",
+          "carpenter's-tools",
+          "cartographer's-tools",
+          "cobbler's-tools",
+          "cook's-utensils",
+          "glassblower's-tools",
+          "jeweler's-tools",
+          "leatherworker's-tools",
+          "mason's-tools",
+          "painter's-supplies",
+          "potter's-tools",
+          "smith's-tools",
+          "tinker's-tools",
+          "weaver's-tools",
+          "woodcarver's-tools",
+          "bagpipes",
+          "drum",
+          "dulcimer",
+          "flute",
+          "horn",
+          "lute",
+          "lyre",
+          "pan-flute",
+          "shawm",
+          "viol"
+        ]
+      }
+    ],
     "starting_gold": {
       "dice": "5d4",
       "multiplier": 10
@@ -4674,35 +3946,10 @@
           "description": "When you reach 4th level, and again at 8th, 12th, 16th, and 19th level, you can increase one ability score of your choice by 2, or you can increase two ability scores of your choice by 1. As normal, you can't increase an ability score above 20 using this feature.",
           "choices": [
             {
-              "kind": "select-inline",
-              "id": "asi-or-feat",
+              "kind": "select-entity",
+              "id": "feat",
               "count": 1,
-              "options": [
-                {
-                  "value": "asi",
-                  "label": "Ability Score Increase",
-                  "choices": [
-                    {
-                      "kind": "ability-points",
-                      "id": "asi",
-                      "points": 2,
-                      "max_per": 2
-                    }
-                  ]
-                },
-                {
-                  "value": "feat",
-                  "label": "Feat",
-                  "choices": [
-                    {
-                      "kind": "select-entity",
-                      "id": "feat",
-                      "count": 1,
-                      "entity_type": "feat"
-                    }
-                  ]
-                }
-              ]
+              "entity_type": "feat"
             }
           ]
         }
@@ -4728,35 +3975,10 @@
           "description": "When you reach 4th level, and again at 8th, 12th, 16th, and 19th level, you can increase one ability score of your choice by 2, or you can increase two ability scores of your choice by 1. As normal, you can't increase an ability score above 20 using this feature.",
           "choices": [
             {
-              "kind": "select-inline",
-              "id": "asi-or-feat",
+              "kind": "select-entity",
+              "id": "feat",
               "count": 1,
-              "options": [
-                {
-                  "value": "asi",
-                  "label": "Ability Score Increase",
-                  "choices": [
-                    {
-                      "kind": "ability-points",
-                      "id": "asi",
-                      "points": 2,
-                      "max_per": 2
-                    }
-                  ]
-                },
-                {
-                  "value": "feat",
-                  "label": "Feat",
-                  "choices": [
-                    {
-                      "kind": "select-entity",
-                      "id": "feat",
-                      "count": 1,
-                      "entity_type": "feat"
-                    }
-                  ]
-                }
-              ]
+              "entity_type": "feat"
             }
           ]
         }
@@ -4782,35 +4004,10 @@
           "description": "When you reach 4th level, and again at 8th, 12th, 16th, and 19th level, you can increase one ability score of your choice by 2, or you can increase two ability scores of your choice by 1. As normal, you can't increase an ability score above 20 using this feature.",
           "choices": [
             {
-              "kind": "select-inline",
-              "id": "asi-or-feat",
+              "kind": "select-entity",
+              "id": "feat",
               "count": 1,
-              "options": [
-                {
-                  "value": "asi",
-                  "label": "Ability Score Increase",
-                  "choices": [
-                    {
-                      "kind": "ability-points",
-                      "id": "asi",
-                      "points": 2,
-                      "max_per": 2
-                    }
-                  ]
-                },
-                {
-                  "value": "feat",
-                  "label": "Feat",
-                  "choices": [
-                    {
-                      "kind": "select-entity",
-                      "id": "feat",
-                      "count": 1,
-                      "entity_type": "feat"
-                    }
-                  ]
-                }
-              ]
+              "entity_type": "feat"
             }
           ]
         }
@@ -4838,35 +4035,10 @@
           "description": "When you reach 4th level, and again at 8th, 12th, 16th, and 19th level, you can increase one ability score of your choice by 2, or you can increase two ability scores of your choice by 1. As normal, you can't increase an ability score above 20 using this feature.",
           "choices": [
             {
-              "kind": "select-inline",
-              "id": "asi-or-feat",
+              "kind": "select-entity",
+              "id": "feat",
               "count": 1,
-              "options": [
-                {
-                  "value": "asi",
-                  "label": "Ability Score Increase",
-                  "choices": [
-                    {
-                      "kind": "ability-points",
-                      "id": "asi",
-                      "points": 2,
-                      "max_per": 2
-                    }
-                  ]
-                },
-                {
-                  "value": "feat",
-                  "label": "Feat",
-                  "choices": [
-                    {
-                      "kind": "select-entity",
-                      "id": "feat",
-                      "count": 1,
-                      "entity_type": "feat"
-                    }
-                  ]
-                }
-              ]
+              "entity_type": "feat"
             }
           ]
         }
@@ -4890,35 +4062,10 @@
           "description": "When you reach 4th level, and again at 8th, 12th, 16th, and 19th level, you can increase one ability score of your choice by 2, or you can increase two ability scores of your choice by 1. As normal, you can't increase an ability score above 20 using this feature.",
           "choices": [
             {
-              "kind": "select-inline",
-              "id": "asi-or-feat",
+              "kind": "select-entity",
+              "id": "feat",
               "count": 1,
-              "options": [
-                {
-                  "value": "asi",
-                  "label": "Ability Score Increase",
-                  "choices": [
-                    {
-                      "kind": "ability-points",
-                      "id": "asi",
-                      "points": 2,
-                      "max_per": 2
-                    }
-                  ]
-                },
-                {
-                  "value": "feat",
-                  "label": "Feat",
-                  "choices": [
-                    {
-                      "kind": "select-entity",
-                      "id": "feat",
-                      "count": 1,
-                      "entity_type": "feat"
-                    }
-                  ]
-                }
-              ]
+              "entity_type": "feat"
             }
           ]
         }
@@ -5459,35 +4606,10 @@
           "description": "When you reach 4th level, and again at 8th, 12th, 16th, and 19th level, you can increase one ability score of your choice by 2, or you can increase two ability scores of your choice by 1. As normal, you can't increase an ability score above 20 using this feature.",
           "choices": [
             {
-              "kind": "select-inline",
-              "id": "asi-or-feat",
+              "kind": "select-entity",
+              "id": "feat",
               "count": 1,
-              "options": [
-                {
-                  "value": "asi",
-                  "label": "Ability Score Increase",
-                  "choices": [
-                    {
-                      "kind": "ability-points",
-                      "id": "asi",
-                      "points": 2,
-                      "max_per": 2
-                    }
-                  ]
-                },
-                {
-                  "value": "feat",
-                  "label": "Feat",
-                  "choices": [
-                    {
-                      "kind": "select-entity",
-                      "id": "feat",
-                      "count": 1,
-                      "entity_type": "feat"
-                    }
-                  ]
-                }
-              ]
+              "entity_type": "feat"
             }
           ]
         }
@@ -5626,35 +4748,10 @@
           "description": "When you reach 4th level, and again at 8th, 12th, 16th, and 19th level, you can increase one ability score of your choice by 2, or you can increase two ability scores of your choice by 1. As normal, you can't increase an ability score above 20 using this feature.",
           "choices": [
             {
-              "kind": "select-inline",
-              "id": "asi-or-feat",
+              "kind": "select-entity",
+              "id": "feat",
               "count": 1,
-              "options": [
-                {
-                  "value": "asi",
-                  "label": "Ability Score Increase",
-                  "choices": [
-                    {
-                      "kind": "ability-points",
-                      "id": "asi",
-                      "points": 2,
-                      "max_per": 2
-                    }
-                  ]
-                },
-                {
-                  "value": "feat",
-                  "label": "Feat",
-                  "choices": [
-                    {
-                      "kind": "select-entity",
-                      "id": "feat",
-                      "count": 1,
-                      "entity_type": "feat"
-                    }
-                  ]
-                }
-              ]
+              "entity_type": "feat"
             }
           ]
         },
@@ -5720,35 +4817,10 @@
           "description": "When you reach 4th level, and again at 8th, 12th, 16th, and 19th level, you can increase one ability score of your choice by 2, or you can increase two ability scores of your choice by 1. As normal, you can't increase an ability score above 20 using this feature.",
           "choices": [
             {
-              "kind": "select-inline",
-              "id": "asi-or-feat",
+              "kind": "select-entity",
+              "id": "feat",
               "count": 1,
-              "options": [
-                {
-                  "value": "asi",
-                  "label": "Ability Score Increase",
-                  "choices": [
-                    {
-                      "kind": "ability-points",
-                      "id": "asi",
-                      "points": 2,
-                      "max_per": 2
-                    }
-                  ]
-                },
-                {
-                  "value": "feat",
-                  "label": "Feat",
-                  "choices": [
-                    {
-                      "kind": "select-entity",
-                      "id": "feat",
-                      "count": 1,
-                      "entity_type": "feat"
-                    }
-                  ]
-                }
-              ]
+              "entity_type": "feat"
             }
           ]
         }
@@ -5843,35 +4915,10 @@
           "description": "When you reach 4th level, and again at 8th, 12th, 16th, and 19th level, you can increase one ability score of your choice by 2, or you can increase two ability scores of your choice by 1. As normal, you can't increase an ability score above 20 using this feature.",
           "choices": [
             {
-              "kind": "select-inline",
-              "id": "asi-or-feat",
+              "kind": "select-entity",
+              "id": "feat",
               "count": 1,
-              "options": [
-                {
-                  "value": "asi",
-                  "label": "Ability Score Increase",
-                  "choices": [
-                    {
-                      "kind": "ability-points",
-                      "id": "asi",
-                      "points": 2,
-                      "max_per": 2
-                    }
-                  ]
-                },
-                {
-                  "value": "feat",
-                  "label": "Feat",
-                  "choices": [
-                    {
-                      "kind": "select-entity",
-                      "id": "feat",
-                      "count": 1,
-                      "entity_type": "feat"
-                    }
-                  ]
-                }
-              ]
+              "entity_type": "feat"
             }
           ]
         }
@@ -5890,35 +4937,10 @@
           "description": "When you reach 4th level, and again at 8th, 12th, 16th, and 19th level, you can increase one ability score of your choice by 2, or you can increase two ability scores of your choice by 1. As normal, you can't increase an ability score above 20 using this feature.",
           "choices": [
             {
-              "kind": "select-inline",
-              "id": "asi-or-feat",
+              "kind": "select-entity",
+              "id": "feat",
               "count": 1,
-              "options": [
-                {
-                  "value": "asi",
-                  "label": "Ability Score Increase",
-                  "choices": [
-                    {
-                      "kind": "ability-points",
-                      "id": "asi",
-                      "points": 2,
-                      "max_per": 2
-                    }
-                  ]
-                },
-                {
-                  "value": "feat",
-                  "label": "Feat",
-                  "choices": [
-                    {
-                      "kind": "select-entity",
-                      "id": "feat",
-                      "count": 1,
-                      "entity_type": "feat"
-                    }
-                  ]
-                }
-              ]
+              "entity_type": "feat"
             }
           ]
         }
@@ -6305,35 +5327,10 @@
           "description": "When you reach 4th level, and again at 8th, 10th, 12th, 16th, and 19th level, you can increase one ability score of your choice by 2, or you can increase two ability scores of your choice by 1. As normal, you can't increase an ability score above 20 using this feature.",
           "choices": [
             {
-              "kind": "select-inline",
-              "id": "asi-or-feat",
+              "kind": "select-entity",
+              "id": "feat",
               "count": 1,
-              "options": [
-                {
-                  "value": "asi",
-                  "label": "Ability Score Increase",
-                  "choices": [
-                    {
-                      "kind": "ability-points",
-                      "id": "asi",
-                      "points": 2,
-                      "max_per": 2
-                    }
-                  ]
-                },
-                {
-                  "value": "feat",
-                  "label": "Feat",
-                  "choices": [
-                    {
-                      "kind": "select-entity",
-                      "id": "feat",
-                      "count": 1,
-                      "entity_type": "feat"
-                    }
-                  ]
-                }
-              ]
+              "entity_type": "feat"
             }
           ]
         }
@@ -6376,35 +5373,10 @@
           "description": "When you reach 4th level, and again at 8th, 10th, 12th, 16th, and 19th level, you can increase one ability score of your choice by 2, or you can increase two ability scores of your choice by 1. As normal, you can't increase an ability score above 20 using this feature.",
           "choices": [
             {
-              "kind": "select-inline",
-              "id": "asi-or-feat",
+              "kind": "select-entity",
+              "id": "feat",
               "count": 1,
-              "options": [
-                {
-                  "value": "asi",
-                  "label": "Ability Score Increase",
-                  "choices": [
-                    {
-                      "kind": "ability-points",
-                      "id": "asi",
-                      "points": 2,
-                      "max_per": 2
-                    }
-                  ]
-                },
-                {
-                  "value": "feat",
-                  "label": "Feat",
-                  "choices": [
-                    {
-                      "kind": "select-entity",
-                      "id": "feat",
-                      "count": 1,
-                      "entity_type": "feat"
-                    }
-                  ]
-                }
-              ]
+              "entity_type": "feat"
             }
           ]
         }
@@ -6416,35 +5388,10 @@
           "description": "When you reach 4th level, and again at 8th, 10th, 12th, 16th, and 19th level, you can increase one ability score of your choice by 2, or you can increase two ability scores of your choice by 1. As normal, you can't increase an ability score above 20 using this feature.",
           "choices": [
             {
-              "kind": "select-inline",
-              "id": "asi-or-feat",
+              "kind": "select-entity",
+              "id": "feat",
               "count": 1,
-              "options": [
-                {
-                  "value": "asi",
-                  "label": "Ability Score Increase",
-                  "choices": [
-                    {
-                      "kind": "ability-points",
-                      "id": "asi",
-                      "points": 2,
-                      "max_per": 2
-                    }
-                  ]
-                },
-                {
-                  "value": "feat",
-                  "label": "Feat",
-                  "choices": [
-                    {
-                      "kind": "select-entity",
-                      "id": "feat",
-                      "count": 1,
-                      "entity_type": "feat"
-                    }
-                  ]
-                }
-              ]
+              "entity_type": "feat"
             }
           ]
         }
@@ -6463,35 +5410,10 @@
           "description": "When you reach 4th level, and again at 8th, 10th, 12th, 16th, and 19th level, you can increase one ability score of your choice by 2, or you can increase two ability scores of your choice by 1. As normal, you can't increase an ability score above 20 using this feature.",
           "choices": [
             {
-              "kind": "select-inline",
-              "id": "asi-or-feat",
+              "kind": "select-entity",
+              "id": "feat",
               "count": 1,
-              "options": [
-                {
-                  "value": "asi",
-                  "label": "Ability Score Increase",
-                  "choices": [
-                    {
-                      "kind": "ability-points",
-                      "id": "asi",
-                      "points": 2,
-                      "max_per": 2
-                    }
-                  ]
-                },
-                {
-                  "value": "feat",
-                  "label": "Feat",
-                  "choices": [
-                    {
-                      "kind": "select-entity",
-                      "id": "feat",
-                      "count": 1,
-                      "entity_type": "feat"
-                    }
-                  ]
-                }
-              ]
+              "entity_type": "feat"
             }
           ]
         }
@@ -6517,35 +5439,10 @@
           "description": "When you reach 4th level, and again at 8th, 10th, 12th, 16th, and 19th level, you can increase one ability score of your choice by 2, or you can increase two ability scores of your choice by 1. As normal, you can't increase an ability score above 20 using this feature.",
           "choices": [
             {
-              "kind": "select-inline",
-              "id": "asi-or-feat",
+              "kind": "select-entity",
+              "id": "feat",
               "count": 1,
-              "options": [
-                {
-                  "value": "asi",
-                  "label": "Ability Score Increase",
-                  "choices": [
-                    {
-                      "kind": "ability-points",
-                      "id": "asi",
-                      "points": 2,
-                      "max_per": 2
-                    }
-                  ]
-                },
-                {
-                  "value": "feat",
-                  "label": "Feat",
-                  "choices": [
-                    {
-                      "kind": "select-entity",
-                      "id": "feat",
-                      "count": 1,
-                      "entity_type": "feat"
-                    }
-                  ]
-                }
-              ]
+              "entity_type": "feat"
             }
           ]
         }
@@ -6564,35 +5461,10 @@
           "description": "When you reach 4th level, and again at 8th, 10th, 12th, 16th, and 19th level, you can increase one ability score of your choice by 2, or you can increase two ability scores of your choice by 1. As normal, you can't increase an ability score above 20 using this feature.",
           "choices": [
             {
-              "kind": "select-inline",
-              "id": "asi-or-feat",
+              "kind": "select-entity",
+              "id": "feat",
               "count": 1,
-              "options": [
-                {
-                  "value": "asi",
-                  "label": "Ability Score Increase",
-                  "choices": [
-                    {
-                      "kind": "ability-points",
-                      "id": "asi",
-                      "points": 2,
-                      "max_per": 2
-                    }
-                  ]
-                },
-                {
-                  "value": "feat",
-                  "label": "Feat",
-                  "choices": [
-                    {
-                      "kind": "select-entity",
-                      "id": "feat",
-                      "count": 1,
-                      "entity_type": "feat"
-                    }
-                  ]
-                }
-              ]
+              "entity_type": "feat"
             }
           ]
         }
@@ -7085,35 +5957,10 @@
           "description": "When you reach 4th level, and again at 8th, 12th, 16th, and 19th level, you can increase one ability score of your choice by 2, or you can increase two ability scores of your choice by 1. As normal, you can't increase an ability score above 20 using this feature.",
           "choices": [
             {
-              "kind": "select-inline",
-              "id": "asi-or-feat",
+              "kind": "select-entity",
+              "id": "feat",
               "count": 1,
-              "options": [
-                {
-                  "value": "asi",
-                  "label": "Ability Score Increase",
-                  "choices": [
-                    {
-                      "kind": "ability-points",
-                      "id": "asi",
-                      "points": 2,
-                      "max_per": 2
-                    }
-                  ]
-                },
-                {
-                  "value": "feat",
-                  "label": "Feat",
-                  "choices": [
-                    {
-                      "kind": "select-entity",
-                      "id": "feat",
-                      "count": 1,
-                      "entity_type": "feat"
-                    }
-                  ]
-                }
-              ]
+              "entity_type": "feat"
             }
           ]
         }
@@ -7125,35 +5972,10 @@
           "description": "When you reach 4th level, and again at 8th, 12th, 16th, and 19th level, you can increase one ability score of your choice by 2, or you can increase two ability scores of your choice by 1. As normal, you can't increase an ability score above 20 using this feature.",
           "choices": [
             {
-              "kind": "select-inline",
-              "id": "asi-or-feat",
+              "kind": "select-entity",
+              "id": "feat",
               "count": 1,
-              "options": [
-                {
-                  "value": "asi",
-                  "label": "Ability Score Increase",
-                  "choices": [
-                    {
-                      "kind": "ability-points",
-                      "id": "asi",
-                      "points": 2,
-                      "max_per": 2
-                    }
-                  ]
-                },
-                {
-                  "value": "feat",
-                  "label": "Feat",
-                  "choices": [
-                    {
-                      "kind": "select-entity",
-                      "id": "feat",
-                      "count": 1,
-                      "entity_type": "feat"
-                    }
-                  ]
-                }
-              ]
+              "entity_type": "feat"
             }
           ]
         }
@@ -7184,35 +6006,10 @@
           "description": "When you reach 4th level, and again at 8th, 12th, 16th, and 19th level, you can increase one ability score of your choice by 2, or you can increase two ability scores of your choice by 1. As normal, you can't increase an ability score above 20 using this feature.",
           "choices": [
             {
-              "kind": "select-inline",
-              "id": "asi-or-feat",
+              "kind": "select-entity",
+              "id": "feat",
               "count": 1,
-              "options": [
-                {
-                  "value": "asi",
-                  "label": "Ability Score Increase",
-                  "choices": [
-                    {
-                      "kind": "ability-points",
-                      "id": "asi",
-                      "points": 2,
-                      "max_per": 2
-                    }
-                  ]
-                },
-                {
-                  "value": "feat",
-                  "label": "Feat",
-                  "choices": [
-                    {
-                      "kind": "select-entity",
-                      "id": "feat",
-                      "count": 1,
-                      "entity_type": "feat"
-                    }
-                  ]
-                }
-              ]
+              "entity_type": "feat"
             }
           ]
         }
@@ -7224,35 +6021,10 @@
           "description": "When you reach 4th level, and again at 8th, 12th, 16th, and 19th level, you can increase one ability score of your choice by 2, or you can increase two ability scores of your choice by 1. As normal, you can't increase an ability score above 20 using this feature.",
           "choices": [
             {
-              "kind": "select-inline",
-              "id": "asi-or-feat",
+              "kind": "select-entity",
+              "id": "feat",
               "count": 1,
-              "options": [
-                {
-                  "value": "asi",
-                  "label": "Ability Score Increase",
-                  "choices": [
-                    {
-                      "kind": "ability-points",
-                      "id": "asi",
-                      "points": 2,
-                      "max_per": 2
-                    }
-                  ]
-                },
-                {
-                  "value": "feat",
-                  "label": "Feat",
-                  "choices": [
-                    {
-                      "kind": "select-entity",
-                      "id": "feat",
-                      "count": 1,
-                      "entity_type": "feat"
-                    }
-                  ]
-                }
-              ]
+              "entity_type": "feat"
             }
           ]
         }
@@ -7283,35 +6055,10 @@
           "description": "When you reach 4th level, and again at 8th, 12th, 16th, and 19th level, you can increase one ability score of your choice by 2, or you can increase two ability scores of your choice by 1. As normal, you can't increase an ability score above 20 using this feature.",
           "choices": [
             {
-              "kind": "select-inline",
-              "id": "asi-or-feat",
+              "kind": "select-entity",
+              "id": "feat",
               "count": 1,
-              "options": [
-                {
-                  "value": "asi",
-                  "label": "Ability Score Increase",
-                  "choices": [
-                    {
-                      "kind": "ability-points",
-                      "id": "asi",
-                      "points": 2,
-                      "max_per": 2
-                    }
-                  ]
-                },
-                {
-                  "value": "feat",
-                  "label": "Feat",
-                  "choices": [
-                    {
-                      "kind": "select-entity",
-                      "id": "feat",
-                      "count": 1,
-                      "entity_type": "feat"
-                    }
-                  ]
-                }
-              ]
+              "entity_type": "feat"
             }
           ]
         }
@@ -7768,35 +6515,10 @@
           "description": "When you reach 4th level, and again at 8th, 12th, 16th, and 19th level, you can increase one ability score of your choice by 2, or you can increase two ability scores of your choice by 1. As normal, you can't increase an ability score above 20 using this feature.",
           "choices": [
             {
-              "kind": "select-inline",
-              "id": "asi-or-feat",
+              "kind": "select-entity",
+              "id": "feat",
               "count": 1,
-              "options": [
-                {
-                  "value": "asi",
-                  "label": "Ability Score Increase",
-                  "choices": [
-                    {
-                      "kind": "ability-points",
-                      "id": "asi",
-                      "points": 2,
-                      "max_per": 2
-                    }
-                  ]
-                },
-                {
-                  "value": "feat",
-                  "label": "Feat",
-                  "choices": [
-                    {
-                      "kind": "select-entity",
-                      "id": "feat",
-                      "count": 1,
-                      "entity_type": "feat"
-                    }
-                  ]
-                }
-              ]
+              "entity_type": "feat"
             }
           ]
         }
@@ -7808,35 +6530,10 @@
           "description": "When you reach 4th level, and again at 8th, 12th, 16th, and 19th level, you can increase one ability score of your choice by 2, or you can increase two ability scores of your choice by 1. As normal, you can't increase an ability score above 20 using this feature.",
           "choices": [
             {
-              "kind": "select-inline",
-              "id": "asi-or-feat",
+              "kind": "select-entity",
+              "id": "feat",
               "count": 1,
-              "options": [
-                {
-                  "value": "asi",
-                  "label": "Ability Score Increase",
-                  "choices": [
-                    {
-                      "kind": "ability-points",
-                      "id": "asi",
-                      "points": 2,
-                      "max_per": 2
-                    }
-                  ]
-                },
-                {
-                  "value": "feat",
-                  "label": "Feat",
-                  "choices": [
-                    {
-                      "kind": "select-entity",
-                      "id": "feat",
-                      "count": 1,
-                      "entity_type": "feat"
-                    }
-                  ]
-                }
-              ]
+              "entity_type": "feat"
             }
           ]
         }
@@ -7855,35 +6552,10 @@
           "description": "When you reach 4th level, and again at 8th, 12th, 16th, and 19th level, you can increase one ability score of your choice by 2, or you can increase two ability scores of your choice by 1. As normal, you can't increase an ability score above 20 using this feature.",
           "choices": [
             {
-              "kind": "select-inline",
-              "id": "asi-or-feat",
+              "kind": "select-entity",
+              "id": "feat",
               "count": 1,
-              "options": [
-                {
-                  "value": "asi",
-                  "label": "Ability Score Increase",
-                  "choices": [
-                    {
-                      "kind": "ability-points",
-                      "id": "asi",
-                      "points": 2,
-                      "max_per": 2
-                    }
-                  ]
-                },
-                {
-                  "value": "feat",
-                  "label": "Feat",
-                  "choices": [
-                    {
-                      "kind": "select-entity",
-                      "id": "feat",
-                      "count": 1,
-                      "entity_type": "feat"
-                    }
-                  ]
-                }
-              ]
+              "entity_type": "feat"
             }
           ]
         }
@@ -7916,35 +6588,10 @@
           "description": "When you reach 4th level, and again at 8th, 12th, 16th, and 19th level, you can increase one ability score of your choice by 2, or you can increase two ability scores of your choice by 1. As normal, you can't increase an ability score above 20 using this feature.",
           "choices": [
             {
-              "kind": "select-inline",
-              "id": "asi-or-feat",
+              "kind": "select-entity",
+              "id": "feat",
               "count": 1,
-              "options": [
-                {
-                  "value": "asi",
-                  "label": "Ability Score Increase",
-                  "choices": [
-                    {
-                      "kind": "ability-points",
-                      "id": "asi",
-                      "points": 2,
-                      "max_per": 2
-                    }
-                  ]
-                },
-                {
-                  "value": "feat",
-                  "label": "Feat",
-                  "choices": [
-                    {
-                      "kind": "select-entity",
-                      "id": "feat",
-                      "count": 1,
-                      "entity_type": "feat"
-                    }
-                  ]
-                }
-              ]
+              "entity_type": "feat"
             }
           ]
         }
@@ -8396,35 +7043,10 @@
           "description": "When you reach 4th level, and again at 8th, 12th, 16th, and 19th level, you can increase one ability score of your choice by 2, or you can increase two ability scores of your choice by 1. As normal, you can't increase an ability score above 20 using this feature.",
           "choices": [
             {
-              "kind": "select-inline",
-              "id": "asi-or-feat",
+              "kind": "select-entity",
+              "id": "feat",
               "count": 1,
-              "options": [
-                {
-                  "value": "asi",
-                  "label": "Ability Score Increase",
-                  "choices": [
-                    {
-                      "kind": "ability-points",
-                      "id": "asi",
-                      "points": 2,
-                      "max_per": 2
-                    }
-                  ]
-                },
-                {
-                  "value": "feat",
-                  "label": "Feat",
-                  "choices": [
-                    {
-                      "kind": "select-entity",
-                      "id": "feat",
-                      "count": 1,
-                      "entity_type": "feat"
-                    }
-                  ]
-                }
-              ]
+              "entity_type": "feat"
             }
           ]
         }
@@ -8436,35 +7058,10 @@
           "description": "When you reach 4th level, and again at 8th, 12th, 16th, and 19th level, you can increase one ability score of your choice by 2, or you can increase two ability scores of your choice by 1. As normal, you can't increase an ability score above 20 using this feature.",
           "choices": [
             {
-              "kind": "select-inline",
-              "id": "asi-or-feat",
+              "kind": "select-entity",
+              "id": "feat",
               "count": 1,
-              "options": [
-                {
-                  "value": "asi",
-                  "label": "Ability Score Increase",
-                  "choices": [
-                    {
-                      "kind": "ability-points",
-                      "id": "asi",
-                      "points": 2,
-                      "max_per": 2
-                    }
-                  ]
-                },
-                {
-                  "value": "feat",
-                  "label": "Feat",
-                  "choices": [
-                    {
-                      "kind": "select-entity",
-                      "id": "feat",
-                      "count": 1,
-                      "entity_type": "feat"
-                    }
-                  ]
-                }
-              ]
+              "entity_type": "feat"
             }
           ]
         }
@@ -8476,35 +7073,10 @@
           "description": "When you reach 4th level, and again at 8th, 12th, 16th, and 19th level, you can increase one ability score of your choice by 2, or you can increase two ability scores of your choice by 1. As normal, you can't increase an ability score above 20 using this feature.",
           "choices": [
             {
-              "kind": "select-inline",
-              "id": "asi-or-feat",
+              "kind": "select-entity",
+              "id": "feat",
               "count": 1,
-              "options": [
-                {
-                  "value": "asi",
-                  "label": "Ability Score Increase",
-                  "choices": [
-                    {
-                      "kind": "ability-points",
-                      "id": "asi",
-                      "points": 2,
-                      "max_per": 2
-                    }
-                  ]
-                },
-                {
-                  "value": "feat",
-                  "label": "Feat",
-                  "choices": [
-                    {
-                      "kind": "select-entity",
-                      "id": "feat",
-                      "count": 1,
-                      "entity_type": "feat"
-                    }
-                  ]
-                }
-              ]
+              "entity_type": "feat"
             }
           ]
         }
@@ -8516,35 +7088,10 @@
           "description": "When you reach 4th level, and again at 8th, 12th, 16th, and 19th level, you can increase one ability score of your choice by 2, or you can increase two ability scores of your choice by 1. As normal, you can't increase an ability score above 20 using this feature.",
           "choices": [
             {
-              "kind": "select-inline",
-              "id": "asi-or-feat",
+              "kind": "select-entity",
+              "id": "feat",
               "count": 1,
-              "options": [
-                {
-                  "value": "asi",
-                  "label": "Ability Score Increase",
-                  "choices": [
-                    {
-                      "kind": "ability-points",
-                      "id": "asi",
-                      "points": 2,
-                      "max_per": 2
-                    }
-                  ]
-                },
-                {
-                  "value": "feat",
-                  "label": "Feat",
-                  "choices": [
-                    {
-                      "kind": "select-entity",
-                      "id": "feat",
-                      "count": 1,
-                      "entity_type": "feat"
-                    }
-                  ]
-                }
-              ]
+              "entity_type": "feat"
             }
           ]
         }
@@ -8563,35 +7110,10 @@
           "description": "When you reach 4th level, and again at 8th, 12th, 16th, and 19th level, you can increase one ability score of your choice by 2, or you can increase two ability scores of your choice by 1. As normal, you can't increase an ability score above 20 using this feature.",
           "choices": [
             {
-              "kind": "select-inline",
-              "id": "asi-or-feat",
+              "kind": "select-entity",
+              "id": "feat",
               "count": 1,
-              "options": [
-                {
-                  "value": "asi",
-                  "label": "Ability Score Increase",
-                  "choices": [
-                    {
-                      "kind": "ability-points",
-                      "id": "asi",
-                      "points": 2,
-                      "max_per": 2
-                    }
-                  ]
-                },
-                {
-                  "value": "feat",
-                  "label": "Feat",
-                  "choices": [
-                    {
-                      "kind": "select-entity",
-                      "id": "feat",
-                      "count": 1,
-                      "entity_type": "feat"
-                    }
-                  ]
-                }
-              ]
+              "entity_type": "feat"
             }
           ]
         }

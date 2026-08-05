@@ -175,11 +175,21 @@ describe("aggregateProficiencies · provenance on every bucket (R4-P3b §7.1)", 
     expect(agg.armor.map((e) => e.label)).toContain("Heavy");
   });
 
-  it("does NOT change the rendering of the Bard tool-prose grant", () => {
+  it("no longer leaks the Bard tool-choice PROSE into the fixed tool list", () => {
     // D-D: class choice prose leaking into the fixed tool list. P3a fixed it in the GENERATOR
-    // (class-merge.ts:252 TOOL_CHOICE_PROSE), inert until P4's regen. Until then it must not move.
+    // (merger-rules/class-merge.ts:342 filters TOOL_CHOICE_PROSE out of the fixed list), and this
+    // assertion was pinned to the OLD rendering because the fix was inert until P4's regen.
+    // R4-P4 ran that regen and DISCHARGED the pin: the 2014 Bard now carries a structured
+    // select-proficiency over the ten instruments, and its fixed tool list no longer holds prose.
     const agg = aggregateProficiencies(bard2014());
-    expect(agg.tools.map((e) => e.label)).toContain("Three Musical Instruments Of Your Choice");
+    expect(agg.tools.map((e) => e.label)).not.toContain("Three Musical Instruments Of Your Choice");
+    expect(agg.tools.some((e) => /choose|of your choice|one kind of/i.test(e.label))).toBe(false);
+    // The positive half, so the negative above cannot pass merely because the grant vanished:
+    // the pick survives as a real choice the builder can render.
+    const bardChoices = (findEntity(cls2014, "bard") as { choices?: Array<Record<string, unknown>> }).choices ?? [];
+    const toolChoice = bardChoices.find((c) => c.id === "tool")!;
+    expect(toolChoice).toMatchObject({ kind: "select-proficiency", domain: "tool", count: 3 });
+    expect(toolChoice.from).toContain("lute");
   });
 
   it("keeps armor deduped and label-sorted", () => {

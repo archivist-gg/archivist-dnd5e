@@ -21,5 +21,31 @@
     "effects": [],
     "grants_asi": null,
     "choices": []
+  },
+  {
+    "slug": "srd-5e_feat_ability-score-improvement",
+    "name": "Ability Score Improvement",
+    "edition": "2014",
+    "source": "SRD 5.1",
+    "description": "",
+    "category": "general",
+    "prerequisites": [
+      {
+        "kind": "level",
+        "min": 4
+      }
+    ],
+    "benefits": [],
+    "repeatable": true,
+    "effects": [],
+    "grants_asi": null,
+    "choices": [
+      {
+        "kind": "ability-points",
+        "id": "asi",
+        "points": 2,
+        "max_per": 2
+      }
+    ]
   }
 ]

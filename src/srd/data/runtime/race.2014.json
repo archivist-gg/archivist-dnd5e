@@ -10,7 +10,16 @@
     },
     "vision": {},
     "description": "Your draconic heritage manifests in a variety of traits you share with other dragonborn.",
-    "ability_score_increases": [],
+    "ability_score_increases": [
+      {
+        "ability": "str",
+        "amount": 2
+      },
+      {
+        "ability": "cha",
+        "amount": 1
+      }
+    ],
     "age": "Young dragonborn grow quickly. They walk hours after hatching, attain the size and development of a 10-year-old human child by the age of 3, and reach adulthood by 15. They live to be around 80.",
     "alignment": "Dragonborn tend to extremes, making a conscious choice for one side or the other in the cosmic war between good and evil. Most dragonborn are good, but those who side with evil can be terrible villains.",
     "languages": {
@@ -200,7 +209,12 @@
       "darkvision": 60
     },
     "description": "Your dwarf character has an assortment of inborn abilities, part and parcel of dwarven nature.",
-    "ability_score_increases": [],
+    "ability_score_increases": [
+      {
+        "ability": "con",
+        "amount": 2
+      }
+    ],
     "age": "Dwarves mature at the same rate as humans, but they're considered young until they reach the age of 50. On average, they live about 350 years.",
     "alignment": "Most dwarves are lawful, believing firmly in the benefits of a well-ordered society. They tend toward good as well, with a strong sense of fair play and a belief that everyone deserves to share in the benefits of a just order.",
     "languages": {
@@ -245,7 +259,29 @@
       },
       {
         "name": "Dwarven Combat Training",
-        "description": "You have proficiency with the battleaxe, handaxe, light hammer, and warhammer."
+        "description": "You have proficiency with the battleaxe, handaxe, light hammer, and warhammer.",
+        "effects": [
+          {
+            "kind": "proficiency",
+            "proficiency_type": "weapon",
+            "value": "battleaxes"
+          },
+          {
+            "kind": "proficiency",
+            "proficiency_type": "weapon",
+            "value": "handaxes"
+          },
+          {
+            "kind": "proficiency",
+            "proficiency_type": "weapon",
+            "value": "light hammers"
+          },
+          {
+            "kind": "proficiency",
+            "proficiency_type": "weapon",
+            "value": "warhammers"
+          }
+        ]
       },
       {
         "name": "Tool Proficiency",
@@ -258,9 +294,9 @@
             "count": 1,
             "domain": "tool",
             "from": [
-              "smith's tools",
-              "brewer's supplies",
-              "mason's tools"
+              "smith's-tools",
+              "brewer's-supplies",
+              "mason's-tools"
             ]
           }
         ]
@@ -284,7 +320,12 @@
       "darkvision": 60
     },
     "description": "Your elf character has a variety of natural abilities, the result of thousands of years of elven refinement.",
-    "ability_score_increases": [],
+    "ability_score_increases": [
+      {
+        "ability": "dex",
+        "amount": 2
+      }
+    ],
     "age": "Although elves reach physical maturity at about the same age as humans, the elven understanding of adulthood goes beyond physical growth to encompass worldly experience. An elf typically claims adulthood and an adult name around the age of 100 and can live to be 750 years old.",
     "alignment": "Elves love freedom, variety, and self-­expression, so they lean strongly toward the gentler aspects of chaos. They value and protect others’ freedom as well as their own, and they are more often good than not.",
     "languages": {
@@ -325,7 +366,14 @@
       },
       {
         "name": "Keen Senses",
-        "description": "You have proficiency in the Perception skill."
+        "description": "You have proficiency in the Perception skill.",
+        "effects": [
+          {
+            "kind": "proficiency",
+            "proficiency_type": "skill",
+            "value": "perception"
+          }
+        ]
       },
       {
         "name": "Fey Ancestry",
@@ -350,7 +398,12 @@
       "darkvision": 60
     },
     "description": "Your gnome character has certain characteristics in common with all other gnomes.",
-    "ability_score_increases": [],
+    "ability_score_increases": [
+      {
+        "ability": "int",
+        "amount": 2
+      }
+    ],
     "age": "Gnomes mature at the same rate humans do, and most are expected to settle down into an adult life by around age 40. They can live 350 to almost 500 years.",
     "alignment": "Gnomes are most often good. Those who tend toward law are sages, engineers, researchers, scholars, investigators, or inventors. Those who tend toward chaos are minstrels, tricksters, wanderers, or fanciful jewelers. Gnomes are good-hearted, and even the tricksters among them are more playful than vicious.",
     "languages": {
@@ -408,7 +461,12 @@
       "darkvision": 60
     },
     "description": "Your half-elf character has some qualities in common with elves and some that are unique to half-elves.",
-    "ability_score_increases": [],
+    "ability_score_increases": [
+      {
+        "ability": "cha",
+        "amount": 2
+      }
+    ],
     "age": "Half-elves mature at the same rate humans do and reach adulthood around the age of 20. They live much longer than humans, however, often exceeding 180 years.",
     "alignment": "Half-elves share the chaotic bent of their elven heritage. They value both personal freedom and creative expression, demonstrating neither love of leaders nor desire for followers. They chafe at rules, resent others' demands, and sometimes prove unreliable, or at least unpredictable.",
     "languages": {
@@ -500,7 +558,16 @@
       "darkvision": 60
     },
     "description": "Your half-orc character has certain traits deriving from your orc ancestry.",
-    "ability_score_increases": [],
+    "ability_score_increases": [
+      {
+        "ability": "str",
+        "amount": 2
+      },
+      {
+        "ability": "con",
+        "amount": 1
+      }
+    ],
     "age": "Half-orcs mature a little faster than humans, reaching adulthood around age 14. They age noticeably faster and rarely live longer than 75 years.",
     "alignment": "Half-orcs inherit a tendency toward chaos from their orc parents and are not strongly inclined toward good. Half-orcs raised among orcs and willing to live out their lives among them are usually evil.",
     "languages": {
@@ -541,7 +608,14 @@
       },
       {
         "name": "Menacing",
-        "description": "You gain proficiency in the Intimidation skill."
+        "description": "You gain proficiency in the Intimidation skill.",
+        "effects": [
+          {
+            "kind": "proficiency",
+            "proficiency_type": "skill",
+            "value": "intimidation"
+          }
+        ]
       },
       {
         "name": "Relentless Endurance",
@@ -574,7 +648,12 @@
     },
     "vision": {},
     "description": "Your halfling character has a number of traits in common with all other halflings.",
-    "ability_score_increases": [],
+    "ability_score_increases": [
+      {
+        "ability": "dex",
+        "amount": 2
+      }
+    ],
     "age": "A halfling reaches adulthood at the age of 20 and generally lives into the middle of his or her second century.",
     "alignment": "Most halflings are lawful good. As a rule, they are good-hearted and kind, hate to see others in pain, and have no tolerance for oppression. They are also very orderly and traditional, leaning heavily on the support of their community and the comfort of their old ways.",
     "languages": {
@@ -632,7 +711,12 @@
     "speed": {},
     "vision": {},
     "description": "As a high elf, you have a keen mind and a mastery of at least the basics of magic. In many fantasy gaming worlds, there are two kinds of high elves. One type is haughty and reclusive, believing themselves to be superior to non-elves and even other elves. The other type is more common and more friendly, and often encountered among humans and other races.",
-    "ability_score_increases": [],
+    "ability_score_increases": [
+      {
+        "ability": "int",
+        "amount": 1
+      }
+    ],
     "age": "",
     "alignment": "",
     "languages": {
@@ -646,7 +730,29 @@
       },
       {
         "name": "Elf Weapon Training",
-        "description": "You have proficiency with the longsword, shortsword, shortbow, and longbow."
+        "description": "You have proficiency with the longsword, shortsword, shortbow, and longbow.",
+        "effects": [
+          {
+            "kind": "proficiency",
+            "proficiency_type": "weapon",
+            "value": "longswords"
+          },
+          {
+            "kind": "proficiency",
+            "proficiency_type": "weapon",
+            "value": "shortswords"
+          },
+          {
+            "kind": "proficiency",
+            "proficiency_type": "weapon",
+            "value": "shortbows"
+          },
+          {
+            "kind": "proficiency",
+            "proficiency_type": "weapon",
+            "value": "longbows"
+          }
+        ]
       },
       {
         "name": "Cantrip",
@@ -677,7 +783,12 @@
     "speed": {},
     "vision": {},
     "description": "As a hill dwarf, you have keen senses, deep intuition, and remarkable resilience.",
-    "ability_score_increases": [],
+    "ability_score_increases": [
+      {
+        "ability": "wis",
+        "amount": 1
+      }
+    ],
     "age": "",
     "alignment": "",
     "languages": {
@@ -707,7 +818,32 @@
     },
     "vision": {},
     "description": "It’s hard to make generalizations about humans, but your human character has these traits.",
-    "ability_score_increases": [],
+    "ability_score_increases": [
+      {
+        "ability": "str",
+        "amount": 1
+      },
+      {
+        "ability": "dex",
+        "amount": 1
+      },
+      {
+        "ability": "con",
+        "amount": 1
+      },
+      {
+        "ability": "int",
+        "amount": 1
+      },
+      {
+        "ability": "wis",
+        "amount": 1
+      },
+      {
+        "ability": "cha",
+        "amount": 1
+      }
+    ],
     "age": "Humans reach adulthood in their late teens and live less than a century.",
     "alignment": "Humans tend toward no particular alignment. The best and the worst are found among them.",
     "languages": {
@@ -760,7 +896,12 @@
     "speed": {},
     "vision": {},
     "description": "As a lightfoot halfling, you can easily hide from notice, even using other people as cover. You're inclined to be affable and get along well with others. Lightfoots are more prone to wanderlust than other halflings, and often dwell alongside other races or take up a nomadic life.",
-    "ability_score_increases": [],
+    "ability_score_increases": [
+      {
+        "ability": "cha",
+        "amount": 1
+      }
+    ],
     "age": "",
     "alignment": "",
     "languages": {
@@ -788,7 +929,12 @@
     "speed": {},
     "vision": {},
     "description": "As a rock gnome, you have a natural inventiveness and hardiness beyond that of other gnomes.",
-    "ability_score_increases": [],
+    "ability_score_increases": [
+      {
+        "ability": "con",
+        "amount": 1
+      }
+    ],
     "age": "",
     "alignment": "",
     "languages": {
@@ -806,7 +952,14 @@
       },
       {
         "name": "Tinker",
-        "description": "You have proficiency with artisan's tools (tinker's tools). Using those tools, you can spend 1 hour and 10 gp worth of materials to construct a Tiny clockwork device (AC 5, 1 hp). The device ceases to function after 24 hours (unless you spend 1 hour repairing it to keep the device functioning), or when you use your action to dismantle it; at that time, you can reclaim the materials used to create it. You can have up to three such devices active at a time.\r\n\r\nWhen you create a device, choose one of the following options:\r\n* _Clockwork Toy._ This toy is a clockwork animal, monster, or person, such as a frog, mouse, bird, dragon, or soldier. When placed on the ground, the toy moves 5 feet across the ground on each of your turns in a random direction. It makes noises as appropriate to the creature it represents.\r\n* _Fire Starter._ The device produces a miniature flame, which you can use to light a candle, torch, or campfire. Using the device requires your action.\r\n* _Music Box._ When opened, this music box plays a single song at a moderate volume. The box stops playing when it reaches the song's end or when it is closed."
+        "description": "You have proficiency with artisan's tools (tinker's tools). Using those tools, you can spend 1 hour and 10 gp worth of materials to construct a Tiny clockwork device (AC 5, 1 hp). The device ceases to function after 24 hours (unless you spend 1 hour repairing it to keep the device functioning), or when you use your action to dismantle it; at that time, you can reclaim the materials used to create it. You can have up to three such devices active at a time.\r\n\r\nWhen you create a device, choose one of the following options:\r\n* _Clockwork Toy._ This toy is a clockwork animal, monster, or person, such as a frog, mouse, bird, dragon, or soldier. When placed on the ground, the toy moves 5 feet across the ground on each of your turns in a random direction. It makes noises as appropriate to the creature it represents.\r\n* _Fire Starter._ The device produces a miniature flame, which you can use to light a candle, torch, or campfire. Using the device requires your action.\r\n* _Music Box._ When opened, this music box plays a single song at a moderate volume. The box stops playing when it reaches the song's end or when it is closed.",
+        "effects": [
+          {
+            "kind": "proficiency",
+            "proficiency_type": "tool",
+            "value": "tinker's-tools"
+          }
+        ]
       }
     ],
     "subspecies_of": "[[SRD 5e/Races/Gnome]]"
@@ -824,7 +977,16 @@
       "darkvision": 60
     },
     "description": "Tieflings share certain racial traits as a result of their infernal descent.",
-    "ability_score_increases": [],
+    "ability_score_increases": [
+      {
+        "ability": "int",
+        "amount": 1
+      },
+      {
+        "ability": "cha",
+        "amount": 2
+      }
+    ],
     "age": "Tieflings mature at the same rate as humans but live a few years longer.",
     "alignment": "Tieflings might not have an innate tendency toward evil, but many of them end up there. Evil or not, an independent nature inclines many tieflings toward a chaotic alignment.",
     "languages": {

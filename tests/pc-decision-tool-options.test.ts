@@ -95,41 +95,38 @@ function soldierLedger() {
 }
 
 describe("the reported bug, against the real SRD Soldier background", () => {
-  it("ships the tool pick with domain:\"tool\" and NO `from` (the premise of the fix)", () => {
+  it("ships the tool pick with domain:\"tool\" and the gaming-set `from`", () => {
     const choices = SOLDIER.choices as Array<Record<string, unknown>>;
     const tool = choices.find((c) => c.id === "tool")!;
-    // Exact equality, so an added `from` (which would route around the new arm)
-    // fails here instead of silently making the assertion below vacuous.
-    expect(tool).toEqual({ kind: "select-proficiency", id: "tool", count: 1, domain: "tool" });
+    // Exact equality, so a change to the shipped `from` fails here instead of
+    // silently making the assertion below vacuous.
+    expect(tool).toEqual({
+      kind: "select-proficiency", id: "tool", count: 1, domain: "tool",
+      from: ["dice-set", "playing-cards"],
+    });
   });
 
-  // REGEN NOTE · three assertions in THIS describe (the real-Soldier one) are
-  // pinned to the CURRENT generated tree, and the NEXT SRD regeneration will
-  // legitimately change them. A red here after a regen is expected behaviour,
-  // not a regression:
-  //   :103 `expect(tool).toEqual({...})`, the exact-equality pinning the shipped
-  //        Soldier tool choice as having NO `from`
-  //   :131 `expect(item.options).toHaveLength(35)`
-  //   :132 `expect(item.options.map((o) => o.value)).toEqual(ALL_TOOLS)`
-  // The identical-looking pair at :55-56 is NOT affected: it runs over the
+  // REGEN NOTE, DISCHARGED in R4-P4. Three assertions in THIS describe (the
+  // real-Soldier one) were pinned to a pre-regen tree in which the Soldier's
+  // tool choice carried NO `from`, so the picker fell back to all 35 tools.
+  // Phase R4-P3a authored `from: [dice-set, playing-cards]` for the 2024
+  // Soldier (tools/srd-canonical/overlays/srd-2024.yaml, `backgrounds.soldier`)
+  // and pre-declared that they would go red at the next regeneration. R4-P4 ran
+  // that regeneration and re-pointed them at the gaming-set pair: the
+  // exact-equality above now includes the `from`, and the picker below asserts
+  // those 2 options rather than ALL_TOOLS.
+  // The identical-looking pair at :55-56 was NEVER affected: it runs over the
   // synthetic fixture built at the top of this file, which no regen touches.
-  // Later in the SAME phase that added this file, the overlay task authored
-  // `from: [dice-set, playing-cards]` for the 2024 Soldier
-  // (tools/srd-canonical/overlays/srd-2024.yaml, `backgrounds.soldier`), and
-  // background-merge.test.ts drives the real overlay through the merge to prove
-  // that `from` lands on the canonical entity. So after the regen the choice
-  // carries a `from` and the picker offers 2 options, not 35. Re-point the
-  // three lines at the gaming-set pair THEN · do not weaken them now, while
-  // they are still true. Either way the property this file exists to defend
-  // survives: the tool picker is NON-EMPTY, where the reported bug rendered 0.
-  it("offers all 35 tools in the builder's tool picker", () => {
+  // The property this file exists to defend survives either way: the tool
+  // picker is NON-EMPTY, where the reported bug rendered 0.
+  it("offers the Soldier's two gaming sets in the builder's tool picker", () => {
     const ledger = soldierLedger();
     // A background choice is an ORIGIN choice: the ledger is {classes, origin}
     // and this item never appears under `classes`.
     const item = ledger.origin.find((i) => i.key === "tool")!;
     expect(item).toBeDefined();
-    expect(item.options).toHaveLength(35);
-    expect(item.options.map((o) => o.value)).toEqual(ALL_TOOLS);
+    expect(item.options).toHaveLength(2);
+    expect(item.options.map((o) => o.value)).toEqual(["dice-set", "playing-cards"]);
     expect(item.status).toBe("unresolved");   // nothing picked yet, but pickable
   });
 
@@ -141,7 +138,7 @@ describe("the reported bug, against the real SRD Soldier background", () => {
   // already have and the sheet shows nothing new. 15 is the correct count, and
   // the assertion is written as an exact list so a wrong-but-same-length pool
   // still fails. The tool assertions above are UNAFFECTED · the Soldier's
-  // `tool_proficiencies` is `[]`, so nothing is excluded from the 35.
+  // `tool_proficiencies` is `[]`, so nothing is excluded from its `from` pair.
   it("drops the granted `common` from the same entity's language pick, leaving 15", () => {
     const ledger = soldierLedger();
     const item = ledger.origin.find((i) => i.key === "languages")!;

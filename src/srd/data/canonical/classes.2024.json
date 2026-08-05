@@ -405,35 +405,10 @@
           "description": "You gain the Ability Score Improvement feat (see \"Feats\") or another feat of your choice for which you qualify. You gain this feature again at Barbarian levels 8, 12, and 16.",
           "choices": [
             {
-              "kind": "select-inline",
-              "id": "asi-or-feat",
+              "kind": "select-entity",
+              "id": "feat",
               "count": 1,
-              "options": [
-                {
-                  "value": "asi",
-                  "label": "Ability Score Increase",
-                  "choices": [
-                    {
-                      "kind": "ability-points",
-                      "id": "asi",
-                      "points": 2,
-                      "max_per": 2
-                    }
-                  ]
-                },
-                {
-                  "value": "feat",
-                  "label": "Feat",
-                  "choices": [
-                    {
-                      "kind": "select-entity",
-                      "id": "feat",
-                      "count": 1,
-                      "entity_type": "feat"
-                    }
-                  ]
-                }
-              ]
+              "entity_type": "feat"
             }
           ]
         }
@@ -469,35 +444,10 @@
           "description": "You gain the Ability Score Improvement feat (see \"Feats\") or another feat of your choice for which you qualify. You gain this feature again at Barbarian levels 8, 12, and 16.",
           "choices": [
             {
-              "kind": "select-inline",
-              "id": "asi-or-feat",
+              "kind": "select-entity",
+              "id": "feat",
               "count": 1,
-              "options": [
-                {
-                  "value": "asi",
-                  "label": "Ability Score Increase",
-                  "choices": [
-                    {
-                      "kind": "ability-points",
-                      "id": "asi",
-                      "points": 2,
-                      "max_per": 2
-                    }
-                  ]
-                },
-                {
-                  "value": "feat",
-                  "label": "Feat",
-                  "choices": [
-                    {
-                      "kind": "select-entity",
-                      "id": "feat",
-                      "count": 1,
-                      "entity_type": "feat"
-                    }
-                  ]
-                }
-              ]
+              "entity_type": "feat"
             }
           ]
         }
@@ -523,35 +473,10 @@
           "description": "You gain the Ability Score Improvement feat (see \"Feats\") or another feat of your choice for which you qualify. You gain this feature again at Barbarian levels 8, 12, and 16.",
           "choices": [
             {
-              "kind": "select-inline",
-              "id": "asi-or-feat",
+              "kind": "select-entity",
+              "id": "feat",
               "count": 1,
-              "options": [
-                {
-                  "value": "asi",
-                  "label": "Ability Score Increase",
-                  "choices": [
-                    {
-                      "kind": "ability-points",
-                      "id": "asi",
-                      "points": 2,
-                      "max_per": 2
-                    }
-                  ]
-                },
-                {
-                  "value": "feat",
-                  "label": "Feat",
-                  "choices": [
-                    {
-                      "kind": "select-entity",
-                      "id": "feat",
-                      "count": 1,
-                      "entity_type": "feat"
-                    }
-                  ]
-                }
-              ]
+              "entity_type": "feat"
             }
           ]
         }
@@ -586,35 +511,10 @@
           "description": "You gain the Ability Score Improvement feat (see \"Feats\") or another feat of your choice for which you qualify. You gain this feature again at Barbarian levels 8, 12, and 16.",
           "choices": [
             {
-              "kind": "select-inline",
-              "id": "asi-or-feat",
+              "kind": "select-entity",
+              "id": "feat",
               "count": 1,
-              "options": [
-                {
-                  "value": "asi",
-                  "label": "Ability Score Increase",
-                  "choices": [
-                    {
-                      "kind": "ability-points",
-                      "id": "asi",
-                      "points": 2,
-                      "max_per": 2
-                    }
-                  ]
-                },
-                {
-                  "value": "feat",
-                  "label": "Feat",
-                  "choices": [
-                    {
-                      "kind": "select-entity",
-                      "id": "feat",
-                      "count": 1,
-                      "entity_type": "feat"
-                    }
-                  ]
-                }
-              ]
+              "entity_type": "feat"
             }
           ]
         }
@@ -641,7 +541,7 @@
           "choices": [
             {
               "kind": "select-entity",
-              "id": "epic-boon",
+              "id": "feat",
               "count": 1,
               "entity_type": "feat"
             }
@@ -682,11 +582,6 @@
       "weapons": {
         "categories": [
           "simple"
-        ]
-      },
-      "tools": {
-        "fixed": [
-          "Choose 3 Musical Instruments"
         ]
       }
     },
@@ -1148,35 +1043,10 @@
           "description": "You gain the Ability Score Improvement feat (see \"Feats\") or another feat of your choice for which you qualify. You gain this feature again at Bard levels 8, 12, and 16.",
           "choices": [
             {
-              "kind": "select-inline",
-              "id": "asi-or-feat",
+              "kind": "select-entity",
+              "id": "feat",
               "count": 1,
-              "options": [
-                {
-                  "value": "asi",
-                  "label": "Ability Score Increase",
-                  "choices": [
-                    {
-                      "kind": "ability-points",
-                      "id": "asi",
-                      "points": 2,
-                      "max_per": 2
-                    }
-                  ]
-                },
-                {
-                  "value": "feat",
-                  "label": "Feat",
-                  "choices": [
-                    {
-                      "kind": "select-entity",
-                      "id": "feat",
-                      "count": 1,
-                      "entity_type": "feat"
-                    }
-                  ]
-                }
-              ]
+              "entity_type": "feat"
             }
           ]
         }
@@ -1202,35 +1072,10 @@
           "description": "You gain the Ability Score Improvement feat (see \"Feats\") or another feat of your choice for which you qualify. You gain this feature again at Bard levels 8, 12, and 16.",
           "choices": [
             {
-              "kind": "select-inline",
-              "id": "asi-or-feat",
+              "kind": "select-entity",
+              "id": "feat",
               "count": 1,
-              "options": [
-                {
-                  "value": "asi",
-                  "label": "Ability Score Increase",
-                  "choices": [
-                    {
-                      "kind": "ability-points",
-                      "id": "asi",
-                      "points": 2,
-                      "max_per": 2
-                    }
-                  ]
-                },
-                {
-                  "value": "feat",
-                  "label": "Feat",
-                  "choices": [
-                    {
-                      "kind": "select-entity",
-                      "id": "feat",
-                      "count": 1,
-                      "entity_type": "feat"
-                    }
-                  ]
-                }
-              ]
+              "entity_type": "feat"
             }
           ]
         }
@@ -1249,35 +1094,10 @@
           "description": "You gain the Ability Score Improvement feat (see \"Feats\") or another feat of your choice for which you qualify. You gain this feature again at Bard levels 8, 12, and 16.",
           "choices": [
             {
-              "kind": "select-inline",
-              "id": "asi-or-feat",
+              "kind": "select-entity",
+              "id": "feat",
               "count": 1,
-              "options": [
-                {
-                  "value": "asi",
-                  "label": "Ability Score Increase",
-                  "choices": [
-                    {
-                      "kind": "ability-points",
-                      "id": "asi",
-                      "points": 2,
-                      "max_per": 2
-                    }
-                  ]
-                },
-                {
-                  "value": "feat",
-                  "label": "Feat",
-                  "choices": [
-                    {
-                      "kind": "select-entity",
-                      "id": "feat",
-                      "count": 1,
-                      "entity_type": "feat"
-                    }
-                  ]
-                }
-              ]
+              "entity_type": "feat"
             }
           ]
         }
@@ -1289,35 +1109,10 @@
           "description": "You gain the Ability Score Improvement feat (see \"Feats\") or another feat of your choice for which you qualify. You gain this feature again at Bard levels 8, 12, and 16.",
           "choices": [
             {
-              "kind": "select-inline",
-              "id": "asi-or-feat",
+              "kind": "select-entity",
+              "id": "feat",
               "count": 1,
-              "options": [
-                {
-                  "value": "asi",
-                  "label": "Ability Score Increase",
-                  "choices": [
-                    {
-                      "kind": "ability-points",
-                      "id": "asi",
-                      "points": 2,
-                      "max_per": 2
-                    }
-                  ]
-                },
-                {
-                  "value": "feat",
-                  "label": "Feat",
-                  "choices": [
-                    {
-                      "kind": "select-entity",
-                      "id": "feat",
-                      "count": 1,
-                      "entity_type": "feat"
-                    }
-                  ]
-                }
-              ]
+              "entity_type": "feat"
             }
           ]
         }
@@ -1337,7 +1132,7 @@
           "choices": [
             {
               "kind": "select-entity",
-              "id": "epic-boon",
+              "id": "feat",
               "count": 1,
               "entity_type": "feat"
             }
@@ -1353,6 +1148,26 @@
       ]
     },
     "resources": [],
+    "choices": [
+      {
+        "kind": "select-proficiency",
+        "id": "tool",
+        "count": 3,
+        "domain": "tool",
+        "from": [
+          "bagpipes",
+          "drum",
+          "dulcimer",
+          "flute",
+          "horn",
+          "lute",
+          "lyre",
+          "pan-flute",
+          "shawm",
+          "viol"
+        ]
+      }
+    ],
     "starting_gold": {
       "fixed": 90
     }
@@ -1824,35 +1639,10 @@
           "description": "You gain the Ability Score Improvement feat (see \"Feats\") or another feat of your choice for which you qualify. You gain this feature again at Cleric levels 8, 12, and 16.",
           "choices": [
             {
-              "kind": "select-inline",
-              "id": "asi-or-feat",
+              "kind": "select-entity",
+              "id": "feat",
               "count": 1,
-              "options": [
-                {
-                  "value": "asi",
-                  "label": "Ability Score Increase",
-                  "choices": [
-                    {
-                      "kind": "ability-points",
-                      "id": "asi",
-                      "points": 2,
-                      "max_per": 2
-                    }
-                  ]
-                },
-                {
-                  "value": "feat",
-                  "label": "Feat",
-                  "choices": [
-                    {
-                      "kind": "select-entity",
-                      "id": "feat",
-                      "count": 1,
-                      "entity_type": "feat"
-                    }
-                  ]
-                }
-              ]
+              "entity_type": "feat"
             }
           ]
         }
@@ -1897,35 +1687,10 @@
           "description": "You gain the Ability Score Improvement feat (see \"Feats\") or another feat of your choice for which you qualify. You gain this feature again at Cleric levels 8, 12, and 16.",
           "choices": [
             {
-              "kind": "select-inline",
-              "id": "asi-or-feat",
+              "kind": "select-entity",
+              "id": "feat",
               "count": 1,
-              "options": [
-                {
-                  "value": "asi",
-                  "label": "Ability Score Increase",
-                  "choices": [
-                    {
-                      "kind": "ability-points",
-                      "id": "asi",
-                      "points": 2,
-                      "max_per": 2
-                    }
-                  ]
-                },
-                {
-                  "value": "feat",
-                  "label": "Feat",
-                  "choices": [
-                    {
-                      "kind": "select-entity",
-                      "id": "feat",
-                      "count": 1,
-                      "entity_type": "feat"
-                    }
-                  ]
-                }
-              ]
+              "entity_type": "feat"
             }
           ]
         }
@@ -1944,35 +1709,10 @@
           "description": "You gain the Ability Score Improvement feat (see \"Feats\") or another feat of your choice for which you qualify. You gain this feature again at Cleric levels 8, 12, and 16.",
           "choices": [
             {
-              "kind": "select-inline",
-              "id": "asi-or-feat",
+              "kind": "select-entity",
+              "id": "feat",
               "count": 1,
-              "options": [
-                {
-                  "value": "asi",
-                  "label": "Ability Score Increase",
-                  "choices": [
-                    {
-                      "kind": "ability-points",
-                      "id": "asi",
-                      "points": 2,
-                      "max_per": 2
-                    }
-                  ]
-                },
-                {
-                  "value": "feat",
-                  "label": "Feat",
-                  "choices": [
-                    {
-                      "kind": "select-entity",
-                      "id": "feat",
-                      "count": 1,
-                      "entity_type": "feat"
-                    }
-                  ]
-                }
-              ]
+              "entity_type": "feat"
             }
           ]
         }
@@ -1991,35 +1731,10 @@
           "description": "You gain the Ability Score Improvement feat (see \"Feats\") or another feat of your choice for which you qualify. You gain this feature again at Cleric levels 8, 12, and 16.",
           "choices": [
             {
-              "kind": "select-inline",
-              "id": "asi-or-feat",
+              "kind": "select-entity",
+              "id": "feat",
               "count": 1,
-              "options": [
-                {
-                  "value": "asi",
-                  "label": "Ability Score Increase",
-                  "choices": [
-                    {
-                      "kind": "ability-points",
-                      "id": "asi",
-                      "points": 2,
-                      "max_per": 2
-                    }
-                  ]
-                },
-                {
-                  "value": "feat",
-                  "label": "Feat",
-                  "choices": [
-                    {
-                      "kind": "select-entity",
-                      "id": "feat",
-                      "count": 1,
-                      "entity_type": "feat"
-                    }
-                  ]
-                }
-              ]
+              "entity_type": "feat"
             }
           ]
         }
@@ -2032,7 +1747,7 @@
           "choices": [
             {
               "kind": "select-entity",
-              "id": "epic-boon",
+              "id": "feat",
               "count": 1,
               "entity_type": "feat"
             }
@@ -2551,35 +2266,10 @@
           "description": "You gain the Ability Score Improvement feat (see \"Feats\") or another feat of your choice for which you qualify. You gain this feature again at Druid levels 8, 12, and 16.",
           "choices": [
             {
-              "kind": "select-inline",
-              "id": "asi-or-feat",
+              "kind": "select-entity",
+              "id": "feat",
               "count": 1,
-              "options": [
-                {
-                  "value": "asi",
-                  "label": "Ability Score Increase",
-                  "choices": [
-                    {
-                      "kind": "ability-points",
-                      "id": "asi",
-                      "points": 2,
-                      "max_per": 2
-                    }
-                  ]
-                },
-                {
-                  "value": "feat",
-                  "label": "Feat",
-                  "choices": [
-                    {
-                      "kind": "select-entity",
-                      "id": "feat",
-                      "count": 1,
-                      "entity_type": "feat"
-                    }
-                  ]
-                }
-              ]
+              "entity_type": "feat"
             }
           ]
         }
@@ -2624,35 +2314,10 @@
           "description": "You gain the Ability Score Improvement feat (see \"Feats\") or another feat of your choice for which you qualify. You gain this feature again at Druid levels 8, 12, and 16.",
           "choices": [
             {
-              "kind": "select-inline",
-              "id": "asi-or-feat",
+              "kind": "select-entity",
+              "id": "feat",
               "count": 1,
-              "options": [
-                {
-                  "value": "asi",
-                  "label": "Ability Score Increase",
-                  "choices": [
-                    {
-                      "kind": "ability-points",
-                      "id": "asi",
-                      "points": 2,
-                      "max_per": 2
-                    }
-                  ]
-                },
-                {
-                  "value": "feat",
-                  "label": "Feat",
-                  "choices": [
-                    {
-                      "kind": "select-entity",
-                      "id": "feat",
-                      "count": 1,
-                      "entity_type": "feat"
-                    }
-                  ]
-                }
-              ]
+              "entity_type": "feat"
             }
           ]
         }
@@ -2664,35 +2329,10 @@
           "description": "You gain the Ability Score Improvement feat (see \"Feats\") or another feat of your choice for which you qualify. You gain this feature again at Druid levels 8, 12, and 16.",
           "choices": [
             {
-              "kind": "select-inline",
-              "id": "asi-or-feat",
+              "kind": "select-entity",
+              "id": "feat",
               "count": 1,
-              "options": [
-                {
-                  "value": "asi",
-                  "label": "Ability Score Increase",
-                  "choices": [
-                    {
-                      "kind": "ability-points",
-                      "id": "asi",
-                      "points": 2,
-                      "max_per": 2
-                    }
-                  ]
-                },
-                {
-                  "value": "feat",
-                  "label": "Feat",
-                  "choices": [
-                    {
-                      "kind": "select-entity",
-                      "id": "feat",
-                      "count": 1,
-                      "entity_type": "feat"
-                    }
-                  ]
-                }
-              ]
+              "entity_type": "feat"
             }
           ]
         }
@@ -2711,35 +2351,10 @@
           "description": "You gain the Ability Score Improvement feat (see \"Feats\") or another feat of your choice for which you qualify. You gain this feature again at Druid levels 8, 12, and 16.",
           "choices": [
             {
-              "kind": "select-inline",
-              "id": "asi-or-feat",
+              "kind": "select-entity",
+              "id": "feat",
               "count": 1,
-              "options": [
-                {
-                  "value": "asi",
-                  "label": "Ability Score Increase",
-                  "choices": [
-                    {
-                      "kind": "ability-points",
-                      "id": "asi",
-                      "points": 2,
-                      "max_per": 2
-                    }
-                  ]
-                },
-                {
-                  "value": "feat",
-                  "label": "Feat",
-                  "choices": [
-                    {
-                      "kind": "select-entity",
-                      "id": "feat",
-                      "count": 1,
-                      "entity_type": "feat"
-                    }
-                  ]
-                }
-              ]
+              "entity_type": "feat"
             }
           ]
         }
@@ -2759,7 +2374,7 @@
           "choices": [
             {
               "kind": "select-entity",
-              "id": "epic-boon",
+              "id": "feat",
               "count": 1,
               "entity_type": "feat"
             }
@@ -3193,35 +2808,10 @@
           "description": "You gain the Ability Score Improvement feat (see \"Feats\") or another feat of your choice for which you qualify. You gain this feature again at Fighter levels 6, 8, 12, 14, and 16.",
           "choices": [
             {
-              "kind": "select-inline",
-              "id": "asi-or-feat",
+              "kind": "select-entity",
+              "id": "feat",
               "count": 1,
-              "options": [
-                {
-                  "value": "asi",
-                  "label": "Ability Score Increase",
-                  "choices": [
-                    {
-                      "kind": "ability-points",
-                      "id": "asi",
-                      "points": 2,
-                      "max_per": 2
-                    }
-                  ]
-                },
-                {
-                  "value": "feat",
-                  "label": "Feat",
-                  "choices": [
-                    {
-                      "kind": "select-entity",
-                      "id": "feat",
-                      "count": 1,
-                      "entity_type": "feat"
-                    }
-                  ]
-                }
-              ]
+              "entity_type": "feat"
             }
           ]
         }
@@ -3245,35 +2835,10 @@
           "description": "You gain the Ability Score Improvement feat (see \"Feats\") or another feat of your choice for which you qualify. You gain this feature again at Fighter levels 6, 8, 12, 14, and 16.",
           "choices": [
             {
-              "kind": "select-inline",
-              "id": "asi-or-feat",
+              "kind": "select-entity",
+              "id": "feat",
               "count": 1,
-              "options": [
-                {
-                  "value": "asi",
-                  "label": "Ability Score Increase",
-                  "choices": [
-                    {
-                      "kind": "ability-points",
-                      "id": "asi",
-                      "points": 2,
-                      "max_per": 2
-                    }
-                  ]
-                },
-                {
-                  "value": "feat",
-                  "label": "Feat",
-                  "choices": [
-                    {
-                      "kind": "select-entity",
-                      "id": "feat",
-                      "count": 1,
-                      "entity_type": "feat"
-                    }
-                  ]
-                }
-              ]
+              "entity_type": "feat"
             }
           ]
         }
@@ -3285,35 +2850,10 @@
           "description": "You gain the Ability Score Improvement feat (see \"Feats\") or another feat of your choice for which you qualify. You gain this feature again at Fighter levels 6, 8, 12, 14, and 16.",
           "choices": [
             {
-              "kind": "select-inline",
-              "id": "asi-or-feat",
+              "kind": "select-entity",
+              "id": "feat",
               "count": 1,
-              "options": [
-                {
-                  "value": "asi",
-                  "label": "Ability Score Increase",
-                  "choices": [
-                    {
-                      "kind": "ability-points",
-                      "id": "asi",
-                      "points": 2,
-                      "max_per": 2
-                    }
-                  ]
-                },
-                {
-                  "value": "feat",
-                  "label": "Feat",
-                  "choices": [
-                    {
-                      "kind": "select-entity",
-                      "id": "feat",
-                      "count": 1,
-                      "entity_type": "feat"
-                    }
-                  ]
-                }
-              ]
+              "entity_type": "feat"
             }
           ]
         }
@@ -3344,35 +2884,10 @@
           "description": "You gain the Ability Score Improvement feat (see \"Feats\") or another feat of your choice for which you qualify. You gain this feature again at Fighter levels 6, 8, 12, 14, and 16.",
           "choices": [
             {
-              "kind": "select-inline",
-              "id": "asi-or-feat",
+              "kind": "select-entity",
+              "id": "feat",
               "count": 1,
-              "options": [
-                {
-                  "value": "asi",
-                  "label": "Ability Score Increase",
-                  "choices": [
-                    {
-                      "kind": "ability-points",
-                      "id": "asi",
-                      "points": 2,
-                      "max_per": 2
-                    }
-                  ]
-                },
-                {
-                  "value": "feat",
-                  "label": "Feat",
-                  "choices": [
-                    {
-                      "kind": "select-entity",
-                      "id": "feat",
-                      "count": 1,
-                      "entity_type": "feat"
-                    }
-                  ]
-                }
-              ]
+              "entity_type": "feat"
             }
           ]
         }
@@ -3396,35 +2911,10 @@
           "description": "You gain the Ability Score Improvement feat (see \"Feats\") or another feat of your choice for which you qualify. You gain this feature again at Fighter levels 6, 8, 12, 14, and 16.",
           "choices": [
             {
-              "kind": "select-inline",
-              "id": "asi-or-feat",
+              "kind": "select-entity",
+              "id": "feat",
               "count": 1,
-              "options": [
-                {
-                  "value": "asi",
-                  "label": "Ability Score Increase",
-                  "choices": [
-                    {
-                      "kind": "ability-points",
-                      "id": "asi",
-                      "points": 2,
-                      "max_per": 2
-                    }
-                  ]
-                },
-                {
-                  "value": "feat",
-                  "label": "Feat",
-                  "choices": [
-                    {
-                      "kind": "select-entity",
-                      "id": "feat",
-                      "count": 1,
-                      "entity_type": "feat"
-                    }
-                  ]
-                }
-              ]
+              "entity_type": "feat"
             }
           ]
         }
@@ -3436,35 +2926,10 @@
           "description": "You gain the Ability Score Improvement feat (see \"Feats\") or another feat of your choice for which you qualify. You gain this feature again at Fighter levels 6, 8, 12, 14, and 16.",
           "choices": [
             {
-              "kind": "select-inline",
-              "id": "asi-or-feat",
+              "kind": "select-entity",
+              "id": "feat",
               "count": 1,
-              "options": [
-                {
-                  "value": "asi",
-                  "label": "Ability Score Increase",
-                  "choices": [
-                    {
-                      "kind": "ability-points",
-                      "id": "asi",
-                      "points": 2,
-                      "max_per": 2
-                    }
-                  ]
-                },
-                {
-                  "value": "feat",
-                  "label": "Feat",
-                  "choices": [
-                    {
-                      "kind": "select-entity",
-                      "id": "feat",
-                      "count": 1,
-                      "entity_type": "feat"
-                    }
-                  ]
-                }
-              ]
+              "entity_type": "feat"
             }
           ]
         }
@@ -3504,7 +2969,7 @@
           "choices": [
             {
               "kind": "select-entity",
-              "id": "epic-boon",
+              "id": "feat",
               "count": 1,
               "entity_type": "feat"
             }
@@ -3545,11 +3010,6 @@
         "categories": [
           "simple",
           "martial"
-        ]
-      },
-      "tools": {
-        "fixed": [
-          "Choose one type of Artisan's Tools or Musical Instrument"
         ]
       }
     },
@@ -3898,35 +3358,10 @@
           "description": "You gain the Ability Score Improvement feat (see \"Feats\") or another feat of your choice for which you qualify. You gain this feature again at Monk levels 8, 12, and 16.",
           "choices": [
             {
-              "kind": "select-inline",
-              "id": "asi-or-feat",
+              "kind": "select-entity",
+              "id": "feat",
               "count": 1,
-              "options": [
-                {
-                  "value": "asi",
-                  "label": "Ability Score Increase",
-                  "choices": [
-                    {
-                      "kind": "ability-points",
-                      "id": "asi",
-                      "points": 2,
-                      "max_per": 2
-                    }
-                  ]
-                },
-                {
-                  "value": "feat",
-                  "label": "Feat",
-                  "choices": [
-                    {
-                      "kind": "select-entity",
-                      "id": "feat",
-                      "count": 1,
-                      "entity_type": "feat"
-                    }
-                  ]
-                }
-              ]
+              "entity_type": "feat"
             }
           ]
         },
@@ -3969,35 +3404,10 @@
           "description": "You gain the Ability Score Improvement feat (see \"Feats\") or another feat of your choice for which you qualify. You gain this feature again at Monk levels 8, 12, and 16.",
           "choices": [
             {
-              "kind": "select-inline",
-              "id": "asi-or-feat",
+              "kind": "select-entity",
+              "id": "feat",
               "count": 1,
-              "options": [
-                {
-                  "value": "asi",
-                  "label": "Ability Score Increase",
-                  "choices": [
-                    {
-                      "kind": "ability-points",
-                      "id": "asi",
-                      "points": 2,
-                      "max_per": 2
-                    }
-                  ]
-                },
-                {
-                  "value": "feat",
-                  "label": "Feat",
-                  "choices": [
-                    {
-                      "kind": "select-entity",
-                      "id": "feat",
-                      "count": 1,
-                      "entity_type": "feat"
-                    }
-                  ]
-                }
-              ]
+              "entity_type": "feat"
             }
           ]
         }
@@ -4028,35 +3438,10 @@
           "description": "You gain the Ability Score Improvement feat (see \"Feats\") or another feat of your choice for which you qualify. You gain this feature again at Monk levels 8, 12, and 16.",
           "choices": [
             {
-              "kind": "select-inline",
-              "id": "asi-or-feat",
+              "kind": "select-entity",
+              "id": "feat",
               "count": 1,
-              "options": [
-                {
-                  "value": "asi",
-                  "label": "Ability Score Increase",
-                  "choices": [
-                    {
-                      "kind": "ability-points",
-                      "id": "asi",
-                      "points": 2,
-                      "max_per": 2
-                    }
-                  ]
-                },
-                {
-                  "value": "feat",
-                  "label": "Feat",
-                  "choices": [
-                    {
-                      "kind": "select-entity",
-                      "id": "feat",
-                      "count": 1,
-                      "entity_type": "feat"
-                    }
-                  ]
-                }
-              ]
+              "entity_type": "feat"
             }
           ]
         }
@@ -4089,35 +3474,10 @@
           "description": "You gain the Ability Score Improvement feat (see \"Feats\") or another feat of your choice for which you qualify. You gain this feature again at Monk levels 8, 12, and 16.",
           "choices": [
             {
-              "kind": "select-inline",
-              "id": "asi-or-feat",
+              "kind": "select-entity",
+              "id": "feat",
               "count": 1,
-              "options": [
-                {
-                  "value": "asi",
-                  "label": "Ability Score Increase",
-                  "choices": [
-                    {
-                      "kind": "ability-points",
-                      "id": "asi",
-                      "points": 2,
-                      "max_per": 2
-                    }
-                  ]
-                },
-                {
-                  "value": "feat",
-                  "label": "Feat",
-                  "choices": [
-                    {
-                      "kind": "select-entity",
-                      "id": "feat",
-                      "count": 1,
-                      "entity_type": "feat"
-                    }
-                  ]
-                }
-              ]
+              "entity_type": "feat"
             }
           ]
         }
@@ -4137,7 +3497,7 @@
           "choices": [
             {
               "kind": "select-entity",
-              "id": "epic-boon",
+              "id": "feat",
               "count": 1,
               "entity_type": "feat"
             }
@@ -4153,6 +3513,43 @@
       ]
     },
     "resources": [],
+    "choices": [
+      {
+        "kind": "select-proficiency",
+        "id": "tool",
+        "count": 1,
+        "domain": "tool",
+        "from": [
+          "alchemist's-supplies",
+          "brewer's-supplies",
+          "calligrapher's-supplies",
+          "carpenter's-tools",
+          "cartographer's-tools",
+          "cobbler's-tools",
+          "cook's-utensils",
+          "glassblower's-tools",
+          "jeweler's-tools",
+          "leatherworker's-tools",
+          "mason's-tools",
+          "painter's-supplies",
+          "potter's-tools",
+          "smith's-tools",
+          "tinker's-tools",
+          "weaver's-tools",
+          "woodcarver's-tools",
+          "bagpipes",
+          "drum",
+          "dulcimer",
+          "flute",
+          "horn",
+          "lute",
+          "lyre",
+          "pan-flute",
+          "shawm",
+          "viol"
+        ]
+      }
+    ],
     "starting_gold": {
       "fixed": 50
     }
@@ -4587,35 +3984,10 @@
           "description": "You gain the Ability Score Improvement feat (see \"Feats\") or another feat of your choice for which you qualify. You gain this feature again at Paladin levels 8, 12, and 16.",
           "choices": [
             {
-              "kind": "select-inline",
-              "id": "asi-or-feat",
+              "kind": "select-entity",
+              "id": "feat",
               "count": 1,
-              "options": [
-                {
-                  "value": "asi",
-                  "label": "Ability Score Increase",
-                  "choices": [
-                    {
-                      "kind": "ability-points",
-                      "id": "asi",
-                      "points": 2,
-                      "max_per": 2
-                    }
-                  ]
-                },
-                {
-                  "value": "feat",
-                  "label": "Feat",
-                  "choices": [
-                    {
-                      "kind": "select-entity",
-                      "id": "feat",
-                      "count": 1,
-                      "entity_type": "feat"
-                    }
-                  ]
-                }
-              ]
+              "entity_type": "feat"
             }
           ]
         }
@@ -4646,35 +4018,10 @@
           "description": "You gain the Ability Score Improvement feat (see \"Feats\") or another feat of your choice for which you qualify. You gain this feature again at Paladin levels 8, 12, and 16.",
           "choices": [
             {
-              "kind": "select-inline",
-              "id": "asi-or-feat",
+              "kind": "select-entity",
+              "id": "feat",
               "count": 1,
-              "options": [
-                {
-                  "value": "asi",
-                  "label": "Ability Score Increase",
-                  "choices": [
-                    {
-                      "kind": "ability-points",
-                      "id": "asi",
-                      "points": 2,
-                      "max_per": 2
-                    }
-                  ]
-                },
-                {
-                  "value": "feat",
-                  "label": "Feat",
-                  "choices": [
-                    {
-                      "kind": "select-entity",
-                      "id": "feat",
-                      "count": 1,
-                      "entity_type": "feat"
-                    }
-                  ]
-                }
-              ]
+              "entity_type": "feat"
             }
           ]
         }
@@ -4707,35 +4054,10 @@
           "description": "You gain the Ability Score Improvement feat (see \"Feats\") or another feat of your choice for which you qualify. You gain this feature again at Paladin levels 8, 12, and 16.",
           "choices": [
             {
-              "kind": "select-inline",
-              "id": "asi-or-feat",
+              "kind": "select-entity",
+              "id": "feat",
               "count": 1,
-              "options": [
-                {
-                  "value": "asi",
-                  "label": "Ability Score Increase",
-                  "choices": [
-                    {
-                      "kind": "ability-points",
-                      "id": "asi",
-                      "points": 2,
-                      "max_per": 2
-                    }
-                  ]
-                },
-                {
-                  "value": "feat",
-                  "label": "Feat",
-                  "choices": [
-                    {
-                      "kind": "select-entity",
-                      "id": "feat",
-                      "count": 1,
-                      "entity_type": "feat"
-                    }
-                  ]
-                }
-              ]
+              "entity_type": "feat"
             }
           ]
         }
@@ -4754,35 +4076,10 @@
           "description": "You gain the Ability Score Improvement feat (see \"Feats\") or another feat of your choice for which you qualify. You gain this feature again at Paladin levels 8, 12, and 16.",
           "choices": [
             {
-              "kind": "select-inline",
-              "id": "asi-or-feat",
+              "kind": "select-entity",
+              "id": "feat",
               "count": 1,
-              "options": [
-                {
-                  "value": "asi",
-                  "label": "Ability Score Increase",
-                  "choices": [
-                    {
-                      "kind": "ability-points",
-                      "id": "asi",
-                      "points": 2,
-                      "max_per": 2
-                    }
-                  ]
-                },
-                {
-                  "value": "feat",
-                  "label": "Feat",
-                  "choices": [
-                    {
-                      "kind": "select-entity",
-                      "id": "feat",
-                      "count": 1,
-                      "entity_type": "feat"
-                    }
-                  ]
-                }
-              ]
+              "entity_type": "feat"
             }
           ]
         }
@@ -4802,7 +4099,7 @@
           "choices": [
             {
               "kind": "select-entity",
-              "id": "epic-boon",
+              "id": "feat",
               "count": 1,
               "entity_type": "feat"
             }
@@ -5277,35 +4574,10 @@
           "description": "You gain the Ability Score Improvement feat (see \"Feats\") or another feat of your choice for which you qualify. You gain this feature again at Ranger levels 8, 12, and 16.",
           "choices": [
             {
-              "kind": "select-inline",
-              "id": "asi-or-feat",
+              "kind": "select-entity",
+              "id": "feat",
               "count": 1,
-              "options": [
-                {
-                  "value": "asi",
-                  "label": "Ability Score Increase",
-                  "choices": [
-                    {
-                      "kind": "ability-points",
-                      "id": "asi",
-                      "points": 2,
-                      "max_per": 2
-                    }
-                  ]
-                },
-                {
-                  "value": "feat",
-                  "label": "Feat",
-                  "choices": [
-                    {
-                      "kind": "select-entity",
-                      "id": "feat",
-                      "count": 1,
-                      "entity_type": "feat"
-                    }
-                  ]
-                }
-              ]
+              "entity_type": "feat"
             }
           ]
         }
@@ -5331,35 +4603,10 @@
           "description": "You gain the Ability Score Improvement feat (see \"Feats\") or another feat of your choice for which you qualify. You gain this feature again at Ranger levels 8, 12, and 16.",
           "choices": [
             {
-              "kind": "select-inline",
-              "id": "asi-or-feat",
+              "kind": "select-entity",
+              "id": "feat",
               "count": 1,
-              "options": [
-                {
-                  "value": "asi",
-                  "label": "Ability Score Increase",
-                  "choices": [
-                    {
-                      "kind": "ability-points",
-                      "id": "asi",
-                      "points": 2,
-                      "max_per": 2
-                    }
-                  ]
-                },
-                {
-                  "value": "feat",
-                  "label": "Feat",
-                  "choices": [
-                    {
-                      "kind": "select-entity",
-                      "id": "feat",
-                      "count": 1,
-                      "entity_type": "feat"
-                    }
-                  ]
-                }
-              ]
+              "entity_type": "feat"
             }
           ]
         }
@@ -5404,35 +4651,10 @@
           "description": "You gain the Ability Score Improvement feat (see \"Feats\") or another feat of your choice for which you qualify. You gain this feature again at Ranger levels 8, 12, and 16.",
           "choices": [
             {
-              "kind": "select-inline",
-              "id": "asi-or-feat",
+              "kind": "select-entity",
+              "id": "feat",
               "count": 1,
-              "options": [
-                {
-                  "value": "asi",
-                  "label": "Ability Score Increase",
-                  "choices": [
-                    {
-                      "kind": "ability-points",
-                      "id": "asi",
-                      "points": 2,
-                      "max_per": 2
-                    }
-                  ]
-                },
-                {
-                  "value": "feat",
-                  "label": "Feat",
-                  "choices": [
-                    {
-                      "kind": "select-entity",
-                      "id": "feat",
-                      "count": 1,
-                      "entity_type": "feat"
-                    }
-                  ]
-                }
-              ]
+              "entity_type": "feat"
             }
           ]
         }
@@ -5467,35 +4689,10 @@
           "description": "You gain the Ability Score Improvement feat (see \"Feats\") or another feat of your choice for which you qualify. You gain this feature again at Ranger levels 8, 12, and 16.",
           "choices": [
             {
-              "kind": "select-inline",
-              "id": "asi-or-feat",
+              "kind": "select-entity",
+              "id": "feat",
               "count": 1,
-              "options": [
-                {
-                  "value": "asi",
-                  "label": "Ability Score Increase",
-                  "choices": [
-                    {
-                      "kind": "ability-points",
-                      "id": "asi",
-                      "points": 2,
-                      "max_per": 2
-                    }
-                  ]
-                },
-                {
-                  "value": "feat",
-                  "label": "Feat",
-                  "choices": [
-                    {
-                      "kind": "select-entity",
-                      "id": "feat",
-                      "count": 1,
-                      "entity_type": "feat"
-                    }
-                  ]
-                }
-              ]
+              "entity_type": "feat"
             }
           ]
         }
@@ -5522,7 +4719,7 @@
           "choices": [
             {
               "kind": "select-entity",
-              "id": "epic-boon",
+              "id": "feat",
               "count": 1,
               "entity_type": "feat"
             }
@@ -5894,35 +5091,10 @@
           "description": "You gain the Ability Score Improvement feat (see \"Feats\") or another feat of your choice for which you qualify. You gain this feature again at Rogue levels 8, 12, and 16.",
           "choices": [
             {
-              "kind": "select-inline",
-              "id": "asi-or-feat",
+              "kind": "select-entity",
+              "id": "feat",
               "count": 1,
-              "options": [
-                {
-                  "value": "asi",
-                  "label": "Ability Score Increase",
-                  "choices": [
-                    {
-                      "kind": "ability-points",
-                      "id": "asi",
-                      "points": 2,
-                      "max_per": 2
-                    }
-                  ]
-                },
-                {
-                  "value": "feat",
-                  "label": "Feat",
-                  "choices": [
-                    {
-                      "kind": "select-entity",
-                      "id": "feat",
-                      "count": 1,
-                      "entity_type": "feat"
-                    }
-                  ]
-                }
-              ]
+              "entity_type": "feat"
             }
           ]
         }
@@ -5975,35 +5147,10 @@
           "description": "You gain the Ability Score Improvement feat (see \"Feats\") or another feat of your choice for which you qualify. You gain this feature again at Rogue levels 8, 12, and 16.",
           "choices": [
             {
-              "kind": "select-inline",
-              "id": "asi-or-feat",
+              "kind": "select-entity",
+              "id": "feat",
               "count": 1,
-              "options": [
-                {
-                  "value": "asi",
-                  "label": "Ability Score Increase",
-                  "choices": [
-                    {
-                      "kind": "ability-points",
-                      "id": "asi",
-                      "points": 2,
-                      "max_per": 2
-                    }
-                  ]
-                },
-                {
-                  "value": "feat",
-                  "label": "Feat",
-                  "choices": [
-                    {
-                      "kind": "select-entity",
-                      "id": "feat",
-                      "count": 1,
-                      "entity_type": "feat"
-                    }
-                  ]
-                }
-              ]
+              "entity_type": "feat"
             }
           ]
         }
@@ -6022,35 +5169,10 @@
           "description": "You gain the Ability Score Improvement feat (see \"Feats\") or another feat of your choice for which you qualify. You gain this feature again at Rogue levels 8, 12, and 16.",
           "choices": [
             {
-              "kind": "select-inline",
-              "id": "asi-or-feat",
+              "kind": "select-entity",
+              "id": "feat",
               "count": 1,
-              "options": [
-                {
-                  "value": "asi",
-                  "label": "Ability Score Increase",
-                  "choices": [
-                    {
-                      "kind": "ability-points",
-                      "id": "asi",
-                      "points": 2,
-                      "max_per": 2
-                    }
-                  ]
-                },
-                {
-                  "value": "feat",
-                  "label": "Feat",
-                  "choices": [
-                    {
-                      "kind": "select-entity",
-                      "id": "feat",
-                      "count": 1,
-                      "entity_type": "feat"
-                    }
-                  ]
-                }
-              ]
+              "entity_type": "feat"
             }
           ]
         }
@@ -6076,35 +5198,10 @@
           "description": "You gain the Ability Score Improvement feat (see \"Feats\") or another feat of your choice for which you qualify. You gain this feature again at Rogue levels 8, 12, and 16.",
           "choices": [
             {
-              "kind": "select-inline",
-              "id": "asi-or-feat",
+              "kind": "select-entity",
+              "id": "feat",
               "count": 1,
-              "options": [
-                {
-                  "value": "asi",
-                  "label": "Ability Score Increase",
-                  "choices": [
-                    {
-                      "kind": "ability-points",
-                      "id": "asi",
-                      "points": 2,
-                      "max_per": 2
-                    }
-                  ]
-                },
-                {
-                  "value": "feat",
-                  "label": "Feat",
-                  "choices": [
-                    {
-                      "kind": "select-entity",
-                      "id": "feat",
-                      "count": 1,
-                      "entity_type": "feat"
-                    }
-                  ]
-                }
-              ]
+              "entity_type": "feat"
             }
           ]
         }
@@ -6124,7 +5221,7 @@
           "choices": [
             {
               "kind": "select-entity",
-              "id": "epic-boon",
+              "id": "feat",
               "count": 1,
               "entity_type": "feat"
             }
@@ -6611,35 +5708,10 @@
           "description": "You gain the Ability Score Improvement feat (see \"Feats\") or another feat of your choice for which you qualify. You gain this feature again at Sorcerer levels 8, 12, and 16.",
           "choices": [
             {
-              "kind": "select-inline",
-              "id": "asi-or-feat",
+              "kind": "select-entity",
+              "id": "feat",
               "count": 1,
-              "options": [
-                {
-                  "value": "asi",
-                  "label": "Ability Score Increase",
-                  "choices": [
-                    {
-                      "kind": "ability-points",
-                      "id": "asi",
-                      "points": 2,
-                      "max_per": 2
-                    }
-                  ]
-                },
-                {
-                  "value": "feat",
-                  "label": "Feat",
-                  "choices": [
-                    {
-                      "kind": "select-entity",
-                      "id": "feat",
-                      "count": 1,
-                      "entity_type": "feat"
-                    }
-                  ]
-                }
-              ]
+              "entity_type": "feat"
             }
           ]
         }
@@ -6673,35 +5745,10 @@
           "description": "You gain the Ability Score Improvement feat (see \"Feats\") or another feat of your choice for which you qualify. You gain this feature again at Sorcerer levels 8, 12, and 16.",
           "choices": [
             {
-              "kind": "select-inline",
-              "id": "asi-or-feat",
+              "kind": "select-entity",
+              "id": "feat",
               "count": 1,
-              "options": [
-                {
-                  "value": "asi",
-                  "label": "Ability Score Increase",
-                  "choices": [
-                    {
-                      "kind": "ability-points",
-                      "id": "asi",
-                      "points": 2,
-                      "max_per": 2
-                    }
-                  ]
-                },
-                {
-                  "value": "feat",
-                  "label": "Feat",
-                  "choices": [
-                    {
-                      "kind": "select-entity",
-                      "id": "feat",
-                      "count": 1,
-                      "entity_type": "feat"
-                    }
-                  ]
-                }
-              ]
+              "entity_type": "feat"
             }
           ]
         }
@@ -6732,35 +5779,10 @@
           "description": "You gain the Ability Score Improvement feat (see \"Feats\") or another feat of your choice for which you qualify. You gain this feature again at Sorcerer levels 8, 12, and 16.",
           "choices": [
             {
-              "kind": "select-inline",
-              "id": "asi-or-feat",
+              "kind": "select-entity",
+              "id": "feat",
               "count": 1,
-              "options": [
-                {
-                  "value": "asi",
-                  "label": "Ability Score Increase",
-                  "choices": [
-                    {
-                      "kind": "ability-points",
-                      "id": "asi",
-                      "points": 2,
-                      "max_per": 2
-                    }
-                  ]
-                },
-                {
-                  "value": "feat",
-                  "label": "Feat",
-                  "choices": [
-                    {
-                      "kind": "select-entity",
-                      "id": "feat",
-                      "count": 1,
-                      "entity_type": "feat"
-                    }
-                  ]
-                }
-              ]
+              "entity_type": "feat"
             }
           ]
         }
@@ -6772,35 +5794,10 @@
           "description": "You gain the Ability Score Improvement feat (see \"Feats\") or another feat of your choice for which you qualify. You gain this feature again at Sorcerer levels 8, 12, and 16.",
           "choices": [
             {
-              "kind": "select-inline",
-              "id": "asi-or-feat",
+              "kind": "select-entity",
+              "id": "feat",
               "count": 1,
-              "options": [
-                {
-                  "value": "asi",
-                  "label": "Ability Score Increase",
-                  "choices": [
-                    {
-                      "kind": "ability-points",
-                      "id": "asi",
-                      "points": 2,
-                      "max_per": 2
-                    }
-                  ]
-                },
-                {
-                  "value": "feat",
-                  "label": "Feat",
-                  "choices": [
-                    {
-                      "kind": "select-entity",
-                      "id": "feat",
-                      "count": 1,
-                      "entity_type": "feat"
-                    }
-                  ]
-                }
-              ]
+              "entity_type": "feat"
             }
           ]
         }
@@ -6813,7 +5810,7 @@
           "choices": [
             {
               "kind": "select-entity",
-              "id": "epic-boon",
+              "id": "feat",
               "count": 1,
               "entity_type": "feat"
             }
@@ -7229,35 +6226,10 @@
           "description": "You gain the Ability Score Improvement feat (see \"Feats\") or another feat of your choice for which you qualify. You gain this feature again at Warlock levels 8, 12, and 16.",
           "choices": [
             {
-              "kind": "select-inline",
-              "id": "asi-or-feat",
+              "kind": "select-entity",
+              "id": "feat",
               "count": 1,
-              "options": [
-                {
-                  "value": "asi",
-                  "label": "Ability Score Increase",
-                  "choices": [
-                    {
-                      "kind": "ability-points",
-                      "id": "asi",
-                      "points": 2,
-                      "max_per": 2
-                    }
-                  ]
-                },
-                {
-                  "value": "feat",
-                  "label": "Feat",
-                  "choices": [
-                    {
-                      "kind": "select-entity",
-                      "id": "feat",
-                      "count": 1,
-                      "entity_type": "feat"
-                    }
-                  ]
-                }
-              ]
+              "entity_type": "feat"
             }
           ]
         }
@@ -7269,35 +6241,10 @@
           "description": "You gain the Ability Score Improvement feat (see \"Feats\") or another feat of your choice for which you qualify. You gain this feature again at Warlock levels 8, 12, and 16.",
           "choices": [
             {
-              "kind": "select-inline",
-              "id": "asi-or-feat",
+              "kind": "select-entity",
+              "id": "feat",
               "count": 1,
-              "options": [
-                {
-                  "value": "asi",
-                  "label": "Ability Score Increase",
-                  "choices": [
-                    {
-                      "kind": "ability-points",
-                      "id": "asi",
-                      "points": 2,
-                      "max_per": 2
-                    }
-                  ]
-                },
-                {
-                  "value": "feat",
-                  "label": "Feat",
-                  "choices": [
-                    {
-                      "kind": "select-entity",
-                      "id": "feat",
-                      "count": 1,
-                      "entity_type": "feat"
-                    }
-                  ]
-                }
-              ]
+              "entity_type": "feat"
             }
           ]
         }
@@ -7323,35 +6270,10 @@
           "description": "You gain the Ability Score Improvement feat (see \"Feats\") or another feat of your choice for which you qualify. You gain this feature again at Warlock levels 8, 12, and 16.",
           "choices": [
             {
-              "kind": "select-inline",
-              "id": "asi-or-feat",
+              "kind": "select-entity",
+              "id": "feat",
               "count": 1,
-              "options": [
-                {
-                  "value": "asi",
-                  "label": "Ability Score Increase",
-                  "choices": [
-                    {
-                      "kind": "ability-points",
-                      "id": "asi",
-                      "points": 2,
-                      "max_per": 2
-                    }
-                  ]
-                },
-                {
-                  "value": "feat",
-                  "label": "Feat",
-                  "choices": [
-                    {
-                      "kind": "select-entity",
-                      "id": "feat",
-                      "count": 1,
-                      "entity_type": "feat"
-                    }
-                  ]
-                }
-              ]
+              "entity_type": "feat"
             }
           ]
         }
@@ -7377,35 +6299,10 @@
           "description": "You gain the Ability Score Improvement feat (see \"Feats\") or another feat of your choice for which you qualify. You gain this feature again at Warlock levels 8, 12, and 16.",
           "choices": [
             {
-              "kind": "select-inline",
-              "id": "asi-or-feat",
+              "kind": "select-entity",
+              "id": "feat",
               "count": 1,
-              "options": [
-                {
-                  "value": "asi",
-                  "label": "Ability Score Increase",
-                  "choices": [
-                    {
-                      "kind": "ability-points",
-                      "id": "asi",
-                      "points": 2,
-                      "max_per": 2
-                    }
-                  ]
-                },
-                {
-                  "value": "feat",
-                  "label": "Feat",
-                  "choices": [
-                    {
-                      "kind": "select-entity",
-                      "id": "feat",
-                      "count": 1,
-                      "entity_type": "feat"
-                    }
-                  ]
-                }
-              ]
+              "entity_type": "feat"
             }
           ]
         }
@@ -7425,7 +6322,7 @@
           "choices": [
             {
               "kind": "select-entity",
-              "id": "epic-boon",
+              "id": "feat",
               "count": 1,
               "entity_type": "feat"
             }
@@ -7898,35 +6795,10 @@
           "description": "You gain the Ability Score Improvement feat (see \"Feats\") or another feat of your choice for which you qualify. You gain this feature again at Wizard levels 8, 12, and 16.",
           "choices": [
             {
-              "kind": "select-inline",
-              "id": "asi-or-feat",
+              "kind": "select-entity",
+              "id": "feat",
               "count": 1,
-              "options": [
-                {
-                  "value": "asi",
-                  "label": "Ability Score Increase",
-                  "choices": [
-                    {
-                      "kind": "ability-points",
-                      "id": "asi",
-                      "points": 2,
-                      "max_per": 2
-                    }
-                  ]
-                },
-                {
-                  "value": "feat",
-                  "label": "Feat",
-                  "choices": [
-                    {
-                      "kind": "select-entity",
-                      "id": "feat",
-                      "count": 1,
-                      "entity_type": "feat"
-                    }
-                  ]
-                }
-              ]
+              "entity_type": "feat"
             }
           ]
         }
@@ -7945,35 +6817,10 @@
           "description": "You gain the Ability Score Improvement feat (see \"Feats\") or another feat of your choice for which you qualify. You gain this feature again at Wizard levels 8, 12, and 16.",
           "choices": [
             {
-              "kind": "select-inline",
-              "id": "asi-or-feat",
+              "kind": "select-entity",
+              "id": "feat",
               "count": 1,
-              "options": [
-                {
-                  "value": "asi",
-                  "label": "Ability Score Increase",
-                  "choices": [
-                    {
-                      "kind": "ability-points",
-                      "id": "asi",
-                      "points": 2,
-                      "max_per": 2
-                    }
-                  ]
-                },
-                {
-                  "value": "feat",
-                  "label": "Feat",
-                  "choices": [
-                    {
-                      "kind": "select-entity",
-                      "id": "feat",
-                      "count": 1,
-                      "entity_type": "feat"
-                    }
-                  ]
-                }
-              ]
+              "entity_type": "feat"
             }
           ]
         }
@@ -7985,35 +6832,10 @@
           "description": "You gain the Ability Score Improvement feat (see \"Feats\") or another feat of your choice for which you qualify. You gain this feature again at Wizard levels 8, 12, and 16.",
           "choices": [
             {
-              "kind": "select-inline",
-              "id": "asi-or-feat",
+              "kind": "select-entity",
+              "id": "feat",
               "count": 1,
-              "options": [
-                {
-                  "value": "asi",
-                  "label": "Ability Score Increase",
-                  "choices": [
-                    {
-                      "kind": "ability-points",
-                      "id": "asi",
-                      "points": 2,
-                      "max_per": 2
-                    }
-                  ]
-                },
-                {
-                  "value": "feat",
-                  "label": "Feat",
-                  "choices": [
-                    {
-                      "kind": "select-entity",
-                      "id": "feat",
-                      "count": 1,
-                      "entity_type": "feat"
-                    }
-                  ]
-                }
-              ]
+              "entity_type": "feat"
             }
           ]
         }
@@ -8025,35 +6847,10 @@
           "description": "You gain the Ability Score Improvement feat (see \"Feats\") or another feat of your choice for which you qualify. You gain this feature again at Wizard levels 8, 12, and 16.",
           "choices": [
             {
-              "kind": "select-inline",
-              "id": "asi-or-feat",
+              "kind": "select-entity",
+              "id": "feat",
               "count": 1,
-              "options": [
-                {
-                  "value": "asi",
-                  "label": "Ability Score Increase",
-                  "choices": [
-                    {
-                      "kind": "ability-points",
-                      "id": "asi",
-                      "points": 2,
-                      "max_per": 2
-                    }
-                  ]
-                },
-                {
-                  "value": "feat",
-                  "label": "Feat",
-                  "choices": [
-                    {
-                      "kind": "select-entity",
-                      "id": "feat",
-                      "count": 1,
-                      "entity_type": "feat"
-                    }
-                  ]
-                }
-              ]
+              "entity_type": "feat"
             }
           ]
         }
@@ -8073,7 +6870,7 @@
           "choices": [
             {
               "kind": "select-entity",
-              "id": "epic-boon",
+              "id": "feat",
               "count": 1,
               "entity_type": "feat"
             }
