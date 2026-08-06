@@ -143,6 +143,18 @@ export interface CharacterOverrides {
    *  every reader uses `?? []`. */
   languages?: { add?: string[]; remove?: string[] };
   tools?: { add?: string[]; remove?: string[] };
+  /** Manual defense edits, mirroring `characterOverridesShape` (pc.schema.ts). SUPPRESSION-ONLY:
+   *  the absent `add` channel is a DELIBERATE asymmetry with `languages`/`tools` above, not an
+   *  oversight · do not "complete the pattern". The additive store is `character.defenses.*`,
+   *  which already exists; a second additive channel would recreate the two-writers divergence
+   *  R4-P5 exists to remove. Every level is optional with no defaults, so an untouched note stays
+   *  byte-identical; readers use `?? []` and match by `toDefenseSlug`. */
+  defenses?: {
+    resistances?: { remove?: string[] };
+    immunities?: { remove?: string[] };
+    vulnerabilities?: { remove?: string[] };
+    condition_immunities?: { remove?: string[] };
+  };
 }
 
 /* Compile-time parity between this interface and `characterOverridesShape` (pc.schema.ts).

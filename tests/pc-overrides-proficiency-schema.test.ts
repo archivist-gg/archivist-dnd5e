@@ -72,12 +72,77 @@ describe("overrides.{languages,tools}", () => {
     // corrected annotation is documentation here; the runtime toEqual below is this test's whole
     // enforcement, and pc.types.ts carries the half that the compiler actually checks.
     const declaredKeys: Array<keyof CharacterOverrides> = [
-      "ac", "attunement_limit", "hp", "initiative", "languages", "passives", "saves",
+      "ac", "attunement_limit", "defenses", "hp", "initiative", "languages", "passives", "saves",
       "scores", "skills", "speed", "spell_slots", "spellcasting_ability",
       "spellcasting_ability_by_class", "tools",
     ];
     const declared = [...declaredKeys].sort();
 
     expect(schemaKeys).toEqual(declared);
+  });
+});
+
+describe("overrides.defenses", () => {
+  it("round-trips a remove list in every bucket, preserving the AUTHORED spelling", () => {
+    // `characterOverridesShape` is NOT `.strict()`, so a bucket key misspelled in the schema is a
+    // SILENT no-op: zod drops the unknown key, the parse succeeds, and nothing else in the repo
+    // notices. This test is the only thing standing between that and a shipped store.
+    //
+    // Every value below is authored in Title Case, which is NOT its `toDefenseSlug` form. That is
+    // deliberate: it makes the assertion prove WHICH string survived, not merely that A string did.
+    // The store persists what the note wrote, verbatim; normalization is the reader's job (Task 5).
+    const parsed = characterSchema.parse({
+      ...base,
+      overrides: {
+        defenses: {
+          resistances: { remove: ["Psychic"] },
+          immunities: { remove: ["Necrotic"] },
+          vulnerabilities: { remove: ["Bludgeoning"] },
+          condition_immunities: { remove: ["Charmed"] },
+        },
+      },
+    });
+    // All four buckets asserted, not just one: each bucket key is an independent chance to mis-key
+    // the schema, and a sibling that happens to work proves nothing about the others.
+    expect(parsed.overrides.defenses?.resistances?.remove).toEqual(["Psychic"]);
+    expect(parsed.overrides.defenses?.immunities?.remove).toEqual(["Necrotic"]);
+    expect(parsed.overrides.defenses?.vulnerabilities?.remove).toEqual(["Bludgeoning"]);
+    expect(parsed.overrides.defenses?.condition_immunities?.remove).toEqual(["Charmed"]);
+  });
+
+  it("materializes NOTHING the note did not write, at either level", () => {
+    // The defenses twin of the languages/tools byte-stability test above. A `.default({})` on the
+    // `defenses` key itself is already caught up there by the `{ ac: 12 }` input, which pins the
+    // whole parsed `overrides` object (mutation-verified). What only THIS test can see is a default
+    // one or two levels deeper, where the parent is present and zod therefore descends. It takes
+    // TWO inputs, because the first is blind to the leaf.
+
+    // 1. `defenses` present, ONE bucket written. Catches a `.default({})` on any bucket, which would
+    //    materialize the three siblings the note never wrote (verified at zod 4.4.3: `.partial()`
+    //    does not neuter an inner default).
+    const oneBucket = characterSchema.parse({
+      ...base,
+      overrides: { defenses: { resistances: { remove: ["Psychic"] } } },
+    });
+    expect(oneBucket.overrides).toEqual({ defenses: { resistances: { remove: ["Psychic"] } } });
+
+    // 2. Buckets present with `remove` ABSENT. This is the ONLY input that can see a `.default([])`
+    //    on the leaf, and input 1 above is structurally blind to it: input 1 supplies `remove`, so
+    //    the default never fires. NOTE THE ASYMMETRY WITH languages/tools · those carry TWO leaves,
+    //    so writing one of them (`{ add: [...] }`) already exercises the other's default. A defenses
+    //    bucket has exactly one leaf, so the empty bucket is the only way to reach that case, and
+    //    without this input a leaf default ships green (measured: mutant M2 survived input 1 alone).
+    //    ALL FOUR buckets are written empty, not one: the leaf default is declared per bucket, so a
+    //    single-bucket input leaves the other three unguarded (measured too · M2 on `resistances`
+    //    survived while the same mutant on the one probed bucket died).
+    const emptyBuckets = characterSchema.parse({
+      ...base,
+      overrides: {
+        defenses: { resistances: {}, immunities: {}, vulnerabilities: {}, condition_immunities: {} },
+      },
+    });
+    expect(emptyBuckets.overrides).toEqual({
+      defenses: { resistances: {}, immunities: {}, vulnerabilities: {}, condition_immunities: {} },
+    });
   });
 });

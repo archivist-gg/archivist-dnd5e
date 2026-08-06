@@ -113,6 +113,20 @@ export const characterOverridesShape = z.object({
    *  Every reader uses `?? []`. */
   languages: z.object({ add: z.array(z.string()).optional(), remove: z.array(z.string()).optional() }).optional(),
   tools:     z.object({ add: z.array(z.string()).optional(), remove: z.array(z.string()).optional() }).optional(),
+  /** Manual defense edits. SUPPRESSION-ONLY, and the missing `add` channel is a DELIBERATE
+   *  asymmetry with `languages`/`tools` above · do not "complete the pattern". The additive
+   *  store is `character.defenses.*`, which already exists and works; a second additive
+   *  channel would recreate exactly the two-writers divergence R4-P5 exists to remove.
+   *  Entries are matched by `toDefenseSlug` (pc.defense-normalize.ts) at read time, so a note
+   *  may author any spelling; the schema persists what was written, verbatim.
+   *  The no-defaults rule of the block above applies here at all three levels: a default on
+   *  `defenses`, on a bucket, or on `remove` rewrites an untouched note. Readers use `?? []`. */
+  defenses: z.object({
+    resistances:          z.object({ remove: z.array(z.string()).optional() }).optional(),
+    immunities:           z.object({ remove: z.array(z.string()).optional() }).optional(),
+    vulnerabilities:      z.object({ remove: z.array(z.string()).optional() }).optional(),
+    condition_immunities: z.object({ remove: z.array(z.string()).optional() }).optional(),
+  }).optional(),
 });
 
 const characterOverridesSchema = characterOverridesShape.default({});
