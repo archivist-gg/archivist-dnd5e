@@ -548,18 +548,25 @@ const ORIGIN_RANK: Record<DefenseOrigin, number> = { manual: 0, equipment: 1, gr
 /**
  * Composes one derived defense bucket from its three sources, in precedence order.
  *
+ * Replaces `dedupeDefenseList`, which this function REMOVED in R4-P5 · that symbol no longer exists
+ * anywhere in the tree, so do not go looking for it.
+ *
  * Two different rules apply to two different fields, deliberately:
- *   - `label` is FIRST-SPELLING-WINS (preserves the old dedupeDefenseList behaviour, so an authored
- *     "Psychic" still renders as "Psychic");
+ *   - `label` is FIRST-SPELLING-WINS (preserving the retired dedupeDefenseList's display behaviour,
+ *     so an authored "Psychic" still renders as "Psychic");
  *   - `origin` is STRONGEST-WINS across ALL three lists.
  * They come from different lists on purpose. Manual sorts first, so first-list-wins would mislabel
  * every granted value that the user also happens to have added by hand.
  *
- * Insertion order is the precedence order (manual, then equipment, then grants), matching the old
+ * Insertion order is the precedence order (manual, then equipment, then grants), matching the retired
  * concat. Do NOT sort · a label sort would reorder every chip line on the sheet.
  *
- * `label: raw.trim()` is an intentional fix: the old dedupeDefenseList keyed on `v.trim()` but pushed
- * `v` UNTRIMMED, so "  fire  " reached the sheet with its whitespace.
+ * `label: raw.trim()` is an intentional fix: the retired dedupeDefenseList keyed on `v.trim()` but
+ * pushed `v` UNTRIMMED, so "  fire  " reached the sheet with its whitespace.
+ *
+ * Every clause above is guarded: see "labels an equipment-sourced defense as origin 'equipment'",
+ * "merges manual BEFORE equipment" (tests/pc-equipment-derive.test.ts), plus the origin/trim cases in
+ * tests/pc-recalc-feature-effects.test.ts. All four were mutation-tested with the control seen RED.
  */
 function composeDefenseEntries(
   manual: string[], equipment: string[], grants: string[],

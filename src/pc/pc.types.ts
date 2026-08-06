@@ -461,7 +461,8 @@ export type DefenseOrigin = "manual" | "equipment" | "grant";
  * `origin` is the STRONGEST contributing source, not the first list to supply it.
  *
  * There is deliberately no `sources: string[]` in R4-P5 · carrying granting-entity names requires
- * reshaping FeatureEffectTotals and AppliedBonuses too.
+ * reshaping FeatureEffectTotals and AppliedBonuses too. See spec §10.1
+ * (docs/superpowers/specs/2026-08-05-r4-p5-defenses-design.md) for what shipping it would take.
  */
 export interface DefenseEntry {
   value: string;

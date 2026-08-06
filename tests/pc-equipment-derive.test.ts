@@ -233,6 +233,56 @@ describe("recalc + Pass A", () => {
     expect(d.defenses.resistances.map((e) => e.value)).toContain("cold");
     expect(d.defenses.resistances.map((e) => e.value)).toContain("fire");
   });
+
+  it("labels an equipment-sourced defense as origin 'equipment'", () => {
+    const RING_OF_FIRE_RESIST: ItemEntity = {
+      name: "Ring of Fire Resistance",
+      slug: "ring-of-fire-resist",
+      type: "ring",
+      rarity: "rare",
+      bonuses: {},
+      resist: ["fire"],
+      attunement: { required: true },
+    };
+    const reg = buildMockRegistry([
+      { slug: "ring-of-fire-resist", entityType: "item", name: "Ring of Fire Resistance", data: RING_OF_FIRE_RESIST },
+    ]);
+    const c = baseChar();
+    c.equipment = [{ item: "[[ring-of-fire-resist]]", equipped: true, attuned: true }];
+    const d = recalc(mkResolved(c), reg);
+    const entry = d.defenses.resistances.find((e) => e.value === "fire");
+    expect(entry).toBeDefined();
+    // NOT "manual": the middle list of composeDefenseEntries is the equipment fold, and Tasks 5-9
+    // read `origin` to decide chip marking and whether a suppression is written.
+    expect(entry!.origin).toBe("equipment");
+  });
+
+  it("merges manual BEFORE equipment: manual wins the label, equipment wins the origin", () => {
+    const AMULET_OF_WARDING: ItemEntity = {
+      name: "Amulet of Warding",
+      slug: "amulet-of-warding",
+      type: "ring",
+      rarity: "rare",
+      bonuses: {},
+      resist: ["psychic", "fire"],
+      attunement: { required: true },
+    };
+    const reg = buildMockRegistry([
+      { slug: "amulet-of-warding", entityType: "item", name: "Amulet of Warding", data: AMULET_OF_WARDING },
+    ]);
+    const c = baseChar();
+    // "Psychic" is authored non-canonically AND supplied by the item as "psychic".
+    c.defenses = { resistances: ["Cold", "Psychic"] };
+    c.equipment = [{ item: "[[amulet-of-warding]]", equipped: true, attuned: true }];
+    const d = recalc(mkResolved(c), reg);
+    // Composed order IS the precedence order: both manual values first, then the equipment-only one.
+    // Feeding equipment in as `manual` would emit ["psychic", "fire", "Cold"] and reorder the chips.
+    expect(d.defenses.resistances.map((e) => e.label)).toEqual(["Cold", "Psychic", "fire"]);
+    expect(d.defenses.resistances.map((e) => e.value)).toEqual(["cold", "psychic", "fire"]);
+    // For the value they SHARE: manual supplied the spelling, equipment is the stronger origin.
+    expect(d.defenses.resistances.find((e) => e.value === "psychic")!.origin).toBe("equipment");
+    expect(d.defenses.resistances.find((e) => e.value === "cold")!.origin).toBe("manual");
+  });
 });
 
 describe("computeSlotsAndAttacks — slot assignment", () => {

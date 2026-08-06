@@ -280,13 +280,27 @@ describe("recalc — feature effects: defenses", () => {
 
   it("labels a value supplied by BOTH the manual list and a grant as origin 'grant'", () => {
     // The merge puts manual FIRST, so a naive first-list-wins would say "manual".
-    const r = resolvedWith(mkClass("rogue", "d8", 1), [{ kind: "resistance", damage_type: "Fire" }]);
-    r.definition.defenses = { resistances: ["fire"] };
-    const entry = recalc(r).defenses.resistances.find((e) => e.value === "fire");
+    // The authored spelling is deliberately NON-canonical ("Psychic" vs the granted "psychic"):
+    // that is what separates `label` from `value`. With both sides spelled "fire" this test could
+    // not tell the two fields apart, and storing the raw string in `value` would survive it.
+    const r = resolvedWith(mkClass("rogue", "d8", 1), [{ kind: "resistance", damage_type: "psychic" }]);
+    r.definition.defenses = { resistances: ["Psychic"] };
+    const entry = recalc(r).defenses.resistances.find((e) => e.value === "psychic");
     expect(entry).toBeDefined();
     expect(entry!.origin).toBe("grant");
-    expect(entry!.label).toBe("fire"); // first spelling wins for DISPLAY
-    expect(entry!.value).toBe("fire"); // value is ALWAYS canonical
+    expect(entry!.label).toBe("Psychic"); // first spelling wins for DISPLAY
+    expect(entry!.value).toBe("psychic"); // value is ALWAYS toDefenseSlug(raw)
+  });
+
+  it("trims whitespace off both the canonical value and the display label", () => {
+    // The retired dedupeDefenseList keyed on `v.trim()` but pushed `v` UNTRIMMED, so "  Fire  "
+    // reached the sheet with its whitespace. composeDefenseEntries stores `raw.trim()`.
+    const r = emptyResolved();
+    r.classes = [mkClass("rogue", "d8", 1)];
+    r.definition.defenses = { resistances: ["  Fire  "] };
+    const [entry] = recalc(r).defenses.resistances;
+    expect(entry.label).toBe("Fire");
+    expect(entry.value).toBe("fire");
   });
 });
 
