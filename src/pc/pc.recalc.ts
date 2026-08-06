@@ -587,6 +587,46 @@ function composeDefenseEntries(
   return [...byValue.values()];
 }
 
+/** The four suppression buckets of `overrides.defenses`. DERIVED from the store rather than
+ *  re-typed as four literals, so renaming a bucket in pc.types.ts is a build error here instead
+ *  of a silently dead branch. It evaluates to exactly
+ *  `"resistances" | "immunities" | "vulnerabilities" | "condition_immunities"`; widened to `string`
+ *  the indexed access in `suppress` is a TS7053 implicit-any error. */
+type DefenseBucket = keyof NonNullable<CharacterOverrides["defenses"]>;
+
+/**
+ * Subtract `overrides.defenses.<bucket>.remove` from a composed bucket · the FIRST and only consumer
+ * of that store (added, consumer-less, by R4-P5 Task 4).
+ *
+ * The store is suppression-only by design: the additive channel is `character.defenses.*`. A note may
+ * spell an entry any way it likes, so both sides go through `toDefenseSlug` · the SAME normalizer
+ * `composeDefenseEntries` used to build `e.value`, which is the whole point of having exactly one.
+ *
+ * ⚠️ The chain is triple-optional on purpose, but NOT because a shorter one throws today: that was
+ * MEASURED and is false here. `resolved.definition.overrides.defenses?.[bucket]` passes the whole
+ * 1502-test engine suite, so no recalc-reaching fixture in THIS repo omits `overrides`. It is
+ * optional-chained because `Character.overrides` is non-optional in the type while the omission is
+ * real one layer over (pc.decision-engine.ts:709-713 records seven live call sites passing a
+ * `definition` with no `overrides` key), `tests/` is in no tsconfig `include` so the compiler can
+ * never see such a fixture, and the plugin repo drives `recalc` with fixtures this suite never runs.
+ * The `defenses` levels below it are genuinely optional in the schema: no defaults anywhere, so an
+ * untouched note stays byte-identical.
+ *
+ * Empty strings are inert rather than special-cased: `toDefenseSlug("")` is `""` and
+ * `composeDefenseEntries` never emits an entry with an empty value, so `""` in `remove` matches
+ * nothing. Guarded by "normalizes every spelling axis of a `remove` entry" in
+ * tests/pc-recalc-feature-effects.test.ts, which carries one value per normalization axis plus an
+ * unlisted value as the negative control.
+ */
+function suppress(
+  resolved: ResolvedCharacter, bucket: DefenseBucket, entries: DefenseEntry[],
+): DefenseEntry[] {
+  const suppressed = new Set(
+    (resolved.definition?.overrides?.defenses?.[bucket]?.remove ?? []).map(toDefenseSlug),
+  );
+  return entries.filter((e) => !suppressed.has(e.value));
+}
+
 export function computeProficiencies(
   resolved: ResolvedCharacter,
 ): { armor: ProficiencySet; weapons: ProficiencySet; tools: ProficiencySet; languages: string[]; saves: Ability[] } {
@@ -989,27 +1029,30 @@ export function recalc(resolved: ResolvedCharacter, registry?: EntityRegistry): 
   const spellLimits: SpellLimitInfo[] = computeSpellLimits(limitInputs);
 
   // `immunities` / `vulnerabilities` pass [] for grants: no feature-effect source exists for them.
+  // `suppress` is the ONLY consumer of `overrides.defenses`: it subtracts, per bucket, every composed
+  // entry whose canonical value a note listed under `remove`. It runs AFTER the merge on purpose:
+  // suppressing before it would let a weaker source silently resurrect a value the note removed.
   const defenses = {
-    resistances: composeDefenseEntries(
+    resistances: suppress(resolved, "resistances", composeDefenseEntries(
       resolved.definition.defenses?.resistances ?? [],
       applied.defenses.resistances,
       featureEffects.resistances,
-    ),
-    immunities: composeDefenseEntries(
+    )),
+    immunities: suppress(resolved, "immunities", composeDefenseEntries(
       resolved.definition.defenses?.immunities ?? [],
       applied.defenses.immunities,
       [],
-    ),
-    vulnerabilities: composeDefenseEntries(
+    )),
+    vulnerabilities: suppress(resolved, "vulnerabilities", composeDefenseEntries(
       resolved.definition.defenses?.vulnerabilities ?? [],
       applied.defenses.vulnerabilities,
       [],
-    ),
-    condition_immunities: composeDefenseEntries(
+    )),
+    condition_immunities: suppress(resolved, "condition_immunities", composeDefenseEntries(
       resolved.definition.defenses?.condition_immunities ?? [],
       applied.defenses.condition_immunities,
       featureEffects.condition_immunities,
-    ),
+    )),
   };
 
   return {

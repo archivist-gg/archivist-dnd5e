@@ -5,6 +5,7 @@ import type { Character } from "../src/pc/pc.types";
 import type { FeatureEffect } from "@archivist-gg/dnd5e/types/feature-effect";
 import { buildMockRegistry } from "./mock-entity-registry";
 import { STUDDED_LEATHER, CLUB, PLATE, BREASTPLATE, LONGSWORD, BATTLEAXE } from "./equipment-fixtures";
+import item2024 from "../src/srd/data/runtime/item.2024.json";
 import { isProficientWithArmor, isProficientWithWeapon } from "@archivist-gg/dnd5e/pc/pc.proficiency-query";
 
 function mkClass(slug: string, die: string, level: number): ResolvedClass {
@@ -301,6 +302,97 @@ describe("recalc — feature effects: defenses", () => {
     const [entry] = recalc(r).defenses.resistances;
     expect(entry.label).toBe("Fire");
     expect(entry.value).toBe("fire");
+  });
+});
+
+/** The REAL SRD entity, not a synthetic fixture: `Armor of Invulnerability` is the only item in the
+ *  whole product carrying an `immune` array (census over src/srd/data/runtime/*.json + canonical:
+ *  one hit, item.2024.json). Pulled by slug so a data change that renames or re-shapes it fails
+ *  loudly here instead of silently emptying the fixture. */
+const ARMOR_OF_INVULNERABILITY = (() => {
+  const found = (item2024 as Array<Record<string, unknown>>).find(
+    (i) => i.slug === "srd-2024_item_armor-of-invulnerability",
+  );
+  if (!found) throw new Error("SRD item 'srd-2024_item_armor-of-invulnerability' not found in item.2024.json");
+  return found;
+})();
+
+const registryWithArmorOfInvulnerability = () =>
+  buildMockRegistry([
+    {
+      slug: "srd-2024_item_armor-of-invulnerability",
+      entityType: "item",
+      name: "Armor of Invulnerability",
+      data: ARMOR_OF_INVULNERABILITY,
+    },
+  ]);
+
+describe("recalc — overrides.defenses suppression (R4-P5 T5)", () => {
+  it("subtracts a suppressed grant from the derived bucket", () => {
+    // "Psychic" (authored) vs "psychic" (canonical) on purpose: an assertion that passes here proves
+    // WHICH string was compared. With both sides spelled alike the test could not tell `label` from
+    // `value`, and a suppression keyed on the raw spelling would survive it.
+    const r = resolvedWith(mkClass("rogue", "d8", 1), [
+      { kind: "resistance", damage_type: "Psychic" },
+      { kind: "resistance", damage_type: "Fire" },
+    ]);
+    r.definition.overrides = { defenses: { resistances: { remove: ["psychic"] } } };
+    expect(recalc(r).defenses.resistances.map((e) => e.value)).not.toContain("psychic");
+    // …and ONLY that one: a wholesale-emptying implementation passes the line above.
+    expect(recalc(r).defenses.resistances.map((e) => e.value)).toEqual(["fire"]);
+  });
+
+  it("matches a suppression case-insensitively against the authored spelling", () => {
+    const r = resolvedWith(mkClass("rogue", "d8", 1), [{ kind: "resistance", damage_type: "Psychic" }]);
+    r.definition.overrides = { defenses: { resistances: { remove: ["PSYCHIC"] } } };
+    expect(recalc(r).defenses.resistances).toHaveLength(0);
+  });
+
+  it("normalizes every spelling axis of a `remove` entry: case, outer padding, interior runs, duplicates", () => {
+    // The value channel on this boundary was MEASURED blind: against the Task 4 store only
+    // letter-case mutants died, while `.trim()`-only, collapse-only, de-duplicate, sort and
+    // drop-empty all shipped green. One value per axis, so each axis has its own executioner:
+    //   psychic                → case ONLY   (neither remove spelling is the canonical one)
+    //   cold                   → outer padding ONLY
+    //   nonmagical bludgeoning → interior whitespace-run collapse ONLY
+    //   fire                   → the negative control: named nowhere in `remove`, must SURVIVE
+    // The empty string is inert by construction (composeDefenseEntries drops empty values), and
+    // `fire` surviving is what proves it did not become a wildcard.
+    // MEASURED against THIS test: collapse-blind, trim-blind and case-blind normalizers all die
+    // here (1, 2 and 3 failures respectively), and each survives again once its own input above is
+    // deleted. De-duplicate / sort / drop-empty still survive, and provably must: the `remove` list
+    // becomes a Set, which is order-free and already deduplicated, and `""` can never equal a
+    // composed value. Those three axes are unobservable through set-membership subtraction, so
+    // guarding them belongs on the STORE, not here.
+    const r = resolvedWith(mkClass("rogue", "d8", 1), [{ kind: "resistance", damage_type: "Psychic" }]);
+    r.definition.defenses = { resistances: ["Nonmagical Bludgeoning", "cold", "Fire"] };
+    r.definition.overrides = {
+      defenses: {
+        resistances: { remove: ["PSYCHIC", "Psychic", "  cold  ", "nonmagical  bludgeoning", ""] },
+      },
+    };
+    expect(recalc(r).defenses.resistances.map((e) => e.value)).toEqual(["fire"]);
+  });
+
+  it("subtracts an equipment-sourced immunity (Armor of Invulnerability)", () => {
+    // `origin: "grant"` is unreachable on `immunities` · no feature-effect source exists for that
+    // bucket (pc.recalc.ts passes [] for its grants) · so without this case the bucket has ZERO
+    // suppression coverage and the equipment lane is never exercised through the subtraction.
+    const equipment = [
+      { item: "[[srd-2024_item_armor-of-invulnerability]]", equipped: true, attuned: true },
+    ] as never;
+    const r = resolvedWithEquipment([], equipment);
+
+    const before = recalc(r, registryWithArmorOfInvulnerability()).defenses.immunities;
+    expect(before.map((e) => e.value)).toEqual(["bludgeoning", "piercing", "slashing"]);
+    // Proof that this case really rides the equipment lane, not manual and not a grant.
+    expect(before.map((e) => e.origin)).toEqual(["equipment", "equipment", "equipment"]);
+
+    // Authored non-canonically again, so a passing assertion names the normalizer.
+    r.definition.overrides = { defenses: { immunities: { remove: ["  Piercing"] } } };
+    const after = recalc(r, registryWithArmorOfInvulnerability()).defenses.immunities;
+    expect(after.map((e) => e.value)).toEqual(["bludgeoning", "slashing"]);
+    expect(after.map((e) => e.origin)).toEqual(["equipment", "equipment"]);
   });
 });
 
