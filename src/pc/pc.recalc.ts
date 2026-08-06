@@ -591,7 +591,12 @@ function composeDefenseEntries(
  *  re-typed as four literals, so renaming a bucket in pc.types.ts is a build error here instead
  *  of a silently dead branch. It evaluates to exactly
  *  `"resistances" | "immunities" | "vulnerabilities" | "condition_immunities"`; widened to `string`
- *  the indexed access in `suppress` is a TS7053 implicit-any error. */
+ *  the indexed access in `suppress` is a TS7053 implicit-any error.
+ *
+ *  ⚠️ What this type does NOT buy you: all four keys are mutually assignable, so passing the WRONG
+ *  one at a call site typechecks perfectly. Only a test can catch a cross-wired bucket · see
+ *  "keeps each bucket's suppressions in its OWN bucket (no cross-wiring)" plus one single-bucket
+ *  case per bucket in tests/pc-recalc-feature-effects.test.ts. */
 type DefenseBucket = keyof NonNullable<CharacterOverrides["defenses"]>;
 
 /**
@@ -603,11 +608,12 @@ type DefenseBucket = keyof NonNullable<CharacterOverrides["defenses"]>;
  * `composeDefenseEntries` used to build `e.value`, which is the whole point of having exactly one.
  *
  * ⚠️ The chain is triple-optional on purpose, but NOT because a shorter one throws today: that was
- * MEASURED and is false here. `resolved.definition.overrides.defenses?.[bucket]` passes the whole
- * 1502-test engine suite, so no recalc-reaching fixture in THIS repo omits `overrides`. It is
+ * MEASURED and is false here. `resolved.definition.overrides.defenses?.[bucket]` passes the ENTIRE
+ * engine suite, so no recalc-reaching fixture in THIS repo omits `overrides`. It is
  * optional-chained because `Character.overrides` is non-optional in the type while the omission is
- * real one layer over (pc.decision-engine.ts:709-713 records seven live call sites passing a
- * `definition` with no `overrides` key), `tests/` is in no tsconfig `include` so the compiler can
+ * real one layer over (`computeEffectiveProficiencies`, pc.decision-engine.ts:709-713, records seven
+ * live call sites passing a `definition` with no `overrides` key · making ITS chain non-optional
+ * throws in 14 tests), `tests/` is in no tsconfig `include` so the compiler can
  * never see such a fixture, and the plugin repo drives `recalc` with fixtures this suite never runs.
  * The `defenses` levels below it are genuinely optional in the schema: no defaults anywhere, so an
  * untouched note stays byte-identical.

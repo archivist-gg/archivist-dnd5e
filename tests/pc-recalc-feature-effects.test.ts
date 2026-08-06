@@ -327,7 +327,7 @@ const registryWithArmorOfInvulnerability = () =>
     },
   ]);
 
-describe("recalc — overrides.defenses suppression (R4-P5 T5)", () => {
+describe("recalc · overrides.defenses suppression (R4-P5 T5)", () => {
   it("subtracts a suppressed grant from the derived bucket", () => {
     // "Psychic" (authored) vs "psychic" (canonical) on purpose: an assertion that passes here proves
     // WHICH string was compared. With both sides spelled alike the test could not tell `label` from
@@ -337,9 +337,10 @@ describe("recalc — overrides.defenses suppression (R4-P5 T5)", () => {
       { kind: "resistance", damage_type: "Fire" },
     ]);
     r.definition.overrides = { defenses: { resistances: { remove: ["psychic"] } } };
-    expect(recalc(r).defenses.resistances.map((e) => e.value)).not.toContain("psychic");
+    const values = recalc(r).defenses.resistances.map((e) => e.value);
+    expect(values).not.toContain("psychic");
     // …and ONLY that one: a wholesale-emptying implementation passes the line above.
-    expect(recalc(r).defenses.resistances.map((e) => e.value)).toEqual(["fire"]);
+    expect(values).toEqual(["fire"]);
   });
 
   it("matches a suppression case-insensitively against the authored spelling", () => {
@@ -348,7 +349,7 @@ describe("recalc — overrides.defenses suppression (R4-P5 T5)", () => {
     expect(recalc(r).defenses.resistances).toHaveLength(0);
   });
 
-  it("normalizes every spelling axis of a `remove` entry: case, outer padding, interior runs, duplicates", () => {
+  it("normalizes every spelling axis of a `remove` entry: case, outer padding, interior runs", () => {
     // The value channel on this boundary was MEASURED blind: against the Task 4 store only
     // letter-case mutants died, while `.trim()`-only, collapse-only, de-duplicate, sort and
     // drop-empty all shipped green. One value per axis, so each axis has its own executioner:
@@ -363,7 +364,8 @@ describe("recalc — overrides.defenses suppression (R4-P5 T5)", () => {
     // deleted. De-duplicate / sort / drop-empty still survive, and provably must: the `remove` list
     // becomes a Set, which is order-free and already deduplicated, and `""` can never equal a
     // composed value. Those three axes are unobservable through set-membership subtraction, so
-    // guarding them belongs on the STORE, not here.
+    // guarding them belongs on the STORE, not here. That is why "duplicates" is NOT claimed in this
+    // test's title: the second "Psychic" below is extra CASE coverage, nothing more.
     const r = resolvedWith(mkClass("rogue", "d8", 1), [{ kind: "resistance", damage_type: "Psychic" }]);
     r.definition.defenses = { resistances: ["Nonmagical Bludgeoning", "cold", "Fire"] };
     r.definition.overrides = {
@@ -393,6 +395,65 @@ describe("recalc — overrides.defenses suppression (R4-P5 T5)", () => {
     const after = recalc(r, registryWithArmorOfInvulnerability()).defenses.immunities;
     expect(after.map((e) => e.value)).toEqual(["bludgeoning", "slashing"]);
     expect(after.map((e) => e.origin)).toEqual(["equipment", "equipment"]);
+  });
+
+  it("subtracts a suppressed condition immunity off the LIVE grant lane", () => {
+    // `condition_immunities` is the one bucket besides `resistances` with a real feature-effect
+    // source: `immune-condition` → `applyEffect` (pc.feature-effects.ts:400) →
+    // featureEffects.condition_immunities, already exercised by "applies ungated immune-condition to
+    // condition immunities" above. Without this case BOTH mutants on the
+    // `suppress(resolved, "condition_immunities", …)` call site survive the entire engine suite:
+    // deleting the call, and reading a DIFFERENT bucket key · which the four-key union cannot catch,
+    // since all four keys are mutually assignable.
+    const r = resolvedWith(mkClass("rogue", "d8", 1), [
+      { kind: "immune-condition", condition: "Charmed" },
+      { kind: "immune-condition", condition: "Frightened" },
+    ]);
+    r.definition.overrides = { defenses: { condition_immunities: { remove: ["CHARMED"] } } };
+    const entries = recalc(r).defenses.condition_immunities;
+    expect(entries.map((e) => e.value)).toEqual(["frightened"]);
+    expect(entries.map((e) => e.origin)).toEqual(["grant"]); // the grant lane, not manual
+  });
+
+  it("subtracts a suppressed manual vulnerability", () => {
+    // `vulnerabilities` has NO grant lane and no SRD item carries `vulnerable`, so manual is its only
+    // reachable origin · and it was the fourth wired bucket with zero suppression coverage.
+    const r = emptyResolved();
+    r.classes = [mkClass("rogue", "d8", 1)];
+    r.definition.defenses = { vulnerabilities: ["Radiant", "Thunder"] };
+    r.definition.overrides = { defenses: { vulnerabilities: { remove: ["RADIANT"] } } };
+    const entries = recalc(r).defenses.vulnerabilities;
+    expect(entries.map((e) => e.value)).toEqual(["thunder"]);
+    expect(entries.map((e) => e.origin)).toEqual(["manual"]);
+  });
+
+  it("keeps each bucket's suppressions in its OWN bucket (no cross-wiring)", () => {
+    // All four `remove` arrays populated with DISJOINT values, so SWAPPING any two bucket keys is
+    // observable. The four single-bucket cases above cannot see that: each leaves the other three
+    // unset, where a wrong key reads `undefined` and suppresses nothing, which is indistinguishable
+    // from a swap only when the wrong bucket is empty. Cross-wiring is precisely the error the
+    // literal-union typing waves through.
+    const r = emptyResolved();
+    r.classes = [mkClass("rogue", "d8", 1)];
+    r.definition.defenses = {
+      resistances: ["Fire", "Cold"],
+      immunities: ["Poison", "Acid"],
+      vulnerabilities: ["Radiant", "Thunder"],
+      condition_immunities: ["Charmed", "Frightened"],
+    };
+    r.definition.overrides = {
+      defenses: {
+        resistances: { remove: ["fire"] },
+        immunities: { remove: ["poison"] },
+        vulnerabilities: { remove: ["radiant"] },
+        condition_immunities: { remove: ["charmed"] },
+      },
+    };
+    const d = recalc(r).defenses;
+    expect(d.resistances.map((e) => e.value)).toEqual(["cold"]);
+    expect(d.immunities.map((e) => e.value)).toEqual(["acid"]);
+    expect(d.vulnerabilities.map((e) => e.value)).toEqual(["thunder"]);
+    expect(d.condition_immunities.map((e) => e.value)).toEqual(["frightened"]);
   });
 });
 
