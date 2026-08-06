@@ -16,8 +16,24 @@ describe("toDefenseSlug", () => {
   });
 
   it("is collision-free within each vocabulary", () => {
-    const slugs = DAMAGE_TYPES.map(toDefenseSlug);
-    expect(new Set(slugs).size).toBe(DAMAGE_TYPES.length);
+    const vocabularies: Array<[string, readonly string[]]> = [
+      ["DAMAGE_TYPES", DAMAGE_TYPES],
+      ["DAMAGE_NONMAGICAL_VARIANTS", DAMAGE_NONMAGICAL_VARIANTS],
+      ["CONDITION_SLUGS", CONDITION_SLUGS],
+    ];
+    for (const [name, values] of vocabularies) {
+      const slugs = values.map((v) => toDefenseSlug(v));
+      expect(new Set(slugs).size, `${name} collides under toDefenseSlug`).toBe(values.length);
+    }
+  });
+
+  // Ledger ruling C-1: the popover option list and the `overrides.defenses` suppression store are
+  // keyed by toDefenseSlug across damage types AND conditions in ONE keyspace. Tasks 6, 7, 8 and 12
+  // inherit this invariant, so it is asserted here rather than left as a measured-once observation.
+  it("is collision-free across the UNION of all three vocabularies, which share one keyspace", () => {
+    const union = [...DAMAGE_TYPES, ...DAMAGE_NONMAGICAL_VARIANTS, ...CONDITION_SLUGS];
+    const slugs = union.map((v) => toDefenseSlug(v));
+    expect(new Set(slugs).size).toBe(union.length);
   });
 
   it("is the identity over CONDITION_SLUGS, which are already canonical", () => {
