@@ -117,10 +117,13 @@ export const characterOverridesShape = z.object({
    *  asymmetry with `languages`/`tools` above · do not "complete the pattern". The additive
    *  store is `character.defenses.*`, which already exists and works; a second additive
    *  channel would recreate exactly the two-writers divergence R4-P5 exists to remove.
-   *  Entries are matched by `toDefenseSlug` (pc.defense-normalize.ts) at read time, so a note
-   *  may author any spelling; the schema persists what was written, verbatim.
+   *  The schema persists what the note wrote, VERBATIM · it neither normalizes nor validates
+   *  the strings. As of this commit the store has NO consumer at all: Task 5 writes the first,
+   *  and the intent it is to implement is that entries be matched with `toDefenseSlug`
+   *  (pc.defense-normalize.ts), so a note may author any spelling.
    *  The no-defaults rule of the block above applies here at all three levels: a default on
-   *  `defenses`, on a bucket, or on `remove` rewrites an untouched note. Readers use `?? []`. */
+   *  `defenses`, on a bucket, or on `remove` rewrites an untouched note. Readers should
+   *  therefore treat every level as possibly absent (`?? []`). */
   defenses: z.object({
     resistances:          z.object({ remove: z.array(z.string()).optional() }).optional(),
     immunities:           z.object({ remove: z.array(z.string()).optional() }).optional(),

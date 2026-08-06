@@ -114,27 +114,42 @@ describe("overrides.defenses", () => {
     // The defenses twin of the languages/tools byte-stability test above. A `.default({})` on the
     // `defenses` key itself is already caught up there by the `{ ac: 12 }` input, which pins the
     // whole parsed `overrides` object (mutation-verified). What only THIS test can see is a default
-    // one or two levels deeper, where the parent is present and zod therefore descends. It takes
-    // TWO inputs, because the first is blind to the leaf.
+    // one or two levels deeper, where the parent is present and zod therefore descends.
+    //
+    // THE RULE THIS TEST IS BUILT ON, and the one that made two earlier versions of it vacuous: a
+    // default can only fire on a key that is ABSENT while its PARENT is present. So whatever an
+    // input writes, it is blind to at that level, and an input can never guard the key it supplies.
+    // Hence three inputs, one per depth, each written to leave the level below it empty. Do not
+    // "simplify" them into one · every combination was measured, and no single input covers two
+    // levels. Coverage is stated per input below, and each claim is mutation-verified.
 
-    // 1. `defenses` present, ONE bucket written. Catches a `.default({})` on any bucket, which would
-    //    materialize the three siblings the note never wrote (verified at zod 4.4.3: `.partial()`
-    //    does not neuter an inner default).
+    // 1. `defenses` present, ALL FOUR buckets ABSENT. The only input that can see a `.default({})`
+    //    on a bucket, and it sees all four at once (verified at zod 4.4.3: `.partial()` does not
+    //    neuter an inner default). Inputs 2 and 3 write buckets, so each is blind to the ones it
+    //    writes · measured: with this input missing, a bucket default on `resistances` passed 5/5
+    //    while the same mutant on the other three died, purely because no input left `resistances`
+    //    absent. Sees NOTHING at the leaf: with no bucket present, zod never descends that far.
+    const emptyStore = characterSchema.parse({ ...base, overrides: { defenses: {} } });
+    expect(emptyStore.overrides).toEqual({ defenses: {} });
+
+    // 2. The realistic authored note: one bucket, one suppression. Adds no bucket-level coverage
+    //    that input 1 lacks · state its reach exactly, because the loose version of this sentence
+    //    ("catches a default on any bucket") was FALSE: it catches a bucket default on the three
+    //    siblings it does not write and nothing at all on `resistances`, the one it does. What it
+    //    pins is the end-to-end shape a real note round-trips to, one level up from the leaf.
     const oneBucket = characterSchema.parse({
       ...base,
       overrides: { defenses: { resistances: { remove: ["Psychic"] } } },
     });
     expect(oneBucket.overrides).toEqual({ defenses: { resistances: { remove: ["Psychic"] } } });
 
-    // 2. Buckets present with `remove` ABSENT. This is the ONLY input that can see a `.default([])`
-    //    on the leaf, and input 1 above is structurally blind to it: input 1 supplies `remove`, so
-    //    the default never fires. NOTE THE ASYMMETRY WITH languages/tools · those carry TWO leaves,
-    //    so writing one of them (`{ add: [...] }`) already exercises the other's default. A defenses
-    //    bucket has exactly one leaf, so the empty bucket is the only way to reach that case, and
-    //    without this input a leaf default ships green (measured: mutant M2 survived input 1 alone).
-    //    ALL FOUR buckets are written empty, not one: the leaf default is declared per bucket, so a
-    //    single-bucket input leaves the other three unguarded (measured too · M2 on `resistances`
-    //    survived while the same mutant on the one probed bucket died).
+    // 3. All four buckets present with `remove` ABSENT. The only input that can see a `.default([])`
+    //    on a leaf: inputs 1 and 2 cannot, input 1 because it never reaches a bucket and input 2
+    //    because it supplies `remove`. NOTE THE ASYMMETRY WITH languages/tools · those carry TWO
+    //    leaves, so writing one of them (`{ add: [...] }`) already exercises the other's default. A
+    //    defenses bucket has exactly ONE leaf, so an empty bucket is the only way to reach that
+    //    default at all (measured: a leaf default survived 5/5 before this input existed). All four
+    //    buckets, not one, because the leaf default is declared per bucket.
     const emptyBuckets = characterSchema.parse({
       ...base,
       overrides: {

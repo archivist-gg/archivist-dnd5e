@@ -148,7 +148,8 @@ export interface CharacterOverrides {
    *  oversight · do not "complete the pattern". The additive store is `character.defenses.*`,
    *  which already exists; a second additive channel would recreate the two-writers divergence
    *  R4-P5 exists to remove. Every level is optional with no defaults, so an untouched note stays
-   *  byte-identical; readers use `?? []` and match by `toDefenseSlug`. */
+   *  byte-identical. The store has NO consumer as of this commit · Task 5 writes the first, and
+   *  should read every level as possibly absent (`?? []`) and match with `toDefenseSlug`. */
   defenses?: {
     resistances?: { remove?: string[] };
     immunities?: { remove?: string[] };
