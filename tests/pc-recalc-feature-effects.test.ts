@@ -439,7 +439,7 @@ describe("recalc · overrides.defenses suppression (R4-P5 T5)", () => {
     // disjoint fixture cannot see that mutant at all · removing "poison" from a bucket that never
     // contained "poison" is a no-op, so the union is harmless and the whole suite stays green.
     // ⚠️ MEASURED against the tree this ships in: with this `it` skipped the bucket-agnostic mutant
-    // SURVIVES all 1505 tests, and it is the only mutant of which that is true · this test is its
+    // SURVIVES the whole suite, and it is the only mutant of which that is true · this test is its
     // sole executioner. Cross-wiring is NOT what earns this test its place: every wrong-key and
     // two-line-swap mutant is also caught by the single-bucket cases above, because a wrong key
     // reads `undefined` and suppresses nothing, which is exactly what makes a single-bucket
@@ -785,7 +785,7 @@ describe("recalc — feature effects: additive weapon routing (R4-P3c)", () => {
   it("flips the LIVE attack gate for a granted specific weapon name", () => {
     // isWeaponSlugProficient matches .specific by normKey, which singularizes:
     // "battleaxes" -> "battleaxe" -> the Battleaxe entity's name.
-    // ⚠️ EquipmentEntry is { item, equipped?, qty? } (pc.types.ts:64-80) and `item`
+    // ⚠️ The `EquipmentEntry` type in pc.types.ts is { item, equipped?, qty?, ... } and `item`
     // is a WIKILINK · computeAttacks resolves it via resolveEntityForEntry.
     // `{ slug, quantity }` resolves to null, produces NO attack row, and
     // `attacks[0].proficient` throws. All six sibling call sites use this form.
