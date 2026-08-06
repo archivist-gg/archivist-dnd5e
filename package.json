@@ -58,6 +58,7 @@
     "./pc/decision-recognizer": "./src/pc/decision-recognizer.ts",
     "./pc/pc.conditions": "./src/pc/pc.conditions.ts",
     "./pc/pc.decision-engine": "./src/pc/pc.decision-engine.ts",
+    "./pc/pc.defense-normalize": "./src/pc/pc.defense-normalize.ts",
     "./pc/pc.equipment": "./src/pc/pc.equipment.ts",
     "./pc/pc.feature-effects": "./src/pc/pc.feature-effects.ts",
     "./pc/pc.formula-context": "./src/pc/pc.formula-context.ts",
