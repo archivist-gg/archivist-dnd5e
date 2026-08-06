@@ -17,10 +17,13 @@ import { computeAppliedBonuses, computeSlotsAndAttacks, emptyAppliedBonuses } fr
 import { collectChosenProficiencies, collectChosenAbilityPoints } from "./pc.decision-engine";
 import { assembleEffectFeatures, computeFeatureEffects } from "./pc.feature-effects";
 import { computeConditionEffects } from "./pc.conditions";
+import { toDefenseSlug } from "./pc.defense-normalize";
 import { resolveSpellcasting, effectiveSpellcastingAbility, deriveSpellSlots, computeSpellLimits, type CasterClassInput, type LimitClassInput } from "./pc.spellcasting";
 import type {
   ACTerm,
   ChoiceValue,
+  DefenseEntry,
+  DefenseOrigin,
   DerivedEquipment,
   DerivedStats,
   HPBreakdown,
@@ -540,20 +543,41 @@ function mergeInto(target: ProficiencySet, source: { categories: string[]; speci
   for (const s of source.specific) if (!target.specific.includes(s)) target.specific.push(s);
 }
 
-/** Concats defense lists in precedence order (manual, equipment, features),
- *  deduping case-insensitively — first occurrence's spelling wins. */
-function dedupeDefenseList(lists: string[][]): string[] {
-  const seen = new Set<string>();
-  const out: string[] = [];
-  for (const list of lists) {
-    for (const v of list) {
-      const key = v.trim().toLowerCase();
-      if (!key || seen.has(key)) continue;
-      seen.add(key);
-      out.push(v);
+const ORIGIN_RANK: Record<DefenseOrigin, number> = { manual: 0, equipment: 1, grant: 2 };
+
+/**
+ * Composes one derived defense bucket from its three sources, in precedence order.
+ *
+ * Two different rules apply to two different fields, deliberately:
+ *   - `label` is FIRST-SPELLING-WINS (preserves the old dedupeDefenseList behaviour, so an authored
+ *     "Psychic" still renders as "Psychic");
+ *   - `origin` is STRONGEST-WINS across ALL three lists.
+ * They come from different lists on purpose. Manual sorts first, so first-list-wins would mislabel
+ * every granted value that the user also happens to have added by hand.
+ *
+ * Insertion order is the precedence order (manual, then equipment, then grants), matching the old
+ * concat. Do NOT sort · a label sort would reorder every chip line on the sheet.
+ *
+ * `label: raw.trim()` is an intentional fix: the old dedupeDefenseList keyed on `v.trim()` but pushed
+ * `v` UNTRIMMED, so "  fire  " reached the sheet with its whitespace.
+ */
+function composeDefenseEntries(
+  manual: string[], equipment: string[], grants: string[],
+): DefenseEntry[] {
+  const byValue = new Map<string, DefenseEntry>();
+  const consider = (list: string[], origin: DefenseOrigin) => {
+    for (const raw of list) {
+      const value = toDefenseSlug(raw);
+      if (!value) continue;
+      const existing = byValue.get(value);
+      if (!existing) { byValue.set(value, { value, label: raw.trim(), origin }); continue; }
+      if (ORIGIN_RANK[origin] > ORIGIN_RANK[existing.origin]) existing.origin = origin;
     }
-  }
-  return out;
+  };
+  consider(manual, "manual");
+  consider(equipment, "equipment");
+  consider(grants, "grant");
+  return [...byValue.values()];
 }
 
 export function computeProficiencies(
@@ -957,25 +981,28 @@ export function recalc(resolved: ResolvedCharacter, registry?: EntityRegistry): 
   const derivedSlots = deriveSpellSlots(slotInputs);
   const spellLimits: SpellLimitInfo[] = computeSpellLimits(limitInputs);
 
+  // `immunities` / `vulnerabilities` pass [] for grants: no feature-effect source exists for them.
   const defenses = {
-    resistances: dedupeDefenseList([
+    resistances: composeDefenseEntries(
       resolved.definition.defenses?.resistances ?? [],
       applied.defenses.resistances,
       featureEffects.resistances,
-    ]),
-    immunities: dedupeDefenseList([
+    ),
+    immunities: composeDefenseEntries(
       resolved.definition.defenses?.immunities ?? [],
       applied.defenses.immunities,
-    ]),
-    vulnerabilities: dedupeDefenseList([
+      [],
+    ),
+    vulnerabilities: composeDefenseEntries(
       resolved.definition.defenses?.vulnerabilities ?? [],
       applied.defenses.vulnerabilities,
-    ]),
-    condition_immunities: dedupeDefenseList([
+      [],
+    ),
+    condition_immunities: composeDefenseEntries(
       resolved.definition.defenses?.condition_immunities ?? [],
       applied.defenses.condition_immunities,
       featureEffects.condition_immunities,
-    ]),
+    ),
   };
 
   return {

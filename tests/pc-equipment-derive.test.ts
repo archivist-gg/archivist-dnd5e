@@ -230,8 +230,8 @@ describe("recalc + Pass A", () => {
     c.defenses = { resistances: ["cold"] };
     c.equipment = [{ item: "[[ring-of-fire-resist]]", equipped: true, attuned: true }];
     const d = recalc(mkResolved(c), reg);
-    expect(d.defenses.resistances).toContain("cold");
-    expect(d.defenses.resistances).toContain("fire");
+    expect(d.defenses.resistances.map((e) => e.value)).toContain("cold");
+    expect(d.defenses.resistances.map((e) => e.value)).toContain("fire");
   });
 });
 
@@ -1165,13 +1165,15 @@ describe("per-entry resistance override", () => {
     const c = baseChar();
     c.equipment = [{ item: "[[armor-of-resistance]]", equipped: true, attuned: true, slot: "armor", overrides: { resist: ["fire"] } }];
     const d = recalc(mkResolved(c), reg);
-    expect(d.defenses.resistances).toContain("fire");
+    expect(d.defenses.resistances.map((e) => e.value)).toContain("fire");
   });
 
   it("contributes nothing when no resist override is set", () => {
     const c = baseChar();
     c.equipment = [{ item: "[[armor-of-resistance]]", equipped: true, attuned: true, slot: "armor" }];
     const d = recalc(mkResolved(c), reg);
-    expect(d.defenses.resistances).not.toContain("fire");
+    // MUST map to `.value` first: the bucket holds DefenseEntry objects, so a bare
+    // `.not.toContain("fire")` would pass vacuously and guard nothing.
+    expect(d.defenses.resistances.map((e) => e.value)).not.toContain("fire");
   });
 });

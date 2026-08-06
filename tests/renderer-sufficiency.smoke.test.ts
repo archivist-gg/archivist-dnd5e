@@ -231,7 +231,7 @@ describe("Phase-4 renderer-sufficiency — full read surface (core + dnd5e only,
     expect(derived.proficiencies.saves).toEqual([]);
   });
   it("A6 defenses (resistance via feat feature-effect)", () => {
-    expect(derived.defenses.resistances).toContain("fire"); // Elemental Ward feat -> resistance:fire
+    expect(derived.defenses.resistances.map((e) => e.value)).toContain("fire"); // Elemental Ward feat -> resistance:fire
   });
   it("A7 senses + passives", () => {
     expect(derived.senses.darkvision).toBe(60);             // Dark Elf vision.darkvision 60

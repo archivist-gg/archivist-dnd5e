@@ -450,6 +450,25 @@ export interface RollModifierEntry {
   label: string;       // owning feature name (for tooltip)
 }
 
+/** Where a defense came from. Ordered weakest to strongest for the precedence rule in recalc. */
+export type DefenseOrigin = "manual" | "equipment" | "grant";
+
+/**
+ * One entry in a derived defense bucket.
+ *
+ * `value` is ALWAYS `toDefenseSlug(raw)` · it is what every comparison keys on.
+ * `label` is the first-spelling-wins display string, which is what preserves an authored "Psychic".
+ * `origin` is the STRONGEST contributing source, not the first list to supply it.
+ *
+ * There is deliberately no `sources: string[]` in R4-P5 · carrying granting-entity names requires
+ * reshaping FeatureEffectTotals and AppliedBonuses too.
+ */
+export interface DefenseEntry {
+  value: string;
+  label: string;
+  origin: DefenseOrigin;
+}
+
 export interface DerivedStats {
   totalLevel: number;
   proficiencyBonus: number;
@@ -498,10 +517,10 @@ export interface DerivedStats {
   spellLimits: SpellLimitInfo[];
   warnings: string[];
   defenses: {
-    resistances: string[];
-    immunities: string[];
-    vulnerabilities: string[];
-    condition_immunities: string[];
+    resistances: DefenseEntry[];
+    immunities: DefenseEntry[];
+    vulnerabilities: DefenseEntry[];
+    condition_immunities: DefenseEntry[];
   };
   acBreakdown: ACTerm[];
   hpBreakdown: HPBreakdown;

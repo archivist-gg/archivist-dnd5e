@@ -253,14 +253,14 @@ describe("recalc — feature effects: defenses", () => {
       { kind: "resistance", damage_type: "Fire" },
       { kind: "resistance", damage_type: "Cold" },
     ]));
-    expect(d.defenses.resistances).toEqual(["Fire", "Cold"]);
+    expect(d.defenses.resistances.map((e) => e.label)).toEqual(["Fire", "Cold"]);
   });
 
   it("dedupes resistances case-insensitively across manual + feature sources (manual spelling wins)", () => {
     const r = resolvedWith(mkClass("rogue", "d8", 1), [{ kind: "resistance", damage_type: "Fire" }]);
     r.definition.defenses = { resistances: ["fire"], immunities: [], vulnerabilities: [], condition_immunities: [] };
     const d = recalc(r);
-    expect(d.defenses.resistances).toEqual(["fire"]);
+    expect(d.defenses.resistances.map((e) => e.label)).toEqual(["fire"]);
   });
 
   it("applies ungated immune-condition to condition immunities and skips while-gated", () => {
@@ -268,14 +268,25 @@ describe("recalc — feature effects: defenses", () => {
       { kind: "immune-condition", condition: "Charmed" },
       { kind: "immune-condition", condition: "Frightened", while: "while raging" },
     ]));
-    expect(d.defenses.condition_immunities).toEqual(["Charmed"]);
+    expect(d.defenses.condition_immunities.map((e) => e.label)).toEqual(["Charmed"]);
   });
 
   it("dedupes manual duplicate defense entries (pre-existing concat bug)", () => {
     const r = emptyResolved();
     r.classes = [mkClass("rogue", "d8", 1)];
     r.definition.defenses = { resistances: ["Fire", "fire"], immunities: [], vulnerabilities: [], condition_immunities: [] };
-    expect(recalc(r).defenses.resistances).toEqual(["Fire"]);
+    expect(recalc(r).defenses.resistances.map((e) => e.label)).toEqual(["Fire"]);
+  });
+
+  it("labels a value supplied by BOTH the manual list and a grant as origin 'grant'", () => {
+    // The merge puts manual FIRST, so a naive first-list-wins would say "manual".
+    const r = resolvedWith(mkClass("rogue", "d8", 1), [{ kind: "resistance", damage_type: "Fire" }]);
+    r.definition.defenses = { resistances: ["fire"] };
+    const entry = recalc(r).defenses.resistances.find((e) => e.value === "fire");
+    expect(entry).toBeDefined();
+    expect(entry!.origin).toBe("grant");
+    expect(entry!.label).toBe("fire"); // first spelling wins for DISPLAY
+    expect(entry!.value).toBe("fire"); // value is ALWAYS canonical
   });
 });
 
