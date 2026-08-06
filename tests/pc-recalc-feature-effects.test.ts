@@ -401,10 +401,12 @@ describe("recalc · overrides.defenses suppression (R4-P5 T5)", () => {
     // `condition_immunities` is the one bucket besides `resistances` with a real feature-effect
     // source: `immune-condition` → `applyEffect` (pc.feature-effects.ts:400) →
     // featureEffects.condition_immunities, already exercised by "applies ungated immune-condition to
-    // condition immunities" above. Without this case BOTH mutants on the
-    // `suppress(resolved, "condition_immunities", …)` call site survive the entire engine suite:
-    // deleting the call, and reading a DIFFERENT bucket key · which the four-key union cannot catch,
-    // since all four keys are mutually assignable.
+    // condition immunities" above. What this case adds is that lane UNDER SUPPRESSION, pinned by the
+    // `origin: "grant"` assertion.
+    // ⚠️ MEASURED against the tree this ships in, NOT the one the round started from: with this `it`
+    // skipped, both `condition_immunities` mutants (drop the `suppress` call · read a different
+    // bucket key) STILL die, through the cross-bucket case below. The redundancy is deliberate ·
+    // do not read this comment as a uniqueness claim, because it is not one.
     const r = resolvedWith(mkClass("rogue", "d8", 1), [
       { kind: "immune-condition", condition: "Charmed" },
       { kind: "immune-condition", condition: "Frightened" },
@@ -416,8 +418,11 @@ describe("recalc · overrides.defenses suppression (R4-P5 T5)", () => {
   });
 
   it("subtracts a suppressed manual vulnerability", () => {
-    // `vulnerabilities` has NO grant lane and no SRD item carries `vulnerable`, so manual is its only
-    // reachable origin · and it was the fourth wired bucket with zero suppression coverage.
+    // `vulnerabilities` has NO grant lane and no SRD item carries `vulnerable` (census over every
+    // runtime + canonical data file: zero hits), so manual is its only reachable origin · and it was
+    // the fourth wired bucket with zero suppression coverage.
+    // Same measured caveat as the case above: with this `it` skipped both `vulnerabilities` mutants
+    // still die through the cross-bucket case below. Redundant on purpose, not uniquely load-bearing.
     const r = emptyResolved();
     r.classes = [mkClass("rogue", "d8", 1)];
     r.definition.defenses = { vulnerabilities: ["Radiant", "Thunder"] };
@@ -427,18 +432,24 @@ describe("recalc · overrides.defenses suppression (R4-P5 T5)", () => {
     expect(entries.map((e) => e.origin)).toEqual(["manual"]);
   });
 
-  it("keeps each bucket's suppressions in its OWN bucket (no cross-wiring)", () => {
-    // All four `remove` arrays populated with DISJOINT values, so SWAPPING any two bucket keys is
-    // observable. The four single-bucket cases above cannot see that: each leaves the other three
-    // unset, where a wrong key reads `undefined` and suppresses nothing, which is indistinguishable
-    // from a swap only when the wrong bucket is empty. Cross-wiring is precisely the error the
-    // literal-union typing waves through.
+  it("suppresses ONLY within the addressed bucket, never across buckets", () => {
+    // `fire` is deliberately present in THREE buckets while only `resistances` suppresses it. That
+    // OVERLAP is the whole point: it is what makes a bucket-AGNOSTIC `suppress` (one that ignores
+    // its `bucket` argument and subtracts the union of all four `remove` lists) observable. A
+    // disjoint fixture cannot see that mutant at all · removing "poison" from a bucket that never
+    // contained "poison" is a no-op, so the union is harmless and the whole suite stays green.
+    // ⚠️ MEASURED against the tree this ships in: with this `it` skipped the bucket-agnostic mutant
+    // SURVIVES all 1505 tests, and it is the only mutant of which that is true · this test is its
+    // sole executioner. Cross-wiring is NOT what earns this test its place: every wrong-key and
+    // two-line-swap mutant is also caught by the single-bucket cases above, because a wrong key
+    // reads `undefined` and suppresses nothing, which is exactly what makes a single-bucket
+    // assertion fail. The overlap is the whole contribution.
     const r = emptyResolved();
     r.classes = [mkClass("rogue", "d8", 1)];
     r.definition.defenses = {
       resistances: ["Fire", "Cold"],
-      immunities: ["Poison", "Acid"],
-      vulnerabilities: ["Radiant", "Thunder"],
+      immunities: ["Fire", "Poison"],
+      vulnerabilities: ["Fire", "Radiant"],
       condition_immunities: ["Charmed", "Frightened"],
     };
     r.definition.overrides = {
@@ -451,8 +462,10 @@ describe("recalc · overrides.defenses suppression (R4-P5 T5)", () => {
     };
     const d = recalc(r).defenses;
     expect(d.resistances.map((e) => e.value)).toEqual(["cold"]);
-    expect(d.immunities.map((e) => e.value)).toEqual(["acid"]);
-    expect(d.vulnerabilities.map((e) => e.value)).toEqual(["thunder"]);
+    // `fire` SURVIVES in both buckets that did not ask for it removed. These two lines are the
+    // executioners: a union-of-all-buckets implementation empties them.
+    expect(d.immunities.map((e) => e.value)).toEqual(["fire"]);
+    expect(d.vulnerabilities.map((e) => e.value)).toEqual(["fire"]);
     expect(d.condition_immunities.map((e) => e.value)).toEqual(["frightened"]);
   });
 });

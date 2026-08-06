@@ -594,9 +594,11 @@ function composeDefenseEntries(
  *  the indexed access in `suppress` is a TS7053 implicit-any error.
  *
  *  ⚠️ What this type does NOT buy you: all four keys are mutually assignable, so passing the WRONG
- *  one at a call site typechecks perfectly. Only a test can catch a cross-wired bucket · see
- *  "keeps each bucket's suppressions in its OWN bucket (no cross-wiring)" plus one single-bucket
- *  case per bucket in tests/pc-recalc-feature-effects.test.ts. */
+ *  one at a call site typechecks perfectly, and so does ignoring `bucket` altogether. Only a test
+ *  catches either · the single-bucket cases in tests/pc-recalc-feature-effects.test.ts catch a wrong
+ *  key (it reads `undefined`, suppresses nothing, and the assertion fails), while ONLY the
+ *  overlapping-value case "suppresses ONLY within the addressed bucket, never across buckets"
+ *  catches a `bucket`-ignoring implementation. Both measured against the shipped tree. */
 type DefenseBucket = keyof NonNullable<CharacterOverrides["defenses"]>;
 
 /**
@@ -612,8 +614,8 @@ type DefenseBucket = keyof NonNullable<CharacterOverrides["defenses"]>;
  * engine suite, so no recalc-reaching fixture in THIS repo omits `overrides`. It is
  * optional-chained because `Character.overrides` is non-optional in the type while the omission is
  * real one layer over (`computeEffectiveProficiencies`, pc.decision-engine.ts:709-713, records seven
- * live call sites passing a `definition` with no `overrides` key · making ITS chain non-optional
- * throws in 14 tests), `tests/` is in no tsconfig `include` so the compiler can
+ * live call sites passing a `definition` with no `overrides` key · and making ITS chain
+ * non-optional throws, in more than one test), `tests/` is in no tsconfig `include` so the compiler can
  * never see such a fixture, and the plugin repo drives `recalc` with fixtures this suite never runs.
  * The `defenses` levels below it are genuinely optional in the schema: no defaults anywhere, so an
  * untouched note stays byte-identical.
