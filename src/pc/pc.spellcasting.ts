@@ -9,30 +9,32 @@ export interface SpellcastingProfile {
   ability: Ability;
   casterType: CasterType;
   preparation: "known" | "prepared";
-  spellList: string;
+  /** null when neither block names a list (the converter's EK/AT); read by nothing today (measured), carried. */
+  spellList: string | null;
   table: Record<number, { columns?: Record<string, string | number> }>;
 }
 
+function hasPreparedColumn(table: SpellcastingProfile["table"]): boolean {
+  return Object.values(table).some((row) => PREPARED_COLUMNS.some((k) => row?.columns?.[k] !== undefined));
+}
+
 /**
- * Data-driven spellcasting profile for a resolved class. Reads the subclass
- * block if the subclass grants casting (e.g. Architect of Ruin), else the class
- * block. Known/cantrip columns come from whichever entity grants casting
- * (subclass table preferred, falling back to the class table). Returns null for
- * non-casters. No hardcoded class knowledge — everything comes from the data.
+ * Data-driven spellcasting profile for a resolved class, composed FIELD BY FIELD (R4-G1a D7): the caster type comes
+ * from the subclass block, else the class block, and without one the entity is not a caster (null: a subclass that
+ * only names a save ability grants no Spells tab). The table is the SUBCLASS table when the subclass block supplies
+ * the caster type, else the class table, else {}. Preparation is explicit, else inferred from a Prepared Spells /
+ * Spells Prepared column in the resolved table, else known. No hardcoded class knowledge.
  */
 export function resolveSpellcasting(rc: ResolvedClass): SpellcastingProfile | null {
   const sub = rc.subclass?.spellcasting ?? null;
   const cls = rc.entity?.spellcasting ?? null;
-  const sc = sub ?? cls;
-  if (!sc) return null;
-  const table = (sub ? rc.subclass?.table : rc.entity?.table) ?? rc.entity?.table ?? {};
-  return {
-    ability: sc.ability,
-    casterType: sc.caster_type,
-    preparation: sc.preparation,
-    spellList: sc.spell_list,
-    table,
-  };
+  const casterType = sub?.caster_type ?? cls?.caster_type ?? null;
+  const ability = sub?.ability ?? cls?.ability ?? null;
+  if (!casterType || !ability) return null;
+  const table = (sub?.caster_type ? rc.subclass?.table : undefined) ?? rc.entity?.table ?? {};
+  const preparation = sub?.preparation ?? cls?.preparation ?? (hasPreparedColumn(table) ? "prepared" : "known");
+  const spellList = sub?.spell_list ?? cls?.spell_list ?? null;
+  return { ability, casterType, preparation, spellList, table };
 }
 
 /** The ability a class actually casts with: a per-class override wins, else the
@@ -257,9 +259,10 @@ export interface SpellLimit {
   preparedOrKnown: number | null;
 }
 
-/** The converter spells the 2024 column two ways; the bundle uses the first. Serves the PREPARED branch here, and
- *  Task 6's preparation inference in `resolveSpellcasting` (which does not read it yet). The KNOWN branch keeps its
- *  own candidates (the XPHB Sorcerer and Warlock are known casters whose count sits under "Prepared Spells"). */
+/** The converter spells the 2024 column two ways; the bundle uses the first. Serves the PREPARED branch of
+ *  `computeSpellLimits` and `resolveSpellcasting`'s preparation inference (`hasPreparedColumn`). The KNOWN branch
+ *  keeps its own candidates (the XPHB Sorcerer and Warlock are known casters whose count sits under
+ *  "Prepared Spells"). */
 export const PREPARED_COLUMNS = ["Prepared Spells", "Spells Prepared"];
 
 /** The level term of the prepared-count FALLBACK (used only when no table column supplies the count). Slots round

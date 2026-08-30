@@ -1,5 +1,5 @@
 import { describe, it, expect } from "vitest";
-import { resolveSpellcasting } from "../src/pc/pc.spellcasting";
+import { resolveSpellcasting, computeSpellLimits } from "../src/pc/pc.spellcasting";
 import type { ResolvedClass } from "../src/pc/pc.types";
 
 // Minimal ResolvedClass builder; only the fields resolveSpellcasting reads matter.
@@ -47,3 +47,33 @@ describe("resolveSpellcasting", () => {
     expect(p?.table).toEqual({ 3: { columns: { "Cantrips Known": 2 } } });
   });
 });
+
+describe("resolveSpellcasting · field by field with the subclass table authoritative (R4-G1a D7, G13)", () => {
+  const cls = (spellcasting: unknown, table: unknown = {}) => ({ slug: "fighter", name: "Fighter", spellcasting, table, features_by_level: {} });
+  const rc = (entity: unknown, level: number, subclass: unknown) => ({ entity, level, subclass, choices: {} }) as never;
+  const ekTable = { 7: { columns: { "Cantrips Known": 2, "Spells Known": 5 } }, 20: { columns: { "Cantrips Known": 3, "Spells Known": 13 } } };
+  const atXphbTable = { 7: { columns: { "Prepared Spells": 5 } }, 20: { columns: { "Prepared Spells": 13 } } };
+  it("{ability} only, on a non-caster class → null (the accidental full-caster Spells tab and DC are gone)", () => {
+    expect(resolveSpellcasting(rc(cls(null), 6, { spellcasting: { ability: "wis" }, table: undefined }))).toBeNull();
+  });
+  it("EK 5e {ability: int, caster_type: third} → third / known / spellList null, from the SUBCLASS table", () => {
+    const p = resolveSpellcasting(rc(cls(null, { 7: { columns: { "Fighting Style": "x" } } }), 7, { spellcasting: { ability: "int", caster_type: "third" }, table: ekTable }));
+    expect(p).toMatchObject({ ability: "int", casterType: "third", preparation: "known", spellList: null });
+    expect(computeSpellLimits([{ classSlug: "fighter", level: 7, profile: p!, abilityScore: 16 }])[0]).toMatchObject({ preparedOrKnown: 5, cantripsKnown: 2 });
+  });
+  it("XPHB Arcane Trickster: the Prepared Spells column infers prepared; 7 → 5, 20 → 13", () => {
+    const p = resolveSpellcasting(rc(cls(null), 7, { spellcasting: { ability: "int", caster_type: "third" }, table: atXphbTable }));
+    expect(p!.preparation).toBe("prepared");
+    expect(computeSpellLimits([{ classSlug: "rogue", level: 7, profile: p!, abilityScore: 16 }])[0].preparedOrKnown).toBe(5);
+    expect(computeSpellLimits([{ classSlug: "rogue", level: 20, profile: p!, abilityScore: 16 }])[0].preparedOrKnown).toBe(13);
+  });
+  it("a full block is unchanged (class caster, no subclass block)", () => {
+    const p = resolveSpellcasting(rc(cls({ caster_type: "full", ability: "wis", preparation: "prepared", spell_list: "cleric" }, { 1: { columns: { "Prepared Spells": 4 } } }), 1, null));
+    expect(p).toEqual({ ability: "wis", casterType: "full", preparation: "prepared", spellList: "cleric", table: { 1: { columns: { "Prepared Spells": 4 } } } });
+  });
+});
+// Type test (spec D7): the CLASS config stays fully required.
+import type { SpellcastingConfig } from "../src/class/class.types";
+type MustBeRequired<T> = Required<T> extends T ? (T extends Required<T> ? true : false) : false;
+const _classSpellcastingRequired: MustBeRequired<SpellcastingConfig> = true;
+void _classSpellcastingRequired;

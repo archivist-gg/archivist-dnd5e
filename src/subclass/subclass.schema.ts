@@ -10,10 +10,10 @@ const wikilinkRegex = /^\[\[[^[\]]+\]\]$/;
 const abilityEnum = z.enum(["str", "dex", "con", "int", "wis", "cha"]);
 
 const spellcastingSchema = z.object({
-  caster_type: casterTypeEnum,
+  caster_type: casterTypeEnum.optional(),
   ability: abilityEnum,
-  preparation: z.enum(["known", "prepared"]),
-  spell_list: z.string().min(1),
+  preparation: z.enum(["known", "prepared"]).optional(),
+  spell_list: z.string().min(1).optional(),
 });
 
 const subclassTableRowSchema = z.object({

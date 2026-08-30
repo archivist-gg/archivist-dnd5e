@@ -65,7 +65,7 @@ describe("computeSpellLimits · table-first prepared counts (R4-G1a D6c, G12)", 
     expect(computeSpellLimits([inp("paladin", 5, p, 16)])[0].preparedOrKnown).toBe(5);
   });
   it("reads the converter's second spelling, Spells Prepared (XPHB Eldritch Knight; Int 12, so the fallback would say 3 and cannot fake the 5)", () => {
-    const p = withCol("Spells Prepared", 7, 5, { ability: "int", casterType: "third", spellList: "wizard" }); // → null in Task 6
+    const p = withCol("Spells Prepared", 7, 5, { ability: "int", casterType: "third", spellList: null });
     expect(computeSpellLimits([inp("eldritch-knight", 7, p, 12)])[0].preparedOrKnown).toBe(5);
   });
   it("the known branch still reads Prepared Spells (XPHB Sorcerer / Warlock are known casters under that column)", () => {

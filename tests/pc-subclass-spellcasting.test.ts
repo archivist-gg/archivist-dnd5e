@@ -78,3 +78,13 @@ describe("Architect of Ruin — subclass spellcasting (engine, via recalc)", () 
     expect(d.derivedSpellSlots).toEqual({ 1: 4, 2: 3, 3: 3, 4: 3, 5: 1 });
   });
 });
+
+describe("subclass spellcasting is a partial (R4-G1a D7, G13)", () => {
+  const doc = (spellcasting: unknown, table: unknown) => ({ slug: "x", name: "X", parent_class: "[[Player's Handbook (2014)/Classes/Fighter]]",
+    edition: "2014", source: "PHB", description: "d", features_by_level: {}, resources: [], spellcasting, table });
+  it("accepts the Eldritch Knight shape {ability, caster_type} and the {ability}-only shape", () => {
+    expect(subclassEntitySchema.safeParse(doc({ ability: "int", caster_type: "third" }, {})).success).toBe(true);
+    expect(subclassEntitySchema.safeParse(doc({ ability: "wis" }, undefined)).success).toBe(true);
+    expect(subclassEntitySchema.safeParse(doc({ caster_type: "third" }, {})).success).toBe(false);
+  });
+});

@@ -42,6 +42,16 @@ export interface SpellcastingConfig {
   spell_list: string;
 }
 
+/** A SUBCLASS spellcasting block is a partial (R4-G1a D7): the converter emits {ability} alone on subclasses that
+ *  only name a save ability (Path of the Giant, Four Elements) and {ability, caster_type} on the third-casters
+ *  (Eldritch Knight, Arcane Trickster). The CLASS block stays fully required. */
+export interface SubclassSpellcastingConfig {
+  ability: Ability;
+  caster_type?: CasterType;
+  preparation?: SpellcastingPreparation;
+  spell_list?: string;
+}
+
 export interface WeaponMasteryConfig {
   starting_count: number;
   scaling?: Record<number, number>;
