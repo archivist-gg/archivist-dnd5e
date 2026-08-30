@@ -246,6 +246,19 @@ export function assembleEffectFeatures(
   return { features: [...(resolved.features ?? []), ...buffFeatures], activeBuffs };
 }
 
+/** Spec R4-G1a D2. Whether an effect changes the character it is written on. `subject` is absent on every SRD
+ *  effect (=== "self"); the converter emits "self" today and will emit other creatures later (Hound of Ill Omen
+ *  imposes disadvantage on a TARGET). A non-self effect never folds onto the PC: not here, not in
+ *  collectProficiencyEffectGrants, not in unarmoredACBreakdown, not in recalc's weapon-ability scan. Its FEATURE
+ *  still resolves and renders (it is not buildOnly); the imposed effect's render is a later phase's. */
+export function foldsOnSelf(eff: { subject?: string }): boolean {
+  return eff.subject === undefined || eff.subject === "self";
+}
+/** The effects of a feature that fold on the character: every reader of `feature.effects` for a derived stat goes through this. */
+export function selfEffectsOf(f: { effects?: FeatureEffect[] }): FeatureEffect[] {
+  return (f.effects ?? []).filter(foldsOnSelf);
+}
+
 export function computeFeatureEffects(
   features: ResolvedFeature[],
   opts?: FeatureEffectsOpts,
@@ -255,7 +268,7 @@ export function computeFeatureEffects(
     // Activatable-buff gating lives in foldsNow (the one shared predicate); no
     // opts means an empty active set, so a buff is off by default.
     if (!foldsNow(rf, opts?.activeBuffs ?? new Set())) continue;
-    for (const eff of rf.feature.effects ?? []) {
+    for (const eff of selfEffectsOf(rf.feature)) {
       applyEffect(out, eff, rf.feature.name ?? "Feature");
     }
   }
@@ -350,9 +363,13 @@ export type EffectProficiencyGrants =
  *  test asserts either bucket, and `toGrants` in pc.proficiency-grants.ts reads
  *  only the other four. That is deliberate, not an oversight.
  *
- *  Reads the same two rules as the fold, and NOTHING else: foldsNow decides what
- *  is active and classifyProficiencyEffect decides what a proficiency effect
- *  means (spec fence F3), so the display can never disagree with the engine. */
+ *  Reads the same three rules as the fold, and NOTHING else: foldsNow decides
+ *  what is active, selfEffectsOf decides whose numbers an effect changes and
+ *  classifyProficiencyEffect decides what a proficiency effect means (spec fence
+ *  F3), so the display can never disagree with the engine.
+ *
+ *  Reads only effects that fold on self (`selfEffectsOf`), the same predicate as
+ *  the fold, so a non-self proficiency is neither granted nor displayed. */
 export function collectProficiencyEffectGrants(
   features: ResolvedFeature[],
   activeBuffs: Set<string>,
@@ -362,7 +379,7 @@ export function collectProficiencyEffectGrants(
   };
   for (const rf of features) {
     if (!foldsNow(rf, activeBuffs)) continue;
-    for (const eff of rf.feature.effects ?? []) {
+    for (const eff of selfEffectsOf(rf.feature)) {
       const c = classifyProficiencyEffect(eff);
       if (!c) continue;
       out[c.bucket].push({
@@ -469,7 +486,10 @@ function applyEffect(out: FeatureEffectTotals, eff: FeatureEffect, label: string
       }
       break;
     default:
-      // apply-condition and future kinds: not derived-stat effects.
+      // Nine kinds fold nothing here, by design: apply-condition (display-only), unarmored-ac (inert HERE, live in
+      // unarmoredACBreakdown), and the seven R4-G1a arms (immunity, vulnerability, temp-hp, heal,
+      // ability-score-increase, extra-action, save-outcome), whose semantics are the G3 phase's. A non-self
+      // effect never reaches this switch at all (foldsOnSelf).
       break;
   }
 }

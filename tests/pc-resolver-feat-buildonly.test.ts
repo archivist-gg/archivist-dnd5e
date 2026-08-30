@@ -43,3 +43,19 @@ describe("feat buildOnly + benefits fold", () => {
     expect(rf.buildOnly).toBeFalsy();
   });
 });
+
+describe("non-self effects keep a feature off buildOnly (R4-G1a D2)", () => {
+  // The ADMIT ruling (spec D2): the feat gate counts EFFECTS, not self effects. A full-ASI feat that also carries
+  // an effect written on another creature keeps its surface; only the fold readers (selfEffectsOf) drop the effect.
+  // The discriminating mutant (t2g) makes the gate count only SELF effects and flips buildOnly to true; it is
+  // written as an inline `subject` filter because pc.resolver.ts does not import pc.feature-effects, so a
+  // selfEffectsOf call here would crash rather than fail.
+  it("a full-ASI feat whose only effect is non-self is NOT buildOnly", () => {
+    const rf = collectResolvedFeatures(null, [], null, [feat({
+      slug: "srd-2024_ability-score-improvement", name: "Ability Score Improvement",
+      choices: [{ kind: "ability-points", id: "asi", points: 2, max_per: 2 }],
+      effects: [{ kind: "resistance", damage_type: "Poison", subject: "target" }],
+    })]).find(r => r.source.kind === "feat")!;
+    expect(rf.buildOnly).toBeFalsy();
+  });
+});

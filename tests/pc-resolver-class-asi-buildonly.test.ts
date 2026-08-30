@@ -88,3 +88,26 @@ describe("class/subclass ASI-slot feature buildOnly (Task 8)", () => {
     expect(asi!.buildOnly).toBe(true);
   });
 });
+
+describe("non-self effects keep a feature off buildOnly (R4-G1a D2)", () => {
+  // The ADMIT ruling (spec D2): isAsiSlotFeature counts EFFECTS, not self effects. A feature whose only effect is
+  // written on another creature still has a surface and still renders; only the fold readers (selfEffectsOf) drop
+  // it. The discriminating mutant (t2f) makes the gate count only SELF effects and flips buildOnly to true; it is
+  // written as an inline `subject` filter because pc.resolver.ts does not import pc.feature-effects, so a
+  // selfEffectsOf call here would crash rather than fail.
+  const ASI_WITH_NON_SELF_EFFECT = {
+    id: "ability-score-improvement",
+    name: "Ability Score Improvement",
+    description: "(omitted)",
+    effects: [{ kind: "resistance", damage_type: "Poison", subject: "target" }],
+  };
+
+  it("an ASI-id feature whose only effect is non-self is NOT buildOnly", () => {
+    const rf = collectResolvedFeatures(null, [classFixture({ 4: [ASI_WITH_NON_SELF_EFFECT] })], null, []);
+    const asi = rf.find(
+      (r) => r.source.kind === "class" && r.feature.id === "ability-score-improvement",
+    );
+    expect(asi).toBeDefined();
+    expect(asi!.buildOnly).toBeFalsy();
+  });
+});

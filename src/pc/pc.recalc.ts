@@ -15,7 +15,7 @@ import type { RaceEntity } from "@archivist-gg/dnd5e/race/race.types";
 import type { EntityRegistry } from "@archivist-gg/core";
 import { computeAppliedBonuses, computeSlotsAndAttacks, emptyAppliedBonuses } from "./pc.equipment";
 import { collectChosenProficiencies, collectChosenAbilityPoints } from "./pc.decision-engine";
-import { assembleEffectFeatures, computeFeatureEffects } from "./pc.feature-effects";
+import { assembleEffectFeatures, computeFeatureEffects, selfEffectsOf } from "./pc.feature-effects";
 import { computeConditionEffects } from "./pc.conditions";
 import { toDefenseSlug } from "./pc.defense-normalize";
 import { resolveSpellcasting, effectiveSpellcastingAbility, deriveSpellSlots, computeSpellLimits, type CasterClassInput, type LimitClassInput } from "./pc.spellcasting";
@@ -291,7 +291,7 @@ export function unarmoredACBreakdown(
   // Generic unarmored-ac effect (e.g. Reaver Bravado: 10 + DEX + CHA).
   // Takes precedence over the legacy unarmored_defense flag scan below.
   for (const rf of resolved.features) {
-    const eff = (rf.feature.effects ?? []).find((e) => e.kind === "unarmored-ac");
+    const eff = selfEffectsOf(rf.feature).find((e) => e.kind === "unarmored-ac");
     if (eff && eff.kind === "unarmored-ac") {
       const base = eff.base ?? 10;
       const terms: ACTerm[] = [
@@ -899,7 +899,7 @@ export function recalc(resolved: ResolvedCharacter, registry?: EntityRegistry): 
   // no slot/DC machinery). Spread-COPY so we never mutate the totals array.
   const weaponAbilities = [...featureEffects.weaponAbilities];
   const wantsSpellcasting = resolved.features.some((rf) =>
-    (rf.feature.effects ?? []).some((e) => e.kind === "weapon-ability" && e.ability === "spellcasting"));
+    selfEffectsOf(rf.feature).some((e) => e.kind === "weapon-ability" && e.ability === "spellcasting"));
   // A "spellcasting" override resolves to a GLOBAL caster ability and is
   // PREPENDED so it wins over concrete globals (preserving the prior
   // spellcasting-wins precedence). A scoped concrete override still wins for its

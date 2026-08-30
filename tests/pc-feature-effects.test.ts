@@ -1,5 +1,5 @@
 import { describe, it, expect } from "vitest";
-import { assembleEffectFeatures, classifyProficiencyEffect, collectProficiencyEffectGrants, computeFeatureEffects, emptyFeatureEffectTotals, foldsNow } from "../src/pc/pc.feature-effects";
+import { assembleEffectFeatures, classifyProficiencyEffect, collectProficiencyEffectGrants, computeFeatureEffects, emptyFeatureEffectTotals, foldsNow, foldsOnSelf, selfEffectsOf } from "../src/pc/pc.feature-effects";
 import type { ResolvedFeature } from "../src/pc/pc.types";
 import type { FeatureEffect } from "@archivist-gg/dnd5e/types/feature-effect";
 
@@ -306,5 +306,43 @@ describe("collectProficiencyEffectGrants", () => {
     const effects = [{ kind: "proficiency", proficiency_type: "tool", value: "thieves'-tools" }];
     expect(collectProficiencyEffectGrants([feat("B", "b", effects, true)], new Set()).tools).toEqual([]);
     expect(collectProficiencyEffectGrants([feat("B", "b", effects, true)], new Set(["b"])).tools).toHaveLength(1);
+  });
+});
+
+describe("foldsOnSelf · non-self effects never fold (R4-G1a D2, G6)", () => {
+  const res = (subject?: string) => ({ kind: "resistance", damage_type: "Poison", ...(subject !== undefined ? { subject } : {}) }) as FeatureEffect;
+  it("absent and \"self\" fold identically; \"target\" never reaches the totals", () => {
+    // `applyEffect`'s resistance case is pushUnique(out.resistances, eff.damage_type): the authored spelling is
+    // pushed verbatim (toDefenseSlug runs later, in pc.recalc.ts), so "Poison" proves which field was read.
+    expect(computeFeatureEffects([rf([res()])]).resistances).toEqual(["Poison"]);
+    expect(computeFeatureEffects([rf([res("self")])]).resistances).toEqual(["Poison"]);
+    expect(computeFeatureEffects([rf([res("target")])]).resistances).toEqual([]);
+  });
+  it("a non-self initiative-bonus leaves the total at 0", () => {
+    expect(computeFeatureEffects([rf([{ kind: "initiative-bonus", value: 2, subject: "target" } as FeatureEffect])]).initiative_bonus).toBe(0);
+  });
+  it("the predicate itself", () => {
+    expect(foldsOnSelf({})).toBe(true); expect(foldsOnSelf({ subject: "self" })).toBe(true); expect(foldsOnSelf({ subject: "target" })).toBe(false);
+    expect(selfEffectsOf({ effects: [res(), res("target"), res("self")] })).toHaveLength(2);
+  });
+  it("collectProficiencyEffectGrants drops a non-self proficiency (the display cannot disagree with the engine)", () => {
+    const f = (effects: FeatureEffect[]) => ({ feature: { id: "x", name: "X", effects }, source: { kind: "race" as const, slug: "x" } });
+    const self = collectProficiencyEffectGrants([f([{ kind: "proficiency", proficiency_type: "tool", value: "Thieves' Tools", subject: "self" }])], new Set());
+    const other = collectProficiencyEffectGrants([f([{ kind: "proficiency", proficiency_type: "tool", value: "Thieves' Tools", subject: "target" }])], new Set());
+    expect(self.tools).toHaveLength(1);
+    expect(other.tools).toEqual([]);
+  });
+});
+
+describe("ability-score-increase is declared and INERT (R4-G1a D3, G7 · control of the control)", () => {
+  it("the converter Fighter 4 pair folds nothing while a known arm in the same fixture folds", () => {
+    const out = computeFeatureEffects([rf([
+      { kind: "ability-score-increase", abilities: "chosen", amount: 2, choose: 1, max: 20, subject: "self" } as FeatureEffect,
+      { kind: "ability-score-increase", abilities: "chosen", amount: 1, choose: 2, max: 20, subject: "self" } as FeatureEffect,
+      { kind: "initiative-bonus", value: 2 },
+    ])]);
+    const expected = emptyFeatureEffectTotals();
+    expected.initiative_bonus = 2;
+    expect(out).toEqual(expected);
   });
 });

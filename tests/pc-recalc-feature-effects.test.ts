@@ -525,6 +525,14 @@ describe("recalc — feature effects: AC", () => {
     // base 10 + DEX(+2); dex is skipped in the Σ loop, so it is NOT added twice = 12
     expect(recalc(r).ac).toBe(12);
   });
+
+  it("a non-self unarmored-ac never reaches unarmoredACBreakdown (R4-G1a D2, G6)", () => {
+    const r = resolvedWith(mkClass("reaver", "d10", 1), [{ kind: "unarmored-ac", abilities: ["cha"], subject: "target" }]);
+    r.definition.abilities = { str: 10, dex: 14, con: 10, int: 10, wis: 10, cha: 16 };
+    // The effect is written on another creature, so selfEffectsOf drops it and the AC stays the plain
+    // Unarmored 10 + DEX(+2) = 12. The very same fixture yields 15 (10 + DEX +2 + CHA +3) when the effect folds.
+    expect(recalc(r).ac).toBe(12);
+  });
 });
 
 describe("recalc — feature effects: roll-modifier", () => {

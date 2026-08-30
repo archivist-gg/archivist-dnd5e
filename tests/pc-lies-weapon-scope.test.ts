@@ -203,4 +203,44 @@ describe("Task 4: scope MCDM Lies CHA override to a chosen weapon type", () => {
     // CHA +4 (override) + prof +2 = 6 - NOT default INT +0 + prof +2 = 2.
     expect(attacks[0].toHit).toBe(4 + 2);
   });
+
+  it("[R4-G1a D2, G6] a non-self weapon-ability:spellcasting sentinel never reaches recalc's scan", () => {
+    // The same spellblade caster construction as the two cases above, with ONE weapon-ability effect and
+    // `subject: "target"` on it. selfEffectsOf drops the sentinel before recalc's wantsSpellcasting scan, so no
+    // caster-ability global is prepended and the club is attacked with its own ability.
+    const casterEntity = {
+      slug: "spellblade", name: "spellblade", edition: "2014", hit_die: "d8",
+      primary_abilities: ["int"], saving_throws: [], features_by_level: {}, table: {},
+      spellcasting: { caster_type: "full", ability: "int", preparation: "known", spell_list: "spellblade" },
+      proficiencies: { weapons: { categories: ["simple"] } },
+    };
+    const cls: ResolvedClass = { entity: casterEntity as never, level: 1, subclass: null, choices: {} };
+    const resolved: ResolvedCharacter = {
+      definition: {
+        name: "Arc", edition: "2014", race: null, subrace: null, background: null, class: [],
+        abilities: { str: 8, dex: 10, con: 10, int: 18, wis: 10, cha: 10 },
+        ability_method: "manual", skills: { proficient: [], expertise: [] },
+        spells: { known: [], overrides: [] },
+        equipment: [{ item: "[[club]]", equipped: true }],
+        overrides: {},
+        state: { hp: { current: 10, max: 10, temp: 0 }, hit_dice: {}, spell_slots: {}, concentration: null, conditions: [] },
+      } as never,
+      race: null, classes: [cls], background: null, feats: [], totalLevel: 1,
+      features: [{
+        feature: {
+          name: "Arcane Blade",
+          effects: [{ kind: "weapon-ability", ability: "spellcasting", subject: "target" }],
+        } as never,
+        source: { kind: "class", slug: "spellblade" } as never,
+      }],
+      spells: [], pools: [], weaponMasteries: [],
+      state: { hp: { current: 10, max: 10, temp: 0 }, hit_dice: {}, spell_slots: {}, concentration: null, conditions: [] } as never,
+    };
+    const reg = buildMockRegistry([{ slug: "club", entityType: "weapon", name: "Club", data: CLUB as unknown as Record<string, unknown> }]);
+    const attacks = recalc(resolved, reg).attacks;
+    expect(attacks[0].name).toBe("Club");
+    // The club keeps its own STR: 8 is mod -1, plus proficiency +2 = 1.
+    // 6 = INT +4 + prof +2 is what this same fixture yields when the effect folds.
+    expect(attacks[0].toHit).toBe(1);
+  });
 });
