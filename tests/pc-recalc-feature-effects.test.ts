@@ -798,3 +798,17 @@ describe("recalc — feature effects: additive weapon routing (R4-P3c)", () => {
     expect(after.attacks[0].proficient).toBe(true);
   });
 });
+
+describe("recalc feature effects: roll-modifier members the engine does not fold (R4-G1a D1, G4b)", () => {
+  it("reroll, add-d4 and roll: any fold nothing; advantage/attack in the SAME fixture folds one entry (control of the control)", () => {
+    const d = recalc(resolvedWith(mkClass("reaver", "d10", 1), [
+      { kind: "roll-modifier", mode: "reroll", roll: "attack" },
+      { kind: "roll-modifier", mode: "advantage", roll: "any" },
+      { kind: "roll-modifier", mode: "add-d4", roll: "saving-throw", scope: "con" },
+      { kind: "roll-modifier", mode: "advantage", roll: "attack" },
+    ]));
+    expect(d.rollModifiers).toEqual([
+      { mode: "advantage", roll: "attack", scope: undefined, condition: undefined, label: "Effect Source" },
+    ]);
+  });
+});

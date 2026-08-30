@@ -434,7 +434,13 @@ function applyEffect(out: FeatureEffectTotals, eff: FeatureEffect, label: string
     case "roll-modifier":
       // Order-preserving pass-through: one entry per effect, labeled with the
       // owning feature's name for the chip tooltip. No dedupe/merge.
-      out.rollModifiers.push({ mode: eff.mode, roll: eff.roll, scope: eff.scope, condition: eff.condition, label });
+      // R4-G1a D1 widened the schema's enums (mode reroll / add-d4, roll any). RollModifierEntry keeps the
+      // ENGINE's two-mode / three-roll vocabulary (the plugin's chips render ADV / DIS only), so the new
+      // members are declared and INERT here until the G3 phase gives them semantics (spec 0.8, 8).
+      if ((eff.mode === "advantage" || eff.mode === "disadvantage") &&
+          (eff.roll === "ability-check" || eff.roll === "saving-throw" || eff.roll === "attack")) {
+        out.rollModifiers.push({ mode: eff.mode, roll: eff.roll, scope: eff.scope, condition: eff.condition, label });
+      }
       break;
     case "crit-range":
       // Lowest threshold across weapon/all crit-range effects wins. A spell-only
