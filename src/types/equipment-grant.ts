@@ -4,8 +4,10 @@
  *  "simple-weapon", "martial-melee-weapon", "any-armor", "shield", …) resolved
  *  by a nested select-entity. `gold` is gp folded into the bundle. */
 export type EquipmentGrant =
-  | { item: string; qty?: number }
-  | { category: string; qty?: number }
+  /** `contains_value` and `worth_value` are in COPPER (the converter's unit: `1500` = 15 gp); `display_name` is a
+   *  display override for a generic slug. Carried; read only by grantLabel (display_name) in this phase. */
+  | { item: string; qty?: number; contains_value?: number; display_name?: string; worth_value?: number }
+  | { category: string; qty?: number; display_name?: string }
   | { gold: number };
 
 /** One selectable option of a `kind:"choice"` starting-equipment entry. `label`

@@ -90,3 +90,18 @@ describe("overlay schema structured equipment", () => {
     expect(parsed.backgrounds?.acolyte.equipment?.[0].kind).toBe("fixed");
   });
 });
+
+describe("equipment grants · the converter's passthrough keys, arms still strict (R4-G1a D5, G9)", () => {
+  const fixed = (grants: unknown[]) => startingEquipmentEntrySchema.safeParse({ kind: "fixed", grants });
+  it("accepts the four attested shapes", () => {
+    expect(fixed([{ item: "pouch", contains_value: 1500 }]).success).toBe(true);
+    expect(fixed([{ item: "holy symbol", display_name: "holy symbol (a gift to you when you entered the priesthood)", qty: 1 }]).success).toBe(true);
+    expect(fixed([{ category: "gaming-set", display_name: "gaming set matching your chosen proficiency" }]).success).toBe(true);
+    expect(fixed([{ item: "small piece of jewelry in the style of your homeland's craftsmanship", worth_value: 1000 }]).success).toBe(true);
+  });
+  it("keeps every arm strict: contains_value on the category arm and any unknown key are REFUSED", () => {
+    expect(fixed([{ category: "gaming-set", contains_value: 1 }]).success).toBe(false);
+    expect(fixed([{ item: "book", note: "x" }]).success).toBe(false);
+    expect(fixed([{ gold: 5, display_name: "coins" }]).success).toBe(false);
+  });
+});

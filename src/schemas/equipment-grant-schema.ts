@@ -1,9 +1,16 @@
 import { z } from "zod";
 import type { EquipmentGrant, EquipmentOption, StartingEquipmentEntry, StartingGold } from "../types/equipment-grant";
 
+/** Every arm stays `.strict()`: one stray key refuses the whole document on purpose (the builder's render path
+ *  maps over grants). The three passthrough keys are DECLARED, not tolerated. */
 export const equipmentGrantSchema: z.ZodType<EquipmentGrant> = z.union([
-  z.object({ item: z.string().min(1), qty: z.number().int().positive().optional() }).strict(),
-  z.object({ category: z.string().min(1), qty: z.number().int().positive().optional() }).strict(),
+  z.object({
+    item: z.string().min(1), qty: z.number().int().positive().optional(),
+    contains_value: z.number().int().nonnegative().optional(),
+    display_name: z.string().min(1).optional(),
+    worth_value: z.number().int().nonnegative().optional(),
+  }).strict(),
+  z.object({ category: z.string().min(1), qty: z.number().int().positive().optional(), display_name: z.string().min(1).optional() }).strict(),
   z.object({ gold: z.number().int().positive() }).strict(),
 ]);
 
