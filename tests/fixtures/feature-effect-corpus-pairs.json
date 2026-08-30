@@ -1,0 +1,1111 @@
+{
+ "generated_by": "Task 0, plugin plan 2026-08-28-r4-g1a-class-refusals.md, t0-gen-pairs.ts",
+ "converter_head": "c2730c2",
+ "tree_hash": "744b2b85",
+ "roots": [
+  "class",
+  "subclass",
+  "race",
+  "feat",
+  "optional-feature",
+  "background"
+ ],
+ "kinds": 21,
+ "pairs": 72,
+ "sites": 1853,
+ "perKind": {
+  "ability-score-increase": 1,
+  "ac-bonus": 5,
+  "apply-condition": 5,
+  "crit-range": 3,
+  "damage-bonus": 8,
+  "extra-action": 2,
+  "extra-attack": 2,
+  "heal": 3,
+  "hp-per-level-bonus": 2,
+  "immune-condition": 3,
+  "immunity": 3,
+  "proficiency": 5,
+  "resistance": 3,
+  "roll-modifier": 7,
+  "save-outcome": 1,
+  "sense": 3,
+  "speed-bonus": 6,
+  "temp-hp": 3,
+  "unarmored-ac": 3,
+  "vulnerability": 1,
+  "weapon-ability": 3
+ },
+ "rows": [
+  {
+   "kind": "ability-score-increase",
+   "keys": [
+    "abilities",
+    "amount",
+    "choose",
+    "max",
+    "subject"
+   ],
+   "sample": {
+    "subject": "self",
+    "kind": "ability-score-increase",
+    "abilities": "chosen",
+    "amount": 2,
+    "choose": 1,
+    "max": 20
+   },
+   "sites": 159
+  },
+  {
+   "kind": "ac-bonus",
+   "keys": [
+    "condition",
+    "requires_armor",
+    "subject",
+    "value"
+   ],
+   "sample": {
+    "subject": "self",
+    "kind": "ac-bonus",
+    "value": 1,
+    "requires_armor": true,
+    "condition": "While wearing heavy armor"
+   },
+   "sites": 1
+  },
+  {
+   "kind": "ac-bonus",
+   "keys": [
+    "condition",
+    "subject",
+    "value"
+   ],
+   "sample": {
+    "subject": "self",
+    "kind": "ac-bonus",
+    "value": 2,
+    "condition": "While your astral self is awakened"
+   },
+   "sites": 6
+  },
+  {
+   "kind": "ac-bonus",
+   "keys": [
+    "requires_armor",
+    "value"
+   ],
+   "sample": {
+    "kind": "ac-bonus",
+    "value": 1,
+    "requires_armor": true
+   },
+   "sites": 1
+  },
+  {
+   "kind": "ac-bonus",
+   "keys": [
+    "subject",
+    "value"
+   ],
+   "sample": {
+    "subject": "self",
+    "kind": "ac-bonus",
+    "value": 1
+   },
+   "sites": 1
+  },
+  {
+   "kind": "ac-bonus",
+   "keys": [
+    "value"
+   ],
+   "sample": {
+    "kind": "ac-bonus",
+    "value": 1
+   },
+   "sites": 8
+  },
+  {
+   "kind": "apply-condition",
+   "keys": [
+    "condition"
+   ],
+   "sample": {
+    "kind": "apply-condition",
+    "condition": "Prone"
+   },
+   "sites": 1
+  },
+  {
+   "kind": "apply-condition",
+   "keys": [
+    "condition",
+    "duration",
+    "ends_on",
+    "subject"
+   ],
+   "sample": {
+    "subject": "self",
+    "kind": "apply-condition",
+    "condition": "invisible",
+    "duration": "until the end of your next turn",
+    "ends_on": [
+     "you make an attack roll",
+     "you cast a spell"
+    ]
+   },
+   "sites": 6
+  },
+  {
+   "kind": "apply-condition",
+   "keys": [
+    "condition",
+    "duration",
+    "subject"
+   ],
+   "sample": {
+    "subject": "self",
+    "kind": "apply-condition",
+    "condition": "invisible",
+    "duration": "1 minute"
+   },
+   "sites": 5
+  },
+  {
+   "kind": "apply-condition",
+   "keys": [
+    "condition",
+    "ends_on",
+    "subject"
+   ],
+   "sample": {
+    "subject": "self",
+    "kind": "apply-condition",
+    "condition": "invisible",
+    "ends_on": [
+     "you make an attack",
+     "cast a spell",
+     "are in an area of bright light"
+    ]
+   },
+   "sites": 2
+  },
+  {
+   "kind": "apply-condition",
+   "keys": [
+    "condition",
+    "subject"
+   ],
+   "sample": {
+    "subject": "self",
+    "kind": "apply-condition",
+    "condition": "exhaustion"
+   },
+   "sites": 7
+  },
+  {
+   "kind": "crit-range",
+   "keys": [
+    "applies_to",
+    "condition",
+    "min_roll",
+    "subject"
+   ],
+   "sample": {
+    "subject": "self",
+    "kind": "crit-range",
+    "min_roll": 19,
+    "applies_to": "weapon",
+    "condition": "Your melee weapon attacks"
+   },
+   "sites": 3
+  },
+  {
+   "kind": "crit-range",
+   "keys": [
+    "applies_to",
+    "min_roll",
+    "subject"
+   ],
+   "sample": {
+    "subject": "self",
+    "kind": "crit-range",
+    "min_roll": 19,
+    "applies_to": "weapon"
+   },
+   "sites": 3
+  },
+  {
+   "kind": "crit-range",
+   "keys": [
+    "min_roll",
+    "subject"
+   ],
+   "sample": {
+    "subject": "self",
+    "kind": "crit-range",
+    "min_roll": 18
+   },
+   "sites": 1
+  },
+  {
+   "kind": "damage-bonus",
+   "keys": [
+    "amount",
+    "applies_to",
+    "condition",
+    "damage_type"
+   ],
+   "sample": {
+    "kind": "damage-bonus",
+    "damage_type": "chosen",
+    "amount": "2",
+    "applies_to": "weapon",
+    "condition": "When you are wielding a melee weapon in one hand and no other weapons"
+   },
+   "sites": 12
+  },
+  {
+   "kind": "damage-bonus",
+   "keys": [
+    "amount",
+    "applies_to",
+    "condition",
+    "damage_type",
+    "subject"
+   ],
+   "sample": {
+    "subject": "self",
+    "kind": "damage-bonus",
+    "damage_type": "acid, fire, or poison",
+    "amount": "your Intelligence modifier (minimum bonus of +1)",
+    "applies_to": "spell",
+    "condition": "That roll must restore Hit Points or be a damage roll that deals Acid, Fire, or Poison damage."
+   },
+   "sites": 39
+  },
+  {
+   "kind": "damage-bonus",
+   "keys": [
+    "amount",
+    "applies_to",
+    "damage_type"
+   ],
+   "sample": {
+    "kind": "damage-bonus",
+    "damage_type": "necrotic",
+    "amount": "your Charisma modifier (minimum of 1)",
+    "applies_to": "weapon"
+   },
+   "sites": 7
+  },
+  {
+   "kind": "damage-bonus",
+   "keys": [
+    "amount",
+    "applies_to",
+    "damage_type",
+    "subject"
+   ],
+   "sample": {
+    "subject": "self",
+    "kind": "damage-bonus",
+    "damage_type": "acid",
+    "amount": "1d6",
+    "applies_to": "weapon"
+   },
+   "sites": 32
+  },
+  {
+   "kind": "damage-bonus",
+   "keys": [
+    "amount",
+    "condition",
+    "damage_type"
+   ],
+   "sample": {
+    "kind": "damage-bonus",
+    "damage_type": "chosen",
+    "amount": "your Charisma modifier",
+    "condition": "When you cast eldritch blast"
+   },
+   "sites": 2
+  },
+  {
+   "kind": "damage-bonus",
+   "keys": [
+    "amount",
+    "condition",
+    "damage_type",
+    "subject"
+   ],
+   "sample": {
+    "subject": "self",
+    "kind": "damage-bonus",
+    "damage_type": "radiant",
+    "amount": "1d8",
+    "condition": "using a Melee weapon or an Unarmed Strike"
+   },
+   "sites": 3
+  },
+  {
+   "kind": "damage-bonus",
+   "keys": [
+    "amount",
+    "damage_type"
+   ],
+   "sample": {
+    "kind": "damage-bonus",
+    "damage_type": "force",
+    "amount": "{prof_bonus}"
+   },
+   "sites": 38
+  },
+  {
+   "kind": "damage-bonus",
+   "keys": [
+    "amount",
+    "damage_type",
+    "subject"
+   ],
+   "sample": {
+    "subject": "self",
+    "kind": "damage-bonus",
+    "damage_type": "fire",
+    "amount": "your sorcerer level"
+   },
+   "sites": 3
+  },
+  {
+   "kind": "extra-action",
+   "keys": [
+    "action_type",
+    "condition",
+    "count",
+    "subject"
+   ],
+   "sample": {
+    "subject": "self",
+    "kind": "extra-action",
+    "count": 1,
+    "action_type": "bonus-action",
+    "condition": "used only to take the Dash, Disengage, or Hide action"
+   },
+   "sites": 3
+  },
+  {
+   "kind": "extra-action",
+   "keys": [
+    "action_type",
+    "count",
+    "subject"
+   ],
+   "sample": {
+    "subject": "self",
+    "kind": "extra-action",
+    "count": 1,
+    "action_type": "action"
+   },
+   "sites": 7
+  },
+  {
+   "kind": "extra-attack",
+   "keys": [
+    "count"
+   ],
+   "sample": {
+    "kind": "extra-attack",
+    "count": 2
+   },
+   "sites": 1
+  },
+  {
+   "kind": "extra-attack",
+   "keys": [
+    "count",
+    "subject"
+   ],
+   "sample": {
+    "subject": "self",
+    "kind": "extra-attack",
+    "count": 2
+   },
+   "sites": 34
+  },
+  {
+   "kind": "heal",
+   "keys": [
+    "amount"
+   ],
+   "sample": {
+    "kind": "heal",
+    "amount": "the roll plus your Constitution modifier (minimum of 1)"
+   },
+   "sites": 1
+  },
+  {
+   "kind": "heal",
+   "keys": [
+    "amount",
+    "condition",
+    "subject"
+   ],
+   "sample": {
+    "subject": "self",
+    "kind": "heal",
+    "amount": "5 + your Constitution modifier",
+    "condition": "if you have no more than half of your hit points left"
+   },
+   "sites": 12
+  },
+  {
+   "kind": "heal",
+   "keys": [
+    "amount",
+    "subject"
+   ],
+   "sample": {
+    "subject": "self",
+    "kind": "heal",
+    "amount": "1d10 + your fighter level"
+   },
+   "sites": 23
+  },
+  {
+   "kind": "hp-per-level-bonus",
+   "keys": [
+    "subject",
+    "value"
+   ],
+   "sample": {
+    "subject": "self",
+    "kind": "hp-per-level-bonus",
+    "value": 1
+   },
+   "sites": 4
+  },
+  {
+   "kind": "hp-per-level-bonus",
+   "keys": [
+    "value"
+   ],
+   "sample": {
+    "kind": "hp-per-level-bonus",
+    "value": 2
+   },
+   "sites": 4
+  },
+  {
+   "kind": "immune-condition",
+   "keys": [
+    "condition"
+   ],
+   "sample": {
+    "kind": "immune-condition",
+    "condition": "disease"
+   },
+   "sites": 13
+  },
+  {
+   "kind": "immune-condition",
+   "keys": [
+    "condition",
+    "subject"
+   ],
+   "sample": {
+    "subject": "self",
+    "kind": "immune-condition",
+    "condition": "Poisoned"
+   },
+   "sites": 26
+  },
+  {
+   "kind": "immune-condition",
+   "keys": [
+    "condition",
+    "subject",
+    "while"
+   ],
+   "sample": {
+    "subject": "self",
+    "kind": "immune-condition",
+    "condition": "Grappled",
+    "while": "While in this form"
+   },
+   "sites": 14
+  },
+  {
+   "kind": "immunity",
+   "keys": [
+    "condition",
+    "damage_type",
+    "subject"
+   ],
+   "sample": {
+    "subject": "self",
+    "kind": "immunity",
+    "damage_type": "necrotic",
+    "condition": "While using your Form of Dread"
+   },
+   "sites": 3
+  },
+  {
+   "kind": "immunity",
+   "keys": [
+    "damage_type"
+   ],
+   "sample": {
+    "kind": "immunity",
+    "damage_type": "Radiant"
+   },
+   "sites": 7
+  },
+  {
+   "kind": "immunity",
+   "keys": [
+    "damage_type",
+    "subject"
+   ],
+   "sample": {
+    "subject": "self",
+    "kind": "immunity",
+    "damage_type": "cold"
+   },
+   "sites": 10
+  },
+  {
+   "kind": "proficiency",
+   "keys": [
+    "condition",
+    "proficiency_type",
+    "subject",
+    "value"
+   ],
+   "sample": {
+    "subject": "self",
+    "kind": "proficiency",
+    "proficiency_type": "saving-throw",
+    "value": "Intelligence or Charisma (your choice)",
+    "condition": "If you already have this proficiency"
+   },
+   "sites": 9
+  },
+  {
+   "kind": "proficiency",
+   "keys": [
+    "expertise",
+    "proficiency_type",
+    "subject",
+    "value"
+   ],
+   "sample": {
+    "subject": "self",
+    "kind": "proficiency",
+    "proficiency_type": "tool",
+    "value": "thieves' tools",
+    "expertise": true
+   },
+   "sites": 11
+  },
+  {
+   "kind": "proficiency",
+   "keys": [
+    "expertise",
+    "proficiency_type",
+    "value"
+   ],
+   "sample": {
+    "kind": "proficiency",
+    "proficiency_type": "skill",
+    "value": "intimidation",
+    "expertise": true
+   },
+   "sites": 2
+  },
+  {
+   "kind": "proficiency",
+   "keys": [
+    "proficiency_type",
+    "subject",
+    "value"
+   ],
+   "sample": {
+    "subject": "self",
+    "kind": "proficiency",
+    "proficiency_type": "language",
+    "value": "Giant"
+   },
+   "sites": 140
+  },
+  {
+   "kind": "proficiency",
+   "keys": [
+    "proficiency_type",
+    "value"
+   ],
+   "sample": {
+    "kind": "proficiency",
+    "proficiency_type": "skill",
+    "value": "persuasion"
+   },
+   "sites": 314
+  },
+  {
+   "kind": "resistance",
+   "keys": [
+    "condition",
+    "damage_type",
+    "subject"
+   ],
+   "sample": {
+    "subject": "self",
+    "kind": "resistance",
+    "damage_type": "necrotic",
+    "condition": "Crescent Moon"
+   },
+   "sites": 55
+  },
+  {
+   "kind": "resistance",
+   "keys": [
+    "damage_type"
+   ],
+   "sample": {
+    "kind": "resistance",
+    "damage_type": "Necrotic"
+   },
+   "sites": 375
+  },
+  {
+   "kind": "resistance",
+   "keys": [
+    "damage_type",
+    "subject"
+   ],
+   "sample": {
+    "subject": "self",
+    "kind": "resistance",
+    "damage_type": "acid"
+   },
+   "sites": 64
+  },
+  {
+   "kind": "roll-modifier",
+   "keys": [
+    "condition",
+    "mode",
+    "roll"
+   ],
+   "sample": {
+    "kind": "roll-modifier",
+    "mode": "advantage",
+    "roll": "ability-check",
+    "condition": "to initiate or escape a grapple"
+   },
+   "sites": 74
+  },
+  {
+   "kind": "roll-modifier",
+   "keys": [
+    "condition",
+    "mode",
+    "roll",
+    "scope"
+   ],
+   "sample": {
+    "kind": "roll-modifier",
+    "mode": "advantage",
+    "roll": "ability-check",
+    "scope": "perception",
+    "condition": "hearing-or-smell"
+   },
+   "sites": 15
+  },
+  {
+   "kind": "roll-modifier",
+   "keys": [
+    "condition",
+    "mode",
+    "roll",
+    "scope",
+    "subject"
+   ],
+   "sample": {
+    "subject": "self",
+    "kind": "roll-modifier",
+    "mode": "advantage",
+    "roll": "ability-check",
+    "scope": "Intelligence (Investigation) and Wisdom (Perception) checks",
+    "condition": "while within the bright light you shed"
+   },
+   "sites": 30
+  },
+  {
+   "kind": "roll-modifier",
+   "keys": [
+    "condition",
+    "mode",
+    "roll",
+    "subject"
+   ],
+   "sample": {
+    "subject": "self",
+    "kind": "roll-modifier",
+    "mode": "reroll",
+    "roll": "saving-throw",
+    "condition": "If you fail a saving throw"
+   },
+   "sites": 7
+  },
+  {
+   "kind": "roll-modifier",
+   "keys": [
+    "mode",
+    "roll",
+    "scope"
+   ],
+   "sample": {
+    "kind": "roll-modifier",
+    "mode": "advantage",
+    "roll": "saving-throw",
+    "scope": "Wisdom, Charisma"
+   },
+   "sites": 27
+  },
+  {
+   "kind": "roll-modifier",
+   "keys": [
+    "mode",
+    "roll",
+    "scope",
+    "subject"
+   ],
+   "sample": {
+    "subject": "self",
+    "kind": "roll-modifier",
+    "mode": "advantage",
+    "roll": "ability-check",
+    "scope": "Dexterity (Stealth) checks"
+   },
+   "sites": 69
+  },
+  {
+   "kind": "roll-modifier",
+   "keys": [
+    "mode",
+    "roll",
+    "subject"
+   ],
+   "sample": {
+    "subject": "self",
+    "kind": "roll-modifier",
+    "mode": "reroll",
+    "roll": "saving-throw"
+   },
+   "sites": 5
+  },
+  {
+   "kind": "save-outcome",
+   "keys": [
+    "ability",
+    "applies_to",
+    "on_failure",
+    "on_success",
+    "subject"
+   ],
+   "sample": {
+    "subject": "self",
+    "kind": "save-outcome",
+    "ability": "any",
+    "on_success": "none",
+    "on_failure": "half",
+    "applies_to": "a spell or magical effect that allows you to make a saving throw to take only half damage"
+   },
+   "sites": 6
+  },
+  {
+   "kind": "sense",
+   "keys": [
+    "condition",
+    "range",
+    "subject",
+    "type"
+   ],
+   "sample": {
+    "subject": "self",
+    "kind": "sense",
+    "type": "darkvision",
+    "range": 120,
+    "condition": "While the spectral visage is present"
+   },
+   "sites": 1
+  },
+  {
+   "kind": "sense",
+   "keys": [
+    "range",
+    "subject",
+    "type"
+   ],
+   "sample": {
+    "subject": "self",
+    "kind": "sense",
+    "type": "blindsight",
+    "range": 10
+   },
+   "sites": 14
+  },
+  {
+   "kind": "sense",
+   "keys": [
+    "range",
+    "type"
+   ],
+   "sample": {
+    "kind": "sense",
+    "type": "darkvision",
+    "range": 60
+   },
+   "sites": 16
+  },
+  {
+   "kind": "speed-bonus",
+   "keys": [
+    "condition",
+    "mode",
+    "set",
+    "subject",
+    "value"
+   ],
+   "sample": {
+    "subject": "self",
+    "kind": "speed-bonus",
+    "mode": "fly",
+    "value": 60,
+    "set": true,
+    "condition": "while this use of Innate Sorcery is active"
+   },
+   "sites": 4
+  },
+  {
+   "kind": "speed-bonus",
+   "keys": [
+    "condition",
+    "mode",
+    "subject",
+    "value"
+   ],
+   "sample": {
+    "subject": "self",
+    "kind": "speed-bonus",
+    "mode": "walk",
+    "value": 10,
+    "condition": "While the Bladesong is active"
+   },
+   "sites": 16
+  },
+  {
+   "kind": "speed-bonus",
+   "keys": [
+    "mode",
+    "set",
+    "subject",
+    "value"
+   ],
+   "sample": {
+    "subject": "self",
+    "kind": "speed-bonus",
+    "mode": "fly",
+    "value": 60,
+    "set": true
+   },
+   "sites": 13
+  },
+  {
+   "kind": "speed-bonus",
+   "keys": [
+    "mode",
+    "set",
+    "value"
+   ],
+   "sample": {
+    "kind": "speed-bonus",
+    "mode": "fly",
+    "value": 30,
+    "set": true
+   },
+   "sites": 3
+  },
+  {
+   "kind": "speed-bonus",
+   "keys": [
+    "mode",
+    "subject",
+    "value"
+   ],
+   "sample": {
+    "subject": "self",
+    "kind": "speed-bonus",
+    "mode": "walk",
+    "value": 5
+   },
+   "sites": 8
+  },
+  {
+   "kind": "speed-bonus",
+   "keys": [
+    "mode",
+    "value"
+   ],
+   "sample": {
+    "kind": "speed-bonus",
+    "mode": "walk",
+    "value": 10
+   },
+   "sites": 12
+  },
+  {
+   "kind": "temp-hp",
+   "keys": [
+    "amount"
+   ],
+   "sample": {
+    "kind": "temp-hp",
+    "amount": "10 per warlock level"
+   },
+   "sites": 1
+  },
+  {
+   "kind": "temp-hp",
+   "keys": [
+    "amount",
+    "condition",
+    "subject"
+   ],
+   "sample": {
+    "subject": "self",
+    "kind": "temp-hp",
+    "amount": "your Artificer level",
+    "condition": "While *Bloodied*"
+   },
+   "sites": 13
+  },
+  {
+   "kind": "temp-hp",
+   "keys": [
+    "amount",
+    "subject"
+   ],
+   "sample": {
+    "subject": "self",
+    "kind": "temp-hp",
+    "amount": "1d4 plus your Charisma modifier"
+   },
+   "sites": 17
+  },
+  {
+   "kind": "unarmored-ac",
+   "keys": [
+    "abilities",
+    "allow_shield",
+    "base",
+    "subject"
+   ],
+   "sample": {
+    "subject": "self",
+    "kind": "unarmored-ac",
+    "abilities": [
+     "dex",
+     "cha"
+    ],
+    "base": 10,
+    "allow_shield": true
+   },
+   "sites": 6
+  },
+  {
+   "kind": "unarmored-ac",
+   "keys": [
+    "abilities",
+    "base"
+   ],
+   "sample": {
+    "kind": "unarmored-ac",
+    "abilities": [
+     "dex"
+    ],
+    "base": 11
+   },
+   "sites": 1
+  },
+  {
+   "kind": "unarmored-ac",
+   "keys": [
+    "abilities",
+    "base",
+    "subject"
+   ],
+   "sample": {
+    "subject": "self",
+    "kind": "unarmored-ac",
+    "abilities": [
+     "dex"
+    ],
+    "base": 13
+   },
+   "sites": 5
+  },
+  {
+   "kind": "vulnerability",
+   "keys": [
+    "damage_type"
+   ],
+   "sample": {
+    "kind": "vulnerability",
+    "damage_type": "Bludgeoning"
+   },
+   "sites": 2
+  },
+  {
+   "kind": "weapon-ability",
+   "keys": [
+    "ability",
+    "subject"
+   ],
+   "sample": {
+    "subject": "self",
+    "kind": "weapon-ability",
+    "ability": "int"
+   },
+   "sites": 1
+  },
+  {
+   "kind": "weapon-ability",
+   "keys": [
+    "ability",
+    "subject",
+    "weapons"
+   ],
+   "sample": {
+    "subject": "self",
+    "kind": "weapon-ability",
+    "ability": "int",
+    "weapons": "the special weapon of your armor model"
+   },
+   "sites": 14
+  },
+  {
+   "kind": "weapon-ability",
+   "keys": [
+    "ability",
+    "weapons"
+   ],
+   "sample": {
+    "kind": "weapon-ability",
+    "ability": "cha",
+    "weapons": "the bonded weapon"
+   },
+   "sites": 1
+  }
+ ]
+}

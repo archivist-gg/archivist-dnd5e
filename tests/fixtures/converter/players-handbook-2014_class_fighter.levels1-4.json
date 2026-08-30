@@ -1,0 +1,104 @@
+{
+ "generated_by": "Task 0, plugin plan 2026-08-28-r4-g1a-class-refusals.md, t0-extract-fighter.ts",
+ "converter_head": "c2730c2",
+ "tree_hash": "744b2b85",
+ "source": "output/Player's Handbook (2014)/Classes/Fighter.md",
+ "note": "Structure only; every description is the OMITTED literal and `entries` is dropped.",
+ "slug": "players-handbook-2014_class_fighter",
+ "name": "Fighter",
+ "features_by_level": {
+  "1": [
+   {
+    "id": "fighting-style",
+    "name": "Fighting Style",
+    "description": "(omitted: structure-only fixture; the converter document is the source)"
+   },
+   {
+    "id": "second-wind",
+    "name": "Second Wind",
+    "description": "(omitted: structure-only fixture; the converter document is the source)",
+    "effects": [
+     {
+      "subject": "self",
+      "kind": "heal",
+      "amount": "1d10 + your fighter level"
+     }
+    ],
+    "resources": [
+     {
+      "id": "fighter:second-wind-uses",
+      "name": "Second Wind Uses",
+      "max_formula": "1",
+      "reset": "short-rest"
+     }
+    ]
+   }
+  ],
+  "2": [
+   {
+    "id": "action-surge",
+    "name": "Action Surge",
+    "description": "(omitted: structure-only fixture; the converter document is the source)",
+    "effects": [
+     {
+      "subject": "self",
+      "kind": "extra-action",
+      "count": 1,
+      "action_type": "action"
+     }
+    ],
+    "resources": [
+     {
+      "id": "fighter:action-surge-uses",
+      "name": "Action Surge Uses",
+      "max_formula": "1",
+      "reset": "short-rest",
+      "scales_at": [
+       {
+        "level": 17,
+        "max": "2"
+       }
+      ]
+     }
+    ]
+   }
+  ],
+  "3": [
+   {
+    "id": "martial-archetype",
+    "name": "Martial Archetype",
+    "description": "(omitted: structure-only fixture; the converter document is the source)"
+   }
+  ],
+  "4": [
+   {
+    "id": "ability-score-improvement",
+    "name": "Ability Score Improvement",
+    "description": "(omitted: structure-only fixture; the converter document is the source)",
+    "effects": [
+     {
+      "subject": "self",
+      "kind": "ability-score-increase",
+      "abilities": "chosen",
+      "amount": 2,
+      "choose": 1,
+      "max": 20
+     },
+     {
+      "subject": "self",
+      "kind": "ability-score-increase",
+      "abilities": "chosen",
+      "amount": 1,
+      "choose": 2,
+      "max": 20
+     }
+    ]
+   },
+   {
+    "id": "martial-versatility",
+    "name": "Martial Versatility",
+    "description": "(omitted: structure-only fixture; the converter document is the source)"
+   }
+  ]
+ }
+}
