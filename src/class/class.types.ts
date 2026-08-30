@@ -30,7 +30,9 @@ export interface SkillChoices {
   from: SkillSlug[];
 }
 
-export type CasterType = "full" | "half" | "third" | "pact";
+// CasterType is declared ONCE in schemas/caster-type-schema.ts; re-exported here so existing importers keep working. Never redeclare it.
+import type { CasterType } from "@archivist-gg/dnd5e/schemas/caster-type-schema";
+export type { CasterType };
 export type SpellcastingPreparation = "known" | "prepared";
 
 export interface SpellcastingConfig {

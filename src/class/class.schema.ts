@@ -4,6 +4,7 @@ import { choiceSchema } from "@archivist-gg/dnd5e/schemas/choice-schema";
 import { resourceSchema } from "@archivist-gg/dnd5e/schemas/resource-schema";
 import { startingEquipmentEntrySchema, startingGoldSchema } from "@archivist-gg/dnd5e/schemas/equipment-grant-schema";
 import { selectionPoolSchema, poolGrantSchema, tabDeclSchema } from "@archivist-gg/dnd5e/schemas/selection-pool-schema";
+import { casterTypeEnum } from "@archivist-gg/dnd5e/schemas/caster-type-schema";
 
 const abilityEnum = z.enum(["str", "dex", "con", "int", "wis", "cha"]);
 const skillEnum = z.enum([
@@ -38,8 +39,6 @@ const toolProficiencySchema = z.object({
 }).refine((t) => (t.fixed?.length ?? 0) > 0 || t.choice !== undefined, {
   message: "tool proficiency must declare fixed or choice",
 });
-
-const casterTypeEnum = z.enum(["full", "half", "third", "pact"]);
 
 const spellcastingSchema = z.object({
   caster_type: casterTypeEnum,

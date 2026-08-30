@@ -180,36 +180,61 @@ const PACT_MAGIC: Array<{ level: number; total: number }> = [
   /* 20 */ { level: 5, total: 4 },
 ];
 
+// R4-G1a D6b: the artificer progression. A COPY of the half-caster rows with the level-1 row replaced (the only row
+// that differs: an artificer, and the XPHB Paladin/Ranger, cast at level 1). Never alias HALF_CASTER_SLOTS.
+const ARTIFICER_CASTER_SLOTS: number[][] = HALF_CASTER_SLOTS.map((row) => [...row]);
+ARTIFICER_CASTER_SLOTS[0] = [2, 0, 0, 0, 0];
+
+type SlotCaster = Exclude<CasterType, "pact">;
+/** The single-class slot table for a progression. Exhaustive by construction: an unhandled member is a COMPILE
+ *  error at the `never` assignment (a bare switch statement would fall through silently). */
+export function slotTableFor(caster: SlotCaster): number[][] {
+  switch (caster) {
+    case "full": return FULL_CASTER_SLOTS;
+    case "half": return HALF_CASTER_SLOTS;
+    case "third": return THIRD_CASTER_SLOTS;
+    case "artificer": return ARTIFICER_CASTER_SLOTS;
+    default: { const _n: never = caster; throw new Error(`unknown caster type ${String(_n)}`); }
+  }
+}
+
 function rowToRecord(row: number[]): Record<number, number> {
   const out: Record<number, number> = {};
   row.forEach((n, i) => { if (n > 0) out[i + 1] = n; });
   return out;
 }
 
+/**
+ * Standard spell slots plus Pact Magic for a character's casting classes. A SINGLE regular caster reads its own
+ * progression table through `slotTableFor` (the artificer row included: level-1 slots, then the half-caster rows).
+ * TWO OR MORE pool into a multiclass caster level, `full + floor(half/2) + floor(third/3) + ceil(artificer/2)` on
+ * the SUMS, read off FULL_CASTER_SLOTS. Warlock levels never join that pool: they produce a separate pact entry.
+ */
 export function deriveSpellSlots(classes: CasterClassInput[]): DerivedSpellSlots {
-  let fullLevels = 0, halfLevels = 0, thirdLevels = 0, warlockLevel = 0;
-  const regular: Array<{ caster: Exclude<CasterType, "pact">; level: number }> = [];
+  let fullLevels = 0, halfLevels = 0, thirdLevels = 0, artificerLevels = 0, warlockLevel = 0;
+  const regular: Array<{ caster: SlotCaster; level: number }> = [];
   for (const c of classes) {
     if (c.casterType === "pact") { warlockLevel += c.level; continue; }
     regular.push({ caster: c.casterType, level: c.level });
-    if (c.casterType === "full") fullLevels += c.level;
-    else if (c.casterType === "half") halfLevels += c.level;
-    else if (c.casterType === "third") thirdLevels += c.level;
+    switch (c.casterType) {
+      case "full": fullLevels += c.level; break;
+      case "half": halfLevels += c.level; break;
+      case "third": thirdLevels += c.level; break;
+      case "artificer": artificerLevels += c.level; break;
+      default: { const _n: never = c.casterType; throw new Error(`unknown caster type ${String(_n)}`); }
+    }
   }
 
   let standard: Record<number, number> = {};
   if (regular.length === 1) {
     const only = regular[0];
+    const table = slotTableFor(only.caster);
     const idx = only.level - 1;
-    if (only.caster === "half") {
-      if (idx >= 0 && idx < HALF_CASTER_SLOTS.length) standard = rowToRecord(HALF_CASTER_SLOTS[idx]);
-    } else if (only.caster === "third") {
-      if (idx >= 0 && idx < THIRD_CASTER_SLOTS.length) standard = rowToRecord(THIRD_CASTER_SLOTS[idx]);
-    } else {
-      if (only.level >= 1 && only.level <= FULL_CASTER_SLOTS.length) standard = rowToRecord(FULL_CASTER_SLOTS[only.level - 1]);
-    }
+    if (idx >= 0 && idx < table.length) standard = rowToRecord(table[idx]);
   } else if (regular.length >= 2) {
-    const cl = fullLevels + Math.floor(halfLevels / 2) + Math.floor(thirdLevels / 3);
+    // Multiclass caster level: full + floor(half/2) + floor(third/3) + ceil(artificer/2), on the SUMS (TCE and the
+    // 2024 rule both round the artificer progression UP).
+    const cl = fullLevels + Math.floor(halfLevels / 2) + Math.floor(thirdLevels / 3) + Math.ceil(artificerLevels / 2);
     if (cl >= 1 && cl <= FULL_CASTER_SLOTS.length) standard = rowToRecord(FULL_CASTER_SLOTS[cl - 1]);
   }
 
@@ -232,6 +257,30 @@ export interface SpellLimit {
   preparedOrKnown: number | null;
 }
 
+/** The converter spells the 2024 column two ways; the bundle uses the first. Serves the PREPARED branch here, and
+ *  Task 6's preparation inference in `resolveSpellcasting` (which does not read it yet). The KNOWN branch keeps its
+ *  own candidates (the XPHB Sorcerer and Warlock are known casters whose count sits under "Prepared Spells"). */
+export const PREPARED_COLUMNS = ["Prepared Spells", "Spells Prepared"];
+
+/** The level term of the prepared-count FALLBACK (used only when no table column supplies the count). Slots round
+ *  the artificer progression UP; its prepared count rounds DOWN (TCE: "half your artificer level, rounded down").
+ *  `third` is a DELTA from the shipped `else` arm, which used the whole `level`: unreachable until Task 6's XPHB
+ *  Arcane Trickster, whose table supplies the count, so no shipped number moves (spec D6c, §8). */
+export function preparedLevelTerm(caster: CasterType, level: number): number {
+  switch (caster) {
+    case "full": case "pact": return level;
+    case "half": case "artificer": return Math.floor(level / 2);
+    case "third": return Math.floor(level / 3);
+    default: { const _n: never = caster; throw new Error(`unknown caster type ${String(_n)}`); }
+  }
+}
+
+/**
+ * Cantrip and prepared/known counts per casting class. The PREPARED count is TABLE-FIRST (R4-G1a D6c): a
+ * PREPARED_COLUMNS cell on the class table row wins outright, and only a row without one falls back to the formula
+ * `max(1, abilityMod + preparedLevelTerm(casterType, level))`. The KNOWN count is read from the table alone and is
+ * null when the row carries no candidate column.
+ */
 export function computeSpellLimits(inputs: LimitClassInput[]): SpellLimit[] {
   const out: SpellLimit[] = [];
   for (const i of inputs) {
@@ -240,8 +289,8 @@ export function computeSpellLimits(inputs: LimitClassInput[]): SpellLimit[] {
     const mod = abilityModifier(i.abilityScore);
     let preparedOrKnown: number | null;
     if (p.preparation === "prepared") {
-      const levelTerm = p.casterType === "half" ? Math.floor(i.level / 2) : i.level;
-      preparedOrKnown = Math.max(1, mod + levelTerm);
+      const fromTable = readTableColumn(p.table, i.level, PREPARED_COLUMNS);
+      preparedOrKnown = fromTable !== null ? fromTable : Math.max(1, mod + preparedLevelTerm(p.casterType, i.level));
     } else {
       preparedOrKnown = readTableColumn(p.table, i.level, ["Spells Known", "Prepared Spells"]);
     }

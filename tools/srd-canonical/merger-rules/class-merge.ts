@@ -5,6 +5,8 @@ import { slugifyName } from "../sources/slug-normalize";
 import type { Resource } from "@archivist-gg/dnd5e/types/resource";
 import type { Choice } from "@archivist-gg/dnd5e/types/choice";
 import type { StartingEquipmentEntry, StartingGold } from "@archivist-gg/dnd5e/types/equipment-grant";
+// CasterType is declared ONCE in schemas/caster-type-schema.ts; CASTER_TYPE_MAP reads it. Never redeclare it.
+import type { CasterType } from "@archivist-gg/dnd5e/schemas/caster-type-schema";
 
 /**
  * ClassCanonical mirrors the runtime ClassEntity shape (packages/dnd5e/src/class/class.schema.ts)
@@ -37,7 +39,6 @@ export interface ClassCanonical {
 }
 
 type Ability = "str" | "dex" | "con" | "int" | "wis" | "cha";
-type CasterType = "full" | "half" | "third" | "pact";
 type SkillSlug =
   | "acrobatics" | "animal-handling" | "arcana" | "athletics" | "deception"
   | "history" | "insight" | "intimidation" | "investigation" | "medicine"

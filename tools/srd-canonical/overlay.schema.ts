@@ -5,6 +5,7 @@ import { featureEffectSchema } from "@archivist-gg/dnd5e/schemas/feature-effect-
 import { startingEquipmentEntrySchema, startingGoldSchema } from "@archivist-gg/dnd5e/schemas/equipment-grant-schema";
 import { langProfSchema } from "@archivist-gg/dnd5e/background/background.schema";
 import { fixedAsiSchema } from "@archivist-gg/dnd5e/race/race.schema";
+import { casterTypeEnum } from "@archivist-gg/dnd5e/schemas/caster-type-schema";
 
 const actionCost = z.enum(["action", "bonus-action", "reaction", "free", "special"]);
 const recharge = z.enum(["short-rest", "long-rest", "dawn", "dusk", "turn", "round", "custom"]);
@@ -56,7 +57,7 @@ const classOverrideSchema = z.object({
   subclass_level: z.number().int().min(1).max(20).optional(),
   subclass_feature_name: z.string().min(1).optional(),
   spellcasting: z.object({
-    caster_type: z.enum(["full", "half", "third", "pact"]),
+    caster_type: casterTypeEnum,
     ability: z.enum(["str", "dex", "con", "int", "wis", "cha"]),
     preparation: z.enum(["known", "prepared"]),
     spell_list: z.string().min(1),

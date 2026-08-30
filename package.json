@@ -82,6 +82,7 @@
     "./race/race.parser": "./src/race/race.parser.ts",
     "./race/race.schema": "./src/race/race.schema.ts",
     "./race/race.types": "./src/race/race.types.ts",
+    "./schemas/caster-type-schema": "./src/schemas/caster-type-schema.ts",
     "./schemas/choice-schema": "./src/schemas/choice-schema.ts",
     "./schemas/duration-schema": "./src/schemas/duration-schema.ts",
     "./schemas/equipment-grant-schema": "./src/schemas/equipment-grant-schema.ts",

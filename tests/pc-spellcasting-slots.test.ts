@@ -58,3 +58,36 @@ describe("deriveSpellSlots — full / half / pact / multiclass", () => {
     expect(deriveSpellSlots([])).toEqual({ standard: {}, pact: null });
   });
 });
+
+describe("deriveSpellSlots · the artificer progression (R4-G1a D6, G10, G11)", () => {
+  it("artificer 1 = {1:2}, 5 = {1:4,2:2}, 20 = the half row 20", () => {
+    expect(deriveSpellSlots([{ casterType: "artificer", level: 1 }]).standard).toEqual({ 1: 2 });
+    expect(deriveSpellSlots([{ casterType: "artificer", level: 5 }]).standard).toEqual({ 1: 4, 2: 2 });
+    expect(deriveSpellSlots([{ casterType: "artificer", level: 20 }]).standard).toEqual({ 1: 4, 2: 3, 3: 3, 4: 3, 5: 2 });
+  });
+  it("literal rows for the four existing types are unchanged (the aliasing mutant is caught by half 1 = {})", () => {
+    expect(deriveSpellSlots([{ casterType: "full", level: 1 }]).standard).toEqual({ 1: 2 });
+    expect(deriveSpellSlots([{ casterType: "full", level: 5 }]).standard).toEqual({ 1: 4, 2: 3, 3: 2 });
+    expect(deriveSpellSlots([{ casterType: "full", level: 20 }]).standard).toEqual({ 1: 4, 2: 3, 3: 3, 4: 3, 5: 3, 6: 2, 7: 2, 8: 1, 9: 1 });
+    expect(deriveSpellSlots([{ casterType: "half", level: 1 }]).standard).toEqual({});
+    expect(deriveSpellSlots([{ casterType: "half", level: 5 }]).standard).toEqual({ 1: 4, 2: 2 });
+    expect(deriveSpellSlots([{ casterType: "half", level: 20 }]).standard).toEqual({ 1: 4, 2: 3, 3: 3, 4: 3, 5: 2 });
+    expect(deriveSpellSlots([{ casterType: "third", level: 3 }]).standard).toEqual({ 1: 2 });
+    expect(deriveSpellSlots([{ casterType: "third", level: 7 }]).standard).toEqual({ 1: 4, 2: 2 });
+    expect(deriveSpellSlots([{ casterType: "third", level: 20 }]).standard).toEqual({ 1: 4, 2: 3, 3: 3, 4: 1 });
+    expect(deriveSpellSlots([{ casterType: "pact", level: 1 }]).pact).toEqual({ level: 1, total: 1 });
+    expect(deriveSpellSlots([{ casterType: "pact", level: 11 }]).pact).toEqual({ level: 5, total: 3 });
+    expect(deriveSpellSlots([{ casterType: "pact", level: 20 }]).pact).toEqual({ level: 5, total: 4 });
+  });
+  it("multiclass: artificer levels contribute ceil(n/2): Artificer 3 + Wizard 1 = CL 3 = full row 3; XPHB Paladin 5 (artificer progression) + Wizard 1 = CL 4 = full row 4", () => {
+    // Only ODD artificer levels separate ceil from floor (Gate 2 measured): 3 → {1:4,2:2} vs floor's {1:3}; 5 → {1:4,2:3} vs floor's {1:4,2:2}.
+    expect(deriveSpellSlots([{ casterType: "artificer", level: 3 }, { casterType: "full", level: 1 }]).standard).toEqual({ 1: 4, 2: 2 });
+    expect(deriveSpellSlots([{ casterType: "artificer", level: 5 }, { casterType: "full", level: 1 }]).standard).toEqual({ 1: 4, 2: 3 });
+    // Artificer 4 + Wizard 1 is {1:4,2:2} under BOTH roundings: a characterisation, not a kill.
+    expect(deriveSpellSlots([{ casterType: "artificer", level: 4 }, { casterType: "full", level: 1 }]).standard).toEqual({ 1: 4, 2: 2 });
+  });
+  it("Artificer 4 + Warlock 1 keeps the artificer table plus pact magic (characterisation: the pact divert)", () => {
+    const r = deriveSpellSlots([{ casterType: "artificer", level: 4 }, { casterType: "pact", level: 1 }]);
+    expect(r.standard).toEqual({ 1: 3 }); expect(r.pact).toEqual({ level: 1, total: 1 });
+  });
+});

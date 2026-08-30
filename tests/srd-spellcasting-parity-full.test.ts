@@ -152,37 +152,37 @@ const EXPECTED: Record<"2014" | "2024", Record<string, Record<number, Cell>>> = 
     },
   },
   "2024": {
-    // 2024: bard becomes "prepared" (count = mod + level, not a table column).
+    // 2024: bard becomes "prepared"; count read from the Prepared Spells column (R4-G1a D6c).
     bard: {
       1:  { slots: { 1: 2 }, pact: null, cantrips: 2, preparedOrKnown: 4, kind: "prepared", saveDC: 13, attackBonus: 5, ability: "cha" },
-      5:  { slots: { 1: 4, 2: 3, 3: 2 }, pact: null, cantrips: 3, preparedOrKnown: 8, kind: "prepared", saveDC: 14, attackBonus: 6, ability: "cha" },
-      11: { slots: { 1: 4, 2: 3, 3: 3, 4: 3, 5: 2, 6: 1 }, pact: null, cantrips: 4, preparedOrKnown: 14, kind: "prepared", saveDC: 15, attackBonus: 7, ability: "cha" },
-      17: { slots: { 1: 4, 2: 3, 3: 3, 4: 3, 5: 2, 6: 1, 7: 1, 8: 1, 9: 1 }, pact: null, cantrips: 4, preparedOrKnown: 20, kind: "prepared", saveDC: 17, attackBonus: 9, ability: "cha" },
+      5:  { slots: { 1: 4, 2: 3, 3: 2 }, pact: null, cantrips: 3, preparedOrKnown: 9, kind: "prepared", saveDC: 14, attackBonus: 6, ability: "cha" },
+      11: { slots: { 1: 4, 2: 3, 3: 3, 4: 3, 5: 2, 6: 1 }, pact: null, cantrips: 4, preparedOrKnown: 16, kind: "prepared", saveDC: 15, attackBonus: 7, ability: "cha" },
+      17: { slots: { 1: 4, 2: 3, 3: 3, 4: 3, 5: 2, 6: 1, 7: 1, 8: 1, 9: 1 }, pact: null, cantrips: 4, preparedOrKnown: 19, kind: "prepared", saveDC: 17, attackBonus: 9, ability: "cha" },
     },
     cleric: {
       1:  { slots: { 1: 2 }, pact: null, cantrips: 3, preparedOrKnown: 4, kind: "prepared", saveDC: 13, attackBonus: 5, ability: "wis" },
-      5:  { slots: { 1: 4, 2: 3, 3: 2 }, pact: null, cantrips: 4, preparedOrKnown: 8, kind: "prepared", saveDC: 14, attackBonus: 6, ability: "wis" },
-      11: { slots: { 1: 4, 2: 3, 3: 3, 4: 3, 5: 2, 6: 1 }, pact: null, cantrips: 5, preparedOrKnown: 14, kind: "prepared", saveDC: 15, attackBonus: 7, ability: "wis" },
-      17: { slots: { 1: 4, 2: 3, 3: 3, 4: 3, 5: 2, 6: 1, 7: 1, 8: 1, 9: 1 }, pact: null, cantrips: 5, preparedOrKnown: 20, kind: "prepared", saveDC: 17, attackBonus: 9, ability: "wis" },
+      5:  { slots: { 1: 4, 2: 3, 3: 2 }, pact: null, cantrips: 4, preparedOrKnown: 9, kind: "prepared", saveDC: 14, attackBonus: 6, ability: "wis" },
+      11: { slots: { 1: 4, 2: 3, 3: 3, 4: 3, 5: 2, 6: 1 }, pact: null, cantrips: 5, preparedOrKnown: 16, kind: "prepared", saveDC: 15, attackBonus: 7, ability: "wis" },
+      17: { slots: { 1: 4, 2: 3, 3: 3, 4: 3, 5: 2, 6: 1, 7: 1, 8: 1, 9: 1 }, pact: null, cantrips: 5, preparedOrKnown: 19, kind: "prepared", saveDC: 17, attackBonus: 9, ability: "wis" },
     },
     druid: {
       1:  { slots: { 1: 2 }, pact: null, cantrips: 2, preparedOrKnown: 4, kind: "prepared", saveDC: 13, attackBonus: 5, ability: "wis" },
-      5:  { slots: { 1: 4, 2: 3, 3: 2 }, pact: null, cantrips: 2, preparedOrKnown: 8, kind: "prepared", saveDC: 14, attackBonus: 6, ability: "wis" },
-      11: { slots: { 1: 4, 2: 3, 3: 3, 4: 3, 5: 2, 6: 1 }, pact: null, cantrips: 3, preparedOrKnown: 14, kind: "prepared", saveDC: 15, attackBonus: 7, ability: "wis" },
-      17: { slots: { 1: 4, 2: 3, 3: 3, 4: 3, 5: 2, 6: 1, 7: 1, 8: 1, 9: 1 }, pact: null, cantrips: 4, preparedOrKnown: 20, kind: "prepared", saveDC: 17, attackBonus: 9, ability: "wis" },
+      5:  { slots: { 1: 4, 2: 3, 3: 2 }, pact: null, cantrips: 2, preparedOrKnown: 9, kind: "prepared", saveDC: 14, attackBonus: 6, ability: "wis" },
+      11: { slots: { 1: 4, 2: 3, 3: 3, 4: 3, 5: 2, 6: 1 }, pact: null, cantrips: 3, preparedOrKnown: 16, kind: "prepared", saveDC: 15, attackBonus: 7, ability: "wis" },
+      17: { slots: { 1: 4, 2: 3, 3: 3, 4: 3, 5: 2, 6: 1, 7: 1, 8: 1, 9: 1 }, pact: null, cantrips: 4, preparedOrKnown: 19, kind: "prepared", saveDC: 17, attackBonus: 9, ability: "wis" },
     },
     paladin: {
-      1:  { slots: {}, pact: null, cantrips: null, preparedOrKnown: 3, kind: "prepared", saveDC: 13, attackBonus: 5, ability: "cha" },
-      5:  { slots: { 1: 4, 2: 2 }, pact: null, cantrips: null, preparedOrKnown: 5, kind: "prepared", saveDC: 14, attackBonus: 6, ability: "cha" },
-      11: { slots: { 1: 4, 2: 3, 3: 3 }, pact: null, cantrips: null, preparedOrKnown: 8, kind: "prepared", saveDC: 15, attackBonus: 7, ability: "cha" },
-      17: { slots: { 1: 4, 2: 3, 3: 3, 4: 3, 5: 1 }, pact: null, cantrips: null, preparedOrKnown: 11, kind: "prepared", saveDC: 17, attackBonus: 9, ability: "cha" },
+      1:  { slots: {}, pact: null, cantrips: null, preparedOrKnown: 2, kind: "prepared", saveDC: 13, attackBonus: 5, ability: "cha" },
+      5:  { slots: { 1: 4, 2: 2 }, pact: null, cantrips: null, preparedOrKnown: 6, kind: "prepared", saveDC: 14, attackBonus: 6, ability: "cha" },
+      11: { slots: { 1: 4, 2: 3, 3: 3 }, pact: null, cantrips: null, preparedOrKnown: 10, kind: "prepared", saveDC: 15, attackBonus: 7, ability: "cha" },
+      17: { slots: { 1: 4, 2: 3, 3: 3, 4: 3, 5: 1 }, pact: null, cantrips: null, preparedOrKnown: 14, kind: "prepared", saveDC: 17, attackBonus: 9, ability: "cha" },
     },
-    // 2024: ranger becomes "prepared" (count = mod + floor(level/2)).
+    // 2024: ranger becomes "prepared"; count read from the Prepared Spells column (R4-G1a D6c).
     ranger: {
-      1:  { slots: {}, pact: null, cantrips: null, preparedOrKnown: 3, kind: "prepared", saveDC: 13, attackBonus: 5, ability: "wis" },
-      5:  { slots: { 1: 4, 2: 2 }, pact: null, cantrips: null, preparedOrKnown: 5, kind: "prepared", saveDC: 14, attackBonus: 6, ability: "wis" },
-      11: { slots: { 1: 4, 2: 3, 3: 3 }, pact: null, cantrips: null, preparedOrKnown: 8, kind: "prepared", saveDC: 15, attackBonus: 7, ability: "wis" },
-      17: { slots: { 1: 4, 2: 3, 3: 3, 4: 3, 5: 1 }, pact: null, cantrips: null, preparedOrKnown: 11, kind: "prepared", saveDC: 17, attackBonus: 9, ability: "wis" },
+      1:  { slots: {}, pact: null, cantrips: null, preparedOrKnown: 2, kind: "prepared", saveDC: 13, attackBonus: 5, ability: "wis" },
+      5:  { slots: { 1: 4, 2: 2 }, pact: null, cantrips: null, preparedOrKnown: 6, kind: "prepared", saveDC: 14, attackBonus: 6, ability: "wis" },
+      11: { slots: { 1: 4, 2: 3, 3: 3 }, pact: null, cantrips: null, preparedOrKnown: 10, kind: "prepared", saveDC: 15, attackBonus: 7, ability: "wis" },
+      17: { slots: { 1: 4, 2: 3, 3: 3, 4: 3, 5: 1 }, pact: null, cantrips: null, preparedOrKnown: 14, kind: "prepared", saveDC: 17, attackBonus: 9, ability: "wis" },
     },
     sorcerer: {
       1:  { slots: { 1: 2 }, pact: null, cantrips: 4, preparedOrKnown: 2, kind: "known", saveDC: 13, attackBonus: 5, ability: "cha" },
@@ -198,9 +198,9 @@ const EXPECTED: Record<"2014" | "2024", Record<string, Record<number, Cell>>> = 
     },
     wizard: {
       1:  { slots: { 1: 2 }, pact: null, cantrips: 3, preparedOrKnown: 4, kind: "prepared", saveDC: 13, attackBonus: 5, ability: "int" },
-      5:  { slots: { 1: 4, 2: 3, 3: 2 }, pact: null, cantrips: 4, preparedOrKnown: 8, kind: "prepared", saveDC: 14, attackBonus: 6, ability: "int" },
-      11: { slots: { 1: 4, 2: 3, 3: 3, 4: 3, 5: 2, 6: 1 }, pact: null, cantrips: 5, preparedOrKnown: 14, kind: "prepared", saveDC: 15, attackBonus: 7, ability: "int" },
-      17: { slots: { 1: 4, 2: 3, 3: 3, 4: 3, 5: 2, 6: 1, 7: 1, 8: 1, 9: 1 }, pact: null, cantrips: 5, preparedOrKnown: 20, kind: "prepared", saveDC: 17, attackBonus: 9, ability: "int" },
+      5:  { slots: { 1: 4, 2: 3, 3: 2 }, pact: null, cantrips: 4, preparedOrKnown: 9, kind: "prepared", saveDC: 14, attackBonus: 6, ability: "int" },
+      11: { slots: { 1: 4, 2: 3, 3: 3, 4: 3, 5: 2, 6: 1 }, pact: null, cantrips: 5, preparedOrKnown: 16, kind: "prepared", saveDC: 15, attackBonus: 7, ability: "int" },
+      17: { slots: { 1: 4, 2: 3, 3: 3, 4: 3, 5: 2, 6: 1, 7: 1, 8: 1, 9: 1 }, pact: null, cantrips: 5, preparedOrKnown: 22, kind: "prepared", saveDC: 17, attackBonus: 9, ability: "int" },
     },
   },
 };

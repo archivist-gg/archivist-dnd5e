@@ -12,6 +12,7 @@ import type { WeaponEntity } from "../weapon/weapon.types";
 import type { ItemEntity } from "../item/item.types";
 import type { SkillSlug, Feature } from "@archivist-gg/dnd5e";
 import type { ClassEntity } from "@archivist-gg/dnd5e/class/class.types";
+import type { CasterType } from "@archivist-gg/dnd5e/schemas/caster-type-schema";
 import type { RaceEntity } from "@archivist-gg/dnd5e/race/race.types";
 import type { SubclassEntity } from "@archivist-gg/dnd5e/subclass/subclass.types";
 import type { BackgroundEntity } from "@archivist-gg/dnd5e/background/background.types";
@@ -571,7 +572,8 @@ export interface SpellcastingClassInfo {
   defaultAbility: Ability;
   saveDC: number;
   attackBonus: number;
-  casterType: "full" | "half" | "third" | "pact";
+  /** The shared caster-type vocabulary; see schemas/caster-type-schema.ts (never spell the members out again). */
+  casterType: CasterType;
   preparation: "known" | "prepared";
 }
 
