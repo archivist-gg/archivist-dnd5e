@@ -8,7 +8,14 @@ export type FeatPrerequisite =
   | { kind: "spellcaster" }
   | { kind: "proficiency"; proficiency_type: "armor" | "weapon" | "tool" | "skill" | "saving-throw"; value: string }
   | { kind: "race"; slug: string }
-  | { kind: "class"; slug: string };
+  | { kind: "class"; slug: string }
+  | { kind: "feat"; slug: string }
+  | { kind: "campaign"; slug: string }
+  | { kind: "exclusive-feat-category"; slug: string }
+  | { kind: "feature"; slug: string }
+  | { kind: "other"; detail: string }
+  | { kind: "feat-category"; slug: string }
+  | { kind: "background"; slug: string };
 
 export interface FeatGrantsAsi {
   amount: number;

@@ -15,13 +15,18 @@ export type OptionalFeatureKind =
   | "maneuver"          // battle master (non-SRD; future)
   | "infusion";         // artificer (non-SRD; future)
 
+/** A class/subclass named reference carried by a level prerequisite; mirrors namedRefSchema. */
+export type OptionalFeatureNamedRef = { name: string; source?: string; visible_stats?: boolean };
+
 export type OptionalFeaturePrerequisite =
-  | { kind: "level"; min: number }
+  | { kind: "level"; min: number; class?: OptionalFeatureNamedRef; subclass?: OptionalFeatureNamedRef }
   | { kind: "spell-known"; spell: string }
   | { kind: "pact"; pact: "tome" | "blade" | "chain" | "talisman" }
   | { kind: "class"; class: string }
   | { kind: "ability"; ability: "str" | "dex" | "con" | "int" | "wis" | "cha"; min: number }
-  | { kind: "other"; detail: string };
+  | { kind: "other"; detail: string }
+  | { kind: "optionalfeature"; optionalfeature: string }
+  | { kind: "spell-choose"; choose: string; entry?: string; entry_summary?: string };
 
 export interface OptionalFeatureEntity {
   slug: string;

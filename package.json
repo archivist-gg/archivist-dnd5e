@@ -31,6 +31,8 @@
     "./encounter/encounter.ai-schema": "./src/encounter/encounter.ai-schema.ts",
     "./entities/base-item-resolver": "./src/entities/base-item-resolver.ts",
     "./entities/slug": "./src/entities/slug.ts",
+    "./entities/wikilink-display": "./src/entities/wikilink-display.ts",
+    "./feat/feat.category-codes": "./src/feat/feat.category-codes.ts",
     "./feat/feat.codec": "./src/feat/feat.codec.ts",
     "./feat/feat.parser": "./src/feat/feat.parser.ts",
     "./feat/feat.schema": "./src/feat/feat.schema.ts",

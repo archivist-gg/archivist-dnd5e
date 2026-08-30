@@ -17,6 +17,16 @@ const prerequisiteSchema = z.discriminatedUnion("kind", [
   }),
   z.object({ kind: z.literal("race"), slug: z.string().min(1) }),
   z.object({ kind: z.literal("class"), slug: z.string().min(1) }),
+  // The exclusive-feat-category and feat-category arms carry a raw 5etools category code, not a
+  // slug; featCategoryLabel names it. The rest carry slugs the renderer humanizes, except other,
+  // which carries free prose that prereqText returns verbatim.
+  z.object({ kind: z.literal("feat"), slug: z.string().min(1) }),
+  z.object({ kind: z.literal("campaign"), slug: z.string().min(1) }),
+  z.object({ kind: z.literal("exclusive-feat-category"), slug: z.string().min(1) }),
+  z.object({ kind: z.literal("feature"), slug: z.string().min(1) }),
+  z.object({ kind: z.literal("other"), detail: z.string().min(1) }),
+  z.object({ kind: z.literal("feat-category"), slug: z.string().min(1) }),
+  z.object({ kind: z.literal("background"), slug: z.string().min(1) }),
 ]);
 
 export const featEntitySchema = z.object({
