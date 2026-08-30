@@ -267,8 +267,9 @@ export const PREPARED_COLUMNS = ["Prepared Spells", "Spells Prepared"];
 
 /** The level term of the prepared-count FALLBACK (used only when no table column supplies the count). Slots round
  *  the artificer progression UP; its prepared count rounds DOWN (TCE: "half your artificer level, rounded down").
- *  `third` is a DELTA from the shipped `else` arm, which used the whole `level`: unreachable until Task 6's XPHB
- *  Arcane Trickster, whose table supplies the count, so no shipped number moves (spec D6c, §8). */
+ *  `third` is a DELTA from the shipped `else` arm, which used the whole `level`: reachable in principle now that
+ *  `resolveSpellcasting` infers `prepared` for the XPHB Arcane Trickster, whose table supplies the count, so no
+ *  shipped number moves (spec D6c, §8). */
 export function preparedLevelTerm(caster: CasterType, level: number): number {
   switch (caster) {
     case "full": case "pact": return level;
