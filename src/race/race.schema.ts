@@ -1,6 +1,8 @@
 import { z } from "zod";
 import { featureSchema } from "@archivist-gg/dnd5e/schemas/feature-schema";
 import { choiceSchema } from "@archivist-gg/dnd5e/schemas/choice-schema";
+import { imageField, additionalSpellsEntrySchema }
+  from "@archivist-gg/dnd5e/schemas/entity-extras-schema";
 
 const abilityEnum = z.enum(["str", "dex", "con", "int", "wis", "cha"]);
 const editionEnum = z.enum(["2014", "2024"]);
@@ -64,4 +66,22 @@ export const raceEntitySchema = z.object({
   traits: z.array(featureSchema),
   choices: z.array(choiceSchema).optional(),
   subspecies_of: z.string().regex(wikilinkRegex).optional(),
+  rendering_hint: z.string().optional(),
+  has_fluff: z.boolean().optional(),
+  has_fluff_images: z.boolean().optional(),
+  creature_type: z.array(z.string().min(1)).optional(),       // guarded non-empty at the emitter (finding 24)
+  creature_type_tags: z.array(z.string().min(1)).optional(),
+  additional_spells: z.union([
+    z.array(additionalSpellsEntrySchema),   // converter form, 109 docs
+    additionalSpellsEntrySchema,            // SHIPPED-BUNDLE bare-object form, 3 docs (§2.8)
+  ]).optional(),
+  // The four RAW 5etools PASSTHROUGHS (race-mapper.ts D13 block copies them VERBATIM, no shape
+  // guard — finding 24): today's variant set is a snapshot, not a contract (lineage is already
+  // string|null|boolean), and NO G row ever reads them. Maximally loose by ruling; the guard
+  // test §9.5 pins today's variant classes since the census goes blind under z.unknown().
+  trait_tags: z.unknown().optional(),
+  lineage: z.unknown().optional(),
+  height_and_weight: z.unknown().optional(),
+  sound_clip: z.unknown().optional(),
+  image: imageField,
 });

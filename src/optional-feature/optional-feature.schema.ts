@@ -6,6 +6,8 @@ import {
   resourceConsumptionSchema,
 } from "@archivist-gg/dnd5e/schemas/resource-schema";
 import { durationSchema } from "@archivist-gg/dnd5e/schemas/duration-schema";
+import { imageField, additionalSpellsEntrySchema, progressionSchema }
+  from "@archivist-gg/dnd5e/schemas/entity-extras-schema";
 
 const editionEnum = z.enum(["2014", "2024"]);
 const abilityEnum = z.enum(["str", "dex", "con", "int", "wis", "cha"]);
@@ -50,6 +52,13 @@ export const optionalFeatureEntitySchema = z.object({
   // Phase 3 activatable buffs: an activatable boon folds its effects only while
   // its slug is present in state.active_buffs (toggled in the PoolTab).
   activatable: z.boolean().optional(),
+  rendering_hint: z.string().optional(),        // the ONE root with load-bearing VALUES (88 records, G4's)
+  additional_spells: z.array(additionalSpellsEntrySchema).optional(),   // 54
+  is_class_feature_variant: z.boolean().optional(),                     // 25
+  has_fluff_images: z.boolean().optional(),                             // 2
+  feat_progression: z.array(progressionSchema).optional(),              // 1
+  optionalfeature_progression: z.array(progressionSchema).optional(),   // 1
+  image: imageField,
 });
 
 export type OptionalFeatureSchemaInput = z.input<typeof optionalFeatureEntitySchema>;

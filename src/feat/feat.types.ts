@@ -1,6 +1,8 @@
 import type { Choice, Ability, FeatCategory, FeatureEffect } from "@archivist-gg/dnd5e";
 import type { Edition } from "@archivist-gg/dnd5e/types/edition";
-import type { Resource } from "@archivist-gg/dnd5e/types/resource";
+import type { Resource, ActionCost } from "@archivist-gg/dnd5e/types/resource";
+import type { AdditionalSpellsEntry, ProgressionEntry }
+  from "@archivist-gg/dnd5e/schemas/entity-extras-schema";
 
 export type FeatPrerequisite =
   | { kind: "ability"; ability: Ability; min: number }
@@ -36,4 +38,17 @@ export interface FeatEntity {
   repeatable: boolean;
   choices: Choice[];
   resources?: Resource[];
+  /** Converter/bundle extras declared by feat.schema.ts §2.4; all optional, none read today. */
+  rendering_hint?: string;
+  additional_spells?: AdditionalSpellsEntry[];
+  has_fluff?: boolean;
+  has_fluff_images?: boolean;
+  /** RAW 5etools passthrough: `unknown` mirrors the schema's `z.unknown()`. */
+  trait_tags?: unknown;
+  optionalfeature_progression?: ProgressionEntry[];
+  /** R-G1b-5: a TOP-LEVEL bundle key on `SRD 2024/Feats/Boon of the Night Spirit.md`.
+   *  Declared-only; feat rendering has no action field yet (the mapping is G3's). */
+  action_cost?: ActionCost;
+  /** One wikilink, or an array of them for the multi-fluff-image emit. */
+  image?: string | string[];
 }

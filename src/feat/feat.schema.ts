@@ -1,6 +1,9 @@
 import { z } from "zod";
 import { choiceSchema } from "@archivist-gg/dnd5e/schemas/choice-schema";
 import { featureEffectSchema } from "@archivist-gg/dnd5e/schemas/feature-effect-schema";
+import { resourceSchema, actionCostEnum } from "@archivist-gg/dnd5e/schemas/resource-schema";
+import { imageField, additionalSpellsEntrySchema, progressionSchema }
+  from "@archivist-gg/dnd5e/schemas/entity-extras-schema";
 
 const abilityEnum = z.enum(["str", "dex", "con", "int", "wis", "cha"]);
 const editionEnum = z.enum(["2014", "2024"]);
@@ -45,4 +48,21 @@ export const featEntitySchema = z.object({
   }).nullable(),
   repeatable: z.boolean(),
   choices: z.array(choiceSchema),
+  rendering_hint: z.string().optional(),
+  additional_spells: z.array(additionalSpellsEntrySchema).optional(),   // 71
+  has_fluff: z.boolean().optional(),                                    // 0 carriers — symmetry, §9.4
+  has_fluff_images: z.boolean().optional(),                             // 41
+  trait_tags: z.unknown().optional(),                                   // 7, nullable measured — same passthrough family
+  optionalfeature_progression: z.array(progressionSchema).optional(),   // 4
+  resources: z.array(resourceSchema).optional(),  // closes the feat.types.ts:38 schema/type asymmetry (C);
+      // ZERO converter/bundle carriers (no census row) — the only behaviour delta is AUTHORED feats,
+      // where the type has promised the field all along. Import resourceSchema.
+  action_cost: actionCostEnum.optional(),  // ruling R-G1b-5 (gate1-r1 f1): a TOP-LEVEL bundle key on ONE
+      // feat (`SRD 2024/Feats/Boon of the Night Spirit.md`, `action_cost: bonus-action` at entity top
+      // level) — the ninth SRD-control non-kept row: top-level on the ENTITY, not featureSchema-shaped
+      // (finding 14's nine rows split 4 featureSchema / 4 §2.8-arity / this one, which needed its own
+      // declaration — gate1-r4 R4-1). `actionCostEnum` is exported from
+      // `schemas/resource-schema.ts` (optionalFeatureEntitySchema already imports it). Declared-only;
+      // feat rendering has no `action` field today — the MAPPING is G3's, named in §8.
+  image: imageField,
 });

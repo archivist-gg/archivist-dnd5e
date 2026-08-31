@@ -2,6 +2,7 @@ import type { FeatureEffect } from "./feature-effect";
 import type { ActionCost, ResetTrigger, ResourceConsumption } from "./resource";
 import type { Duration } from "../schemas/duration-schema";
 import type { Edition } from "./edition";
+import type { AdditionalSpellsEntry, ProgressionEntry } from "../schemas/entity-extras-schema";
 
 /**
  * Documentation-only union of the canonical SRD feature types. The
@@ -57,4 +58,15 @@ export interface OptionalFeatureEntity {
   /** Phase 3 activatable buffs: when true, the boon's effects fold only while its
    *  slug is present in `Character.state.active_buffs` (toggled in the PoolTab). */
   activatable?: boolean;
+  /** Converter extras declared by optional-feature.schema.ts §2.5; all optional.
+   *  `rendering_hint` is the ONE of these whose VALUES are load-bearing (88 records carry a
+   *  real marker such as `dice-pool`); reading it is G4's row, declaring it is this one's. */
+  rendering_hint?: string;
+  additional_spells?: AdditionalSpellsEntry[];
+  is_class_feature_variant?: boolean;
+  has_fluff_images?: boolean;
+  feat_progression?: ProgressionEntry[];
+  optionalfeature_progression?: ProgressionEntry[];
+  /** One wikilink, or an array of them for the multi-fluff-image emit. */
+  image?: string | string[];
 }
