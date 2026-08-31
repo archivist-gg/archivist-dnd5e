@@ -72,13 +72,26 @@ describe("class widening (§2.7) — declare-or-lose keys survive parseClass", (
     }
   });
   it("§9.5 class half: all four measured multiclassing arities survive verbatim, incl. {}", () => {
-    for (const m of [`multiclassing: {}\n`,
-      `multiclassing:\n  requirements:\n    str: 13\n`,
-      `multiclassing:\n  proficiencies_gained:\n    armor:\n      - light\n`,
-      `multiclassing:\n  proficiencies_gained:\n    tools:\n      - '{@item Tinker''s Tools|XPHB}'\n  requirements:\n    or:\n      - dex: 13\n        str: 13\n`]) {
+    // Ruling FR-I2: "survive verbatim" is only TRUE if the parsed VALUE is pinned. Each expected
+    // object below is derived from the YAML on its own row; the `in` presence check alone passes
+    // just as happily on a schema that keeps the key and drops its interior.
+    const cases: [string, unknown][] = [
+      [`multiclassing: {}\n`, {}],
+      [`multiclassing:\n  requirements:\n    str: 13\n`, { requirements: { str: 13 } }],
+      [`multiclassing:\n  proficiencies_gained:\n    armor:\n      - light\n`,
+        { proficiencies_gained: { armor: ["light"] } }],
+      [`multiclassing:\n  proficiencies_gained:\n    tools:\n      - '{@item Tinker''s Tools|XPHB}'\n  requirements:\n    or:\n      - dex: 13\n        str: 13\n`,
+        { proficiencies_gained: { tools: ["{@item Tinker's Tools|XPHB}"] },
+          requirements: { or: [{ dex: 13, str: 13 }] } }],
+    ];
+    for (const [m, expected] of cases) {
       const r = parseClass(baseClass + m);
       expect(r.success).toBe(true);
-      if (r.success) expect("multiclassing" in (r.data as unknown as Record<string, unknown>)).toBe(true);
+      if (r.success) {
+        const d = r.data as unknown as Record<string, unknown>;
+        expect("multiclassing" in d).toBe(true);
+        expect(d.multiclassing).toEqual(expected);
+      }
     }
   });
   it("§9.6 legs 1+2: {scaling}-only parses (REFUSES today — the one deliberate flip), null parses", () => {

@@ -13,7 +13,7 @@ describe("race widening (§2.3) — declare-or-lose keys survive parseRace", () 
       const d = r.data as unknown as Record<string, unknown>;   // TS2352 without the unknown hop (gate2 F4)
       expect("trait_tags" in d).toBe(true);      // KEY presence — null trap (spec §7 R-G1b-4)
       expect(d.trait_tags).toBeNull();
-      expect(d.lineage).toBe(false);             // the measured boolean variant
+      expect(d.lineage).toBe(false);             // the measured boolean CLASS
       expect(d.height_and_weight).toEqual({ baseHeight: 41, baseWeight: 35 });
       expect(d.sound_clip).toEqual({ type: "internal", path: "races/goblin.opus" });
       // Ruling T2-carry of T1-I2: every key the §2.3 block declares is asserted BY VALUE, never

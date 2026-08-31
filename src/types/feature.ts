@@ -1,5 +1,5 @@
 import type { Choice } from "./choice";
-import type { Resource, ResourceConsumption } from "./resource";
+import type { Resource, ResourceConsumption, ActionCost } from "./resource";
 import type { Attack } from "./attack";
 import type { FeatureEffect } from "./feature-effect";
 import type { Duration } from "../schemas/duration-schema";
@@ -56,6 +56,6 @@ export interface Feature {
   // SRD-BUNDLE-side keys: our own generator emits these at feature level (the
   // Dragonborn Breath Weapon's action cost and save DC). DECLARED-ONLY — the
   // alias mapping onto `action` / `dc_formula` is owned by G3.
-  action_cost?: "action" | "bonus-action" | "reaction" | "free" | "special";
+  action_cost?: ActionCost;
   save?: { ability: string; dc_formula: string };
 }

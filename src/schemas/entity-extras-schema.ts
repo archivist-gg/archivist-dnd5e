@@ -35,8 +35,10 @@ export const additionalSpellsEntrySchema = z.object({
  *  `progression` is a record on 42 of 46 containers (keys numeric strings + "*", values number) and
  *  an ARRAY (number[], len 20) on class.optionalfeature_progression ONLY (4 docs: both PHB Warlocks,
  *  TCE + Eberron Artificer). `featureType` (camelCase) is the ONLY spelling on all 13 subclass
- *  optionalfeature_progression containers; `feature_type` (snake) on class/feat/optional-feature;
- *  `required` on 2 subclass docs ({"3": ["Elemental Attunement|PHB"]}). Union order is SAFE
+ *  optionalfeature_progression containers; `feature_type` (snake) on class/feat/optional-feature —
+ *  true of their optionalfeature_progression containers; `class.feat_progression`'s 16 containers
+ *  carry neither spelling; `required` on 2 subclass docs ({"3": ["Elemental Attunement|PHB"]}).
+ *  Union order is SAFE
  *  (executed: record.safeParse(array) fails invalid_type). Distribution recorded in T0's census
  *  baseline — NO test asserts it; §9.3 characterises the SHAPES only. */
 export const progressionSchema = z.object({

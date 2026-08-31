@@ -118,7 +118,8 @@ export const classEntitySchema = z.object({
   spells_known_progression_fixed_by_level:
     z.record(z.string(), z.record(z.string(), z.number())).optional(),        // ⚠️ two-deep record (finding 1)
   feat_progression: z.array(progressionSchema).optional(),               // 13
-  optionalfeature_progression: z.array(progressionSchema).optional(),    // 9 (the ARRAY progression arm)
+  optionalfeature_progression: z.array(progressionSchema).optional(),    // 9 carriers; the ARRAY
+                                                                         // progression arm rides 4 of them
   additional_spells: z.array(additionalSpellsEntrySchema).optional(),    // 7
   image: imageField,
 });

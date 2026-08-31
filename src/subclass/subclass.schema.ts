@@ -47,7 +47,8 @@ export const subclassEntitySchema = z.object({
   prepared_spells_progression: z.array(z.number()).optional(),           // 2
   spells_known_progression: z.array(z.number()).optional(),              // 4
   feat_progression: z.array(progressionSchema).optional(),               // 1
-  optionalfeature_progression: z.array(progressionSchema).optional(),    // 13 (featureType + required)
+  optionalfeature_progression: z.array(progressionSchema).optional(),    // 13 carriers; featureType
+                                                                         // on all 13, required on 2
   additional_spells: z.array(additionalSpellsEntrySchema).optional(),    // 212
   image: imageField,
 });

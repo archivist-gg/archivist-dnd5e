@@ -30,7 +30,7 @@ describe("extractLanguagesFromTraits", () => {
     expect(extractLanguagesFromTraits(t)).toEqual({ fixed: ["common"] });
   });
 
-  it("gates against KNOWN_LANGUAGES, dropping tokens outside the SRD set", () => {
+  it("gates against KNOWN_LANGUAGES, dropping tokens outside the vocabulary", () => {
     const t = [{
       name: "Languages",
       desc: "You can speak, read, and write Common, Elvish, and Aklo.",

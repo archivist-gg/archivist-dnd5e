@@ -31,10 +31,10 @@ export const ALL_SKILL_SLUGS: SkillSlug[] = [
  *     `tests/srd-canonical/merger-rules/srd-race-languages.test.ts`.
  *   · the ENGINE: `enumerateOptions` uses it as the from-less `domain:"language"`
  *     picker pool, and `computeEffectiveProficiencies` canonicalizes grants, picks
- *     and manual adds against it through the canonical comparison in that module,
- *     `matchPool` — a module-level helper it shares with its other call sites, not
- *     one of its own. The proficiency aggregate reads
- *     ALL_LANGUAGES directly, here — it does not go through KNOWN_LANGUAGES.
+ *     and manual adds against it through `pc.decision-engine.ts`'s one canonical
+ *     comparison, `matchPool` — a module-level helper it shares with its other call
+ *     sites, not one of its own. `computeEffectiveProficiencies` reads ALL_LANGUAGES
+ *     from HERE, directly — it does not go through the generator's KNOWN_LANGUAGES.
  *   · the PLUGIN: `proficiency-edit-modal.ts` renders its LANGUAGE section from
  *     `[...ALL_LANGUAGES, ...suppressed]`.
  *  Membership is also what makes two spellings of one language FOLD onto a single

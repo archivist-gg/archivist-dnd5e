@@ -309,7 +309,10 @@ function extractFreeTextTrait(traits: OpenTrait[], name: string): string {
 }
 
 /**
- * SRD language set gating the prose parser. Shared with D4's ALL_LANGUAGES
+ * The plugin's FULL language vocabulary gating the prose parser: `ALL_LANGUAGES`,
+ * since G1b 8 STANDARD + 8 EXOTIC + 2 SECRET. NOT "the SRD language set" — `choice.ts`
+ * negates that reading explicitly: the two secret languages are class-taught and
+ * appear on no SRD language list. Shared with D4's ALL_LANGUAGES
  * (src/types/choice.ts) so the parser's gate never drifts from the picker pool.
  */
 const KNOWN_LANGUAGES = new Set(ALL_LANGUAGES);
@@ -329,8 +332,12 @@ const LANGUAGE_ANCHOR = "speak, read, and write";
  *   4. strip the choice clause (the pickable "one extra" is modeled separately as a
  *      select-proficiency choice, so we never emit languages.choice here);
  *   5. split on commas and " and ", lowercase-trim each token;
- *   6. gate against KNOWN_LANGUAGES (drop anything outside the SRD set), then
- *      dedupe and sort.
+ *   6. gate against KNOWN_LANGUAGES (drop tokens outside the plugin vocabulary; since
+ *      G1b that vocabulary carries both SECRET slugs: Druidic prose passes the gate,
+ *      but Thieves' Cant prose CANNOT — this gate compares raw lowercased tokens, never
+ *      toProfSlug, and the slug is hyphenated (thieves'-cant) while prose tokenizes to
+ *      "thieves' cant" — and the corpus carries neither, which the srd-race-languages
+ *      guard pins), then dedupe and sort.
  * 2024 species carry no Languages trait, so this yields { fixed: [] }.
  */
 export function extractLanguagesFromTraits(traits: OpenTrait[]): RaceCanonical["languages"] {
