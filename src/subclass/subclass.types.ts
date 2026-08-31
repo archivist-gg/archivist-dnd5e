@@ -1,6 +1,8 @@
 import type { Feature, Resource } from "@archivist-gg/dnd5e";
 import type { Edition, SubclassSpellcastingConfig } from "@archivist-gg/dnd5e/class/class.types";
 import type { SelectionPool, PoolGrant, TabDecl } from "@archivist-gg/dnd5e/types/selection-pool";
+import type { AdditionalSpellsEntry, ProgressionEntry }
+  from "@archivist-gg/dnd5e/schemas/entity-extras-schema";
 
 export interface SubclassEntity {
   slug: string;
@@ -16,4 +18,21 @@ export interface SubclassEntity {
   selection_pools?: SelectionPool[];
   pool_grants?: PoolGrant[];
   tabs?: TabDecl[];
+  /** Converter/bundle extras declared by subclass.schema.ts §2.7; all optional, none read today. */
+  rendering_hint?: string;
+  short_name?: string;
+  has_fluff?: boolean;
+  has_fluff_images?: boolean;
+  /** RAW 5etools passthrough (single measured key-set `{_subclassFluff:{…}}`): mirrors `z.unknown()`. */
+  fluff?: unknown;
+  table_col_labels?: string[];
+  cantrip_progression?: number[];
+  prepared_spells_change?: string;
+  prepared_spells_progression?: number[];
+  spells_known_progression?: number[];
+  feat_progression?: ProgressionEntry[];
+  optionalfeature_progression?: ProgressionEntry[];
+  additional_spells?: AdditionalSpellsEntry[];
+  /** One wikilink, or an array of them for the multi-fluff-image emit. */
+  image?: string | string[];
 }

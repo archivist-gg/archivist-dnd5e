@@ -5,6 +5,8 @@ import { resourceSchema } from "@archivist-gg/dnd5e/schemas/resource-schema";
 import { startingEquipmentEntrySchema, startingGoldSchema } from "@archivist-gg/dnd5e/schemas/equipment-grant-schema";
 import { selectionPoolSchema, poolGrantSchema, tabDeclSchema } from "@archivist-gg/dnd5e/schemas/selection-pool-schema";
 import { casterTypeEnum } from "@archivist-gg/dnd5e/schemas/caster-type-schema";
+import { imageField, additionalSpellsEntrySchema, progressionSchema }
+  from "@archivist-gg/dnd5e/schemas/entity-extras-schema";
 
 const abilityEnum = z.enum(["str", "dex", "con", "int", "wis", "cha"]);
 const skillEnum = z.enum([
@@ -48,7 +50,13 @@ const spellcastingSchema = z.object({
 });
 
 const weaponMasterySchema = z.object({
-  starting_count: z.number().int().nonnegative(),
+  // §2.7's ONE deliberate relaxation, and the phase's only non-additive edit. Measured: `starting_count`
+  // has ZERO read sites in either repo, all 24 SRD class records are `weapon_mastery: null`, and the
+  // converter population is zero too (26 of 28 class docs null; both object carriers DO carry the count).
+  // It exists so the converter can re-emit a countless mastery object later (G5 owns counts-from-prose).
+  // A THREE-declaration edit (finding 11): here, `class.types.ts`, and the generator's COPIED
+  // `interface WeaponMasteryConfig` in tools/srd-canonical/merger-rules/class-merge.ts.
+  starting_count: z.number().int().nonnegative().optional(),
   scaling: z.record(z.string(), z.number().int().nonnegative()).optional(),
 });
 
@@ -93,4 +101,24 @@ export const classEntitySchema = z.object({
   selection_pools: z.array(selectionPoolSchema).optional(),
   pool_grants: z.array(poolGrantSchema).optional(),
   tabs: z.array(tabDeclSchema).optional(),
+  rendering_hint: z.string().optional(),                                 // 28
+  has_fluff: z.boolean().optional(),                                     // 28
+  has_fluff_images: z.boolean().optional(),                              // 27
+  table_col_labels: z.array(z.string().min(1)).optional(),               // 28
+  starting_equipment_additional_from_background: z.boolean().optional(), // 28
+  multiclassing: z.unknown().optional(),   // FOUR arities measured incl. {} ×3; free-form 5etools keys
+                                           // ("thieves' tools", requirements.or[].{dex,str}) — Q1 ruling
+  cantrip_progression: z.array(z.number()).optional(),                   // 15
+  prepared_spells: z.string().min(1).optional(),              // formula string "<$level$> / 2 + <$int_mod$>"
+  prepared_spells_change: z.string().min(1).optional(),       // "restLong"
+  prepared_spells_progression: z.array(z.number()).optional(),
+  spells_known_progression: z.array(z.number()).optional(),
+  spells_known_progression_fixed: z.array(z.number()).optional(),
+  spells_known_progression_fixed_allow_lower_level: z.boolean().optional(),   // ⚠️ BOOLEAN (finding 1)
+  spells_known_progression_fixed_by_level:
+    z.record(z.string(), z.record(z.string(), z.number())).optional(),        // ⚠️ two-deep record (finding 1)
+  feat_progression: z.array(progressionSchema).optional(),               // 13
+  optionalfeature_progression: z.array(progressionSchema).optional(),    // 9 (the ARRAY progression arm)
+  additional_spells: z.array(additionalSpellsEntrySchema).optional(),    // 7
+  image: imageField,
 });

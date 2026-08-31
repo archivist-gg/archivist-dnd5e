@@ -61,7 +61,9 @@ interface SpellcastingConfig {
 }
 
 interface WeaponMasteryConfig {
-  starting_count: number;
+  /** OPTIONAL since R4-G1b (§2.7, finding 11): a COPY of class.types.ts's interface, not an import —
+   *  leaving it required here is the recorded silent divergence. Declaration 3 of 3. */
+  starting_count?: number;
   scaling?: Record<string, number>;
 }
 

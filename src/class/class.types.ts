@@ -2,6 +2,8 @@ import type { Feature, Ability, SkillSlug, Resource, Choice } from "@archivist-g
 import type { StartingEquipmentEntry, StartingGold } from "@archivist-gg/dnd5e/types/equipment-grant";
 export type { StartingEquipmentEntry, StartingGold } from "@archivist-gg/dnd5e/types/equipment-grant";
 import type { SelectionPool, PoolGrant, TabDecl } from "@archivist-gg/dnd5e/types/selection-pool";
+import type { AdditionalSpellsEntry, ProgressionEntry }
+  from "@archivist-gg/dnd5e/schemas/entity-extras-schema";
 
 import type { Edition } from "@archivist-gg/dnd5e/types/edition";
 export type { Edition };
@@ -53,7 +55,10 @@ export interface SubclassSpellcastingConfig {
 }
 
 export interface WeaponMasteryConfig {
-  starting_count: number;
+  /** OPTIONAL since R4-G1b (§2.7): the converter must be able to re-emit a countless mastery object
+   *  (G5 owns counts-from-prose). Declaration 2 of 3 — the schema and the generator's COPIED
+   *  `interface WeaponMasteryConfig` in tools/srd-canonical/merger-rules/class-merge.ts are the others. */
+  starting_count?: number;
   scaling?: Record<number, number>;
 }
 
@@ -95,4 +100,27 @@ export interface ClassEntity {
   selection_pools?: SelectionPool[];
   pool_grants?: PoolGrant[];
   tabs?: TabDecl[];
+  /** Converter/bundle extras declared by class.schema.ts §2.7; all optional, none read today. */
+  rendering_hint?: string;
+  has_fluff?: boolean;
+  has_fluff_images?: boolean;
+  table_col_labels?: string[];
+  starting_equipment_additional_from_background?: boolean;
+  /** RAW 5etools passthrough (four measured arities incl. `{}`): `unknown` mirrors `z.unknown()`. */
+  multiclassing?: unknown;
+  cantrip_progression?: number[];
+  prepared_spells?: string;
+  prepared_spells_change?: string;
+  prepared_spells_progression?: number[];
+  spells_known_progression?: number[];
+  spells_known_progression_fixed?: number[];
+  /** ⚠️ BOOLEAN, not an array (finding 1). */
+  spells_known_progression_fixed_allow_lower_level?: boolean;
+  /** ⚠️ TWO-DEEP record: level -> spell level -> count (finding 1). */
+  spells_known_progression_fixed_by_level?: Record<string, Record<string, number>>;
+  feat_progression?: ProgressionEntry[];
+  optionalfeature_progression?: ProgressionEntry[];
+  additional_spells?: AdditionalSpellsEntry[];
+  /** One wikilink, or an array of them for the multi-fluff-image emit. */
+  image?: string | string[];
 }

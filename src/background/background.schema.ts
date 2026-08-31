@@ -1,6 +1,8 @@
 import { z } from "zod";
 import { choiceSchema } from "@archivist-gg/dnd5e/schemas/choice-schema";
 import { startingEquipmentEntrySchema } from "@archivist-gg/dnd5e/schemas/equipment-grant-schema";
+import { imageField, additionalSpellsEntrySchema }
+  from "@archivist-gg/dnd5e/schemas/entity-extras-schema";
 
 const abilityEnum = z.enum(["str", "dex", "con", "int", "wis", "cha"]);
 const editionEnum = z.enum(["2014", "2024"]);
@@ -61,4 +63,17 @@ export const backgroundEntitySchema = z.object({
   origin_feat: z.string().regex(wikilinkRegex).nullable(),
   suggested_characteristics: suggestedCharSchema.nullable(),
   choices: z.array(choiceSchema).optional(),
+  rendering_hint: z.string().optional(),                                 // 175
+  has_fluff_images: z.boolean().optional(),                              // 87
+  tables: z.array(z.object({                       // 88 tables / 67 docs; key-sets EXACT (finding 6)
+    name: z.string().min(1), dice: z.string().min(1),
+    rows: z.array(z.object({ roll: z.string(), text: z.string() })),
+  })).optional(),
+  additional_spells: z.array(additionalSpellsEntrySchema).optional(),   // 15
+  prerequisites: z.array(z.object({                // 4 docs; kind CLOSED AT THE EMITTER
+    kind: z.literal("campaign"), slug: z.string().min(1),               // (background-mapper.ts pushes
+  })).optional(),                                  //  {kind:"campaign", slug} literally — finding 24)
+      // The one-arm union STAYS (§2.6 adjudication): it is closed by CONSTRUCTION at the converter's
+      // only push site, and a future kind turns into a visible census REFUSAL — the correct loud failure.
+  image: imageField,
 });

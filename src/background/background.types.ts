@@ -2,6 +2,8 @@ import type { Ability, SkillSlug, Choice } from "@archivist-gg/dnd5e";
 import type { Edition } from "@archivist-gg/dnd5e/types/edition";
 import type { Resource } from "@archivist-gg/dnd5e/types/resource";
 import type { StartingEquipmentEntry } from "@archivist-gg/dnd5e/types/equipment-grant";
+import type { AdditionalSpellsEntry }
+  from "@archivist-gg/dnd5e/schemas/entity-extras-schema";
 
 export type BackgroundToolProficiency =
   | { kind: "fixed"; items: string[] }
@@ -33,4 +35,14 @@ export interface BackgroundEntity {
   origin_feat: string | null;
   suggested_characteristics: SuggestedCharacteristics | null;
   choices?: Choice[];
+  /** Converter/bundle extras declared by background.schema.ts §2.6; all optional, none read today. */
+  rendering_hint?: string;
+  has_fluff_images?: boolean;
+  /** 88 roll tables over 67 docs; `roll` is a STRING on every row ("1", "2-3"). Render is G3/G8's. */
+  tables?: Array<{ name: string; dice: string; rows: Array<{ roll: string; text: string }> }>;
+  additional_spells?: AdditionalSpellsEntry[];
+  /** The kind is CLOSED at the converter's only push site (background-mapper.ts). */
+  prerequisites?: Array<{ kind: "campaign"; slug: string }>;
+  /** One wikilink, or an array of them for the multi-fluff-image emit. */
+  image?: string | string[];
 }
