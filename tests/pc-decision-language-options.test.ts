@@ -1,5 +1,7 @@
 import { describe, it, expect } from "vitest";
-import { ALL_LANGUAGES, STANDARD_LANGUAGES, EXOTIC_LANGUAGES } from "@archivist-gg/dnd5e/types/choice";
+import {
+  ALL_LANGUAGES, STANDARD_LANGUAGES, EXOTIC_LANGUAGES, SECRET_LANGUAGES,
+} from "@archivist-gg/dnd5e/types/choice";
 import { buildDecisionLedger } from "@archivist-gg/dnd5e/pc/pc.decision-engine";
 import type { ResolvedCharacter } from "@archivist-gg/dnd5e/pc/pc.types";
 // Relative import retained for locality; the module is also reachable as
@@ -43,14 +45,14 @@ function resolvedWithLanguageChoice(): ResolvedCharacter {
 }
 
 describe("ALL_LANGUAGES", () => {
-  it("contains the SRD standard + exotic set with common and deep-speech", () => {
+  it("contains the standard + exotic + secret vocabulary, with common and deep-speech", () => {
     expect(ALL_LANGUAGES).toContain("common");
     expect(ALL_LANGUAGES).toContain("deep-speech");
-    expect(ALL_LANGUAGES.length).toBe(16);
+    expect(ALL_LANGUAGES.length).toBe(18);
     expect(new Set(ALL_LANGUAGES).size).toBe(ALL_LANGUAGES.length); // no dupes
   });
 
-  it("composes exactly the 8 standard + 8 exotic slugs", () => {
+  it("composes exactly the 8 standard + 8 exotic + 2 secret slugs", () => {
     expect(STANDARD_LANGUAGES).toEqual([
       "common", "dwarvish", "elvish", "giant", "gnomish", "goblin", "halfling", "orc",
     ]);
@@ -58,7 +60,12 @@ describe("ALL_LANGUAGES", () => {
       "abyssal", "celestial", "deep-speech", "draconic", "infernal", "primordial",
       "sylvan", "undercommon",
     ]);
-    expect(ALL_LANGUAGES).toEqual([...STANDARD_LANGUAGES, ...EXOTIC_LANGUAGES]);
+    // Pinned by VALUE, not just spread: a `toEqual` over the three names alone
+    // would still pass against an EMPTY SECRET_LANGUAGES.
+    expect(SECRET_LANGUAGES).toEqual(["druidic", "thieves'-cant"]);
+    expect(ALL_LANGUAGES).toEqual([
+      ...STANDARD_LANGUAGES, ...EXOTIC_LANGUAGES, ...SECRET_LANGUAGES,
+    ]);
   });
 });
 
@@ -71,8 +78,13 @@ describe("buildDecisionLedger: language picker options", () => {
 
     // Call the shared humanizer rather than transcribing a formula inline: the
     // old copy locked `\b\w`, which the implementation no longer uses. No label
-    // here changes (no language slug contains an apostrophe, the only input the
-    // two formulas disagree on), so this is hygiene, not a repair.
+    // here changes, so this is hygiene, not a repair — but the REASON is no longer
+    // "no language slug contains an apostrophe": R4-G1b added `thieves'-cant`.
+    // Re-derived over all 18: the two formulas still agree everywhere, because in
+    // "thieves' cant" the `\b` after the apostrophe precedes a SPACE, not a word
+    // character, so `\b\w` finds nothing to capitalize there either. The two
+    // disagree only where a LETTER follows the apostrophe ("smith's-tools" →
+    // "Smith'S Tools"), which no language slug does.
     const expected = ALL_LANGUAGES.map((v) => ({ value: v, label: humanizeProficiency(v) }));
     expect(item.options).toEqual(expected);
 

@@ -159,11 +159,24 @@ function composeGrantEntries(buckets: ProficiencyGrant[][]): ProficiencyEntry[] 
  *  pc.decision-engine.ts handles · the canonical comparison in that module,
  *  `matchPool`, is never handed one),
  *  so routing an entity slug through here now yields "A_b" where it once gave
- *  "A B". Safe today: 0 of the 50 distinct values that can reach this function
- *  contain `_`, counted over every fixed grant read at :116-128, every
- *  language/tool select-proficiency `from` pool in runtime data, and the
- *  ALL_LANGUAGES fallback · 7 of those 50 change output. Re-derive that census
- *  before widening what feeds this. */
+ *  "A B". Safe today: 0 of the 73 distinct values in the census contain `_`.
+ *  The census is the SUPERSET it has always been, named by symbol because line
+ *  cites rot: every fixed grant bucket `collectProficiencyGrants` builds (class
+ *  armor / weapons.fixed / weapons.categories / tools.fixed, race + background
+ *  fixed languages and tools, the four feat grants), every language/tool
+ *  select-proficiency `from` pool in runtime data, and the ALL_LANGUAGES
+ *  fallback · 18 of those 73 CHANGE OUTPUT, meaning they render differently than
+ *  the retired pre-R4-P3a body did (17 are an `X'S` → `X's` repair, one is the
+ *  U+2019 fold). Both numbers moved since P3a recorded 50 / 7, and neither move
+ *  is this function: R4-G1b widened ALL_LANGUAGES 16 → 18 (SECRET_LANGUAGES) and
+ *  the intervening SRD regens replaced from-less tool picks with explicit
+ *  ALL_TOOLS-shaped `from` pools.
+ *
+ *  It is a superset because languages and tools no longer come through here at
+ *  all · they are composed by `computeEffectiveProficiencies`, leaving
+ *  `composeGrantEntries` (armor + weapons) as this function's only live caller:
+ *  21 distinct values, 0 with `_`, 0 changed. Re-derive BOTH numbers before
+ *  widening anything that feeds this; do not copy them forward. */
 function prettyName(slug: string): string {
   return humanizeProficiency(toProfSlug(slug));
 }

@@ -95,8 +95,10 @@ const values = (item: DecisionItem): string[] => item.options.map((o) => o.value
 describe("effective-set exclusion: the picker never offers what you already have", () => {
   it("hides languages the character already knows", () => {
     // A Dwarf grants common + dwarvish; a from-less count:2 language choice
-    // enumerates all 16. This IS the reported defect: picking dwarvish here
-    // burned the choice and the sheet then showed nothing new.
+    // enumerates all 18 (R4-G1b widened ALL_LANGUAGES from 16 with
+    // SECRET_LANGUAGES). This IS the reported defect: picking dwarvish here
+    // burned the choice and the sheet then showed nothing new. The assertions
+    // below derive from ALL_LANGUAGES.length, so they auto-tracked: 18 − 2 = 16.
     const ledger = buildDecisionLedger(
       fabricate({
         raceLanguages: ["common", "dwarvish"],
@@ -263,10 +265,12 @@ describe("effective-set exclusion: the picker never offers what you already have
 
 describe("DecisionItem.satisfied: exclusion emptied the pool", () => {
   it("marks a language choice satisfied when every option is already known", () => {
-    // The state exclusion newly makes reachable: all 16 languages held, so a
-    // from-less count:2 language pick enumerates 16 and excludes 16. There is
+    // The state exclusion newly makes reachable: all 18 languages held, so a
+    // from-less count:2 language pick enumerates 18 and excludes 18. There is
     // nothing left to grant, so the row is done rather than an obligation the
-    // user could never discharge.
+    // user could never discharge. The count is spread from ALL_LANGUAGES itself,
+    // so R4-G1b's widening 16 → 18 moved both sides together and the empty pool
+    // below is unchanged.
     const ledger = buildDecisionLedger(
       fabricate({
         raceLanguages: [...ALL_LANGUAGES],

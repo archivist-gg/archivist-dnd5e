@@ -250,17 +250,34 @@ describe("computeEffectiveProficiencies", () => {
   // These are CHARACTERISATION cases: they passed on first run, and the mutation
   // above is what makes them worth having.
   //
-  // Deliberately exercised with an OFF-VOCABULARY language, which is the failure
-  // mode P3c named: `proficiencyEntryFor` keys an off-vocabulary value on the RAW
-  // string (only a vocabulary HIT is folded through toProfSlug), so one language
-  // spelled two ways becomes two rows carrying the SAME label. The effect side
-  // always arrives canonical (classifyProficiencyEffect slugs it), so the
-  // spelling that has to coincide is the entity grant's.
+  // The general keying rule, unchanged: `proficiencyEntryFor` keys a value the
+  // vocabulary MISSES on the RAW string (only a HIT is folded through toProfSlug),
+  // so an off-vocabulary language spelled two ways becomes two rows carrying the
+  // SAME label. The effect side always arrives canonical (classifyProficiencyEffect
+  // slugs it), so the spelling that has to coincide is the entity grant's.
+  // What the file still exercises of that rule, and what it no longer does:
+  // `MCDM Cant` above is the CUSTOM branch — a user-typed add, keyed on its raw
+  // string and rendered verbatim (origin "custom"), not a grant at all. The 2014
+  // Monk above is the grant-side vocabulary MISS: raw value as the key, label
+  // humanized. Neither SPLITS a row, because each carries a single spelling.
+  // The split itself — one language spelled two ways becoming two rows under one
+  // label — is exercised NOWHERE in this file any more. Delta 5 retired it here
+  // BY DESIGN; the rule above is stated for the reader, not pinned by this file.
+  //
+  // THIS family no longer exercises it. R4-G1b put `thieves'-cant` INTO
+  // ALL_LANGUAGES (SECRET_LANGUAGES), which is the phase's deliberate fifth
+  // user-visible delta: the prose spelling `Thieves' Cant` and the pre-slugged
+  // effect grant now both HIT the vocabulary, `matchPool` canonicalizes them onto
+  // the same key, and what used to be two rows with one label is ONE row carrying
+  // both sources. That is the repair of exactly the duplicate-row defect P3c
+  // named — pre-declared and adjudicated, not an accident of the widening.
   // ───────────────────────────────────────────────────────────────────────────
 
   /** A Rogue whose Thieves' Cant feature grants the language by EFFECT.
-   *  "thieves'-cant" is not in ALL_LANGUAGES (8 standard + 8 exotic, no cant),
-   *  and the authored value carries the U+2019 the 2014 SRD prose uses.
+   *  "thieves'-cant" IS in ALL_LANGUAGES since R4-G1b (SECRET_LANGUAGES, beside
+   *  "druidic"; the list is 8 standard + 8 exotic + 2 secret), and the authored
+   *  value carries the U+2019 the 2014 SRD prose uses, which toProfSlug folds
+   *  onto that same ASCII slug.
    *  `raceLanguages` threads a SECOND granting entity for the dedupe half,
    *  `overrides` the suppression half. */
   function cantRogue(opts: { overrides?: unknown; raceLanguages?: string[] } = {}) {
@@ -306,15 +323,18 @@ describe("computeEffectiveProficiencies", () => {
       value: "thieves'-cant", label: "Thieves' Cant", origin: "grant", sources: ["Human", "Rogue"],
     });
 
-    // CHARACTERISATION of today's keying, NOT a desideratum. Respell the race's
-    // grant as prose and the same language SPLITS: the off-vocabulary key is the
-    // raw string, so "Thieves' Cant" and "thieves'-cant" are two entries · and
-    // because the label branch DOES slug-fold, both rows render identically. If a
-    // later change keys off-vocabulary values on toProfSlug too, this assertion
-    // is the one that reports it.
-    const split = computeEffectiveProficiencies(cantRogue({ raceLanguages: ["Thieves' Cant"] }));
-    expect(split.languages.map((e) => e.value)).toEqual(["Thieves' Cant", "thieves'-cant"]);
-    expect(split.languages.map((e) => e.label)).toEqual(["Thieves' Cant", "Thieves' Cant"]);
+    // The NEW characterisation (R4-G1b delta 5). Respell the race's grant as
+    // prose and it no longer splits: `thieves'-cant` is in the vocabulary now, so
+    // `matchPool` canonicalizes the prose spelling onto the pool slug and the two
+    // grants FOLD to ONE row carrying BOTH sources. Before the widening this same
+    // input produced two rows, values ["Thieves' Cant", "thieves'-cant"], both
+    // rendering the identical label — the duplicate-row defect. Asserted as the
+    // whole row, not just the values, so a regression that folded the key while
+    // dropping a source would still be caught.
+    const prose = computeEffectiveProficiencies(cantRogue({ raceLanguages: ["Thieves' Cant"] }));
+    expect(prose.languages.map((e) => e.value)).toEqual(["thieves'-cant"]);
+    expect(prose.languages.map((e) => e.label)).toEqual(["Thieves' Cant"]);
+    expect(prose.languages[0]).toMatchObject({ origin: "grant", sources: ["Human", "Rogue"] });
   });
 
   it("suppresses an effect-granted language via overrides.languages.remove", () => {
@@ -328,9 +348,11 @@ describe("computeEffectiveProficiencies", () => {
     expect(computeEffectiveProficiencies(bySlug).languages).toEqual([]);
 
     // The suppression filter runs toProfSlug over BOTH sides, so the PROSE
-    // spelling suppresses the same row · an asymmetry with the dedupe key above,
-    // which does not fold. Pin it: a suppression narrowed to exact equality
-    // would leave the row on screen with the remove silently inert.
+    // spelling suppresses the same row. Since R4-G1b that AGREES with the dedupe
+    // key above rather than differing from it: with `thieves'-cant` in the
+    // vocabulary both sides now fold, so suppression and dedupe answer alike.
+    // Still worth pinning: a suppression narrowed to exact equality would leave
+    // the row on screen with the remove silently inert.
     const byProse = cantRogue({ overrides: { languages: { remove: ["Thieves’ Cant"] } } });
     expect(computeEffectiveProficiencies(byProse).languages).toEqual([]);
   });

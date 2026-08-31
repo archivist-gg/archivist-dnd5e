@@ -16,8 +16,29 @@ export const ALL_SKILL_SLUGS: SkillSlug[] = [
   "sleight-of-hand", "stealth", "survival",
 ];
 
-/** The SRD language set: 8 standard + 8 exotic. Authoritative and reused as
- *  KNOWN_LANGUAGES by the proficiency aggregate; slugs are edition-agnostic. */
+/** The language vocabulary the engine matches every language grant and pick
+ *  against: 8 standard + 8 exotic + 2 SECRET. It is NOT "the SRD language set" —
+ *  the two secret languages are class-taught and appear on no SRD language list.
+ *  Slugs are edition-agnostic, apostrophe-retaining and canonical under
+ *  `toProfSlug`, exactly as ALL_TOOLS is.
+ *
+ *  A cross-repo CONTRACT with three kinds of consumer, so widening this list is a
+ *  data change at all three · named by symbol, because line cites rot:
+ *   · the SRD GENERATOR: `race-merge.ts` builds `KNOWN_LANGUAGES = new Set(ALL_LANGUAGES)`
+ *     and `extractLanguagesFromTraits` gates species prose tokens through it, so
+ *     this constant is INPUT DATA to canonical species output. That name belongs
+ *     to the generator and to nothing else. Guarded by
+ *     `tests/srd-canonical/merger-rules/srd-race-languages.test.ts`.
+ *   · the ENGINE: `enumerateOptions` uses it as the from-less `domain:"language"`
+ *     picker pool, and `computeEffectiveProficiencies` canonicalizes grants, picks
+ *     and manual adds against it through the canonical comparison in that module,
+ *     `matchPool` — a module-level helper it shares with its other call sites, not
+ *     one of its own. The proficiency aggregate reads
+ *     ALL_LANGUAGES directly, here — it does not go through KNOWN_LANGUAGES.
+ *   · the PLUGIN: `proficiency-edit-modal.ts` renders its LANGUAGE section from
+ *     `[...ALL_LANGUAGES, ...suppressed]`.
+ *  Membership is also what makes two spellings of one language FOLD onto a single
+ *  row: a vocabulary MISS keys on the raw string and splits the row in two. */
 export const STANDARD_LANGUAGES: string[] = [
   "common", "dwarvish", "elvish", "giant", "gnomish", "goblin", "halfling", "orc",
 ];
@@ -25,7 +46,15 @@ export const EXOTIC_LANGUAGES: string[] = [
   "abyssal", "celestial", "deep-speech", "draconic", "infernal", "primordial",
   "sylvan", "undercommon",
 ];
-export const ALL_LANGUAGES: string[] = [...STANDARD_LANGUAGES, ...EXOTIC_LANGUAGES];
+/** Secret languages: granted by a class feature (Druid, Rogue), never carried by a
+ *  race or background language list. `thieves'-cant` RETAINS the ASCII apostrophe —
+ *  the file's stated convention, and the slug `toProfSlug` already produces from
+ *  both live spellings (the converter's `Thieves' Cant` and the 2014 SRD prose's
+ *  U+2019 form). */
+export const SECRET_LANGUAGES: string[] = ["druidic", "thieves'-cant"];
+export const ALL_LANGUAGES: string[] = [
+  ...STANDARD_LANGUAGES, ...EXOTIC_LANGUAGES, ...SECRET_LANGUAGES,
+];
 
 /** The SRD tool set: 17 artisan's tools + 10 musical instruments + 2 gaming sets
  *  + 6 other tools = 35. Like ALL_LANGUAGES this is a SINGLE edition-agnostic
@@ -44,7 +73,7 @@ export const ALL_LANGUAGES: string[] = [...STANDARD_LANGUAGES, ...EXOTIC_LANGUAG
  *  Every entry is already canonical under toProfSlug (identity) and the set is
  *  collision-free under it. Ordering is alphabetical within each subset, and
  *  ALL_TOOLS composes the four subsets in that order, mirroring
- *  ALL_LANGUAGES = STANDARD + EXOTIC. The list is a cross-repo contract: a
+ *  ALL_LANGUAGES = STANDARD + EXOTIC + SECRET. The list is a cross-repo contract: a
  *  one-entry divergence is silent and permanent, so it is pinned verbatim. */
 export const ARTISANS_TOOLS: string[] = [
   "alchemist's-supplies", "brewer's-supplies", "calligrapher's-supplies", "carpenter's-tools",
