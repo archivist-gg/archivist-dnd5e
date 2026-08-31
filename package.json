@@ -85,6 +85,7 @@
     "./schemas/caster-type-schema": "./src/schemas/caster-type-schema.ts",
     "./schemas/choice-schema": "./src/schemas/choice-schema.ts",
     "./schemas/duration-schema": "./src/schemas/duration-schema.ts",
+    "./schemas/entity-extras-schema": "./src/schemas/entity-extras-schema.ts",
     "./schemas/equipment-grant-schema": "./src/schemas/equipment-grant-schema.ts",
     "./schemas/feature-effect-schema": "./src/schemas/feature-effect-schema.ts",
     "./schemas/feature-schema": "./src/schemas/feature-schema.ts",

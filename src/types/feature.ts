@@ -40,4 +40,22 @@ export interface Feature {
   passive?: boolean;
   /** How long the buff lasts; rendered as a static label (no live countdown). */
   duration?: Duration;
+  // Converter feature-level keys (R4-G1b §2.2): declared so `features_by_level[]`
+  // and race `traits[]` stop silently stripping them. Nothing reads them yet.
+  class_source?: string;
+  /** Always "" on every measured carrier — never constrain it non-empty. */
+  rendering_hint?: string;
+  subclass_short_name?: string;
+  subclass_source?: string;
+  header?: number;
+  is_class_feature_variant?: boolean;
+  gain_subclass_feature?: boolean;
+  gain_subclass_feature_has_content?: boolean;
+  /** 5etools entry type; values {"inset","item"}. */
+  type?: string;
+  // SRD-BUNDLE-side keys: our own generator emits these at feature level (the
+  // Dragonborn Breath Weapon's action cost and save DC). DECLARED-ONLY — the
+  // alias mapping onto `action` / `dc_formula` is owned by G3.
+  action_cost?: "action" | "bonus-action" | "reaction" | "free" | "special";
+  save?: { ability: string; dc_formula: string };
 }
