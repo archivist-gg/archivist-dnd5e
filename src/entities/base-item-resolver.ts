@@ -44,12 +44,22 @@ function unwrapWikilink(input: string): string | null {
  * link ever targets. Base weapons/armor now register under a type-namespaced
  * slug (`<prefix>_<type>_<name>`, e.g. `srd-5e_weapon_longsword`), so the
  * reconstructed path-slug must weave the same token in. These tokens MUST
- * match the SRD generator's `OPEN5E_KIND_TO_ENTITY` output (`weapon`/`armor`).
- * Every `base_item` path is `Compendium/Type/Name` and the Type folder is only
- * ever `Weapons` or `Armor` (verified across all 2590 canonical links), so no
- * other folder needs an entry.
+ * match the SRD generator's `OPEN5E_KIND_TO_ENTITY` output (`weapon`/`armor`),
+ * and `Magic Items` -> `item` matches the vault store's own TYPE_FOLDER_MAP.
+ *
+ * Every `base_item` path is `Compendium/Type/Name`. The Type folder was long
+ * believed to be only ever `Weapons` or `Armor` (true of the 2590 CANONICAL SRD
+ * links, which is all that was measured); the wider converted corpus disproves
+ * it — 285 `base_item` links across 39 distinct targets and 7+ books point into
+ * `Magic Items` (a magic item whose base is itself a magic item), and every one
+ * of them dereferenced NULL while this map lacked the entry. Any Type folder
+ * still absent here degrades to the legacy 2-part slug rather than crashing.
  */
-const FOLDER_TO_TYPE: Record<string, string> = { Weapons: "weapon", Armor: "armor" };
+const FOLDER_TO_TYPE: Record<string, string> = {
+  Weapons: "weapon",
+  Armor: "armor",
+  "Magic Items": "item",
+};
 
 /**
  * Convert a vault-path target (e.g. `SRD 5e/Weapons/Longsword`) to a

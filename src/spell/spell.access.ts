@@ -23,7 +23,13 @@ export function classSpellCandidates(
   showAll = false,
   query = "",
 ): SpellCandidate[] {
-  const all: RegisteredEntity[] = registry.search(query, "spell", 1000);
+  // No cap: the docblock's "enumerates all spell entities" is now literally
+  // true. A 1,000 limit silently truncated the pool BEFORE the known-slug drop,
+  // the name search and the class/level gate below, so a large vault lost real
+  // candidates with no diagnostic. The sole caller (the add-drawer) filters
+  // visibility after this returns and pages the DOM, so filter-before-slice and
+  // paged browse both still hold.
+  const all: RegisteredEntity[] = registry.search(query, "spell", Number.POSITIVE_INFINITY);
   const q = query.toLowerCase();
   // Class slugs arrive compendium-qualified (e.g. `srd-5e_wizard`), but a spell's
   // `classes` list is bare (`wizard`) — normalize both sides to the bare name.

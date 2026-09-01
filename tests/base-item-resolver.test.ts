@@ -19,6 +19,18 @@ describe("vaultPathToSlug", () => {
       "srd-2024_armor_plate-armor",
     );
   });
+
+  // R4-G2 Task 5 · spec §7 / §11 floor 7.
+  it("RED-FIRST: the `Magic Items` folder maps to the `item` token", () => {
+    // Measured: 766/766 SRD 5e `Magic Items` bundle docs carry a 3-part
+    // `<prefix>_item_<name>` slug; ZERO carry the legacy 2-part form. Pre-fix
+    // the unrecognized folder fell through to `<prefix>_<name>`, so every
+    // Magic-Items path dereferenced nothing (285 `base_item` links / 39 distinct
+    // targets across 7+ books).
+    expect(vaultPathToSlug("Test Book/Magic Items/Orb of Direction")).toBe(
+      "test-book_item_orb-of-direction",
+    );
+  });
 });
 
 describe("resolveBaseItem", () => {
@@ -76,6 +88,47 @@ describe("resolveBaseItem", () => {
     ]);
     const found = resolveBaseItem("[[Homebrew/Weapons/Custom Sword]]", registry);
     expect(found?.slug).toBe("homebrew_weapon_custom-sword");
+  });
+
+  // R4-G2 Task 5 · spec §11 floor 7's mandated level for this red-first:
+  // `vaultPathToSlug` NEVER returns null (it degrades to the legacy 2-part
+  // slug), so the discriminating assertion has to sit at `resolveBaseItem`.
+  it("RED-FIRST: a `Magic Items` vault-path wikilink resolves to the type-namespaced item", () => {
+    const registry = buildMockRegistry([
+      {
+        slug: "test-book_item_orb-of-direction",
+        entityType: "item",
+        name: "Orb of Direction",
+        data: { name: "Orb of Direction", slug: "test-book_item_orb-of-direction" },
+      },
+    ]);
+    // Pre-fix this is NULL: the fallback minted `test-book_orb-of-direction`,
+    // which nothing registers.
+    const found = resolveBaseItem("[[Test Book/Magic Items/Orb of Direction]]", registry);
+    expect(found?.slug).toBe("test-book_item_orb-of-direction");
+    expect(found?.entityType).toBe("item");
+  });
+
+  it("RED-FIRST: a parenthesized Magic-Items name resolves (the Defender family shape)", () => {
+    // The real bundle registers `srd-5e_item_defender-longsword` for
+    // `SRD 5e/Magic Items/Defender (Longsword).md` — measured, not assumed.
+    const registry = buildMockRegistry([
+      {
+        slug: "srd-5e_item_defender-longsword",
+        entityType: "item",
+        name: "Defender (Longsword)",
+        data: { name: "Defender (Longsword)", slug: "srd-5e_item_defender-longsword" },
+      },
+    ]);
+    expect(
+      resolveBaseItem("[[SRD 5e/Magic Items/Defender (Longsword)]]", registry)?.slug,
+    ).toBe("srd-5e_item_defender-longsword");
+  });
+
+  it("CONTROL (green both sides by design): an unmapped Type folder keeps the legacy 2-part fallback", () => {
+    // Only `Weapons`/`Armor`/`Magic Items` are mapped; anything else must still
+    // degrade gracefully rather than crash or become a 3-part slug.
+    expect(vaultPathToSlug("SRD 5e/Backgrounds/Acolyte")).toBe("srd-5e_acolyte");
   });
 
   it("returns null for null/undefined/empty inputs", () => {

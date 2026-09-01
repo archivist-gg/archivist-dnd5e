@@ -11,7 +11,7 @@ import {
   type ProficiencyEntry,
   type ProficiencyOrigin,
 } from "./pc.proficiency-grants";
-import { bareEntitySlug } from "../entities/slug";
+import { bareEntitySlug, slugify } from "../entities/slug";
 import { flattenAsiOrFeat } from "./pc.asi-flatten";
 
 export interface DecisionRegistry {
@@ -93,7 +93,16 @@ export interface DecisionLedger {
   origin: DecisionItem[];      // race + background decisions (Plan 4 consumes)
 }
 
-export interface DecisionContext { registry: DecisionRegistry }
+export interface DecisionContext {
+  registry: DecisionRegistry;
+  /** OPTIONAL visibility predicate. When supplied, ambiguous bare-slug lookups
+   *  seed VISIBLE entities first, so a hidden compendium can never shadow a
+   *  visible one that shares a bare slug. Absent (the engine's own tests, any
+   *  caller that has no notion of hidden compendiums) means deterministic order
+   *  only — never a behaviour change, because the seeding is total-ordered
+   *  either way. Threaded plugin-side by the four builder ctx constructors. */
+  isEntityVisible?(e: RegisteredEntity): boolean;
+}
 
 /** The language/tool slugs a character ALREADY HOLDS, folded through
  *  {@link toProfSlug} so both sides of every comparison are canonical.
@@ -111,13 +120,25 @@ interface EffectiveSets { language: Set<string>; tool: Set<string> }
  *  without spamming the console. */
 const warnedDegradedEquipment = new Set<string>();
 
+/** Module-level dedup set for the ambiguous-bare-slug warning: a bare slug that
+ *  two registered entities of the same type share warns ONCE per unique bare
+ *  slug (not on every ledger build), so the collision is surfaced without
+ *  spamming the console. Same idiom as {@link warnedDegradedEquipment}. */
+const warnedAmbiguousBare = new Set<string>();
+
 // ── helpers ────────────────────────────────────────────────────────────────
 
-/** "[[SRD 2024/Classes/Fighter]]" → "fighter" (tail segment, slugified). */
+/** "[[SRD 2024/Classes/Fighter]]" → "fighter" (tail segment, slugified).
+ *
+ *  The tail goes through the SAME `slugify` that mints registry slugs, so an
+ *  apostrophe is DELETED rather than hyphenated ("Mage's Bane" → "mages-bane",
+ *  where the old hand-rolled regex minted "mage-s-bane" and missed every time).
+ *  Only ever call this on a human NAME tail — never on a full `<prefix>_<name>`
+ *  slug, which slugify would destroy (see {@link resolveEntityRef}). */
 export function wikilinkTailSlug(link: string): string {
   const inner = link.replace(/^\[\[/, "").replace(/\]\]$/, "");
   const tail = inner.split("/").pop() ?? inner;
-  return tail.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/(^-|-$)/g, "");
+  return slugify(tail);
 }
 
 function matchesFilter(e: RegisteredEntity, where: EntityFilter, ownerBare: string): boolean {
@@ -197,10 +218,31 @@ function enumerateOptions(choice: Choice, ctx: DecisionContext, ownerBare: strin
       return choice.options.map((o) => ({ value: o.value, label: o.label, description: o.description }));
     case "select-entity": {
       if (choice.from) {
+        // Seed the bare-slug index from a TOTALLY ordered pool and keep the
+        // FIRST entity per bare slug. Name alone ties on thousands of duplicated
+        // names across compendiums, so the slug breaks the tie; without both the
+        // winner fell out of registry INSERTION order (last-wins), which made an
+        // ambiguous `from` slug resolve differently between two loads of the
+        // same vault. When the caller supplies `isEntityVisible`, visible
+        // entities seed first so a hidden compendium can never shadow a visible
+        // entity that shares a bare slug.
+        const pool = ctx.registry.search("", choice.entity_type, Number.POSITIVE_INFINITY)
+          .slice()
+          .sort((a, b) => a.name.localeCompare(b.name) || a.slug.localeCompare(b.slug));
         const byBare = new Map<string, RegisteredEntity>();
-        for (const e of ctx.registry.search("", choice.entity_type, Number.POSITIVE_INFINITY)) {
-          byBare.set(bareEntitySlug(e.slug), e);
-        }
+        const seed = (e: RegisteredEntity) => {
+          const bare = bareEntitySlug(e.slug);
+          if (byBare.has(bare)) {
+            if (!warnedAmbiguousBare.has(bare)) {
+              warnedAmbiguousBare.add(bare);
+              console.warn(`Archivist: bare slug "${bare}" matches multiple ${choice.entity_type} entities; using "${byBare.get(bare)!.slug}"`);
+            }
+            return;
+          }
+          byBare.set(bare, e);
+        };
+        for (const e of pool) if (ctx.isEntityVisible?.(e) ?? true) seed(e);
+        for (const e of pool) if (!(ctx.isEntityVisible?.(e) ?? true)) seed(e);
         return choice.from.map((slug) => {
           const e = ctx.registry.getByTypeAndSlug(choice.entity_type, slug) ?? byBare.get(slug);
           return e ? { value: e.slug, label: e.name, entity: e } : { value: slug, label: slug, missing: true };
@@ -324,7 +366,8 @@ function resolveEntityRef(
   if (typeof value !== "string" || value.length === 0) return undefined;
   // Strip a `[[wikilink]]` wrapper WITHOUT slugifying — the stored entity slug
   // keeps its edition underscore (e.g. "srd-2024_magic-initiate"), which
-  // wikilinkTailSlug would mangle into hyphens.
+  // wikilinkTailSlug would mangle: slugify DELETES the underscore outright
+  // ("srd-2024magic-initiate"). Never route a full slug through it.
   const raw = value.replace(/^\[\[/, "").replace(/\]\]$/, "");
   const direct = ctx.registry.getByTypeAndSlug(entityType, raw);
   if (direct) return direct;

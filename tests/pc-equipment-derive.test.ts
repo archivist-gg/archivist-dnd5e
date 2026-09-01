@@ -148,16 +148,22 @@ describe("computeAppliedBonuses", () => {
     // that couldn't handle vault-path wikilinks. With the shared resolver,
     // PCs that store their equipment as `[[SRD 5e/Magic Items/Cloak of Protection]]`
     // (the canonical-bundle form) now flow saving-throw bonuses correctly.
+    // R4-G2 Task 5: the registry slug moved to the type-namespaced 3-part form
+    // because `Magic Items` now maps to the `item` token in FOLDER_TO_TYPE.
+    // MEASURED, not assumed: every Magic-Items doc in the compendium bundle
+    // (SRD 5e 766 + SRD 2024 1,017) carries `<prefix>_item_<name>`, and the
+    // bundle contains ZERO 2-part slugs of any entity type — this fixture's old
+    // `srd-5e_cloak-of-protection` was a shape no vault ever registers.
     const cloak: ItemEntity = {
       name: "Cloak of Protection",
-      slug: "srd-5e_cloak-of-protection",
+      slug: "srd-5e_item_cloak-of-protection",
       type: "wondrous",
       rarity: "uncommon",
       bonuses: { saving_throws: 1 },
       attunement: { required: true },
     };
     const reg = buildMockRegistry([
-      { slug: "srd-5e_cloak-of-protection", entityType: "item", name: "Cloak of Protection", data: cloak },
+      { slug: "srd-5e_item_cloak-of-protection", entityType: "item", name: "Cloak of Protection", data: cloak },
     ]);
     const c = baseChar();
     c.equipment = [{ item: "[[SRD 5e/Magic Items/Cloak of Protection]]", equipped: true, attuned: true }];
@@ -634,9 +640,16 @@ describe("computeSlotsAndAttacks — attack rows", () => {
       damage: { dice: "1d8", type: "slashing", versatile_dice: "1d10" },
       properties: ["versatile"],
     };
+    // R4-G2 Task 5: 3-part registry slug, matching the real bundle doc
+    // `SRD 5e/Magic Items/Defender (Longsword).md`, whose frontmatter reads
+    // `slug: srd-5e_item_defender-longsword` (read from the bundle, not assumed).
+    // The sibling test above deliberately keeps the legacy 2-part slug because
+    // it references it as a BARE-slug wikilink, which resolves through
+    // `resolveBaseItem`'s direct `getBySlug` branch and never touches
+    // FOLDER_TO_TYPE.
     const defender: ItemEntity = {
       name: "Defender",
-      slug: "srd-5e_defender-longsword",
+      slug: "srd-5e_item_defender-longsword",
       type: "weapon",
       rarity: "legendary",
       base_item: "[[SRD 5e/Weapons/Longsword]]",
@@ -645,7 +658,7 @@ describe("computeSlotsAndAttacks — attack rows", () => {
     };
     const reg = buildMockRegistry([
       { slug: "srd-5e_weapon_longsword", entityType: "weapon", name: "Longsword", data: longsword },
-      { slug: "srd-5e_defender-longsword", entityType: "item", name: "Defender", data: defender },
+      { slug: "srd-5e_item_defender-longsword", entityType: "item", name: "Defender", data: defender },
     ]);
     const c = baseChar(); c.abilities.str = 16;
     c.equipment = [{
