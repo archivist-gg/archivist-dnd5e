@@ -15,6 +15,10 @@ const KNOWN_KEYS = new Set([
   "source", "page", "edition",
   "description", "entries", "effects", "damage_riders", "raw",
   "scroll_level", "unidentified", "masked_category",
+  // Modelled top-level converter keys (spec §4). The schema declaring them is NOT
+  // enough: this set is the second, independent gate — a key missing here is
+  // copied into `raw` as well, so the two lists must move together.
+  "modify_speed", "rendering_hint", "has_fluff", "has_fluff_images", "image",
   // Legacy fields kept (removed in Slice 7 after grep verifies no consumer)
   "damage_dice", "damage_type", "properties", "recharge", "curse",
 ]);

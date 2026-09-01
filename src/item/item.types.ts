@@ -1,6 +1,8 @@
 import type { Ability, ArmorCategory } from "@archivist-gg/dnd5e/armor/armor.types";
 import type { WeaponCategory, WeaponEntity } from "@archivist-gg/dnd5e/weapon/weapon.types";
 import type { ConditionalBonus } from "@archivist-gg/dnd5e/types/item-conditions.types";
+import type { imageField } from "@archivist-gg/dnd5e/schemas/entity-extras-schema";
+import type { z } from "zod";
 
 /* eslint-disable @typescript-eslint/no-redundant-type-constituents */
 export type ItemRarity =
@@ -14,10 +16,16 @@ export type ItemRarity =
 /* eslint-enable @typescript-eslint/no-redundant-type-constituents */
 
 export type AttunementTag =
-  | { class: string; subclass?: string }
-  | { alignment: string }
-  | { race: string }
-  | { creature_type: string };
+  | { class: string; subclass?: string; alignment?: string | string[] }
+  | { alignment: string | string[]; race?: string }
+  | { race: string; alignment?: string | string[] }
+  | { creature_type: string; size?: string }
+  | { spellcasting: boolean }
+  | { background: string }
+  | { psionics: boolean }
+  | { int: number }
+  | { skill_proficiency: string[] }
+  | { language_proficiency: string[] };
 
 export interface ItemEntity {
   name: string;
@@ -34,9 +42,16 @@ export interface ItemEntity {
     spell_attack?: number | ConditionalBonus;
     spell_save_dc?: number | ConditionalBonus;
     saving_throws?: number | ConditionalBonus;
+    spell_damage?: number | ConditionalBonus;
+    ability_check?: number | ConditionalBonus;
+    proficiency_bonus?: number | ConditionalBonus;
+    saving_throw_concentration?: number | ConditionalBonus;
     ability_scores?: {
       static?: Partial<Record<Ability, number>>;
       bonus?: Partial<Record<Ability, number | ConditionalBonus>>;
+      /** "choose `count` of `from`, each +`amount`". `amount` is OPTIONAL — the
+       *  Kwalish Deck of Several Things carries `count` with no `amount`. */
+      choose?: Array<{ from: Ability[]; count: number; amount?: number }>;
     };
     speed?: {
       walk?: number | ConditionalBonus;
@@ -54,6 +69,8 @@ export interface ItemEntity {
   charges?:
     | {
         max: number;
+        /** Dice regained per recharge, e.g. "1d4 - 1". */
+        dice?: string;
         recharge?: string;
         recharge_amount?: string;
         destroy_on_empty?: { roll: string; threshold: number; effect?: string };
@@ -66,6 +83,11 @@ export interface ItemEntity {
     rest?: Record<string, string[]>;
     /** Total uses with no recharge — item often consumed when empty. */
     limited?: Record<string, string[]>;
+    /** Spells the document lists without a cost model. */
+    other?: string[];
+    /** Casting ability for the item's attached spells. */
+    ability?: string;
+    ritual?: string[];
   };
 
   attunement?:
@@ -88,13 +110,26 @@ export interface ItemEntity {
     capacity_weight?: number;
     weightless?: boolean;
     pack_contents?: string[];
+    /** Structured 5etools capacity. `item` entries are records of
+     *  "<item tag>": <count>, e.g. {"sling bullet|xphb": 20}. */
+    capacity?: {
+      weight?: number[];
+      item?: Array<Record<string, number>>;
+      weightless?: boolean;
+      volume?: number[];
+    };
   };
 
-  light?: { bright_radius: number; dim_radius: number };
+  /** Two DIFFERENT spellings, never unified: the object form
+   *  {bright_radius, dim_radius} (173 carriers) and the converter's array of
+   *  per-source entries keyed bright/dim/shape (97 entries over 81 docs). */
+  light?:
+    | { bright_radius: number; dim_radius: number }
+    | Array<{ bright?: number; dim?: number; shape?: string }>;
 
   cursed?: boolean;
   sentient?: boolean;
-  focus?: boolean | "arcane" | "druid" | "holy";
+  focus?: boolean | "arcane" | "druid" | "holy" | string[];
   tier?: "major" | "minor";
 
   damage?: WeaponEntity["damage"] | string;
@@ -123,6 +158,22 @@ export interface ItemEntity {
   /** Generic category label shown for an unidentified item (e.g. "potion",
    *  "scroll", "wand") in place of its real name. */
   masked_category?: string;
+
+  /** Speed overrides the item applies. `equal` maps a mode to another mode's
+   *  value (e.g. {fly: "walk"}); static/multiply/bonus are numeric, and `bonus`
+   *  is keyed "*" on its single carrier. */
+  modify_speed?: {
+    equal?: Record<string, string>;
+    static?: Record<string, number>;
+    multiply?: Record<string, number>;
+    bonus?: Record<string, number>;
+  };
+  /** Carried by every converter item doc, always as "" today. */
+  rendering_hint?: string;
+  has_fluff?: boolean;
+  has_fluff_images?: boolean;
+  /** One wikilink, or an array for >= 2 fluff images (images-ON emit). */
+  image?: z.infer<typeof imageField>;
 
   raw?: Record<string, unknown>;
 
