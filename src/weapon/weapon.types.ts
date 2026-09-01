@@ -1,4 +1,6 @@
 import type { Edition } from "@archivist-gg/dnd5e/types/edition";
+import type { imageField } from "@archivist-gg/dnd5e/schemas/entity-extras-schema";
+import type { z } from "zod";
 
 /* eslint-disable @typescript-eslint/no-redundant-type-constituents */
 export type WeaponCategory =
@@ -83,5 +85,11 @@ export interface WeaponEntity {
   page?: number;
   edition: Edition;
   entries?: unknown[];
+  /** Carried as the empty string on every converter weapon carrier today (98). */
+  rendering_hint?: string;
+  has_fluff?: boolean;
+  has_fluff_images?: boolean;
+  /** One wikilink, or an array for >= 2 fluff images (images-ON emit). */
+  image?: z.infer<typeof imageField>;
   raw?: Record<string, unknown>;
 }

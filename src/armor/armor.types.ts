@@ -1,3 +1,6 @@
+import type { imageField } from "@archivist-gg/dnd5e/schemas/entity-extras-schema";
+import type { z } from "zod";
+
 // Reuse the existing shared Ability type rather than redeclaring it.
 export type { Ability } from "@archivist-gg/dnd5e/types/choice";
 
@@ -38,5 +41,14 @@ export interface ArmorEntity {
   // eslint-disable-next-line @typescript-eslint/no-redundant-type-constituents
   edition?: "2014" | "2024" | string;
   entries?: unknown[];
+  /** Carried as the empty string on every converter armor carrier today (27). */
+  rendering_hint?: string;
+  has_fluff?: boolean;
+  has_fluff_images?: boolean;
+  /** One wikilink, or an array for >= 2 fluff images (images-ON emit). */
+  image?: z.infer<typeof imageField>;
   raw?: Record<string, unknown>;
+  // NOTE: `strength_required` is deliberately NOT declared here. The parser maps it onto
+  // `strength_requirement` and leaves the original in place as an inert `.loose()` extra
+  // (spec §5, NO delete) — it is raw-shaped, so read-sites must cast to reach it.
 }

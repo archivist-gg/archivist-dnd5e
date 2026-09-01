@@ -9,6 +9,10 @@ const KNOWN_KEYS = new Set([
   "weight", "cost",
   "source", "page", "edition",
   "entries", "raw",
+  // Root extras declared on weaponEntitySchema (spec §5). The schema declaring them is NOT
+  // enough: this set is the second, independent gate — a key missing here is copied into
+  // `raw` as well, so the two lists must move together.
+  "rendering_hint", "has_fluff", "has_fluff_images", "image",
 ]);
 
 const FLAG_PROPERTIES = new Set([
