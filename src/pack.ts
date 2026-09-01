@@ -13,6 +13,7 @@ import { spellEntityType } from "./spell/spell.entity-type";
 import { itemEntityType } from "./item/item.entity-type";
 import { npcEntityType } from "./npc/npc.entity-type";
 import { encounterEntityType } from "./encounter/encounter.entity-type";
+import { conditionEntityType } from "./condition/condition.entity-type";
 
 /**
  * The real `dnd5e` SystemPack. It owns the parse/resolve/generate contract for
@@ -20,12 +21,12 @@ import { encounterEntityType } from "./encounter/encounter.entity-type";
  * (renderer/edit/modal) stays in the obsidian package. It is the only pack the
  * kernel registers.
  *
- * All 11 authored types are ported, plus the two generate-only types (npc and
+ * All 12 authored types are ported, plus the two generate-only types (npc and
  * encounter); a new entity type joins by appending its EntityType here.
  */
 export const dnd5ePack: SystemPack = {
   id: "dnd5e",
   version: "0.1.0",
   conventionVersion: CONVENTION_VERSION,
-  entityTypes: [monsterEntityType, raceEntityType, backgroundEntityType, featEntityType, optionalFeatureEntityType, armorEntityType, weaponEntityType, classEntityType, subclassEntityType, spellEntityType, itemEntityType, npcEntityType, encounterEntityType],
+  entityTypes: [monsterEntityType, raceEntityType, backgroundEntityType, featEntityType, optionalFeatureEntityType, armorEntityType, weaponEntityType, classEntityType, subclassEntityType, spellEntityType, itemEntityType, npcEntityType, encounterEntityType, conditionEntityType],
 };
