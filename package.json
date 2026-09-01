@@ -19,6 +19,8 @@
     "./class/class.schema": "./src/class/class.schema.ts",
     "./class/class.slug": "./src/class/class.slug.ts",
     "./class/class.types": "./src/class/class.types.ts",
+    "./condition/condition.parser": "./src/condition/condition.parser.ts",
+    "./condition/condition.types": "./src/condition/condition.types.ts",
     "./data-srd/index.generated": "./src/data-srd/index.generated.ts",
     "./dnd/constants": "./src/dnd/constants.ts",
     "./dnd/formula-tags": "./src/dnd/formula-tags.ts",
