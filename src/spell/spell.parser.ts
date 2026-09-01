@@ -6,9 +6,80 @@ const KNOWN_KEYS = new Set([
   "name", "level", "school", "casting_time", "range", "components", "duration",
   "concentration", "ritual", "classes", "description", "at_higher_levels",
   "damage", "saving_throw", "casting_options",
+  // §2 · the fourteen converter keys. This gate and `spellEntitySchema` are independent: a key
+  // missing here is refused BEFORE zod ever sees it, so both must learn every new key.
+  "rendering_hint", "misc_tags", "area_tags", "condition_inflict", "affects_creature_type",
+  "spell_attack", "ability_check", "damage_resist", "damage_immune", "condition_immune",
+  "damage_vulnerable", "has_fluff", "image", "has_fluff_images",
   // Body-only metadata that's emitted to YAML but ignored at runtime — accept silently.
   "slug", "edition", "source",
 ]);
+
+/** `ends` word map (§3.3): the corpus's own lowercase past-tense forms. */
+const DURATION_END_WORDS: Record<string, string> = { dispel: "dispelled", trigger: "triggered" };
+
+/**
+ * §3.3 · collapse the converter's structured `components` object to the corpus's own string form
+ * (`V, S, M (a coin), R`), leaving a string input byte-unchanged. Letter order is V, S, M, R;
+ * `m` object -> `M (<text>)` (the text already carries the cost prose), `m` string -> `M (<value>)`,
+ * `m: true` -> a bare `M`. A boolean flag contributes its letter only when it is exactly `true`.
+ * Casing follows the 862 string-form carriers (uppercase letters); `R` has no precedent among them
+ * and is an invented-but-decided literal (Gate 0 B-5).
+ *
+ * The parameter is `unknown` on purpose: `spellComponentsObjectSchema` stays local and unexported,
+ * so this function narrows structurally instead of importing the schema's type. `toStringSafe` is
+ * the unreachable-shape fallback (the schema has already accepted the value by the time we run).
+ */
+function normalizeSpellComponents(value: unknown): string {
+  if (typeof value === "string") return value;
+  if (value == null || typeof value !== "object" || Array.isArray(value)) return toStringSafe(value);
+  const c = value as { v?: unknown; s?: unknown; m?: unknown; r?: unknown };
+  const parts: string[] = [];
+  if (c.v === true) parts.push("V");
+  if (c.s === true) parts.push("S");
+  if (typeof c.m === "string") parts.push(`M (${c.m})`);
+  else if (c.m === true) parts.push("M");
+  else if (c.m != null && typeof c.m === "object") {
+    const text = (c.m as { text?: unknown }).text;
+    parts.push(typeof text === "string" ? `M (${text})` : "M");
+  }
+  if (c.r === true) parts.push("R");
+  return parts.join(", ");
+}
+
+/** §3.3 · one entry of the structured `duration` array. Structural narrowing, same reason as above. */
+function normalizeSpellDurationEntry(entry: unknown): string {
+  if (entry == null || typeof entry !== "object") return toStringSafe(entry);
+  const e = entry as {
+    type?: unknown;
+    ends?: unknown;
+    duration?: { type?: unknown; amount?: unknown; up_to?: unknown };
+  };
+  if (e.type === "permanent" && Array.isArray(e.ends)) {
+    return "until " + e.ends.map(w => DURATION_END_WORDS[String(w)] ?? String(w)).join(" or ");
+  }
+  if (e.type === "timed" && e.duration != null) {
+    const unit = e.duration.type;
+    const amount = e.duration.amount;
+    if (typeof unit === "string" && typeof amount === "number") {
+      const prefix = e.duration.up_to === true ? "up to " : "";
+      return `${prefix}${amount} ${unit}${amount > 1 ? "s" : ""}`;
+    }
+  }
+  return toStringSafe(entry);
+}
+
+/**
+ * §3.3 · collapse the converter's structured `duration` array to the corpus's own lowercase string
+ * form (`until dispelled`, `up to 1 hour`), leaving a string input byte-unchanged. Concentration is
+ * NEVER synthesised here — the separate `concentration` boolean drives the sheet's `Conc · ` prefix.
+ * Zero docs carry more than one entry; the `; ` join is the defensive path for the day one does.
+ */
+function normalizeSpellDuration(value: unknown): string {
+  if (typeof value === "string") return value;
+  if (!Array.isArray(value)) return toStringSafe(value);
+  return value.map(entry => normalizeSpellDurationEntry(entry)).join("; ");
+}
 
 export function parseSpell(source: string): ParseResult<Spell> {
   const result = parseYaml<Record<string, unknown>>(source, ["name"]);
@@ -41,8 +112,8 @@ export function parseSpell(source: string): ParseResult<Spell> {
   if (raw.school != null) spell.school = toStringSafe(raw.school);
   if (raw.casting_time != null) spell.casting_time = toStringSafe(raw.casting_time);
   if (raw.range != null) spell.range = toStringSafe(raw.range);
-  if (raw.components != null) spell.components = toStringSafe(raw.components);
-  if (raw.duration != null) spell.duration = toStringSafe(raw.duration);
+  if (raw.components != null) spell.components = normalizeSpellComponents(raw.components);
+  if (raw.duration != null) spell.duration = normalizeSpellDuration(raw.duration);
   if (raw.concentration != null) spell.concentration = Boolean(raw.concentration);
   if (raw.ritual != null) spell.ritual = Boolean(raw.ritual);
   if (raw.classes) spell.classes = raw.classes.map(String);
@@ -63,6 +134,24 @@ export function parseSpell(source: string): ParseResult<Spell> {
       return co;
     });
   }
+  // §2 · the fourteen new keys. The guard is `!= null` on EVERY one, never truthiness: all 1,048
+  // `rendering_hint` carriers hold `''`, so the truthiness idiom this file still uses for
+  // `description` above would strip every one of them (that idiom is what minted the SRD
+  // `spell::description::stripped` census row on the one falsy-description document).
+  if (raw.rendering_hint != null) spell.rendering_hint = raw.rendering_hint;
+  if (raw.misc_tags != null) spell.misc_tags = raw.misc_tags;
+  if (raw.area_tags != null) spell.area_tags = raw.area_tags;
+  if (raw.condition_inflict != null) spell.condition_inflict = raw.condition_inflict;
+  if (raw.affects_creature_type != null) spell.affects_creature_type = raw.affects_creature_type;
+  if (raw.spell_attack != null) spell.spell_attack = raw.spell_attack;
+  if (raw.ability_check != null) spell.ability_check = raw.ability_check;
+  if (raw.damage_resist != null) spell.damage_resist = raw.damage_resist;
+  if (raw.damage_immune != null) spell.damage_immune = raw.damage_immune;
+  if (raw.condition_immune != null) spell.condition_immune = raw.condition_immune;
+  if (raw.damage_vulnerable != null) spell.damage_vulnerable = raw.damage_vulnerable;
+  if (raw.has_fluff != null) spell.has_fluff = raw.has_fluff;
+  if (raw.image != null) spell.image = raw.image;
+  if (raw.has_fluff_images != null) spell.has_fluff_images = raw.has_fluff_images;
   if (meta.source) spell.source = meta.source;
   if (meta.edition) spell.edition = meta.edition;
   return { success: true, data: spell };
