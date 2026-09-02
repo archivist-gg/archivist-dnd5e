@@ -47,7 +47,8 @@ export interface FeatEntity {
   trait_tags?: unknown;
   optionalfeature_progression?: ProgressionEntry[];
   /** R-G1b-5: a TOP-LEVEL bundle key on `SRD 2024/Feats/Boon of the Night Spirit.md`.
-   *  Declared-only; feat rendering has no action field yet (the mapping is G3's). */
+   *  MAPPED since R4-G3a §10.2.3: the resolver carries it onto the resolved feature's
+   *  `action`, so the feat note shows an Action line and the row files under that economy. */
   action_cost?: ActionCost;
   /** One wikilink, or an array of them for the multi-fluff-image emit. */
   image?: string | string[];

@@ -62,7 +62,8 @@ export const featEntitySchema = z.object({
       // level) — the ninth SRD-control non-kept row: top-level on the ENTITY, not featureSchema-shaped
       // (finding 14's nine rows split 4 featureSchema / 4 §2.8-arity / this one, which needed its own
       // declaration — gate1-r4 R4-1). `actionCostEnum` is exported from
-      // `schemas/resource-schema.ts` (optionalFeatureEntitySchema already imports it). Declared-only;
-      // feat rendering has no `action` field today — the MAPPING is G3's, named in §8.
+      // `schemas/resource-schema.ts` (optionalFeatureEntitySchema already imports it). MAPPED since
+      // R4-G3a §10.2.3: the resolver aliases it onto the resolved feature's `action`, which is what
+      // draws the feat note's Action line and files the row under that economy.
   image: imageField,
 });

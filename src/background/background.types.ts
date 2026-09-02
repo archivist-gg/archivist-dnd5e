@@ -38,7 +38,8 @@ export interface BackgroundEntity {
   /** Converter/bundle extras declared by background.schema.ts §2.6; all optional, none read today. */
   rendering_hint?: string;
   has_fluff_images?: boolean;
-  /** 88 roll tables over 67 docs; `roll` is a STRING on every row ("1", "2-3"). Render is G3/G8's. */
+  /** 88 roll tables over 67 docs; `roll` is a STRING on every row ("1", "2-3"). Render is G3b's
+   *  (the 2026-09-02 G3 split; G3a renders no background tables). */
   tables?: Array<{ name: string; dice: string; rows: Array<{ roll: string; text: string }> }>;
   additional_spells?: AdditionalSpellsEntry[];
   /** The kind is CLOSED at the converter's only push site (background-mapper.ts). */

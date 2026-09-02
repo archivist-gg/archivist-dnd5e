@@ -43,8 +43,9 @@ export const featureSchema: z.ZodType<unknown> = z.lazy(() =>
     }).optional(),                                       // four members (gate1-r1 f9) = the EXISTING FeatureRecharge type
     // SRD-BUNDLE-side keys (the converter emits NEITHER at feature level; finding 14 — our own
     // generator emits them and featureSchema strips them, losing the SRD Dragonborn Breath Weapon's
-    // action cost and save DC). DECLARED-ONLY: the alias MAPPING (action_cost→action, save→flat
-    // dc_formula) is a pixel-changing repair owned by G3, named in §8.
+    // action cost and save DC). MAPPED since R4-G3a §10: `action_cost` is aliased onto `action` by
+    // the race / class / subclass parsers, and `save` renders as the feature card's Save line
+    // (`dc_formula` is echoed as TEXT, never evaluated).
     action_cost: actionCostEnum.optional(),  // ONE vocabulary, imported from schemas/resource-schema
         // (no cycle: resource-schema imports neither; two spellings of a closed enum is the G1a
         // "fifth enum consumer" drift — gate1-r2 NEW-12)

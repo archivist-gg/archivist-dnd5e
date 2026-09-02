@@ -54,8 +54,10 @@ export interface Feature {
   /** 5etools entry type; values {"inset","item"}. */
   type?: string;
   // SRD-BUNDLE-side keys: our own generator emits these at feature level (the
-  // Dragonborn Breath Weapon's action cost and save DC). DECLARED-ONLY — the
-  // alias mapping onto `action` / `dc_formula` is owned by G3.
+  // Dragonborn Breath Weapon's action cost and save DC). MAPPED since R4-G3a §10:
+  // `action_cost` is aliased onto `action` by the race / class / subclass parsers,
+  // and `save` renders as the feature card's Save line (`dc_formula` is echoed as
+  // TEXT, never evaluated).
   action_cost?: ActionCost;
   save?: { ability: string; dc_formula: string };
 }

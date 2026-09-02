@@ -48,7 +48,10 @@ export type FeatureEffect =
   | ({ kind: "extra-attack"; count: number } & Qualified)
   | ({ kind: "reroll-damage"; max_reroll: number; applies_to?: "weapon" | "spell" | "all"; once_per_die?: boolean } & Qualified)
   | ({ kind: "attack-rule"; flag: "no-ranged-in-melee-disadvantage" } & Qualified)
-  // R4-G1a: declared, inert (spec D3). Semantics are G3's.
+  // R4-G1a declared these seven arms inert (spec D3). R4-G3a folds SIX of them: `immunity` /
+  // `vulnerability` into the defenses pane (§3), `temp-hp` / `heal` / `extra-action` as row-local
+  // captions (§4), `save-outcome` into the save-chip tag rail (§5). `ability-score-increase` is
+  // still DROPPED at the fold: it is G3b's (invariant 8).
   | ({ kind: "immunity"; damage_type: string } & Qualified)
   | ({ kind: "vulnerability"; damage_type: string } & Qualified)
   | ({ kind: "temp-hp"; amount: string } & Qualified)
