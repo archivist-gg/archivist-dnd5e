@@ -1,5 +1,5 @@
 /**
- * R4-G3a §6.2.3 · `normalizeRollScope` — the deterministic prose → canonical-scope mapper.
+ * R4-G3a §6.2.3 · `normalizeRollScope`: the deterministic prose → canonical-scope mapper.
  *
  * Every mapped example below is one the controller MEASURED over the six-root corpus
  * (`research/controller-scope-coverage-v2.txt`); the residual list is verbatim prose the grammar

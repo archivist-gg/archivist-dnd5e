@@ -814,7 +814,7 @@ describe("recalc — feature effects: additive weapon routing (R4-P3c)", () => {
  * 41 of the 227 corpus sites). G3a gives them semantics, so the same fixture shape now asserts
  * the opposite: all four `mode` members fold, `roll: "any"` fans out to three entries, a MAPPED
  * prose scope becomes one entry per canonical value, and a RESIDUAL prose scope passes through
- * byte-unchanged (the readers already render no chip for it — §6.2.3, §14 row 19).
+ * byte-unchanged (the readers already render no chip for it; §6.2.3, §14 row 19).
  *
  * The four-member fixture uses four CONCRETE rolls on purpose: a fan-out inside it would make the
  * array six entries and blunt §14 row 10, whose mutant (drop `add-d4` from the fold) must make

@@ -483,7 +483,7 @@ export type RollModifierMode = RollModifierEntry["mode"];
 export type RollKind = RollModifierEntry["roll"];
 
 /**
- * A `save-outcome` effect as it leaves the fold (R4-G3a §5.3) — Evasion and its shape-mates
+ * A `save-outcome` effect as it leaves the fold (R4-G3a §5.3) · Evasion and its shape-mates
  * ("on a failed save you take half damage, on a success none").
  *
  * `ability` ABSENT means every save, which is the save chip's existing "absent scope = every

@@ -1,7 +1,7 @@
 import type { FeatureEffect, SenseType } from "@archivist-gg/dnd5e/types/feature-effect";
 import type { Ability } from "@archivist-gg/dnd5e";
 // R4-G3a §6.2.3: ABILITY_NAME_TO_KEY / normalizeAbility were PRIVATE here; they moved to
-// dnd/constants.ts so roll-scope.ts can share the one vocabulary (no second copy, no cycle —
+// dnd/constants.ts so roll-scope.ts can share the one vocabulary (no second copy, no cycle:
 // src/dnd/* imports nothing from src/pc/*).
 import { normalizeAbility } from "@archivist-gg/dnd5e/dnd/constants";
 import type { DamageRider, DefenseGrant, FeatureSource, ResolvedCharacter, ResolvedFeature, ResolvedPool, RollKind, RollModifierEntry, SaveOutcomeEntry } from "./pc.types";
@@ -498,7 +498,7 @@ function applyEffect(out: FeatureEffectTotals, eff: FeatureEffect, label: string
       // `mode` members fold with `mode` preserved (the plugin renders ADV / DIS / RR / +D4 from
       // ROLL_MODE_TAG); `roll: "any"` FANS OUT here into the three concrete roll types, so no
       // reader ever needs a fourth `roll` member; and a prose `scope` becomes one entry per
-      // canonical value. `normalizeRollScope` returning undefined means "not a scope we map" —
+      // canonical value. `normalizeRollScope` returning undefined means "not a scope we map":
       // the RAW scope passes through and matches no chip, exactly as before (§6.2.3).
       const rolls: RollKind[] = eff.roll === "any" ? ["ability-check", "saving-throw", "attack"] : [eff.roll];
       const scopes: (string | undefined)[] = normalizeRollScope(eff.scope, rolls[0]) ?? [eff.scope];
@@ -508,7 +508,7 @@ function applyEffect(out: FeatureEffectTotals, eff: FeatureEffect, label: string
     }
     case "save-outcome":
       // R4-G3a §5.3: display-only pass-through. `ability: "any"` maps to an ABSENT ability rather
-      // than six duplicate entries — the save chip already reads an absent scope as "every chip".
+      // than six duplicate entries: the save chip already reads an absent scope as "every chip".
       out.saveOutcomes.push({
         ability: eff.ability === "any" ? undefined : eff.ability,
         on_success: eff.on_success, on_failure: eff.on_failure,

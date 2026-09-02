@@ -1,9 +1,9 @@
 /**
- * R4-G3a §6.2.3 · `normalizeRollScope` — prose `roll-modifier.scope` → canonical scope value(s).
+ * R4-G3a §6.2.3 · `normalizeRollScope`: prose `roll-modifier.scope` → canonical scope value(s).
  *
  * `RollModifierEntry.scope` is documented "skill slug or ability key", but the converter writes
  * whatever the source prose said. Measured over the 152 check/save sites that fold: 68 absent, 4
- * already canonical, 80 PROSE — of which 53 % rendered NO chip anywhere, because the readers
+ * already canonical, 80 PROSE, of which 53 % rendered NO chip anywhere, because the readers
  * compare `scope` to a slug or an ability key literally.
  *
  * The mapping is DETERMINISTIC and vocabulary-driven, never a private table:
@@ -20,7 +20,7 @@
  * "Initiative rolls", "… to maintain Concentration"); they are a G7 handoff, not a guess here.
  *
  * FAN-OUT BOUND: more than 3 parts is not a scope we map, so it returns `undefined` too. The rule
- * is "a list this long is prose, not an enumeration" — the measured maximum over the corpus is 3
+ * is "a list this long is prose, not an enumeration": the measured maximum over the corpus is 3
  * ("Intelligence, Wisdom, Charisma"), so the bound costs nothing and caps what one effect can
  * multiply into at the fold.
  *

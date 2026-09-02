@@ -5,7 +5,7 @@
  * `tests/fixtures/roll-scopes-152.json` is the 152 check/save `roll-modifier` sites that FOLD
  * today (the design-time partition of `research/controller-scope-coverage.mjs`: `kind ===
  * "roll-modifier"` AND `mode ∈ {advantage, disadvantage}` AND `roll ∈ {ability-check,
- * saving-throw}`). It is NOT "all check/save sites" — that set is 180 with 78 absent and would
+ * saving-throw}`). It is NOT "all check/save sites": that set is 180 with 78 absent and would
  * fail the `toBe(68)` pin. JSON carries no comments, so the generating command lives here:
  *
  *   node -e 'const d=require("/Users/shinoobi/w/archivist-obsidian/.superpowers/sdd/2026-09-02-r4-g3-engine-semantics/research/controller-sites-dump.json");const out=d.sites.filter(s=>s.eff.kind==="roll-modifier"&&(s.eff.mode==="advantage"||s.eff.mode==="disadvantage")&&(s.eff.roll==="ability-check"||s.eff.roll==="saving-throw")).map(s=>s.eff.scope==null?{roll:s.eff.roll}:{roll:s.eff.roll,scope:s.eff.scope});require("fs").writeFileSync("tests/fixtures/roll-scopes-152.json",JSON.stringify(out,null,2)+"\n");console.log("sites="+out.length+" absent="+out.filter(o=>o.scope==null).length)'
