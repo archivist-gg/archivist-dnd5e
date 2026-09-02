@@ -699,10 +699,12 @@ export function collectResolvedFeatures(
     const entityEffects = feat.effects ?? [];
     if (bundled.length > 0) {
       bundled.forEach((f, i) => {
-        // Entity-level feat effects ride the first bundled feature. Shallow
-        // copy — registry entities are shared and must not be mutated.
-        const feature = i === 0 && entityEffects.length > 0
-          ? { ...f, effects: [...(f.effects ?? []), ...entityEffects] }
+        // Entity-level feat effects AND the entity-level action cost (R4-G3a §10.2.3) ride the
+        // first bundled feature. The shallow copy at `i === 0` is now UNCONDITIONAL: registry
+        // entities are shared across every character and must not be mutated, so the action carry
+        // can never be an in-place write. Declared wins · `??`, never an overwriting spread.
+        const feature = i === 0
+          ? { ...f, action: f.action ?? feat.action_cost, ...(entityEffects.length > 0 ? { effects: [...(f.effects ?? []), ...entityEffects] } : {}) }
           : f;
         out.push({ feature, source: { kind: "feat", slug: feat.slug } });
       });
@@ -717,6 +719,9 @@ export function collectResolvedFeatures(
           name,
           ...(foldedDesc ? { description: foldedDesc } : {}),
           ...(feat.resources ? { resources: feat.resources } : {}),
+          // R4-G3a §10.2.3: a feat's ENTITY-level action cost (SRD 2024 Boon of the Night Spirit)
+          // reaches the synthesized feature, so the row routes off Passive onto its own economy.
+          ...(feat.action_cost ? { action: feat.action_cost } : {}),
           ...(entityEffects.length > 0 ? { effects: entityEffects } : {}),
         },
         source: { kind: "feat", slug: feat.slug },
