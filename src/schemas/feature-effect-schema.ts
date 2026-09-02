@@ -102,8 +102,9 @@ export const featureEffectSchema = z.discriminatedUnion("kind", [
   }),
   z.object({ kind: z.literal("attack-rule"), flag: z.enum(["no-ranged-in-melee-disadvantage"]), condition: conditionField, subject: subjectField }),
   // R4-G1a declared these seven converter-emitted arms with the engine folding NOTHING for them
-  // (spec D3). R4-G3a §3-§7 folds SIX: immunity / vulnerability (defenses pane), temp-hp / heal /
-  // extra-action (row-local captions), save-outcome (save-chip tag rail).
+  // (spec D3). R4-G3a §3-§7 gives SIX of them semantics: immunity / vulnerability FOLD (defenses
+  // pane); temp-hp / heal / extra-action are still NOT folded, the plugin reads them raw as
+  // row-local captions; save-outcome FOLDS (save-chip tag rail).
   // `ability-score-increase` is still DROPPED at the fold: it is G3b's (invariant 8).
   // Damage immunity / vulnerability. NOT `immune-condition`, which is condition immunity.
   z.object({ kind: z.literal("immunity"), damage_type: z.string().min(1), condition: conditionField, subject: subjectField }),

@@ -625,7 +625,7 @@ export interface DerivedStats {
   attunementLimit: number;
   conditionEffects: ConditionEffects;
   /**
-   * Structured advantage/disadvantage entries from `roll-modifier` effects.
+   * Structured `roll-modifier` entries: four `mode` members since R4-G3a §6, not only advantage/disadvantage.
    * Order-preserving pass-through (no dedupe/merge); rendered as ADV/DIS/RR/+D4 chips.
    */
   rollModifiers: RollModifierEntry[];
