@@ -1,4 +1,6 @@
-export type ResetTrigger = "short-rest" | "long-rest" | "dawn" | "dusk" | "turn" | "round" | "custom";
+/** `either` = recovered by a short OR a long rest (R4-G3a §8.2; the 43 "short or
+ *  long rest" rows). Kept in step with `resetTriggerEnum` in schemas/resource-schema.ts. */
+export type ResetTrigger = "short-rest" | "long-rest" | "either" | "dawn" | "dusk" | "turn" | "round" | "custom";
 export type ActionCost = "action" | "bonus-action" | "reaction" | "free" | "special";
 
 export interface ResourceDie {

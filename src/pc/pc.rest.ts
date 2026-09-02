@@ -1,5 +1,6 @@
 import type { EntityRegistry } from "@archivist-gg/core";
 import type { Character, DerivedStats, ResolvedCharacter } from "./pc.types";
+import type { ResetTrigger } from "../types/resource";
 
 function resolveItemName(
   entry: Character["equipment"][number],
@@ -21,7 +22,7 @@ function resolveItemName(
 function findResourceById(
   resolved: ResolvedCharacter,
   id: string,
-): { label: string | undefined; reset: string } | undefined {
+): { label: string | undefined; reset: ResetTrigger } | undefined {
   for (const rf of resolved.features ?? []) {
     for (const r of rf.feature.resources ?? []) {
       if (r.id === id) return { label: r.name ?? rf.feature.name, reset: r.reset };
@@ -133,14 +134,14 @@ export function computeRestPlan(
       }
     }
 
-    // Feature uses — a long rest restores short-rest, long-rest, dawn and dusk
-    // resets (it spans the night). turn/round are encounter-scoped (never reset
-    // by rest). See SP4d Phase 2 spec §5.
+    // Feature uses · a long rest restores short-rest, long-rest, either, dawn and
+    // dusk resets (it spans the night). turn/round are encounter-scoped (never
+    // reset by rest). See SP4d Phase 2 spec §5 and R4-G3a §8.2.
     for (const [key, fu] of Object.entries(character.state.feature_uses ?? {})) {
       if (fu.used <= 0) continue;
       const res = findResourceById(resolved, key);
       const reset = res?.reset ?? "long-rest";
-      if (reset !== "short-rest" && reset !== "long-rest" && reset !== "dawn" && reset !== "dusk") continue;
+      if (reset !== "short-rest" && reset !== "long-rest" && reset !== "either" && reset !== "dawn" && reset !== "dusk") continue;
       cats.push({
         id: `feature:${key}`,
         label: res?.label ?? key,
@@ -170,7 +171,9 @@ export function computeRestPlan(
     for (const [key, fu] of Object.entries(character.state.feature_uses ?? {})) {
       if (fu.used <= 0) continue;
       const res = findResourceById(resolved, key);
-      if ((res?.reset ?? "long-rest") !== "short-rest") continue;
+      // A short rest restores short-rest AND either ("short or long rest").
+      const r = res?.reset ?? "long-rest";
+      if (r !== "short-rest" && r !== "either") continue;
       cats.push({
         id: `feature:${key}`,
         label: res?.label ?? key,

@@ -1,6 +1,6 @@
 import { z } from "zod";
 
-const resetTriggerEnum = z.enum(["short-rest", "long-rest", "dawn", "dusk", "turn", "round", "custom"]);
+const resetTriggerEnum = z.enum(["short-rest", "long-rest", "either", "dawn", "dusk", "turn", "round", "custom"]);
 const actionCostEnum = z.enum(["action", "bonus-action", "reaction", "free", "special"]);
 
 export const resourceSchema = z.object({
