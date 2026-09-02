@@ -8,7 +8,12 @@ import type { FeatureEffect } from "../src/types/feature-effect";
 // carries `pools: []` and `weaponMasteries: []`, which the sibling omits: both are NON-optional
 // on ResolvedCharacter, and this file is held to zero per-file `tsc --noEmit` errors, so the
 // omission the sibling can afford (its base carries that TS2739) is spelled out here instead.
-// Behaviour is identical · every reader of both fields is `?? []`.
+// Behaviour is identical for THIS file: every reader on the recalc path guards with `?? []`
+// (`pc.feature-effects.ts` assembleEffectFeatures `resolved.pools ?? []`; `pc.recalc.ts`
+// `resolved.weaponMasteries ?? []`). Not every reader in the repo does · `pc.decision-engine.ts`
+// iterates `resolved.pools` BARE inside `buildDecisionLedger`, which recalc does not call (it
+// imports only collectChosenProficiencies / collectChosenAbilityPoints), so a fixture that omits
+// `pools` would throw there and not here. Scope the claim to the path, never to the field.
 function mkClass(slug: string, die: string, level: number): ResolvedClass {
   return {
     entity: {
