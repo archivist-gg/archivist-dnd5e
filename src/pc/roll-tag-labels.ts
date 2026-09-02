@@ -15,16 +15,17 @@
  * captions); `ROLL_MODE_TAG` is the terse chip half. Never an "EVA" literal for the outcome tag:
  * Evasion is only one of four bearers, and Spellfire Sorcery is not Evasion.
  */
-import type { RollModifierMode, RollKind } from "./pc.types";
+import type { RollModifierMode, RollKind, SaveOutcome } from "./pc.types";
 
 export const ROLL_MODE_TAG: Record<RollModifierMode, string> = { advantage: "ADV", disadvantage: "DIS", reroll: "RR", "add-d4": "+D4" };
 export const ROLL_MODE_WORD: Record<RollModifierMode, string> = { advantage: "advantage", disadvantage: "disadvantage", reroll: "a reroll", "add-d4": "+1d4" };
 export const ROLL_NOUN: Record<RollKind, string> = { "ability-check": "ability checks", "saving-throw": "saving throws", attack: "attack rolls" };
 export const AUTO_FAIL_TAG = "AUTO-FAIL";
 
-/** The two closed `save-outcome` enums as display glyphs: how much damage you still take. */
-export const OUTCOME: Record<"none" | "half" | "full", string> = { none: "0", half: "½", full: "1" };
+/** The closed `save-outcome` result vocabulary as display glyphs: how much damage you still take.
+ *  `Record<SaveOutcome, string>` (the alias from pc.types.ts) so the union is spelled once. */
+export const OUTCOME: Record<SaveOutcome, string> = { none: "0", half: "½", full: "1" };
 
 /** `{none, half}` → "0/½": success outcome over failure outcome. */
-export const saveOutcomeTag = (onSuccess: keyof typeof OUTCOME, onFailure: keyof typeof OUTCOME): string =>
+export const saveOutcomeTag = (onSuccess: SaveOutcome, onFailure: SaveOutcome): string =>
   `${OUTCOME[onSuccess]}/${OUTCOME[onFailure]}`;

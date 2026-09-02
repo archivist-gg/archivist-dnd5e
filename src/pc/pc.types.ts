@@ -482,6 +482,12 @@ export interface RollModifierEntry {
 export type RollModifierMode = RollModifierEntry["mode"];
 export type RollKind = RollModifierEntry["roll"];
 
+/** The closed `save-outcome` result vocabulary, extracted the same way (R4-G3a §5.3): how much
+ *  of the effect still lands. `pc/roll-tag-labels.ts` types its OUTCOME glyph table
+ *  `Record<SaveOutcome, string>`, so the union is spelled ONCE and a widened member is a compile
+ *  error in the table rather than a silent missing glyph. */
+export type SaveOutcome = SaveOutcomeEntry["on_success"];
+
 /**
  * A `save-outcome` effect as it leaves the fold (R4-G3a §5.3) · Evasion and its shape-mates
  * ("on a failed save you take half damage, on a success none").
@@ -494,7 +500,7 @@ export type RollKind = RollModifierEntry["roll"];
 export interface SaveOutcomeEntry {
   ability?: Ability;
   on_success: "none" | "half" | "full";
-  on_failure: "none" | "half" | "full";
+  on_failure: SaveOutcomeEntry["on_success"];
   appliesTo?: string;
   condition?: string;
   label: string;       // owning feature name (for tooltip)

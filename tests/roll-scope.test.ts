@@ -19,6 +19,11 @@ describe("normalizeRollScope (R4-G3a §6.2.3)", () => {
     ["any Wisdom (Perception) or Intelligence (Investigation) check", "ability-check", ["perception", "investigation"]],
     ["stealth", "ability-check", ["stealth"]],
     ["wis", "saving-throw", ["wis"]],
+    // The two branches no corpus fixture exercises, MEASURED before pinning: the slash list
+    // (`/` is a split token beside comma / "and" / "or") and the empty string (the
+    // `parts.length === 0` guard, which a whitespace-only scope also reaches).
+    ["Strength/Dexterity", "saving-throw", ["str", "dex"]],
+    ["", "saving-throw", undefined],
   ])("%s → %j", (raw, roll, want) => expect(normalizeRollScope(raw, roll as never)).toEqual(want));
   it.each(["Death Saving Throws", "Initiative rolls", "1d4", "saving throws against spells", "a failed saving throw"])(
     "residual %s → undefined (pass-through)", (raw) => expect(normalizeRollScope(raw, "saving-throw")).toBeUndefined());

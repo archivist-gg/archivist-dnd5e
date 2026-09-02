@@ -11,6 +11,13 @@
  *   node -e 'const d=require("/Users/shinoobi/w/archivist-obsidian/.superpowers/sdd/2026-09-02-r4-g3-engine-semantics/research/controller-sites-dump.json");const out=d.sites.filter(s=>s.eff.kind==="roll-modifier"&&(s.eff.mode==="advantage"||s.eff.mode==="disadvantage")&&(s.eff.roll==="ability-check"||s.eff.roll==="saving-throw")).map(s=>s.eff.scope==null?{roll:s.eff.roll}:{roll:s.eff.roll,scope:s.eff.scope});require("fs").writeFileSync("tests/fixtures/roll-scopes-152.json",JSON.stringify(out,null,2)+"\n");console.log("sites="+out.length+" absent="+out.filter(o=>o.scope==null).length)'
  *
  * run once from the dnd5e repo root (printed `sites=152 absent=68`).
+ *
+ * The whole-object `toEqual` below is the EXACT measurement of the shipped mapper over that
+ * fixture, and it is where Task 9 reads §16's numbers from (there is no console output: a number
+ * a human has to copy off a test run is a number that goes stale silently). The four assertions
+ * after it are the SPEC's contract (§6.1's "≥ 45 of the 80" floor, the 68/4 pins and the fan-out
+ * bound) and are kept: the exact pin says what the mapper does today, the floor says what it is
+ * allowed to become.
  */
 import { describe, it, expect } from "vitest";
 import scopes from "./fixtures/roll-scopes-152.json";
@@ -25,7 +32,9 @@ describe("scope-normaliser coverage floor (spec §6.1 / §16)", () => {
       if (r.length === 1 && r[0] === s.scope) { canonical++; continue; }
       mapped++; if (r.length > 1) { fanout++; maxFan = Math.max(maxFan, r.length); }
     }
-    console.log(JSON.stringify({ absent, canonical, mapped, residual, fanout, maxFan })); // Task 9 records this
+    // Task 9 reads §16's numbers from THIS pin.
+    expect({ absent, canonical, mapped, residual, fanout, maxFan })
+      .toEqual({ absent: 68, canonical: 4, mapped: 45, residual: 35, fanout: 14, maxFan: 3 });
     expect(absent).toBe(68); expect(canonical).toBe(4); expect(mapped).toBeGreaterThanOrEqual(45); expect(maxFan).toBeLessThanOrEqual(3);
   });
 });
