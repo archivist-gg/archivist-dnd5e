@@ -123,9 +123,14 @@ describe("§10.2.1 · the same alias over features_by_level (parseClass / parseS
  * into a sibling working copy, and NO dnd5e test reads outside its own repo (every file-reading
  * test resolves through `__dirname` into `src/`, `tools/` or `tests/fixtures/`). The in-repo
  * precedent for bundle data is `tests/race-schema-widening.test.ts:73-74`, which copies its blocks
- * verbatim and names the source file in a comment; this follows it. The REAL files are read, and
- * these same five rows asserted against them, by the plugin suite, which does hold the bundle:
- * `tests/srd-canonical/bundle-feature-action-cost.test.ts`.
+ * verbatim and names the source file in a comment; this follows it.
+ *
+ * What that costs, stated plainly: these are COPIES, so nothing in this file can notice the bundle
+ * changing. Every assertion below is about the alias behaviour applied to the blocks as copied on
+ * 2026-09-02. Enforcement that the bundle still holds these five carriers and no others lives in the
+ * plugin suite, which is the repo that actually ships the bundle:
+ * `tests/srd-canonical/bundle-feature-action-cost.test.ts`. That sweep is what would catch these
+ * copies drifting; this file would stay green.
  */
 const BUNDLE_CARRIERS = [
   {
@@ -231,7 +236,9 @@ describe("§10.3 · every bundle carrier of a feature-level action_cost aliases 
     expect(t?.action_cost).toBe(expected);     // …and the declared one is retained
   });
 
-  it("pins the POPULATION, so a sixth carrier cannot be added to the bundle without touching this list", () => {
+  // NOT a bundle-population guard: this asserts the shape of the COPIED list in this file only. A
+  // sixth carrier appearing in the real bundle goes red in the plugin's srd-canonical sweep, not here.
+  it("the five copied carriers keep their count and cost multiset; the bundle population itself is enforced by the plugin's srd-canonical sweep", () => {
     expect(BUNDLE_CARRIERS.length).toBe(5);
     expect(BUNDLE_CARRIERS.map((c) => c.expected).sort())
       .toEqual(["action", "action", "bonus-action", "bonus-action", "special"]);
