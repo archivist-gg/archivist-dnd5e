@@ -51,6 +51,42 @@ describe("feat action_cost → the resolved feature's action (§10.2.3)", () => 
     expect((entity as unknown as { features: unknown[] }).features[0]).toEqual(before);
   });
 
+  // The `entityEffects` concat arm of the same copy: it had ZERO coverage in either repo before this
+  // task widened the copy around it, so a regression there would have been silent. Values asserted,
+  // never presence.
+  it("entity-level feat effects ride the FIRST bundled feature, and the entity keeps none of it", () => {
+    const effect = { kind: "resistance", damage_type: "fire" };
+    const entity = {
+      ...feat({ slug: "resistant", name: "Resistant" }),
+      effects: [effect],
+      features: [{ name: "F", description: "d" }],
+    } as unknown as FeatEntity;
+    const before = structuredClone((entity as unknown as { features: unknown[] }).features[0]);
+
+    const rf = collectResolvedFeatures(null, [], null, [entity]).find((r) => r.source.kind === "feat")!;
+    expect(rf.feature.effects).toEqual([effect]);
+    // The source feature must not have gained an `effects` key (nor an `action` one).
+    expect((entity as unknown as { features: unknown[] }).features[0]).toEqual(before);
+    expect(before).toEqual({ name: "F", description: "d" });
+  });
+
+  it("CONCATENATES rather than overwrites: the feature's own effects come first, the entity's after", () => {
+    const own = { kind: "resistance", damage_type: "cold" };
+    const entityEffect = { kind: "resistance", damage_type: "fire" };
+    const entity = {
+      ...feat({ slug: "both-effects", name: "Both Effects" }),
+      effects: [entityEffect],
+      features: [{ name: "F", description: "d", effects: [own] }, { name: "G", description: "d2" }],
+    } as unknown as FeatEntity;
+    const before = structuredClone((entity as unknown as { features: unknown[] }).features);
+
+    const resolved = collectResolvedFeatures(null, [], null, [entity]).filter((r) => r.source.kind === "feat");
+    expect(resolved.map((r) => r.feature.name)).toEqual(["F", "G"]);
+    expect(resolved[0].feature.effects).toEqual([own, entityEffect]);   // order is the contract
+    expect(resolved[1].feature.effects).toBeUndefined();                // only the FIRST one carries
+    expect((entity as unknown as { features: unknown[] }).features).toEqual(before);
+  });
+
   it("a bundled feature with NO action of its own takes the feat's action_cost, still without mutating the entity", () => {
     const entity = {
       ...feat({ slug: "bare", name: "Bare", action_cost: "bonus-action" }),
