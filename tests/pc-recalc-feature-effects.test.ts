@@ -807,16 +807,88 @@ describe("recalc — feature effects: additive weapon routing (R4-P3c)", () => {
   });
 });
 
-describe("recalc feature effects: roll-modifier members the engine does not fold (R4-G1a D1, G4b)", () => {
-  it("reroll, add-d4 and roll: any fold nothing; advantage/attack in the SAME fixture folds one entry (control of the control)", () => {
+/**
+ * R4-G3a §6 · the INVERSION of the R4-G1a G4b tripwire.
+ *
+ * G4b asserted that `reroll` / `add-d4` / `roll: "any"` folded NOTHING (the R-T1a guard dropped
+ * 41 of the 227 corpus sites). G3a gives them semantics, so the same fixture shape now asserts
+ * the opposite: all four `mode` members fold, `roll: "any"` fans out to three entries, a MAPPED
+ * prose scope becomes one entry per canonical value, and a RESIDUAL prose scope passes through
+ * byte-unchanged (the readers already render no chip for it — §6.2.3, §14 row 19).
+ *
+ * The four-member fixture uses four CONCRETE rolls on purpose: a fan-out inside it would make the
+ * array six entries and blunt §14 row 10, whose mutant (drop `add-d4` from the fold) must make
+ * this exact `toEqual` read THREE.
+ */
+describe("recalc feature effects: roll-modifier members fold (R4-G3a §6)", () => {
+  it("all four mode members fold, one entry each, mode preserved", () => {
     const d = recalc(resolvedWith(mkClass("reaver", "d10", 1), [
       { kind: "roll-modifier", mode: "reroll", roll: "attack" },
-      { kind: "roll-modifier", mode: "advantage", roll: "any" },
+      { kind: "roll-modifier", mode: "advantage", roll: "ability-check", scope: "stealth" },
       { kind: "roll-modifier", mode: "add-d4", roll: "saving-throw", scope: "con" },
-      { kind: "roll-modifier", mode: "advantage", roll: "attack" },
+      { kind: "roll-modifier", mode: "disadvantage", roll: "attack" },
     ]));
     expect(d.rollModifiers).toEqual([
+      { mode: "reroll", roll: "attack", scope: undefined, condition: undefined, label: "Effect Source" },
+      { mode: "advantage", roll: "ability-check", scope: "stealth", condition: undefined, label: "Effect Source" },
+      { mode: "add-d4", roll: "saving-throw", scope: "con", condition: undefined, label: "Effect Source" },
+      { mode: "disadvantage", roll: "attack", scope: undefined, condition: undefined, label: "Effect Source" },
+    ]);
+  });
+
+  it("roll: any fans out to THREE entries in order ability-check, saving-throw, attack", () => {
+    const d = recalc(resolvedWith(mkClass("reaver", "d10", 1), [
+      { kind: "roll-modifier", mode: "advantage", roll: "any" },
+    ]));
+    expect(d.rollModifiers).toEqual([
+      { mode: "advantage", roll: "ability-check", scope: undefined, condition: undefined, label: "Effect Source" },
+      { mode: "advantage", roll: "saving-throw", scope: undefined, condition: undefined, label: "Effect Source" },
       { mode: "advantage", roll: "attack", scope: undefined, condition: undefined, label: "Effect Source" },
     ]);
+  });
+
+  it("a RESIDUAL prose scope passes through unchanged (no chip, exactly as before)", () => {
+    const d = recalc(resolvedWith(mkClass("reaver", "d10", 1), [
+      { kind: "roll-modifier", mode: "reroll", roll: "saving-throw", scope: "Death Saving Throws" },
+    ]));
+    expect(d.rollModifiers).toEqual([
+      { mode: "reroll", roll: "saving-throw", scope: "Death Saving Throws", condition: undefined, label: "Effect Source" },
+    ]);
+  });
+
+  it("a MAPPED prose scope produces one entry per canonical value", () => {
+    const d = recalc(resolvedWith(mkClass("reaver", "d10", 1), [
+      { kind: "roll-modifier", mode: "advantage", roll: "saving-throw", scope: "Wisdom, Charisma" },
+    ]));
+    expect(d.rollModifiers).toEqual([
+      { mode: "advantage", roll: "saving-throw", scope: "wis", condition: undefined, label: "Effect Source" },
+      { mode: "advantage", roll: "saving-throw", scope: "cha", condition: undefined, label: "Effect Source" },
+    ]);
+  });
+});
+
+describe("recalc feature effects: save-outcome pass-through (R4-G3a §5.3)", () => {
+  it("folds an Evasion-shaped save-outcome with applies_to and the owning feature label", () => {
+    const d = recalc(resolvedWith(mkClass("reaver", "d10", 1), [
+      { kind: "save-outcome", ability: "dex", on_success: "none", on_failure: "half", applies_to: "a spell" },
+    ]));
+    expect(d.saveOutcomes[0]).toEqual({
+      ability: "dex", on_success: "none", on_failure: "half",
+      appliesTo: "a spell", condition: undefined, label: "Effect Source",
+    });
+  });
+
+  it('ability: "any" maps to ability: undefined (the chip\'s "absent = every save" idiom)', () => {
+    const d = recalc(resolvedWith(mkClass("reaver", "d10", 1), [
+      { kind: "save-outcome", ability: "any", on_success: "none", on_failure: "half", applies_to: null },
+    ]));
+    expect(d.saveOutcomes).toEqual([
+      { ability: undefined, on_success: "none", on_failure: "half", appliesTo: undefined, condition: undefined, label: "Effect Source" },
+    ]);
+  });
+
+  it("saveOutcomes is an empty list when no save-outcome effects exist", () => {
+    const d = recalc(resolvedWith(mkClass("reaver", "d10", 1), [{ kind: "ac-bonus", value: 1 }]));
+    expect(d.saveOutcomes).toEqual([]);
   });
 });

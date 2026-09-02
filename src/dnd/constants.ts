@@ -84,3 +84,25 @@ export const ALL_SECTIONS: string[] = [
   "Traits", "Actions", "Reactions", "Bonus Actions",
   "Legendary Actions", "Lair Actions", "Mythic Actions",
 ];
+
+/**
+ * Full ability NAME (lower-case) → canonical three-letter key. Distinct from `ABILITY_NAMES`
+ * above, which is the OTHER direction and yields the display casing ("str" → "STR").
+ *
+ * Moved here from `pc/pc.feature-effects.ts` in R4-G3a §6.2.3, where it was private: the scope
+ * normaliser (`pc/roll-scope.ts`) needs exactly the same vocabulary, and a second copy is the
+ * defect class this phase exists to remove. `src/dnd/*` imports nothing from `src/pc/*`, so the
+ * move introduces no cycle; the type is spelled `(typeof ABILITY_KEYS)[number]` rather than the
+ * `Ability` alias so this module keeps its zero imports.
+ */
+export const ABILITY_NAME_TO_KEY: Record<string, (typeof ABILITY_KEYS)[number]> = {
+  strength: "str", dexterity: "dex", constitution: "con", intelligence: "int", wisdom: "wis", charisma: "cha",
+};
+
+/** Accepts a canonical key ("dex") or a full ability name ("Dexterity"), any casing / padding;
+ *  returns the canonical key, or null when the value is neither. */
+export function normalizeAbility(value: string): (typeof ABILITY_KEYS)[number] | null {
+  const k = value.trim().toLowerCase();
+  if ((ABILITY_KEYS as readonly string[]).includes(k)) return k as (typeof ABILITY_KEYS)[number];
+  return ABILITY_NAME_TO_KEY[k] ?? null;
+}

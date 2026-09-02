@@ -1,10 +1,14 @@
 import type { FeatureEffect, SenseType } from "@archivist-gg/dnd5e/types/feature-effect";
 import type { Ability } from "@archivist-gg/dnd5e";
-import { ABILITY_KEYS } from "@archivist-gg/dnd5e/dnd/constants";
-import type { DamageRider, DefenseGrant, FeatureSource, ResolvedCharacter, ResolvedFeature, ResolvedPool, RollModifierEntry } from "./pc.types";
+// R4-G3a §6.2.3: ABILITY_NAME_TO_KEY / normalizeAbility were PRIVATE here; they moved to
+// dnd/constants.ts so roll-scope.ts can share the one vocabulary (no second copy, no cycle —
+// src/dnd/* imports nothing from src/pc/*).
+import { normalizeAbility } from "@archivist-gg/dnd5e/dnd/constants";
+import type { DamageRider, DefenseGrant, FeatureSource, ResolvedCharacter, ResolvedFeature, ResolvedPool, RollKind, RollModifierEntry, SaveOutcomeEntry } from "./pc.types";
 import type { OptionalFeatureEntity } from "@archivist-gg/dnd5e/types/optional-feature.types";
 import { bareEntitySlug } from "../entities/slug";
 import { toProfSlug } from "./pc.proficiency-normalize";
+import { normalizeRollScope } from "./roll-scope";
 
 /**
  * A melee-attack ability override from a `weapon-ability` effect. `weaponSlugs`
@@ -109,6 +113,12 @@ export interface FeatureEffectTotals {
    */
   rollModifiers: RollModifierEntry[];
   /**
+   * Order-preserving list of `save-outcome` entries (R4-G3a §5.3), labeled with the owning
+   * feature's name. Pass-through (no dedupe/merge); `ability: "any"` becomes an ABSENT ability,
+   * which the save chip reads as "every save".
+   */
+  saveOutcomes: SaveOutcomeEntry[];
+  /**
    * Lowest weapon-attack crit threshold (natural roll that scores a critical
    * hit) granted by `crit-range` effects. Folds via Math.min from init 20, so
    * 20 = no expansion. spell-only (`applies_to:"spell"`) entries do NOT lower
@@ -154,26 +164,12 @@ export function emptyFeatureEffectTotals(): FeatureEffectTotals {
     proficiencies: { skills: [], tools: [], languages: [], saves: [], armor: [], weapons: [] },
     weaponAbilities: [],
     rollModifiers: [],
+    saveOutcomes: [],
     critRange: 20,
     extraAttack: 0,
     attackNotes: [],
     damageBonuses: [],
   };
-}
-
-const ABILITY_NAME_TO_KEY: Record<string, Ability> = {
-  strength: "str",
-  dexterity: "dex",
-  constitution: "con",
-  intelligence: "int",
-  wisdom: "wis",
-  charisma: "cha",
-};
-
-function normalizeAbility(value: string): Ability | null {
-  const k = value.trim().toLowerCase();
-  if ((ABILITY_KEYS as readonly string[]).includes(k)) return k as Ability;
-  return ABILITY_NAME_TO_KEY[k] ?? null;
 }
 
 function pushUnique(list: string[], value: string): void {
@@ -497,16 +493,27 @@ function applyEffect(out: FeatureEffectTotals, eff: FeatureEffect, label: string
       }
       break;
     }
-    case "roll-modifier":
-      // Order-preserving pass-through: one entry per effect, labeled with the
-      // owning feature's name for the chip tooltip. No dedupe/merge.
-      // R4-G1a D1 widened the schema's enums (mode reroll / add-d4, roll any). RollModifierEntry keeps the
-      // ENGINE's two-mode / three-roll vocabulary (the plugin's chips render ADV / DIS only), so the new
-      // members are declared and INERT here until the G3 phase gives them semantics (spec 0.8, 8).
-      if ((eff.mode === "advantage" || eff.mode === "disadvantage") &&
-          (eff.roll === "ability-check" || eff.roll === "saving-throw" || eff.roll === "attack")) {
-        out.rollModifiers.push({ mode: eff.mode, roll: eff.roll, scope: eff.scope, condition: eff.condition, label });
-      }
+    case "roll-modifier": {
+      // R4-G3a §6: the R-T1a guard that dropped 41 of the 227 corpus sites is GONE. All four
+      // `mode` members fold with `mode` preserved (the plugin renders ADV / DIS / RR / +D4 from
+      // ROLL_MODE_TAG); `roll: "any"` FANS OUT here into the three concrete roll types, so no
+      // reader ever needs a fourth `roll` member; and a prose `scope` becomes one entry per
+      // canonical value. `normalizeRollScope` returning undefined means "not a scope we map" —
+      // the RAW scope passes through and matches no chip, exactly as before (§6.2.3).
+      const rolls: RollKind[] = eff.roll === "any" ? ["ability-check", "saving-throw", "attack"] : [eff.roll];
+      const scopes: (string | undefined)[] = normalizeRollScope(eff.scope, rolls[0]) ?? [eff.scope];
+      for (const roll of rolls) for (const scope of scopes)
+        out.rollModifiers.push({ mode: eff.mode, roll, scope, condition: eff.condition, label });
+      break;
+    }
+    case "save-outcome":
+      // R4-G3a §5.3: display-only pass-through. `ability: "any"` maps to an ABSENT ability rather
+      // than six duplicate entries — the save chip already reads an absent scope as "every chip".
+      out.saveOutcomes.push({
+        ability: eff.ability === "any" ? undefined : eff.ability,
+        on_success: eff.on_success, on_failure: eff.on_failure,
+        appliesTo: eff.applies_to ?? undefined, condition: eff.condition, label,
+      });
       break;
     case "crit-range":
       // Lowest threshold across weapon/all crit-range effects wins. A spell-only
@@ -535,10 +542,11 @@ function applyEffect(out: FeatureEffectTotals, eff: FeatureEffect, label: string
       }
       break;
     default:
-      // Seven kinds fold nothing here, by design: apply-condition (display-only), unarmored-ac (inert HERE, live in
-      // unarmoredACBreakdown), and FIVE of the seven R4-G1a arms (temp-hp, heal, ability-score-increase,
-      // extra-action, save-outcome) · `immunity` and `vulnerability` left this arm in R4-G3a and now fold into
-      // their own defense buckets above. A non-self effect never reaches this switch at all (foldsOnSelf).
+      // Six kinds fold nothing here, by design: apply-condition (display-only), unarmored-ac (inert HERE, live in
+      // unarmoredACBreakdown), and FOUR of the seven R4-G1a arms (temp-hp, heal, ability-score-increase,
+      // extra-action) · `immunity` and `vulnerability` left this arm in R4-G3a §3 and now fold into their own
+      // defense buckets above, and `save-outcome` left it in §5.3 for its own case just above.
+      // A non-self effect never reaches this switch at all (foldsOnSelf).
       break;
   }
 }

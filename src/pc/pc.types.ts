@@ -461,10 +461,42 @@ export interface DerivedEquipment {
  * `condition` absent = always-on (not situational).
  */
 export interface RollModifierEntry {
-  mode: "advantage" | "disadvantage";
+  // R4-G3a §6.2.1: four members. `reroll` / `add-d4` were declared-but-inert on the effect schema
+  // since R4-G1a and now fold; every `mode ===` reader was edited in the same task (invariant 2).
+  mode: "advantage" | "disadvantage" | "reroll" | "add-d4";
+  // Three members, deliberately: the effect schema's fourth (`roll: "any"`) is FANNED OUT at the
+  // fold into one entry per roll type, so no reader ever sees it (§6.2.1).
   roll: "ability-check" | "saving-throw" | "attack";
-  scope?: string;      // skill slug or ability key; absent = all of that roll type
+  scope?: string;      // skill slug or ability key; absent = all of that roll type. A prose scope the
+                       // normaliser could not map passes through RAW and matches no chip (§6.2.3).
   condition?: string;  // situational label; absent = always-on
+  label: string;       // owning feature name (for tooltip)
+}
+
+/**
+ * The two members' aliases, extracted from the entry's inline unions (R4-G3a §5.2). They are
+ * declared HERE and nowhere else: `pc/roll-tag-labels.ts`'s `Record<RollModifierMode, string>`
+ * tables and `pc/roll-scope.ts` import them, so widening the entry above is a COMPILE error in
+ * every label table that has not been extended (§14 row 8i).
+ */
+export type RollModifierMode = RollModifierEntry["mode"];
+export type RollKind = RollModifierEntry["roll"];
+
+/**
+ * A `save-outcome` effect as it leaves the fold (R4-G3a §5.3) — Evasion and its shape-mates
+ * ("on a failed save you take half damage, on a success none").
+ *
+ * `ability` ABSENT means every save, which is the save chip's existing "absent scope = every
+ * chip" idiom: the effect schema's `ability: "any"` maps to `undefined` at the fold rather than
+ * duplicating the entry six times. `appliesTo` is the effect's `applies_to` prose ("a spell"),
+ * carried for the tooltip only; `condition` is the situational qualifier, never evaluated.
+ */
+export interface SaveOutcomeEntry {
+  ability?: Ability;
+  on_success: "none" | "half" | "full";
+  on_failure: "none" | "half" | "full";
+  appliesTo?: string;
+  condition?: string;
   label: string;       // owning feature name (for tooltip)
 }
 
@@ -588,9 +620,14 @@ export interface DerivedStats {
   conditionEffects: ConditionEffects;
   /**
    * Structured advantage/disadvantage entries from `roll-modifier` effects.
-   * Order-preserving pass-through (no dedupe/merge); rendered as ADV/DIS chips.
+   * Order-preserving pass-through (no dedupe/merge); rendered as ADV/DIS/RR/+D4 chips.
    */
   rollModifiers: RollModifierEntry[];
+  /**
+   * `save-outcome` entries (R4-G3a §5.3). Order-preserving pass-through; rendered as an outcome
+   * tag ("0/½") on the matching save chip, or on every save chip when `ability` is absent.
+   */
+  saveOutcomes: SaveOutcomeEntry[];
 }
 
 export interface SpellcastingClassInfo {

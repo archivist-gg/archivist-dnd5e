@@ -1,0 +1,542 @@
+[
+  {
+    "roll": "saving-throw",
+    "scope": "Wisdom, Charisma"
+  },
+  {
+    "roll": "ability-check"
+  },
+  {
+    "roll": "saving-throw"
+  },
+  {
+    "roll": "ability-check",
+    "scope": "Intelligence (Investigation) and Wisdom (Perception) checks"
+  },
+  {
+    "roll": "ability-check",
+    "scope": "Dexterity (Stealth) checks"
+  },
+  {
+    "roll": "saving-throw"
+  },
+  {
+    "roll": "ability-check",
+    "scope": "perception"
+  },
+  {
+    "roll": "ability-check",
+    "scope": "stealth"
+  },
+  {
+    "roll": "saving-throw"
+  },
+  {
+    "roll": "ability-check",
+    "scope": "Dexterity (Stealth) checks"
+  },
+  {
+    "roll": "ability-check",
+    "scope": "Strength checks"
+  },
+  {
+    "roll": "saving-throw",
+    "scope": "Strength saving throws"
+  },
+  {
+    "roll": "saving-throw"
+  },
+  {
+    "roll": "saving-throw"
+  },
+  {
+    "roll": "saving-throw",
+    "scope": "Intelligence,Wisdom,Charisma"
+  },
+  {
+    "roll": "saving-throw"
+  },
+  {
+    "roll": "saving-throw"
+  },
+  {
+    "roll": "saving-throw"
+  },
+  {
+    "roll": "saving-throw"
+  },
+  {
+    "roll": "ability-check",
+    "scope": "wisdom"
+  },
+  {
+    "roll": "ability-check"
+  },
+  {
+    "roll": "ability-check"
+  },
+  {
+    "roll": "ability-check"
+  },
+  {
+    "roll": "ability-check"
+  },
+  {
+    "roll": "ability-check"
+  },
+  {
+    "roll": "ability-check"
+  },
+  {
+    "roll": "ability-check"
+  },
+  {
+    "roll": "ability-check"
+  },
+  {
+    "roll": "ability-check"
+  },
+  {
+    "roll": "ability-check"
+  },
+  {
+    "roll": "ability-check"
+  },
+  {
+    "roll": "saving-throw"
+  },
+  {
+    "roll": "ability-check",
+    "scope": "Investigation"
+  },
+  {
+    "roll": "ability-check",
+    "scope": "Dexterity (Acrobatics) checks"
+  },
+  {
+    "roll": "saving-throw",
+    "scope": "Intelligence, Wisdom, Charisma"
+  },
+  {
+    "roll": "saving-throw"
+  },
+  {
+    "roll": "saving-throw"
+  },
+  {
+    "roll": "saving-throw"
+  },
+  {
+    "roll": "saving-throw"
+  },
+  {
+    "roll": "saving-throw"
+  },
+  {
+    "roll": "saving-throw"
+  },
+  {
+    "roll": "saving-throw"
+  },
+  {
+    "roll": "ability-check",
+    "scope": "Survival"
+  },
+  {
+    "roll": "saving-throw"
+  },
+  {
+    "roll": "saving-throw"
+  },
+  {
+    "roll": "saving-throw"
+  },
+  {
+    "roll": "saving-throw"
+  },
+  {
+    "roll": "saving-throw"
+  },
+  {
+    "roll": "ability-check",
+    "scope": "Strength (Athletics) and Dexterity (Acrobatics) checks"
+  },
+  {
+    "roll": "ability-check",
+    "scope": "all Charisma checks"
+  },
+  {
+    "roll": "saving-throw"
+  },
+  {
+    "roll": "saving-throw"
+  },
+  {
+    "roll": "ability-check",
+    "scope": "stealth"
+  },
+  {
+    "roll": "ability-check",
+    "scope": "stealth"
+  },
+  {
+    "roll": "saving-throw"
+  },
+  {
+    "roll": "saving-throw"
+  },
+  {
+    "roll": "saving-throw",
+    "scope": "Intelligence, Wisdom, Charisma"
+  },
+  {
+    "roll": "ability-check",
+    "scope": "Strength checks"
+  },
+  {
+    "roll": "saving-throw",
+    "scope": "Strength saving throws"
+  },
+  {
+    "roll": "saving-throw",
+    "scope": "Dexterity saving throws against effects that you can see"
+  },
+  {
+    "roll": "ability-check",
+    "scope": "initiative rolls"
+  },
+  {
+    "roll": "saving-throw",
+    "scope": "saving throws against being frightened or charmed"
+  },
+  {
+    "roll": "ability-check",
+    "scope": "Wisdom (Survival) checks to track your favored enemies"
+  },
+  {
+    "roll": "ability-check",
+    "scope": "Intelligence checks to recall information about them"
+  },
+  {
+    "roll": "saving-throw",
+    "scope": "against plants that are magically created or manipulated to impede movement"
+  },
+  {
+    "roll": "saving-throw"
+  },
+  {
+    "roll": "saving-throw"
+  },
+  {
+    "roll": "saving-throw"
+  },
+  {
+    "roll": "saving-throw"
+  },
+  {
+    "roll": "saving-throw"
+  },
+  {
+    "roll": "saving-throw"
+  },
+  {
+    "roll": "saving-throw"
+  },
+  {
+    "roll": "saving-throw"
+  },
+  {
+    "roll": "ability-check",
+    "scope": "Charisma (Deception) checks made to avoid detection while impersonating"
+  },
+  {
+    "roll": "saving-throw",
+    "scope": "saving throws against plants magically created or manipulated to impede movement"
+  },
+  {
+    "roll": "saving-throw",
+    "scope": "saving throws against spells cast by fiends or undead"
+  },
+  {
+    "roll": "saving-throw",
+    "scope": "saving throws against spells"
+  },
+  {
+    "roll": "ability-check",
+    "scope": "Dexterity (Stealth) checks"
+  },
+  {
+    "roll": "ability-check",
+    "scope": "Strength checks"
+  },
+  {
+    "roll": "saving-throw",
+    "scope": "Strength saving throws"
+  },
+  {
+    "roll": "saving-throw",
+    "scope": "Dexterity saving throws"
+  },
+  {
+    "roll": "ability-check",
+    "scope": "Initiative rolls"
+  },
+  {
+    "roll": "saving-throw",
+    "scope": "saving throws against an effect that applies the Charmed or Frightened condition"
+  },
+  {
+    "roll": "saving-throw",
+    "scope": "Constitution saving throws that you make to maintain Concentration"
+  },
+  {
+    "roll": "saving-throw",
+    "scope": "any saving throw you make to maintain that Concentration"
+  },
+  {
+    "roll": "saving-throw"
+  },
+  {
+    "roll": "saving-throw"
+  },
+  {
+    "roll": "saving-throw"
+  },
+  {
+    "roll": "saving-throw"
+  },
+  {
+    "roll": "saving-throw"
+  },
+  {
+    "roll": "saving-throw",
+    "scope": "Intelligence, Wisdom, Charisma"
+  },
+  {
+    "roll": "ability-check"
+  },
+  {
+    "roll": "saving-throw"
+  },
+  {
+    "roll": "saving-throw",
+    "scope": "saving throws to avoid or end the Charmed or Frightened condition"
+  },
+  {
+    "roll": "saving-throw",
+    "scope": "saving throws against spells"
+  },
+  {
+    "roll": "ability-check",
+    "scope": "Initiative rolls"
+  },
+  {
+    "roll": "ability-check",
+    "scope": "Initiative rolls"
+  },
+  {
+    "roll": "ability-check",
+    "scope": "Strength (Athletics) checks"
+  },
+  {
+    "roll": "saving-throw",
+    "scope": "Death Saving Throws"
+  },
+  {
+    "roll": "ability-check",
+    "scope": "Charisma (Performance) check you make that involves you dancing"
+  },
+  {
+    "roll": "saving-throw",
+    "scope": "saving throws to avoid or end the Charmed or Frightened condition"
+  },
+  {
+    "roll": "saving-throw"
+  },
+  {
+    "roll": "ability-check",
+    "scope": "Strength (Athletics) and Dexterity (Acrobatics) checks"
+  },
+  {
+    "roll": "ability-check",
+    "scope": "all Charisma checks"
+  },
+  {
+    "roll": "saving-throw",
+    "scope": "death"
+  },
+  {
+    "roll": "saving-throw",
+    "scope": "Death Saving Throws and Constitution saving throws"
+  },
+  {
+    "roll": "saving-throw"
+  },
+  {
+    "roll": "saving-throw"
+  },
+  {
+    "roll": "saving-throw"
+  },
+  {
+    "roll": "saving-throw"
+  },
+  {
+    "roll": "saving-throw"
+  },
+  {
+    "roll": "saving-throw"
+  },
+  {
+    "roll": "saving-throw"
+  },
+  {
+    "roll": "saving-throw"
+  },
+  {
+    "roll": "saving-throw"
+  },
+  {
+    "roll": "saving-throw"
+  },
+  {
+    "roll": "saving-throw"
+  },
+  {
+    "roll": "saving-throw"
+  },
+  {
+    "roll": "ability-check",
+    "scope": "Dexterity (Acrobatics) checks"
+  },
+  {
+    "roll": "ability-check",
+    "scope": "Dexterity (Acrobatics) checks"
+  },
+  {
+    "roll": "saving-throw",
+    "scope": "saving throws to avoid becoming [[Player's Handbook (2014)/Conditions/Paralyzed|paralyzed]] or [[Player's Handbook (2014)/Conditions/Stunned|stunned]]"
+  },
+  {
+    "roll": "saving-throw",
+    "scope": "Wisdom saving throws"
+  },
+  {
+    "roll": "ability-check",
+    "scope": "the next Dexterity (Acrobatics) or Strength (Athletics) check you make during the same turn"
+  },
+  {
+    "roll": "saving-throw",
+    "scope": "saving throws against any disease"
+  },
+  {
+    "roll": "saving-throw",
+    "scope": "saving throws against any disease"
+  },
+  {
+    "roll": "ability-check",
+    "scope": "Dexterity (Sleight of Hand) checks and Charisma (Deception) checks"
+  },
+  {
+    "roll": "saving-throw",
+    "scope": "Constitution saving throws that you make to maintain your concentration on a spell"
+  },
+  {
+    "roll": "ability-check",
+    "scope": "Wisdom (Animal Handling) checks and Charisma (Intimidation) checks"
+  },
+  {
+    "roll": "saving-throw",
+    "scope": "saving throws against being poisoned"
+  },
+  {
+    "roll": "ability-check",
+    "scope": "Wisdom (Insight) checks"
+  },
+  {
+    "roll": "ability-check",
+    "scope": "Intelligence (Arcana) checks"
+  },
+  {
+    "roll": "saving-throw",
+    "scope": "saving throws against being charmed or frightened"
+  },
+  {
+    "roll": "ability-check",
+    "scope": "Dexterity (Stealth) checks"
+  },
+  {
+    "roll": "ability-check",
+    "scope": "Dexterity (Acrobatics) checks"
+  },
+  {
+    "roll": "ability-check",
+    "scope": "Dexterity (Acrobatics) checks"
+  },
+  {
+    "roll": "saving-throw",
+    "scope": "saving throws against being [[Player's Handbook (2014)/Conditions/Charmed|charmed]] or [[Player's Handbook (2014)/Conditions/Frightened|frightened]]"
+  },
+  {
+    "roll": "ability-check",
+    "scope": "Strength (Athletics) and Dexterity (Acrobatics) checks"
+  },
+  {
+    "roll": "ability-check",
+    "scope": "all Charisma checks"
+  },
+  {
+    "roll": "saving-throw",
+    "scope": "Intelligence, Wisdom, and Charisma saving throws"
+  },
+  {
+    "roll": "ability-check",
+    "scope": "Intelligence (Arcana) checks"
+  },
+  {
+    "roll": "saving-throw",
+    "scope": "death saving throws and Constitution saving throws"
+  },
+  {
+    "roll": "ability-check",
+    "scope": "Strength checks"
+  },
+  {
+    "roll": "saving-throw",
+    "scope": "Strength saving throws"
+  },
+  {
+    "roll": "ability-check",
+    "scope": "Wisdom (Insight) and Charisma (Intimidation) checks"
+  },
+  {
+    "roll": "saving-throw"
+  },
+  {
+    "roll": "saving-throw"
+  },
+  {
+    "roll": "ability-check",
+    "scope": "Charisma (Intimidation) checks"
+  },
+  {
+    "roll": "ability-check",
+    "scope": "all other Charisma checks"
+  },
+  {
+    "roll": "saving-throw",
+    "scope": "saving throws made to avoid falling off your mount"
+  },
+  {
+    "roll": "ability-check",
+    "scope": "any Wisdom (Perception) or Intelligence (Investigation) check"
+  },
+  {
+    "roll": "ability-check",
+    "scope": "initiative rolls"
+  },
+  {
+    "roll": "ability-check",
+    "scope": "the next Dexterity (Acrobatics) or Strength (Athletics) check you make during the same turn"
+  }
+]
