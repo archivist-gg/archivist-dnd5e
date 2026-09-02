@@ -42,7 +42,13 @@ export interface ResourceConsumption {
   source?: "resource" | "class-column" | "attack-dice";
   resource?: string;
   column?: string;
+  /** The MINIMUM spend when `amount_max` is present, otherwise the exact spend. */
   amount: number;
+  /** Upper bound of a RANGE spend (`amount` .. `amount_max`), int and positive.
+   *  DECLARED only in R4-G3a §9: zero emitted carriers, zero readers; spending a
+   *  range is G4's. Kept in step with `resourceConsumptionSchema` in
+   *  schemas/resource-schema.ts, whose refine is undefined-safe. */
+  amount_max?: number;
   expend_condition?: "roll_succeeds" | "roll_fails" | "target_takes_damage" | "always";
   free_uses?: {
     amount: number;
