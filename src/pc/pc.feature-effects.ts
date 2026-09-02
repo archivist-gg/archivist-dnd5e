@@ -95,8 +95,16 @@ export interface FeatureEffectTotals {
    * first-seen-wins dedupe in computeEffectiveProficiencies, an
    * `overrides.tools.remove` suppression, the builder's already-satisfied
    * exclusion · misses it, so the character ends up able to hold both.
+   *
+   * `skillExpertise` is NOT a seventh bucket · it is a SUBSET of `skills`, in the
+   * same canonical slug form, carrying the values whose effect set
+   * `expertise: true`. An expertise skill is pushed to BOTH, so every consumer
+   * that only knows about proficiency keeps working and recalc's `expSet` gains
+   * one source. SKILLS ONLY (spec §7.2): a tool or language effect carrying
+   * `expertise: true` folds as a plain proficiency and never lands here, because
+   * nothing in the product has a tool or language tri-state to render it with.
    */
-  proficiencies: { skills: string[]; tools: string[]; languages: string[]; saves: Ability[]; armor: string[]; weapons: string[] };
+  proficiencies: { skills: string[]; skillExpertise: string[]; tools: string[]; languages: string[]; saves: Ability[]; armor: string[]; weapons: string[] };
   /**
    * Melee-attack ability overrides (Hexblade "Lies", MCDM Illrigger scoped
    * "Lies", etc.), in fold order. Each carries an optional `weaponSlugs` scope
@@ -162,7 +170,7 @@ export function emptyFeatureEffectTotals(): FeatureEffectTotals {
     immunities: [],
     vulnerabilities: [],
     condition_immunities: [],
-    proficiencies: { skills: [], tools: [], languages: [], saves: [], armor: [], weapons: [] },
+    proficiencies: { skills: [], skillExpertise: [], tools: [], languages: [], saves: [], armor: [], weapons: [] },
     weaponAbilities: [],
     rollModifiers: [],
     saveOutcomes: [],
@@ -327,28 +335,35 @@ export function computeFeatureEffects(
  *
  *  `saves` is discriminated because FeatureEffectTotals.proficiencies.saves is
  *  Ability[], not string[] (fence F1). A null return means "not a proficiency
- *  effect, or an unresolvable ability". */
+ *  effect, or an unresolvable ability".
+ *
+ *  `expertise` is REQUIRED and always a boolean, never absent: the authored key
+ *  is optional, so folding it here once means no consumer has to tell
+ *  `undefined` from `false`. It is reported for EVERY bucket · deciding that
+ *  only skills act on it belongs to the fold (spec §7.2), not to the
+ *  classification. */
 export type ProficiencyClassification =
-  | { bucket: "skills" | "tools" | "languages" | "armor" | "weapons"; value: string; raw: string }
-  | { bucket: "saves"; value: Ability; raw: string };
+  | { bucket: "skills" | "tools" | "languages" | "armor" | "weapons"; value: string; raw: string; expertise: boolean }
+  | { bucket: "saves"; value: Ability; raw: string; expertise: boolean };
 
 export function classifyProficiencyEffect(eff: FeatureEffect): ProficiencyClassification | null {
   if (eff.kind !== "proficiency") return null;
   const raw = eff.value;
+  const expertise = eff.expertise === true;
   switch (eff.proficiency_type) {
     case "skill":
-      return { bucket: "skills", value: toProfSlug(raw), raw };
+      return { bucket: "skills", value: toProfSlug(raw), raw, expertise };
     case "tool":
-      return { bucket: "tools", value: toProfSlug(raw), raw };
+      return { bucket: "tools", value: toProfSlug(raw), raw, expertise };
     case "language":
-      return { bucket: "languages", value: toProfSlug(raw), raw };
+      return { bucket: "languages", value: toProfSlug(raw), raw, expertise };
     case "armor":
       // Armor grants are CATEGORIES ("heavy"/"shield"), not per-item slugs: recalc
       // folds them into proficiencies.armor.categories only. Armor is deliberately
       // NOT routed to .specific · nothing in the product gates on armor proficiency.
       // Stored lowercase (bare word) to match the form class/race/feat grants use;
       // the matcher compares them against armor.category.
-      return { bucket: "armor", value: raw.toLowerCase(), raw };
+      return { bucket: "armor", value: raw.toLowerCase(), raw, expertise };
     case "weapon":
       // Weapon grants are EITHER a category word ("simple"/"martial", or an
       // entity-level "martial-melee" form) OR an authored weapon NAME. Stored
@@ -359,10 +374,10 @@ export function classifyProficiencyEffect(eff: FeatureEffect): ProficiencyClassi
       // `.specific` holds per-item identifiers AND authored weapon names · the gate
       // matches it by slug equality or normKey against weapon.name, so a display
       // spelling like "battleaxes" resolves. Category words stay out of it.
-      return { bucket: "weapons", value: raw.toLowerCase(), raw };
+      return { bucket: "weapons", value: raw.toLowerCase(), raw, expertise };
     default: {
       const ab = normalizeAbility(raw);
-      return ab ? { bucket: "saves", value: ab, raw } : null;
+      return ab ? { bucket: "saves", value: ab, raw, expertise } : null;
     }
   }
 }
@@ -385,6 +400,14 @@ export interface EffectProficiencyGrant {
   raw: string;
   sourceKind: FeatureSource["kind"];
   sourceSlug: string;
+  /**
+   * Set (to `true`) only when the granting effect carried `expertise: true`, and
+   * ABSENT otherwise, so a plain grant keeps the exact four-key shape the two
+   * display consumers already read. Reported for every bucket, unlike the fold,
+   * which routes skills only (spec §7.2) · a future tools/languages tri-state
+   * would read this rather than re-deriving it from the raw effects.
+   */
+  expertise?: boolean;
 }
 
 export type EffectProficiencyGrants =
@@ -426,6 +449,7 @@ export function collectProficiencyEffectGrants(
       if (!c) continue;
       out[c.bucket].push({
         value: c.value, raw: c.raw, sourceKind: rf.source.kind, sourceSlug: rf.source.slug,
+        ...(c.expertise ? { expertise: true } : {}),
       });
     }
   }
@@ -479,6 +503,13 @@ function applyEffect(out: FeatureEffectTotals, eff: FeatureEffect, label: string
       } else {
         pushUnique(out.proficiencies[c.bucket], c.value);
       }
+      // SKILLS ONLY (spec §7.2). The expertise skill is now in BOTH lists: the
+      // plain push above keeps every proficiency-only consumer working, and this
+      // one is the second membership recalc's `expSet` reads. Tools carry the
+      // authored flag (the 2014 Rogue grants thieves'-tools expertise) but have
+      // no tri-state anywhere in the product, so routing them here would put a
+      // value in the skill-expertise set that no skill key can ever match.
+      if (c.expertise && c.bucket === "skills") pushUnique(out.proficiencies.skillExpertise, c.value);
       break;
     }
     case "ac-bonus":

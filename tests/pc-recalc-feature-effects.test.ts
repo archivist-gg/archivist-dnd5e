@@ -227,6 +227,46 @@ describe("recalc — feature effects: proficiencies", () => {
     expect(isProficientWithWeapon(LONGSWORD, d.proficiencies)).toBe(true); // martial-melee
     expect(isProficientWithWeapon(CLUB, d.proficiencies)).toBe(false);     // simple-melee — not granted
   });
+
+  // R4-G3a §7: effect-granted skill EXPERTISE. Before this task `expSet` had two
+  // sources, neither an effect, so the 11 authored skill-expertise carriers
+  // rendered HALF the correct bonus. Tools are OUT by name (§7.2): there is no
+  // tool tri-state anywhere in the product.
+  it("skill proficiency effect with expertise:true reaches the tri-state and doubles the bonus", () => {
+    // Wizard L5 → prof +3; INT 10 → mod 0. Expertise arcana bonus = 0 + 2×3 = 6.
+    const d = recalc(resolvedWith(mkClass("wizard", "d6", 5), [
+      { kind: "proficiency", proficiency_type: "skill", value: "arcana", expertise: true },
+    ]));
+    expect(d.skills.arcana.proficiency).toBe("expertise");
+    expect(d.skills.arcana.bonus).toBe(d.mods.int + 2 * d.proficiencyBonus);
+    expect(d.skills.arcana.bonus).toBe(6); // literal pin: 3 under the pre-fix "proficient"
+  });
+
+  it("Title-Case skill expertise moves the PASSIVE (the Aberrant-Anatomy-shaped fixture)", () => {
+    // The real carrier authors `value: "Perception"` (Title-Case), which toProfSlug
+    // folds to the "perception" skill key. WIS 14 so mods.wis is NON-zero and a
+    // formula that dropped it would not coincide with the right answer.
+    const r = resolvedWith(mkClass("wizard", "d6", 5), [
+      { kind: "proficiency", proficiency_type: "skill", value: "Perception", expertise: true },
+    ]);
+    r.definition.abilities.wis = 14;
+    const d = recalc(r);
+    // The PASSIVE is asserted FIRST on purpose: it is the knock-on this fixture
+    // exists for, and a tri-state assertion above it would mask the passive's own
+    // red under the §14 row-12 mutant (vitest stops a test at its first failure).
+    expect(d.passives.perception).toBe(10 + d.mods.wis + 2 * d.proficiencyBonus);
+    expect(d.passives.perception).toBe(18); // literal pin: 15 under the pre-fix "proficient"
+    expect(d.skills.perception.proficiency).toBe("expertise");
+  });
+
+  it("tool expertise folds as a PLAIN tool proficiency (tools are out by name, §7.2)", () => {
+    const d = recalc(resolvedWith(mkClass("rogue", "d8", 5), [
+      { kind: "proficiency", proficiency_type: "tool", value: "thieves' tools", expertise: true },
+    ]));
+    expect(d.proficiencies.tools.specific).toContain("thieves'-tools");
+    // Nothing else moves: no skill acquires a tri-state from a tool grant.
+    expect(Object.values(d.skills).every((s) => s.proficiency === "none")).toBe(true);
+  });
 });
 
 describe("recalc — feature effects: speed-bonus set (absolute floor)", () => {

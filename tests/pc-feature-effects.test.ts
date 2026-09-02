@@ -106,6 +106,30 @@ describe("computeFeatureEffects", () => {
     expect(out.proficiencies.weapons).toEqual(["martial"]);
   });
 
+  // R4-G3a §7. This is the ONLY assertion with kill power on the fold's
+  // `bucket === "skills"` guard: at the recalc level a stray "thieves'-tools" in
+  // skillExpertise coincides with no skill key, so every skill still reads
+  // "none" and the guard's removal is invisible there.
+  it("routes an expertise SKILL into both skills and skillExpertise; a tool never reaches skillExpertise", () => {
+    const skill = computeFeatureEffects([
+      rf([{ kind: "proficiency", proficiency_type: "skill", value: "Arcana", expertise: true }]),
+    ]);
+    expect(skill.proficiencies.skills).toEqual(["arcana"]);
+    expect(skill.proficiencies.skillExpertise).toEqual(["arcana"]);
+
+    const plain = computeFeatureEffects([
+      rf([{ kind: "proficiency", proficiency_type: "skill", value: "Arcana" }]),
+    ]);
+    expect(plain.proficiencies.skills).toEqual(["arcana"]);
+    expect(plain.proficiencies.skillExpertise).toEqual([]);
+
+    const tool = computeFeatureEffects([
+      rf([{ kind: "proficiency", proficiency_type: "tool", value: "Thieves' Tools", expertise: true }]),
+    ]);
+    expect(tool.proficiencies.tools).toEqual(["thieves'-tools"]);
+    expect(tool.proficiencies.skillExpertise).toEqual([]);
+  });
+
   it("tracks speed_walk_set as the max of set values, separate from additive bonus", () => {
     const out = computeFeatureEffects([
       rf([{ kind: "speed-bonus", mode: "walk", set: true, value: 40 }]),
@@ -208,13 +232,13 @@ describe("computeFeatureEffects", () => {
 describe("classifyProficiencyEffect", () => {
   it("routes each proficiency_type to its bucket", () => {
     expect(classifyProficiencyEffect({ kind: "proficiency", proficiency_type: "skill", value: "Perception" }))
-      .toEqual({ bucket: "skills", value: "perception", raw: "Perception" });
+      .toEqual({ bucket: "skills", value: "perception", raw: "Perception", expertise: false });
     expect(classifyProficiencyEffect({ kind: "proficiency", proficiency_type: "armor", value: "Heavy" }))
-      .toEqual({ bucket: "armor", value: "heavy", raw: "Heavy" });
+      .toEqual({ bucket: "armor", value: "heavy", raw: "Heavy", expertise: false });
     expect(classifyProficiencyEffect({ kind: "proficiency", proficiency_type: "weapon", value: "Martial" }))
-      .toEqual({ bucket: "weapons", value: "martial", raw: "Martial" });
+      .toEqual({ bucket: "weapons", value: "martial", raw: "Martial", expertise: false });
     expect(classifyProficiencyEffect({ kind: "proficiency", proficiency_type: "saving-throw", value: "Strength" }))
-      .toEqual({ bucket: "saves", value: "str", raw: "Strength" });
+      .toEqual({ bucket: "saves", value: "str", raw: "Strength", expertise: false });
   });
 
   it("returns null for an unrecognized saving-throw value", () => {
@@ -228,14 +252,27 @@ describe("classifyProficiencyEffect", () => {
 
   it("canonicalizes tool and language values, folding the curly apostrophe", () => {
     expect(classifyProficiencyEffect({ kind: "proficiency", proficiency_type: "tool", value: "Tinker’s Tools" }))
-      .toEqual({ bucket: "tools", value: "tinker's-tools", raw: "Tinker’s Tools" });
+      .toEqual({ bucket: "tools", value: "tinker's-tools", raw: "Tinker’s Tools", expertise: false });
     expect(classifyProficiencyEffect({ kind: "proficiency", proficiency_type: "language", value: "Draconic" }))
-      .toEqual({ bucket: "languages", value: "draconic", raw: "Draconic" });
+      .toEqual({ bucket: "languages", value: "draconic", raw: "Draconic", expertise: false });
   });
 
   it("trims padded skill values, which the previous hand-rolled normalizer did not", () => {
     expect(classifyProficiencyEffect({ kind: "proficiency", proficiency_type: "skill", value: " Perception " }))
-      .toEqual({ bucket: "skills", value: "perception", raw: " Perception " });
+      .toEqual({ bucket: "skills", value: "perception", raw: " Perception ", expertise: false });
+  });
+
+  // R4-G3a §7: the classification carries the expertise flag for BOTH consumers.
+  // `expertise` is required (never absent), so an absent authored key reads false
+  // rather than undefined and no consumer has to distinguish the two.
+  it("carries expertise:true from the effect, and false when the key is absent", () => {
+    expect(classifyProficiencyEffect({ kind: "proficiency", proficiency_type: "skill", value: "Arcana", expertise: true }))
+      .toEqual({ bucket: "skills", value: "arcana", raw: "Arcana", expertise: true });
+    expect(classifyProficiencyEffect({ kind: "proficiency", proficiency_type: "skill", value: "Arcana" }))
+      .toEqual({ bucket: "skills", value: "arcana", raw: "Arcana", expertise: false });
+    // Non-skill buckets carry the flag too; only the FOLD refuses to route them.
+    expect(classifyProficiencyEffect({ kind: "proficiency", proficiency_type: "tool", value: "Thieves' Tools", expertise: true }))
+      .toEqual({ bucket: "tools", value: "thieves'-tools", raw: "Thieves' Tools", expertise: true });
   });
 });
 
@@ -272,7 +309,10 @@ describe("assembleEffectFeatures", () => {
 });
 
 describe("collectProficiencyEffectGrants", () => {
-  const feat = (name: string, slug: string, effects: unknown[], activatable = false) => ({
+  // `effects` is typed, not `unknown[]`: an untyped array made every call site an
+  // assignability error against ResolvedFeature (5 at T0), which hid whether a
+  // fixture's effect literal was even a valid FeatureEffect.
+  const feat = (name: string, slug: string, effects: FeatureEffect[], activatable = false) => ({
     feature: { id: slug, name, activatable, effects },
     source: { kind: "race" as const, slug },
   });
@@ -302,8 +342,25 @@ describe("collectProficiencyEffectGrants", () => {
     expect(out.languages.map((g) => g.sourceSlug)).toEqual(["slug-a", "slug-b"]);
   });
 
+  // R4-G3a §7: the display collector reads the same classification the fold does,
+  // so the flag is present ONLY on an expertise grant · a plain grant keeps the
+  // four-key shape the two display consumers already assert on.
+  it("tags an expertise grant with expertise:true and leaves a plain grant untagged", () => {
+    const out = collectProficiencyEffectGrants(
+      [feat("Scholar", "phb-2024_class_wizard", [
+        { kind: "proficiency", proficiency_type: "skill", value: "Arcana", expertise: true },
+        { kind: "proficiency", proficiency_type: "skill", value: "History" },
+      ])],
+      new Set(),
+    );
+    expect(out.skills).toEqual([
+      { value: "arcana", raw: "Arcana", sourceKind: "race", sourceSlug: "phb-2024_class_wizard", expertise: true },
+      { value: "history", raw: "History", sourceKind: "race", sourceSlug: "phb-2024_class_wizard" },
+    ]);
+  });
+
   it("skips an activatable feature that is not toggled on", () => {
-    const effects = [{ kind: "proficiency", proficiency_type: "tool", value: "thieves'-tools" }];
+    const effects: FeatureEffect[] = [{ kind: "proficiency", proficiency_type: "tool", value: "thieves'-tools" }];
     expect(collectProficiencyEffectGrants([feat("B", "b", effects, true)], new Set()).tools).toEqual([]);
     expect(collectProficiencyEffectGrants([feat("B", "b", effects, true)], new Set(["b"])).tools).toHaveLength(1);
   });

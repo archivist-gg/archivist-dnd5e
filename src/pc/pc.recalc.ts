@@ -831,14 +831,17 @@ export function recalc(resolved: ResolvedCharacter, registry?: EntityRegistry): 
     saves[ab] = { bonus, proficient: prof };
   }
 
-  // Skills (definition lists + chosen decision proficiencies/expertise).
+  // Skills (definition lists + chosen decision proficiencies/expertise + feature-effect
+  // grants). BOTH sets read feature effects: `skills` feeds proficiency, and R4-G3a §7
+  // added `skillExpertise` to expertise · before it, an effect-granted expertise skill
+  // rendered half its bonus because the tri could only ever reach "proficient".
   const profSet = new Set([
     ...resolved.definition.skills.proficient,
     ...(resolved.background?.skill_proficiencies ?? []),
     ...chosenProfs.skills,
     ...featureEffects.proficiencies.skills,
   ]);
-  const expSet = new Set([...resolved.definition.skills.expertise, ...chosenProfs.expertise]);
+  const expSet = new Set([...resolved.definition.skills.expertise, ...chosenProfs.expertise, ...featureEffects.proficiencies.skillExpertise]);
   const skills: DerivedStats["skills"] = {} as never;
   for (const skill of ALL_SKILLS) {
     const skillKey = skillSlugFromDisplay(skill);
