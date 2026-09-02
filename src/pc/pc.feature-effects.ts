@@ -4,6 +4,7 @@ import type { Ability } from "@archivist-gg/dnd5e";
 // dnd/constants.ts so roll-scope.ts can share the one vocabulary (no second copy, no cycle:
 // src/dnd/* imports nothing from src/pc/*).
 import { normalizeAbility } from "@archivist-gg/dnd5e/dnd/constants";
+import { warnOnce } from "@archivist-gg/dnd5e/dnd/warn-once";
 import type { DamageRider, DefenseGrant, FeatureSource, ResolvedCharacter, ResolvedFeature, ResolvedPool, RollKind, RollModifierEntry, SaveOutcomeEntry } from "./pc.types";
 import type { OptionalFeatureEntity } from "@archivist-gg/dnd5e/types/optional-feature.types";
 import { bareEntitySlug } from "../entities/slug";
@@ -284,9 +285,16 @@ export function assembleEffectFeatures(
  *  effect (=== "self"); the converter emits "self" today and will emit other creatures later (Hound of Ill Omen
  *  imposes disadvantage on a TARGET). A non-self effect never folds onto the PC: not here, not in
  *  collectProficiencyEffectGrants, not in unarmoredACBreakdown, not in recalc's weapon-ability scan. Its FEATURE
- *  still resolves and renders (it is not buildOnly); the imposed effect's render is a later phase's. */
+ *  still resolves and renders (it is not buildOnly); R4-G3a §4 gives it a row-local caption.
+ *
+ *  R4-G3a §4.4: a subject that is neither absent nor "self" warns ONCE per distinct subject string
+ *  (`warnOnce`, keyed on the subject). The converter's vocabulary here is open, so an unexpected
+ *  spelling ("Self", "target creature") silently stops folding today; the warning names it without
+ *  changing the answer. Never a refusal: the return value is unchanged. */
 export function foldsOnSelf(eff: { subject?: string }): boolean {
-  return eff.subject === undefined || eff.subject === "self";
+  if (eff.subject === undefined || eff.subject === "self") return true;
+  warnOnce(eff.subject, `archivist: unrecognised effect subject "${eff.subject}" (only "self" folds)`);
+  return false;
 }
 /** The effects of a feature that fold on the character: every reader of `feature.effects` for a derived stat goes through this. */
 export function selfEffectsOf(f: { effects?: FeatureEffect[] }): FeatureEffect[] {

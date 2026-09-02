@@ -30,6 +30,7 @@
     "./dnd/resource-formula": "./src/dnd/resource-formula.ts",
     "./dnd/srd-tag-converter": "./src/dnd/srd-tag-converter.ts",
     "./dnd/tag-grammar": "./src/dnd/tag-grammar.ts",
+    "./dnd/warn-once": "./src/dnd/warn-once.ts",
     "./encounter/encounter.ai-schema": "./src/encounter/encounter.ai-schema.ts",
     "./entities/base-item-resolver": "./src/entities/base-item-resolver.ts",
     "./entities/slug": "./src/entities/slug.ts",
