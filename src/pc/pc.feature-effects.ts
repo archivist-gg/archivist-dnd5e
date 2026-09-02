@@ -1,7 +1,7 @@
 import type { FeatureEffect, SenseType } from "@archivist-gg/dnd5e/types/feature-effect";
 import type { Ability } from "@archivist-gg/dnd5e";
 import { ABILITY_KEYS } from "@archivist-gg/dnd5e/dnd/constants";
-import type { DamageRider, FeatureSource, ResolvedCharacter, ResolvedFeature, ResolvedPool, RollModifierEntry } from "./pc.types";
+import type { DamageRider, DefenseGrant, FeatureSource, ResolvedCharacter, ResolvedFeature, ResolvedPool, RollModifierEntry } from "./pc.types";
 import type { OptionalFeatureEntity } from "@archivist-gg/dnd5e/types/optional-feature.types";
 import { bareEntitySlug } from "../entities/slug";
 import { toProfSlug } from "./pc.proficiency-normalize";
@@ -42,10 +42,22 @@ export interface FeatureEffectTotals {
   speed_walk_set: number;
   /** Max range per sense type granted by effects; 0 = none for that type. */
   senses: Record<SenseType, number>;
-  /** One term per ac-bonus effect, labeled with the owning feature's name. */
-  ac_terms: { value: number; requires_armor: boolean; label: string }[];
-  resistances: string[];
-  condition_immunities: string[];
+  /** One term per ac-bonus effect, labeled with the owning feature's name. `condition` is the
+   *  effect's situational qualifier, carried verbatim onto the ACTerm and never evaluated. */
+  ac_terms: { value: number; requires_armor: boolean; label: string; condition?: string }[];
+  /**
+   * The four defense buckets a feature effect can grant, as DefenseGrant ENTRIES (R4-G3a §3.2.1).
+   * Deduped by value case-insensitively, first spelling wins, trimmed · exactly the contract
+   * `pushUnique` had when these were `string[]` · but the SECOND granting feature's NAME is merged
+   * into `sources` rather than discarded. `immunity` and `vulnerability` fold REGARDLESS of
+   * `condition` (following `resistance`: dropping a real immunity is worse than showing it
+   * unqualified); `immune-condition` keeps its `while` skip. Values stay in the AUTHORED spelling ·
+   * toDefenseSlug runs in pc.recalc.ts, where composeDefenseEntries turns these into DefenseEntry.
+   */
+  resistances: DefenseGrant[];
+  immunities: DefenseGrant[];
+  vulnerabilities: DefenseGrant[];
+  condition_immunities: DefenseGrant[];
   /**
    * skills, tools and languages are canonical slugs (toProfSlug: lowercase, U+2019
    * folded to ASCII, whitespace collapsed to hyphens). armor and weapons entries
@@ -136,6 +148,8 @@ export function emptyFeatureEffectTotals(): FeatureEffectTotals {
     senses: { darkvision: 0, blindsight: 0, tremorsense: 0, truesight: 0 },
     ac_terms: [],
     resistances: [],
+    immunities: [],
+    vulnerabilities: [],
     condition_immunities: [],
     proficiencies: { skills: [], tools: [], languages: [], saves: [], armor: [], weapons: [] },
     weaponAbilities: [],
@@ -166,6 +180,30 @@ function pushUnique(list: string[], value: string): void {
   const key = value.trim().toLowerCase();
   if (!key) return;
   if (!list.some((v) => v.trim().toLowerCase() === key)) list.push(value.trim());
+}
+
+/**
+ * `pushUnique` for the four defense buckets, now that they hold DefenseGrant entries (R4-G3a §3.2.1).
+ *
+ * The dedupe contract is UNCHANGED · keyed on the trimmed, case-folded value, first spelling wins,
+ * stored trimmed · so "Fire" then "fire" is still one entry spelled "Fire".
+ *
+ * What is NOT the same: the second feature's NAME is MERGED into `sources` instead of being dropped
+ * with the duplicate value. That matters because computeFeatureEffects folds EVERY feature into ONE
+ * `out`: discarding here would lose the second granting feature before composeDefenseEntries in
+ * pc.recalc.ts ever saw it, and the chip would credit only the first. `condition` is first-wins for
+ * the same reason a duplicate value is · it is a display qualifier, not a rule the engine evaluates.
+ */
+function pushDefenseGrant(list: DefenseGrant[], value: string, source: string, condition?: string): void {
+  const key = value.trim().toLowerCase();
+  if (!key) return;
+  const existing = list.find((g) => g.value.trim().toLowerCase() === key);
+  if (existing) {
+    if (!existing.sources.includes(source)) existing.sources.push(source);
+    if (!existing.condition && condition) existing.condition = condition;
+    return;
+  }
+  list.push({ value: value.trim(), sources: [source], ...(condition ? { condition } : {}) });
 }
 
 /**
@@ -412,10 +450,19 @@ function applyEffect(out: FeatureEffectTotals, eff: FeatureEffect, label: string
       out.senses[eff.type] = Math.max(out.senses[eff.type], eff.range);
       break;
     case "resistance":
-      pushUnique(out.resistances, eff.damage_type);
+      pushDefenseGrant(out.resistances, eff.damage_type, label, eff.condition);
+      break;
+    case "immunity":
+      pushDefenseGrant(out.immunities, eff.damage_type, label, eff.condition);
+      break;
+    case "vulnerability":
+      pushDefenseGrant(out.vulnerabilities, eff.damage_type, label, eff.condition);
       break;
     case "immune-condition":
-      if (!eff.while) pushUnique(out.condition_immunities, eff.condition);
+      // `while` is the PAYLOAD-gating field here (a `while`-gated entry is a conditional immunity,
+      // a named deferral), and `condition` is the immunity's own NAME · not a qualifier · so this
+      // arm passes no condition through.
+      if (!eff.while) pushDefenseGrant(out.condition_immunities, eff.condition, label);
       break;
     case "proficiency": {
       const c = classifyProficiencyEffect(eff);
@@ -431,7 +478,9 @@ function applyEffect(out: FeatureEffectTotals, eff: FeatureEffect, label: string
       break;
     }
     case "ac-bonus":
-      out.ac_terms.push({ value: eff.value, requires_armor: eff.requires_armor === true, label });
+      out.ac_terms.push({
+        value: eff.value, requires_armor: eff.requires_armor === true, label, condition: eff.condition,
+      });
       break;
     case "weapon-ability": {
       // The "spellcasting" sentinel is resolved in recalc (the fold lacks caster
@@ -486,10 +535,10 @@ function applyEffect(out: FeatureEffectTotals, eff: FeatureEffect, label: string
       }
       break;
     default:
-      // Nine kinds fold nothing here, by design: apply-condition (display-only), unarmored-ac (inert HERE, live in
-      // unarmoredACBreakdown), and the seven R4-G1a arms (immunity, vulnerability, temp-hp, heal,
-      // ability-score-increase, extra-action, save-outcome), whose semantics are the G3 phase's. A non-self
-      // effect never reaches this switch at all (foldsOnSelf).
+      // Seven kinds fold nothing here, by design: apply-condition (display-only), unarmored-ac (inert HERE, live in
+      // unarmoredACBreakdown), and FIVE of the seven R4-G1a arms (temp-hp, heal, ability-score-increase,
+      // extra-action, save-outcome) · `immunity` and `vulnerability` left this arm in R4-G3a and now fold into
+      // their own defense buckets above. A non-self effect never reaches this switch at all (foldsOnSelf).
       break;
   }
 }

@@ -23,6 +23,7 @@ import type {
   ACTerm,
   ChoiceValue,
   DefenseEntry,
+  DefenseGrant,
   DefenseOrigin,
   DerivedEquipment,
   DerivedStats,
@@ -567,9 +568,16 @@ const ORIGIN_RANK: Record<DefenseOrigin, number> = { manual: 0, equipment: 1, gr
  * Every clause above is guarded: see "labels an equipment-sourced defense as origin 'equipment'",
  * "merges manual BEFORE equipment" (tests/pc-equipment-derive.test.ts), plus the origin/trim cases in
  * tests/pc-recalc-feature-effects.test.ts. All four were mutation-tested with the control seen RED.
+ *
+ * R4-G3a: `grants` is `DefenseGrant[]`, not `string[]`, so the grant pass runs its own loop rather
+ * than `consider`. It contributes `value`/`label`/`origin` exactly as the string pass did (`label:
+ * g.value.trim()`) and ADDS two carried fields: `sources` (the granting feature names, copied off
+ * the grant and MERGED onto a colliding manual/equipment entry rather than replacing it) and
+ * `condition` (first-wins). Attribution is grant-origin only · an equipment-sourced entry has no
+ * `sources`, which is R4-P5 §10.1's still-deferred half, so read emptiness, never `origin`.
  */
 function composeDefenseEntries(
-  manual: string[], equipment: string[], grants: string[],
+  manual: string[], equipment: string[], grants: DefenseGrant[],
 ): DefenseEntry[] {
   const byValue = new Map<string, DefenseEntry>();
   const consider = (list: string[], origin: DefenseOrigin) => {
@@ -583,7 +591,25 @@ function composeDefenseEntries(
   };
   consider(manual, "manual");
   consider(equipment, "equipment");
-  consider(grants, "grant");
+  for (const g of grants) {
+    const value = toDefenseSlug(g.value);
+    if (!value) continue;
+    const existing = byValue.get(value);
+    if (!existing) {
+      byValue.set(value, {
+        value,
+        label: g.value.trim(),
+        origin: "grant",
+        sources: [...g.sources],
+        ...(g.condition ? { condition: g.condition } : {}),
+      });
+      continue;
+    }
+    if (ORIGIN_RANK.grant > ORIGIN_RANK[existing.origin]) existing.origin = "grant";
+    const sources = (existing.sources ??= []);
+    for (const src of g.sources) if (!sources.includes(src)) sources.push(src);
+    if (!existing.condition && g.condition) existing.condition = g.condition;
+  }
   return [...byValue.values()];
 }
 
@@ -888,7 +914,7 @@ export function recalc(resolved: ResolvedCharacter, registry?: EntityRegistry): 
   const featureAcTermsFor = (hasArmor: boolean): ACTerm[] =>
     featureEffects.ac_terms
       .filter((t) => !t.requires_armor || hasArmor)
-      .map((t) => ({ source: t.label, amount: t.value, kind: "feature" as const }));
+      .map((t) => ({ source: t.label, amount: t.value, kind: "feature" as const, condition: t.condition }));
   const sumTerms = (terms: ACTerm[]): number => terms.reduce((s, t) => s + t.amount, 0);
 
   // Resolve the weapon-ability overrides (Hexblade "Lies", MCDM scoped "Lies",
@@ -1036,7 +1062,9 @@ export function recalc(resolved: ResolvedCharacter, registry?: EntityRegistry): 
   const derivedSlots = deriveSpellSlots(slotInputs);
   const spellLimits: SpellLimitInfo[] = computeSpellLimits(limitInputs);
 
-  // `immunities` / `vulnerabilities` pass [] for grants: no feature-effect source exists for them.
+  // All four buckets now take real grants: `immunities` and `vulnerabilities` come from `immunity` /
+  // `vulnerability` effects since R4-G3a (they used to pass [], because until then no feature-effect
+  // source existed for them and the two arms fell through applyEffect's `default`).
   // `suppress` is the ONLY consumer of `overrides.defenses`: it subtracts, per bucket, every composed
   // entry whose canonical value a note listed under `remove`. It runs AFTER the merge on purpose:
   // suppressing before it would let a weaker source silently resurrect a value the note removed.
@@ -1049,12 +1077,12 @@ export function recalc(resolved: ResolvedCharacter, registry?: EntityRegistry): 
     immunities: suppress(resolved, "immunities", composeDefenseEntries(
       resolved.definition.defenses?.immunities ?? [],
       applied.defenses.immunities,
-      [],
+      featureEffects.immunities,
     )),
     vulnerabilities: suppress(resolved, "vulnerabilities", composeDefenseEntries(
       resolved.definition.defenses?.vulnerabilities ?? [],
       applied.defenses.vulnerabilities,
-      [],
+      featureEffects.vulnerabilities,
     )),
     condition_immunities: suppress(resolved, "condition_immunities", composeDefenseEntries(
       resolved.definition.defenses?.condition_immunities ?? [],

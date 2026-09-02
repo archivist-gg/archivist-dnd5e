@@ -49,7 +49,7 @@ describe("computeFeatureEffects", () => {
       rf([{ kind: "resistance", damage_type: "fire" }]),
       rf([{ kind: "resistance", damage_type: "Cold" }]),
     ]);
-    expect(out.resistances).toEqual(["Fire", "Cold"]);
+    expect(out.resistances.map((g) => g.value)).toEqual(["Fire", "Cold"]);
   });
 
   it("applies ungated immune-condition and skips while-gated entries", () => {
@@ -57,7 +57,7 @@ describe("computeFeatureEffects", () => {
       rf([{ kind: "immune-condition", condition: "Charmed" }]),
       rf([{ kind: "immune-condition", condition: "Frightened", while: "while raging" }]),
     ]);
-    expect(out.condition_immunities).toEqual(["Charmed"]);
+    expect(out.condition_immunities.map((g) => g.value)).toEqual(["Charmed"]);
   });
 
   it("buckets proficiency effects; skills normalize to kebab, saves to ability keys", () => {
@@ -260,13 +260,13 @@ describe("assembleEffectFeatures", () => {
     } as never;
     const out = assembleEffectFeatures(resolved);
     expect(out.activeBuffs.has("buff")).toBe(true);
-    expect(computeFeatureEffects(out.features, { activeBuffs: out.activeBuffs }).resistances).toEqual(["fire"]);
+    expect(computeFeatureEffects(out.features, { activeBuffs: out.activeBuffs }).resistances.map((g) => g.value)).toEqual(["fire"]);
   });
 
   it("folds nothing for an activatable feature that is not toggled on", () => {
     const resolved = { features: [trait("buff", true)], pools: [], state: {} } as never;
     const out = assembleEffectFeatures(resolved);
-    expect(computeFeatureEffects(out.features, { activeBuffs: out.activeBuffs }).resistances).toEqual([]);
+    expect(computeFeatureEffects(out.features, { activeBuffs: out.activeBuffs }).resistances.map((g) => g.value)).toEqual([]);
     expect(foldsNow(out.features[0], out.activeBuffs)).toBe(false);
   });
 });
@@ -312,11 +312,12 @@ describe("collectProficiencyEffectGrants", () => {
 describe("foldsOnSelf · non-self effects never fold (R4-G1a D2, G6)", () => {
   const res = (subject?: string) => ({ kind: "resistance", damage_type: "Poison", ...(subject !== undefined ? { subject } : {}) }) as FeatureEffect;
   it("absent and \"self\" fold identically; \"target\" never reaches the totals", () => {
-    // `applyEffect`'s resistance case is pushUnique(out.resistances, eff.damage_type): the authored spelling is
-    // pushed verbatim (toDefenseSlug runs later, in pc.recalc.ts), so "Poison" proves which field was read.
-    expect(computeFeatureEffects([rf([res()])]).resistances).toEqual(["Poison"]);
-    expect(computeFeatureEffects([rf([res("self")])]).resistances).toEqual(["Poison"]);
-    expect(computeFeatureEffects([rf([res("target")])]).resistances).toEqual([]);
+    // `applyEffect`'s resistance case is `pushDefenseGrant(out.resistances, eff.damage_type, label, eff.condition)`:
+    // the authored spelling is kept as `value.trim()`, exactly as `pushUnique` did (toDefenseSlug runs later, in
+    // pc.recalc.ts), so "Poison" proves which field was read.
+    expect(computeFeatureEffects([rf([res()])]).resistances.map((g) => g.value)).toEqual(["Poison"]);
+    expect(computeFeatureEffects([rf([res("self")])]).resistances.map((g) => g.value)).toEqual(["Poison"]);
+    expect(computeFeatureEffects([rf([res("target")])]).resistances.map((g) => g.value)).toEqual([]);
   });
   it("a non-self initiative-bonus leaves the total at 0", () => {
     expect(computeFeatureEffects([rf([{ kind: "initiative-bonus", value: 2, subject: "target" } as FeatureEffect])]).initiative_bonus).toBe(0);

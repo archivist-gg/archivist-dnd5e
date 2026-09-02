@@ -341,6 +341,10 @@ export interface ACTerm {
   source: string;
   amount: number;
   kind: "armor" | "shield" | "item" | "unarmored" | "override" | "dex" | "ability" | "feature";
+  /** Situational qualifier carried verbatim from the granting `ac-bonus` effect's `condition`
+   *  (R4-G3a §3.2.5), e.g. "While wearing heavy armor". Absent = unconditional. Rendered as the
+   *  AC-tooltip row's `title`; NEVER evaluated. */
+  condition?: string;
 }
 
 /** Structured max-HP math for the Max HP modal. Spec: P5 2026-07-21. */
@@ -468,21 +472,45 @@ export interface RollModifierEntry {
 export type DefenseOrigin = "manual" | "equipment" | "grant";
 
 /**
+ * One defense a feature effect grants, as it leaves the fold (R4-G3a §3.2.1).
+ *
+ * The four defense totals on FeatureEffectTotals are lists of these. `value` is the AUTHORED
+ * spelling, trimmed and never slugified · `toDefenseSlug` runs later, in pc.recalc.ts, which is
+ * why the fold's dedupe is a case-insensitive comparison rather than a slug lookup. `sources`
+ * holds the granting FEATURE NAMES, merged per value at the fold (two features granting the same
+ * immunity yield ONE grant with TWO sources · dropping the second would lose it before
+ * composeDefenseEntries ever saw it). `condition` is the first qualifier seen for that value,
+ * carried verbatim and NEVER evaluated.
+ */
+export interface DefenseGrant {
+  value: string;
+  sources: string[];
+  condition?: string;
+}
+
+/**
  * One entry in a derived defense bucket.
  *
  * `value` is ALWAYS `toDefenseSlug(raw)` · it is what every comparison keys on.
  * `label` is the first-spelling-wins display string, which is what preserves an authored "Psychic".
  * `origin` is the STRONGEST contributing source, not the first list to supply it.
  *
- * There is deliberately no `sources: string[]` in R4-P5 · carrying granting-entity names requires
- * reshaping FeatureEffectTotals and AppliedBonuses too. See spec §10.1
- * (archivist-obsidian/docs/superpowers/specs/2026-08-05-r4-p5-defenses-design.md · the spec lives
- * in the PLUGIN repo, not this one) for what shipping it would take.
+ * `sources` is GRANT-ORIGIN attribution only (R4-G3a §3.2.3): the names of the features whose
+ * effects granted this value, copied from the DefenseGrant. EQUIPMENT-origin attribution (the
+ * `pc.equipment.ts` half of R4-P5 §10.1 · archivist-obsidian/docs/superpowers/specs/
+ * 2026-08-05-r4-p5-defenses-design.md, the spec lives in the PLUGIN repo, not this one) stays
+ * DEFERRED, so an equipment-only entry carries no `sources` at all and the plugin's chip host
+ * must guard on emptiness rather than on origin alone.
+ *
+ * `condition` is the situational qualifier from the granting effect, carried verbatim for the
+ * chip tooltip and NEVER evaluated. Both fields are optional: a manual entry has neither.
  */
 export interface DefenseEntry {
   value: string;
   label: string;
   origin: DefenseOrigin;
+  condition?: string;
+  sources?: string[];
 }
 
 export interface DerivedStats {
