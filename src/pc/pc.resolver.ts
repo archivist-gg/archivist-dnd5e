@@ -22,6 +22,7 @@ import { resolveAllPools } from "./pc.pools";
 import { resolveEntityForEntry, isItemEntity } from "./pc.slotting";
 import { wikilinkTailSlug } from "./pc.decision-engine";
 import { bareEntitySlug } from "../entities/slug";
+import { withResolvedActionCost } from "../schemas/feature-alias";
 
 export interface ResolveResult {
   character: ResolvedCharacter;
@@ -634,11 +635,15 @@ export function collectResolvedFeatures(
         // #3: fold any chosen select-inline option prose onto this (freshly
         // created) wrapper — never onto the shared registry `feat` entity.
         const chosenInline = resolveChosenInline(feat, c.choices?.[lvl]);
+        // R4-G3a Task 12: the sheet resolves RAW registry entities, so `action_cost` is aliased
+        // HERE as well as in the parser. Same object back when nothing applies. Read once, so the
+        // ASI-slot test (which reads `action`) and the pushed feature see the same shape.
+        const feature = withResolvedActionCost(feat);
         out.push({
-          feature: feat,
+          feature,
           source: { kind: "class", slug, level: lvl } satisfies FeatureSource,
           ...(chosenInline ? { chosenInline } : {}),
-          ...(isAsiSlotFeature(feat) ? { buildOnly: true } : {}),
+          ...(isAsiSlotFeature(feature) ? { buildOnly: true } : {}),
         });
       }
     }
@@ -662,11 +667,13 @@ export function collectResolvedFeatures(
           // #3: same parent-fold for subclass features (picks recorded under the
           // same per-level choices ledger as class features).
           const chosenInline = resolveChosenInline(feat, c.choices?.[lvl]);
+          // Task 12 again: same resolve-time alias on the subclass half.
+          const feature = withResolvedActionCost(feat);
           out.push({
-            feature: feat,
+            feature,
             source: { kind: "subclass", slug: sSlug, level: lvl } satisfies FeatureSource,
             ...(chosenInline ? { chosenInline } : {}),
-            ...(isAsiSlotFeature(feat) ? { buildOnly: true } : {}),
+            ...(isAsiSlotFeature(feature) ? { buildOnly: true } : {}),
           });
         }
       }
@@ -683,7 +690,10 @@ export function collectResolvedFeatures(
   if (race) {
     const traits = race.traits ?? [];
     for (const feat of traits) {
-      out.push({ feature: feat, source: { kind: "race", slug: race.slug } });
+      // R4-G3a Task 12: the five shipped `action_cost` carriers are all race traits, and the sheet
+      // reaches them through this push on the RAW registry entity. `parseRace`, which the alias
+      // first shipped in, never runs on this path.
+      out.push({ feature: withResolvedActionCost(feat), source: { kind: "race", slug: race.slug } });
     }
   }
 

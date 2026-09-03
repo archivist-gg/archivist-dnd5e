@@ -24,3 +24,11 @@ export function aliasFeaturesByLevelActionCost(byLevel: unknown): void {
   if (byLevel && typeof byLevel === "object")
     for (const list of Object.values(byLevel as Record<string, unknown>)) aliasFeatureListActionCost(list);
 }
+
+/** Resolve-time mirror of `aliasFeatureActionCost` (R4-G3a Task 12): the PC sheet resolves RAW registry entities
+ *  (never parsed by dnd5e), so the parser-side alias is invisible to it. Returns the same object when nothing applies
+ *  (registry entities are shared and must not be mutated), else a shallow copy with `action` filled from
+ *  `action_cost`. Declared `action` wins. */
+export function withResolvedActionCost<T extends { action?: unknown; action_cost?: unknown }>(f: T): T {
+  return f.action === undefined && typeof f.action_cost === "string" ? { ...f, action: f.action_cost } : f;
+}
