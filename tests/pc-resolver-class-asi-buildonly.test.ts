@@ -7,7 +7,8 @@ import type { ResolvedClass } from "../src/pc/pc.types";
 // buildOnly so the plugin categorizer's existing rf.buildOnly skip hides it. Mirrors the §4
 // feat buildOnly. DISPLAY-only: the feature stays in resolved.features; recalc reads the bump
 // from the choice ledger, not this feature's effects (absent on the SRD slot and on 55 of the
-// converter's 133 ASI slots; the chosen-ASI encoding, which the fold drops, on the other 78).
+// converter's 133 ASI slots; the chosen-ASI encoding, which the fold skips (only fixed-list arms
+// fold, R4-G3b §4), on the other 78).
 
 // A pure ASI slot: id + name + non-empty SRD description + the asi-or-feat select-inline,
 // but NO effects/resources/action/sub_features/attacks.

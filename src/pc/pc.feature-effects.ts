@@ -45,6 +45,10 @@ export interface FeatureEffectTotals {
    * lowers an already-higher speed and is independent of the additive bonus.
    */
   speed_walk_set: number;
+  /** Flat ability-score bumps from `ability-score-increase` effects whose `abilities` is a FIXED LIST (the three level-20
+   *  capstones). `chosen` arms are the ASI SLOT's second encoding and MUST NOT fold (the synthesized feat decision pays
+   *  them; a flat fold double-counts). No cap: `max` is declared and unread (user ruling 2026-09-03). */
+  ability_bonus: Partial<Record<Ability, number>>;
   /** Max range per sense type granted by effects; 0 = none for that type. */
   senses: Record<SenseType, number>;
   /** One term per ac-bonus effect, labeled with the owning feature's name. `condition` is the
@@ -164,6 +168,7 @@ export function emptyFeatureEffectTotals(): FeatureEffectTotals {
     hp_per_level_terms: [],
     speed_walk_bonus: 0,
     speed_walk_set: 0,
+    ability_bonus: {},
     senses: { darkvision: 0, blindsight: 0, tremorsense: 0, truesight: 0 },
     ac_terms: [],
     resistances: [],
@@ -581,10 +586,17 @@ function applyEffect(out: FeatureEffectTotals, eff: FeatureEffect, label: string
         out.damageBonuses.push({ amount: eff.amount, damage_type: eff.damage_type, source: label });
       }
       break;
+    case "ability-score-increase":
+      // The `chosen` arms are the ASI SLOT's second encoding: the synthesized feat decision pays them through
+      // the choice ledger (computeAbilityScores). Folding here double-counts (the flattenRaceAsi idiom at
+      // pc.recalc.ts:105, verbatim: "Choice increases are resolved through class.choices; skip here."). `max` is declared and unread (user ruling 2026-09-03).
+      if (eff.abilities === "chosen") break;
+      for (const ab of eff.abilities) out.ability_bonus[ab] = (out.ability_bonus[ab] ?? 0) + eff.amount;
+      break;
     default:
-      // Six kinds fold nothing here, by design: apply-condition (display-only), unarmored-ac (inert HERE, live in
-      // unarmoredACBreakdown), and FOUR of the seven R4-G1a arms (temp-hp, heal, ability-score-increase,
-      // extra-action) · `immunity` and `vulnerability` left this arm in R4-G3a §3 and now fold into their own
+      // Five kinds fold nothing here, by design: apply-condition (display-only), unarmored-ac (inert HERE, live in
+      // unarmoredACBreakdown), and THREE of the seven R4-G1a arms (temp-hp, heal, extra-action) · `ability-score-increase`
+      // folds flat above since R4-G3b §4 · `immunity` and `vulnerability` left this arm in R4-G3a §3 and now fold into their own
       // defense buckets above, and `save-outcome` left it in §5.3 for its own case just above.
       // A non-self effect never reaches this switch at all (foldsOnSelf).
       break;

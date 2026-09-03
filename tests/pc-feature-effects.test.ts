@@ -392,8 +392,8 @@ describe("foldsOnSelf · non-self effects never fold (R4-G1a D2, G6)", () => {
   });
 });
 
-describe("ability-score-increase is declared and INERT (R4-G1a D3, G7 · control of the control)", () => {
-  it("the converter Fighter 4 pair folds nothing while a known arm in the same fixture folds", () => {
+describe("ability-score-increase: the chosen arms stay INERT at the fold (R4-G1a D3 → R4-G3b §4 folds fixed-list arms only)", () => {
+  it("the converter Fighter 4 `chosen` pair folds nothing while a known arm in the same fixture folds", () => {
     const out = computeFeatureEffects([rf([
       { kind: "ability-score-increase", abilities: "chosen", amount: 2, choose: 1, max: 20, subject: "self" } as FeatureEffect,
       { kind: "ability-score-increase", abilities: "chosen", amount: 1, choose: 2, max: 20, subject: "self" } as FeatureEffect,
@@ -403,4 +403,27 @@ describe("ability-score-increase is declared and INERT (R4-G1a D3, G7 · control
     expected.initiative_bonus = 2;
     expect(out).toEqual(expected);
   });
+});
+
+describe("ability-score-increase (R4-G3b §4)", () => {
+  const CHOSEN = [
+    { kind: "ability-score-increase", abilities: "chosen", amount: 2, choose: 1, max: 20 },
+    { kind: "ability-score-increase", abilities: "chosen", amount: 1, choose: 2, max: 20 },
+  ] as FeatureEffect[];
+  const CAPSTONE = [{ kind: "ability-score-increase", abilities: ["str", "con"], amount: 4, choose: null, max: 24 }] as FeatureEffect[];
+
+  it("a `chosen` arm folds NOTHING (the ASI slot's second encoding)", () => {
+    // RED FIRST before Task 2 (cc9d9a4): ability_bonus read `undefined` (the field did not exist).
+    // This is the ONLY layer that sees the gate mutant: recalc iterates the STRING "chosen" and still reads 24/18.
+    expect(computeFeatureEffects([rf(CHOSEN)]).ability_bonus).toEqual({});
+  });
+
+  it("a fixed-list capstone folds flat per ability, with NO cap (user ruling 2026-09-03; `max` unread)", () => {
+    // RED FIRST before Task 2 (cc9d9a4): `undefined`.
+    expect(computeFeatureEffects([rf(CAPSTONE)]).ability_bonus).toEqual({ str: 4, con: 4 });
+    expect(computeFeatureEffects([rf(CAPSTONE), rf(CAPSTONE)]).ability_bonus).toEqual({ str: 8, con: 8 });
+  });
+
+  // RED FIRST before Task 2 (cc9d9a4): `undefined`.
+  it("the empty shape carries ability_bonus: {}", () => expect(emptyFeatureEffectTotals().ability_bonus).toEqual({}));
 });

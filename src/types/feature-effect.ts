@@ -52,7 +52,8 @@ export type FeatureEffect =
   // `immunity` / `vulnerability` FOLD into the defenses pane (§3); `temp-hp` / `heal` /
   // `extra-action` are never folded at all, the plugin reads them RAW off the feature as
   // row-local captions (§4, invariant 5); `save-outcome` FOLDS into the save-chip tag rail (§5).
-  // `ability-score-increase` is still DROPPED at the fold: it is G3b's (invariant 8).
+  // `ability-score-increase` folds FLAT at the fold since R4-G3b §4 (fixed-list arms only; `chosen` arms
+  // are the ASI slot's second encoding; `max` is unread by user ruling).
   | ({ kind: "immunity"; damage_type: string } & Qualified)
   | ({ kind: "vulnerability"; damage_type: string } & Qualified)
   | ({ kind: "temp-hp"; amount: string } & Qualified)

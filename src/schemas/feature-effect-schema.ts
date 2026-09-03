@@ -105,7 +105,8 @@ export const featureEffectSchema = z.discriminatedUnion("kind", [
   // (spec D3). R4-G3a §3-§7 gives SIX of them semantics: immunity / vulnerability FOLD (defenses
   // pane); temp-hp / heal / extra-action are still NOT folded, the plugin reads them raw as
   // row-local captions; save-outcome FOLDS (save-chip tag rail).
-  // `ability-score-increase` is still DROPPED at the fold: it is G3b's (invariant 8).
+  // `ability-score-increase` folds FLAT at the fold since R4-G3b §4 (fixed-list arms only; `chosen` arms
+  // are the ASI slot's second encoding; `max` is unread by user ruling).
   // Damage immunity / vulnerability. NOT `immune-condition`, which is condition immunity.
   z.object({ kind: z.literal("immunity"), damage_type: z.string().min(1), condition: conditionField, subject: subjectField }),
   z.object({ kind: z.literal("vulnerability"), damage_type: z.string().min(1), condition: conditionField, subject: subjectField }),

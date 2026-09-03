@@ -15,7 +15,7 @@ import type { RaceEntity } from "@archivist-gg/dnd5e/race/race.types";
 import type { EntityRegistry } from "@archivist-gg/core";
 import { computeAppliedBonuses, computeSlotsAndAttacks, emptyAppliedBonuses } from "./pc.equipment";
 import { collectChosenProficiencies, collectChosenAbilityPoints } from "./pc.decision-engine";
-import { assembleEffectFeatures, computeFeatureEffects, selfEffectsOf } from "./pc.feature-effects";
+import { assembleEffectFeatures, computeFeatureEffects, selfEffectsOf, type FeatureEffectTotals } from "./pc.feature-effects";
 import { computeConditionEffects } from "./pc.conditions";
 import { toDefenseSlug } from "./pc.defense-normalize";
 import { resolveSpellcasting, effectiveSpellcastingAbility, deriveSpellSlots, computeSpellLimits, type CasterClassInput, type LimitClassInput } from "./pc.spellcasting";
@@ -187,13 +187,15 @@ export function collectClassAsiBranch(
  *  background = background ability-points choices;
  *  class = legacy class ASI-BRANCH allocations (the L4 asi-or-feat → asi path),
  *          MINUS any `asi` sharing a level with a string `feat` key, which
- *          collectClassAsiBranch discards as branch-switch residue (R4-P4 Dec. B);
+ *          collectClassAsiBranch discards as branch-switch residue (R4-P4 Dec. B),
+ *          + the flat capstone fold when the caller threads the effect totals (R4-G3b §4);
  *  feat = class chosen-feat ability-points (the L4 asi-or-feat → feat path) +
  *         flat feat ability_bonuses (e.g. Athlete +1 STR). All already fold into
  *         computeAbilityScores totals, so the caption must account for them or a
  *         tile reads higher than the named sources explain (smoke r1/r5c). */
 export function abilityBonusBreakdown(
   resolved: ResolvedCharacter,
+  featureEffects?: FeatureEffectTotals,
 ): Record<Ability, { species: number; background: number; class: number; feat: number }> {
   const race = flattenRaceAsi(resolved.race);
   const origin = collectChosenAbilityPoints(resolved);
@@ -212,7 +214,7 @@ export function abilityBonusBreakdown(
       const bonus = (f as unknown as { ability_bonuses?: Partial<Record<Ability, number>> }).ability_bonuses?.[ab];
       if (typeof bonus === "number") feat += bonus;
     }
-    out[ab] = { species, background: origin.background[ab] ?? 0, class: classAsi[ab] ?? 0, feat };
+    out[ab] = { species, background: origin.background[ab] ?? 0, class: (classAsi[ab] ?? 0) + (featureEffects?.ability_bonus[ab] ?? 0), feat };
   }
   return out;
 }
@@ -446,7 +448,8 @@ export function collectClassFeatAbilityPoints(
  * Combines racial ASI (from race.ability_score_increases), feat ASI,
  * class-choice ASI (from classes[i].choices[lvl].asi), chosen-feat ASI
  * (from classes[i].choices[lvl]["feat:<id>"]), and user overrides.
- * Overrides win; ASI sources sum unconditionally.
+ * Overrides win; ASI sources sum unconditionally. The flat capstone fold is added
+ * in recalc's bonus loop, not here (R4-G3b §4).
  */
 export function computeAbilityScores(
   resolved: ResolvedCharacter,
@@ -782,13 +785,15 @@ export function recalc(resolved: ResolvedCharacter, registry?: EntityRegistry): 
     i.field.startsWith("speed."),
   );
 
-  // Ability scores: base computation, then apply Pass A bonus first, then
-  // static (only when it raises the score), then user overrides win.
+  // Ability scores: base computation, then apply Pass A bonus + the flat capstone
+  // fold first, then static (only when it raises the score), then user overrides win.
   const baseScores = computeAbilityScores(resolved, overrides);
   const scores: Record<Ability, number> = { ...baseScores };
   for (const ab of ABILITY_KEYS) {
     const bonus = applied.ability_bonuses[ab];
-    if (typeof bonus === "number") scores[ab] += bonus;
+    // R4-G3b §4: the flat capstone fold rides the item-bonus loop (BEFORE the raise-only static below, so a Belt that SETS
+    // Str applies on top of the folded score, never under it; BEFORE overrides, which still win). No cap anywhere.
+    scores[ab] += (typeof bonus === "number" ? bonus : 0) + (featureEffects.ability_bonus[ab] ?? 0);
   }
   for (const ab of ABILITY_KEYS) {
     const stat = applied.ability_statics[ab];
