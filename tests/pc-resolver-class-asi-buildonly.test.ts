@@ -1,5 +1,5 @@
 import { describe, it, expect } from "vitest";
-import { collectResolvedFeatures } from "../src/pc/pc.resolver"; // exported (pc.resolver.ts:346)
+import { collectResolvedFeatures } from "../src/pc/pc.resolver"; // exported from ../src/pc/pc.resolver
 import type { ResolvedClass } from "../src/pc/pc.types";
 
 // Task 8: the class/subclass ASI-slot feature (Feature.id === "ability-score-improvement",
@@ -39,6 +39,21 @@ const ASI_WITH_EFFECTS = {
   name: "Ability Score Improvement (with effect)",
   effects: [{ kind: "initiative-bonus", value: 5 }],
 };
+
+// R4-G3b §3: the converter's 78 ASI slots carry the two `chosen` effects as a SECOND encoding of the slot; they are
+// still pure slots and must be hidden. A fixed-list bump on an ASI-id feature is a REAL surface and must NOT be.
+const ASI_SLOT_WITH_CHOSEN_EFFECTS = {
+  id: "ability-score-improvement", name: "Ability Score Improvement",
+  effects: [
+    { subject: "self", kind: "ability-score-increase", abilities: "chosen", amount: 2, choose: 1, max: 20 },
+    { subject: "self", kind: "ability-score-increase", abilities: "chosen", amount: 1, choose: 2, max: 20 },
+  ],
+};
+const ASI_ID_WITH_FIXED_LIST = {
+  id: "ability-score-improvement", name: "Ability Score Improvement (fixed bump)",
+  effects: [{ subject: "self", kind: "ability-score-increase", abilities: ["str", "con"], amount: 4, choose: null, max: 24 }],
+};
+const find = (rows: ReturnType<typeof collectResolvedFeatures>, name: string) => rows.find((r) => r.feature.name === name)!;
 
 function classFixture(
   features_by_level: Record<number, unknown[]>,
@@ -86,6 +101,16 @@ describe("class/subclass ASI-slot feature buildOnly (Task 8)", () => {
     );
     expect(asi).toBeDefined();
     expect(asi!.buildOnly).toBe(true);
+  });
+
+  it("R4-G3b §3: an ASI slot whose only effects are the chosen-ASI encoding IS buildOnly", () => {
+    const out = collectResolvedFeatures(null, [classFixture({ 4: [ASI_SLOT_WITH_CHOSEN_EFFECTS] })], null, []);
+    expect(find(out, "Ability Score Improvement").buildOnly).toBe(true);        // RED FIRST on the current head
+  });
+
+  it("R4-G3b §3: an ASI-id feature carrying a FIXED-LIST bump is NOT buildOnly (the killing fixture for the `chosen` sub-test)", () => {
+    const out = collectResolvedFeatures(null, [classFixture({ 20: [ASI_ID_WITH_FIXED_LIST] })], null, []);
+    expect(find(out, "Ability Score Improvement (fixed bump)").buildOnly).toBeFalsy();
   });
 });
 

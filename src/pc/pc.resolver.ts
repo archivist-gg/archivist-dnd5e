@@ -601,14 +601,17 @@ function resolveChosenInline(
   return picks.length ? picks : undefined;
 }
 
-/** A pure class/subclass ASI-slot feature (the "increase an ability score OR take a feat" slot)
- *  has no playable surface of its own — the DISPLAY layer hides it via buildOnly, mirroring the
- *  feat buildOnly (spec §4/§4b). The ability bump is read from the choice ledger at recalc, not
- *  from this feature (it has no effects), so buildOnly is purely a render fact. */
+/** A pure class/subclass ASI-slot feature (the "increase an ability score OR take a feat" slot) has no playable
+ *  surface of its own: the DISPLAY layer hides it via buildOnly, mirroring the feat buildOnly (spec §4/§4b). The
+ *  ability bump is read from the choice ledger at recalc, never from this feature. R4-G3b §3: the converter emits the
+ *  slot's mechanic a SECOND time as two `abilities: "chosen"` effects, which the recognizer already pays through the
+ *  feat decision, so those effects do not make the slot a surface. The test keys on `kind` + `abilities` ONLY, never on
+ *  selfEffectsOf/subject (this module does not import pc.feature-effects; the G1a-D2 non-self fence passes because a
+ *  `resistance` is not an ASI encoding). A FIXED-LIST bump on an ASI-id feature IS a surface and stays visible. */
 function isAsiSlotFeature(feature: Feature): boolean {
   return (
     feature.id === "ability-score-improvement" &&
-    !(feature.effects?.length) &&
+    !(feature.effects ?? []).some((e) => !(e.kind === "ability-score-increase" && e.abilities === "chosen")) &&
     !(feature.resources?.length) &&
     !feature.action &&
     !(feature.sub_features?.length) &&
