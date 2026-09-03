@@ -6,7 +6,8 @@ import type { ResolvedClass } from "../src/pc/pc.types";
 // a pure "increase an ability OR take a feat" slot with no playable surface) must be marked
 // buildOnly so the plugin categorizer's existing rf.buildOnly skip hides it. Mirrors the §4
 // feat buildOnly. DISPLAY-only: the feature stays in resolved.features; recalc reads the bump
-// from the choice ledger, not this feature's (absent) effects.
+// from the choice ledger, not this feature's effects (absent on the SRD slot and on 55 of the
+// converter's 133 ASI slots; the chosen-ASI encoding, which the fold drops, on the other 78).
 
 // A pure ASI slot: id + name + non-empty SRD description + the asi-or-feat select-inline,
 // but NO effects/resources/action/sub_features/attacks.
@@ -105,7 +106,7 @@ describe("class/subclass ASI-slot feature buildOnly (Task 8)", () => {
 
   it("R4-G3b §3: an ASI slot whose only effects are the chosen-ASI encoding IS buildOnly", () => {
     const out = collectResolvedFeatures(null, [classFixture({ 4: [ASI_SLOT_WITH_CHOSEN_EFFECTS] })], null, []);
-    expect(find(out, "Ability Score Improvement").buildOnly).toBe(true);        // RED FIRST on the current head
+    expect(find(out, "Ability Score Improvement").buildOnly).toBe(true);        // RED FIRST before Task 1 (12ef6ca): read undefined
   });
 
   it("R4-G3b §3: an ASI-id feature carrying a FIXED-LIST bump is NOT buildOnly (the killing fixture for the `chosen` sub-test)", () => {
@@ -116,7 +117,8 @@ describe("class/subclass ASI-slot feature buildOnly (Task 8)", () => {
 
 describe("non-self effects keep a feature off buildOnly (R4-G1a D2)", () => {
   // The ADMIT ruling (spec D2): isAsiSlotFeature counts EFFECTS, not self effects. A feature whose only effect is
-  // written on another creature still has a surface and still renders; only the fold readers (selfEffectsOf) drop
+  // written on another creature still has a surface and still renders, unless that effect is the chosen-ASI
+  // encoding on an ASI-id feature (R4-G3b §3); only the fold readers (selfEffectsOf) drop
   // it. The discriminating mutant (t2f) makes the gate count only SELF effects and flips buildOnly to true; it is
   // written as an inline `subject` filter because pc.resolver.ts does not import pc.feature-effects, so a
   // selfEffectsOf call here would crash rather than fail.
