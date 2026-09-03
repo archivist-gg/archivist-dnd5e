@@ -153,6 +153,9 @@ export class PCResolver {
     const originFeat = background?.origin_feat
       ? resolveOriginFeat(this.entities, background.origin_feat)
       : null;
+    // R4-G3b §8: the stamp lives OUTSIDE the de-dup guard below (Gate 0 B4) · the guard's body does not run
+    // when the same feat is also a class-slot pick, and the origin arm must still find it.
+    const originFeatSlug = originFeat?.feat.slug;
     if (originFeat && !feats.some((f) => f.slug === originFeat.feat.slug)) {
       feats.push(originFeat.feat);
     }
@@ -256,6 +259,7 @@ export class PCResolver {
       classes,
       background,
       feats,
+      ...(originFeatSlug ? { originFeatSlug } : {}),
       totalLevel,
       features,
       spells: dedupeResolvedSpells(spells),

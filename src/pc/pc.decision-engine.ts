@@ -535,9 +535,13 @@ function buildSubclassItem(
 }
 
 /** Visits every (choice, persisted-selection) pair across the class L1 skill
- *  choice, class/subclass features, race choices + traits, and background choices
- *  + feature — the single decision walk shared by every proficiency consumer, so
- *  chosen picks and required/selected counts can never diverge. `visit` is called
+ *  choice, class/subclass features, race choices + traits, background choices
+ *  + feature, and a CHOSEN FEAT's own choices in BOTH persistence namespaces
+ *  (R4-G3b §8): arm (A), a class-slot feat, read under
+ *  `classes[i].choices[lvl]["feat:<childId>"]`, and arm (B), the background's
+ *  origin feat, read under `origin_choices["background:feat:<childId>"]`. It is
+ *  the single decision walk shared by every proficiency consumer, so chosen picks
+ *  and required/selected counts can never diverge. `visit` is called
  *  for EVERY choice (including non-select-proficiency ones); each consumer filters
  *  by `choice.kind` itself. select-inline branches are recursed by selection. */
 function visitProficiencyChoices(
@@ -554,6 +558,14 @@ function visitProficiencyChoices(
       }
     }
   };
+
+  // Hoisted ABOVE the class loop because the R4-G3b §8 feat arms need them on both
+  // sides of it: `featBySlug` / `stripRef` for the class-slot arm INSIDE the loop,
+  // `oc` / `originRead` for the origin arms after it.
+  const oc = resolved.definition.origin_choices ?? {};
+  const originRead = (ns: string) => (id: string): ChoiceValue | undefined => oc[`${ns}:${id}`];
+  const stripRef = (ref: string): string => ref.replace(/^\[\[/, "").replace(/\]\]$/, "");
+  const featBySlug = new Map(resolved.feats.map((f) => [f.slug, f]));
 
   resolved.classes.forEach((c, i) => {
     if (!c.entity) return;
@@ -591,10 +603,20 @@ function visitProficiencyChoices(
       if (!belongs) continue;
       walk(rf.feature.choices, readAt(rf.source.level));
     }
+
+    // R4-G3b §8 arm (A): a CLASS-SLOT feat's own choices, persisted under `feat:<childId>` in the SAME level block
+    // as the `feat` ref (the collectClassFeatAbilityPoints / resolver feat→spell namespace). This OVERTURNS the
+    // former fence F4 note in buildDecisionLedger: feat picks now FOLD, which is the point (they were burned).
+    for (const atLevel of Object.values(c.choices ?? {})) {
+      const block = atLevel as Record<string, ChoiceValue> | undefined;
+      const featRef = block?.feat;
+      if (!block || typeof featRef !== "string") continue;
+      const feat = featBySlug.get(stripRef(featRef));
+      if (!feat) continue;
+      walk(feat.choices, (id) => block[`feat:${id}`]);
+    }
   });
 
-  const oc = resolved.definition.origin_choices ?? {};
-  const originRead = (ns: string) => (id: string): ChoiceValue | undefined => oc[`${ns}:${id}`];
   if (resolved.race) {
     walk(resolved.race.choices, originRead("race"));
     for (const t of resolved.race.traits ?? []) walk(t.choices, originRead("race"));
@@ -607,6 +629,13 @@ function visitProficiencyChoices(
       const feature = resolved.background.feature as { choices?: Choice[] };
       walk(feature.choices, originRead("background"));
     }
+  }
+
+  // R4-G3b §8 arm (B): the ORIGIN feat's own choices, persisted under `background:feat:<childId>`
+  // (pc.resolver.ts' feat→spell pass reads the same key). `originFeatSlug` is stamped by the resolver.
+  if (resolved.originFeatSlug) {
+    const of = featBySlug.get(resolved.originFeatSlug);
+    if (of) walk(of.choices, (id) => oc[`background:feat:${id}`]);
   }
 }
 
@@ -862,17 +891,40 @@ export function buildDecisionLedger(resolved: ResolvedCharacter, ctx: DecisionCo
   //
   // SCOPED, not universal · it holds only for the choices the collector actually
   // reaches. The set is fed by collectChosenProficiencies over
-  // visitProficiencyChoices, and that walk recurses into `select-inline`
-  // branches ONLY. It never expands a `select-entity` child, so a language or
-  // tool picked UNDER A FEAT (`entity_type:"feat"` · the Skilled feat's own
-  // proficiency children, for one) never enters `chosen`, never enters this set,
-  // and is never excluded from a sibling choice.
+  // visitProficiencyChoices, which recurses into `select-inline` branches and,
+  // since R4-G3b §8, ALSO reaches a CHOSEN FEAT's own children.
   //
-  // That direction is SAFE: a pick the collector cannot see can only fail to
-  // exclude, never wrongly exclude, so no already-made pick is burned. Do NOT
-  // widen the walk to close the gap (fence F4) · feat children are owned and
-  // enumerated elsewhere, and pulling them in here would change what the sheet
-  // FOLDS, not merely what the picker offers.
+  // A STANDING FENCE HERE ONCE FORBADE THAT, and R4-G3b §8 OVERTURNED it
+  // deliberately. The fence read: widening the walk would change what the sheet
+  // FOLDS, not merely what the picker offers. It would, and that is now the
+  // POINT · every feat-authored `select-proficiency` pick (Skill Expert's
+  // expertise, Skilled's skills and tools, Weapon Master's weapons, both
+  // Resilient saves) was persisted, rendered `resolved`, and folded NOWHERE.
+  // REACHED is not yet COLLECTED for all of them: the walk now visits every one,
+  // but collectChosenProficiencies buckets only the skill/expertise, language and
+  // tool domains, so a `save` or `weapon` domain pick is visited and dropped
+  // until R4-G3b Task 5 adds those buckets.
+  // The stated consequence is accepted and TESTED: a language or tool picked
+  // under a feat now enters `chosen` -> `effective` and is EXCLUDED from a
+  // sibling language/tool row (tests/pc-decision-feat-walk.test.ts, the CONTROL
+  // case). It also reaches computeEffectiveProficiencies tagged `origin: "pick"`
+  // (the chosen-languages/tools push there), which is what puts it on the sheet's
+  // Proficiencies panel · that display is the phase's live-verify surface, not a
+  // claim measured here. Double-collection is impossible · the
+  // `bucket.includes(v)` guard in collectChosenProficiencies.
+  //
+  // Still SCOPED, on the axis that survived. The walk reaches a feat only
+  // through the TWO PERSISTED NAMESPACES a feat pick actually uses
+  // (`classes[i].choices[lvl]["feat:<childId>"]` and
+  // `origin_choices["background:feat:<childId>"]`); it does not generically
+  // expand a `select-entity` child, so a proficiency authored under any OTHER
+  // select-entity pick still never enters this set. That residue is SAFE in the
+  // same direction as before: a pick the collector cannot see can only fail to
+  // exclude, never wrongly exclude, so no already-made pick is burned.
+  //
+  // Fence F4 is a DIFFERENT fence and STANDS: the exclusion below is scoped to
+  // the language and tool domains, never skills or saves (see buildItem's
+  // exclusion block and this interface's own docblock).
   const eff = computeEffectiveProficiencies(resolved);
   const effective: EffectiveSets = {
     language: new Set(eff.languages.map((e) => toProfSlug(e.value))),

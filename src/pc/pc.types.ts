@@ -316,6 +316,10 @@ export interface ResolvedCharacter {
   classes: ResolvedClass[];
   background: BackgroundEntity | null;
   feats: FeatEntity[];
+  /** The bare/full slug of the background's resolved origin feat (R4-G3b §8): stamped by the resolver OUTSIDE the
+   *  feats de-dup guard, so it is set even when the same feat is ALSO a class-slot pick. Read by
+   *  visitProficiencyChoices' origin arm; `resolved.feats` itself carries no provenance. */
+  originFeatSlug?: string;
   totalLevel: number;
   features: ResolvedFeature[];
   spells: ResolvedSpell[];
