@@ -596,7 +596,11 @@ function visitProficiencyChoices(
   const oc = resolved.definition.origin_choices ?? {};
   const originRead = (ns: string) => (id: string): ChoiceValue | undefined => oc[`${ns}:${id}`];
   const stripRef = (ref: string): string => ref.replace(/^\[\[/, "").replace(/\]\]$/, "");
-  const featBySlug = new Map(resolved.feats.map((f) => [f.slug, f]));
+  // Optional the CONTAINER, per computeEffectiveProficiencies' precedent below: the type says `feats`
+  // is non-optional, but consumers build ResolvedCharacter by cast and `tests/` is typechecked by
+  // nothing, so the compiler never sees the omission (the plugin's builder-step fixtures pass a
+  // `resolved` with no `feats` key at all).
+  const featBySlug = new Map((resolved.feats ?? []).map((f) => [f.slug, f]));
 
   resolved.classes.forEach((c, i) => {
     if (!c.entity) return;
@@ -1007,12 +1011,15 @@ export function buildDecisionLedger(resolved: ResolvedCharacter, ctx: DecisionCo
   const effective: EffectiveSets = {
     language: new Set(eff.languages.map((e) => toProfSlug(e.value))),
     tool: new Set(eff.tools.map((e) => toProfSlug(e.value))),
+    // Same precedent as computeEffectiveProficiencies' `resolved.definition?.overrides?.[domain]`: the
+    // type says `skills` is non-optional, but consumers build ResolvedCharacter by cast and `tests/` is
+    // typechecked by nothing (the plugin's equipment-step fixtures pass a `definition` with no `skills`).
     skill: new Set([
-      ...resolved.definition.skills.proficient, ...(resolved.background?.skill_proficiencies ?? []),
+      ...(resolved.definition?.skills?.proficient ?? []), ...(resolved.background?.skill_proficiencies ?? []),
       ...chosen.skills, ...effectGrants.skills.map((g) => g.value),
     ].map(toProfSlug)),
     skillExpertise: new Set([
-      ...resolved.definition.skills.expertise, ...chosen.expertise,
+      ...(resolved.definition?.skills?.expertise ?? []), ...chosen.expertise,
       ...effectGrants.skills.filter((g) => g.expertise).map((g) => g.value),
     ].map(toProfSlug)),
   };
