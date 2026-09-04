@@ -43,8 +43,8 @@ export function normalizeSpellRef(ref: unknown): string | null {
 export interface SpellNameIndex { byName: Map<string, RegisteredEntity[]> }
 /** At most ONE scan of the spell bucket per resolve(), keyed on slugify(entity name) · NEVER on the slug tail (Gate 0
  *  B2: the generators hyphenate "/" where dnd5e's slugify deletes it, so three bundle spells differ). Built LAZILY by
- *  its caller, on the first leaf that reaches step (b), so a character with no `additional_spells` carrier pays
- *  nothing for it. */
+ *  its caller, on the first leaf that CALLS `resolveSpellByName` (the argument is evaluated whatever step then
+ *  resolves it), so a character with no `additional_spells` leaf pays nothing for it. */
 export function buildSpellNameIndex(entities: EntityRegistry): SpellNameIndex {
   const byName = new Map<string, RegisteredEntity[]>();
   for (const e of entities.search("", "spell", Number.POSITIVE_INFINITY)) {

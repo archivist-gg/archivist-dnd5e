@@ -57,8 +57,8 @@ describe("race.structural stays out of the generators' reachable graph (R4-G3b �
 
   it("POSITIVE CONTROL · the same predicate finds it in the PC-engine module that does import it", () => {
     // Proves the predicate reads real bytes: `src/pc/pc.additional-spells.ts` imports
-    // `RACE_STRUCTURAL_PSEUDO` from `../race/race.structural`, and the PC engine is precisely the
-    // half of the tree the generators' entry does NOT reach.
+    // `RACE_STRUCTURAL_PSEUDO` from `../race/race.structural`, and the PC engine is the part of the
+    // tree the generators' entry was measured NOT to reach (spec §15.3: 0 hits on 21 probed symbols).
     expect(namesRaceStructural("pc/pc.additional-spells.ts")).toBe(true);
     expect(REACHABLE("pc/pc.additional-spells.ts")).toBe(false);
   });
