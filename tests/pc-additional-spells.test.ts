@@ -81,7 +81,11 @@ describe("collectAdditionalSpells (R4-G3b §5.2.1)", () => {
     const rows = collect({ race: { slug: "elemental-evil-players-companion_race_air-genasi", edition: "2014", traits: [], additional_spells: [{ ability: "con", known: { "1": ["levitate"] } }] } as never });
     expect(slugs(rows)).toEqual(["elemental-evil-players-companion_spell_levitate"]);
     expect(rows[0]).toMatchObject({ source: "race", classSlug: null, prepared: true, alwaysPrepared: true, ability: "con" });
-    expect(rows[0].persisted).toBeUndefined();   // goes RED if the reader stamps `persisted`
+  });
+  it("a granted row carries no persisted flag (M-19)", () => {
+    const rows = collect({ race: { slug: "elemental-evil-players-companion_race_air-genasi", edition: "2014", traits: [], additional_spells: [{ ability: "con", known: { "1": ["levitate"] } }] } as never });
+    expect(rows[0].persisted).toBeUndefined();   // FIRST · goes RED if the reader stamps `persisted`
+    expect(slugs(rows)).toEqual(["elemental-evil-players-companion_spell_levitate"]);
   });
   it("subclass root, CLASS level comparand (Armorer 3 / Wizard 3: the level-5 list is ABSENT)", () => {
     const armorer = { slug: "eberron-forge-of-the-artificer_subclass_armorer-2024-efa", edition: "2024", additional_spells: [{ prepared: { "3": ["magic missile|xphb"], "5": ["mirror image|xphb"] } }] };
@@ -127,13 +131,17 @@ describe("collectAdditionalSpells (R4-G3b §5.2.1)", () => {
   it("ability: {choose} skips the entry", () => {
     expect(collect({ feats: [{ slug: "x_feat_spellfire-spark", additional_spells: [{ ability: { choose: ["int", "wis", "cha"] }, known: { _: ["light|xphb#c"] } }] } as never] })).toHaveLength(0);
   });
-  it("the race gate: a lineage select-inline gates the race; a structural `size` choice does not", () => {
+  it("the race gate walks traits[]: a lineage select-inline on a TRAIT gates the race (M-21c)", () => {
     const elf = { slug: "srd-2024_race_elf", edition: "2024", traits: [{ name: "Elven Lineage", choices: [{ kind: "select-inline", id: "elven-lineage", options: [] }] }], additional_spells: { known: { "1": ["[[SRD 2024/Spells/Druidcraft|xphb|druidcraft|xphb]]"] } } };
     expect(collect({ race: elf as never })).toHaveLength(0);                 // FIRST · no Druidcraft on a Drow
+  });
+  it("the race gate EXEMPTS the structural set: a `size` choice does not gate (M-21a)", () => {
     const aasimar = { slug: "players-handbook-2024_race_aasimar", edition: "2024", traits: [{ name: "Size", choices: [{ kind: "select-inline", id: "size", options: [] }] }], additional_spells: [{ ability: "cha", known: { "1": ["light|xphb#c"] } }] };
-    expect(slugs(collect({ race: aasimar as never }))).toEqual(["players-handbook-2024_spell_light"]);
+    expect(slugs(collect({ race: aasimar as never }))).toEqual(["players-handbook-2024_spell_light"]);   // FIRST
+  });
+  it("the race gate walks race.choices[] too: a TOP-LEVEL select-inline gates the race (M-21b)", () => {
     const gith = { slug: "x_race_githyanki", traits: [], choices: [{ kind: "select-inline", id: "skill-tool-lang", options: [] }], additional_spells: [{ known: { "1": ["light#c"] } }] };
-    expect(collect({ race: gith as never })).toHaveLength(0);               // a TOP-LEVEL race.choices gate
+    expect(collect({ race: gith as never })).toHaveLength(0);                // FIRST · a TOP-LEVEL race.choices gate
   });
   it("RACE_STRUCTURAL_PSEUDO is the shared three-member set", () => expect([...RACE_STRUCTURAL_PSEUDO].sort()).toEqual(["darkvision", "size", "speed"]));
 });
@@ -145,14 +153,25 @@ describe("dedupeResolvedSpells OR-merge (R4-G3b §5.2.8) + persisted", () => {
       { entity: bless, slug: "players-handbook-2014_spell_bless", classSlug: "cleric", source: "class", prepared: false, alwaysPrepared: false, persisted: true },
       { entity: bless, slug: "players-handbook-2014_spell_bless", classSlug: "cleric", source: "class", prepared: true, alwaysPrepared: true },
     ]);
+    expect(rows[0]).toMatchObject({ alwaysPrepared: true, prepared: true, persisted: true, classSlug: "cleric" });   // FIRST · the merge assertion; the length below stays green under M-20a
     expect(rows).toHaveLength(1);
-    expect(rows[0]).toMatchObject({ alwaysPrepared: true, prepared: true, persisted: true, classSlug: "cleric" });   // FIRST of the two merge assertions
   });
-  it("a feat copy displaced by a class copy keeps the flag (branch ii)", () => {
-    const rows = dedupeResolvedSpells([
-      { entity: bless, slug: "players-handbook-2014_spell_bless", classSlug: null, source: "feat", prepared: true, alwaysPrepared: true, ability: "wis" },
-      { entity: bless, slug: "players-handbook-2014_spell_bless", classSlug: "cleric", source: "class", prepared: false, alwaysPrepared: false, persisted: true },
-    ]);
-    expect(rows[0]).toMatchObject({ source: "class", alwaysPrepared: true, prepared: true, persisted: true });
+  // Branch (ii)'s two mutants get an `it()` each so the RED assertion is the FIRST expect of both
+  // (spec invariant 6). The persisted row is the FEAT one, because `addKnownSpell` persists a `source`
+  // and a hand-added spell can therefore be `source: "feat"` (pc.edit-state.ts); branch (ii) drops that
+  // row for the class grant, so both flags have to be carried across or the sheet loses a control.
+  const displacedFeatCopy = () => dedupeResolvedSpells([
+    { entity: bless, slug: "players-handbook-2014_spell_bless", classSlug: null, source: "feat", prepared: true, alwaysPrepared: true, ability: "wis", persisted: true },
+    { entity: bless, slug: "players-handbook-2014_spell_bless", classSlug: "cleric", source: "class", prepared: false, alwaysPrepared: false },
+  ]);
+  it("a feat copy displaced by a class copy keeps the persisted flag (branch ii, M-20c)", () => {
+    const rows = displacedFeatCopy();
+    expect(rows[0].persisted).toBe(true);   // RED FIRST before fix 1b (dnd5e 1320613): read `undefined`, the `{ ...s }` winner never carried it
+    expect(rows[0].source).toBe("class");
+  });
+  it("a feat copy displaced by a class copy keeps alwaysPrepared (branch ii, M-20b)", () => {
+    const rows = displacedFeatCopy();
+    expect(rows[0]).toMatchObject({ alwaysPrepared: true, prepared: true });   // FIRST
+    expect(rows[0].source).toBe("class");
   });
 });

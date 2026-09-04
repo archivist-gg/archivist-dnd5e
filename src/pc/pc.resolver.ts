@@ -407,8 +407,10 @@ export function collectItemGrantedSpells(
  * Which copy holds the slot is not the whole answer, though: `alwaysPrepared` is OR-merged
  * onto the winner in BOTH collision orders (R4-G3b §5.2.8), so a hand-added Bless that a
  * subclass later grants stops counting against the prepared limit instead of counting
- * forever. Only that flag (and the `prepared` it forces) crosses the merge; the winner
- * keeps its own `source` / `classSlug` / `entryIndex` / `persisted`. Insertion order
+ * forever. `persisted` crosses the merge as well, in both orders (fix 1b): removability is
+ * MEMBERSHIP in `character.spells.known`, so the flag belongs to the SLUG, not to whichever
+ * copy won. Nothing else crosses: the winner keeps its own `source` / `classSlug` /
+ * `entryIndex`. Insertion order
  * is preserved (a later class copy replaces an earlier feat copy in place), so the
  * Spells section never renders duplicate rows while a legitimately class-known copy is
  * never lost. Item-source spells carry INSTANCE identity: they key by
@@ -424,8 +426,13 @@ export function dedupeResolvedSpells(spells: ResolvedSpell[]): ResolvedSpell[] {
     if (!existing) { byKey.set(key, s); continue; }
     // R4-G3b §5.2.8: an alwaysPrepared grant colliding with a non-flagged copy ORs the flag onto the winner, in
     // BOTH orders, so an existing sheet never keeps counting a granted spell against its prepared limit.
+    // `persisted` survives the merge in both orders too (fix 1b): removability is MEMBERSHIP in
+    // character.spells.known, not a `source` (§5.2.7), and a hand-added spell can be `source: "feat"`
+    // (addKnownSpell persists a source), so branch (ii) below would otherwise drop the flag off a row the
+    // user really can remove. Branch (i) keeps the winner `existing` and with it that row's own flag; branch
+    // (ii) REPLACES the winner with `s`, so the flag has to be carried across explicitly.
     if (existing.source === "feat" && s.source !== "feat") {
-      byKey.set(key, { ...s, alwaysPrepared: s.alwaysPrepared || existing.alwaysPrepared, prepared: s.prepared || existing.alwaysPrepared });
+      byKey.set(key, { ...s, alwaysPrepared: s.alwaysPrepared || existing.alwaysPrepared, prepared: s.prepared || existing.alwaysPrepared, ...(existing.persisted || s.persisted ? { persisted: true } : {}) });
     } else if (s.alwaysPrepared && !existing.alwaysPrepared) {
       byKey.set(key, { ...existing, alwaysPrepared: true, prepared: true });
     }
