@@ -723,7 +723,8 @@ export function recalc(resolved: ResolvedCharacter, registry?: EntityRegistry): 
   // The legacy single-arg call path keeps an empty AppliedBonuses so all the
   // arithmetic below is a no-op and existing callsites/tests stay green.
   // Chosen proficiencies from persisted decisions (SP2 Plan 3): skills/expertise
-  // fold into the skill tri below; languages/tools fold into the proficiency set.
+  // fold into the skill tri below; languages/tools/weapons fold into the
+  // proficiency set; saves union onto saveProfs (R4-G3b §7 F5 and F6).
   const chosenProfs = collectChosenProficiencies(resolved);
   // Feature-effects pass (effects-application engine): one pure aggregation over
   // everything whose effects fold (authored features + SELECTED and GRANTED pool
@@ -738,6 +739,14 @@ export function recalc(resolved: ResolvedCharacter, registry?: EntityRegistry): 
   }
   for (const l of chosenProfs.languages) {
     if (!profsForApply.languages.includes(l)) profsForApply.languages.push(l);
+  }
+  // R4-G3b §7 F5: a chosen weapon pick is one WEAPON ENTITY's bare slug (the
+  // collector bare-slugs a select-entity pick), so it belongs in `.specific`
+  // ONLY · the bucket the proficiency-query matcher reads per item. Contrast the
+  // effect-granted weapon fold below, which is additive across BOTH buckets
+  // because an effect's value may be a category word instead.
+  for (const w of chosenProfs.weapons) {
+    if (!profsForApply.weapons.specific.includes(w)) profsForApply.weapons.specific.push(w);
   }
   for (const t of featureEffects.proficiencies.tools) {
     if (!profsForApply.tools.specific.includes(t)) profsForApply.tools.specific.push(t);
@@ -823,10 +832,14 @@ export function recalc(resolved: ResolvedCharacter, registry?: EntityRegistry): 
     scores,
   );
 
-  // Saves (first class's saving_throws only, per 5e multiclass rule).
+  // Saves. The CLASS source is the first class's saving_throws only, per the 5e
+  // multiclass rule; feature-effect grants and (R4-G3b §7 F6) chosen `domain:
+  // "save"` picks union onto it. Both unions land BEFORE the override read below,
+  // so `overrides.saves.<ab>.proficient` still wins over every source.
   const firstClass = resolved.classes[0]?.entity ?? null;
   const saveProfs = new Set<Ability>(firstClass?.saving_throws ?? []);
   for (const ab of featureEffects.proficiencies.saves) saveProfs.add(ab);
+  for (const ab of chosenProfs.saves) saveProfs.add(ab);
   const saves: Record<Ability, { bonus: number; proficient: boolean }> = {} as never;
   for (const ab of ABILITY_KEYS) {
     const override = overrides.saves?.[ab];

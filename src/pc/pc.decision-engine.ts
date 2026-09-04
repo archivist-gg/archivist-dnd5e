@@ -74,17 +74,20 @@ export interface DecisionItem {
    * those rows by R4-G3b §7 F4) emptied its pool. Such a row is complete, not an
    * open obligation the user has no way to discharge.
    *
-   * Deliberately NOT a bare `options.length === 0`. Three other shapes reach
-   * zero options and are genuinely still open: a `domain:"save"` choice (no
-   * pool exists at all), a select-entity whose registry holds no candidates
-   * (an empty vault), and an authored `from: []`. Emptied-BY-EXCLUSION is the
-   * only one where the character is already whole, so the flag is scoped to
-   * select-proficiency in the language and tool domains PLUS `expertise` skill
-   * rows (R4-G3b §7 F4; a plain skill row is never excluded and so never
-   * satisfied · §14, and saves have no set at all) AND requires the pool to have
-   * been non-empty AFTER the F1 INCLUSION ran, not before it: a `from_proficient`
-   * row the inclusion empties (a fresh L1 Rogue holds no skills yet) is still
-   * open, and the next render repopulates it.
+   * Deliberately NOT a bare `options.length === 0`. FOUR other shapes reach
+   * zero options and are genuinely still open: a from-LESS `domain:"save"`
+   * choice (no pool exists at all · the enumerator's `??` fallback has no save
+   * branch, and a save choice that authors `from` does enumerate it), a
+   * select-entity whose registry holds no candidates (an empty vault), an
+   * authored `from: []`, and a `from_proficient` skill row the R4-G3b §7 F1
+   * INCLUSION empties (a fresh L1 Rogue holds no skills yet). Emptied-BY-
+   * EXCLUSION is the only one where the character is already whole, so the flag
+   * is scoped to select-proficiency in the language and tool domains PLUS
+   * `expertise` skill rows (R4-G3b §7 F4; a plain skill row is never excluded
+   * and so never satisfied · §14, and saves have no set at all) AND requires the
+   * pool to have been non-empty AFTER the F1 INCLUSION ran, not before it ·
+   * that fourth shape is the one this clause keeps open, and the next render
+   * repopulates it.
    *
    * `false` for every other item, informational ones included.
    */
@@ -262,10 +265,11 @@ function enumerateOptions(choice: Choice, ctx: DecisionContext, ownerBare: strin
       return filtered.map((e) => ({ value: e.slug, label: e.name, entity: e }));
     }
     case "select-proficiency": {
-      // domain:"save" is the one arm that deliberately stays at []: saving-throw
-      // proficiencies come from class `saving_throws`, never from a decision, so
-      // there is no pool to enumerate. Mirrors collectChosenProficiencies' bucket
-      // fold, which skips "save" for the same reason.
+      // The `??` fallback below has no `save` branch, so only a from-LESS
+      // domain:"save" choice stays at []: a save choice that AUTHORS `from`
+      // enumerates that list like any other domain, and both Resilient docs
+      // (2014 and 2024) author the six abilities. Its picks fold as well ·
+      // collectChosenProficiencies' own `save` arm collects them (R4-G3b §7 F6).
       const pool = choice.from
         ?? (choice.domain === "skill" ? [...ALL_SKILL_SLUGS]
             : choice.domain === "language" ? [...ALL_LANGUAGES]
@@ -710,20 +714,39 @@ const filterToPool = (vals: string[], pool: string[] | undefined): string[] =>
     : vals;
 
 /** Walk every decision definition + persisted selection and collect chosen
- *  proficiencies. Pure; called by recalc. Values are validated against the
- *  decision's option pool via filterToPool: slugs outside `from` are ignored,
- *  and a pick matching under canon is kept in the POOL's spelling. */
+ *  proficiencies. Pure; called by recalc.
+ *
+ *  On the `select-proficiency` arms, values are validated against the decision's
+ *  option pool via filterToPool: slugs outside `from` are ignored, and a pick
+ *  matching under canon is kept in the POOL's spelling. The `weapons` arm is the
+ *  one exception · a `select-entity` pick carries ENTITY slugs, not proficiency
+ *  slugs, and its `from` is a list of entity slugs, so those values are
+ *  bare-slugged rather than pool-filtered (R4-G3b §7 F5). */
 export function collectChosenProficiencies(resolved: ResolvedCharacter): {
-  skills: string[]; expertise: string[]; languages: string[]; tools: string[];
+  skills: string[]; expertise: string[]; languages: string[]; tools: string[]; weapons: string[]; saves: Ability[];
 } {
-  const out = { skills: [] as string[], expertise: [] as string[], languages: [] as string[], tools: [] as string[] };
+  const out = { skills: [] as string[], expertise: [] as string[], languages: [] as string[], tools: [] as string[], weapons: [] as string[], saves: [] as Ability[] };
+  // a LOCAL narrowing (the readChosenSpellAbility precedent, pc.resolver.ts:419-424);
+  // pc.equipment.ts' isAbilityKey is module-private and is NOT imported (Gate 1 A I1).
+  const isAbility = (v: string): v is Ability => (ABILITY_KEYS as readonly string[]).includes(v);
   visitProficiencyChoices(resolved, (choice, selected) => {
-    if (choice.kind !== "select-proficiency") return;
     const vals = Array.isArray(selected) ? selected : typeof selected === "string" ? [selected] : [];
-    const pool = choice.from;
-    const valid = filterToPool(vals, pool);
-    // domain:"save" is intentionally not collected here — saving-throw
-    // proficiencies come from class `saving_throws`, not decisions.
+    // R4-G3b §7 F5: a select-entity{weapon} pick is a weapon PROFICIENCY (Weapon Master, the Hobgoblins) · EXCEPT
+    // `weapon-mastery`, which collectChosenWeaponMasteries owns and which is NOT a proficiency grant.
+    if (choice.kind === "select-entity" && choice.entity_type === "weapon") {
+      if (choice.id === "weapon-mastery") return;
+      for (const v of vals) { const bare = bareEntitySlug(String(v)); if (bare && !out.weapons.includes(bare)) out.weapons.push(bare); }
+      return;
+    }
+    if (choice.kind !== "select-proficiency") return;
+    const valid = filterToPool(vals, choice.from);
+    // R4-G3b §7 F6: domain:"save" IS collected here. Both Resilient docs author a `from` of the six
+    // abilities, so a save pick is a real decision; the note this replaced claimed otherwise and was
+    // false. Its own arm, not a `bucket` entry: `saves` is Ability[], the shared bucket is string[].
+    if (choice.domain === "save") {
+      for (const v of valid) if (isAbility(v) && !out.saves.includes(v)) out.saves.push(v);
+      return;
+    }
     const bucket = choice.domain === "skill" ? (choice.expertise ? out.expertise : out.skills)
       : choice.domain === "language" ? out.languages
       : choice.domain === "tool" ? out.tools : null;
@@ -935,16 +958,19 @@ export function buildDecisionLedger(resolved: ResolvedCharacter, ctx: DecisionCo
   // Skilled's skills and tools and both Resilient saves, all `select-proficiency`;
   // Weapon Master's weapons, a `select-entity` with `entity_type:"weapon"`) was
   // persisted, rendered `resolved`, and folded NOWHERE.
-  // REACHED is not yet COLLECTED for all of them, and the two survivors are
-  // dropped at two DIFFERENT places, both inside collectChosenProficiencies. A
-  // `domain:"save"` pick (Resilient) passes its kind check and dies at its domain
-  // dispatch, which buckets only skill/expertise, language and tool · there is NO
-  // `weapon` domain, the `select-proficiency` union being skill|tool|language|save.
-  // A feat's `select-entity` weapon pick (Weapon Master) never reaches that
-  // dispatch at all: it dies at the `choice.kind !== "select-proficiency"`
-  // early-return.
-  // R4-G3b §7 F5 (the `weapons` bucket) and F6 (the `saves` bucket), Task 5, add
-  // both.
+  // REACHED is now COLLECTED for all of them too: R4-G3b §7 F5 and F6 gave
+  // collectChosenProficiencies the two buckets its domain dispatch could not
+  // hold, and each pick is taken by its own arm ahead of the place that used to
+  // drop it. A `domain:"save"` pick (Resilient) is taken by the `save` arm that
+  // runs BEFORE that dispatch, which still buckets only skill/expertise,
+  // language and tool · there is NO `weapon` domain, the `select-proficiency`
+  // union being skill|tool|language|save. A feat's `select-entity` weapon pick
+  // (Weapon Master) is taken by the `weapons` arm that runs BEFORE the
+  // `choice.kind !== "select-proficiency"` early-return, `weapon-mastery`
+  // excepted · collectChosenWeaponMasteries owns that id and it grants no
+  // proficiency. Both now fold through recalc onto the sheet, and NEITHER enters
+  // `effective` below (it has no weapon and no save member), so neither one
+  // excludes anything from a sibling row.
   // The stated consequence is accepted and TESTED: a language or tool picked
   // under a feat now enters `chosen` -> `effective` and is EXCLUDED from a
   // sibling language/tool row (tests/pc-decision-feat-walk.test.ts, the CONTROL
