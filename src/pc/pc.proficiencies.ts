@@ -196,7 +196,24 @@ function composeGrantEntries(buckets: ProficiencyGrant[][], picks: string[] = []
  *  all · they are composed by `computeEffectiveProficiencies`, leaving
  *  `composeGrantEntries` (armor + weapons) as this function's only live caller:
  *  21 distinct values, 0 with `_`, 0 changed. Re-derive BOTH numbers before
- *  widening anything that feeds this; do not copy them forward. */
+ *  widening anything that feeds this; do not copy them forward.
+ *
+ *  That 21 is now HALF the story, and the half it covers is still true: it
+ *  censuses AUTHORED grant strings, a CLOSED population. R4-G3b Task 5 fix 1
+ *  added a SECOND input, `composeGrantEntries`' `picks` · the chosen
+ *  `select-entity{weapon}` slugs, bare-slugged by collectChosenProficiencies ·
+ *  and that population is NOT closed: a `select-entity` with no `from`
+ *  enumerates whatever the vault compendium holds (enumerateOptions' registry
+ *  branch in pc.decision-engine.ts), so it is bounded by the INSTALLED
+ *  COMPENDIUM, not by anything authored in this repo. Re-derived on the shipped
+ *  weapon data for this commit: src/srd/data/runtime/weapon.2014.json (37 slugs)
+ *  + weapon.2024.json (38) = 75, every one of exactly three `_` segments,
+ *  bare-slugging to 42 distinct values, 0 of them containing `_`. What makes
+ *  that safe is the SEGMENT COUNT, not the source: bareEntitySlug joins
+ *  everything from the third segment on, so a homebrew slug carrying a FOURTH
+ *  ("homebrew_weapon_hand_crossbow" -> "hand_crossbow") is the case that would
+ *  render "Hand_crossbow" on the panel. Re-derive this count too, over the
+ *  compendium in play, before widening what feeds this. */
 function prettyName(slug: string): string {
   return humanizeProficiency(toProfSlug(slug));
 }
