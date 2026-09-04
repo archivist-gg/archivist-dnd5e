@@ -10,7 +10,7 @@
  * Fixtures are RAW registry entities handed to a real `EntityRegistry` (spec §5.4): nothing here is
  * parsed, exactly as the resolver reads them.
  */
-import { describe, it, expect, beforeEach, vi } from "vitest";
+import { describe, it, expect, afterEach, beforeEach, vi } from "vitest";
 import { buildMockRegistry } from "./mock-entity-registry";
 import { normalizeSpellRef, resolveSpellByName, buildSpellNameIndex, collectAdditionalSpells } from "../src/pc/pc.additional-spells";
 import { RACE_STRUCTURAL_PSEUDO } from "../src/race/race.structural";
@@ -144,6 +144,41 @@ describe("collectAdditionalSpells (R4-G3b §5.2.1)", () => {
     expect(collect({ race: gith as never })).toHaveLength(0);                // FIRST · a TOP-LEVEL race.choices gate
   });
   it("RACE_STRUCTURAL_PSEUDO is the shared three-member set", () => expect([...RACE_STRUCTURAL_PSEUDO].sort()).toEqual(["darkvision", "size", "speed"]));
+});
+
+describe("the spell-name index builds LAZILY (R4-G3b final wave)", () => {
+  // `buildSpellNameIndex` is a whole-bucket `search` plus a per-entity slugify.
+  // It used to run once per `resolve()` before any carrier was known to have
+  // entries, so every character without an `additional_spells` carrier paid for a
+  // scan whose result was thrown away. `REG.search` is the only route into the
+  // bucket (`resolveSpellByName`'s steps (0) and (a) use `alreadyCollected` and
+  // `getByTypeAndSlug`, neither of which calls it), so the spy counts index
+  // builds exactly.
+  //
+  // ⚠️ Describe-scoped restore. A case that fails BEFORE its own `mockRestore()`
+  // leaks the spy into the next one (`vi.spyOn` on an already-spied method hands
+  // back the SAME spy, calls and all), which turned the second case below into a
+  // false second RED (2 calls) while the first was still failing. Measured
+  // 2026-09-04.
+  afterEach(() => { vi.restoreAllMocks(); });
+
+  it("a collect with NO carriers never scans the spell bucket", () => {
+    const spy = vi.spyOn(REG, "search");
+    const rows = collect({});
+    // RED FIRST before the final wave (01a79e1): 1 · the index was built at the
+    // top of `collectAdditionalSpells`, unconditionally.
+    expect(spy).toHaveBeenCalledTimes(0);
+    expect(rows).toEqual([]);
+    spy.mockRestore();
+  });
+
+  it("a collect with one in-slice leaf scans it exactly once, and still folds the leaf", () => {
+    const spy = vi.spyOn(REG, "search");
+    const rows = collect({ feats: [{ slug: "x_feat_y", additional_spells: [{ known: { _: ["levitate"] } }] } as never] });
+    expect(spy).toHaveBeenCalledTimes(1);   // memoised: the second leaf would reuse it
+    expect(slugs(rows)).toEqual(["elemental-evil-players-companion_spell_levitate"]);
+    spy.mockRestore();
+  });
 });
 
 describe("dedupeResolvedSpells OR-merge (R4-G3b §5.2.8) + persisted", () => {

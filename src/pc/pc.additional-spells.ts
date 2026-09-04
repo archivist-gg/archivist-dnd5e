@@ -41,8 +41,10 @@ export function normalizeSpellRef(ref: unknown): string | null {
 }
 
 export interface SpellNameIndex { byName: Map<string, RegisteredEntity[]> }
-/** ONE scan of the spell bucket per resolve(), keyed on slugify(entity name) · NEVER on the slug tail (Gate 0 B2: the
- *  generators hyphenate "/" where dnd5e's slugify deletes it, so three bundle spells differ). */
+/** At most ONE scan of the spell bucket per resolve(), keyed on slugify(entity name) · NEVER on the slug tail (Gate 0
+ *  B2: the generators hyphenate "/" where dnd5e's slugify deletes it, so three bundle spells differ). Built LAZILY by
+ *  its caller, on the first leaf that reaches step (b), so a character with no `additional_spells` carrier pays
+ *  nothing for it. */
 export function buildSpellNameIndex(entities: EntityRegistry): SpellNameIndex {
   const byName = new Map<string, RegisteredEntity[]>();
   for (const e of entities.search("", "spell", Number.POSITIVE_INFINITY)) {
@@ -111,7 +113,10 @@ export function collectAdditionalSpells(args: {
   alreadyCollected: ResolvedSpell[]; entities: EntityRegistry; warnings: string[];
 }): ResolvedSpell[] {
   const { race, feats, classes, totalLevel, ownAbility, alreadyCollected, entities, warnings } = args;
-  const index = buildSpellNameIndex(entities);
+  // The index is a whole-bucket scan; it is built on FIRST USE, which is inside the leaf loop below, so a character
+  // with no carrier (or none with entries) never touches the spell bucket at all. Memoised for the rest of the call.
+  let index: SpellNameIndex | null = null;
+  const indexOf = (): SpellNameIndex => (index ??= buildSpellNameIndex(entities));
   const out: ResolvedSpell[] = [];
   const carriers: Carrier[] = [];
   const asRaw = (x: unknown) => (x as { additional_spells?: unknown } | null)?.additional_spells;
@@ -140,7 +145,7 @@ export function collectAdditionalSpells(args: {
         for (const leaf of v) {
           const nameSlug = normalizeSpellRef(leaf);
           if (!nameSlug) continue;
-          const hit = resolveSpellByName({ entities, index, nameSlug, carrierSlug: car.slug, carrierEdition: car.edition, alreadyCollected: [...alreadyCollected, ...out] });
+          const hit = resolveSpellByName({ entities, index: indexOf(), nameSlug, carrierSlug: car.slug, carrierEdition: car.edition, alreadyCollected: [...alreadyCollected, ...out] });
           if (!hit) { warnings.push(`additional_spells ref "${String(leaf)}" on ${car.slug} not found in compendium.`); continue; }
           out.push({ entity: hit.entity, slug: hit.slug, classSlug: car.classSlug,
             source: car.root === "race" ? "race" : car.root === "feat" ? "feat" : "class",
