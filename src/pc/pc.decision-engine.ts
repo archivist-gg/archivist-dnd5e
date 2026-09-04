@@ -11,6 +11,12 @@ import {
   type ProficiencyEntry,
   type ProficiencyOrigin,
 } from "./pc.proficiency-grants";
+// The F1/F4 skill sets read effect grants through the SAME three rules the sheet's
+// own fold uses (foldsNow / selfEffectsOf / classifyProficiencyEffect), so picker
+// and fold cannot disagree · R4-G3b §7.2.1. Cycle-free: pc.feature-effects.ts
+// imports no decision engine, and pc.proficiency-grants.ts already consumes this
+// identical pair · the precedent.
+import { assembleEffectFeatures, collectProficiencyEffectGrants } from "./pc.feature-effects";
 import { bareEntitySlug, slugify } from "../entities/slug";
 import { flattenAsiOrFeat } from "./pc.asi-flatten";
 
@@ -63,18 +69,22 @@ export interface DecisionItem {
   status: DecisionStatus;
   /**
    * True when this choice has nothing left to grant: every proficiency it could
-   * have offered is one the character ALREADY holds, so the exclusion filter
-   * (spec §5) emptied its pool. Such a row is complete, not an open obligation
-   * the user has no way to discharge.
+   * have offered is one the character ALREADY holds (on an `expertise` skill row,
+   * already holds AT EXPERTISE), so the exclusion filter (spec §5, widened to
+   * those rows by R4-G3b §7 F4) emptied its pool. Such a row is complete, not an
+   * open obligation the user has no way to discharge.
    *
    * Deliberately NOT a bare `options.length === 0`. Three other shapes reach
    * zero options and are genuinely still open: a `domain:"save"` choice (no
    * pool exists at all), a select-entity whose registry holds no candidates
    * (an empty vault), and an authored `from: []`. Emptied-BY-EXCLUSION is the
    * only one where the character is already whole, so the flag is scoped to
-   * select-proficiency in the language/tool domains (fence F4 keeps it off
-   * skills and saves) AND requires the pool to have been non-empty BEFORE
-   * exclusion ran.
+   * select-proficiency in the language and tool domains PLUS `expertise` skill
+   * rows (R4-G3b §7 F4; a plain skill row is never excluded and so never
+   * satisfied · §14, and saves have no set at all) AND requires the pool to have
+   * been non-empty AFTER the F1 INCLUSION ran, not before it: a `from_proficient`
+   * row the inclusion empties (a fresh L1 Rogue holds no skills yet) is still
+   * open, and the next render repopulates it.
    *
    * `false` for every other item, informational ones included.
    */
@@ -104,15 +114,14 @@ export interface DecisionContext {
   isEntityVisible?(e: RegisteredEntity): boolean;
 }
 
-/** The language/tool slugs a character ALREADY HOLDS, folded through
- *  {@link toProfSlug} so both sides of every comparison are canonical.
- *
- *  Computed ONCE per ledger in {@link buildDecisionLedger} and threaded to every
- *  buildItem call, including the two recursive ones (spec §5.1). The keys are the
- *  `select-proficiency` domain names verbatim, so `effective[choice.domain]`
- *  needs no mapping table between the two vocabularies. Skills and saves are
- *  deliberately absent · fence F4, see the exclusion block in buildItem. */
-interface EffectiveSets { language: Set<string>; tool: Set<string> }
+/** What a character ALREADY HOLDS, folded through {@link toProfSlug} so both sides of every comparison are
+ *  canonical. Computed ONCE per ledger in {@link buildDecisionLedger} and threaded to every buildItem call,
+ *  including the two recursive ones (spec §5.1).
+ *  `language`/`tool` feed the already-satisfied EXCLUSION; `skill` feeds the F1 INCLUSION (a `from_proficient`
+ *  row offers only held skills) and mirrors pc.recalc.ts' profSet (four sources); `skillExpertise` feeds the F4
+ *  EXCLUSION on `expertise` rows and mirrors expSet (THREE sources since R4-G3a §7). The keys are NOT a bare
+ *  index over `choice.domain` any more (R4-G3b §7): the skill arm picks its set explicitly. Saves stay absent. */
+interface EffectiveSets { language: Set<string>; tool: Set<string>; skill: Set<string>; skillExpertise: Set<string> }
 
 /** Module-level dedup set for the degraded-starting-equipment warning: a class
  *  whose `starting_equipment` is in an outdated/unstructured shape warns ONCE per
@@ -408,28 +417,48 @@ function buildItem(
   const expandFeatChildren = opts?.expandFeatChildren ?? true;
   const key = keyPrefix + choice.id;
   // Read the persisted pick BEFORE enumerating. It used to sit below, but the
-  // per-choice exemption in the exclusion block needs it (spec §5.1's required
-  // reorder); there is exactly ONE read, do not reintroduce a second one.
+  // per-choice exemption needs it in BOTH filters below, the R4-G3b §7 F1
+  // inclusion and the exclusion (spec §5.1's required reorder); there is exactly
+  // ONE read, do not reintroduce a second one.
   const raw = readValue(key);
-  // Kept as its own binding because the `satisfied` predicate below needs the
-  // PRE-exclusion pool, and `filter` rebinds `options` to a new array. Never
-  // re-derive it by calling enumerateOptions a second time.
+  // The RAW enumerated pool, named ONCE (never re-derive it by calling
+  // enumerateOptions a second time) and kept as its own binding because each
+  // filter below rebinds `options` to a new array. It is deliberately NOT the
+  // "the pool was non-empty" witness any more: `satisfied` reads
+  // postInclusionOptions, because a `from_proficient` skill row whose 18 slugs
+  // the F1 inclusion empties (a fresh L1 Rogue holds no skills yet) must stay
+  // unresolved, not satisfied · R4-G3b §7.2.4.
   const preExclusionOptions = enumerateOptions(choice, ctx, ownerBare);
   let options = preExclusionOptions;
-  // EXCLUSION (spec §5) · the fix for the burned pick: a picker must never offer
+  // This choice's OWN persisted pick, canonicalized. Built ONCE, above both
+  // filters, because each exempts it: a pick already made is never hidden from
+  // the row that made it.
+  const mine = new Set(
+    (Array.isArray(raw) ? raw : raw === undefined ? [] : [raw]).map((v) => toProfSlug(String(v))),
+  );
+  // INCLUSION (R4-G3b §7 F1): a `from_proficient` skill row offers only the skills the character HOLDS (plus its
+  // own persisted pick). Runs BEFORE the exclusion. pc.recalc.ts' tri tests expertise before proficiency, so an
+  // Expertise pick on a non-held skill would grant 2×PB on a skill the character lacks.
+  if (choice.kind === "select-proficiency" && choice.domain === "skill" && choice.from_proficient) {
+    options = options.filter((o) => effective.skill.has(toProfSlug(o.value)) || mine.has(toProfSlug(o.value)));
+  }
+  const postInclusionOptions = options;
+  // EXCLUSION (spec §5 + R4-G3b §7 F4) · the fix for the burned pick: a picker must never offer
   // something the character already holds, because spending the choice on it
   // grants nothing and the sheet then shows no change. `enumerateOptions` stays
   // pure over (choice, ctx, ownerBare) and knows nothing of the character
   // (fence F9), so the filter lives here, between enumerate and canonicalize.
   //
-  // Language and tool ONLY (fence F4). domain:"skill"/"expertise" share one walk
-  // and one bucket dispatch with these, so widening "for symmetry" would reach
-  // the live skill fold in pc.recalc.ts, which this phase does not touch.
-  if (choice.kind === "select-proficiency" && (choice.domain === "language" || choice.domain === "tool")) {
-    const known = effective[choice.domain];
-    const mine = new Set(
-      (Array.isArray(raw) ? raw : raw === undefined ? [] : [raw]).map((v) => toProfSlug(String(v))),
-    );
+  // Language and tool rows exclude what is HELD; an `expertise` skill row excludes
+  // skills ALREADY AT EXPERTISE, and its set is chosen EXPLICITLY: the bare
+  // `effective[choice.domain]` index would typecheck and pick the WRONG set now
+  // that `skill` exists. Plain skill rows are NOT excluded (parked, R4-G3b §14),
+  // and `domain:"save"` has no set at all · which is what makes the `as` on the
+  // else arm sound, since `excludes` has already ruled that domain out.
+  const excludes = choice.kind === "select-proficiency" &&
+    (choice.domain === "language" || choice.domain === "tool" || (choice.domain === "skill" && choice.expertise === true));
+  if (excludes && choice.kind === "select-proficiency") {
+    const known = choice.domain === "skill" ? effective.skillExpertise : effective[choice.domain as "language" | "tool"];
     // Canonicalize BOTH sides. An exact-string exemption reintroduces the burned
     // pick INSIDE its own fix: a persisted "smith's tools" against a pool of
     // "smith's-tools" would be excluded rather than exempted, matchPool would then
@@ -437,17 +466,15 @@ function buildItem(
     // string, and the strip would render a bare slug with no matching chip.
     options = options.filter((o) => !known.has(toProfSlug(o.value)) || mine.has(toProfSlug(o.value)));
   }
-  // SATISFIED (spec §6.1). All four clauses are load-bearing · see the field's
-  // doc comment on DecisionItem for the three zero-option shapes an unscoped
-  // test would wrongly claim. It is BOTH recorded on the item and passed to
-  // `statusOf` below, which resolves on it (spec §6.2): three step-header
-  // counters in the builder count `status === "resolved"` directly, so a row
-  // carrying only the boolean would report itself open forever.
-  const satisfied =
-    choice.kind === "select-proficiency" &&
-    (choice.domain === "language" || choice.domain === "tool") &&
-    preExclusionOptions.length > 0 &&
-    options.length === 0;
+  // SATISFIED (spec §6.1 + R4-G3b §7.2.4). All THREE clauses are load-bearing · see
+  // the field's doc comment on DecisionItem for the three zero-option shapes an
+  // unscoped test would wrongly claim. The kind + domain gate is `excludes` above
+  // (language, tool and `expertise` skill rows), and the pool-was-non-empty witness
+  // is the POST-inclusion pool, never the raw one. It is BOTH recorded on the item
+  // and passed to `statusOf` below, which resolves on it (spec §6.2): three
+  // step-header counters in the builder count `status === "resolved"` directly, so a
+  // row carrying only the boolean would report itself open forever.
+  const satisfied = excludes && postInclusionOptions.length > 0 && options.length === 0;
   // Canonicalize ONLY select-proficiency picks, and against the options actually
   // enumerated for THIS choice (which already honour `choice.from` when present
   // and the domain vocabulary otherwise). Every other kind stays byte-untouched:
@@ -883,11 +910,18 @@ export function collectChosenAbilityPoints(resolved: ResolvedCharacter): OriginA
 }
 
 export function buildDecisionLedger(resolved: ResolvedCharacter, ctx: DecisionContext): DecisionLedger {
-  // ONE effective set for the whole ledger, computed before any walk and shared
-  // by every item and every child (spec §5.4). That sharing is what implements
-  // decision 6: a pick already in the set is not offered again by a SIBLING
-  // choice. Suppressions are subtracted inside computeEffectiveProficiencies, so
-  // a removed grant becomes pickable again.
+  // ONE effective set for the whole ledger, computed before the item walk and
+  // shared by every item and every child (spec §5.4). That sharing is what implements
+  // decision 6 for the two EXCLUSION members: a language or tool already in the
+  // set is not offered again by a SIBLING choice. Suppressions are subtracted
+  // inside computeEffectiveProficiencies, so a removed grant becomes pickable
+  // again.
+  //
+  // The two SKILL members (R4-G3b §7) do NOT come from that function and are not
+  // subject to it: `overrides` carries no `skills.remove` bucket, only the
+  // per-skill tri recalc reads. They are assembled below from the same sources as
+  // pc.recalc.ts' profSet and expSet so the ledger and the fold cannot drift, and
+  // `skill` runs the opposite way round · it INCLUDES rather than excludes.
   //
   // SCOPED, not universal · it holds only for the choices the collector actually
   // reaches. The set is fed by collectChosenProficiencies over
@@ -929,13 +963,28 @@ export function buildDecisionLedger(resolved: ResolvedCharacter, ctx: DecisionCo
   // same direction as before: a pick the collector cannot see can only fail to
   // exclude, never wrongly exclude, so no already-made pick is burned.
   //
-  // Fence F4 is a DIFFERENT fence and STANDS: the exclusion below is scoped to
-  // the language and tool domains, never skills or saves (see buildItem's
-  // exclusion block and this interface's own docblock).
+  // Fence F4 was the OTHER fence here, and R4-G3b §7 has now widened it too. The
+  // exclusion below covers the language and tool domains AND `expertise` skill
+  // rows, which drop the skills already AT EXPERTISE; plain skill rows are still
+  // never excluded (PARKED, R4-G3b §14) and saves still have no set at all. The
+  // same §7 adds the F1 INCLUSION, which runs the opposite way: a `from_proficient`
+  // skill row is NARROWED to the skills the character holds (see buildItem's two
+  // filters and the EffectiveSets docblock).
   const eff = computeEffectiveProficiencies(resolved);
+  const chosen = collectChosenProficiencies(resolved);
+  const { features, activeBuffs } = assembleEffectFeatures(resolved);
+  const effectGrants = collectProficiencyEffectGrants(features, activeBuffs);
   const effective: EffectiveSets = {
     language: new Set(eff.languages.map((e) => toProfSlug(e.value))),
     tool: new Set(eff.tools.map((e) => toProfSlug(e.value))),
+    skill: new Set([
+      ...resolved.definition.skills.proficient, ...(resolved.background?.skill_proficiencies ?? []),
+      ...chosen.skills, ...effectGrants.skills.map((g) => g.value),
+    ].map(toProfSlug)),
+    skillExpertise: new Set([
+      ...resolved.definition.skills.expertise, ...chosen.expertise,
+      ...effectGrants.skills.filter((g) => g.expertise).map((g) => g.value),
+    ].map(toProfSlug)),
   };
   const classes: DecisionLedger["classes"] = [];
 
