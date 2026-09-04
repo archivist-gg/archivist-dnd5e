@@ -606,7 +606,7 @@ function visitProficiencyChoices(
 
     // R4-G3b §8 arm (A): a CLASS-SLOT feat's own choices, persisted under `feat:<childId>` in the SAME level block
     // as the `feat` ref (the collectClassFeatAbilityPoints / resolver feat→spell namespace). This OVERTURNS the
-    // former fence F4 note in buildDecisionLedger: feat picks now FOLD, which is the point (they were burned).
+    // former DO-NOT-WIDEN note in buildDecisionLedger: feat picks now FOLD, which is the point (they were burned).
     for (const atLevel of Object.values(c.choices ?? {})) {
       const block = atLevel as Record<string, ChoiceValue> | undefined;
       const featRef = block?.feat;
@@ -897,13 +897,20 @@ export function buildDecisionLedger(resolved: ResolvedCharacter, ctx: DecisionCo
   // A STANDING FENCE HERE ONCE FORBADE THAT, and R4-G3b §8 OVERTURNED it
   // deliberately. The fence read: widening the walk would change what the sheet
   // FOLDS, not merely what the picker offers. It would, and that is now the
-  // POINT · every feat-authored `select-proficiency` pick (Skill Expert's
-  // expertise, Skilled's skills and tools, Weapon Master's weapons, both
-  // Resilient saves) was persisted, rendered `resolved`, and folded NOWHERE.
-  // REACHED is not yet COLLECTED for all of them: the walk now visits every one,
-  // but collectChosenProficiencies buckets only the skill/expertise, language and
-  // tool domains, so a `save` or `weapon` domain pick is visited and dropped
-  // until R4-G3b Task 5 adds those buckets.
+  // POINT · every feat-authored pick (Skill Expert's expertise, Skilled's skills
+  // and tools and both Resilient saves, all `select-proficiency`; Weapon Master's
+  // weapons, a `select-entity` with `entity_type:"weapon"`) was persisted,
+  // rendered `resolved`, and folded NOWHERE.
+  // REACHED is not yet COLLECTED for all of them, and the two survivors are
+  // dropped at two DIFFERENT places, both inside collectChosenProficiencies. A
+  // `domain:"save"` pick (Resilient) passes its kind check and dies at its domain
+  // dispatch, which buckets only skill/expertise, language and tool · there is NO
+  // `weapon` domain, the `select-proficiency` union being skill|tool|language|save.
+  // A feat's `select-entity` weapon pick (Weapon Master) never reaches that
+  // dispatch at all: it dies at the `choice.kind !== "select-proficiency"`
+  // early-return.
+  // R4-G3b §7 F5 (the `weapons` bucket) and F6 (the `saves` bucket), Task 5, add
+  // both.
   // The stated consequence is accepted and TESTED: a language or tool picked
   // under a feat now enters `chosen` -> `effective` and is EXCLUDED from a
   // sibling language/tool row (tests/pc-decision-feat-walk.test.ts, the CONTROL
