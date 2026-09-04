@@ -4,8 +4,8 @@
  *  "simple-weapon", "martial-melee-weapon", "any-armor", "shield", …) resolved
  *  by a nested select-entity. `gold` is gp folded into the bundle. */
 export type EquipmentGrant =
-  /** `contains_value` and `worth_value` are in COPPER (the converter's unit: `1500` = 15 gp); `display_name` is a
-   *  display override for a generic slug. Carried; read only by grantLabel (display_name) in this phase. */
+  /** `contains_value` (COPPER; `1500` = 15 gp) is seeded as gold by the plugin's starting-equipment seeder
+   *  (R4-G3b §9); `worth_value` is never seeded; `display_name` is read by grantLabel. */
   | { item: string; qty?: number; contains_value?: number; display_name?: string; worth_value?: number }
   | { category: string; qty?: number; display_name?: string }
   | { gold: number };
