@@ -280,6 +280,9 @@ export interface ResolvedSpell {
   /** Index of the originating equipment entry when this spell was granted by a
    *  per-instance item (e.g. a Spell Scroll). Absent for class/feat/race spells. */
   entryIndex?: number;
+  /** True ONLY for a row from character.spells.known (removable / toggleable);
+   *  absent on every grant · R4-G3b §5.2.7. */
+  persisted?: boolean;
 }
 
 export interface ResolvedClass {

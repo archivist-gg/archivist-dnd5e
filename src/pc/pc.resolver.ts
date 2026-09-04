@@ -23,6 +23,7 @@ import { resolveEntityForEntry, isItemEntity } from "./pc.slotting";
 import { wikilinkTailSlug } from "./pc.decision-engine";
 import { bareEntitySlug } from "../entities/slug";
 import { withResolvedActionCost } from "../schemas/feature-alias";
+import { collectAdditionalSpells } from "./pc.additional-spells";
 
 export interface ResolveResult {
   character: ResolvedCharacter;
@@ -184,7 +185,9 @@ export class PCResolver {
       const isCantrip = (entity.level ?? 0) === 0;
       const classSlug = n.classSlug ?? primaryCasterSlug;
       const prep = isCantrip || n.alwaysPrepared ? true : (n.preparedFlag ?? false);
-      spells.push({ entity, slug: n.slug, classSlug, source: n.source, prepared: prep, alwaysPrepared: n.alwaysPrepared });
+      // R4-G3b §5.2.7: `persisted` marks a row that LIVES in character.spells.known, so the sheet's
+      // remove / toggle controls act on something real. It is stamped here and by no other producer.
+      spells.push({ entity, slug: n.slug, classSlug, source: n.source, prepared: prep, alwaysPrepared: n.alwaysPrepared, persisted: true });
     }
 
     // Feat→spell application pass (3d). Feats such as Magic Initiate let the
@@ -229,6 +232,12 @@ export class PCResolver {
       })
       .find((a): a is Ability => a != null) ?? null;
     spells.push(...collectItemGrantedSpells(character, ownSpellcastingAbility, this.entities, warnings));
+
+    // R4-G3b §5: additional_spells grants from the RAW race / feat / class / subclass roots, resolved AFTER the persisted,
+    // feat and item copies so the character's own copy wins the dedupe (placement (B); background + optional-feature
+    // roots have zero in-slice carriers and are G8's).
+    spells.push(...collectAdditionalSpells({ race, feats, classes, totalLevel, ownAbility: ownSpellcastingAbility,
+      alreadyCollected: spells, entities: this.entities, warnings }));
 
     // 2024 Weapon Mastery: union the chosen weapon picks (bare slugs onto the
     // resolved character) and fold their display NAMES onto the Weapon-Mastery
@@ -392,8 +401,14 @@ export function collectItemGrantedSpells(
  * Collapses duplicate resolved spells (3d Minor #2 carry-forward + P4-T3 segmented
  * dedupe). A spell can be emitted more than once: it may be BOTH in
  * `character.spells.known` AND a feat pick, or a feat may be taken as both origin +
- * class-slot. A class-sourced copy owns a real DC via its `classSlug`, so it always
- * wins over a feat copy of the same slug; otherwise first-seen wins. Insertion order
+ * class-slot, or an `additional_spells` grant (R4-G3b §5) may name a spell the character
+ * already knows. A class-sourced copy owns a real DC via its `classSlug`, so it always
+ * wins over a feat copy of the same slug; otherwise the FIRST-SEEN copy holds the slot.
+ * Which copy holds the slot is not the whole answer, though: `alwaysPrepared` is OR-merged
+ * onto the winner in BOTH collision orders (R4-G3b §5.2.8), so a hand-added Bless that a
+ * subclass later grants stops counting against the prepared limit instead of counting
+ * forever. Only that flag (and the `prepared` it forces) crosses the merge; the winner
+ * keeps its own `source` / `classSlug` / `entryIndex` / `persisted`. Insertion order
  * is preserved (a later class copy replaces an earlier feat copy in place), so the
  * Spells section never renders duplicate rows while a legitimately class-known copy is
  * never lost. Item-source spells carry INSTANCE identity: they key by
@@ -407,8 +422,13 @@ export function dedupeResolvedSpells(spells: ResolvedSpell[]): ResolvedSpell[] {
     const key = s.source === "item" ? `${s.slug}#${s.entryIndex}` : s.slug;
     const existing = byKey.get(key);
     if (!existing) { byKey.set(key, s); continue; }
-    // Prefer a non-feat (class/known) copy: it carries a real class-owned DC.
-    if (existing.source === "feat" && s.source !== "feat") byKey.set(key, s);
+    // R4-G3b §5.2.8: an alwaysPrepared grant colliding with a non-flagged copy ORs the flag onto the winner, in
+    // BOTH orders, so an existing sheet never keeps counting a granted spell against its prepared limit.
+    if (existing.source === "feat" && s.source !== "feat") {
+      byKey.set(key, { ...s, alwaysPrepared: s.alwaysPrepared || existing.alwaysPrepared, prepared: s.prepared || existing.alwaysPrepared });
+    } else if (s.alwaysPrepared && !existing.alwaysPrepared) {
+      byKey.set(key, { ...existing, alwaysPrepared: true, prepared: true });
+    }
   }
   return [...byKey.values()];
 }
@@ -707,7 +727,13 @@ export function collectResolvedFeatures(
   if (background) {
     const bgFeature = background.feature;
     if (bgFeature) {
-      out.push({ feature: bgFeature, source: { kind: "background", slug: background.slug } });
+      // R4-G3b §5.2.10: the sixth `withResolvedActionCost` site. Zero shipped background features spell
+      // `action_cost` today; the wrap is here so an authored one routes like the race / class / subclass
+      // features beside it instead of silently losing its economy. The type argument is EXPLICIT because
+      // `BackgroundEntity.feature` is declared `{name, description, resources?}` and shares no property
+      // with the helper's weak constraint, so inference would refuse it; the value is a `Feature` either
+      // way (that is what `ResolvedFeature.feature` holds) and `<Feature>` is checked, not asserted.
+      out.push({ feature: withResolvedActionCost<Feature>(bgFeature), source: { kind: "background", slug: background.slug } });
     }
   }
 
