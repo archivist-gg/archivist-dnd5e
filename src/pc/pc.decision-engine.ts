@@ -897,10 +897,10 @@ export function buildDecisionLedger(resolved: ResolvedCharacter, ctx: DecisionCo
   // A STANDING FENCE HERE ONCE FORBADE THAT, and R4-G3b §8 OVERTURNED it
   // deliberately. The fence read: widening the walk would change what the sheet
   // FOLDS, not merely what the picker offers. It would, and that is now the
-  // POINT · every feat-authored pick (Skill Expert's expertise, Skilled's skills
-  // and tools and both Resilient saves, all `select-proficiency`; Weapon Master's
-  // weapons, a `select-entity` with `entity_type:"weapon"`) was persisted,
-  // rendered `resolved`, and folded NOWHERE.
+  // POINT · every feat-authored PROFICIENCY pick (Skill Expert's expertise,
+  // Skilled's skills and tools and both Resilient saves, all `select-proficiency`;
+  // Weapon Master's weapons, a `select-entity` with `entity_type:"weapon"`) was
+  // persisted, rendered `resolved`, and folded NOWHERE.
   // REACHED is not yet COLLECTED for all of them, and the two survivors are
   // dropped at two DIFFERENT places, both inside collectChosenProficiencies. A
   // `domain:"save"` pick (Resilient) passes its kind check and dies at its domain
