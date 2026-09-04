@@ -84,6 +84,7 @@
     "./pc/pc.types": "./src/pc/pc.types.ts",
     "./pc/roll-scope": "./src/pc/roll-scope.ts",
     "./pc/roll-tag-labels": "./src/pc/roll-tag-labels.ts",
+    "./pc/spell-source": "./src/pc/spell-source.ts",
     "./race/race.codec": "./src/race/race.codec.ts",
     "./race/race.parser": "./src/race/race.parser.ts",
     "./race/race.schema": "./src/race/race.schema.ts",
