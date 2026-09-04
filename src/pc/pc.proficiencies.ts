@@ -18,7 +18,9 @@ export type { ProficiencyEntry, ProficiencyOrigin } from "./pc.proficiency-grant
 /** Every bucket carries provenance (spec §7.1). `languages`/`tools` ARE
  *  {@link computeEffectiveProficiencies}' output, unmodified · `armor`/`weapons`
  *  are composed below from the raw grant walk, because they have no vocabulary
- *  constant to canonicalize against (spec §3.3's second rule). */
+ *  constant to canonicalize against (spec §3.3's second rule) · and for `weapons`
+ *  that grant walk is followed by the chosen `select-entity{weapon}` picks
+ *  (R4-G3b §7 F5), which land with origin `pick`. */
 export interface ProficiencyAggregate {
   armor: ProficiencyEntry[];
   weapons: ProficiencyEntry[];
@@ -68,6 +70,7 @@ export interface ProficiencySources {
   effectLanguages: ProficiencyGrant[];
   chosenLanguages: string[];         // from collectChosenProficiencies (flat, per-domain)
   chosenTools: string[];
+  chosenWeapons: string[];           // from collectChosenProficiencies.weapons (R4-G3b §7 F5: bare weapon slugs)
 }
 
 export function collectProficiencySources(resolved: ResolvedCharacter): ProficiencySources {
@@ -78,6 +81,7 @@ export function collectProficiencySources(resolved: ResolvedCharacter): Proficie
     ...g,
     chosenLanguages: chosen.languages,
     chosenTools: chosen.tools,
+    chosenWeapons: chosen.weapons,
   };
 }
 
@@ -99,14 +103,21 @@ export function aggregateProficiencies(resolved: ResolvedCharacter): Proficiency
     // Effect buckets go LAST: first-seen wins the dedupe key, so an existing
     // class or feat grant keeps its shipped spelling and label and the effect
     // only appends its source name. Reordering these silently relabels rows.
+    //
+    // The chosen weapon PICKS are the second argument, so they are seeded after
+    // every grant bucket: a weapon both granted and picked stays ONE row that
+    // keeps origin `grant` and its granting source(s) (R4-G3b §7 F5 · the same
+    // grants-then-picks order computeEffectiveProficiencies uses for the
+    // language and tool buckets). Armor passes none.
     armor: composeGrantEntries([src.classArmor, src.featArmor, src.effectArmor]),
-    weapons: composeGrantEntries([src.classWeaponFixed, src.classWeaponCategories, src.featWeapons, src.effectWeapons]),
+    weapons: composeGrantEntries([src.classWeaponFixed, src.classWeaponCategories, src.featWeapons, src.effectWeapons], src.chosenWeapons),
     tools: effective.tools,
     languages: effective.languages,
   };
 }
 
-/** Compose one armor/weapon display bucket from the raw grant walk.
+/** Compose one armor/weapon display bucket from the raw grant walk, plus (weapons
+ *  only) the chosen `select-entity{weapon}` picks passed as `picks`.
  *
  *  Armor and weapons have NO vocabulary constant, so spec §3.3's SECOND rule
  *  applies: `value` is the raw authored string and `label` is the module-private
@@ -125,8 +136,16 @@ export function aggregateProficiencies(resolved: ResolvedCharacter): Proficiency
  *  the display strings. Dropping it is a visible regression on a single-class
  *  sheet: the 2014 Fighter authors `armor: [shield, light, medium, heavy]` and
  *  renders "Heavy, Light, Medium, Shield". `<`/`>` on strings is the same
- *  UTF-16 code-unit comparison the default `sort()` used. */
-function composeGrantEntries(buckets: ProficiencyGrant[][]): ProficiencyEntry[] {
+ *  UTF-16 code-unit comparison the default `sort()` used.
+ *
+ *  PICKS are seeded into the SAME map after every grant bucket and share its key,
+ *  so first-seen still wins: a weapon that is both class-granted and picked stays
+ *  ONE row with origin `grant` and its granting source(s), and only an unmatched
+ *  pick mints a row · `{origin: "pick", sources: []}`, mirroring the shape
+ *  computeEffectiveProficiencies gives a language or tool pick (R4-G3b §7 F5).
+ *  They are seeded BEFORE the sort, so the bucket stays label-sorted as a whole.
+ *  `picks` defaults to `[]`, so the armor call is unchanged in behaviour. */
+function composeGrantEntries(buckets: ProficiencyGrant[][], picks: string[] = []): ProficiencyEntry[] {
   const byKey = new Map<string, ProficiencyEntry>();
   for (const bucket of buckets) {
     for (const g of bucket) {
@@ -143,6 +162,7 @@ function composeGrantEntries(buckets: ProficiencyGrant[][]): ProficiencyEntry[] 
       if (!existing.sources.includes(g.source)) existing.sources.push(g.source);
     }
   }
+  for (const v of picks) { const k = toProfSlug(v); if (!byKey.has(k)) byKey.set(k, { value: v, label: prettyName(v), sources: [], origin: "pick" }); }
   return [...byKey.values()].sort((a, b) => (a.label < b.label ? -1 : a.label > b.label ? 1 : 0));
 }
 

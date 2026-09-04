@@ -1,6 +1,7 @@
 import { describe, it, expect } from "vitest";
 import { collectChosenProficiencies } from "@archivist-gg/dnd5e/pc/pc.decision-engine";
 import { recalc } from "../src/pc/pc.recalc";
+import { aggregateProficiencies } from "../src/pc/pc.proficiencies";
 import type { ResolvedCharacter, ChoiceValue } from "@archivist-gg/dnd5e/pc/pc.types";
 import type { Choice } from "@archivist-gg/dnd5e/types/choice";
 
@@ -69,5 +70,34 @@ describe("CONTROL · filterToPool on a from-bearing class FEATURE skill row (the
   it("an off-pool pick is dropped (the id is NOT `skills`: that id is reserved for the synthesized entity-level row, pc.decision-engine.ts' own warning · Gate 2 confirmation r2 M-2)", () => {
     const r = fabricate({ featureChoices: [{ kind: "select-proficiency", id: "bonus-skill", count: 1, domain: "skill", from: ["arcana", "history"] }], classPersisted: { 1: { "bonus-skill": "stealth" } } });
     expect(collectChosenProficiencies(r).skills).toEqual([]);            // a CONTROL, green before Task 5 too; under M-33a (`const valid = vals;`): ["stealth"]
+  });
+});
+describe("F5 fix 1 · the chosen weapon picks reach the Proficiencies PANEL through the aggregate", () => {
+  it("Weapon Master's four picks are four `pick` rows, label-sorted, with no granting source", () => {
+    const r = fabricate({ feats: [WEAPON_MASTER], classPersisted: { 4: { feat: "[[phb-2014_feat_weapon-master]]", "feat:weapon": ["phb-2014_weapon_whip", "phb-2014_weapon_glaive", "phb-2014_weapon_lance", "phb-2014_weapon_net"] } } });
+    const w = aggregateProficiencies(r).weapons;
+    // RED FIRST before Task 5 fix 1 (01f90d1): read [] · the aggregate composed the four GRANT buckets only
+    expect(w.map((e) => e.label)).toEqual(["Glaive", "Lance", "Net", "Whip"]);
+    expect(w.map((e) => e.origin)).toEqual(["pick", "pick", "pick", "pick"]);
+    expect(w.map((e) => e.sources)).toEqual([[], [], [], []]);
+    expect(w.map((e) => e.value)).toEqual(["glaive", "lance", "net", "whip"]);
+  });
+  it("a weapon both class-granted and picked stays ONE row, origin `grant`, with the class in `sources`", () => {
+    const r = fabricate({ feats: [WEAPON_MASTER], classPersisted: { 4: { feat: "[[phb-2014_feat_weapon-master]]", "feat:weapon": ["phb-2014_weapon_whip", "phb-2014_weapon_glaive"] } } });
+    // classWeaponFixed reads c.entity.proficiencies.weapons.fixed with source = c.entity.name (pc.proficiency-grants.ts:86-91, measured)
+    (r.classes[0].entity as unknown as { proficiencies: unknown }).proficiencies = { weapons: { fixed: ["whip"] } };
+    const w = aggregateProficiencies(r).weapons;
+    // RED FIRST before Task 5 fix 1 (01f90d1): read ["Whip"] · the Glaive PICK never reached the aggregate
+    expect(w.map((e) => e.label)).toEqual(["Glaive", "Whip"]);
+    const whip = w.filter((e) => e.label === "Whip");
+    expect(whip).toHaveLength(1);                       // first-seen wins: every grant bucket runs before the picks
+    expect(whip[0].origin).toBe("grant");
+    expect(whip[0].sources).toEqual(["Fighter"]);
+  });
+  it("a weapon-mastery pick puts NO row on the panel (the exclusion reaches the aggregate)", () => {
+    const r = fabricate({ featureChoices: [MASTERY_CHOICE], classPersisted: { 1: { "weapon-mastery": ["srd-2024_weapon_greatsword", "srd-2024_weapon_maul", "srd-2024_weapon_whip"] } } });
+    // a CONTROL, green before Task 5 fix 1 too: the exclusion lives in collectChosenProficiencies (M-30),
+    // so the panel path inherits it rather than re-implementing it.
+    expect(aggregateProficiencies(r).weapons).toEqual([]);
   });
 });

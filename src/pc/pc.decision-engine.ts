@@ -968,9 +968,13 @@ export function buildDecisionLedger(resolved: ResolvedCharacter, ctx: DecisionCo
   // (Weapon Master) is taken by the `weapons` arm that runs BEFORE the
   // `choice.kind !== "select-proficiency"` early-return, `weapon-mastery`
   // excepted · collectChosenWeaponMasteries owns that id and it grants no
-  // proficiency. Both now fold through recalc onto the sheet, and NEITHER enters
-  // `effective` below (it has no weapon and no save member), so neither one
-  // excludes anything from a sibling row.
+  // proficiency. Where each one LANDS, exactly: a chosen WEAPON reaches the
+  // attack-row gate through recalc (profsForApply.weapons.specific) AND the
+  // sheet's Proficiencies panel through aggregateProficiencies, which seeds the
+  // picks into the weapons bucket with origin `pick` (R4-G3b Task 5 fix 1); a
+  // chosen SAVE reaches the saves block through recalc (saveProfs). NEITHER
+  // enters `effective` below (it has no weapon and no save member), so neither
+  // one excludes anything from a sibling row.
   // The stated consequence is accepted and TESTED: a language or tool picked
   // under a feat now enters `chosen` -> `effective` and is EXCLUDED from a
   // sibling language/tool row (tests/pc-decision-feat-walk.test.ts, the CONTROL
