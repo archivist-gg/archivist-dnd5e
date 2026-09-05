@@ -38,10 +38,14 @@ export const resourceSchema = z.object({
  *  2026-09-05 across both repos' `src` after plugin task T4 landed: the ENGINE still has
  *  exactly one, `pc/pc.pools.ts`'s
  *  owner-aware pool vote (R4-G4 §4.2.3, shipped by T2 with this key), which reads the
- *  id to pick `ResolvedPool.resource` and never spends it; the PLUGIN now has six, in four
- *  files: `renderSpendControl` (`components/actions/spend-control.ts`), which SPENDS it;
- *  the three row sites that gate that call, `PoolTab.row` and `PoolTab.blockCard`
- *  (`components/pool-tab.ts`) and `renderBoonRow` (`components/actions/boon-rows.ts`);
+ *  id to pick `ResolvedPool.resource` and never spends it; the PLUGIN now has SEVEN FUNCTIONS over
+ *  EIGHT code lines in four files (the unit matters: `grep -rn "consumes\.resource\|consumes?\.resource"
+ *  packages/obsidian/src` returns NINE lines, one of them docblock prose, and `consumeCost` reads the
+ *  field on two of the eight). They are: `renderSpendControl` (`components/actions/spend-control.ts`),
+ *  which SPENDS it; the four row sites that gate that call, `PoolTab.row`, `PoolTab.grantedRow` and
+ *  `PoolTab.blockCard` (`components/pool-tab.ts`, the row gated on the entry being SELECTED, the other
+ *  two unconditional because a granted entry is known by construction) and `renderBoonRow`
+ *  (`components/actions/boon-rows.ts`);
  *  `renderFeatureRow` (`components/actions/feature-rows.ts`), whose owner-and-spender rule
  *  decides between the row slot, the expand card and no control at all; and `consumeCost`
  *  (`components/pool-tab.ts`), the ONE Cost label the row sub-line and the block card now
