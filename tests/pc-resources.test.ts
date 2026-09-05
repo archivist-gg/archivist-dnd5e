@@ -1,5 +1,6 @@
-import { describe, it, expect } from "vitest";
+import { describe, it, expect, vi, beforeEach, afterEach } from "vitest";
 import { resourceLevelFor, resolveFeatureResources, resolveResourceIndex, poolSaveDC } from "../src/pc/pc.resources";
+import { __resetWarnOnceForTests } from "../src/dnd/warn-once";
 import type { ResolvedCharacter, ResolvedFeature, ResolvedPool, DerivedStats } from "../src/pc/pc.types";
 
 /** A Barbarian 5 / Fighter 5 whose Fighter has the Battle Master subclass. */
@@ -102,5 +103,42 @@ describe("poolSaveDC (R4-G4 §11.2)", () => {
     // so this fixture must own its it() for m33 to red at the FIRST assertion. Under m33 it reads 8 + 3 + mods.int(0) = 11.
     const caster = { classes: [{ entity: { slug: "fighter" }, level: 6, subclass: { slug: "ek", spellcasting: { ability: "int", caster_type: "third" } } }] } as unknown as ResolvedCharacter;
     expect(poolSaveDC(caster, derived, pool)).toBeNull();
+  });
+});
+
+describe("resolveResourceIndex · pool picks' own uses (R4-G4 §12)", () => {
+  const inv = (slug: string, uses: object | null) => ({ slug, entity: { slug, name: slug, uses } });
+  const resolved = {
+    totalLevel: 5, features: [],
+    classes: [{ entity: { slug: "warlock" }, level: 5, subclass: null }],
+    pools: [{ id: "invocations", label: "Eldritch Invocations", classIndex: 0, count: 2, anchorLevel: 1,
+      selected: [inv("hb_misty-visions", { max: 1, recharge: "short-rest" }), inv("hb_prose", { max: "as described", recharge: "long-rest" })],
+      grants: [inv("hb_granted", { max: "{cha_mod}", recharge: "long-rest" })], available: [] }],
+  } as unknown as ResolvedCharacter;
+
+  // The prose pick's `warnOnce` is this fixture's DESIGNED warning (asserted by count below), and BOTH
+  // cases walk the same fixture, so the spy is installed for the whole block: an unswallowed warn would
+  // print from a PASSING test, which the phase's pristine-output instrument counts as a defect.
+  let warn: ReturnType<typeof vi.spyOn>;
+  beforeEach(() => {
+    __resetWarnOnceForTests();
+    warn = vi.spyOn(console, "warn").mockImplementation(() => {});
+  });
+  afterEach(() => warn.mockRestore());
+
+  it("RED FIRST: a numeric or parseable `uses.max` becomes an index entry owned by the pool, at the owning class's level", () => {
+    const idx = resolveResourceIndex(resolved);
+    expect(idx.get("hb_misty-visions")).toMatchObject({ id: "hb_misty-visions", name: "hb_misty-visions", reset: "short-rest", maxFormula: "1",
+      owner: { kind: "pool", poolId: "invocations", poolLabel: "Eldritch Invocations", source: { kind: "class", slug: "warlock", level: 1 } } });
+    expect(idx.get("hb_granted")!.maxFormula).toBe("{cha_mod}");
+  });
+
+  it("a prose `uses.max` is skipped with one warning", () => {
+    // The warn count is asserted FIRST: it is the assertion the walk's `isValidMaxFormula` guard owns,
+    // and `has("hb_prose")` is false both before the walk exists and after (adapted from the brief's
+    // order so the discriminating expect leads).
+    const idx = resolveResourceIndex(resolved);
+    expect(warn).toHaveBeenCalledTimes(1);
+    expect(idx.has("hb_prose")).toBe(false);
   });
 });

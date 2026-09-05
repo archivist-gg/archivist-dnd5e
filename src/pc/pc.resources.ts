@@ -1,6 +1,8 @@
 import type { FeatureSource, ResolvedCharacter, ResolvedFeature, ResolvedPool, DerivedStats } from "./pc.types";
 import type { Resource, ResourceRecovery, ResourceDie, ResourceScaleStep, ResetTrigger } from "../types/resource";
 import { resolveSpellcasting } from "./pc.spellcasting";
+import { isValidMaxFormula } from "../dnd/resource-formula";
+import { warnOnce } from "../dnd/warn-once";
 
 /** The level a resource granted via `source` scales against (R4-G4 §6.2.4, ONE derivation): the
  *  character's level in the granting class; for a `subclass` source the level in the class that OWNS
@@ -96,11 +98,40 @@ export function resolveFeatureResources(features: ReadonlyArray<ResolvedFeature>
   return out;
 }
 
-/** The full index: the feature resources (T2) plus, from T7b, the pool picks' own `uses`. A pure
- *  function of `resolved.features` (+ `resolved.pools` from T7b); `computeRestPlan` derives it, the
- *  resolver stores it on `resolved.resources`, and a test pins the two equal. */
+/** The full index: the feature resources (`resolveFeatureResources`) plus the pool picks' own
+ *  `uses` (R4-G4 §12, LANDED at T7b). A pure function of `resolved.features` and `resolved.pools`,
+ *  each guarded `?? []` because the cast fixtures behind the rest suites in both repos carry
+ *  neither; `computeRestPlan` derives it per call and never reads `resolved.resources`, the
+ *  resolver stores it on `resolved.resources` after pools resolve, and the resolver suite pins the
+ *  stored index equal to a fresh derivation. */
 export function resolveResourceIndex(resolved: ResolvedCharacter): ResourceIndex {
-  return resolveFeatureResources(resolved.features ?? []);
+  const out = new Map<string, ResolvedResource>(resolveFeatureResources(resolved.features ?? []));
+  // R4-G4 §12: a pool pick's own `uses` never enters `resolved.features` (`collectResolvedFeatures`
+  // never walks `pools`), so the index walks the picks themselves. Measured 2026-09-05 over the
+  // converter corpus: 35 carriers, all optional-feature documents (21 invocation, 6 infusion, 6 rune,
+  // 1 pact boon, 1 renown), of which 31 carry a numeric `max` and 4 a prose one. The owner is the
+  // POOL, scaling at the OWNING class's level: `resourceLevelFor` finds that class by slug, so
+  // `level` on the source is decorative here and carries the pool's `anchorLevel`.
+  for (const pool of resolved.pools ?? []) {
+    const rc = resolved.classes[pool.classIndex];
+    const classSlug = rc?.entity?.slug;
+    if (!classSlug) continue;
+    for (const entry of [...pool.selected, ...pool.grants]) {
+      const uses = entry.entity.uses;
+      // A feature-declared resource of the same id keeps its owner: the feature half is walked first.
+      if (!uses || out.has(entry.slug)) continue;
+      const maxFormula = String(uses.max);
+      if (!isValidMaxFormula(maxFormula)) {
+        warnOnce(`pool-uses:${entry.slug}`, `optional feature "${entry.slug}" has a prose uses.max (${JSON.stringify(uses.max)}); no tracker`);
+        continue;
+      }
+      out.set(entry.slug, {
+        id: entry.slug, name: entry.entity.name, reset: uses.recharge, maxFormula,
+        owner: { kind: "pool", poolId: pool.id, poolLabel: pool.label, source: { kind: "class", slug: classSlug, level: pool.anchorLevel } },
+      });
+    }
+  }
+  return out;
 }
 
 /** 8 + prof + mod(ability) when the pool's owning class's subclass carries `spellcasting.ability` AND
