@@ -781,6 +781,7 @@ function proficiencyEntryFor(
   vocab: string[],
   origin: ProficiencyOrigin,
   sources: string[],
+  expertise?: boolean,
 ): ProficiencyEntry {
   const hit = matchPool(raw, vocab);
   const value = hit ? toProfSlug(hit) : raw;
@@ -789,7 +790,7 @@ function proficiencyEntryFor(
     : origin === "custom"
       ? raw                                     // USER-TYPED off-vocabulary: verbatim, preserve casing
       : humanizeProficiency(toProfSlug(raw));   // grant/pick prose: byte-identical to today's prettyName
-  return { value, label, sources, origin };
+  return { value, label, sources, origin, ...(expertise ? { expertise: true } : {}) };
 }
 
 /** The single primitive for "what languages/tools does this character actually
@@ -841,8 +842,8 @@ export function computeEffectiveProficiencies(
     const removes = ov?.remove ?? [];
 
     const byValue = new Map<string, ProficiencyEntry>();
-    const push = (raw: string, origin: ProficiencyOrigin, source?: string): void => {
-      const probe = proficiencyEntryFor(raw, vocab, origin, source ? [source] : []);
+    const push = (raw: string, origin: ProficiencyOrigin, source?: string, expertise?: boolean): void => {
+      const probe = proficiencyEntryFor(raw, vocab, origin, source ? [source] : [], expertise);
       const existing = byValue.get(probe.value);
       if (!existing) { byValue.set(probe.value, probe); return; }
       // Same value from more than one place: keep every source, strongest origin
@@ -850,6 +851,7 @@ export function computeEffectiveProficiencies(
       // "Thieves’ tools" (U+2019) and a 2024 Criminal's "thieves'-tools" fold to
       // one value with two granting entities (spec §7.2).
       if (source && !existing.sources.includes(source)) existing.sources.push(source);
+      if (expertise) existing.expertise = true;  // OR on merge, never first-wins (R4-G4 §9.2, Gate 0 I5)
       // Precedence guard. The push ORDER below already runs grants(0) -> picks(1)
       // -> adds(2/3), so this can never fire today: it is unreachable by
       // construction, kept as defence against a future reordering. There is
@@ -868,7 +870,11 @@ export function computeEffectiveProficiencies(
     const grantBuckets = domain === "languages"
       ? [grants.raceLangFixed, grants.bgLangFixed, grants.featLanguages, grants.effectLanguages]
       : [grants.classToolFixed, grants.bgToolFixed, grants.featTools, grants.effectTools];
-    for (const b of grantBuckets) for (const g of b) push(g.value, "grant", g.source);
+    // `g.expertise` is passed for BOTH domains, ungated: the flag rides the grant
+    // channel for whatever bucket authored it (R4-G4 §9.2). No language effect in
+    // the corpus carries it, and the panel renders whatever an entry declares, so
+    // a domain gate here would be an untested branch rather than a guard.
+    for (const b of grantBuckets) for (const g of b) push(g.value, "grant", g.source, g.expertise);
     for (const v of (domain === "languages" ? chosen.languages : chosen.tools)) push(v, "pick");
     for (const v of adds) push(v, matchPool(v, vocab) ? "manual" : "custom");
 

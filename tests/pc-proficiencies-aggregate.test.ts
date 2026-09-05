@@ -312,3 +312,44 @@ describe("aggregateProficiencies · feature-effect grants (R4-P3c)", () => {
     expect(longswords.sources).toEqual(["Rogue", "High Elf"]); // class first, effect LAST
   });
 });
+
+// ─────────────────────────────────────────────────────────────────────────────
+// R4-G4 §9.2 · tool expertise Tier A, through the AGGREGATE (the shape both
+// plugin consumers read: the sidebar panel and the proficiency modal).
+//
+// `makeResolved` above cannot author a feature EFFECT, so this fixture is a
+// cast, like the ones in tests/pc-proficiency-grants.test.ts. It exercises BOTH
+// tool grant paths at once on ONE value: the class `proficiencies.tools.fixed`
+// prose grant ("thieves' tools", plain) and the feature effect grant
+// ("thieves' tools" with `expertise: true`). They fold to one entry because
+// matchPool keys on toProfSlug, so the merge branch in `push` is the only thing
+// that can carry the flag through.
+// ─────────────────────────────────────────────────────────────────────────────
+describe("aggregateProficiencies · tool expertise (R4-G4 §9.2)", () => {
+  const rogueWithExpertise = {
+    classes: [{
+      entity: {
+        slug: "rogue", name: "Rogue",
+        proficiencies: { tools: { fixed: ["thieves' tools"] } },
+      },
+      subclass: null, level: 6, choices: {},
+    }],
+    feats: [], race: null, background: null, pools: [], state: {},
+    definition: { origin_choices: {}, overrides: {} },
+    features: [{
+      feature: {
+        id: "t", name: "Expertise",
+        effects: [{ kind: "proficiency", proficiency_type: "tool", value: "thieves' tools", expertise: true }],
+      },
+      source: { kind: "class", slug: "rogue" },
+    }],
+  } as unknown as ResolvedCharacter;
+
+  it("R4-G4 §9.2: the tools line carries expertise, and a plain grant then an expertise grant ORs to true", () => {
+    const tools = aggregateProficiencies(rogueWithExpertise).tools;
+    // The expertise read comes FIRST: the length check below would go red for
+    // the wrong reason if the two spellings ever stopped folding.
+    expect(tools[0]).toMatchObject({ value: "thieves'-tools", expertise: true, sources: ["Rogue"] });
+    expect(tools).toHaveLength(1);
+  });
+});

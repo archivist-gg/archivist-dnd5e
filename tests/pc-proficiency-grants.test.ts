@@ -144,3 +144,36 @@ describe("collectProficiencyGrants · pool boons reach the display buckets", () 
     expect(g.effectTools).toEqual([{ value: "tinker's-tools", source: "Reaver" }]);
   });
 });
+
+// R4-G4 §9.2 · tool expertise Tier A. The authored flag reaches the DISPLAY
+// grant channel, which is the one the panel and the proficiency modal read
+// (`effectTools` -> computeEffectiveProficiencies' push -> ProficiencyEntry).
+// The fold's skill-expertise set is a different route and stays skills-only.
+describe("collectProficiencyGrants · the authored expertise flag", () => {
+  it("R4-G4 §9.2: a tool effect with expertise: true reaches effectTools WITH the flag", () => {
+    const resolved = {
+      classes: [{ entity: { slug: "rogue", name: "Rogue" }, subclass: null, level: 6, choices: {} }],
+      feats: [], race: null, background: null, pools: [], state: {},
+      features: [traitGranting(
+        [{ kind: "proficiency", proficiency_type: "tool", value: "thieves' tools", expertise: true }],
+        "class", "rogue")],
+    } as never;
+    // `value` is the SLUG (toGrants maps `g.value` for the tool and language
+    // buckets) and toProfSlug RETAINS the apostrophe: "thieves' tools",
+    // "Thieves’ tools" and "thieves’ tools" all normalize to "thieves'-tools".
+    expect(collectProficiencyGrants(resolved).effectTools)
+      .toEqual([{ value: "thieves'-tools", source: "Rogue", expertise: true }]);
+  });
+
+  it("R4-G4 §9.2: a plain tool effect keeps the exact two-key shape, with no expertise key", () => {
+    const resolved = {
+      classes: [{ entity: { slug: "rogue", name: "Rogue" }, subclass: null, level: 1, choices: {} }],
+      feats: [], race: null, background: null, pools: [], state: {},
+      features: [traitGranting(
+        [{ kind: "proficiency", proficiency_type: "tool", value: "thieves' tools" }], "class", "rogue")],
+    } as never;
+    // ABSENT, not `false`: the flag is spread in only when true, so every
+    // pre-phase consumer keeps reading the shape it was written against.
+    expect(Object.keys(collectProficiencyGrants(resolved).effectTools[0])).toEqual(["value", "source"]);
+  });
+});

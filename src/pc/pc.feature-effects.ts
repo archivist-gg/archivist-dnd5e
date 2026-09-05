@@ -105,8 +105,12 @@ export interface FeatureEffectTotals {
    * `expertise: true`. An expertise skill is pushed to BOTH, so every consumer
    * that only knows about proficiency keeps working and recalc's `expSet` gains
    * one source. SKILLS ONLY (spec §7.2): a tool or language effect carrying
-   * `expertise: true` folds as a plain proficiency and never lands here, because
-   * nothing in the product has a tool or language tri-state to render it with.
+   * `expertise: true` folds as a plain proficiency and never lands here. It is
+   * not lost · since R4-G4 §9.2 the authored flag travels the GRANT channel
+   * instead (`EffectProficiencyGrant.expertise` -> `ProficiencyGrant.expertise`
+   * -> `ProficiencyEntry.expertise`), which is the channel the sheet panel and
+   * the proficiency modal read. Routing it here as well would put a value in the
+   * skill-expertise set that no skill key can ever match.
    */
   proficiencies: { skills: string[]; skillExpertise: string[]; tools: string[]; languages: string[]; saves: Ability[]; armor: string[]; weapons: string[] };
   /**
@@ -409,8 +413,10 @@ export interface EffectProficiencyGrant {
    * Set (to `true`) only when the granting effect carried `expertise: true`, and
    * ABSENT otherwise, so a plain grant keeps the exact four-key shape the two
    * display consumers already read. Reported for every bucket, unlike the fold,
-   * which routes skills only (spec §7.2) · a future tools/languages tri-state
-   * would read this rather than re-deriving it from the raw effects.
+   * which routes skills only (spec §7.2). CONSUMED since R4-G4 §9.2 by
+   * `toGrants` in pc.proficiency-grants.ts, which spreads it onto
+   * `ProficiencyGrant` for every bucket; the tools display is the one reader
+   * today, and it reads this rather than re-deriving it from the raw effects.
    */
   expertise?: boolean;
 }
@@ -508,12 +514,14 @@ function applyEffect(out: FeatureEffectTotals, eff: FeatureEffect, label: string
       } else {
         pushUnique(out.proficiencies[c.bucket], c.value);
       }
-      // SKILLS ONLY (spec §7.2). The expertise skill is now in BOTH lists: the
-      // plain push above keeps every proficiency-only consumer working, and this
-      // one is the second membership recalc's `expSet` reads. Tools carry the
-      // authored flag (the 2014 Rogue grants thieves'-tools expertise) but have
-      // no tri-state anywhere in the product, so routing them here would put a
-      // value in the skill-expertise set that no skill key can ever match.
+      // SKILLS ONLY here (spec §7.2). The expertise skill is now in BOTH lists:
+      // the plain push above keeps every proficiency-only consumer working, and
+      // this one is the second membership recalc's `expSet` reads. Tools carry
+      // the authored flag (the 2014 Rogue grants thieves'-tools expertise) on
+      // the GRANT channel (`ProficiencyGrant.expertise`, R4-G4 §9), which is the
+      // one the panel and the modal read; no `toolExpertise` bucket exists here
+      // by design, and routing tools into the skill-expertise set would put a
+      // value in it that no skill key can ever match.
       if (c.expertise && c.bucket === "skills") pushUnique(out.proficiencies.skillExpertise, c.value);
       break;
     }

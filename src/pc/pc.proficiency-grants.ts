@@ -15,10 +15,17 @@ export interface ProficiencyEntry {
    *  the effect bucket last so a first-seen entity grant keeps its own label). */
   sources: string[];
   origin: ProficiencyOrigin;
+  /** R4-G4 §9: tool expertise rides the grant channel (the ONE channel the panel
+   *  and the modal read); a manual tri (Tier B) can set or clear it. ABSENT
+   *  rather than `false` on a plain entry. */
+  expertise?: boolean;
 }
 
-/** One granted value plus the display name of the entity that granted it. */
-export interface ProficiencyGrant { value: string; source: string }
+/** One granted value plus the display name of the entity that granted it.
+ *  `expertise` is present (and `true`) only when the granting effect authored it
+ *  (R4-G4 §9.2), so a plain grant keeps the exact two-key shape every pre-phase
+ *  reader was written against. */
+export interface ProficiencyGrant { value: string; source: string; expertise?: boolean }
 
 export interface ProficiencyGrants {
   classArmor: ProficiencyGrant[];
@@ -161,8 +168,13 @@ export function collectProficiencyGrants(resolved: ResolvedCharacter): Proficien
   // armor/weapons take the RAW authored string (composeGrantEntries stores it as
   // ProficiencyEntry.value); tools/languages take the canonical slug, which is
   // what computeEffectiveProficiencies matches its vocabulary and suppressions on.
+  //
+  // The authored `expertise` flag rides along on EVERY bucket, and deliberately:
+  // `EffectProficiencyGrant.expertise` is reported for every bucket, and the ONE
+  // consumer today is the tools display (R4-G4 §9.2). The spread keeps a plain
+  // grant at exactly two keys, so nothing that reads the old shape moves.
   const toGrants = (list: EffectProficiencyGrant[], useRaw: boolean): ProficiencyGrant[] =>
-    list.map((g) => ({ value: useRaw ? g.raw : g.value, source: nameFor(g.sourceKind, g.sourceSlug) }));
+    list.map((g) => ({ value: useRaw ? g.raw : g.value, source: nameFor(g.sourceKind, g.sourceSlug), ...(g.expertise ? { expertise: true } : {}) }));
 
   const effectArmor = toGrants(fx.armor, true);
   const effectWeapons = toGrants(fx.weapons, true);
