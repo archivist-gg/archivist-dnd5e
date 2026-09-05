@@ -886,8 +886,13 @@ export function computeEffectiveProficiencies(
     // `expertise` beats a data grant, `none` suppresses it, `proficient` clears a
     // data expertise. A tri for a tool nothing granted PUSHES it, the same way the
     // skills tri sets proficiency on a skill the character had no claim to.
-    // The annotation on `tri` is load-bearing: `Object.entries` over a bare `{}`
-    // fallback resolves to the `[string, any]` overload and loses the tri union.
+    // `tri` is annotated to pin the shape at the read site; `Object.entries` already
+    // infers `[string, ProficiencyTri]` without it (measured with this repo's own
+    // `tsc`: strip the annotation, assign `state` to a `"zzz"` literal, and the error
+    // still names `ProficiencyTri`).
+    // The KEY is normalised on read, so a hand-edited note may spell it any way it
+    // likes; the plugin's writers emit `toProfSlug` output and repair a hand-typed key
+    // in place rather than adding a second one beside it.
     const triSuppressed = new Set<string>();
     if (domain === "tools") {
       const tri: Record<string, ProficiencyTri> = resolved.definition?.overrides?.tools?.proficiency ?? {};
@@ -905,7 +910,10 @@ export function computeEffectiveProficiencies(
     }
 
     // A `none` tri suppresses exactly as `remove` does · that is what makes the
-    // suppressed tool reappear in the override modal's candidate rows.
+    // suppressed tool reappear in the override modal's candidate rows. Built AFTER the
+    // tri branch, so a `remove` also beats an `expertise` tri on the same value: the tri
+    // sets the flag, then this filter drops the whole entry (measured: both together
+    // yield an empty tools set).
     const suppressed = new Set([...removes.map((r) => toProfSlug(r)), ...triSuppressed]);
     return [...byValue.values()]
       .filter((e) => !suppressed.has(toProfSlug(e.value)))

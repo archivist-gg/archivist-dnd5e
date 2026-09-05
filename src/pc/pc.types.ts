@@ -152,9 +152,14 @@ export interface CharacterOverrides {
    *  uses `?? []` (`?? {}` for the tools tri).
    *
    *  `tools.proficiency` is the per-tool manual tri (R4-G4 §9.3, UR1); `languages` deliberately
-   *  gets none. This line is the ONLY thing keeping the interface honest about it: the
-   *  `NoOverridesKeyDrift` pair below compares TOP-LEVEL keys only, so a sibling added to the
-   *  schema and not here is silently stripped on save. */
+   *  gets none. This line is the ONLY thing keeping the interface honest about it, and what it
+   *  buys is TYPE VISIBILITY, not survival: the `NoOverridesKeyDrift` pair below compares
+   *  TOP-LEVEL keys only, so a sibling added to the schema and not here ROUND-TRIPS at runtime
+   *  (the plugin's `characterToYaml` deep-clones and dumps the RUNTIME object, and `parsePC`
+   *  runs `characterSchema.safeParse`, which keeps a key the schema declares) while staying
+   *  UNTYPED, so no consumer can read or write it without a cast. That is the same direction the
+   *  parity block below states; the STRIPPED case is the other one, a key here that the schema
+   *  lacks. */
   languages?: { add?: string[]; remove?: string[] };
   tools?: { add?: string[]; remove?: string[]; proficiency?: Record<string, ProficiencyTri> };
   /** Manual defense edits, mirroring `characterOverridesShape` (pc.schema.ts). SUPPRESSION-ONLY:
