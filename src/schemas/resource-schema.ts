@@ -38,8 +38,9 @@ export const resourceSchema = z.object({
  *  2026-09-05 across both repos' `src`: the ENGINE has exactly one, `pc/pc.pools.ts`'s
  *  owner-aware pool vote (R4-G4 §4.2.3, shipped by T2 with this key), which reads the
  *  id to pick `ResolvedPool.resource` and never spends it; the PLUGIN has exactly two,
- *  the pool-tab Cost labels (`components/pool-tab.ts:209` / `:251`), which print the
- *  raw id as a word. Nothing SPENDS the field yet: R4-G4 §3's spend control on the
+ *  the two Cost labels in `components/pool-tab.ts`, one in `PoolTab`'s `blockCard` and
+ *  one in `metaSub`, which print the raw id as a word. Nothing SPENDS the field yet:
+ *  R4-G4 §3's spend control on the
  *  pool, boon and feature rows, which spends `amount` exactly through the clamped
  *  quantity-taking primitive the plugin already had, is plugin task T4 and is PENDING
  *  as of this commit. What R4-G4 does NOT do (§15): the HOW-MUCH UI for a range spend

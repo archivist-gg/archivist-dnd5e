@@ -11,9 +11,9 @@
  * '*' and '/' bind tighter than '+'/'-'. '/' is real division; wrap in ceil()/floor() for integer
  * results (e.g. "ceil({class_level}/2)"). "max(1, {cha_mod})" is how the data says "a minimum of once".
  * `AT_WILL_MAX` (999) is the at-will sentinel: it evaluates as the literal 999; R4-G4 T3 (§5) taught
- * the plugin's charge boxes to render "at will" for it instead of 999 boxes (the `atWill` branch at
- * `packages/obsidian/src/modules/pc/components/actions/charge-boxes.ts:55`, fed by the two feature
- * sites' `atWill: fu.max === AT_WILL_MAX` at `feature-rows.ts:214` and `:248`).
+ * the plugin's charge boxes to render "at will" for it instead of 999 boxes (the `opts.atWill` branch
+ * at the head of `renderChargeBoxes`, fed by the `atWill: fu.max === AT_WILL_MAX` opt both feature
+ * sites pass, `renderCardResource` and `renderFirstResourceTracker`).
  */
 export interface FormulaBindings {
   level: number;
@@ -190,10 +190,11 @@ export interface ScalableResource {
 /** The max-formula string in effect at `totalLevel`: the highest `scales_at` step whose level
  *  ≤ totalLevel (the FIRST declaration wins on a duplicate level; a `level: 0` step is skipped), else
  *  the base `max_formula`. Parse-free, so a die-string step comes back as the die string. Its one
- *  production caller, plugin `pc.resource-seed.ts:25`, moved to `resolveMaxCountAt` in R4-G4 T3, so it
- *  is now TEST-ONLY: zero callers in this repo's `src/` and zero in the plugin's
- *  `packages/obsidian/src/`, pinned by `tests/resource-formula.test.ts` here (`:43` / `:54`) and by the
- *  plugin's cross-repo file of the same name (`:113-128`). */
+ *  production caller, the plugin's `seedFeatureUses` (`pc.resource-seed.ts`), moved to
+ *  `resolveMaxCountAt` in R4-G4 T3, so it is now TEST-ONLY: zero callers in this repo's `src/` and zero
+ *  in the plugin's `packages/obsidian/src/`, pinned by this repo's `tests/resource-formula.test.ts`
+ *  (its Bardic-Die-2024 and duplicate-level-tie cases) and by the plugin's cross-repo file of the same
+ *  name (its `describe("resolveMaxAt")` block). */
 export function resolveMaxAt(totalLevel: number, resource: ScalableResource): string {
   let chosen = resource.max_formula;
   let best = 0;

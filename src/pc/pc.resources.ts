@@ -8,12 +8,12 @@ import { resolveSpellcasting } from "./pc.spellcasting";
  *  `resourceBindings` (pc.resource-seed.ts) binds `class_level` through this function, and R4-G4 T3
  *  (§6.2.4 / §6.2.5) routed the plugin's three former TOTAL-level reads through it too, so
  *  `class_level`, `scales_at` and the die can no longer disagree. The three reads live at three sites:
- *  the plugin SEED (`packages/obsidian/src/modules/pc/pc.resource-seed.ts:26`) calls this function
- *  directly for the level it hands `resolveMaxCountAt`, and the two DIE-LABEL sites
- *  (`packages/obsidian/src/modules/pc/components/actions/feature-rows.ts:205` and `:274`) reach it
- *  through that file's `resourceLevel(id, ctx)` helper (`:192`), which resolves the owner from
- *  `resolved.resources` and falls back to the total level when there is none. So a Barbarian 5 /
- *  Fighter 5 reads the level-5 Rage count, not the level-10 one. */
+ *  the plugin SEED (`seedFeatureUses` in `pc.resource-seed.ts`) calls this function directly for the
+ *  level it hands `resolveMaxCountAt`, and the two DIE-LABEL `resolveScalingDie` reads, one in
+ *  `renderCardResource` and one in `formatFeatureAttackNote` (plugin `components/actions/feature-rows.ts`),
+ *  reach it through that file's module-private `resourceLevel(id, ctx)` helper, which resolves the
+ *  owner from `resolved.resources` and falls back to the total level when there is none. So a
+ *  Barbarian 5 / Fighter 5 reads the level-5 Rage count, not the level-10 one. */
 export function resourceLevelFor(source: FeatureSource, resolved: ResolvedCharacter): number {
   if (source.kind === "class") {
     return resolved.classes.find((c) => c.entity?.slug === source.slug)?.level ?? resolved.totalLevel;

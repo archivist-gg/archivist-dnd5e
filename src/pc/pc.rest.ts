@@ -52,8 +52,9 @@ export function computeRestPlan(
   // R4-G4 §3.2.1: ONE walk over `resolved.features` in place of the per-key
   // `findResourceById` walks this function used to do. DERIVED here, never read off
   // `resolved.resources`: the cast fixtures behind the rest suites in both repos carry
-  // no `resources` field (dnd5e pc-rest-either.test.ts:28 / pc-rest-hp-modifier.test.ts:21,
-  // plugin tests/pc-rest-resource-reset.test.ts:19 and tests/fixtures/pc/rest-fixtures.ts),
+  // no `resources` field (their cast `ResolvedCharacter` literals: dnd5e tests/pc-rest-either.test.ts
+  // and tests/pc-rest-hp-modifier.test.ts, plugin tests/pc-rest-resource-reset.test.ts and
+  // tests/fixtures/pc/rest-fixtures.ts),
   // so `resolved.resources.get(key)` would throw there, and an optional-chained fallback
   // would let the byte-identical control pass vacuously.
   const index = resolveResourceIndex(resolved);

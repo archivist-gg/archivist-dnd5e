@@ -21,7 +21,8 @@ export interface PoolGrant {
 /** Presentation hint for a data-declared tab. `dice-pool` / `point-pool` are DERIVED from the
  *  members' `rendering_hint` at resolve time onto `ResolvedPool.layout` (pc/pool-layout.ts), and that
  *  derivation is UNCONDITIONAL: it runs whether or not the declaration carries a `layout`. The plugin
- *  reads only the AUTHORED value today (`tabs-container.ts:49`, `decl.renders.layout ?? "spell-like"`);
+ *  reads only the AUTHORED value today (`TabsContainer`'s dynamic-pool-tab loop,
+ *  `decl.renders.layout ?? "spell-like"`);
  *  R4-G4 T5 is what makes an authored layout win over the derived one THERE. The G5 families
  *  (pool-selection, granted-die-to-ally, stance) get their values when they get UI. */
 export type PoolLayout = "spell-like" | "blocks" | "dice-pool" | "point-pool";
