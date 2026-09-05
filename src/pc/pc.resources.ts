@@ -53,7 +53,17 @@ export type ResourceIndex = ReadonlyMap<string, ResolvedResource>;
  *  entry is a rest restore when its `reset` is `short-rest` or `long-rest` AND it carries no `action`,
  *  else manual (R4-G4 §7.2, invariant 12). The other rest-shaped triggers (`either`, `dawn`, `dusk`)
  *  read manual here: §7.1's partition of the 33 shipped entries has no carrier among them, and §15
- *  keeps the reset VOCABULARY of the rest arm deferred to G8. */
+ *  keeps the reset VOCABULARY of the rest arm deferred to G8.
+ *
+ *  BOTH arms it routes are LANDED as of R4-G4 T7, and its CALLERS are counted here rather than its
+ *  grep hits, because a docblock that names the function moves its own grep count. Measured
+ *  2026-09-05 on both trees: dnd5e has exactly ONE caller, `toResolvedResource` below, which STAMPS
+ *  the kind and the flavour onto every entry of every indexed resource, so `pushPartialRecoveries`
+ *  (pc.rest.ts) reads that stamp to emit the rest arm's partial category and never calls this
+ *  function itself; the plugin has exactly ONE, `renderRecoveryAction` (blocks/feature-card.ts),
+ *  which calls it directly and picks the card's arm from the KIND, then the FLAVOUR
+ *  (`grep -rn "resolveRecovery" packages/obsidian/src` returns THREE lines there: the import, that
+ *  call and one docblock mention). */
 export function resolveRecovery(entry: ResourceRecovery): ResolvedRecovery {
   const kind: RecoveryKind = entry.restores ?? "uses";
   const restTriggered = (entry.reset === "short-rest" || entry.reset === "long-rest") && !entry.action;

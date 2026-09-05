@@ -352,7 +352,11 @@ export interface ResolvedCharacter {
    *  `renderPoolHead` (`components/pool-tab.ts`, T5, reading the entry for the tab head's `name`,
    *  `die`, `reset` and owner: §4.2.6). §3.2.1 names its consumers: T3's `resourceLevel(id, ctx)`
    *  die helper (§6.2.4), T4's spend control and Cost label (§3.2.2 / §3.2.4) and T5's pool-tab
-   *  head, all LANDED, and still ahead, T7's restore affordance and T7b's pool-pick seed (§12.2).
+   *  head, all LANDED. T7's restore affordance has LANDED too and reads NOTHING here: its rest arm
+   *  walks the index `computeRestPlan` re-derives and its card arm routes on `resolveRecovery(rec)`
+   *  over the RAW `recovery[0]`, so the seven lines and four read expressions counted above are
+   *  still the count on the T7 plugin tree (same grep, re-run 2026-09-05 after T7's plugin commit).
+   *  Still ahead: T7b's pool-pick seed (§12.2).
    *  Each reaches it through `?.`, because the plugin's card / row fixtures cast a
    *  `ResolvedCharacter` with no index. `computeRestPlan` never reads it at all, it re-derives
    *  the index. */
