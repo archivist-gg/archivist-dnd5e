@@ -43,9 +43,14 @@ export const resourceSchema = z.object({
  *  packages/obsidian/src` returns NINE lines, one of them docblock prose, and `consumeCost` reads the
  *  field on two of the eight). They are: `renderSpendControl` (`components/actions/spend-control.ts`),
  *  which SPENDS it; the four row sites that gate that call, `PoolTab.row`, `PoolTab.grantedRow` and
- *  `PoolTab.blockCard` (`components/pool-tab.ts`, the row gated on the entry being SELECTED, the other
- *  two unconditional because a granted entry is known by construction) and `renderBoonRow`
- *  (`components/actions/boon-rows.ts`);
+ *  `PoolTab.blockCard` (`components/pool-tab.ts`) and `renderBoonRow`
+ *  (`components/actions/boon-rows.ts`). Their gates, measured 2026-09-05 with `grep -n` on
+ *  `pool-tab.ts`, are NOT the same test, because their callers differ: `row` is gated on the entry
+ *  being SELECTED (`renderSpellLike` sends it every available candidate), `blockCard` on the entry
+ *  being GRANTED OR SELECTED (`renderBlocks` sends it the available candidates, then the stranded
+ *  picks, then the grants), and `grantedRow` is UNCONDITIONAL because it is reached only by the loop
+ *  over `pool.grants`, as is `renderBoonRow`, which the plugin's `section-renderer.ts` reaches only
+ *  with a `kind` of "selected" or "granted". One rule, KNOWN entries only, expressed four ways;
  *  `renderFeatureRow` (`components/actions/feature-rows.ts`), whose owner-and-spender rule
  *  decides between the row slot, the expand card and no control at all; and `consumeCost`
  *  (`components/pool-tab.ts`), the ONE Cost label the row sub-line and the block card now
