@@ -1261,7 +1261,7 @@ export function buildDecisionLedger(resolved: ResolvedCharacter, ctx: DecisionCo
     // (variant refs like "Magic Initiate (Cleric)" fold to the base feat).
     if (resolved.background.origin_feat) {
       const originFeat = resolveOriginFeat(
-        ctx.registry as unknown as EntityRegistry, resolved.background.origin_feat);
+        ctx.registry as unknown as EntityRegistry, resolved.background.origin_feat, resolved.background.slug);
       if (originFeat) {
         const featSource: FeatureSource = { kind: "feat", slug: originFeat.feat.slug };
         const featBare = bareEntitySlug(originFeat.feat.slug);

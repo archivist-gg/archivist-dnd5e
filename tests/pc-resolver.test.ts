@@ -545,3 +545,52 @@ describe("resolved.resources (R4-G4 §3.2.1): the owner is the DECLARING feature
     expect(resolveResourceIndex(character)).toEqual(character.resources);
   });
 });
+
+describe("resolveOriginFeat · the seven-tier cascade (R4-G4 §8.2)", () => {
+  // The TOP-LEVEL `name` is load-bearing: `buildMockRegistry`'s `name ?? slug` default would
+  // otherwise name each feat after its SLUG, and `EntityRegistry.search` sorts by lowercased name
+  // (exact, then prefix, then a `localeCompare` tiebreak), so three differently-slugged Alerts
+  // would sort deterministically and the INSERTION order would never reach the cascade.
+  const withPath = (slug: string, name: string, compendium: string, filePath: string, extra: object = {}) =>
+    ({ slug, name, entityType: "feat", compendium, filePath, data: { slug, name, description: "d", ...extra } });
+  const SRD_MI = withPath("srd-2024_feat_magic-initiate", "Magic Initiate", "SRD 2024", "Compendium/SRD 2024/Feats/Magic Initiate.md",
+    { choices: [{ kind: "select-inline", id: "spell-list", count: 1, options: [] }] });
+  const PHB_MIC = withPath("players-handbook-2024_feat_magic-initiate-cleric", "Magic Initiate; Cleric", "Player's Handbook (2024)",
+    "Compendium/Player's Handbook (2024)/Feats/Magic Initiate; Cleric.md", { choices: [] });
+  const ACOLYTE = { ...ACOLYTE_BG, slug: "srd-2024_background_acolyte" };
+  const acolyteReg = (order: "srd-first" | "phb-first") => buildMockRegistry([
+    { slug: "srd-2024_background_acolyte", entityType: "background", compendium: "SRD 2024", filePath: "Compendium/SRD 2024/Backgrounds/Acolyte.md", data: ACOLYTE },
+    ...(order === "srd-first" ? [SRD_MI, PHB_MIC] : [PHB_MIC, SRD_MI]),
+  ]);
+
+  it("RED FIRST (the hijack): the PATH tier beats the tail tier, in BOTH insertion orders", () => {
+    for (const order of ["srd-first", "phb-first"] as const) {
+      const r = resolveOriginFeat(acolyteReg(order), ACOLYTE.origin_feat, ACOLYTE.slug);
+      expect(r?.feat.slug, order).toBe("srd-2024_feat_magic-initiate");
+      expect(r?.display, order).toBe("Magic Initiate (Cleric)");
+    }
+  });
+
+  it("RED FIRST (the order): three same-named Alert feats resolve to the SAME-COMPENDIUM one under both orders", () => {
+    const alerts = [
+      withPath("players-handbook-2024_feat_alert", "Alert", "Player's Handbook (2024)", "Compendium/Player's Handbook (2024)/Feats/Alert.md"),
+      withPath("srd-2024_feat_alert", "Alert", "SRD 2024", "Compendium/SRD 2024/Feats/Alert.md"),
+      withPath("srd-5e_feat_alert", "Alert", "SRD 5e", "Compendium/SRD 5e/Feats/Alert.md"),
+    ];
+    const CRIMINAL = { ...CRIMINAL_BG, slug: "srd-2024_background_criminal" };
+    for (const list of [alerts, [...alerts].reverse()]) {
+      const reg = buildMockRegistry([{ slug: CRIMINAL.slug, entityType: "background", compendium: "SRD 2024", filePath: "Compendium/SRD 2024/Backgrounds/Criminal.md", data: CRIMINAL }, ...list]);
+      // `reg`: tier 2 (PATH) HITS: the ref `[[SRD 2024/Feats/Alert]]` resolves against `Compendium/SRD 2024/Feats/Alert.md`.
+      // `noPath` moves every feat under `mock/`, so tiers 2 and 3 miss and tier 4 (same-compendium tail) decides.
+      // Both registries must agree under BOTH orders; do not "fix" the fixture paths, they are the point.
+      const noPath = buildMockRegistry([{ slug: CRIMINAL.slug, entityType: "background", data: CRIMINAL }, ...list.map((f) => ({ ...f, filePath: `mock/${f.slug}.md` }))]);
+      expect(resolveOriginFeat(noPath, CRIMINAL.origin_feat, CRIMINAL.slug)?.feat.slug).toBe("srd-2024_feat_alert");
+      expect(resolveOriginFeat(reg, CRIMINAL.origin_feat, CRIMINAL.slug)?.feat.slug).toBe("srd-2024_feat_alert");
+    }
+  });
+
+  it("homebrew degradation: a bare-slug ref on a homebrew background still resolves through tier 6 (any tail)", () => {
+    const reg = buildMockRegistry([{ slug: "hb_feat_alert", entityType: "feat", compendium: "Homebrew", data: { slug: "hb_feat_alert", name: "Alert" } }]);
+    expect(resolveOriginFeat(reg, "[[alert]]", "other_background_x")?.feat.slug).toBe("hb_feat_alert");
+  });
+});

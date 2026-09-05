@@ -49,42 +49,66 @@ export function stripSlug(ref: string | null): string | null {
  * resolve to the BASE feat ("magic-initiate") while keeping the full variant
  * string as the display name. Returns null when the ref is empty or resolves to no
  * feat (an unresolvable ref folds nothing into the pipeline).
+ *
+ * R4-G4 §8: this is a SEVEN-TIER cascade, first hit wins, and the granting
+ * BACKGROUND's slug arrives as `ownerSlug` so the compendium-scoped tiers can read
+ * its prefix. It replaces the old two-tier "exact slug, else FIRST tail match"
+ * lookup, whose two defects were measured on the shipped corpora: a tail match on a
+ * DIFFERENT real feat pre-empted the parenthetical strip (PHB 2024
+ * "Magic Initiate; Cleric", tail `magic-initiate-cleric`, beat SRD 2024
+ * "Magic Initiate" for every 2024 Acolyte / Sage, order-independently), and where
+ * several same-NAMED feats exist the registry order decided which one won
+ * (`EntityRegistry.search` sorts by lowercased name, so equal names fall through to
+ * insertion order).
  */
 export function resolveOriginFeat(
   entities: EntityRegistry,
-  originFeatRef: string | null,
+  originFeatRef: string | null | undefined,
+  ownerSlug?: string | null,
 ): { feat: FeatEntity; display: string } | null {
   if (!originFeatRef) return null;
   // Canonical 2024 backgrounds carry PATH-style wikilinks; the slugified tail is
   // the bare feat slug ("alert"). `wikilinkTailSlug` also yields the bare slug for
   // slug-style refs ("[[my-feat]]" → "my-feat"), so it handles both shapes.
   const slug = wikilinkTailSlug(originFeatRef);
+  // `inner` is the wikilink BODY, the vault-relative path the ref names; `rawTail`
+  // its last segment, and `base` that tail with ONE trailing parenthetical stripped
+  // ("Magic Initiate (Cleric)" → "Magic Initiate"). `baseInner` is `inner` with the
+  // tail swapped for `base`, so the stripped variant can be looked up BY PATH too.
+  const inner = originFeatRef.replace(/^\[\[/, "").replace(/\]\]$/, "").trim();
+  const rawTail = inner.split("/").pop()?.trim() ?? "";
+  const base = rawTail.replace(/\s*\([^()]*\)\s*$/, "").trim();
+  const baseSlug = base && base !== rawTail ? wikilinkTailSlug(`[[${base}]]`) : null;
+  const baseInner = baseSlug ? inner.slice(0, inner.length - rawTail.length) + base : null;
+  // The background's compendium prefix: `<prefix>_<entity_type>_<name>`. Measured
+  // 2026-09-05 over the converter corpus + the shipped bundle: 17,038 / 17,038 entity
+  // documents carrying both a slug and a compendium satisfy `prefix === slugify(compendium)`;
+  // homebrew satisfies it by construction, through the plugin's `buildHomebrewSlug`.
+  // A ref on an owner whose slug carries no `_` yields a null prefix, and tiers 4-5 no-op.
+  const prefix = ownerSlug?.includes("_") ? ownerSlug.slice(0, ownerSlug.indexOf("_")) : null;
   const feats = entities.search("", "feat", Number.POSITIVE_INFINITY);
-  // Prefer an EXACT full-slug match (covers bare-slug homebrew refs like
-  // "[[my-feat]]"), so a homebrew "homebrew_alert" can't shadow "srd-2024_alert"
-  // via the loose tail match. Fall back to the "<compendium>_<bare>" suffix match
-  // for compendium feats. First tail match wins (acceptable).
-  const lookup = (s: string): RegisteredEntity | undefined =>
-    feats.find((f) => f.slug === s) ?? feats.find((f) => f.slug.endsWith(`_${s}`));
-  let reg = lookup(slug);
-  // Variant fallback: canonical 2024 Acolyte/Sage carry parenthesized refs like
-  // "[[SRD 2024/Feats/Magic Initiate (Cleric)]]" whose tail slugifies to
-  // "magic-initiate-cleric", but the only real feat is "srd-2024_magic-initiate".
-  // Strip ONE trailing parenthetical from the RAW tail, re-slugify, and retry —
-  // resolving to the BASE feat while still naming the VARIANT in the display.
-  let variantName: string | undefined;
-  if (!reg) {
-    const rawTail = originFeatRef.replace(/^\[\[/, "").replace(/\]\]$/, "").split("/").pop()?.trim() ?? "";
-    const base = rawTail.replace(/\s*\([^()]*\)\s*$/, "").trim();
-    if (base && base !== rawTail) {
-      const baseReg = lookup(wikilinkTailSlug(`[[${base}]]`));
-      if (baseReg) {
-        reg = baseReg;
-        variantName = rawTail; // honest about which variant the background grants
-      }
-    }
-  }
+  // The PATH tiers read `filePath`. The first disjunct covers the `compendiumRoot` =
+  // vault-root edge (the file sits at exactly the ref's path); the second covers every
+  // rooted install ("Compendium/SRD 2024/Feats/Alert.md" for "SRD 2024/Feats/Alert").
+  const byPath = (p: string) => feats.find((f) => f.filePath === `${p}.md` || f.filePath.endsWith(`/${p}.md`));
+  const sameCompendiumTail = (s: string) => (prefix ? feats.find((f) => f.slug.startsWith(`${prefix}_feat_`) && f.slug.endsWith(`_${s}`)) : undefined);
+  const anyTail = (s: string) => feats.find((f) => f.slug.endsWith(`_${s}`));
+  const tiers: Array<() => RegisteredEntity | undefined> = [
+    () => feats.find((f) => f.slug === slug),                       // 1 exact slug
+    () => byPath(inner),                                             // 2 PATH
+    () => (baseInner ? byPath(baseInner) : undefined),               // 3 PATH, parenthetical stripped
+    () => sameCompendiumTail(slug),                                  // 4 same-compendium tail
+    () => (baseSlug ? sameCompendiumTail(baseSlug) : undefined),     // 5 same-compendium tail, stripped
+    () => anyTail(slug),                                             // 6 any tail
+    () => (baseSlug ? anyTail(baseSlug) : undefined),                // 7 any tail, stripped
+  ];
+  let reg: RegisteredEntity | undefined;
+  let hitTier = 0;
+  for (let i = 0; i < tiers.length && !reg; i++) { reg = tiers[i](); hitTier = i + 1; }
   if (!reg) return null;
+  // A paren-strip tier resolved the BASE feat, so the display stays honest about which
+  // VARIANT the background grants ("Magic Initiate (Cleric)", not "Magic Initiate").
+  const variantName = baseSlug && (hitTier === 3 || hitTier === 5 || hitTier === 7) ? rawTail : undefined;
   // Backfill the canonical registry slug when the body data omits it (custom
   // entities) — mirrors resolve()'s lookup() so the slug-dedupe and downstream
   // FeatureSource.slug never see undefined. SRD feats carry a body slug unchanged.
@@ -153,7 +177,7 @@ export class PCResolver {
     // resolved.features (renders + applies effects) AND, below, supplies its
     // spell picks to the feat→spell application pass (3d).
     const originFeat = background?.origin_feat
-      ? resolveOriginFeat(this.entities, background.origin_feat)
+      ? resolveOriginFeat(this.entities, background.origin_feat, background.slug)
       : null;
     // R4-G3b §8: the stamp lives OUTSIDE the de-dup guard below (Gate 0 B4) · the guard's body does not run
     // when the same feat is also a class-slot pick, and the origin arm must still find it.
@@ -756,6 +780,12 @@ export function collectResolvedFeatures(
   for (const feat of feats) {
     const bundled = (feat as unknown as { features?: Feature[] }).features ?? [];
     const entityEffects = feat.effects ?? [];
+    // R4-G4 §8: this `if (bundled.length > 0)` arm is DEAD on both shipped corpora. Measured
+    // 2026-09-05 over the converter output and the shipped compendium bundle: 0 of 306 feat
+    // documents (287 + 19) carry a top-level `features` key, so `bundled` is always empty and
+    // the `else` arm below (the ONE synthesized feature per feat) is the live arm every shipped
+    // feat takes. The arm is kept for a homebrew feat that bundles features; G4 changes nothing
+    // else about it (§15: no T12 bundled-feat branch change beyond this docblock).
     if (bundled.length > 0) {
       bundled.forEach((f, i) => {
         // Entity-level feat effects AND the entity-level action cost (R4-G3a §10.2.3) ride the

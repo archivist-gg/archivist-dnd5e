@@ -1,6 +1,7 @@
 import { describe, it, expect } from "vitest";
 import { PCResolver, dedupeResolvedSpells } from "../src/pc/pc.resolver";
 import { buildDecisionLedger } from "../src/pc/pc.decision-engine";
+import yaml from "js-yaml";
 import { buildMockRegistry } from "./mock-entity-registry";
 import type { Character, ResolvedSpell } from "../src/pc/pc.types";
 
@@ -509,5 +510,292 @@ describe("PCResolver · item-granted spells (scroll → resolved.spells)", () =>
     const item = character.spells.find((s) => s.source === "item");
     expect(item).toBeDefined();
     expect(item!.ability).toBe("int"); // wizard's own ability; never the fighter's "str"
+  });
+});
+
+/**
+ * R4-G4 §8 e2e · the five bundle entities this case needs, copied BYTE-VERBATIM out of the fenced
+ * yaml block of the file named on each const, as the shipped plugin bundle held them on 2026-09-05.
+ *
+ * Why copies and not the real files: this suite lives in the dnd5e package, which ships to npm and does
+ * not contain `.compendium-bundle` at all. Reading it would need a hard-coded absolute path into a sibling
+ * working copy, and NO dnd5e test reads outside its own repo. The in-repo precedent is
+ * `tests/feature-alias-action-cost.test.ts`'s BUNDLE_CARRIERS, which copies its blocks verbatim and names the
+ * source file in a comment; this follows it. What that costs, stated plainly: nothing here can notice the
+ * bundle changing; every assertion below is about the cascade applied to the blocks as copied.
+ */
+// source: `.compendium-bundle/SRD 2024/Backgrounds/Acolyte.md`
+const ACOLYTE_YAML = String.raw`
+slug: srd-2024_background_acolyte
+name: Acolyte
+edition: '2024'
+source: SRD 5.2
+description: ''
+skill_proficiencies:
+  - insight
+  - religion
+tool_proficiencies:
+  - kind: fixed
+    items:
+      - calligrapher's-supplies
+language_proficiencies:
+  - kind: fixed
+    languages:
+      - common
+equipment:
+  - kind: choice
+    options:
+      - label: Calligrapher's Supplies, Book (Prayers), Holy Symbol, 10 sheets Parchment, Robe, and 8 GP
+        grants:
+          - gold: 8
+      - label: 50 GP
+        grants:
+          - gold: 50
+feature:
+  name: Background Feature
+  description: (No description provided.)
+ability_score_increases:
+  pool:
+    - int
+    - wis
+    - cha
+origin_feat: '[[SRD 2024/Feats/Magic Initiate (Cleric)]]'
+suggested_characteristics: null
+choices:
+  - kind: ability-points
+    id: abilities
+    points: 3
+    max_per: 2
+    pool:
+      - int
+      - wis
+      - cha
+  - kind: select-proficiency
+    id: languages
+    count: 2
+    domain: language
+`;
+// source: `.compendium-bundle/SRD 2024/Feats/Magic Initiate.md`
+const SRD_MI_YAML = String.raw`
+slug: srd-2024_feat_magic-initiate
+name: Magic Initiate
+edition: '2024'
+source: SRD 5.2
+description: You gain the following benefits.
+category: origin
+prerequisites: []
+benefits:
+  - You learn two cantrips of your choice from the Cleric, Druid, or Wizard spell list. Intelligence, Wisdom, or Charisma is your spellcasting ability for this feat's spells (choose when you select this feat).
+  - Choose a level 1 spell from the same list you selected for this feat's cantrips. You always have that spell prepared. You can cast it once without a spell slot, and you regain the ability to cast it in that way when you finish a Long Rest. You can also cast the spell using any spell slots you have.
+  - Whenever you gain a new level, you can replace one of the spells you chose for this feat with a different spell of the same level from the chosen spell list.
+  - You can take this feat more than once, but you must choose a different spell list each time.
+repeatable: true
+effects: []
+grants_asi: null
+choices:
+  - kind: select-inline
+    id: spell-list
+    count: 1
+    options:
+      - value: cleric
+        label: Cleric
+        choices:
+          - kind: select-entity
+            id: mi-cantrips
+            count: 2
+            entity_type: spell
+            where:
+              list: cleric
+              level: 0
+              edition: '2024'
+          - kind: select-entity
+            id: mi-level1
+            count: 1
+            entity_type: spell
+            where:
+              list: cleric
+              level: 1
+              edition: '2024'
+      - value: druid
+        label: Druid
+        choices:
+          - kind: select-entity
+            id: mi-cantrips
+            count: 2
+            entity_type: spell
+            where:
+              list: druid
+              level: 0
+              edition: '2024'
+          - kind: select-entity
+            id: mi-level1
+            count: 1
+            entity_type: spell
+            where:
+              list: druid
+              level: 1
+              edition: '2024'
+      - value: wizard
+        label: Wizard
+        choices:
+          - kind: select-entity
+            id: mi-cantrips
+            count: 2
+            entity_type: spell
+            where:
+              list: wizard
+              level: 0
+              edition: '2024'
+          - kind: select-entity
+            id: mi-level1
+            count: 1
+            entity_type: spell
+            where:
+              list: wizard
+              level: 1
+              edition: '2024'
+  - kind: select-inline
+    id: spellcasting-ability
+    count: 1
+    options:
+      - value: int
+        label: Intelligence
+      - value: wis
+        label: Wisdom
+      - value: cha
+        label: Charisma
+`;
+// source: `.compendium-bundle/SRD 2024/Spells/Guidance.md`
+const GUIDANCE_YAML = String.raw`
+slug: srd-2024_spell_guidance
+name: Guidance
+edition: '2024'
+source: SRD 5.2
+level: 0
+school: divination
+casting_time: action
+range: Touch
+components: V, S
+duration: 1 minute
+concentration: true
+ritual: false
+description: You touch a willing creature and choose a skill. Until the spell ends, the creature adds 1d4 to any ability check using the chosen skill.
+classes:
+  - cleric
+  - druid
+`;
+// source: `.compendium-bundle/SRD 2024/Spells/Sacred Flame.md`
+const SACRED_FLAME_YAML = String.raw`
+slug: srd-2024_spell_sacred-flame
+name: Sacred Flame
+edition: '2024'
+source: SRD 5.2
+level: 0
+school: evocation
+casting_time: action
+range: 60 feet
+components: V, S
+duration: instantaneous
+concentration: false
+ritual: false
+description: Flame-like radiance descends on a creature that you can see within range. The target must succeed on a Dexterity saving throw or take 1d8 Radiant damage. The target gains no benefit from Half Cover or Three-Quarters Cover for this save.
+classes:
+  - cleric
+at_higher_levels:
+  - The damage increases by 1d8 when you reach levels 5 (2d8), 11 (3d8), and 17 (4d8).
+damage:
+  types:
+    - radiant
+saving_throw:
+  ability: dexterity
+casting_options:
+  - type: player_level_5
+    damage_roll: 2d8
+  - type: player_level_11
+    damage_roll: 3d8
+  - type: player_level_17
+    damage_roll: 4d8
+`;
+// source: `.compendium-bundle/SRD 2024/Spells/Bless.md`
+const BLESS_YAML = String.raw`
+slug: srd-2024_spell_bless
+name: Bless
+edition: '2024'
+source: SRD 5.2
+level: 1
+school: enchantment
+casting_time: action
+range: 30 feet
+components: V, S, M (a Holy Symbol worth 5+ GP)
+duration: 1 minute
+concentration: true
+ritual: false
+description: You bless up to three creatures within range. Whenever a target makes an attack roll or a saving throw before the spell ends, the target adds 1d4 to the attack roll or save.
+classes:
+  - cleric
+  - paladin
+at_higher_levels:
+  - You can target one additional creature for each spell slot level above 1.
+casting_options:
+  - type: slot_level_2
+    target_count: 2
+  - type: slot_level_3
+    target_count: 3
+  - type: slot_level_4
+    target_count: 4
+  - type: slot_level_5
+    target_count: 5
+  - type: slot_level_6
+    target_count: 6
+  - type: slot_level_7
+    target_count: 7
+  - type: slot_level_8
+    target_count: 8
+  - type: slot_level_9
+    target_count: 9
+`;
+
+describe("R4-G4 §8 e2e (the RED the .cjs measured 2026-09-04): a PHB 2024 'Magic Initiate; Cleric' beside the bundle", () => {
+  // The registry entries carry `compendium` + `filePath` because the cascade's tiers 2-5 read them (§8.2).
+  const ent = (slug: string, name: string, entityType: string, compendium: string, filePath: string, data: unknown) =>
+    ({ slug, name, entityType, compendium, filePath, data, readonly: true, homebrew: false });
+  const acolyte = ent("srd-2024_background_acolyte", "Acolyte", "background", "SRD 2024", "Compendium/SRD 2024/Backgrounds/Acolyte.md", yaml.load(ACOLYTE_YAML));
+  const srdMI = ent("srd-2024_feat_magic-initiate", "Magic Initiate", "feat", "SRD 2024", "Compendium/SRD 2024/Feats/Magic Initiate.md", yaml.load(SRD_MI_YAML));
+  const spells = ([
+    ["srd-2024_spell_guidance", "Guidance", GUIDANCE_YAML],
+    ["srd-2024_spell_sacred-flame", "Sacred Flame", SACRED_FLAME_YAML],
+    ["srd-2024_spell_bless", "Bless", BLESS_YAML],
+  ] as const).map(([slug, name, y]) => ent(slug, name, "spell", "SRD 2024", `Compendium/SRD 2024/Spells/${name}.md`, yaml.load(y)));
+  // the PHB entry: a bundle-level feat with EMPTY choices (what the converter emits for the per-list variants)
+  const phbMIC = ent("players-handbook-2024_feat_magic-initiate-cleric", "Magic Initiate; Cleric", "feat", "Player's Handbook (2024)",
+    "Compendium/Player's Handbook (2024)/Feats/Magic Initiate; Cleric.md",
+    { slug: "players-handbook-2024_feat_magic-initiate-cleric", name: "Magic Initiate; Cleric", description: "", choices: [] });
+  // verbatim from research/C-red-originfeat-e2e.cjs (the fighter is a stub; the character is the Acolyte with the three picks)
+  const fighter = ent("srd-2024_class_fighter", "Fighter", "class", "SRD 2024", "F",
+    { slug: "srd-2024_class_fighter", name: "Fighter", skill_choices: { count: 0, from: [] }, features_by_level: {}, starting_equipment: [] });
+  const character = () => ({
+    name: "T", edition: "2024", race: null, subrace: null, background: "[[srd-2024_background_acolyte]]",
+    class: [{ name: "[[srd-2024_class_fighter]]", level: 1, subclass: null, choices: {} }],
+    abilities: { str: 10, dex: 10, con: 10, int: 10, wis: 10, cha: 10 }, ability_method: "manual",
+    skills: { proficient: [], expertise: [] }, spells: { known: [], overrides: [] }, equipment: [], overrides: {},
+    origin_choices: {
+      "background:feat:spell-list": "cleric",
+      "background:feat:mi-cantrips": [spells[0].slug, spells[1].slug],
+      "background:feat:mi-level1": spells[2].slug,
+      "background:feat:spellcasting-ability": "wis",
+    },
+    state: { hp: { current: 1, max: 1, temp: 0 }, hit_dice: {}, spell_slots: {}, concentration: null, conditions: [], exhaustion: 0, inspiration: 0, feature_uses: {} },
+  }) as unknown as Character;
+  const run = (extra: unknown[]) =>
+    new PCResolver(buildMockRegistry([acolyte, srdMI, fighter, ...spells, ...extra] as never)).resolve(character());
+
+  it("CONTROL: bundle only, the three feat spells resolve", () => {
+    expect(run([]).character.spells.filter((s) => s.source === "feat")).toHaveLength(3);
+  });
+
+  it("RED FIRST: with the PHB entry registered the three feat spells SURVIVE and no warning is raised", () => {
+    const { character: r, warnings } = run([phbMIC]);
+    expect(r.spells.filter((s) => s.source === "feat")).toHaveLength(3);   // today: 0, silently
+    expect(warnings).toHaveLength(0);
   });
 });
