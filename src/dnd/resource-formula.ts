@@ -205,12 +205,13 @@ export function resolveMaxAt(totalLevel: number, resource: ScalableResource): st
 /** The max COUNT in effect at `level`: the highest `scales_at` step at or below `level` whose `max`
  *  PARSES under the DSL, else the base `max_formula` if it parses, else null. Ties break exactly as
  *  `resolveMaxAt` breaks them (the FIRST declaration at a duplicate level wins, a `level: 0` step is
- *  skipped), so a duplicate-level `scales_at` pair cannot make the count and the die label pick
- *  different STEPS. Which step they pick is all they share: a step that does not parse
- *  is a die size (Bardic Die 2024: "1d8" at 5), not a count, and is skipped HERE while `resolveMaxAt`
- *  still returns it, which is exactly the intended divergence; a base that does not
- *  parse (Sneak Attack "1d6") is a damage die, correctly no tracker. `resolveMaxAt` keeps the
- *  parse-free string lookup; see its docblock for the pending R4-G4 T3 hand-over of its one
+ *  skipped), so a duplicate-level pair of PARSING steps cannot make the count and the die label pick
+ *  different steps; where one member of the pair is a die string they DO pick different steps
+ *  (`[{level:3,max:"1d8"},{level:3,max:"3"}]` at 3 reads 3 here and "1d8" there), which is the same
+ *  parse-vs-string divergence described next. A step that does not parse is a die size (Bardic Die
+ *  2024: "1d8" at 5), not a count, and is skipped HERE while `resolveMaxAt` still returns it; a base
+ *  that does not parse (Sneak Attack "1d6") is a damage die, correctly no tracker. `resolveMaxAt`
+ *  keeps the parse-free string lookup; see its docblock for the pending R4-G4 T3 hand-over of its one
  *  production caller. */
 export function resolveMaxCountAt(level: number, resource: ScalableResource, bindings: FormulaBindings): number | null {
   const tryEval = (s: string): number | null => {
