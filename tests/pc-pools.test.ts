@@ -1,10 +1,14 @@
 import { describe, it, expect } from "vitest";
 import { resolvePool, resolveAllPools, type PoolRegistry } from "../src/pc/pc.pools";
 import type { ResolvedCharacter, ResolvedClass } from "../src/pc/pc.types";
+import type { ResolvedResource } from "../src/pc/pc.resources";
 
 /** The pools these fixtures resolve own no resources, so the owner-aware intersection
- *  (R4-G4 §4.2.3) has nothing to match and `resource` stays undefined on every one. */
-const NO_INDEX = new Map();
+ *  (R4-G4 §4.2.3) has nothing to match and `resource` stays undefined on every one.
+ *  Typed, not a bare `new Map()` (review M-6): a bare one infers `Map<any, any>`, which stays
+ *  assignable to `ReadonlyMap<string, ResolvedResource>` through the `any`s, so the legacy call
+ *  sites below would keep compiling if the index's key or value type changed under them. */
+const NO_INDEX = new Map<string, ResolvedResource>();
 
 function of(slug: string, ft: string, levelMin?: number) {
   return {

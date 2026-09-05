@@ -34,18 +34,21 @@ export const resourceSchema = z.object({
 /** A feature's / optional feature's resource spend.
  *
  *  `amount` is the MINIMUM spend. When `amount_max` is present the spend is a
- *  RANGE (`amount` .. `amount_max`). R4-G4 §3 gives `consumes.resource` its first
- *  reader beyond the two label sites: the spend control on the pool, boon and
- *  feature rows, which spends `amount` exactly through the clamped quantity-taking
- *  primitive the plugin already had. That control is PENDING as of this commit
- *  (plugin task T4); this commit ships only the dnd5e half it reads, the resource
- *  index in pc/pc.resources.ts. What R4-G4 does NOT do (§15): the HOW-MUCH UI for a
- *  range spend and its validation rule stay G8, and the converter un-withhold that
- *  would emit `amount_max` at all is a G7 handoff. So `amount_max` stays DECLARED
- *  here only, with zero emitted carriers, and the refine is undefined-safe by
- *  construction so the corpus that ships without the key keeps parsing: 294
- *  `Feature.consumes` carriers over 161 documents, plus 70 `OptionalFeature.consumes`
- *  documents (R4-G3a §9; an unguarded refine refuses all 231, measured). */
+ *  RANGE (`amount` .. `amount_max`). Readers of `consumes.resource`, measured
+ *  2026-09-05 across both repos' `src`: the ENGINE has exactly one, `pc/pc.pools.ts`'s
+ *  owner-aware pool vote (R4-G4 §4.2.3, shipped by T2 with this key), which reads the
+ *  id to pick `ResolvedPool.resource` and never spends it; the PLUGIN has exactly two,
+ *  the pool-tab Cost labels (`components/pool-tab.ts:209` / `:251`), which print the
+ *  raw id as a word. Nothing SPENDS the field yet: R4-G4 §3's spend control on the
+ *  pool, boon and feature rows, which spends `amount` exactly through the clamped
+ *  quantity-taking primitive the plugin already had, is plugin task T4 and is PENDING
+ *  as of this commit. What R4-G4 does NOT do (§15): the HOW-MUCH UI for a range spend
+ *  and its validation rule stay G8, and the converter un-withhold that would emit
+ *  `amount_max` at all is a G7 handoff. So `amount_max` stays DECLARED here only, with
+ *  zero emitted carriers, and the refine is undefined-safe by construction so the
+ *  corpus that ships without the key keeps parsing: 294 `Feature.consumes` carriers
+ *  over 161 documents, plus 70 `OptionalFeature.consumes` documents (R4-G3a §9; an
+ *  unguarded refine refuses all 231, measured). */
 export const resourceConsumptionSchema = z.object({
   source: z.enum(["resource", "class-column", "attack-dice"]).optional(),
   resource: z.string().optional(),

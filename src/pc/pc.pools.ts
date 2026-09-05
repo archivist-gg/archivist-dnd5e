@@ -107,6 +107,12 @@ export function resolvePool(
   }
   let resource: string | undefined;
   let bestN = 0;
+  // ASYMMETRIC with derivePoolLayout ON PURPOSE (review M-4): the layout resolves a tie to `undefined`
+  // (§4.2.2, Gate 0 Q8), this vote resolves one by insertion order, because §4.2.3 says only "the
+  // majority AMONG THOSE wins" and names no tie rule. Measured 2026-09-05: a 1/1 tie between two OWNED
+  // ids returns the id the FIRST voting member of `[...available, ...grants]` carried, silently. Live
+  // exposure is nil (a character owns one superiority-dice id, not two); a second owned id would need
+  // §4.2.3 to gain a tie rule first.
   for (const [id, n] of votes) if (n > bestN) { resource = id; bestN = n; }
   return {
     id: pool.id, label: pool.label, classIndex, count, anchorLevel, selected, available, grants,

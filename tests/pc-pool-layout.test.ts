@@ -20,4 +20,13 @@ describe("derivePoolLayout (R4-G4 §4.2.2)", () => {
   it("a TIE between two mapped values → undefined, the honest answer (Gate 0 Q8)", () => {
     expect(derivePoolLayout([hinted("a", "dice-pool"), hinted("b", "point-pool")])).toBeUndefined();
   });
+  it("an Object.prototype key is an UNMAPPED hint, not a vote (review M-2)", () => {
+    // `rendering_hint` is a free `z.string().optional()` on converter data, so a member can carry any
+    // string. A plain-object table answers "constructor" and "toString" through the PROTOTYPE chain, so
+    // an inherited function passed the truthiness guard: one junk member suppressed a real dice-pool
+    // majority into a phantom tie, and a lone junk member voted a FUNCTION as the layout.
+    expect(derivePoolLayout([hinted("a", "dice-pool"), hinted("b", "constructor")])).toBe("dice-pool");
+    expect(derivePoolLayout([hinted("a", "constructor")])).toBeUndefined();
+    expect(derivePoolLayout([hinted("a", "toString"), hinted("b", "hasOwnProperty")])).toBeUndefined();
+  });
 });
