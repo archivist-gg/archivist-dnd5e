@@ -16,8 +16,8 @@ export interface ProficiencyEntry {
   sources: string[];
   origin: ProficiencyOrigin;
   /** R4-G4 §9: tool expertise rides the grant channel (the ONE channel the panel
-   *  and the modal read); a manual tri (Tier B) can set or clear it. ABSENT
-   *  rather than `false` on a plain entry. */
+   *  and the modal read); spec §9.3's manual tri (Tier B, Task 10) is its planned
+   *  second writer. ABSENT rather than `false` on a plain entry. */
   expertise?: boolean;
 }
 

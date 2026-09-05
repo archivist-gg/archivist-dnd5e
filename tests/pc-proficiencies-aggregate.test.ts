@@ -352,4 +352,29 @@ describe("aggregateProficiencies · tool expertise (R4-G4 §9.2)", () => {
     expect(tools[0]).toMatchObject({ value: "thieves'-tools", expertise: true, sources: ["Rogue"] });
     expect(tools).toHaveLength(1);
   });
+
+  it("R4-G4 §9.2: a manual add of the SAME tool afterwards does not clear the flag", () => {
+    // The `if (expertise)` sub-predicate in `push`'s merge branch, isolated. The
+    // push order is grants, then picks, then `overrides.<domain>.add`, so this
+    // manual add lands on the value LAST, carrying no flag of its own. Assigning
+    // the parameter unconditionally instead of guarding it would clear an
+    // expertise the effect grant had already set, and the test above cannot see
+    // that: deleting the whole line reds it, so the sub-predicate rides in free
+    // (review I-1, mutant m27b).
+    //
+    // `overrides.tools.add` is the key the Proficiencies modal writes
+    // (`addProficiency` in the plugin's pc.edit-state). That writer will not push
+    // a value that is ALREADY effective, so this pairing arrives the way its own
+    // override docblock says such pairings do: the manual add is made first (no
+    // Rogue yet, or not yet level 6) and the grant appears later, when class,
+    // level or feats change under it. A hand-edited character file reaches it
+    // directly, and a tool PICK of the same value is a second later-push route
+    // through the very same merge branch.
+    const resolved = {
+      ...rogueWithExpertise,
+      definition: { origin_choices: {}, overrides: { tools: { add: ["thieves' tools"] } } },
+    } as unknown as ResolvedCharacter;
+    expect(aggregateProficiencies(resolved).tools[0].expertise).toBe(true);
+    expect(aggregateProficiencies(resolved).tools).toHaveLength(1);
+  });
 });
