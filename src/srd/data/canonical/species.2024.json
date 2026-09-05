@@ -664,7 +664,7 @@
             "id": "orc:adrenaline-rush",
             "name": "Adrenaline Rush",
             "max_formula": "prof",
-            "reset": "short-rest"
+            "reset": "either"
           }
         ]
       },

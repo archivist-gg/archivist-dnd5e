@@ -39,7 +39,7 @@ class_features:
     resources:
       - id: "bard:bardic-inspiration"
         name: Bardic Inspiration
-        max_formula: "{cha_mod}"
+        max_formula: "max(1, {cha_mod})"
         die: { base: d6, scaling: { 5: d8, 10: d10, 15: d12 } }
         reset: short-rest
   # Cleric
@@ -63,7 +63,7 @@ class_features:
         name: Arcane Recovery
         max_formula: "1"
         reset: long-rest
-        recovery: [{ id: "wizard:arcane-recovery-slots", name: "Recover spell slots", amount: "ceil({class_level}/2)", reset: long-rest }]
+        recovery: [{ id: "wizard:arcane-recovery-slots", name: "Recover spell slots", amount: "ceil({class_level}/2)", reset: long-rest, restores: spell-slots }]
   # Druid -- 2014 Wild Shape: 2 uses, regain on a short or long rest (no scaling
   # on the base class; Circle of the Moon subclass changes this, not modeled here).
   wild-shape:
@@ -86,7 +86,7 @@ class_features:
     resources:
       - id: "paladin:cleansing-touch"
         name: Cleansing Touch
-        max_formula: "{cha_mod}"
+        max_formula: "max(1, {cha_mod})"
         reset: long-rest
   # Warlock -- Eldritch Master: 1/long-rest recovery of Pact Magic slots.
   eldritch-master:
@@ -805,6 +805,9 @@ races:
     # Dwarf's +2 Con is NOT repeated here. See the known-partial note above.
     ability_score_increases:
       - { ability: wis, amount: 1 }
+    # R4-G4 spec 14: the parent Dwarf's list. This flattened subrace carries no
+    # Languages trait of its own, so the prose extraction emitted `fixed: []`.
+    languages: { fixed: [common, dwarvish] }
   # Elf, and its High Elf subrace
   elf:
     # "Your Dexterity score increases by 2."
@@ -814,6 +817,9 @@ races:
     # "Your Intelligence score increases by 1." Own increment only.
     ability_score_increases:
       - { ability: int, amount: 1 }
+    # R4-G4 spec 14: the parent Elf's list. This flattened subrace carries no
+    # Languages trait of its own, so the prose extraction emitted `fixed: []`.
+    languages: { fixed: [common, elvish] }
   # Gnome, and its Rock Gnome subrace
   gnome:
     # "Your Intelligence score increases by 2."
@@ -823,6 +829,9 @@ races:
     # "Your Constitution score increases by 1." Own increment only.
     ability_score_increases:
       - { ability: con, amount: 1 }
+    # R4-G4 spec 14: the parent Gnome's list. This flattened subrace carries no
+    # Languages trait of its own, so the prose extraction emitted `fixed: []`.
+    languages: { fixed: [common, gnomish] }
   # Half-Orc
   half-orc:
     # "Your Strength score increases by 2, and your Constitution score increases by 1."
@@ -838,6 +847,9 @@ races:
     # "Your Charisma score increases by 1." Own increment only.
     ability_score_increases:
       - { ability: cha, amount: 1 }
+    # R4-G4 spec 14: the parent Halfling's list. This flattened subrace carries no
+    # Languages trait of its own, so the prose extraction emitted `fixed: []`.
+    languages: { fixed: [common, halfling] }
   # Tiefling
   tiefling:
     # "Your Intelligence score increases by 1, and your Charisma score increases by 2."

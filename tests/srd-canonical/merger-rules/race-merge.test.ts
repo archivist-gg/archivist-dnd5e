@@ -443,3 +443,38 @@ describe("race-merge: overlay-authored ability score increases (R4-P4)", () => {
     expect(without.ability_score_increases).toEqual([]);
   });
 });
+
+// R4-G4 Task 2b (spec 14): the four flattened SRD 5e subraces (Hill Dwarf, High
+// Elf, Rock Gnome, Lightfoot) carry NO Languages trait of their own, so the prose
+// extraction emits `{ fixed: [] }` for each · measured on the shipped bundle
+// 2026-09-05, where all four read `languages: fixed: []` while their parents read
+// their two languages. The overlay says the parent's list instead, which needs the
+// FOUR-PART plumbing to hold together: overlay.schema.ts's raceOverrideSchema, the
+// HAND-WRITTEN RaceOverride mirror in race-merge.ts, the merger's read of it, and
+// the write into the canonical race. A miss in the mirror alone is SILENT.
+describe("race-merge: overlay-authored languages (R4-G4)", () => {
+  it("R4-G4: an entity-level `languages.fixed` override reaches the canonical race (schema + mirror + merger read + write)", () => {
+    const ov = { races: { "hill-dwarf": { languages: { fixed: ["common", "dwarvish"] } } } };
+    const result = toRaceCanonical(baseEntry({
+      slug: "srd-5e_race_hill-dwarf",
+      edition: "2014",
+      base: { key: "srd_hill-dwarf", name: "Hill Dwarf", is_subspecies: true, subspecies_of: { name: "Dwarf", key: "srd_dwarf" }, desc: "...", traits: [] },
+      overlay: raceMergeRule.pickOverlay(ov as never, "srd-5e_race_hill-dwarf") as never,
+    }));
+    expect(result.languages).toEqual({ fixed: ["common", "dwarvish"] });
+  });
+
+  it("R4-G4: without an override the prose extraction still owns languages", () => {
+    const ov = { races: {} };
+    const result = toRaceCanonical(baseEntry({
+      slug: "srd-5e_race_dwarf",
+      edition: "2014",
+      base: {
+        key: "srd_dwarf", name: "Dwarf", is_subspecies: false, subspecies_of: null, desc: "...",
+        traits: [{ name: "Languages", desc: "You can speak, read, and write Common and Dwarvish.", type: null, order: null }],
+      },
+      overlay: raceMergeRule.pickOverlay(ov as never, "srd-5e_race_dwarf") as never,
+    }));
+    expect(result.languages).toEqual({ fixed: ["common", "dwarvish"] });
+  });
+});

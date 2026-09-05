@@ -720,7 +720,10 @@
     "age": "",
     "alignment": "",
     "languages": {
-      "fixed": []
+      "fixed": [
+        "common",
+        "elvish"
+      ]
     },
     "variant_label": "base",
     "traits": [
@@ -792,7 +795,10 @@
     "age": "",
     "alignment": "",
     "languages": {
-      "fixed": []
+      "fixed": [
+        "common",
+        "dwarvish"
+      ]
     },
     "variant_label": "base",
     "traits": [
@@ -905,7 +911,10 @@
     "age": "",
     "alignment": "",
     "languages": {
-      "fixed": []
+      "fixed": [
+        "common",
+        "halfling"
+      ]
     },
     "variant_label": "base",
     "traits": [
@@ -938,7 +947,10 @@
     "age": "",
     "alignment": "",
     "languages": {
-      "fixed": []
+      "fixed": [
+        "common",
+        "gnomish"
+      ]
     },
     "variant_label": "base",
     "traits": [

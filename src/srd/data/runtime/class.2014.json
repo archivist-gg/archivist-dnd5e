@@ -974,7 +974,7 @@
             {
               "id": "bard:bardic-inspiration",
               "name": "Bardic Inspiration",
-              "max_formula": "{cha_mod}",
+              "max_formula": "max(1, {cha_mod})",
               "die": {
                 "base": "d6",
                 "scaling": {
@@ -1063,7 +1063,7 @@
             {
               "id": "bard:bardic-inspiration",
               "name": "Bardic Inspiration",
-              "max_formula": "{cha_mod}",
+              "max_formula": "max(1, {cha_mod})",
               "die": {
                 "base": "d6",
                 "scaling": {
@@ -1121,7 +1121,7 @@
             {
               "id": "bard:bardic-inspiration",
               "name": "Bardic Inspiration",
-              "max_formula": "{cha_mod}",
+              "max_formula": "max(1, {cha_mod})",
               "die": {
                 "base": "d6",
                 "scaling": {
@@ -1194,7 +1194,7 @@
             {
               "id": "bard:bardic-inspiration",
               "name": "Bardic Inspiration",
-              "max_formula": "{cha_mod}",
+              "max_formula": "max(1, {cha_mod})",
               "die": {
                 "base": "d6",
                 "scaling": {
@@ -4022,7 +4022,7 @@
             {
               "id": "paladin:cleansing-touch",
               "name": "Cleansing Touch",
-              "max_formula": "{cha_mod}",
+              "max_formula": "max(1, {cha_mod})",
               "reset": "long-rest"
             }
           ]
@@ -7006,7 +7006,8 @@
                   "id": "wizard:arcane-recovery-slots",
                   "name": "Recover spell slots",
                   "amount": "ceil({class_level}/2)",
-                  "reset": "long-rest"
+                  "reset": "long-rest",
+                  "restores": "spell-slots"
                 }
               ]
             }

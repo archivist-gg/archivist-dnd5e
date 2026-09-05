@@ -45,7 +45,7 @@ class_features:
     resources:
       - id: "bard:bardic-inspiration"
         name: Bardic Inspiration
-        max_formula: "{cha_mod}"
+        max_formula: "max(1, {cha_mod})"
         die: { base: d6, scaling: { 5: d8, 10: d10, 15: d12 } }
         reset: short-rest
   # Channel Divinity -- SHARED base pool. Feature-slug keying means this single
@@ -96,14 +96,14 @@ class_features:
     resources:
       - id: "ranger:tireless"
         name: Tireless
-        max_formula: "{wis_mod}"
+        max_formula: "max(1, {wis_mod})"
         reset: long-rest
   natures-veil:
     action_cost: bonus-action
     resources:
       - id: "ranger:natures-veil"
         name: Nature's Veil
-        max_formula: "{wis_mod}"
+        max_formula: "max(1, {wis_mod})"
         reset: long-rest
   # Sorcerer (2024)
   innate-sorcery:
@@ -144,7 +144,7 @@ class_features:
         name: Arcane Recovery
         max_formula: "1"
         reset: long-rest
-        recovery: [{ id: "wizard:arcane-recovery-slots", name: "Recover spell slots", amount: "ceil({class_level}/2)", reset: long-rest }]
+        recovery: [{ id: "wizard:arcane-recovery-slots", name: "Recover spell slots", amount: "ceil({class_level}/2)", reset: long-rest, restores: spell-slots }]
 
   # ===================================================================
   # Decision data (SP2 Plan 3) -- player choices carried as `choices`.
@@ -444,7 +444,7 @@ class_features:
     resources:
       - id: "fiend-patron:dark-ones-own-luck"
         name: Dark One's Own Luck
-        max_formula: "{cha_mod}"
+        max_formula: "max(1, {cha_mod})"
         reset: short-rest
   # Warrior of the Open Hand (Monk) -- Wholeness of Body
   wholeness-of-body:
@@ -452,7 +452,7 @@ class_features:
     resources:
       - id: "warrior-of-the-open-hand:wholeness-of-body"
         name: Wholeness of Body
-        max_formula: "{wis_mod}"
+        max_formula: "max(1, {wis_mod})"
         reset: long-rest
 
   # ===================================================================
@@ -928,14 +928,17 @@ race_traits:
           - value: storms-thunder
             label: Storm's Thunder (Storm Giant)
             description: When you take damage from a creature within 60 feet of you, you can take a Reaction to deal 1d8 Thunder damage to that creature.
-  # Orc (2024) -- Adrenaline Rush, PB uses / short or long rest.
+  # Orc (2024) -- Adrenaline Rush: PB uses, regain ALL on a Short OR Long Rest
+  # (the trait's own prose, shipped in SRD 2024/Races/Orc.md). The note shipped
+  # `reset: short-rest`, the closest value at the time; R4-G4 spec 14 flips it to
+  # `either`, a resetTriggerEnum member (src/schemas/resource-schema.ts:3).
   adrenaline-rush:
     action_cost: bonus-action
     resources:
       - id: "orc:adrenaline-rush"
         name: Adrenaline Rush
         max_formula: "prof"
-        reset: short-rest
+        reset: either
 
   # ===================================================================
   # Species trait decision data (SP2 Plan 3). race_traits keys are BARE

@@ -78,7 +78,11 @@ type FixedAsi = Extract<RaceCanonical["ability_score_increases"][number], { abil
 /** Entity-level race override from the overlay `races:` section. NOT zod-inferred ·
  *  this is the hand-written mirror of overlay.schema.ts's raceOverrideSchema, so it
  *  has to be widened by hand whenever that schema grows a field. */
-type RaceOverride = { choices?: Choice[]; ability_score_increases?: FixedAsi[] };
+type RaceOverride = {
+  choices?: Choice[];
+  ability_score_increases?: FixedAsi[];
+  languages?: { fixed: string[] };   // R4-G4 spec 14 · mirrors raceOverrideSchema.languages
+};
 
 export const raceMergeRule: MergeRule = {
   kind: "race",
@@ -228,7 +232,12 @@ export function toRaceCanonical(entry: CanonicalEntry): RaceCanonical {
     ability_score_increases: raceOverride?.ability_score_increases ?? [],
     age,
     alignment,
-    languages,
+    // R4-G4 spec 14: an overlay-authored fixed list replaces the prose extraction
+    // (the four flattened subraces have no Languages trait of their own · measured
+    // 2026-09-05 on the shipped bundle, where Hill Dwarf, High Elf, Rock Gnome and
+    // Lightfoot all read `languages: fixed: []` and carry no Languages trait, while
+    // their parents carry both the trait and their two languages).
+    languages: raceOverride?.languages ?? languages,
     variant_label: "base",
     traits,
     ...(raceOverride?.choices ? { choices: raceOverride.choices } : {}),

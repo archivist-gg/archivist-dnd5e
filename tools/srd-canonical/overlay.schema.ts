@@ -78,6 +78,8 @@ const classOverrideSchema = z.object({
 const raceOverrideSchema = z.object({
   choices: z.array(choiceSchema).optional(),
   ability_score_increases: z.array(fixedAsiSchema).optional(),
+  // R4-G4 spec 14: the four flattened SRD 5e subraces lost their parent's languages; the overlay says them.
+  languages: z.object({ fixed: z.array(z.string().min(1)) }).strict().optional(),
 }).strict();
 
 // Background entity-level override: the entity-level `choices` array

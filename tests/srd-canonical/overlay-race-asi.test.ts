@@ -68,4 +68,17 @@ describe("real overlay: authored SRD-2014 species ability score increases (R4-P4
       { kind: "select-proficiency", id: "languages", domain: "language", count: 1 },
     ]);
   });
+
+  // R4-G4 Task 2b (spec 14): the four flattened SRD 5e subraces carry no Languages
+  // trait of their own, so the prose extraction emitted `{ fixed: [] }` for each
+  // (measured on the shipped bundle 2026-09-05). The overlay now authors the
+  // parent's list, taken from the SRD 5.1 text: Dwarf "Common and Dwarvish", Elf
+  // "Common and Elvish", Gnome "Common and Gnomish", Halfling "Common and Halfling".
+  it("R4-G4: the four flattened subraces author their parent's languages", async () => {
+    const ov = await loadOverlay(OVERLAY);
+    expect(ov.races?.["hill-dwarf"]?.languages).toEqual({ fixed: ["common", "dwarvish"] });
+    expect(ov.races?.["high-elf"]?.languages).toEqual({ fixed: ["common", "elvish"] });
+    expect(ov.races?.["rock-gnome"]?.languages).toEqual({ fixed: ["common", "gnomish"] });
+    expect(ov.races?.["lightfoot"]?.languages).toEqual({ fixed: ["common", "halfling"] });
+  });
 });

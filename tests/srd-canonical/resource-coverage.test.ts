@@ -156,6 +156,7 @@ describe("2024 Wizard Arcane Recovery carries the recovery resource", () => {
       id: "wizard:arcane-recovery-slots",
       amount: "ceil({class_level}/2)",
       reset: "long-rest",
+      restores: "spell-slots",
     });
   });
 
@@ -166,7 +167,29 @@ describe("2024 Wizard Arcane Recovery carries the recovery resource", () => {
     expect(res.recovery?.[0]).toMatchObject({
       id: "wizard:arcane-recovery-slots",
       amount: "ceil({class_level}/2)",
+      restores: "spell-slots",
     });
+  });
+
+  // R4-G4 Task 2b (spec 14): the six bare-modifier pools are clamped to a minimum
+  // of one use, which every one of them states in its own shipped prose ("(a
+  // minimum of once)" in SRD 5e, "(minimum of once)" in SRD 2024, both measured
+  // 2026-09-05 on the bundle). The clamp is authored in the overlays and only
+  // reaches the runtime data through a regen, so pin the emitted text here.
+  it("R4-G4: the six min-1 clamps read max(1, ...) in the runtime data", () => {
+    const ids = ["bard:bardic-inspiration", "paladin:cleansing-touch", "ranger:tireless", "ranger:natures-veil",
+      "fiend-patron:dark-ones-own-luck", "warrior-of-the-open-hand:wholeness-of-body"];
+    const all = [...collectRawResources("class", "2014"), ...collectRawResources("class", "2024"), ...collectRawResources("subclass", "2024")];
+    // measured 2026-09-05 over src/srd/data/runtime: bard 2014 4 (the SRD 5e Bard feature
+    // repeats per level), cleansing-touch 1, bard 2024 1, tireless 1, natures-veil 1,
+    // dark-ones-own-luck 1, wholeness-of-body 1 = 10 (Gate 2 M-5: the total is pinned so a
+    // regression from 10 to 6 cannot pass)
+    expect(all.filter((x) => ids.includes((x.resource as { id?: string }).id ?? "")).length).toBe(10);
+    for (const id of ids) {
+      const hits = all.filter((x) => (x.resource as { id?: string }).id === id);
+      expect(hits.length, id).toBeGreaterThan(0);
+      for (const h of hits) expect((h.resource as { max_formula: string }).max_formula, id).toMatch(/^max\(1, \{(cha|wis)_mod\}\)$/);
+    }
   });
 });
 

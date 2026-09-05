@@ -327,7 +327,7 @@
             {
               "id": "fiend-patron:dark-ones-own-luck",
               "name": "Dark One's Own Luck",
-              "max_formula": "{cha_mod}",
+              "max_formula": "max(1, {cha_mod})",
               "reset": "short-rest"
             }
           ]
@@ -626,7 +626,7 @@
             {
               "id": "warrior-of-the-open-hand:wholeness-of-body",
               "name": "Wholeness of Body",
-              "max_formula": "{wis_mod}",
+              "max_formula": "max(1, {wis_mod})",
               "reset": "long-rest"
             }
           ]

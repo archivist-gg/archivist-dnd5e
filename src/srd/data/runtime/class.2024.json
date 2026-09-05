@@ -977,7 +977,7 @@
             {
               "id": "bard:bardic-inspiration",
               "name": "Bardic Inspiration",
-              "max_formula": "{cha_mod}",
+              "max_formula": "max(1, {cha_mod})",
               "die": {
                 "base": "d6",
                 "scaling": {
@@ -4638,7 +4638,7 @@
             {
               "id": "ranger:tireless",
               "name": "Tireless",
-              "max_formula": "{wis_mod}",
+              "max_formula": "max(1, {wis_mod})",
               "reset": "long-rest"
             }
           ]
@@ -4676,7 +4676,7 @@
             {
               "id": "ranger:natures-veil",
               "name": "Nature's Veil",
-              "max_formula": "{wis_mod}",
+              "max_formula": "max(1, {wis_mod})",
               "reset": "long-rest"
             }
           ]
@@ -6728,7 +6728,8 @@
                   "id": "wizard:arcane-recovery-slots",
                   "name": "Recover spell slots",
                   "amount": "ceil({class_level}/2)",
-                  "reset": "long-rest"
+                  "reset": "long-rest",
+                  "restores": "spell-slots"
                 }
               ]
             }
