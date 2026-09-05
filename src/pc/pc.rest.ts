@@ -1,6 +1,6 @@
 import type { EntityRegistry } from "@archivist-gg/core";
 import type { Character, DerivedStats, ResolvedCharacter } from "./pc.types";
-import type { ResetTrigger } from "../types/resource";
+import { resolveResourceIndex } from "./pc.resources";
 
 function resolveItemName(
   entry: Character["equipment"][number],
@@ -12,23 +12,6 @@ function resolveItemName(
   // `EntityRegistry.getBySlug(slug): RegisteredEntity | undefined` — `RegisteredEntity`
   // has `name: string`. See `@archivist-gg/core`'s entity-registry.
   return registry.getBySlug(slug)?.name;
-}
-
-/**
- * First resource across all resolved features whose id matches `id`. The
- * returned `label` prefers the resource's own name, falling back to the owning
- * feature's name (resources synthesised from older fixtures may omit `name`).
- */
-function findResourceById(
-  resolved: ResolvedCharacter,
-  id: string,
-): { label: string | undefined; reset: ResetTrigger } | undefined {
-  for (const rf of resolved.features ?? []) {
-    for (const r of rf.feature.resources ?? []) {
-      if (r.id === id) return { label: r.name ?? rf.feature.name, reset: r.reset };
-    }
-  }
-  return undefined;
 }
 
 export type RestType = "short" | "long";
@@ -66,6 +49,14 @@ export function computeRestPlan(
 ): RestPlan {
   const cats: RestCategory[] = [];
   let hdRegainDist: Array<{ die: string; targetUsed: number }> | undefined;
+  // R4-G4 §3.2.1: ONE walk over `resolved.features` in place of the per-key
+  // `findResourceById` walks this function used to do. DERIVED here, never read off
+  // `resolved.resources`: the cast fixtures behind the rest suites in both repos carry
+  // no `resources` field (dnd5e pc-rest-either.test.ts:28 / pc-rest-hp-modifier.test.ts:21,
+  // plugin tests/pc-rest-resource-reset.test.ts:19 and tests/fixtures/pc/rest-fixtures.ts),
+  // so `resolved.resources.get(key)` would throw there, and an optional-chained fallback
+  // would let the byte-identical control pass vacuously.
+  const index = resolveResourceIndex(resolved);
 
   // Pact Magic slots reset on BOTH short and long rest (unlike standard slots).
   const pact = character.state.spell_slots_pact;
@@ -139,12 +130,12 @@ export function computeRestPlan(
     // reset by rest). See SP4d Phase 2 spec §5 and R4-G3a §8.2.
     for (const [key, fu] of Object.entries(character.state.feature_uses ?? {})) {
       if (fu.used <= 0) continue;
-      const res = findResourceById(resolved, key);
+      const res = index.get(key);
       const reset = res?.reset ?? "long-rest";
       if (reset !== "short-rest" && reset !== "long-rest" && reset !== "either" && reset !== "dawn" && reset !== "dusk") continue;
       cats.push({
         id: `feature:${key}`,
-        label: res?.label ?? key,
+        label: res?.name ?? key,
         preview: `${fu.used}/${fu.max} restored`,
       });
     }
@@ -170,13 +161,13 @@ export function computeRestPlan(
   if (type === "short") {
     for (const [key, fu] of Object.entries(character.state.feature_uses ?? {})) {
       if (fu.used <= 0) continue;
-      const res = findResourceById(resolved, key);
+      const res = index.get(key);
       // A short rest restores short-rest AND either ("short or long rest").
       const r = res?.reset ?? "long-rest";
       if (r !== "short-rest" && r !== "either") continue;
       cats.push({
         id: `feature:${key}`,
-        label: res?.label ?? key,
+        label: res?.name ?? key,
         preview: `${fu.used}/${fu.max} restored`,
       });
     }

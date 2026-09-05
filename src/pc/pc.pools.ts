@@ -2,6 +2,8 @@ import type { RegisteredEntity } from "@archivist-gg/core";
 import type { ResolvedCharacter, ResolvedClass, ResolvedPool, ResolvedPoolEntry } from "./pc.types";
 import type { SelectionPool } from "@archivist-gg/dnd5e/types/selection-pool";
 import type { OptionalFeatureEntity } from "@archivist-gg/dnd5e/types/optional-feature.types";
+import type { ResourceIndex } from "./pc.resources";
+import { derivePoolLayout } from "./pool-layout";
 import { readTableColumn } from "./pc.table-column";
 import { wikilinkTailSlug } from "./pc.decision-engine";
 import { bareEntitySlug } from "../entities/slug";
@@ -23,6 +25,7 @@ export function resolvePool(
   classIndex: number,
   pool: SelectionPool,
   registry: PoolRegistry,
+  index: ResourceIndex,
 ): ResolvedPool {
   const entity = rc.entity!;
   const level = rc.level;
@@ -91,10 +94,27 @@ export function resolvePool(
     .filter((e): e is ResolvedPoolEntry => e != null)
     .filter((e) => !grantedBare.has(bareEntitySlug(e.slug)));
 
-  return { id: pool.id, label: pool.label, classIndex, count, anchorLevel, selected, available, grants };
+  const members = [...available, ...grants];
+  const layout = derivePoolLayout(members);
+  // Owner-aware (Gate 0 B1): the majority of the members' `consumes.resource` AMONG the ids the character owns.
+  // The plain majority is wrong on the 13-book install (43 cross-edition maneuvers vote 23 / 20 for the OTHER
+  // edition's id); intersecting with the owned ids fixes both the Battle Master and the Metamagic tab.
+  const votes = new Map<string, number>();
+  for (const e of members) {
+    const id = e.entity.consumes?.resource;
+    if (!id || !index.has(id)) continue;
+    votes.set(id, (votes.get(id) ?? 0) + 1);
+  }
+  let resource: string | undefined;
+  let bestN = 0;
+  for (const [id, n] of votes) if (n > bestN) { resource = id; bestN = n; }
+  return {
+    id: pool.id, label: pool.label, classIndex, count, anchorLevel, selected, available, grants,
+    ...(layout ? { layout } : {}), ...(resource ? { resource } : {}),
+  };
 }
 
-export function resolveAllPools(resolved: ResolvedCharacter, registry: PoolRegistry): ResolvedPool[] {
+export function resolveAllPools(resolved: ResolvedCharacter, registry: PoolRegistry, index: ResourceIndex): ResolvedPool[] {
   const out: ResolvedPool[] = [];
   resolved.classes.forEach((rc, classIndex) => {
     if (!rc.entity) return;
@@ -103,7 +123,7 @@ export function resolveAllPools(resolved: ResolvedCharacter, registry: PoolRegis
     for (const pool of decls) {
       if (seen.has(pool.id)) continue;
       seen.add(pool.id);
-      out.push(resolvePool(rc, classIndex, pool, registry));
+      out.push(resolvePool(rc, classIndex, pool, registry, index));
     }
   });
   return out;

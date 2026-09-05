@@ -15,6 +15,15 @@ export interface ResourceRecovery {
   action?: ActionCost;
   uses?: number;
   reset: ResetTrigger;
+  /** The recovery KIND; absent = `uses` (R4-G4 §7, UR2), applied by the RESOLVER
+   *  (pc/pc.resources.ts `resolveRecovery`) and never by a schema default, because
+   *  the sheet reads RAW entities. ZERO shipped documents carry the key at this
+   *  commit (measured 2026-09-05: `grep -rl "restores:"` over the converter corpus
+   *  and `.compendium-bundle` returns 0 files); R4-G4 T2b's overlay stamps
+   *  `spell-slots` on the bundle Wizard's two Arcane Recovery rows, which §7.1
+   *  measured as the only spell-slot recoveries in shipped data. Kept in step with
+   *  `resourceSchema.recovery` in schemas/resource-schema.ts. */
+  restores?: "uses" | "spell-slots";
 }
 
 export interface ResourceScaleStep {

@@ -27,19 +27,25 @@ export const resourceSchema = z.object({
     action: actionCostEnum.optional(),
     uses: z.number().int().nonnegative().optional(),
     reset: resetTriggerEnum,
+    restores: z.enum(["uses", "spell-slots"]).optional(),
   })).optional(),
 });
 
 /** A feature's / optional feature's resource spend.
  *
  *  `amount` is the MINIMUM spend. When `amount_max` is present the spend is a
- *  RANGE (`amount` .. `amount_max`); the range spend itself (a quantity-taking
- *  spend primitive, the how-much UI, a `Feature.consumes` reader, the validation
- *  rule and the converter un-withhold) is R4-G4's. `amount_max` is DECLARED here
- *  only, and the refine is undefined-safe by construction so the corpus that
- *  ships without the key keeps parsing: 294 `Feature.consumes` carriers over 161
- *  documents, plus 70 `OptionalFeature.consumes` documents (R4-G3a §9; an
- *  unguarded refine refuses all 231, measured). */
+ *  RANGE (`amount` .. `amount_max`). R4-G4 §3 gives `consumes.resource` its first
+ *  reader beyond the two label sites: the spend control on the pool, boon and
+ *  feature rows, which spends `amount` exactly through the clamped quantity-taking
+ *  primitive the plugin already had. That control is PENDING as of this commit
+ *  (plugin task T4); this commit ships only the dnd5e half it reads, the resource
+ *  index in pc/pc.resources.ts. What R4-G4 does NOT do (§15): the HOW-MUCH UI for a
+ *  range spend and its validation rule stay G8, and the converter un-withhold that
+ *  would emit `amount_max` at all is a G7 handoff. So `amount_max` stays DECLARED
+ *  here only, with zero emitted carriers, and the refine is undefined-safe by
+ *  construction so the corpus that ships without the key keeps parsing: 294
+ *  `Feature.consumes` carriers over 161 documents, plus 70 `OptionalFeature.consumes`
+ *  documents (R4-G3a §9; an unguarded refine refuses all 231, measured). */
 export const resourceConsumptionSchema = z.object({
   source: z.enum(["resource", "class-column", "attack-dice"]).optional(),
   resource: z.string().optional(),

@@ -73,3 +73,12 @@ function restArgs(
 ): [Character, ResolvedCharacter, DerivedStats, null, "short" | "long"] {
   return [s.character, s.resolved, s.derived, null, type];
 }
+
+describe("computeRestPlan reads the derived resource index (R4-G4 §3.2.1; §17 row 4)", () => {
+  it("a resource WITHOUT `name` is labelled by its feature (the findResourceById fallback survives the switch)", () => {
+    const { character, resolved, derived } = setup({ "g4:n": { used: 1, max: 1 } },
+      [{ feature: { name: "Second Wind", resources: [{ id: "g4:n", max_formula: "1", reset: "short-rest" }] }, source: { kind: "class", slug: "x", level: 1 } }]);
+    const plan = computeRestPlan(character, resolved, derived, null, "short");
+    expect(plan.categories.find((c) => c.id === "feature:g4:n")?.label).toBe("Second Wind");
+  });
+});

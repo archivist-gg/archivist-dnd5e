@@ -83,6 +83,7 @@
     "./pc/pc.spellcasting": "./src/pc/pc.spellcasting.ts",
     "./pc/pc.table-column": "./src/pc/pc.table-column.ts",
     "./pc/pc.types": "./src/pc/pc.types.ts",
+    "./pc/pool-layout": "./src/pc/pool-layout.ts",
     "./pc/roll-scope": "./src/pc/roll-scope.ts",
     "./pc/roll-tag-labels": "./src/pc/roll-tag-labels.ts",
     "./pc/spell-source": "./src/pc/spell-source.ts",

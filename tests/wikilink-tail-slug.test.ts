@@ -147,7 +147,7 @@ describe("resolvePool — pool_grants feature refs (AUTHORED fixture, not corpus
     // `byBare` is keyed by `bareEntitySlug("hb_mages-bane")` = "mages-bane".
     // Pre-fix `wikilinkTailSlug("[[Mage's Bane]]")` = "mage-s-bane" → map miss →
     // the grant is filtered out and `grants` comes back EMPTY.
-    const r = resolvePool(mkClass(), 0, pool, registry());
+    const r = resolvePool(mkClass(), 0, pool, registry(), new Map());
     expect(r.grants.map((e) => e.slug)).toEqual(["hb_mages-bane"]);
   });
 });

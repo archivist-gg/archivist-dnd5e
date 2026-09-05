@@ -1,6 +1,7 @@
 import { describe, it, expect } from "vitest";
 import { PCResolver, stripSlug, collectFeatSlugs, resolveOriginFeat } from "../src/pc/pc.resolver";
 import { buildMockRegistry } from "./mock-entity-registry";
+import { resolveResourceIndex } from "../src/pc/pc.resources";
 import { featureEffectSchema } from "@archivist-gg/dnd5e/schemas/feature-effect-schema";
 import type { Character } from "../src/pc/pc.types";
 
@@ -522,3 +523,25 @@ function minimalCharacter(): Character {
     },
   };
 }
+
+describe("resolved.resources (R4-G4 §3.2.1): the owner is the DECLARING feature", () => {
+  const BM_FIGHTER = { slug: "fighter", name: "Fighter", hit_die: "d10", saving_throws: ["str", "con"], features_by_level: {} };
+  // The shipped shape: entity-level `resources: []`, the resource declared INSIDE features_by_level['3'].
+  const BATTLE_MASTER = { slug: "battle-master", name: "Battle Master", parent_class: "[[fighter]]", resources: [],
+    features_by_level: { 3: [{ id: "combat-superiority", name: "Combat Superiority", description: "You learn maneuvers.",
+      resources: [{ id: "fighter-2024:superiority-dice", name: "Superiority Dice", max_formula: "4", reset: "short-rest",
+                    die: { base: "d8" } }] }] } };
+  it("stamps Combat Superiority at source.level 3, never a subclass-named synthetic at level 1", () => {
+    const reg = buildMockRegistry([
+      { slug: "fighter", entityType: "class", data: BM_FIGHTER },
+      { slug: "battle-master", entityType: "subclass", data: BATTLE_MASTER },
+    ]);
+    const char = minimalCharacter();
+    char.class = [{ name: "[[fighter]]", level: 3, subclass: "[[battle-master]]", choices: {} }] as never;
+    const { character } = new PCResolver(reg).resolve(char);
+    const r = character.resources.get("fighter-2024:superiority-dice")!;
+    expect(r.owner).toMatchObject({ kind: "feature", featureName: "Combat Superiority", source: { kind: "subclass", level: 3 } });
+    // derive-not-receive: the stored index equals a fresh derivation
+    expect(resolveResourceIndex(character)).toEqual(character.resources);
+  });
+});

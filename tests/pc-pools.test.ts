@@ -2,6 +2,10 @@ import { describe, it, expect } from "vitest";
 import { resolvePool, resolveAllPools, type PoolRegistry } from "../src/pc/pc.pools";
 import type { ResolvedCharacter, ResolvedClass } from "../src/pc/pc.types";
 
+/** The pools these fixtures resolve own no resources, so the owner-aware intersection
+ *  (R4-G4 §4.2.3) has nothing to match and `resource` stays undefined on every one. */
+const NO_INDEX = new Map();
+
 function of(slug: string, ft: string, levelMin?: number) {
   return {
     slug, name: slug, type: "optional-feature",
@@ -49,23 +53,23 @@ const pool = {
 
 describe("resolvePool", () => {
   it("reads count from the class table column at the current level", () => {
-    const r = resolvePool(mkClass(7), 0, pool, mkRegistry(boons));
+    const r = resolvePool(mkClass(7), 0, pool, mkRegistry(boons), NO_INDEX);
     expect(r.count).toBe(3);
   });
   it("anchors at the lowest level where count >= 1", () => {
-    const r = resolvePool(mkClass(7), 0, pool, mkRegistry(boons));
+    const r = resolvePool(mkClass(7), 0, pool, mkRegistry(boons), NO_INDEX);
     expect(r.anchorLevel).toBe(2);
   });
   it("filters candidates by feature_type and available_to", () => {
-    const r = resolvePool(mkClass(7), 0, pool, mkRegistry(boons));
+    const r = resolvePool(mkClass(7), 0, pool, mkRegistry(boons), NO_INDEX);
     expect(r.available.map((e) => e.slug).sort()).toEqual(["baleful-glare", "hell-mage"]);
   });
   it("excludes candidates whose level prereq exceeds the current level", () => {
-    const r = resolvePool(mkClass(2), 0, pool, mkRegistry(boons));
+    const r = resolvePool(mkClass(2), 0, pool, mkRegistry(boons), NO_INDEX);
     expect(r.available.map((e) => e.slug)).toEqual(["baleful-glare"]); // hell-mage (min 7) hidden at L2
   });
   it("resolves player picks from the choices ledger at the anchor level", () => {
-    const r = resolvePool(mkClass(7, { 2: { "interdict-boons": ["baleful-glare"] } }), 0, pool, mkRegistry(boons));
+    const r = resolvePool(mkClass(7, { 2: { "interdict-boons": ["baleful-glare"] } }), 0, pool, mkRegistry(boons), NO_INDEX);
     expect(r.selected.map((e) => e.slug)).toEqual(["baleful-glare"]);
   });
   it("includes subclass pool_grants at/under level and they do not count", () => {
@@ -73,7 +77,7 @@ describe("resolvePool", () => {
     rc.subclass = { slug: "asmodeus", pool_grants: [
       { pool: "interdict-boons", grants: [{ feature: "[[hell-mage]]", at_level: 18 }, { feature: "[[baleful-glare]]", at_level: 99 }] },
     ] } as never;
-    const r = resolvePool(rc, 0, pool, mkRegistry(boons));
+    const r = resolvePool(rc, 0, pool, mkRegistry(boons), NO_INDEX);
     expect(r.grants.map((e) => e.slug)).toEqual(["hell-mage"]); // at_level 99 excluded
   });
   it("resolves picks/grants by bare slug when the registry slug is source-prefixed", () => {
@@ -87,7 +91,7 @@ describe("resolvePool", () => {
     const reg = mkRegistry([prefixed, of("hell-mage", "interdict-boon", 7)]);
 
     // Pick stored under the bare slug resolves to the prefixed entity.
-    const picked = resolvePool(mkClass(7, { 2: { "interdict-boons": ["baleful-glare"] } }), 0, pool, reg);
+    const picked = resolvePool(mkClass(7, { 2: { "interdict-boons": ["baleful-glare"] } }), 0, pool, reg, NO_INDEX);
     expect(picked.selected.map((e) => e.slug)).toEqual(["hb_baleful-glare"]);
 
     // Subclass grant via wikilink resolves to the same prefixed entity.
@@ -95,7 +99,7 @@ describe("resolvePool", () => {
     rc.subclass = { slug: "asmodeus", pool_grants: [
       { pool: "interdict-boons", grants: [{ feature: "[[baleful-glare]]", at_level: 1 }] },
     ] } as never;
-    const granted = resolvePool(rc, 0, pool, reg);
+    const granted = resolvePool(rc, 0, pool, reg, NO_INDEX);
     expect(granted.grants.map((e) => e.slug)).toEqual(["hb_baleful-glare"]);
   });
 });
@@ -106,7 +110,7 @@ describe("pool_grants — class + subclass merge", () => {
     rc.entity = { ...rc.entity, pool_grants: [
       { pool: "interdict-boons", grants: [{ feature: "[[hell-mage]]", at_level: 1 }] },
     ] } as never;
-    const r = resolvePool(rc, 0, pool, mkRegistry(boons));
+    const r = resolvePool(rc, 0, pool, mkRegistry(boons), NO_INDEX);
     expect(r.grants.map((e) => e.slug)).toContain("hell-mage");
   });
 
@@ -118,7 +122,7 @@ describe("pool_grants — class + subclass merge", () => {
     rc.subclass = { slug: "asmodeus", pool_grants: [
       { pool: "interdict-boons", grants: [{ feature: "[[hell-mage]]", at_level: 1 }] },
     ] } as never;
-    const r = resolvePool(rc, 0, pool, mkRegistry(boons));
+    const r = resolvePool(rc, 0, pool, mkRegistry(boons), NO_INDEX);
     expect(r.grants.filter((e) => e.slug === "hell-mage")).toHaveLength(1);
   });
 
@@ -127,7 +131,7 @@ describe("pool_grants — class + subclass merge", () => {
     rc.entity = { ...rc.entity, pool_grants: [
       { pool: "interdict-boons", grants: [{ feature: "[[hell-mage]]", at_level: 1 }] },
     ] } as never;
-    const r = resolvePool(rc, 0, pool, mkRegistry(boons));
+    const r = resolvePool(rc, 0, pool, mkRegistry(boons), NO_INDEX);
     expect(r.grants.map((e) => e.slug)).toContain("hell-mage");
     expect(r.selected.map((e) => e.slug)).not.toContain("hell-mage");
   });
@@ -180,7 +184,7 @@ describe("resolveAllPools", () => {
     const rc = { classes: [classA, classB] } as unknown as ResolvedCharacter;
     const reg = mkRegistry([...boons, rogueBoon("flurry")]);
 
-    const pools = resolveAllPools(rc, reg);
+    const pools = resolveAllPools(rc, reg, NO_INDEX);
 
     // One interdict-boons (deduped across class+subclass) + one ki-arts = 2 total.
     expect(pools.length).toBe(2);
@@ -190,5 +194,37 @@ describe("resolveAllPools", () => {
     const ki = pools.find((p) => p.id === "ki-arts")!;
     expect(interdict.classIndex).toBe(0);
     expect(ki.classIndex).toBe(1);
+  });
+});
+
+describe("resolvePool · layout and the OWNER-AWARE resource (R4-G4 §4.2.3, Gate 0 B1)", () => {
+  const maneuver = (slug: string, resource: string, hint = "dice-pool") => ({
+    slug, name: slug, type: "optional-feature",
+    data: { slug, name: slug, edition: "2024", source: "hb", feature_type: "maneuver", description: "", effects: [],
+      available_to: ["[[reaver]]"], prerequisites: [], rendering_hint: hint, consumes: { resource, amount: 1 } },
+  });
+  const bmPool = { id: "maneuvers", label: "Maneuvers",
+    source: { entity_type: "optional-feature" as const, where: { feature_type: "maneuver", available_to: "self" as const } },
+    count: { column: "Interdict Boons" } };
+  // The shipped shape: the 13-book install resolves BOTH editions' maneuvers into one pool, 23 voting the 2014 id
+  // and 20 the 2024 id. A 2024 owner OWNS only the 2024 id.
+  const members = [
+    ...Array.from({ length: 23 }, (_, i) => maneuver(`m14-${i}`, "fighter:superiority-dice")),
+    ...Array.from({ length: 20 }, (_, i) => maneuver(`m24-${i}`, "fighter-2024:superiority-dice")),
+  ];
+  const owned2024 = new Map([["fighter-2024:superiority-dice", { id: "fighter-2024:superiority-dice" } as never]]);
+  it("RED FIRST: the majority AMONG THE OWNED ids wins, not the plain majority", () => {
+    const r = resolvePool(mkClass(7), 0, bmPool, mkRegistry(members as never), owned2024);
+    expect(r.resource).toBe("fighter-2024:superiority-dice");
+  });
+  it("derives the layout from the members' hints", () => {
+    const r = resolvePool(mkClass(7), 0, bmPool, mkRegistry(members as never), owned2024);
+    expect(r.layout).toBe("dice-pool");
+  });
+  it("no owned candidate → no resource (the head widget stays off); no mapped hint → no layout", () => {
+    const r = resolvePool(mkClass(7), 0, bmPool, mkRegistry(members as never), new Map());
+    expect(r.resource).toBeUndefined();
+    const r2 = resolvePool(mkClass(7), 0, pool, mkRegistry(boons), new Map());
+    expect(r2.layout).toBeUndefined();
   });
 });

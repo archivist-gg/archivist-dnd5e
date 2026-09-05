@@ -19,8 +19,10 @@ import type { BackgroundEntity } from "@archivist-gg/dnd5e/background/background
 import type { FeatEntity } from "@archivist-gg/dnd5e/feat/feat.types";
 import type { Spell } from "@archivist-gg/dnd5e/spell/spell.types";
 import type { OptionalFeatureEntity } from "@archivist-gg/dnd5e/types/optional-feature.types";
+import type { PoolLayout } from "../types/selection-pool";
 import type { ConditionSlug } from "./conditions.constants";
 import type { CharacterOverridesSchemaKeys } from "./pc.schema";
+import type { ResourceIndex } from "./pc.resources";
 
 /** A persisted decision value: entity slug / inline value (string), multi-select
  *  slugs (string[]), or an ability-points allocation. Stale/odd legacy values
@@ -311,6 +313,15 @@ export interface ResolvedPool {
   selected: ResolvedPoolEntry[];   // player picks, in pick order
   available: ResolvedPoolEntry[];  // prereq-filtered candidates
   grants: ResolvedPoolEntry[];     // subclass auto-grants (do not count)
+  /** Derived at resolve time from the members' `rendering_hint` (pool-layout.ts),
+   *  unconditionally: an authored `TabDecl.renders.layout` does not suppress the
+   *  derivation, it OUTRANKS this field at the tab, and R4-G4 T5 is what teaches
+   *  `tabs-container.ts:49` that precedence (§4.2.5). No plugin reader consumes
+   *  this field at this commit. */
+  layout?: PoolLayout;
+  /** The OWNED resource id the members spend (majority of `consumes.resource` among the ids the
+   *  character owns); undefined when no member consumes an owned id (R4-G4 §4.2.3, Gate 0 B1). */
+  resource?: string;
 }
 
 export interface ResolvedCharacter {
@@ -327,6 +338,13 @@ export interface ResolvedCharacter {
   features: ResolvedFeature[];
   spells: ResolvedSpell[];
   pools: ResolvedPool[];
+  /** Every `resources[]` entry of every resolved feature, keyed by id, with the DECLARING feature
+   *  stamped as owner (R4-G4 §3.2.1). REQUIRED: the resolver's own literal sets it like `pools` and
+   *  reassigns it after pools resolve. Cast test fixtures omit it. At this commit the field has NO
+   *  reader outside the resolver (measured 2026-09-05: zero `resolved.resources` sites in
+   *  packages/obsidian/src); R4-G4 T3-T5 add plugin readers and they reach it through `?.`.
+   *  `computeRestPlan` never reads it at all, it re-derives the index. */
+  resources: ResourceIndex;
   /** 2024 Weapon Mastery: bare-normalized slugs of the weapons the character has
    *  chosen mastery of, unioned across every class/level `weapon-mastery` pick
    *  (e.g. "srd-2024_greatsword" → "greatsword"). Empty when the character has no

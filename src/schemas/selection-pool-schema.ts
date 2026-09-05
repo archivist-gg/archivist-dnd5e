@@ -29,6 +29,6 @@ export const tabDeclSchema = z.object({
   label: z.string().min(1),
   renders: z.object({
     pool: z.string().min(1),
-    layout: z.enum(["spell-like", "blocks"]).optional(),
+    layout: z.enum(["spell-like", "blocks", "dice-pool", "point-pool"]).optional(),
   }),
 });

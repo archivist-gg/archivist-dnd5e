@@ -19,6 +19,7 @@ import type {
 } from "./pc.types";
 import { normalizeKnownSpell, resolveSpellcasting, effectiveSpellcastingAbility } from "./pc.spellcasting";
 import { resolveAllPools } from "./pc.pools";
+import { resolveFeatureResources, resolveResourceIndex } from "./pc.resources";
 import { resolveEntityForEntry, isItemEntity } from "./pc.slotting";
 import { wikilinkTailSlug } from "./pc.decision-engine";
 import { bareEntitySlug } from "../entities/slug";
@@ -262,6 +263,11 @@ export class PCResolver {
       }
     }
 
+    // R4-G4 §3.2.1: the FEATURE half of the resource index is derived BEFORE pools so that
+    // `resolvePool` can intersect the members' `consumes.resource` against the ids the character
+    // actually owns; the full index (features + T7b's pool picks) is stored after pools resolve.
+    const featureResources = resolveFeatureResources(features);
+
     const resolvedCharacter: ResolvedCharacter = {
       definition: character,
       race,
@@ -273,10 +279,12 @@ export class PCResolver {
       features,
       spells: dedupeResolvedSpells(spells),
       pools: [],
+      resources: featureResources,
       weaponMasteries: chosenMasteries.bare,
       state: character.state,
     };
-    resolvedCharacter.pools = resolveAllPools(resolvedCharacter, this.entities);
+    resolvedCharacter.pools = resolveAllPools(resolvedCharacter, this.entities, featureResources);
+    resolvedCharacter.resources = resolveResourceIndex(resolvedCharacter);
 
     return { character: resolvedCharacter, warnings };
   }
