@@ -133,6 +133,19 @@ describe("resolveResourceIndex · pool picks' own uses (R4-G4 §12)", () => {
     expect(idx.get("hb_granted")!.maxFormula).toBe("{cha_mod}");
   });
 
+  it("RED FIRST: a cast pool literal missing `grants` does not throw (the guard its neighbours carry)", () => {
+    // `resolved.features` and `resolved.pools` are both guarded `?? []` in this function precisely
+    // because cast fixtures omit fields, and `computeRestPlan` now runs the walk for every character,
+    // so a pool literal missing either member array would throw a TypeError deep inside the rest plan
+    // (review M-4). Theoretical in the shipped fixtures, which all fill the three arrays, and cheap.
+    const sparse = { totalLevel: 5, features: [],
+      classes: [{ entity: { slug: "warlock" }, level: 5, subclass: null }],
+      pools: [{ id: "invocations", label: "Eldritch Invocations", classIndex: 0, count: 1, anchorLevel: 1,
+        selected: [inv("hb_lone", { max: 1, recharge: "long-rest" })], available: [] }],
+    } as unknown as ResolvedCharacter;
+    expect(resolveResourceIndex(sparse).get("hb_lone")!.maxFormula).toBe("1");
+  });
+
   it("a prose `uses.max` is skipped with one warning", () => {
     // The warn count is asserted FIRST: it is the assertion the walk's `isValidMaxFormula` guard owns,
     // and `has("hb_prose")` is false both before the walk exists and after (adapted from the brief's

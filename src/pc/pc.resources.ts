@@ -116,7 +116,7 @@ export function resolveResourceIndex(resolved: ResolvedCharacter): ResourceIndex
     const rc = resolved.classes[pool.classIndex];
     const classSlug = rc?.entity?.slug;
     if (!classSlug) continue;
-    for (const entry of [...pool.selected, ...pool.grants]) {
+    for (const entry of [...(pool.selected ?? []), ...(pool.grants ?? [])]) {
       const uses = entry.entity.uses;
       // A feature-declared resource of the same id keeps its owner: the feature half is walked first.
       if (!uses || out.has(entry.slug)) continue;
