@@ -29,6 +29,7 @@ import type {
   DerivedStats,
   HPBreakdown,
   ProficiencySet,
+  ProficiencyTri,
   ResolvedCharacter,
   ResolvedClass,
   CharacterOverrides,
@@ -36,8 +37,6 @@ import type {
   SpellLimitInfo,
 } from "./pc.types";
 import type { InformationalBonus } from "../item/item.conditions.types";
-
-type ProficiencyTri = "none" | "proficient" | "expertise";
 
 // Category words that the weapon gate can actually match: the class-level
 // vocabulary (isWeaponSlugProficient's `simple`/`martial` literals) plus the

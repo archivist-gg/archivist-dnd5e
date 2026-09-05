@@ -1,7 +1,7 @@
 import type { Choice, InlineOption, EntityFilter, Ability } from "@archivist-gg/dnd5e/types/choice";
 import { ALL_SKILL_SLUGS, ALL_LANGUAGES, ALL_TOOLS } from "@archivist-gg/dnd5e/types/choice";
 import { ABILITY_KEYS } from "@archivist-gg/dnd5e/dnd/constants";
-import type { ResolvedCharacter, ChoiceValue, FeatureSource } from "./pc.types";
+import type { ResolvedCharacter, ChoiceValue, FeatureSource, ProficiencyTri } from "./pc.types";
 import type { EntityRegistry, RegisteredEntity } from "@archivist-gg/core";
 import { recognizeDecision } from "./decision-recognizer";
 import { resolveOriginFeat } from "./pc.resolver";
@@ -878,7 +878,35 @@ export function computeEffectiveProficiencies(
     for (const v of (domain === "languages" ? chosen.languages : chosen.tools)) push(v, "pick");
     for (const v of adds) push(v, matchPool(v, vocab) ? "manual" : "custom");
 
-    const suppressed = new Set(removes.map((r) => toProfSlug(r)));
+    // R4-G4 §9.3 (UR1): the per-tool manual tri, `overrides.tools.proficiency`.
+    // Languages get NO tri, so the read is an explicit tools branch rather than a
+    // generic `ov?.proficiency`: the closure indexes `overrides[domain]` over the
+    // `languages | tools` union, and only the tools member carries the key.
+    // Semantics mirror the SKILLS tri in pc.recalc.ts (`override?.proficiency`):
+    // `expertise` beats a data grant, `none` suppresses it, `proficient` clears a
+    // data expertise. A tri for a tool nothing granted PUSHES it, the same way the
+    // skills tri sets proficiency on a skill the character had no claim to.
+    // The annotation on `tri` is load-bearing: `Object.entries` over a bare `{}`
+    // fallback resolves to the `[string, any]` overload and loses the tri union.
+    const triSuppressed = new Set<string>();
+    if (domain === "tools") {
+      const tri: Record<string, ProficiencyTri> = resolved.definition?.overrides?.tools?.proficiency ?? {};
+      for (const [tool, state] of Object.entries(tri)) {
+        const key = toProfSlug(tool);
+        if (state === "none") { triSuppressed.add(key); continue; }
+        let entry = [...byValue.values()].find((e) => toProfSlug(e.value) === key);
+        if (!entry) {
+          push(tool, matchPool(tool, vocab) ? "manual" : "custom");
+          entry = [...byValue.values()].find((e) => toProfSlug(e.value) === key);
+        }
+        if (!entry) continue;
+        if (state === "expertise") entry.expertise = true; else delete entry.expertise;
+      }
+    }
+
+    // A `none` tri suppresses exactly as `remove` does · that is what makes the
+    // suppressed tool reappear in the override modal's candidate rows.
+    const suppressed = new Set([...removes.map((r) => toProfSlug(r)), ...triSuppressed]);
     return [...byValue.values()]
       .filter((e) => !suppressed.has(toProfSlug(e.value)))
       // SORT BY LABEL. The bucket this replaced (the return of

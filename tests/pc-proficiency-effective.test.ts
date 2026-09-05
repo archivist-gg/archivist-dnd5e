@@ -357,3 +357,90 @@ describe("computeEffectiveProficiencies", () => {
     expect(computeEffectiveProficiencies(byProse).languages).toEqual([]);
   });
 });
+
+// ───────────────────────────────────────────────────────────────────────────
+// R4-G4 §9.3 · Tier B (UR1): the per-tool manual tri, `overrides.tools.proficiency`.
+//
+// A tools-shaped twin of the `dwarf()` builder above. `features` is supplied
+// (empty by default) because the file's other class-bearing fixtures do; the
+// third-leg fixture below fills it with the DATA-expertise effect.
+// ───────────────────────────────────────────────────────────────────────────
+const rogue = (overrides: Record<string, unknown> = {}) =>
+  ({
+    race: null,
+    classes: [{
+      entity: {
+        slug: "rogue", name: "Rogue",
+        proficiencies: { tools: { fixed: ["thieves' tools", "herbalism kit"] } },
+      },
+      subclass: null, level: 1, choices: {},
+    }],
+    feats: [], background: undefined, features: [], pools: [], state: {},
+    definition: { origin_choices: {}, overrides },
+  }) as never;
+
+/** A 2014 Rogue 6 whose Expertise feature grants thieves' tools with `expertise: true`
+ *  on the EFFECT · the shape `tests/pc-proficiencies-aggregate.test.ts` uses for the same
+ *  data, and the only way to reach the tri's "proficient clears a data expertise" arm.
+ *  `source` is mandatory on a fixture feature: `collectProficiencyEffectGrants`
+ *  dereferences `rf.source.kind` with no guard. */
+const rogueWithDataExpertise = (overrides: Record<string, unknown> = {}) =>
+  ({
+    race: null,
+    classes: [{
+      entity: { slug: "rogue", name: "Rogue", proficiencies: { tools: { fixed: ["thieves' tools"] } } },
+      subclass: null, level: 6, choices: {},
+    }],
+    feats: [], background: undefined, pools: [], state: {},
+    features: [{
+      feature: {
+        id: "rogue:expertise", name: "Expertise",
+        effects: [{ kind: "proficiency", proficiency_type: "tool", value: "thieves' tools", expertise: true }],
+      },
+      source: { kind: "class", slug: "rogue" },
+    }],
+    definition: { origin_choices: {}, overrides },
+  }) as never;
+
+describe("computeEffectiveProficiencies · the manual tools tri (R4-G4 §9.3, UR1)", () => {
+  it("R4-G4 §9.3 (RED FIRST): a manual expertise beats a plain data grant and a manual none suppresses one", () => {
+    const eff = computeEffectiveProficiencies(rogue({ tools: { proficiency: { "thieves'-tools": "expertise", "herbalism-kit": "none" } } }));
+    expect(eff.tools.map((e) => [e.value, e.expertise ?? false])).toEqual([["thieves'-tools", true]]);
+  });
+
+  it("R4-G4 §9.3: a manual proficient CLEARS a data expertise (the reachable-from-a-note leg)", () => {
+    // Addendum H(2), stated where it can be read: no modal click ever persists
+    // `proficient` for a DATA-expertise tool. The modal cycle on such a chip is
+    // expertise -> none -> (the candidate pip clears the tri) -> expertise, and
+    // `setToolProficiency`'s `proficient` writes the ABSENT key. This leg is
+    // therefore reached ONLY by a hand-edited character note, which is exactly
+    // what this fixture is. It is the `else delete entry.expertise` arm (m29b):
+    // without it the flag survives and the read below is `true`.
+    const eff = computeEffectiveProficiencies(rogueWithDataExpertise({ tools: { proficiency: { "thieves'-tools": "proficient" } } }));
+    expect(eff.tools.find((e) => e.value === "thieves'-tools")?.expertise ?? false).toBe(false);
+    // The tool is still KNOWN · `proficient` clears the flag, it does not suppress the row.
+    expect(eff.tools.map((e) => e.value)).toEqual(["thieves'-tools"]);
+    // The positive control in the same case: without the override the SAME fixture
+    // reads expertise, so a build that never folded the effect grant at all cannot
+    // pass the assertion above (the file's convention for negative claims).
+    expect(computeEffectiveProficiencies(rogueWithDataExpertise()).tools[0].expertise).toBe(true);
+  });
+
+  it("R4-G4 §9.3: a tri for a tool the character does NOT have grants it, as a hand-edited note asks", () => {
+    // The `!entry` limb: `expertise` (or `proficient`) on an absent tool pushes it
+    // through the same `push` the manual `add[]` uses, so `origin` reads `manual`
+    // for a vocabulary hit. Mirrors the skills tri, which sets proficiency whether
+    // or not the character had the skill.
+    const eff = computeEffectiveProficiencies(rogue({ tools: { proficiency: { "forgery-kit": "expertise" } } }));
+    expect(eff.tools.find((e) => e.value === "forgery-kit")).toMatchObject({
+      label: "Forgery Kit", origin: "manual", expertise: true,
+    });
+  });
+
+  it("R4-G4 §9.3: languages get NO tri · a `proficiency` key under overrides.languages is inert", () => {
+    // §9.3's closing sentence, pinned. `build(domain)`'s tri read is an explicit
+    // tools branch, so this cannot silently start working for languages.
+    const eff = computeEffectiveProficiencies(dwarf({ languages: { proficiency: { dwarvish: "none" } } }));
+    expect(eff.languages.map((e) => e.value)).toEqual(["common", "dwarvish"]);
+  });
+});

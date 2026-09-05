@@ -124,10 +124,16 @@ export type KnownSpellEntry = string | KnownSpellObject;
 
 export type PassiveKind = "perception" | "investigation" | "insight";
 
+/** The manual proficiency tri, in ONE place. The runtime twin is `proficiencyTri`
+ *  (pc.schema.ts); `pc.recalc.ts` imports this name for the skills tri, and the plugin's
+ *  `CharacterEditState.setToolProficiency` and `ProficiencyEditModal` import it for the
+ *  tools tri (R4-G4 §9.3, UR1), so no consumer re-spells the union. */
+export type ProficiencyTri = "none" | "proficient" | "expertise";
+
 export interface CharacterOverrides {
   scores?: Partial<Record<Ability, number>>;
   saves?: Partial<Record<Ability, { bonus?: number; proficient?: boolean }>>;
-  skills?: Partial<Record<SkillSlug, { bonus: number; proficiency?: "none" | "proficient" | "expertise" }>>;
+  skills?: Partial<Record<SkillSlug, { bonus: number; proficiency?: ProficiencyTri }>>;
   passives?: Partial<{ perception: number; investigation: number; insight: number }>;
   hp?: { max?: number; rolled?: number; modifier?: number };
   ac?: number;
@@ -141,11 +147,16 @@ export interface CharacterOverrides {
   spell_slots?: Record<number, number>;
   attunement_limit?: number;
   /** Manual proficiency edits, mirroring `characterOverridesShape` (pc.schema.ts). `remove`
-   *  SUPPRESSES a rules-granted entry ("a dwarf who doesn't know dwarvish"). Both keys and both
-   *  leaf arrays are optional with no defaults, so an untouched note stays byte-identical:
-   *  every reader uses `?? []`. */
+   *  SUPPRESSES a rules-granted entry ("a dwarf who doesn't know dwarvish"). Both keys and EVERY
+   *  leaf are optional with no defaults, so an untouched note stays byte-identical: every reader
+   *  uses `?? []` (`?? {}` for the tools tri).
+   *
+   *  `tools.proficiency` is the per-tool manual tri (R4-G4 §9.3, UR1); `languages` deliberately
+   *  gets none. This line is the ONLY thing keeping the interface honest about it: the
+   *  `NoOverridesKeyDrift` pair below compares TOP-LEVEL keys only, so a sibling added to the
+   *  schema and not here is silently stripped on save. */
   languages?: { add?: string[]; remove?: string[] };
-  tools?: { add?: string[]; remove?: string[] };
+  tools?: { add?: string[]; remove?: string[]; proficiency?: Record<string, ProficiencyTri> };
   /** Manual defense edits, mirroring `characterOverridesShape` (pc.schema.ts). SUPPRESSION-ONLY:
    *  the absent `add` channel is a DELIBERATE asymmetry with `languages`/`tools` above, not an
    *  oversight · do not "complete the pattern". The additive store is `character.defenses.*`,

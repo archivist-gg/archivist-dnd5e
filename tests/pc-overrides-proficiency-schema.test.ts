@@ -80,6 +80,22 @@ describe("overrides.{languages,tools}", () => {
 
     expect(schemaKeys).toEqual(declared);
   });
+
+  it("R4-G4 §9.3 (RED FIRST): overrides.tools.proficiency accepts a tri per tool and a pre-phase {add, remove} file still parses", () => {
+    // UR1 Tier B. The key space is OPEN (tool names are not an enum, unlike `skills`),
+    // so the pins are the VALUE round trip and the rejected fourth state.
+    const tri = characterOverridesShape.safeParse({ tools: { proficiency: { "thieves'-tools": "expertise", "herbalism-kit": "none" } } });
+    // the VALUE assertion FIRST (§17 row 36's RED, invariant 4), then the boolean
+    expect(tri.success && tri.data.tools?.proficiency).toEqual({ "thieves'-tools": "expertise", "herbalism-kit": "none" });
+    expect(tri.success).toBe(true);
+    expect(characterOverridesShape.safeParse({ tools: { proficiency: { "thieves'-tools": "double" } } }).success).toBe(false);
+    // A pre-phase file parses UNCHANGED: asserted on the VALUE, not on `success`, because
+    // the thing §9.3 promises is that no `proficiency: {}` materializes on a note that never
+    // wrote one · a `.default({})` on the new sibling would rewrite every existing vault note
+    // and `success` alone cannot see it (the file's no-defaults obsession, three inputs above).
+    const prePhase = characterOverridesShape.safeParse({ tools: { add: ["x"], remove: ["y"] } });
+    expect(prePhase.success && prePhase.data.tools).toEqual({ add: ["x"], remove: ["y"] });
+  });
 });
 
 describe("overrides.defenses", () => {

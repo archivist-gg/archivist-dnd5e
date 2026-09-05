@@ -110,9 +110,20 @@ export const characterOverridesShape = z.object({
    *    - a `.default([])` on `add`/`remove` materializes the sibling array whenever the parent key IS
    *      present, which is every add-only entry the mutators write. (It cannot fire while the parent
    *      is absent, but that is the uninteresting half of the case.)
-   *  Every reader uses `?? []`. */
+   *  That rule covers `tools.proficiency` too: no default at any of its three levels.
+   *  Every reader uses `?? []` (`?? {}` for the record). */
   languages: z.object({ add: z.array(z.string()).optional(), remove: z.array(z.string()).optional() }).optional(),
-  tools:     z.object({ add: z.array(z.string()).optional(), remove: z.array(z.string()).optional() }).optional(),
+  tools: z.object({
+    add: z.array(z.string()).optional(),
+    remove: z.array(z.string()).optional(),
+    /** R4-G4 §9.3 (UR1): a per-tool tri. An OPEN key space (tool names are not an enum, unlike
+     *  `skillEnum` above); no `bonus` sibling, because tools have no numeric consumer. `expertise`
+     *  beats a data grant, `none` suppresses one, `proficient` clears a data expertise · applied in
+     *  `computeEffectiveProficiencies` (pc.decision-engine.ts). Keys are `toProfSlug` output, with
+     *  the apostrophe RETAINED ("thieves'-tools"), matching the engine's own tool vocabulary in
+     *  types/choice.ts. `languages` gets no such sibling: languages have no tri (§9.3). */
+    proficiency: z.record(z.string(), proficiencyTri).optional(),
+  }).optional(),
   /** Manual defense edits. SUPPRESSION-ONLY, and the missing `add` channel is a DELIBERATE
    *  asymmetry with `languages`/`tools` above · do not "complete the pattern". The additive
    *  store is `character.defenses.*`, which already exists and works; a second additive
