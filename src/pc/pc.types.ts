@@ -341,12 +341,15 @@ export interface ResolvedCharacter {
   pools: ResolvedPool[];
   /** Every `resources[]` entry of every resolved feature, keyed by id, with the DECLARING feature
    *  stamped as owner (R4-G4 §3.2.1). REQUIRED: the resolver's own literal sets it like `pools` and
-   *  reassigns it after pools resolve. Cast test fixtures omit it. Its first reader outside the
-   *  resolver landed with R4-G4 T3 (measured 2026-09-05: exactly one `resolved.resources` site in
-   *  packages/obsidian/src, the `ctx.resolved.resources?.get(id)?.owner` read inside the module-private
-   *  `resourceLevel` helper of `components/actions/feature-rows.ts`). §3.2.1 names its consumers:
-   *  T3's `resourceLevel(id, ctx)` die helper (§6.2.4, LANDED), and still ahead, T4's spend control
-   *  (§3.2.2), T5's pool-tab head (§4.2.6), T7's restore affordance and T7b's pool-pick seed
+   *  reassigns it after pools resolve. Cast test fixtures omit it. Its readers outside the
+   *  resolver landed with R4-G4 T3 and T4 (re-measured 2026-09-05: three `resolved.resources` sites
+   *  in packages/obsidian/src, every one a `?.get(id)`: the module-private `resourceLevel` helper of
+   *  `components/actions/feature-rows.ts` (T3, reading `?.owner`), `renderSpendControl`
+   *  (`components/actions/spend-control.ts`, reading the entry for its `name` and `die`) and
+   *  `consumeCost` (`components/pool-tab.ts`, reading `?.name` for the Cost label), both T4).
+   *  §3.2.1 names its consumers: T3's `resourceLevel(id, ctx)` die helper (§6.2.4) and T4's spend
+   *  control and Cost label (§3.2.2 / §3.2.4), all LANDED, and still ahead, T5's pool-tab head
+   *  (§4.2.6), T7's restore affordance and T7b's pool-pick seed
    *  (§12.2). Each reaches it through `?.`, because the plugin's card / row fixtures cast a
    *  `ResolvedCharacter` with no index. `computeRestPlan` never reads it at all, it re-derives
    *  the index. */

@@ -34,16 +34,22 @@ export const resourceSchema = z.object({
 /** A feature's / optional feature's resource spend.
  *
  *  `amount` is the MINIMUM spend. When `amount_max` is present the spend is a
- *  RANGE (`amount` .. `amount_max`). Readers of `consumes.resource`, measured
- *  2026-09-05 across both repos' `src`: the ENGINE has exactly one, `pc/pc.pools.ts`'s
+ *  RANGE (`amount` .. `amount_max`). Readers of `consumes.resource`, re-measured
+ *  2026-09-05 across both repos' `src` after plugin task T4 landed: the ENGINE still has
+ *  exactly one, `pc/pc.pools.ts`'s
  *  owner-aware pool vote (R4-G4 §4.2.3, shipped by T2 with this key), which reads the
- *  id to pick `ResolvedPool.resource` and never spends it; the PLUGIN has exactly two,
- *  the two Cost labels in `components/pool-tab.ts`, one in `PoolTab`'s `blockCard` and
- *  one in `metaSub`, which print the raw id as a word. Nothing SPENDS the field yet:
- *  R4-G4 §3's spend control on the
- *  pool, boon and feature rows, which spends `amount` exactly through the clamped
- *  quantity-taking primitive the plugin already had, is plugin task T4 and is PENDING
- *  as of this commit. What R4-G4 does NOT do (§15): the HOW-MUCH UI for a range spend
+ *  id to pick `ResolvedPool.resource` and never spends it; the PLUGIN now has six, in four
+ *  files: `renderSpendControl` (`components/actions/spend-control.ts`), which SPENDS it;
+ *  the three row sites that gate that call, `PoolTab.row` and `PoolTab.blockCard`
+ *  (`components/pool-tab.ts`) and `renderBoonRow` (`components/actions/boon-rows.ts`);
+ *  `renderFeatureRow` (`components/actions/feature-rows.ts`), whose owner-and-spender rule
+ *  decides between the row slot, the expand card and no control at all; and `consumeCost`
+ *  (`components/pool-tab.ts`), the ONE Cost label the row sub-line and the block card now
+ *  share, which prints the resource's NAME from the index and keeps the raw id only as the
+ *  fallback for an id the character does not own (it no longer singularizes or capitalizes
+ *  it). The field IS spent as of R4-G4 T4: §3's control spends `amount` exactly through
+ *  `CharacterEditState.spendFeatureUse`, the clamped quantity-taking primitive the plugin
+ *  already had. What R4-G4 does NOT do (§15): the HOW-MUCH UI for a range spend
  *  and its validation rule stay G8, and the converter un-withhold that would emit
  *  `amount_max` at all is a G7 handoff. So `amount_max` stays DECLARED here only, with
  *  zero emitted carriers, and the refine is undefined-safe by construction so the

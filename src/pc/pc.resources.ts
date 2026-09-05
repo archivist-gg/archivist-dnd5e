@@ -12,7 +12,10 @@ import { resolveSpellcasting } from "./pc.spellcasting";
  *  level it hands `resolveMaxCountAt`, and the two DIE-LABEL `resolveScalingDie` reads, one in
  *  `renderCardResource` and one in `formatFeatureAttackNote` (plugin `components/actions/feature-rows.ts`),
  *  reach it through that file's module-private `resourceLevel(id, ctx)` helper, which resolves the
- *  owner from `resolved.resources` and falls back to the total level when there is none. So a
+ *  owner from `resolved.resources` and falls back to the total level when there is none. R4-G4 T4
+ *  added a FOURTH plugin call site, `renderSpendControl` (`components/actions/spend-control.ts`),
+ *  which calls this function DIRECTLY with the owner its index entry already carries, so the
+ *  control's die label and the tracker beside it read the same level. So a
  *  Barbarian 5 / Fighter 5 reads the level-5 Rage count, not the level-10 one. */
 export function resourceLevelFor(source: FeatureSource, resolved: ResolvedCharacter): number {
   if (source.kind === "class") {
