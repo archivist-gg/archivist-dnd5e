@@ -135,7 +135,10 @@ describe("authored resources validate against resourceSchema", () => {
 
 // Focused guard: the 2024 Wizard's Arcane Recovery must carry the same recovery
 // pool the 2014 Wizard authors, so the "Recover spell slots" picker attaches on a
-// 2024 Wizard (P5 #5b). Also asserts the 2014 Wizard remains untouched.
+// 2024 Wizard (P5 #5b). The second case pins the 2014 side of that SAME pool: it
+// is not a no-change control, because R4-G4 Task 2b authored `restores: spell-slots`
+// onto BOTH editions' recovery entries (overlays/srd-5e.yaml:66 and
+// overlays/srd-2024.yaml:147), so both cases assert the key as well as the pool.
 describe("2024 Wizard Arcane Recovery carries the recovery resource", () => {
   function arcaneRecovery(edition: string) {
     const file = path.join(RUNTIME, `class.${edition}.json`);
@@ -160,7 +163,7 @@ describe("2024 Wizard Arcane Recovery carries the recovery resource", () => {
     });
   });
 
-  it("2014 arcane-recovery still carries the recovery pool (unchanged)", () => {
+  it("2014 arcane-recovery carries the recovery pool AND the R4-G4 restores: spell-slots key", () => {
     const res = ((arcaneRecovery("2014")!.resources ?? [])[0] as {
       recovery?: Array<{ id?: string; amount?: string }>;
     });

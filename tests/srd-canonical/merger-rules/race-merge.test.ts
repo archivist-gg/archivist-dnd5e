@@ -452,8 +452,16 @@ describe("race-merge: overlay-authored ability score increases (R4-P4)", () => {
 // FOUR-PART plumbing to hold together: overlay.schema.ts's raceOverrideSchema, the
 // HAND-WRITTEN RaceOverride mirror in race-merge.ts, the merger's read of it, and
 // the write into the canonical race. A miss in the mirror alone is SILENT.
+//
+// THREE of those four legs are measured HERE. The SCHEMA leg is not: this test
+// builds `ov` as a plain object literal and never runs zod, so a missing
+// raceOverrideSchema key could not fail it. That leg is pinned by the sibling
+// tests/srd-canonical/overlay-race-asi.test.ts, whose `loadOverlay` call runs
+// `overlaySchema.safeParse` (tools/srd-canonical/sources/overlay.ts:32) over the
+// REAL srd-5e.yaml, where `raceOverrideSchema` is `.strict()` and an undeclared
+// `languages:` key is a parse ERROR rather than a strip.
 describe("race-merge: overlay-authored languages (R4-G4)", () => {
-  it("R4-G4: an entity-level `languages.fixed` override reaches the canonical race (schema + mirror + merger read + write)", () => {
+  it("R4-G4: an entity-level `languages.fixed` override reaches the canonical race (mirror + merger read + write; the schema leg is pinned by overlay-race-asi.test.ts)", () => {
     const ov = { races: { "hill-dwarf": { languages: { fixed: ["common", "dwarvish"] } } } };
     const result = toRaceCanonical(baseEntry({
       slug: "srd-5e_race_hill-dwarf",
