@@ -596,8 +596,8 @@ function applyEffect(out: FeatureEffectTotals, eff: FeatureEffect, label: string
       break;
     case "ability-score-increase":
       // The `chosen` arms are the ASI SLOT's second encoding: the synthesized feat decision pays them through
-      // the choice ledger (computeAbilityScores). Folding here double-counts (the flattenRaceAsi idiom at
-      // pc.recalc.ts:105, verbatim: "Choice increases are resolved through class.choices; skip here."). `max` is declared and unread (user ruling 2026-09-03).
+      // the choice ledger (computeAbilityScores). Folding here double-counts (the flattenRaceAsi idiom in
+      // pc.recalc.ts, verbatim: "Choice increases are resolved through class.choices; skip here."). `max` is declared and unread (user ruling 2026-09-03).
       if (eff.abilities === "chosen") break;
       for (const ab of eff.abilities) out.ability_bonus[ab] = (out.ability_bonus[ab] ?? 0) + eff.amount;
       break;

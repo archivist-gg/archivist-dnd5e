@@ -730,7 +730,7 @@ export function collectChosenProficiencies(resolved: ResolvedCharacter): {
   skills: string[]; expertise: string[]; languages: string[]; tools: string[]; weapons: string[]; saves: Ability[];
 } {
   const out = { skills: [] as string[], expertise: [] as string[], languages: [] as string[], tools: [] as string[], weapons: [] as string[], saves: [] as Ability[] };
-  // a LOCAL narrowing (the readChosenSpellAbility precedent, pc.resolver.ts:419-424);
+  // a LOCAL narrowing (the readChosenSpellAbility precedent, pc.resolver.ts);
   // pc.equipment.ts' isAbilityKey is module-private and is NOT imported (Gate 1 A I1).
   const isAbility = (v: string): v is Ability => (ABILITY_KEYS as readonly string[]).includes(v);
   visitProficiencyChoices(resolved, (choice, selected) => {

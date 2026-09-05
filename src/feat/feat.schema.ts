@@ -54,7 +54,7 @@ export const featEntitySchema = z.object({
   has_fluff_images: z.boolean().optional(),                             // 41
   trait_tags: z.unknown().optional(),                                   // 7, nullable measured — same passthrough family
   optionalfeature_progression: z.array(progressionSchema).optional(),   // 4
-  resources: z.array(resourceSchema).optional(),  // closes the feat.types.ts:38 schema/type asymmetry (C);
+  resources: z.array(resourceSchema).optional(),  // closes the feat.types.ts `Feat.resources` schema/type asymmetry (C);
       // ZERO converter/bundle carriers (no census row) — the only behaviour delta is AUTHORED feats,
       // where the type has promised the field all along. Import resourceSchema.
   action_cost: actionCostEnum.optional(),  // ruling R-G1b-5 (gate1-r1 f1): a TOP-LEVEL bundle key on ONE

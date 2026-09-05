@@ -387,8 +387,9 @@ export function speedFromRace(resolved: ResolvedCharacter): number {
  * earlier cited it as an existing example, which it was not. EVERY reader OF THE
  * FEAT PICK keys on the LITERAL string `feat`, and there are THREE of them, not
  * the two the R4-P4 spec §2.3 and task brief enumerate: this function
- * (`block.feat`, below), `collectFeatSlugs` (pc.resolver.ts:298) and
- * `PCResolver.resolve`'s feat-to-spell pass (pc.resolver.ts:200), the one that
+ * (`block.feat`, below), `collectFeatSlugs` (pc.resolver.ts) and
+ * `PCResolver.resolve`'s feat-to-spell application pass, the two
+ * `collectFeatGrantedSpells` calls (pc.resolver.ts), the one that
  * makes a SPELL-granting boon work. Note the qualifier: this is NOT a claim that
  * every reader of a saved class choice block keys on `feat`. Others read the very
  * same block by OTHER keys · `collectClassAsiBranch` (above) reads the literal
@@ -641,7 +642,8 @@ type DefenseBucket = keyof NonNullable<CharacterOverrides["defenses"]>;
  * MEASURED and is false here. `resolved.definition.overrides.defenses?.[bucket]` passes the ENTIRE
  * engine suite, so no recalc-reaching fixture in THIS repo omits `overrides`. It is
  * optional-chained because `Character.overrides` is non-optional in the type while the omission is
- * real one layer over (`computeEffectiveProficiencies`, pc.decision-engine.ts:709-713, records seven
+ * real one layer over (`computeEffectiveProficiencies` in pc.decision-engine.ts, at its
+ * `const ov = resolved.definition?.overrides?.[domain]` read, records seven
  * live call sites passing a `definition` with no `overrides` key · and making ITS chain
  * non-optional throws, in more than one test), `tests/` is in no tsconfig `include` so the compiler can
  * never see such a fixture, and the plugin repo drives `recalc` with fixtures this suite never runs.
