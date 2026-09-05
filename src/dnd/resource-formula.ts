@@ -1,16 +1,17 @@
 /**
- * Tiny DSL for Resource.max_formula and Resource.recovery[].amount (SP4d). Grammar:
+ * Tiny DSL for Resource.max_formula and Resource.recovery[].amount (SP4d; R4-G4 §6 added max / min). Grammar:
  *   expr   := term (('+' | '-') term)*
  *   term   := factor (('*' | '/') factor)*
- *   factor := number | string-arg-only | ident | '{' ident '}' | fn '(' expr ')'
+ *   factor := number | string-arg-only | ident | '{' ident '}' | fn1 '(' expr ')' | fnN '(' expr (',' expr)+ ')'
  *           | "column" '(' string ')' | '(' expr ')'
- *   fn     := 'ceil' | 'floor'
+ *   fn1    := 'ceil' | 'floor'          (exactly one argument)
+ *   fnN    := 'max' | 'min'             (two or more comma-separated arguments)
  *   ident  := level | class_level | prof | <abil>_mod
- * The single-quoted string literal (e.g. 'Seals') is valid ONLY as the
- * argument to column(...).
- * '*' and '/' bind tighter than '+'/'-'. '/' is real division; wrap in
- * ceil()/floor() for integer results (e.g. "ceil({class_level}/2)").
- * `999` is the at-will sentinel; it evaluates as the literal 999.
+ * The single-quoted string literal (e.g. 'Seals') is valid ONLY as the argument to column(...).
+ * '*' and '/' bind tighter than '+'/'-'. '/' is real division; wrap in ceil()/floor() for integer
+ * results (e.g. "ceil({class_level}/2)"). "max(1, {cha_mod})" is how the data says "a minimum of once".
+ * `AT_WILL_MAX` (999) is the at-will sentinel: it evaluates as the literal 999 and the plugin renders
+ * "at will" instead of 999 boxes (R4-G4 §5).
  */
 export interface FormulaBindings {
   level: number;
@@ -28,22 +29,26 @@ const IDENTS = new Set([
   "level", "class_level", "prof",
   "str_mod", "dex_mod", "con_mod", "int_mod", "wis_mod", "cha_mod",
 ]);
-const FUNCS = new Set(["ceil", "floor"]);
+export const AT_WILL_MAX = 999;
+
+const FUNCS = new Set(["ceil", "floor", "max", "min"]);
+type FnName = "ceil" | "floor" | "max" | "min";
 
 type Tok =
   | { kind: "num"; value: number }
   | { kind: "str"; value: string }
   | { kind: "id"; name: string }
-  | { kind: "fn"; name: "ceil" | "floor" }
+  | { kind: "fn"; name: FnName }
   | { kind: "col" }
   | { kind: "op"; op: "+" | "-" | "*" | "/" }
+  | { kind: "comma" }
   | { kind: "lparen" }
   | { kind: "rparen" };
 
 function tokenize(input: string): Tok[] | null {
   input = input.trim();
   const tokens: Tok[] = [];
-  const re = /\s*('[^']*'|\{[a-z_]+\}|[a-z_]+|\d+|[+\-*/()])/y;
+  const re = /\s*('[^']*'|\{[a-z_]+\}|[a-z_]+|\d+|[+\-*/(),])/y;
   let i = 0;
   while (i < input.length) {
     re.lastIndex = i;
@@ -55,11 +60,12 @@ function tokenize(input: string): Tok[] | null {
     else if (raw.startsWith("'")) tokens.push({ kind: "str", value: raw.slice(1, -1) });
     else if (raw === "(") tokens.push({ kind: "lparen" });
     else if (raw === ")") tokens.push({ kind: "rparen" });
+    else if (raw === ",") tokens.push({ kind: "comma" });
     else if (raw === "+" || raw === "-" || raw === "*" || raw === "/") tokens.push({ kind: "op", op: raw });
     else {
       const braced = raw.startsWith("{");
       const name = braced ? raw.slice(1, -1) : raw;
-      if (!braced && FUNCS.has(name)) tokens.push({ kind: "fn", name: name as "ceil" | "floor" });
+      if (!braced && FUNCS.has(name)) tokens.push({ kind: "fn", name: name as FnName });
       else if (!braced && name === "column") tokens.push({ kind: "col" });
       else if (IDENTS.has(name)) tokens.push({ kind: "id", name });
       else return null;
@@ -85,11 +91,24 @@ function evalTokens(tokens: Tok[], b: FormulaBindings): number | null {
       pos++;
       if (peek()?.kind !== "lparen") return null;
       pos++;
-      const inner = expr();
-      if (inner === null) return null;
+      const args: number[] = [];
+      const first = expr();
+      if (first === null) return null;
+      args.push(first);
+      while (peek()?.kind === "comma") {
+        pos++;
+        const next = expr();
+        if (next === null) return null;
+        args.push(next);
+      }
       if (peek()?.kind !== "rparen") return null;
       pos++;
-      return t.name === "ceil" ? Math.ceil(inner) : Math.floor(inner);
+      if (t.name === "ceil" || t.name === "floor") {
+        if (args.length !== 1) return null;
+        return t.name === "ceil" ? Math.ceil(args[0]) : Math.floor(args[0]);
+      }
+      if (args.length < 2) return null;
+      return t.name === "max" ? Math.max(...args) : Math.min(...args);
     }
     if (t.kind === "col") {
       pos++;
@@ -167,7 +186,9 @@ export interface ScalableResource {
 }
 
 /** The max-formula string in effect at `totalLevel`: the highest `scales_at`
- *  step whose level ≤ totalLevel, else the base `max_formula`. */
+ *  step whose level ≤ totalLevel, else the base `max_formula`. Parse-free, so a
+ *  die-string step comes back as the die string: TEST-ONLY since R4-G4 §6 (its
+ *  production caller moved to `resolveMaxCountAt`). */
 export function resolveMaxAt(totalLevel: number, resource: ScalableResource): string {
   let chosen = resource.max_formula;
   let best = 0;
@@ -178,4 +199,29 @@ export function resolveMaxAt(totalLevel: number, resource: ScalableResource): st
     }
   }
   return chosen;
+}
+
+/** The max COUNT in effect at `level`: the highest `scales_at` step at or below `level` whose `max`
+ *  PARSES under the DSL, else the base `max_formula` if it parses, else null. A step that does not
+ *  parse is a die size (Bardic Die 2024: "1d8" at 5), not a count, and is skipped; a base that does
+ *  not parse (Sneak Attack "1d6") is a damage die, correctly no tracker. `resolveMaxAt` keeps the
+ *  parse-free string lookup; its only production caller moved here in R4-G4 (plugin
+ *  `pc.resource-seed.ts`), so it is TEST-ONLY from that phase on (pinned by the plugin's cross-repo
+ *  `tests/resource-formula.test.ts`). */
+export function resolveMaxCountAt(level: number, resource: ScalableResource, bindings: FormulaBindings): number | null {
+  const tryEval = (s: string): number | null => {
+    const toks = tokenize(s);
+    return toks ? evalTokens(toks, bindings) : null;
+  };
+  let best = 0;
+  let chosen: number | null = null;
+  for (const step of resource.scales_at ?? []) {
+    if (step.level > level || step.level < best) continue;
+    const v = tryEval(step.max);
+    if (v === null) continue;
+    best = step.level;
+    chosen = v;
+  }
+  if (chosen !== null) return chosen;
+  return tryEval(resource.max_formula);
 }

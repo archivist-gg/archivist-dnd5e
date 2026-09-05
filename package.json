@@ -76,6 +76,7 @@
     "./pc/pc.recalc": "./src/pc/pc.recalc.ts",
     "./pc/pc.resolver": "./src/pc/pc.resolver.ts",
     "./pc/pc.resource-seed": "./src/pc/pc.resource-seed.ts",
+    "./pc/pc.resources": "./src/pc/pc.resources.ts",
     "./pc/pc.rest": "./src/pc/pc.rest.ts",
     "./pc/pc.schema": "./src/pc/pc.schema.ts",
     "./pc/pc.slotting": "./src/pc/pc.slotting.ts",
