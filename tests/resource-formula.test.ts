@@ -47,6 +47,12 @@ describe("resolveMaxCountAt and the at-will sentinel (R4-G4 §6.2.2-§6.2.3)", (
     expect(resolveMaxCountAt(3, rage, B())).toBe(3);
     expect(resolveMaxCountAt(20, rage, B())).toBe(AT_WILL_MAX);
   });
+  it("breaks a duplicate-level tie the way resolveMaxAt does: the FIRST declaration wins", () => {
+    const dup = { max_formula: "2", scales_at: [{ level: 3, max: "3" }, { level: 3, max: "7" }] };
+    expect(resolveMaxCountAt(3, dup, B())).toBe(3);
+    // the pinned twin: the count reader and the die-label reader must agree on the same input
+    expect(resolveMaxAt(3, dup)).toBe("3");
+  });
   it("returns null when the base does not parse either (Sneak Attack 1d6)", () => {
     expect(resolveMaxCountAt(5, { max_formula: "1d6" }, B())).toBeNull();
   });

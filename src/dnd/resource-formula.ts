@@ -10,8 +10,8 @@
  * The single-quoted string literal (e.g. 'Seals') is valid ONLY as the argument to column(...).
  * '*' and '/' bind tighter than '+'/'-'. '/' is real division; wrap in ceil()/floor() for integer
  * results (e.g. "ceil({class_level}/2)"). "max(1, {cha_mod})" is how the data says "a minimum of once".
- * `AT_WILL_MAX` (999) is the at-will sentinel: it evaluates as the literal 999 and the plugin renders
- * "at will" instead of 999 boxes (R4-G4 §5).
+ * `AT_WILL_MAX` (999) is the at-will sentinel: it evaluates as the literal 999; R4-G4 T3 (§5) teaches
+ * the plugin's charge boxes to render "at will" for it instead of 999 boxes.
  */
 export interface FormulaBindings {
   level: number;
@@ -185,10 +185,11 @@ export interface ScalableResource {
   scales_at?: { level: number; max: string }[];
 }
 
-/** The max-formula string in effect at `totalLevel`: the highest `scales_at`
- *  step whose level ≤ totalLevel, else the base `max_formula`. Parse-free, so a
- *  die-string step comes back as the die string: TEST-ONLY since R4-G4 §6 (its
- *  production caller moved to `resolveMaxCountAt`). */
+/** The max-formula string in effect at `totalLevel`: the highest `scales_at` step whose level
+ *  ≤ totalLevel (the FIRST declaration wins on a duplicate level; a `level: 0` step is skipped), else
+ *  the base `max_formula`. Parse-free, so a die-string step comes back as the die string. Its one
+ *  production caller, plugin `pc.resource-seed.ts:25`, moves to `resolveMaxCountAt` in R4-G4 T3;
+ *  TEST-ONLY from that commit on (pinned by the plugin's cross-repo `tests/resource-formula.test.ts`). */
 export function resolveMaxAt(totalLevel: number, resource: ScalableResource): string {
   let chosen = resource.max_formula;
   let best = 0;
@@ -202,12 +203,15 @@ export function resolveMaxAt(totalLevel: number, resource: ScalableResource): st
 }
 
 /** The max COUNT in effect at `level`: the highest `scales_at` step at or below `level` whose `max`
- *  PARSES under the DSL, else the base `max_formula` if it parses, else null. A step that does not
- *  parse is a die size (Bardic Die 2024: "1d8" at 5), not a count, and is skipped; a base that does
- *  not parse (Sneak Attack "1d6") is a damage die, correctly no tracker. `resolveMaxAt` keeps the
- *  parse-free string lookup; its only production caller moved here in R4-G4 (plugin
- *  `pc.resource-seed.ts`), so it is TEST-ONLY from that phase on (pinned by the plugin's cross-repo
- *  `tests/resource-formula.test.ts`). */
+ *  PARSES under the DSL, else the base `max_formula` if it parses, else null. Ties break exactly as
+ *  `resolveMaxAt` breaks them (the FIRST declaration at a duplicate level wins, a `level: 0` step is
+ *  skipped), so a duplicate-level `scales_at` pair cannot make the count and the die label pick
+ *  different STEPS. Which step they pick is all they share: a step that does not parse
+ *  is a die size (Bardic Die 2024: "1d8" at 5), not a count, and is skipped HERE while `resolveMaxAt`
+ *  still returns it, which is exactly the intended divergence; a base that does not
+ *  parse (Sneak Attack "1d6") is a damage die, correctly no tracker. `resolveMaxAt` keeps the
+ *  parse-free string lookup; see its docblock for the pending R4-G4 T3 hand-over of its one
+ *  production caller. */
 export function resolveMaxCountAt(level: number, resource: ScalableResource, bindings: FormulaBindings): number | null {
   const tryEval = (s: string): number | null => {
     const toks = tokenize(s);
@@ -216,7 +220,7 @@ export function resolveMaxCountAt(level: number, resource: ScalableResource, bin
   let best = 0;
   let chosen: number | null = null;
   for (const step of resource.scales_at ?? []) {
-    if (step.level > level || step.level < best) continue;
+    if (step.level > level || step.level <= best) continue;
     const v = tryEval(step.max);
     if (v === null) continue;
     best = step.level;
