@@ -1,6 +1,6 @@
 import type { EntityRegistry } from "@archivist-gg/core";
 import type { Character, DerivedStats, ResolvedCharacter } from "./pc.types";
-import { resolveResourceIndex } from "./pc.resources";
+import { resolveResourceIndex, type ResourceIndex } from "./pc.resources";
 
 function resolveItemName(
   entry: Character["equipment"][number],
@@ -30,6 +30,9 @@ export interface RestCategory {
   id: RestCategoryId;
   label: string;
   preview: string;
+  /** R4-G4 §7.2.2: a PARTIAL restore from a `recovery[]` entry of kind `uses` and flavour `rest` (N uses, or "all"),
+   *  emitted only when the resource's own `reset` does not already fire at this rest. Absent = the own reset (to 0). */
+  restore?: number | "all";
 }
 
 export interface RestPlan {
@@ -38,6 +41,33 @@ export interface RestPlan {
   hdAvailable: Array<{ die: string; remaining: number }>;
   /** Internal: per-die HD-regain target captured at plan time so apply is idempotent. */
   hdRegainDist?: Array<{ die: string; targetUsed: number }>;
+}
+
+/** The reset triggers a rest of `type` fires. The same vocabulary the two `feature_uses` loops inside
+ *  `computeRestPlan` carry inline (left byte-identical; this is the partial-recovery walk's copy, R4-G4 §7.2.2). */
+const FIRES_AT: Record<RestType, ReadonlySet<string>> = {
+  long: new Set(["short-rest", "long-rest", "either", "dawn", "dusk"]),
+  short: new Set(["short-rest", "either"]),
+};
+
+/** R4-G4 §7.2.2 · the rest-triggered PARTIAL recovery: for every seeded resource whose own reset does NOT fire at this
+ *  rest, a `uses` / `rest`-flavour recovery entry whose `reset` fires here restores N uses (or all). Kind gates first
+ *  (a `spell-slots` entry is the card's picker, never a rest category); the own-reset guard keeps a resource from
+ *  listing twice (the PHB 2014 Cleric's Channel Divinity owns short-rest and recovers "all" at long-rest). */
+function pushPartialRecoveries(cats: RestCategory[], character: Character, index: ResourceIndex, type: RestType): void {
+  for (const [key, fu] of Object.entries(character.state.feature_uses ?? {})) {
+    if (fu.used <= 0) continue;
+    const res = index.get(key);
+    if (!res?.recovery?.length) continue;
+    if (FIRES_AT[type].has(res.reset)) continue;   // the own reset already restores it fully
+    const entry = res.recovery.find((r) => r.kind === "uses" && r.flavour === "rest" && FIRES_AT[type].has(r.entry.reset));
+    if (!entry) continue;
+    const amount = entry.entry.amount;
+    const restore: number | "all" = amount === "all" ? "all" : typeof amount === "number" ? amount : Number(amount);
+    if (restore !== "all" && !Number.isFinite(restore)) continue;   // a prose amount: caption only (§7.2.3)
+    const n = restore === "all" ? fu.used : Math.min(fu.used, restore);
+    cats.push({ id: `feature:${key}`, label: res.name, preview: `${n} of ${fu.used} used restored`, restore });
+  }
 }
 
 export function computeRestPlan(
@@ -140,6 +170,7 @@ export function computeRestPlan(
         preview: `${fu.used}/${fu.max} restored`,
       });
     }
+    pushPartialRecoveries(cats, character, index, "long");
 
     // Item charges — long rest restores short, long, AND dawn (rest spans the night)
     character.equipment.forEach((entry, idx) => {
@@ -172,6 +203,7 @@ export function computeRestPlan(
         preview: `${fu.used}/${fu.max} restored`,
       });
     }
+    pushPartialRecoveries(cats, character, index, "short");
 
     character.equipment.forEach((entry, idx) => {
       const rec = entry.state?.recovery;
