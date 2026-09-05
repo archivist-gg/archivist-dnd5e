@@ -342,8 +342,11 @@ export interface ResolvedCharacter {
    *  stamped as owner (R4-G4 §3.2.1). REQUIRED: the resolver's own literal sets it like `pools` and
    *  reassigns it after pools resolve. Cast test fixtures omit it. At this commit the field has NO
    *  reader outside the resolver (measured 2026-09-05: zero `resolved.resources` sites in
-   *  packages/obsidian/src); R4-G4 T3-T5 add plugin readers and they reach it through `?.`.
-   *  `computeRestPlan` never reads it at all, it re-derives the index. */
+   *  packages/obsidian/src). §3.2.1 names its consumers, every one of them a LATER R4-G4 task:
+   *  T3's `resourceLevel(id, ctx)` die helper (§6.2.4), T4's spend control (§3.2.2), T5's pool-tab
+   *  head (§4.2.6), T7's restore affordance and T7b's pool-pick seed (§12.2). Each reaches it
+   *  through `?.`, because the plugin's card / row fixtures cast a `ResolvedCharacter` with no
+   *  index. `computeRestPlan` never reads it at all, it re-derives the index. */
   resources: ResourceIndex;
   /** 2024 Weapon Mastery: bare-normalized slugs of the weapons the character has
    *  chosen mastery of, unioned across every class/level `weapon-mastery` pick
