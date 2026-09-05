@@ -12,8 +12,10 @@
  * results (e.g. "ceil({class_level}/2)"). "max(1, {cha_mod})" is how the data says "a minimum of once".
  * `AT_WILL_MAX` (999) is the at-will sentinel: it evaluates as the literal 999; R4-G4 T3 (§5) taught
  * the plugin's charge boxes to render "at will" for it instead of 999 boxes (the `opts.atWill` branch
- * at the head of `renderChargeBoxes`, fed by the `atWill: fu.max === AT_WILL_MAX` opt both feature
- * sites pass, `renderCardResource` and `renderFirstResourceTracker`).
+ * at the head of `renderChargeBoxes`, fed by the `atWill: fu.max === AT_WILL_MAX` opt its callers
+ * pass). Measured 2026-09-05 on the plugin tree that carries T5 with
+ * `grep -rn "atWill:" packages/obsidian/src`: THREE lines, the two T3 feature trackers
+ * `renderCardResource` and `renderFirstResourceTracker` plus T5's pool-tab dice head `renderPoolHead`.
  */
 export interface FormulaBindings {
   level: number;

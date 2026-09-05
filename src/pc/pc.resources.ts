@@ -7,19 +7,22 @@ import { resolveSpellcasting } from "./pc.spellcasting";
  *  that subclass; the total level for race / background / feat sources, or when the class is not found.
  *  `resourceBindings` (pc.resource-seed.ts) binds `class_level` through this function, and R4-G4 T3
  *  (§6.2.4 / §6.2.5) routed the plugin's three former TOTAL-level reads through it too, so
- *  `class_level`, `scales_at` and the die can no longer disagree. The three reads live at three sites:
- *  the plugin SEED (`seedFeatureUses` in `pc.resource-seed.ts`) calls this function directly for the
- *  level it hands `resolveMaxCountAt`, and the two DIE-LABEL `resolveScalingDie` reads, one in
- *  `renderCardResource` and one in `formatFeatureAttackNote` (plugin `components/actions/feature-rows.ts`),
- *  reach it through that file's module-private `resourceLevel(id, ctx)` helper, which resolves the
- *  owner from `resolved.resources` and falls back to the total level when there is none. R4-G4 T4
- *  added a FOURTH READ, the die label of `renderSpendControl` (`components/actions/spend-control.ts`).
- *  The units, measured 2026-09-05 with `grep -rn "resourceLevelFor(" packages/obsidian/src`, which
- *  returns THREE lines: four READS reach this function (the seed, the two die labels, the spend
- *  control) through THREE call expressions (the seed, `resourceLevel`, the spend control), of which
- *  TWO are direct callers, the seed and the spend control, because the two die labels share
- *  `resourceLevel`. The control passes the owner its index entry already carries, so its die label
- *  and the tracker beside it read the same level. So a
+ *  `class_level`, `scales_at` and the die can no longer disagree. T4 added a fourth read, the die label
+ *  of `renderSpendControl`, and T5 a fifth, the die label of the pool tab's dice head.
+ *
+ *  The units, measured 2026-09-05 on the plugin tree that carries T5 with
+ *  `grep -rn "resourceLevelFor(" packages/obsidian/src`, which returns FOUR lines: FIVE READS reach
+ *  this function through FOUR call EXPRESSIONS living in FOUR functions across FOUR files. The
+ *  expressions are the plugin SEED (`seedFeatureUses` in `pc.resource-seed.ts`, for the level it hands
+ *  `resolveMaxCountAt`), the module-private `resourceLevel(id, ctx)` helper of
+ *  `components/actions/feature-rows.ts` (which resolves the owner from `resolved.resources` and falls
+ *  back to the total level when there is none), `renderSpendControl`
+ *  (`components/actions/spend-control.ts`) and `renderPoolHead` (`components/pool-tab.ts`). The count
+ *  of READS is one higher than the count of expressions because `resourceLevel` serves TWO
+ *  `resolveScalingDie` die labels, one in `renderCardResource` and one in `formatFeatureAttackNote`:
+ *  so THREE of the five reads call this function directly (the seed, the spend control, the pool head)
+ *  and TWO reach it through `resourceLevel`. Each render-time reader passes the owner its index entry
+ *  already carries, so a die label and the tracker beside it read the same level. So a
  *  Barbarian 5 / Fighter 5 reads the level-5 Rage count, not the level-10 one. */
 export function resourceLevelFor(source: FeatureSource, resolved: ResolvedCharacter): number {
   if (source.kind === "class") {
