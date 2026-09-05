@@ -13,9 +13,11 @@
  * `AT_WILL_MAX` (999) is the at-will sentinel: it evaluates as the literal 999; R4-G4 T3 (§5) taught
  * the plugin's charge boxes to render "at will" for it instead of 999 boxes (the `opts.atWill` branch
  * at the head of `renderChargeBoxes`, fed by the `atWill: fu.max === AT_WILL_MAX` opt its callers
- * pass). Measured 2026-09-05 on the plugin tree that carries T5 with
- * `grep -rn "atWill:" packages/obsidian/src`: THREE lines, the two T3 feature trackers
- * `renderCardResource` and `renderFirstResourceTracker` plus T5's pool-tab dice head `renderPoolHead`.
+ * pass). Measured 2026-09-05 on the plugin tree that carries T7b with
+ * `grep -rn "atWill:" packages/obsidian/src`: FOUR lines, the two T3 feature trackers
+ * `renderCardResource` and `renderFirstResourceTracker`, T5's pool-tab dice head `renderPoolHead`,
+ * and T7b's `renderPickTracker`, which draws a pool pick's own `uses` on the pool row, the granted
+ * row and the boon row.
  */
 export interface FormulaBindings {
   level: number;

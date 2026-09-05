@@ -265,7 +265,8 @@ export class PCResolver {
 
     // R4-G4 §3.2.1: the FEATURE half of the resource index is derived BEFORE pools so that
     // `resolvePool` can intersect the members' `consumes.resource` against the ids the character
-    // actually owns; the full index (features + T7b's pool picks) is stored after pools resolve.
+    // actually owns; the full index, which `resolveResourceIndex` widens with the pool picks' own
+    // `uses` (§12), is stored after pools resolve, below.
     const featureResources = resolveFeatureResources(features);
 
     const resolvedCharacter: ResolvedCharacter = {

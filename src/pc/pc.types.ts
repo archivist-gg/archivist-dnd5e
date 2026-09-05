@@ -340,25 +340,30 @@ export interface ResolvedCharacter {
   spells: ResolvedSpell[];
   pools: ResolvedPool[];
   /** Every `resources[]` entry of every resolved feature, keyed by id, with the DECLARING feature
-   *  stamped as owner (R4-G4 §3.2.1). REQUIRED: the resolver's own literal sets it like `pools` and
+   *  stamped as owner, PLUS every pool pick's own `uses` with the POOL stamped as owner
+   *  (R4-G4 §3.2.1 and §12). REQUIRED: the resolver's own literal sets it like `pools` and
    *  reassigns it after pools resolve. Cast test fixtures omit it. Its readers outside the
-   *  resolver landed with R4-G4 T3, T4 and T5. Re-measured 2026-09-05 on the plugin tree that
-   *  carries T5: `grep -rn "resolved\.resources" packages/obsidian/src` returns SEVEN lines, of
-   *  which FOUR are read EXPRESSIONS, every one a `?.get(...)`, and three are comment prose. The
-   *  four expressions sit in four functions across three files: the module-private `resourceLevel`
+   *  resolver landed with R4-G4 T3, T4, T5 and T7b. Re-measured 2026-09-05 on the plugin tree that
+   *  carries T7b: `grep -rn "resolved\.resources" packages/obsidian/src` returns TEN lines, of
+   *  which SIX are read EXPRESSIONS and four are comment prose. The six expressions sit in six
+   *  functions across five files: the module-private `resourceLevel`
    *  helper of `components/actions/feature-rows.ts` (T3, reading `?.owner`), `renderSpendControl`
    *  (`components/actions/spend-control.ts`, reading the entry for its `name` and `die`),
-   *  `consumeCost` (`components/pool-tab.ts`, reading `?.name` for the Cost label), both T4, and
+   *  `consumeCost` (`components/pool-tab.ts`, reading `?.name` for the Cost label), both T4,
    *  `renderPoolHead` (`components/pool-tab.ts`, T5, reading the entry for the tab head's `name`,
-   *  `die`, `reset` and owner: §4.2.6). §3.2.1 names its consumers: T3's `resourceLevel(id, ctx)`
-   *  die helper (§6.2.4), T4's spend control and Cost label (§3.2.2 / §3.2.4) and T5's pool-tab
-   *  head, all LANDED. T7's restore affordance has LANDED too and reads NOTHING here: its rest arm
+   *  `die`, `reset` and owner: §4.2.6), and T7b's two: `renderPickTracker`
+   *  (`components/actions/pick-tracker.ts`, reading the entry for a pick's `reset` and `name`) and
+   *  `seedFeatureUses` (`pc.resource-seed.ts`), which is the ONE expression that is not a
+   *  `?.get(...)`: it walks `?.values()` for the entries whose `owner.kind` is `pool`, because a
+   *  pick's `uses` reaches the seed through no other route. §3.2.1 names its consumers: T3's
+   *  `resourceLevel(id, ctx)`
+   *  die helper (§6.2.4), T4's spend control and Cost label (§3.2.2 / §3.2.4), T5's pool-tab
+   *  head and T7b's tracker and seed (§12.2), all LANDED. T7's restore affordance has LANDED too and
+   *  reads NOTHING here: its rest arm
    *  walks the index `computeRestPlan` re-derives and its card arm routes on `resolveRecovery(rec)`
-   *  over the RAW `recovery[0]`, so the seven lines and four read expressions counted above are
-   *  still the count on the T7 plugin tree (same grep, re-run 2026-09-05 after T7's plugin commit).
-   *  Still ahead: T7b's pool-pick seed (§12.2).
-   *  Each reaches it through `?.`, because the plugin's card / row fixtures cast a
-   *  `ResolvedCharacter` with no index. `computeRestPlan` never reads it at all, it re-derives
+   *  over the RAW `recovery[0]`.
+   *  Every one of the six reaches it through `?.`, because the plugin's card / row / rest fixtures
+   *  cast a `ResolvedCharacter` with no index. `computeRestPlan` never reads it at all, it re-derives
    *  the index. */
   resources: ResourceIndex;
   /** 2024 Weapon Mastery: bare-normalized slugs of the weapons the character has
