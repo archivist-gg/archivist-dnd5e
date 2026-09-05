@@ -17,11 +17,14 @@ export interface ResourceRecovery {
   reset: ResetTrigger;
   /** The recovery KIND; absent = `uses` (R4-G4 §7, UR2), applied by the RESOLVER
    *  (pc/pc.resources.ts `resolveRecovery`) and never by a schema default, because
-   *  the sheet reads RAW entities. ZERO shipped documents carry the key at this
-   *  commit (measured 2026-09-05: `grep -rl "restores:"` over the converter corpus
-   *  and `.compendium-bundle` returns 0 files); R4-G4 T2b's overlay stamps
-   *  `spell-slots` on the bundle Wizard's two Arcane Recovery rows, which §7.1
-   *  measured as the only spell-slot recoveries in shipped data. Kept in step with
+   *  the sheet reads RAW entities. The CARRIERS, re-measured 2026-09-05 after R4-G4
+   *  T2b's regen shipped the bundle (this sentence was authored at T2, BEFORE that
+   *  regen, and said ZERO, which it no longer is): `grep -rl "restores:" --include='*.md'`
+   *  returns the TWO bundle Wizard notes (`SRD 2024/Classes/Wizard.md` and
+   *  `SRD 5e/Classes/Wizard.md`), whose Arcane Recovery rows T2b's overlay stamps
+   *  `spell-slots` and which §7.1 measured as the only spell-slot recoveries in shipped
+   *  data; the embedded `.compendium-bundle/index.json` carries the key on one line for
+   *  the same two rows; the converter corpus carries it on NO note. Kept in step with
    *  `resourceSchema.recovery` in schemas/resource-schema.ts. */
   restores?: "uses" | "spell-slots";
 }
