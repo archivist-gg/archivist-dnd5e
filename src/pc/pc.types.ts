@@ -315,10 +315,10 @@ export interface ResolvedPool {
   grants: ResolvedPoolEntry[];     // subclass auto-grants (do not count)
   /** Derived at resolve time from the members' `rendering_hint` (pool-layout.ts),
    *  unconditionally: an authored `TabDecl.renders.layout` does not suppress the
-   *  derivation, it OUTRANKS this field at the tab, and R4-G4 T5 is what teaches the plugin's
-   *  `TabsContainer` that precedence, where its dynamic-pool-tab loop reads
-   *  `decl.renders.layout ?? "spell-like"` today (§4.2.5). No plugin reader consumes
-   *  this field at this commit. */
+   *  derivation, it OUTRANKS this field at the tab (§4.2.5). R4-G4 T5 LANDED that precedence in the
+   *  plugin: `TabsContainer`'s dynamic-pool-tab loop is the ONE reader of this field (measured
+   *  2026-09-05 with `grep -rn "pool\.layout" packages/obsidian/src`, one line) and reads
+   *  authored-then-derived-then-default before handing the string to the `PoolTab` constructor. */
   layout?: PoolLayout;
   /** The OWNED resource id the members spend (majority of `consumes.resource` among the ids the
    *  character owns); undefined when no member consumes an owned id (R4-G4 §4.2.3, Gate 0 B1). */
@@ -342,15 +342,18 @@ export interface ResolvedCharacter {
   /** Every `resources[]` entry of every resolved feature, keyed by id, with the DECLARING feature
    *  stamped as owner (R4-G4 §3.2.1). REQUIRED: the resolver's own literal sets it like `pools` and
    *  reassigns it after pools resolve. Cast test fixtures omit it. Its readers outside the
-   *  resolver landed with R4-G4 T3 and T4 (re-measured 2026-09-05: three `resolved.resources` sites
-   *  in packages/obsidian/src, every one a `?.get(id)`: the module-private `resourceLevel` helper of
-   *  `components/actions/feature-rows.ts` (T3, reading `?.owner`), `renderSpendControl`
-   *  (`components/actions/spend-control.ts`, reading the entry for its `name` and `die`) and
-   *  `consumeCost` (`components/pool-tab.ts`, reading `?.name` for the Cost label), both T4).
-   *  §3.2.1 names its consumers: T3's `resourceLevel(id, ctx)` die helper (§6.2.4) and T4's spend
-   *  control and Cost label (§3.2.2 / §3.2.4), all LANDED, and still ahead, T5's pool-tab head
-   *  (§4.2.6), T7's restore affordance and T7b's pool-pick seed
-   *  (§12.2). Each reaches it through `?.`, because the plugin's card / row fixtures cast a
+   *  resolver landed with R4-G4 T3, T4 and T5. Re-measured 2026-09-05 on the plugin tree that
+   *  carries T5: `grep -rn "resolved\.resources" packages/obsidian/src` returns SEVEN lines, of
+   *  which FOUR are read EXPRESSIONS, every one a `?.get(...)`, and three are comment prose. The
+   *  four expressions sit in four functions across three files: the module-private `resourceLevel`
+   *  helper of `components/actions/feature-rows.ts` (T3, reading `?.owner`), `renderSpendControl`
+   *  (`components/actions/spend-control.ts`, reading the entry for its `name` and `die`),
+   *  `consumeCost` (`components/pool-tab.ts`, reading `?.name` for the Cost label), both T4, and
+   *  `renderPoolHead` (`components/pool-tab.ts`, T5, reading the entry for the tab head's `name`,
+   *  `die`, `reset` and owner: §4.2.6). §3.2.1 names its consumers: T3's `resourceLevel(id, ctx)`
+   *  die helper (§6.2.4), T4's spend control and Cost label (§3.2.2 / §3.2.4) and T5's pool-tab
+   *  head, all LANDED, and still ahead, T7's restore affordance and T7b's pool-pick seed (§12.2).
+   *  Each reaches it through `?.`, because the plugin's card / row fixtures cast a
    *  `ResolvedCharacter` with no index. `computeRestPlan` never reads it at all, it re-derives
    *  the index. */
   resources: ResourceIndex;
