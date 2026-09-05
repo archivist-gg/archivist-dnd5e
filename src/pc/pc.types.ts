@@ -340,13 +340,14 @@ export interface ResolvedCharacter {
   pools: ResolvedPool[];
   /** Every `resources[]` entry of every resolved feature, keyed by id, with the DECLARING feature
    *  stamped as owner (R4-G4 §3.2.1). REQUIRED: the resolver's own literal sets it like `pools` and
-   *  reassigns it after pools resolve. Cast test fixtures omit it. At this commit the field has NO
-   *  reader outside the resolver (measured 2026-09-05: zero `resolved.resources` sites in
-   *  packages/obsidian/src). §3.2.1 names its consumers, every one of them a LATER R4-G4 task:
-   *  T3's `resourceLevel(id, ctx)` die helper (§6.2.4), T4's spend control (§3.2.2), T5's pool-tab
-   *  head (§4.2.6), T7's restore affordance and T7b's pool-pick seed (§12.2). Each reaches it
-   *  through `?.`, because the plugin's card / row fixtures cast a `ResolvedCharacter` with no
-   *  index. `computeRestPlan` never reads it at all, it re-derives the index. */
+   *  reassigns it after pools resolve. Cast test fixtures omit it. Its first reader outside the
+   *  resolver landed with R4-G4 T3 (measured 2026-09-05: exactly one `resolved.resources` site in
+   *  packages/obsidian/src, `components/actions/feature-rows.ts:193`). §3.2.1 names its consumers:
+   *  T3's `resourceLevel(id, ctx)` die helper (§6.2.4, LANDED), and still ahead, T4's spend control
+   *  (§3.2.2), T5's pool-tab head (§4.2.6), T7's restore affordance and T7b's pool-pick seed
+   *  (§12.2). Each reaches it through `?.`, because the plugin's card / row fixtures cast a
+   *  `ResolvedCharacter` with no index. `computeRestPlan` never reads it at all, it re-derives
+   *  the index. */
   resources: ResourceIndex;
   /** 2024 Weapon Mastery: bare-normalized slugs of the weapons the character has
    *  chosen mastery of, unioned across every class/level `weapon-mastery` pick

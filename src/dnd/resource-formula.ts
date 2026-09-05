@@ -10,8 +10,10 @@
  * The single-quoted string literal (e.g. 'Seals') is valid ONLY as the argument to column(...).
  * '*' and '/' bind tighter than '+'/'-'. '/' is real division; wrap in ceil()/floor() for integer
  * results (e.g. "ceil({class_level}/2)"). "max(1, {cha_mod})" is how the data says "a minimum of once".
- * `AT_WILL_MAX` (999) is the at-will sentinel: it evaluates as the literal 999; R4-G4 T3 (§5) teaches
- * the plugin's charge boxes to render "at will" for it instead of 999 boxes.
+ * `AT_WILL_MAX` (999) is the at-will sentinel: it evaluates as the literal 999; R4-G4 T3 (§5) taught
+ * the plugin's charge boxes to render "at will" for it instead of 999 boxes (the `atWill` branch at
+ * `packages/obsidian/src/modules/pc/components/actions/charge-boxes.ts:55`, fed by the two feature
+ * sites' `atWill: fu.max === AT_WILL_MAX` at `feature-rows.ts:214` and `:248`).
  */
 export interface FormulaBindings {
   level: number;
@@ -188,8 +190,10 @@ export interface ScalableResource {
 /** The max-formula string in effect at `totalLevel`: the highest `scales_at` step whose level
  *  ≤ totalLevel (the FIRST declaration wins on a duplicate level; a `level: 0` step is skipped), else
  *  the base `max_formula`. Parse-free, so a die-string step comes back as the die string. Its one
- *  production caller, plugin `pc.resource-seed.ts:25`, moves to `resolveMaxCountAt` in R4-G4 T3;
- *  TEST-ONLY from that commit on (pinned by the plugin's cross-repo `tests/resource-formula.test.ts`). */
+ *  production caller, plugin `pc.resource-seed.ts:25`, moved to `resolveMaxCountAt` in R4-G4 T3, so it
+ *  is now TEST-ONLY: zero callers in this repo's `src/` and zero in the plugin's
+ *  `packages/obsidian/src/`, pinned by `tests/resource-formula.test.ts` here (`:43` / `:54`) and by the
+ *  plugin's cross-repo file of the same name (`:113-128`). */
 export function resolveMaxAt(totalLevel: number, resource: ScalableResource): string {
   let chosen = resource.max_formula;
   let best = 0;
@@ -211,8 +215,8 @@ export function resolveMaxAt(totalLevel: number, resource: ScalableResource): st
  *  parse-vs-string divergence described next. A step that does not parse is a die size (Bardic Die
  *  2024: "1d8" at 5), not a count, and is skipped HERE while `resolveMaxAt` still returns it; a base
  *  that does not parse (Sneak Attack "1d6") is a damage die, correctly no tracker. `resolveMaxAt`
- *  keeps the parse-free string lookup; see its docblock for the pending R4-G4 T3 hand-over of its one
- *  production caller. */
+ *  keeps the parse-free string lookup; R4-G4 T3 handed its one production caller, the plugin seed, to
+ *  this function (see its docblock), so a null here is what the seed warns on and leaves un-seeded. */
 export function resolveMaxCountAt(level: number, resource: ScalableResource, bindings: FormulaBindings): number | null {
   const tryEval = (s: string): number | null => {
     const toks = tokenize(s);
