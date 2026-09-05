@@ -64,7 +64,13 @@ function pushPartialRecoveries(cats: RestCategory[], character: Character, index
     if (!entry) continue;
     const amount = entry.entry.amount;
     const restore: number | "all" = amount === "all" ? "all" : typeof amount === "number" ? amount : Number(amount);
-    if (restore !== "all" && !Number.isFinite(restore)) continue;   // a prose amount: caption only (§7.2.3)
+    // A prose OR formula amount: caption only (§7.2.3). The walk never evaluates the DSL here, and
+    // today it never has to · measured 2026-09-06 over every `recovery:` block of the converter corpus
+    // and the bundle, `uses`-kind FORMULA carriers = 0 (the only formula amount is the Wizard's
+    // `ceil({class_level}/2)` pair, both `restores: spell-slots`, which `resolveRecovery` gives the
+    // `spell-slots` kind, so the `r.kind === "uses"` find above never reaches them). The three
+    // non-numeric `uses`-kind entries are all PROSE (Arcane Ward). Evaluating the DSL here is G8's.
+    if (restore !== "all" && !Number.isFinite(restore)) continue;
     const n = restore === "all" ? fu.used : Math.min(fu.used, restore);
     cats.push({ id: `feature:${key}`, label: res.name, preview: `${n} of ${fu.used} used restored`, restore });
   }

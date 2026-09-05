@@ -891,8 +891,9 @@ export function computeEffectiveProficiencies(
     // `tsc`: strip the annotation, assign `state` to a `"zzz"` literal, and the error
     // still names `ProficiencyTri`).
     // The KEY is normalised on read, so a hand-edited note may spell it any way it
-    // likes; the plugin's writers emit `toProfSlug` output and repair a hand-typed key
-    // in place rather than adding a second one beside it.
+    // likes; a key the plugin's writers CREATE is `toProfSlug` output, and a key the
+    // note already carries is written THROUGH in its own spelling rather than re-spelled
+    // or duplicated beside it (review M-4).
     const triSuppressed = new Set<string>();
     if (domain === "tools") {
       const tri: Record<string, ProficiencyTri> = resolved.definition?.overrides?.tools?.proficiency ?? {};

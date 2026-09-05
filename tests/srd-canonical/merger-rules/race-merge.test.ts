@@ -457,7 +457,7 @@ describe("race-merge: overlay-authored ability score increases (R4-P4)", () => {
 // builds `ov` as a plain object literal and never runs zod, so a missing
 // raceOverrideSchema key could not fail it. That leg is pinned by the sibling
 // tests/srd-canonical/overlay-race-asi.test.ts, whose `loadOverlay` call runs
-// `overlaySchema.safeParse` (tools/srd-canonical/sources/overlay.ts:32) over the
+// `overlaySchema.safeParse` (tools/srd-canonical/sources/overlay.ts) over the
 // REAL srd-5e.yaml, where `raceOverrideSchema` is `.strict()` and an undeclared
 // `languages:` key is a parse ERROR rather than a strip.
 describe("race-merge: overlay-authored languages (R4-G4)", () => {

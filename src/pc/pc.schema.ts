@@ -119,14 +119,15 @@ export const characterOverridesShape = z.object({
     /** R4-G4 §9.3 (UR1): a per-tool tri. An OPEN key space (tool names are not an enum, unlike
      *  `skillEnum` above); no `bonus` sibling, because tools have no numeric consumer. `expertise`
      *  beats a data grant, `none` suppresses one, `proficient` clears a data expertise · applied in
-     *  `computeEffectiveProficiencies` (pc.decision-engine.ts). Keys are what the WRITERS emit,
+     *  `computeEffectiveProficiencies` (pc.decision-engine.ts). A key a WRITER CREATES is
      *  `toProfSlug` output with the apostrophe RETAINED ("thieves'-tools"), matching the engine's
      *  own tool vocabulary in types/choice.ts. The READER is wider: `computeEffectiveProficiencies`
      *  normalises each key with `toProfSlug` on read, so a hand-typed "Thieves' Tools" also
      *  matches; and the plugin's two writers (`CharacterEditState.setToolProficiency` and the
-     *  `addProficiency` clearance) match an existing key by slug too, so a hand-typed spelling is
-     *  repaired in place rather than duplicated. `languages` gets no such sibling: languages have
-     *  no tri (§9.3). */
+     *  `addProficiency` clearance) match an existing key by slug too, so a key the note ALREADY
+     *  carries is written THROUGH in its own spelling rather than duplicated · nothing here
+     *  re-spells it (review M-4: "repaired in place" read as "normalised", which it is not).
+     *  `languages` gets no such sibling: languages have no tri (§9.3). */
     proficiency: z.record(z.string(), proficiencyTri).optional(),
   }).optional(),
   /** Manual defense edits. SUPPRESSION-ONLY, and the missing `add` channel is a DELIBERATE

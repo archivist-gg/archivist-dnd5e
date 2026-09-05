@@ -359,8 +359,8 @@ export interface ResolvedCharacter {
    *  stamped as owner, PLUS every pool pick's own `uses` with the POOL stamped as owner
    *  (R4-G4 §3.2.1 and §12). REQUIRED: the resolver's own literal sets it like `pools` and
    *  reassigns it after pools resolve. Cast test fixtures omit it. Its readers outside the
-   *  resolver landed with R4-G4 T3, T4, T5 and T7b. Re-measured 2026-09-05 on the plugin tree that
-   *  carries T7b: `grep -rn "resolved\.resources" packages/obsidian/src` returns TEN lines, of
+   *  resolver landed with R4-G4 T3, T4, T5 and T7b. Re-measured 2026-09-06 on the SHIPPED plugin
+   *  tree: `grep -rn "resolved\.resources" packages/obsidian/src` returns TEN lines, of
    *  which SIX are read EXPRESSIONS and four are comment prose. The six expressions sit in six
    *  functions across five files: the module-private `resourceLevel`
    *  helper of `components/actions/feature-rows.ts` (T3, reading `?.owner`), `renderSpendControl`

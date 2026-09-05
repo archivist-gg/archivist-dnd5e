@@ -12,7 +12,7 @@ import { warnOnce } from "../dnd/warn-once";
  *  `class_level`, `scales_at` and the die can no longer disagree. T4 added a fourth read, the die label
  *  of `renderSpendControl`, and T5 a fifth, the die label of the pool tab's dice head.
  *
- *  The units, measured 2026-09-05 on the plugin tree that carries T5 with
+ *  The units, re-measured 2026-09-06 on the SHIPPED plugin tree with
  *  `grep -rn "resourceLevelFor(" packages/obsidian/src`, which returns FOUR lines: FIVE READS reach
  *  this function through FOUR call EXPRESSIONS living in FOUR functions across FOUR files. The
  *  expressions are the plugin SEED (`seedFeatureUses` in `pc.resource-seed.ts`, for the level it hands

@@ -36,8 +36,8 @@ export const resourceSchema = z.object({
  *  `amount` is the MINIMUM spend. When `amount_max` is present the spend is a
  *  RANGE (`amount` .. `amount_max`). Readers of `consumes.resource`, re-measured
  *  2026-09-05 across both repos' `src` after plugin task T4 landed: the ENGINE still has
- *  exactly one, `pc/pc.pools.ts`'s
- *  owner-aware pool vote (R4-G4 §4.2.3, shipped by T2 with this key), which reads the
+ *  exactly one, `pc/pc.pools.ts`'s pool vote (R4-G4 §4.2.3, whose owner-aware form T2 shipped;
+ *  the `consumes.resource` key itself PREDATES T2, measured on `821f80d`), which reads the
  *  id to pick `ResolvedPool.resource` and never spends it; the PLUGIN now has SEVEN FUNCTIONS over
  *  EIGHT code lines in four files (the unit matters: `grep -rn "consumes\.resource\|consumes?\.resource"
  *  packages/obsidian/src` returns NINE lines, one of them docblock prose, and `consumeCost` reads the

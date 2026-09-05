@@ -14,17 +14,18 @@ export const RENDERING_HINT_LAYOUT: Readonly<Record<string, PoolLayout>> = {
  *  UNMAPPED is decided by OWN-property lookup, never by truthiness of a plain index (review M-2):
  *  `rendering_hint` is a free `z.string().optional()` on converter data, so a member may carry any
  *  string, and an object-literal table answers the `Object.prototype` keys through the prototype
- *  chain. Measured 2026-09-05 on this table: `constructor`, `toString` and `hasOwnProperty` each index
- *  to a FUNCTION and each has `hasOwnProperty` false, while `dice-pool` is the only shape that is both
- *  a string and own. Without the guard a lone junk hint voted that function as the layout, and one
- *  junk member beside genuine `dice-pool` members collapsed a correct majority into a phantom tie. */
+ *  chain. Measured 2026-09-06 on this table: `constructor`, `toString`, `hasOwnProperty` and
+ *  `valueOf` each index to a FUNCTION and each has `hasOwnProperty` false, while the two mapped
+ *  hints, `dice-pool` and `point-pool`, are the only keys that are both a string and own (review
+ *  M-1: the earlier wording named `dice-pool` alone). Without the guard a lone junk hint voted that
+ *  function as the layout, and one junk member beside genuine `dice-pool` members collapsed a
+ *  correct majority into a phantom tie. */
 export function derivePoolLayout(entries: ReadonlyArray<ResolvedPoolEntry>): PoolLayout | undefined {
   const votes = new Map<PoolLayout, number>();
   for (const e of entries) {
     const hint = e.entity.rendering_hint ?? "";
     if (!Object.prototype.hasOwnProperty.call(RENDERING_HINT_LAYOUT, hint)) continue;
     const layout = RENDERING_HINT_LAYOUT[hint];
-    if (!layout) continue;
     votes.set(layout, (votes.get(layout) ?? 0) + 1);
   }
   let best: PoolLayout | undefined;
