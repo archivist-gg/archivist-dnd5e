@@ -69,7 +69,9 @@ function pushPartialRecoveries(cats: RestCategory[], character: Character, index
     // and the bundle, `uses`-kind FORMULA carriers = 0 (the only formula amount is the Wizard's
     // `ceil({class_level}/2)` pair, both `restores: spell-slots`, which `resolveRecovery` gives the
     // `spell-slots` kind, so the `r.kind === "uses"` find above never reaches them). The three
-    // non-numeric `uses`-kind entries are all PROSE (Arcane Ward). Evaluating the DSL here is G8's.
+    // NON-FINITE `uses`-kind entries in the corpus are all PROSE (Arcane Ward), counted after the
+    // guard's own `!== "all"` test: non-numeric STRING amounts of `uses` kind number FIVE, the two
+    // `all` carriers included (review C-3). Evaluating the DSL here is G8's.
     if (restore !== "all" && !Number.isFinite(restore)) continue;
     const n = restore === "all" ? fu.used : Math.min(fu.used, restore);
     cats.push({ id: `feature:${key}`, label: res.name, preview: `${n} of ${fu.used} used restored`, restore });
