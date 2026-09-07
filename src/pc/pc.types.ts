@@ -313,6 +313,13 @@ export interface ResolvedClass {
 export interface ResolvedPoolEntry {
   slug: string;
   entity: OptionalFeatureEntity;
+  /** The compendium NAME the REGISTERED entity carries (R4-G5 §9.2.1), stamped at resolve time because `entity`
+   *  is `e.data`, which carries none: 0 of 215 converter and 0 of 7 bundle optional features declare a
+   *  `compendium` key, and the value lives in the note's frontmatter, which core keeps on `RegisteredEntity`.
+   *  The plugin's ONE visibility predicate reads it on BOTH surfaces (§3.2.2). Absent when the registry entry
+   *  carries none, which in practice means a test double. The COLLAPSE does not read it: its identity is the
+   *  slug PREFIX (§9.2.2). */
+  compendium?: string;
 }
 
 /** A materialized selection pool: count from the table column, prereq-filtered

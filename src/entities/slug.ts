@@ -25,3 +25,20 @@ export function bareEntitySlug(slug: string | null | undefined): string {
   return p.length >= 3 ? p.slice(2).join("_") : p[p.length - 1];
 }
 
+/** "[[SRD 2024/Classes/Fighter]]" to "fighter" (tail segment, slugified).
+ *
+ *  The tail goes through the SAME `slugify` that mints registry slugs, so an apostrophe is DELETED rather than
+ *  hyphenated ("Mage's Bane" to "mages-bane", where the old hand-rolled regex minted "mage-s-bane" and missed
+ *  every time). Only ever call this on a human NAME tail, never on a full `<prefix>_<name>` slug, which slugify
+ *  would destroy: `pc.decision-engine.ts`'s `resolveEntityRef` is the function that strips a `[[wikilink]]`
+ *  WITHOUT slugifying, and it is the one to use for a STORED slug.
+ *
+ *  MOVED here from `pc.decision-engine.ts` in R4-G5 T1, beside `bareEntitySlug`, so `pc.pools.ts` can use it
+ *  without importing the decision engine: T2 makes the engine import `pc.pools` for `strandedPicks`, and the old
+ *  direction would then be a cycle. The engine keeps a re-export, so its three plugin importers and its own test
+ *  are untouched. */
+export function wikilinkTailSlug(link: string): string {
+  const inner = link.replace(/^\[\[/, "").replace(/\]\]$/, "");
+  const tail = inner.split("/").pop() ?? inner;
+  return slugify(tail);
+}

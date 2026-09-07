@@ -17,7 +17,7 @@ import {
 // imports no decision engine, and pc.proficiency-grants.ts already consumes this
 // identical pair · the precedent.
 import { assembleEffectFeatures, collectProficiencyEffectGrants } from "./pc.feature-effects";
-import { bareEntitySlug, slugify } from "../entities/slug";
+import { bareEntitySlug, wikilinkTailSlug } from "../entities/slug";
 import { flattenAsiOrFeat } from "./pc.asi-flatten";
 
 export interface DecisionRegistry {
@@ -140,18 +140,14 @@ const warnedAmbiguousBare = new Set<string>();
 
 // ── helpers ────────────────────────────────────────────────────────────────
 
-/** "[[SRD 2024/Classes/Fighter]]" → "fighter" (tail segment, slugified).
- *
- *  The tail goes through the SAME `slugify` that mints registry slugs, so an
- *  apostrophe is DELETED rather than hyphenated ("Mage's Bane" → "mages-bane",
- *  where the old hand-rolled regex minted "mage-s-bane" and missed every time).
- *  Only ever call this on a human NAME tail — never on a full `<prefix>_<name>`
- *  slug, which slugify would destroy (see {@link resolveEntityRef}). */
-export function wikilinkTailSlug(link: string): string {
-  const inner = link.replace(/^\[\[/, "").replace(/\]\]$/, "");
-  const tail = inner.split("/").pop() ?? inner;
-  return slugify(tail);
-}
+/** `wikilinkTailSlug` MOVED to `entities/slug.ts` in R4-G5 T1, beside `bareEntitySlug`, so `pc.pools.ts` can
+ *  import it without importing this module (T2 makes this module import `pc.pools` for `strandedPicks`; the old
+ *  direction would then be a cycle). The re-export is KEPT because `@archivist-gg/dnd5e/pc/pc.decision-engine` is
+ *  a published subpath with three plugin importers (`passive/background-block.ts`, `builder/background-step.ts`,
+ *  `builder/class-step.ts`) plus this repo's `pc.resolver.ts` and `tests/wikilink-tail-slug.test.ts`: a public
+ *  surface, not a migration shim, so the standing "retire every shim" rule does not reach it (spec §17 names the
+ *  re-export explicitly). */
+export { wikilinkTailSlug };
 
 function matchesFilter(e: RegisteredEntity, where: EntityFilter, ownerBare: string): boolean {
   const d = e.data as {

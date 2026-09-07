@@ -34,3 +34,23 @@ export function numericColumnsAt(
   }
   return out;
 }
+
+/** Class-table COLUMN names per `select-entity` choice id (R4-G5 §6.2, invariant 3): the DATA route that makes a
+ *  levelled pick count GROW. MEASURED 2026-09-07 on both corpora: the Fighter 2024's `weapon-mastery` choice
+ *  authors `count: 3` at levels 1 / 4 / 10 / 16 while the class table's "Weapon Mastery" column reads
+ *  3 / 4 / 5 / 6 (byte-identical between the converter document and the SRD 2024 bundle record); the Barbarian
+ *  2024's column reads 2 / 3 / 4 against an authored 2; Paladin / Ranger / Rogue 2024 carry `count: 2` and NO
+ *  column, which is the correct RAW count. Read only INSIDE dnd5e (`buildDecisionLedger`). G7 handoff: the
+ *  converter emits `count.column` on the choice itself and this table retires. */
+export const COUNT_COLUMNS: Readonly<Record<string, string[]>> = {
+  "weapon-mastery": ["Weapon Mastery"],
+};
+
+/** The column keys for a choice id, by OWN-property lookup (`derivePoolLayout`'s precedent, invariant 3). The
+ *  guard is LOAD-BEARING, not defensive: `readTableColumn` above iterates its `keys` with `for ... of`, so a
+ *  plain index on a choice id of `constructor` hands it the Object constructor FUNCTION and THROWS while the
+ *  ledger is being built. Returns undefined for every id the table does not own. */
+export function countColumnsFor(choiceId: string): string[] | undefined {
+  if (!Object.prototype.hasOwnProperty.call(COUNT_COLUMNS, choiceId)) return undefined;
+  return COUNT_COLUMNS[choiceId];
+}
