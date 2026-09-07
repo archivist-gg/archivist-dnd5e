@@ -1,5 +1,5 @@
 import { describe, it, expect } from "vitest";
-import { spellcastingLines } from "../src/monster/monster.format";
+import { SPELLCASTING_LABELS, spellcastingLines } from "../src/monster/monster.format";
 
 /** R4-G6 §8.2 · the lines of a spellcasting entry. Labels from ONE table (title-cased like the SRD 2024 prose the vault
  *  already shows); groups in the 5etools order; sub-keys DESCENDING with the plain key BEFORE its `e` twin; `hidden`
@@ -40,6 +40,9 @@ describe("spellcastingLines", () => {
     expect(spellcastingLines({ headerEntries: ["h"], hidden: ["will"], will: ["x"], daily: { "1e": ["y"] } })).toEqual(["h", "1/Day Each: y"]);
     expect(spellcastingLines({ headerEntries: ["h"], hidden: ["spells"], spells: { "0": { spells: ["x"] } } })).toEqual(["h"]);
     expect(spellcastingLines({ will: ["a", { entry: "b", hidden: true }, { entry: "c" }] })).toEqual(["At Will: a, c"]);
+  });
+  it("every group of the render order owns a row in the ONE label table", () => {
+    expect(Object.keys(SPELLCASTING_LABELS).sort()).toEqual(["charges", "daily", "legendary", "recharge", "rest", "restLong", "ritual", "will"]);
   });
   it("ordinals", () => {
     const lines = spellcastingLines({ spells: { "1": { slots: 1, spells: ["a"] }, "2": { slots: 1, spells: ["b"] }, "4": { slots: 1, spells: ["c"] }, "9": { slots: 1, spells: ["d"] } } });

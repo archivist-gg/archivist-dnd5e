@@ -338,22 +338,34 @@ export function displayAsSection(displayAs: string | undefined): PlacedSection {
 // spellcasting (§8.2)
 // ---------------------------------------------------------------------------------------------------------------
 
-/** ONE label table. Title-cased to match the SRD 2024 statblock prose the vault already shows beside these entries. */
-export const SPELLCASTING_LABELS: Readonly<Record<string, { each: string; plain: string }>> = {
-  daily: { each: "N/Day Each:", plain: "N/Day:" },
-  rest: { each: "N/Rest Each:", plain: "N/Rest:" },
-  restLong: { each: "N/Long Rest Each:", plain: "N/Long Rest:" },
-  legendary: { each: "N/Legendary Action Each:", plain: "N/Legendary Action:" },
-  charges: { each: "N Charges Each", plain: "N Charges" },
-};
 const GROUP_ORDER = ["will", "daily", "rest", "restLong", "recharge", "legendary", "charges", "ritual"] as const;
+
+/** ONE label table: EVERY group of `GROUP_ORDER` owns its label text here, so the vocabulary is DATA and
+ *  `spellcastingLines` carries no label literal. Title-cased to match the SRD 2024 statblock prose the vault already
+ *  shows beside these entries. `plain` is a plain sub-key's label, and the whole label of the two count-less groups
+ *  `will` and `ritual`; `each` is its `Ne` twin, absent where a group has no twin; `six` is `recharge`'s
+ *  already-at-6 form. `N` stands for the sub-key's count. `charges` alone ends without a colon: `spellcastingLines`
+ *  appends ` (chargesItem):` after it (§8.2). The KEY type is `GROUP_ORDER`'s union, so a ninth group without a row
+ *  is a compile error rather than a runtime `undefined`. */
+export const SPELLCASTING_LABELS: Readonly<Record<(typeof GROUP_ORDER)[number], { plain: string; each?: string; six?: string }>> = {
+  will: { plain: "At Will:" },
+  daily: { plain: "N/Day:", each: "N/Day Each:" },
+  rest: { plain: "N/Rest:", each: "N/Rest Each:" },
+  restLong: { plain: "N/Long Rest:", each: "N/Long Rest Each:" },
+  recharge: { plain: "Recharge N-6:", six: "Recharge 6:" },
+  legendary: { plain: "N/Legendary Action:", each: "N/Legendary Action Each:" },
+  charges: { plain: "N Charges", each: "N Charges Each" },
+  ritual: { plain: "Rituals:" },
+};
 
 function spellText(e: MonsterSpellEntry): string | undefined {
   if (typeof e === "string") return e;
   return e.hidden ? undefined : e.entry;
 }
+/** A non-array group (a hand-typed `will: "fireball"`) yields NO spells rather than throwing: `entriesToMarkdown`
+ *  reaches `spellcastingLines` through a cast, so the declared element type is not a runtime guarantee. */
 function spellsOf(list: MonsterSpellEntry[] | undefined): string {
-  return (list ?? []).map(spellText).filter((s): s is string => s !== undefined).join(", ");
+  return (Array.isArray(list) ? list : []).map(spellText).filter((s): s is string => s !== undefined).join(", ");
 }
 /** Sub-keys DESCENDING by numeric prefix, the plain key BEFORE its `e` twin (5etools walks 9 down to 1, plain then
  *  each; the shipped SRD 2024 prose prints `2/Day Each:` before `1/Day Each:`). */
@@ -377,26 +389,33 @@ export function spellcastingLines(block: MonsterSpellcasting): string[] {
   const lines: string[] = [...(block.headerEntries ?? [])];
   for (const group of GROUP_ORDER) {
     if (hidden.has(group)) continue;
-    if (group === "will") { const s = spellsOf(block.will); if (s) lines.push(`At Will: ${s}`); continue; }
-    if (group === "ritual") { const s = spellsOf(block.ritual); if (s) lines.push(`Rituals: ${s}`); continue; }
+    const label = SPELLCASTING_LABELS[group];
+    if (group === "will" || group === "ritual") {
+      const s = spellsOf(group === "will" ? block.will : block.ritual); if (s) lines.push(`${label.plain} ${s}`);
+      continue;
+    }
     if (group === "recharge") {
       for (const k of sortedKeys(block.recharge ?? {})) {
         const s = spellsOf(block.recharge![k]); if (!s) continue;
-        lines.push(`${k === "6" ? "Recharge 6" : `Recharge ${k}-6`}: ${s}`);
+        lines.push(`${(k === "6" ? label.six ?? label.plain : label.plain).replace("N", k)} ${s}`);
       }
       continue;
     }
     const record = block[group as "daily" | "rest" | "restLong" | "legendary" | "charges"] ?? {};
     for (const k of sortedKeys(record)) {
       const s = spellsOf(record[k]); if (!s) continue;
-      const n = parseInt(k, 10);
-      const label = (k.endsWith("e") ? SPELLCASTING_LABELS[group].each : SPELLCASTING_LABELS[group].plain).replace("N", String(n));
-      lines.push(group === "charges" ? `${label}${block.chargesItem ? ` (${block.chargesItem})` : ""}: ${s}` : `${label} ${s}`);
+      const text = (k.endsWith("e") ? label.each ?? label.plain : label.plain).replace("N", String(parseInt(k, 10)));
+      lines.push(group === "charges" ? `${text}${block.chargesItem ? ` (${block.chargesItem})` : ""}: ${s}` : `${text} ${s}`);
     }
   }
   if (!hidden.has("spells") && block.spells) {
-    for (const lvl of Object.keys(block.spells).map(Number).sort((a, b) => a - b)) {
-      const level = block.spells[String(lvl)];
+    // Only a key that round-trips through `Number` names a slot level, and a level is read only once its `spells`
+    // array is confirmed: a malformed `spells` record is SKIPPED, never dereferenced (same cast, same reason).
+    const levelKeys = Object.keys(block.spells).filter((k) => String(Number(k)) === k).sort((a, b) => Number(a) - Number(b));
+    for (const key of levelKeys) {
+      const level = block.spells[key];
+      if (!level || !Array.isArray(level.spells)) continue;
+      const lvl = Number(key);
       const s = level.spells.join(", "); if (!s) continue;
       if (lvl === 0) { lines.push(`Cantrips (At Will): ${s}`); continue; }
       const slots = level.slots !== undefined

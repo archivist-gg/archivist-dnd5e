@@ -29,4 +29,9 @@ describe("entriesToMarkdown", () => {
     expect(entriesToMarkdown([{ type: "somethingNew", entries: ["kept"], weird: 1 }])).toBe("kept");
     expect(entriesToMarkdown([{ type: "somethingNew" }])).toBe("");
   });
+  it("a malformed spellcasting node renders its header entries and never throws", () => {
+    expect(entriesToMarkdown([{ type: "spellcasting", headerEntries: ["The knight casts:"], will: "fireball" }])).toBe("The knight casts:");
+    expect(entriesToMarkdown([{ type: "spellcasting", headerEntries: ["The knight casts:"], spells: { "1x": { spells: ["a"] } } }])).toBe("The knight casts:");
+    expect(entriesToMarkdown([{ type: "spellcasting", headerEntries: ["The knight casts:"], spells: { "0": null } }])).toBe("The knight casts:");
+  });
 });
