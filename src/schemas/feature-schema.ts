@@ -4,6 +4,7 @@ import { actionCostEnum, resourceConsumptionSchema, resourceSchema } from "./res
 import { attackSchema } from "./attack-schema";
 import { featureEffectSchema } from "./feature-effect-schema";
 import { durationSchema } from "./duration-schema";
+import type { Feature } from "../types/feature";
 
 /** LOCAL MIRROR of the converter's 14-key `companionSchema` (R4-G5 §7.2; ruling G5-UR2). It is deliberately
  *  LOOSER than the emitter on TWO axes, and both are the same safety rule:
@@ -59,7 +60,13 @@ const companionSchema = z.object({
   source_quote: z.string().optional(),
 });
 
-export const featureSchema: z.ZodType<unknown> = z.lazy(() =>
+/**
+ * The feature OBJECT, declared once (R4-G6 §4.2). Typed against the `Feature` interface so a wrong leaf fails
+ * `tsc`; exported UN-REFINED for the monster schema, whose name-only authored traits the hand parser accepted.
+ * The recursion runs through the REFINED schema so a nested class sub_feature keeps the description-or-entries
+ * rule; the refined `featureSchema` below keeps its exported `z.ZodType<unknown>` for every other root.
+ */
+export const featureObjectSchema: z.ZodType<Feature> = z.lazy(() =>
   z.object({
     id: z.string().min(1).optional(),
     name: z.string().min(1),
@@ -73,7 +80,7 @@ export const featureSchema: z.ZodType<unknown> = z.lazy(() =>
     trigger: z.string().optional(),
     dc_formula: z.string().optional(),
     effects: z.array(featureEffectSchema).optional(),
-    sub_features: z.array(featureSchema).optional(),
+    sub_features: z.array(featureSchemaTyped).optional(),
     resources: z.array(resourceSchema).optional(),
     // Phase 3 activatable buffs: a feature flagged `activatable` folds its effects
     // only while its id is present in state.active_buffs. `passive` renders a tag;
@@ -109,8 +116,12 @@ export const featureSchema: z.ZodType<unknown> = z.lazy(() =>
     // documents carry it and the census cannot see this key in either state (§12.1); the 47-block cache
     // round-trip in `tests/feature-schema-widening.test.ts` is its instrument.
     companion: companionSchema.optional(),
-  }).refine(
-    (f) => f.description !== undefined || (f.entries !== undefined && f.entries.length > 0),
-    { message: "feature requires either description or non-empty entries" }
-  ),
+  }),
 );
+
+const featureSchemaTyped: z.ZodType<Feature> = featureObjectSchema.refine(
+  (f) => f.description !== undefined || (f.entries !== undefined && f.entries.length > 0),
+  { message: "feature requires either description or non-empty entries" },
+);
+
+export const featureSchema: z.ZodType<unknown> = featureSchemaTyped;

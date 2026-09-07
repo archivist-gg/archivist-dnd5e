@@ -16,4 +16,8 @@ export const attackSchema = z.object({
     reach: z.number().int().nonnegative().optional(),
   }).optional(),
   condition: z.string().optional(),
+  // R4-G6 §5: declared on the `Attack` interface since the monster port, stripped by this schema until now.
+  // Monsters are the only carriers (8,176 bonuses, 1,796 extra-damage riders in the converter corpus).
+  bonus: z.number().optional(),
+  extra_damage: z.object({ dice: z.string(), type: z.string() }).optional(),
 });
