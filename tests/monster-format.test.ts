@@ -1,6 +1,7 @@
 import { describe, it, expect } from "vitest";
 import { resolveMonster } from "../src/monster/monster.resolve";
 import type { Monster } from "../src/monster/monster.types";
+import { hitDiceSizeFromCreatureSize } from "../src/dnd/math";
 import {
   capitalizeWords, capitalizeOutsideLinks, formatSize, sizeWord, formatAlignment, alignmentWords, formatType,
   formatCR, challengeLine, crString, formatAC, formatHP, formatSpeed, speedNumber, formatQualifiers, qualifierStrings,
@@ -46,6 +47,7 @@ describe("size (§6)", () => {
   });
   it("sizeWord is the first decoded word, lower-cased", () => {
     expect(sizeWord(["G"])).toBe("gargantuan");
+    expect(hitDiceSizeFromCreatureSize(sizeWord(["G"]))).toBe(20); // §13 row 25 asserts the VALUE: a bare code gives the default 8
     expect(sizeWord("Medium")).toBe("medium");
     expect(sizeWord(undefined)).toBe("medium");
   });
@@ -111,6 +113,7 @@ describe("challenge (§6; the four object shapes)", () => {
     expect(challengeLine("5", "equals your Proficiency Bonus")).toBe("5 (1,800 XP; PB equals your Proficiency Bonus)");
     expect(crString({ cr: "11", xp_lair: 8400 })).toBe("11");
     expect(formatCR({ cr: "11", lair: "13" })?.pb).toBe(4);
+    expect(crString(5 as unknown as string)).toBe("5"); // a bare NUMBER narrows to its string (the arm `resolveMonster` used to carry)
   });
 });
 
@@ -124,6 +127,7 @@ describe("armor class, hit points, speed (§6)", () => {
   it("formatAC title-cases the alias but never the wikilink target", () => {
     expect(formatAC([{ ac: 15, from: ["[[Player's Handbook (2014)/Magic Items/Chain Shirt|chain shirt]]"] }])).toBe("15 ([[Player's Handbook (2014)/Magic Items/Chain Shirt|Chain Shirt]])");
     expect(capitalizeOutsideLinks("natural armor, [[a/b's c|d e]] and shield")).toBe("Natural Armor, [[a/b's c|D E]] And Shield");
+    expect(capitalizeOutsideLinks("[[a/b's c]] x")).toBe("[[a/b's c]] X"); // the no-alias branch: the target is never title-cased
     expect(capitalizeWords("player's handbook")).toBe("Player'S Handbook");
   });
   it("formatHP", () => {
@@ -136,6 +140,8 @@ describe("armor class, hit points, speed (§6)", () => {
     expect(formatSpeed({ walk: 60, fly: { number: 60, condition: "(hover)" }, swim: 60, can_hover: true })).toBe("Walk 60 ft., Fly 60 ft. (hover), Swim 60 ft.");
     expect(formatSpeed({ walk: 30, fly: 60, can_hover: true })).toBe("Walk 30 ft., Fly 60 ft. (hover)");
     expect(formatSpeed({ walk: 30, hover: true })).toBe("Walk 30 ft.");
+    expect(formatSpeed({ walk: 30, can_hover: true })).toBe("Walk 30 ft."); // §13 row 23: a non-mode key is never a mode
+    expect(formatSpeed({ swim: 40, walk: 10 })).toBe("Walk 10 ft., Swim 40 ft."); // §13 row 23: the FIXED mode list, not the authored key order
     expect(formatSpeed({ walk: 30, alternate: { walk: [{ number: 40, condition: "(bear form only)" }] } })).toBe("Walk 30 ft., Walk 40 ft. (bear form only)");
     expect(formatSpeed({ walk: 30, choose: { from: ["climb", "fly"], amount: 20, note: "(DM's choice)" } })).toBe("Walk 30 ft., 20 ft. climb or fly (DM's choice)");
     expect(speedNumber({ fly: { number: 60, condition: "(hover)" } }, "fly")).toBe(60);

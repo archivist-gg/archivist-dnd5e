@@ -142,7 +142,7 @@ export interface FormattedCR {
 
 export function formatCR(cr: string | MonsterCRStructured | undefined): FormattedCR | undefined {
   if (cr === undefined || cr === null) return undefined;
-  const obj = typeof cr === "string" ? { cr } : cr;
+  const obj = typeof cr === "object" ? cr : { cr: String(cr) };
   const text = String(obj.cr);
   const tableMiss = !(text in CR_TO_XP);
   return {
@@ -159,7 +159,7 @@ export function formatXP(xp: number): string {
   return String(xp).replace(/\B(?=(\d{3})+(?!\d))/g, ",");
 }
 
-/** The bare `cr` text (today's Challenge value; the hit-die / PB tables key on it). */
+/** The bare `cr` text (today's Challenge value; the PB / XP tables key on it). */
 export function crString(cr: string | MonsterCRStructured | undefined): string | undefined {
   return formatCR(cr)?.crText;
 }
