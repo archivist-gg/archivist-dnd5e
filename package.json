@@ -56,6 +56,7 @@
     "./monster/monster.enrichment": "./src/monster/monster.enrichment.ts",
     "./monster/monster.format": "./src/monster/monster.format.ts",
     "./monster/monster.parser": "./src/monster/monster.parser.ts",
+    "./monster/monster.schema": "./src/monster/monster.schema.ts",
     "./monster/monster.types": "./src/monster/monster.types.ts",
     "./optional-feature/optional-feature.codec": "./src/optional-feature/optional-feature.codec.ts",
     "./optional-feature/optional-feature.parser": "./src/optional-feature/optional-feature.parser.ts",

@@ -1,8 +1,10 @@
-import { Monster } from "./monster.types";
-import type { Attack, Feature, FeatureRecharge } from "../types";
+import type { Monster } from "./monster.types";
+import type { FeatureRecharge } from "../types";
 import type { ParseResult } from "@archivist-gg/core";
-import { parseYaml, toStringSafe } from "@archivist-gg/core";
+import { parseYaml } from "@archivist-gg/core";
+import { monsterSchema, MONSTER_KNOWN_KEYS } from "./monster.schema";
 
+/** The four recharge kinds. Pinned by the converter's AST guard as a literal `new Set([...])` in THIS file. */
 const VALID_RECHARGE_TYPES: ReadonlySet<FeatureRecharge["type"]> = new Set([
   "recharge_on_roll",
   "per_day",
@@ -10,173 +12,114 @@ const VALID_RECHARGE_TYPES: ReadonlySet<FeatureRecharge["type"]> = new Set([
   "per_long_rest",
 ]);
 
+const NUMERIC_STRING = /^[+-]?\d+(\.\d+)?$/;
+const FEATURE_ARRAYS = ["traits", "actions", "reactions", "legendary_actions", "bonus_actions", "mythic"] as const;
+const SPEED_MODES = ["walk", "fly", "swim", "climb", "burrow"] as const;
+const ABILITY_KEYS = ["str", "dex", "con", "int", "wis", "cha"] as const;
+const NULL_KEPT = new Set(["senses", "languages", "group"]);
+
+function isRecord(v: unknown): v is Record<string, unknown> { return typeof v === "object" && v !== null && !Array.isArray(v); }
+
+/** A numeric STRING becomes the number (the hand parser's `Number()`); anything else is left for the schema to judge. */
+function coerceNumeric(obj: Record<string, unknown>, key: string): void {
+  const v = obj[key];
+  if (typeof v === "string" && NUMERIC_STRING.test(v.trim())) obj[key] = Number(v);
+}
+
+/** Step 9: delete every `null` anywhere in the tree (a bare `key:` in hand-authored YAML), except the three top-level
+ *  converter-emitted nullables; a null array element is removed. */
+function scrubNulls(v: unknown, top: boolean): void {
+  if (Array.isArray(v)) {
+    for (let i = v.length - 1; i >= 0; i--) { if (v[i] === null) v.splice(i, 1); else scrubNulls(v[i], false); }
+    return;
+  }
+  if (!isRecord(v)) return;
+  for (const [k, x] of Object.entries(v)) {
+    if (x === null) { if (!(top && NULL_KEPT.has(k))) delete v[k]; }
+    else scrubNulls(x, false);
+  }
+}
+
+/** Step 5: delete every non-finite number anywhere in the tree (today's edit path writes `.nan` onto 400 notes). */
+function scrubNonFinite(v: unknown): void {
+  if (Array.isArray(v)) { for (const x of v) scrubNonFinite(x); return; }
+  if (!isRecord(v)) return;
+  for (const [k, x] of Object.entries(v)) {
+    if (typeof x === "number" && !Number.isFinite(x)) delete v[k];
+    else scrubNonFinite(x);
+  }
+}
+
+/**
+ * R4-G6 §4.1 · the hand parser's tolerances made explicit, BEFORE `safeParse`. Each step rewrites only a shape the
+ * old parser already rewrote, coerced or dropped; the converter corpora are untouched by it (0 / 0 / 0 measured).
+ */
+export function migrateLegacy(raw: Record<string, unknown>): void {
+  // 9 · a null ANYWHERE in the tree is deleted (a bare `key:`; a null array element is removed), except the three
+  //     converter-emitted top-level nullables. Runs FIRST: the `?? 10` fill (step 6) must see the deletion.
+  scrubNulls(raw, true);
+  // 1 · the legacy `legendary` alias and the numeric `legendary_actions`
+  if (raw.legendary_actions != null && !Array.isArray(raw.legendary_actions) && typeof raw.legendary_actions !== "object") {
+    if (raw.legendary_action_uses == null) raw.legendary_action_uses = Number(raw.legendary_actions);
+    delete raw.legendary_actions;
+  }
+  if (!Array.isArray(raw.legendary_actions) && Array.isArray(raw.legendary)) raw.legendary_actions = raw.legendary;
+  delete raw.legendary;
+  // 2 · scalar ac / hp; an ac of numbers
+  if (typeof raw.ac === "number") raw.ac = [{ ac: raw.ac }];
+  if (Array.isArray(raw.ac)) raw.ac = raw.ac.map((e) => (typeof e === "number" ? { ac: e } : e));
+  if (typeof raw.hp === "number") raw.hp = { average: raw.hp };
+  // 3 · a numeric cr
+  if (typeof raw.cr === "number") raw.cr = String(raw.cr);
+  // 4 · numeric strings on the named leaves
+  for (const k of ["passive_perception", "legendary_action_uses", "legendary_resistance", "columns", "initiative"]) coerceNumeric(raw, k);
+  if (isRecord(raw.initiative)) coerceNumeric(raw.initiative, "proficiency");
+  for (const k of ["saves", "skills"]) { const o = raw[k]; if (isRecord(o)) for (const m of Object.keys(o)) coerceNumeric(o, m); }
+  if (isRecord(raw.hp)) coerceNumeric(raw.hp, "average");
+  if (Array.isArray(raw.ac)) for (const e of raw.ac) if (isRecord(e)) coerceNumeric(e, "ac");
+  if (isRecord(raw.abilities)) for (const k of ABILITY_KEYS) coerceNumeric(raw.abilities, k);
+  if (isRecord(raw.speed)) for (const k of SPEED_MODES) { coerceNumeric(raw.speed, k); const v = raw.speed[k]; if (isRecord(v)) coerceNumeric(v, "number"); }
+  // 5 · the generic non-finite scrub
+  scrubNonFinite(raw);
+  // 6 · a missing ability score is 10
+  if (isRecord(raw.abilities)) for (const k of ABILITY_KEYS) if (raw.abilities[k] == null) raw.abilities[k] = 10;
+  // 7 · a bare senses / languages string
+  if (typeof raw.senses === "string") raw.senses = [raw.senses];
+  if (typeof raw.languages === "string") raw.languages = [raw.languages];
+  // 8 · feature `desc` and a malformed recharge
+  for (const k of FEATURE_ARRAYS) {
+    const arr = raw[k];
+    if (!Array.isArray(arr)) continue;
+    for (const f of arr) {
+      if (!isRecord(f)) continue;
+      if (typeof f.desc === "string" && f.description === undefined && !Array.isArray(f.entries)) { f.description = f.desc; delete f.desc; }
+      const r = f.recharge;
+      if (r !== undefined && !(isRecord(r) && typeof r.param === "number" && VALID_RECHARGE_TYPES.has(r.type as FeatureRecharge["type"]))) delete f.recharge;
+    }
+  }
+}
+
 export function parseMonster(source: string): ParseResult<Monster> {
   const result = parseYaml<Record<string, unknown>>(source, ["name"]);
   if (!result.success) return result;
-
   const raw = result.data;
+  migrateLegacy(raw);
 
-  const monster: Monster = {
-    name: toStringSafe(raw.name),
-  };
-
-  if (raw.size != null) monster.size = toStringSafe(raw.size);
-  if (raw.type != null) monster.type = toStringSafe(raw.type);
-  if (raw.subtype != null) monster.subtype = toStringSafe(raw.subtype);
-  if (raw.alignment != null) monster.alignment = toStringSafe(raw.alignment);
-  if (raw.cr != null) monster.cr = toStringSafe(raw.cr);
-
-  if (Array.isArray(raw.ac)) {
-    monster.ac = raw.ac.map((entry: Record<string, unknown>) => ({
-      ac: Number(entry.ac),
-      from: Array.isArray(entry.from) ? entry.from.map(String) : undefined,
-    }));
+  const parsed = monsterSchema.safeParse(raw);
+  if (!parsed.success) {
+    return { success: false, error: `monster schema validation failed: ${parsed.error.message}` };
   }
+  const monster = parsed.data as Monster;
 
-  if (raw.hp && typeof raw.hp === "object") {
-    const hp = raw.hp as Record<string, unknown>;
-    monster.hp = {
-      average: Number(hp.average),
-      formula: hp.formula != null ? toStringSafe(hp.formula) : undefined,
-    };
-  }
+  // R4-G6 §3.3 · an undeclared TOP-LEVEL key relocates to `raw` (never stripped; the census says `relocated-to-raw`).
+  const extras: Record<string, unknown> = {};
+  for (const [k, v] of Object.entries(raw)) if (!MONSTER_KNOWN_KEYS.has(k)) extras[k] = v;
+  if (Object.keys(extras).length > 0) monster.raw = { ...(monster.raw ?? {}), ...extras };
 
-  if (raw.speed && typeof raw.speed === "object") {
-    const speed = raw.speed as Record<string, unknown>;
-    monster.speed = {};
-    for (const key of ["walk", "fly", "swim", "climb", "burrow"] as const) {
-      if (speed[key] != null) monster.speed[key] = Number(speed[key]);
-    }
-  }
-
-  if (raw.abilities && typeof raw.abilities === "object") {
-    const ab = raw.abilities as Record<string, unknown>;
-    monster.abilities = {
-      str: Number(ab.str ?? 10),
-      dex: Number(ab.dex ?? 10),
-      con: Number(ab.con ?? 10),
-      int: Number(ab.int ?? 10),
-      wis: Number(ab.wis ?? 10),
-      cha: Number(ab.cha ?? 10),
-    };
-  }
-
-  if (raw.saves && typeof raw.saves === "object") {
-    const saves: Partial<Record<string, number>> = {};
-    for (const [key, val] of Object.entries(raw.saves as Record<string, unknown>)) {
-      saves[key] = Number(val);
-    }
-    monster.saves = saves;
-  }
-
-  if (raw.skills && typeof raw.skills === "object") {
-    const skills: Record<string, number> = {};
-    for (const [key, val] of Object.entries(raw.skills as Record<string, unknown>)) {
-      skills[key] = Number(val);
-    }
-    monster.skills = skills;
-  }
-
-  if (Array.isArray(raw.senses)) monster.senses = raw.senses.map(String);
-  if (raw.passive_perception != null) monster.passive_perception = Number(raw.passive_perception);
-  if (Array.isArray(raw.languages)) monster.languages = raw.languages.map(String);
-  if (Array.isArray(raw.damage_vulnerabilities)) monster.damage_vulnerabilities = raw.damage_vulnerabilities.map(String);
-  if (Array.isArray(raw.damage_resistances)) monster.damage_resistances = raw.damage_resistances.map(String);
-  if (Array.isArray(raw.damage_immunities)) monster.damage_immunities = raw.damage_immunities.map(String);
-  if (Array.isArray(raw.condition_immunities)) monster.condition_immunities = raw.condition_immunities.map(String);
-
-  const parseAttack = (raw: Record<string, unknown>): Attack => {
-    const a: Attack = {
-      name: toStringSafe(raw.name),
-      type: toStringSafe(raw.type) as Attack["type"],
-    };
-    if (typeof raw.bonus === "number") a.bonus = raw.bonus;
-    if (typeof raw.damage === "string") a.damage = raw.damage;
-    if (typeof raw.damage_type === "string") a.damage_type = raw.damage_type;
-    if (typeof raw.action === "string") a.action = raw.action as Attack["action"];
-    if (Array.isArray(raw.properties)) a.properties = (raw.properties as unknown[]).map(String);
-    if (raw.range && typeof raw.range === "object") {
-      const r = raw.range as Record<string, unknown>;
-      a.range = {};
-      if (typeof r.normal === "number") a.range.normal = r.normal;
-      if (typeof r.long === "number") a.range.long = r.long;
-      if (typeof r.reach === "number") a.range.reach = r.reach;
-    }
-    if (raw.extra_damage && typeof raw.extra_damage === "object") {
-      const ed = raw.extra_damage as { dice?: unknown; type?: unknown };
-      if (typeof ed.dice === "string" && typeof ed.type === "string") {
-        a.extra_damage = { dice: ed.dice, type: ed.type };
-      }
-    }
-    if (typeof raw.condition === "string") a.condition = raw.condition;
-    return a;
-  };
-
-  const parseFeatures = (arr: unknown): Feature[] | undefined => {
-    if (!Array.isArray(arr)) return undefined;
-    return arr.map((f: Record<string, unknown>) => {
-      const feature: Feature = {
-        name: toStringSafe(f.name),
-        // Always set entries to an array so downstream renderers/editors
-        // (which call .join/.map directly) keep working.
-        entries: Array.isArray(f.entries) ? f.entries.map(String) : [],
-      };
-      if (typeof f.description === "string") feature.description = f.description;
-      if (Array.isArray(f.attacks)) {
-        feature.attacks = (f.attacks as Array<Record<string, unknown>>).map(parseAttack);
-      }
-      if (typeof f.action === "string") feature.action = f.action as Feature["action"];
-      if (f.recharge && typeof f.recharge === "object") {
-        const r = f.recharge as Record<string, unknown>;
-        if (
-          typeof r.type === "string" &&
-          VALID_RECHARGE_TYPES.has(r.type as FeatureRecharge["type"]) &&
-          typeof r.param === "number"
-        ) {
-          feature.recharge = {
-            type: r.type as FeatureRecharge["type"],
-            param: r.param,
-          };
-        }
-      }
-      return feature;
-    });
-  };
-
-  monster.traits = parseFeatures(raw.traits);
-  monster.actions = parseFeatures(raw.actions);
-  monster.reactions = parseFeatures(raw.reactions);
-  // `legendary_actions` is the array of legendary actions (current/canonical name).
-  // `legendary` is a backwards-compat alias for older user YAML where the array
-  // was misnamed `legendary` and the per-round count lived under `legendary_actions`.
-  const legendaryArrayRaw = Array.isArray(raw.legendary_actions)
-    ? raw.legendary_actions
-    : raw.legendary;
-  monster.legendary_actions = parseFeatures(legendaryArrayRaw);
-
-  // `legendary_action_uses` is the per-round count budget. The merger does not
-  // emit this — it defaults to 3 in the renderer. We accept it under its new
-  // name, and fall back to the legacy numeric `legendary_actions` value when
-  // that field encoded the count rather than the array.
-  if (raw.legendary_action_uses != null) {
-    monster.legendary_action_uses = Number(raw.legendary_action_uses);
-  } else if (
-    raw.legendary_actions != null &&
-    !Array.isArray(raw.legendary_actions) &&
-    typeof raw.legendary_actions !== "object"
-  ) {
-    monster.legendary_action_uses = Number(raw.legendary_actions);
-  }
-  if (raw.legendary_resistance != null) monster.legendary_resistance = Number(raw.legendary_resistance);
-  if (raw.columns != null) monster.columns = Number(raw.columns);
-
-  // Extract Legendary Resistance count from traits if not explicitly set.
-  // SRD data stores it as a trait named "Legendary Resistance (3/Day)" rather
-  // than a separate numeric field.
+  // Extract Legendary Resistance count from traits if not explicitly set (contract B3, unchanged).
+  // SRD data stores it as a trait named "Legendary Resistance (3/Day)" rather than a separate numeric field.
   if (!monster.legendary_resistance && monster.traits) {
-    const lrIndex = monster.traits.findIndex(t =>
-      /^Legendary Resistance\s*\(/i.test(t.name ?? "")
-    );
+    const lrIndex = monster.traits.findIndex((t) => /^Legendary Resistance\s*\(/i.test(t.name ?? ""));
     if (lrIndex !== -1) {
       const match = monster.traits[lrIndex].name?.match(/\((\d+)\/Day\)/i);
       if (match) {

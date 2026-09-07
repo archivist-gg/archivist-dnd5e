@@ -1,32 +1,36 @@
-import type { Abilities, AC, HP, Speed, Feature } from "../types";
+import type { Abilities, Feature } from "../types";
 
 export interface Monster {
   name: string;
-  size?: string;
-  type?: string;
-  subtype?: string;
-  alignment?: string;
-  cr?: string;
-  ac?: AC[];
-  hp?: HP;
-  speed?: Speed;
-  abilities?: Abilities;
-  saves?: Partial<Record<string, number>>;
-  skills?: Record<string, number>;
-  senses?: string[];
-  passive_perception?: number;
-  languages?: string[];
-  damage_vulnerabilities?: string[];
-  damage_resistances?: string[];
-  damage_immunities?: string[];
-  condition_immunities?: string[];
-  traits?: Feature[];
-  actions?: Feature[];
-  reactions?: Feature[];
-  legendary_actions?: Feature[];
-  legendary_action_uses?: number;
-  legendary_resistance?: number;
-  columns?: number;
+  size?: string | string[];              size_note?: string;
+  type?: string | MonsterTypeStructured; subtype?: string;
+  alignment?: string | (string | AlignmentEntry)[];   alignment_prefix?: string;
+  cr?: string | MonsterCRStructured;     pb_note?: string;
+  ac?: MonsterAC[];  hp?: MonsterHP;  speed?: MonsterSpeed;  abilities?: Abilities;
+  saves?: Partial<Record<string, number>>;  skills?: Record<string, number>;  skills_other?: unknown[];
+  senses?: string[] | null;  passive_perception?: number;  languages?: string[] | null;
+  damage_vulnerabilities?: (string | DamageQualifier)[];  damage_resistances?: (string | DamageQualifier)[];
+  damage_immunities?: (string | DamageQualifier)[];       condition_immunities?: (string | DamageQualifier)[];
+  traits?: Feature[];  actions?: Feature[];  bonus_actions?: Feature[];  reactions?: Feature[];
+  legendary_actions?: Feature[];  mythic?: Feature[];  mythic_header?: string[];
+  legendary_action_uses?: number;  legendary_resistance?: number;  legendary_actions_lair_count?: number;
+  section_headers?: MonsterSectionHeader[];  action_note?: string;  reaction_note?: string;
+  spellcasting?: MonsterSpellcasting[];  legendary_group?: MonsterLegendaryGroup;
+  lair_actions?: unknown[];  regional_actions?: unknown[];  variant?: unknown[];
+  initiative?: number | MonsterInitiative;  gear?: (string | MonsterGearEntry)[];
+  is_named_creature?: boolean;  is_npc?: boolean;  familiar?: boolean;  short_name?: string | boolean;  level?: number;
+  dragon_age?: string;  dragon_casting_color?: string;
+  environment?: string[];  treasure?: string[];  attached_items?: string[];  group?: string[] | null;
+  summoned_by_spell?: string;  summoned_by_spell_level?: number;  summoned_by_class?: string;
+  trait_tags?: string[];  action_tags?: string[];  sense_tags?: string[];  language_tags?: string[];
+  spellcasting_tags?: string[];  misc_tags?: string[];  damage_tags?: string[];  damage_tags_spell?: string[];
+  damage_tags_legendary?: string[];  condition_inflict?: string[];  condition_inflict_spell?: string[];
+  condition_inflict_legendary?: string[];  saving_throw_forced?: string[];  saving_throw_forced_spell?: string[];
+  saving_throw_forced_legendary?: string[];
+  has_fluff?: boolean;  has_fluff_images?: boolean;  has_token?: boolean;  token_credit?: string;
+  token_custom?: boolean;  foundry_token_scale?: number;  sound_clip?: MonsterSoundClip;  alt_art?: MonsterAltArt[];
+  image?: string | string[];  thumbnail?: string | string[];  rendering_hint?: string;  columns?: number;
+  slug?: string;  edition?: string;  source?: string;  raw?: Record<string, unknown>;
 }
 
 // R4-G6 §3.2 · monster-LOCAL shapes for the converter's wide leaves. The shared `AC` / `HP` / `Speed` in
