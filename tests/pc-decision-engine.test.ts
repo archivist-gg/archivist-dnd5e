@@ -1195,3 +1195,191 @@ describe("choiceSchema — select-entity spell where axis (STRICT)", () => {
     expect(() => choiceSchema.parse(input)).toThrow();
   });
 });
+
+// ---------------------------------------------------------------------------
+// R4-G5 §3 / §6 · the pool synth's typed marker, its RESOLVED selection and its
+// `stranded` stamp; the two recognizer suppressions; the count-column reader;
+// the lazy bare index. Self-contained fixtures: nothing above is touched.
+// ---------------------------------------------------------------------------
+
+const PARRY = { slug: "phb_optional-feature_parry", name: "Parry" };
+const RIPOSTE = { slug: "phb_optional-feature_riposte", name: "Riposte" };
+const LOST_ART = { slug: "hb_optional-feature_lost-art", name: "Lost Art" };
+const G5_STYLE = { slug: "phb_optional-feature_archery", name: "Archery" };
+
+const g5Entity = (e: { slug: string; name: string }, featureType: string): RegisteredEntity => ({
+  slug: e.slug, name: e.name, entityType: "optional-feature", filePath: `${e.slug}.md`,
+  data: { slug: e.slug, name: e.name, feature_type: featureType, available_to: ["[[reaver]]"], prerequisites: [] },
+  compendium: "PHB 2014", readonly: true, homebrew: false,
+});
+
+/** A Reaver-shaped class carrying ONE resolved pool. `declaresPool` controls whether the class ENTITY also
+ *  carries the RAW `selection_pools` declaration: a resolved pool and its declaration are two separate inputs,
+ *  and §3.2.4's dedup joins them by id, so a fixture can hold either or both. */
+function pooled(opts: {
+  level?: number; poolCount: number; poolId?: string; featureType?: string;
+  available: Array<{ slug: string; name: string }>;
+  selected?: Array<{ slug: string; name: string }>;
+  declaresPool?: boolean;
+  persisted?: Record<number, Record<string, unknown>>;
+  features?: Array<{ id: string; name: string; description: string; level: number }>;
+}): ResolvedCharacter {
+  const level = opts.level ?? 3;
+  const poolId = opts.poolId ?? "maneuvers";
+  const featureType = opts.featureType ?? "maneuver";
+  const entry = (e: { slug: string; name: string }) =>
+    ({ slug: e.slug, entity: { slug: e.slug, name: e.name, feature_type: featureType }, compendium: "PHB 2014" });
+  const pool = {
+    id: poolId, label: "Maneuvers", classIndex: 0, count: opts.poolCount, anchorLevel: 3,
+    selected: (opts.selected ?? []).map(entry), available: opts.available.map(entry), grants: [],
+  };
+  const entity = {
+    slug: "phb_class_reaver", name: "Reaver", starting_equipment: [],
+    ...(opts.declaresPool ? { selection_pools: [{
+      id: poolId, label: "Maneuvers",
+      source: { entity_type: "optional-feature", where: { feature_type: featureType, available_to: "self" } },
+      count: { column: "Maneuvers" },
+    }] } : {}),
+  };
+  const state = { hp: { current: 1, max: 1, temp: 0 }, hit_dice: {}, spell_slots: {}, concentration: null,
+    conditions: [], exhaustion: 0, inspiration: 0, feature_uses: {} };
+  const persisted = opts.persisted ?? {};
+  const definition = {
+    name: "T", edition: "2014", race: null, subrace: null, background: null,
+    class: [{ name: "[[reaver]]", level, subclass: null, choices: persisted }],
+    abilities: { str: 10, dex: 10, con: 10, int: 10, wis: 10, cha: 10 },
+    ability_method: "manual", skills: { proficient: [], expertise: [] },
+    spells: { known: [], overrides: [] }, equipment: [], overrides: {}, origin_choices: {}, state,
+  } as unknown as ResolvedCharacter["definition"];
+  const cls = { entity, level, subclass: null, choices: persisted } as unknown as ResolvedCharacter["classes"][number];
+  const features = (opts.features ?? []).map((f) => ({
+    feature: f, source: { kind: "class", slug: entity.slug, level: f.level },
+  }));
+  return { definition, race: null, classes: [cls], background: null, feats: [],
+    totalLevel: level, features, spells: [], pools: [pool], state } as unknown as ResolvedCharacter;
+}
+
+const g5Registry = (entities: RegisteredEntity[]) => ({
+  search: (_q: string, type: string) => entities.filter((e) => e.entityType === type),
+  getByTypeAndSlug: (type: string, slug: string) => entities.find((e) => e.entityType === type && e.slug === slug),
+});
+const g5Items = (r: ResolvedCharacter, entities: RegisteredEntity[]): DecisionItem[] =>
+  buildDecisionLedger(r, { registry: g5Registry(entities) } as never).classes[0].levels.flatMap((l) => l.items);
+
+describe("buildDecisionLedger · the pool synth's marker, selection and stranded stamp (R4-G5 §3.2.3)", () => {
+  const maneuvers = [PARRY, RIPOSTE, LOST_ART].map((e) => g5Entity(e, "maneuver"));
+
+  it("RED FIRST: a stranded pick joins the item's `from` and is FLAGGED on its option (§13 row 4)", () => {
+    const r = pooled({ poolCount: 2, available: [PARRY, RIPOSTE], selected: [PARRY, LOST_ART] });
+    const item = g5Items(r, maneuvers).find((i) => i.key === "maneuvers")!;
+    expect(item.options.filter((o) => o.stranded).map((o) => o.value)).toEqual([LOST_ART.slug]);
+    expect(item.options.map((o) => o.value)).toEqual([PARRY.slug, RIPOSTE.slug, LOST_ART.slug]);
+    expect(item.pool).toEqual({ id: "maneuvers", anchorLevel: 3 });
+  });
+
+  it("RED FIRST: the item's SELECTION is the resolved list, so a file holding two twins reads ONE pick (§13 row 6)", () => {
+    const r = pooled({
+      poolCount: 2, available: [PARRY, RIPOSTE], selected: [PARRY],
+      persisted: { 3: { maneuvers: [PARRY.slug, "xphb_optional-feature_parry"] } },
+    });
+    const item = g5Items(r, maneuvers).find((i) => i.key === "maneuvers")!;
+    expect(item.selected).toEqual([PARRY.slug]);
+    expect(item.status).toBe("partial");
+  });
+
+  it("RED FIRST: a fully resolvable `from` list never scans the optional-feature pool (the lazy index, §13 row 39)", () => {
+    const search = vi.fn((_q: string, type: string) => maneuvers.filter((e) => e.entityType === type));
+    const registry = { search, getByTypeAndSlug: (type: string, slug: string) =>
+      maneuvers.find((e) => e.entityType === type && e.slug === slug) };
+    buildDecisionLedger(pooled({ poolCount: 2, available: [PARRY, RIPOSTE] }), { registry } as never);
+    expect(search.mock.calls.filter((call) => call[1] === "optional-feature")).toEqual([]);
+  });
+});
+
+describe("buildDecisionLedger · the recognizer dedup (R4-G5 §3.2.4)", () => {
+  const styles = [g5Entity(G5_STYLE, "fighting_style")];
+  const FS_FEATURE = { id: "fighting-style", name: "Fighting Style",
+    description: "You adopt a particular style of fighting. Choose one of the following options.", level: 3 };
+
+  it("RED FIRST: a declared pool that resolves count 0 KEEPS the recognizer's synthetic (§13 row 7)", () => {
+    const r = pooled({ poolCount: 0, available: [], declaresPool: true,
+      poolId: "fighting-style", featureType: "fighting_style", features: [FS_FEATURE] });
+    expect(g5Items(r, styles).filter((i) => i.key === "fighting-style").map((i) => i.status)).toEqual(["unresolved"]);
+  });
+
+  it("RED FIRST: the dedup keys on feature_type, not the pool id, and the level KEEPS one card (§13 row 8)", () => {
+    // The College of Swords shape: the pool id is `college-of-swords-fighting-style` while the recognizer's key
+    // is `fighting-style`, and only the shared `feature_type` links them.
+    const r = pooled({ poolCount: 1, available: [G5_STYLE], declaresPool: true,
+      poolId: "college-of-swords-fighting-style", featureType: "fighting_style", features: [FS_FEATURE] });
+    const items = g5Items(r, styles);
+    expect(items.filter((i) => i.key === "fighting-style").map((i) => i.status)).toEqual(["informational"]);
+    expect(items.filter((i) => i.key === "college-of-swords-fighting-style").map((i) => i.status)).toEqual(["unresolved"]);
+  });
+});
+
+describe("buildDecisionLedger · the count-column reader (R4-G5 §6.2)", () => {
+  const WEAPONS: RegisteredEntity[] = ["greatsword", "maul", "whip", "rapier"].map((w) => ({
+    slug: `xphb_weapon_${w}`, name: w, entityType: "weapon", filePath: `${w}.md`,
+    data: { slug: `xphb_weapon_${w}`, name: w }, compendium: "PHB 2024", readonly: true, homebrew: false,
+  }));
+  /** A Fighter-2024-shaped class: the "Weapon Mastery" column reads 3 at L1 and 4 at L4 on BOTH corpora, while
+   *  the feature's own choice authors 3. `authored` is a LIVE reference into the fixture, which is how the
+   *  shallow-copy pin can see a mutation. */
+  function mastery(level: number, choiceId = "weapon-mastery") {
+    const authored = { kind: "select-entity", id: choiceId, entity_type: "weapon", count: 3 };
+    const entity = {
+      slug: "xphb_class_fighter", name: "Fighter", starting_equipment: [],
+      table: {
+        1: { columns: { "Weapon Mastery": "3" }, prof_bonus: 2, feature_ids: [] },
+        4: { columns: { "Weapon Mastery": "4" }, prof_bonus: 2, feature_ids: [] },
+      },
+    };
+    const feature = { id: "weapon-mastery", name: "Weapon Mastery",
+      description: "Your training with weapons allows you to use their mastery properties.", choices: [authored] };
+    const persisted = { 1: { [choiceId]: ["xphb_weapon_greatsword", "xphb_weapon_maul", "xphb_weapon_whip"] } };
+    const state = { hp: { current: 1, max: 1, temp: 0 }, hit_dice: {}, spell_slots: {}, concentration: null,
+      conditions: [], exhaustion: 0, inspiration: 0, feature_uses: {} };
+    const definition = {
+      name: "T", edition: "2024", race: null, subrace: null, background: null,
+      class: [{ name: "[[fighter]]", level, subclass: null, choices: persisted }],
+      abilities: { str: 10, dex: 10, con: 10, int: 10, wis: 10, cha: 10 },
+      ability_method: "manual", skills: { proficient: [], expertise: [] },
+      spells: { known: [], overrides: [] }, equipment: [], overrides: {}, origin_choices: {}, state,
+    } as unknown as ResolvedCharacter["definition"];
+    const cls = { entity, level, subclass: null, choices: persisted } as unknown as ResolvedCharacter["classes"][number];
+    const resolved = { definition, race: null, classes: [cls], background: null, feats: [],
+      totalLevel: level, features: [{ feature, source: { kind: "class", slug: entity.slug, level: 1 } }],
+      spells: [], pools: [], state } as unknown as ResolvedCharacter;
+    return { resolved, authored };
+  }
+
+  it("RED FIRST: a weapon-mastery choice takes its count from the class table column (§13 row 26)", () => {
+    const { resolved } = mastery(4);
+    const item = g5Items(resolved, WEAPONS).find((i) => i.key === "weapon-mastery")!;
+    expect((item.choice as { count?: number }).count).toBe(4);
+    expect(item.status).toBe("partial");                  // 3 of 4 held
+  });
+
+  it("a class with NO such column keeps the authored count", () => {
+    const { resolved } = mastery(4);
+    (resolved.classes[0].entity as unknown as { table: Record<number, unknown> }).table = {};
+    const item = g5Items(resolved, WEAPONS).find((i) => i.key === "weapon-mastery")!;
+    expect((item.choice as { count?: number }).count).toBe(3);
+    expect(item.status).toBe("resolved");
+  });
+
+  it("RED FIRST: the registry entity's authored count is UNCHANGED after the build (§13 row 27)", () => {
+    const { resolved, authored } = mastery(4);
+    g5Items(resolved, WEAPONS);
+    expect(authored.count).toBe(3);
+  });
+
+  it("a choice id naming a prototype key builds without throwing and keeps its authored count (§13 row 28)", () => {
+    const { resolved, authored } = mastery(4, "constructor");
+    expect(() => g5Items(resolved, WEAPONS)).not.toThrow();
+    const item = g5Items(resolved, WEAPONS).find((i) => i.key === "constructor")!;
+    expect((item.choice as { count?: number }).count).toBe(3);
+    expect(authored.count).toBe(3);
+  });
+});

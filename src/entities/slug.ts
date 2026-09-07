@@ -34,8 +34,8 @@ export function bareEntitySlug(slug: string | null | undefined): string {
  *  WITHOUT slugifying, and it is the one to use for a STORED slug.
  *
  *  MOVED here from `pc.decision-engine.ts` in R4-G5 T1, beside `bareEntitySlug`, so `pc.pools.ts` can use it
- *  without importing the decision engine: T2 makes the engine import `pc.pools` for `strandedPicks`, and the old
- *  direction would then be a cycle. The engine keeps a re-export, so its three plugin importers and its own test
+ *  without importing the decision engine: the engine imports `pc.pools` for `strandedPicks`, and the old
+ *  direction would be a cycle. The engine keeps a re-export, so its three plugin importers and its own test
  *  are untouched. */
 export function wikilinkTailSlug(link: string): string {
   const inner = link.replace(/^\[\[/, "").replace(/\]\]$/, "");

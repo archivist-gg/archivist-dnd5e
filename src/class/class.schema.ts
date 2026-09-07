@@ -53,7 +53,10 @@ const weaponMasterySchema = z.object({
   // §2.7's ONE deliberate relaxation, and the phase's only non-additive edit. Measured: `starting_count`
   // has ZERO read sites in either repo, all 24 SRD class records are `weapon_mastery: null`, and the
   // converter population is zero too (26 of 28 class docs null; both object carriers DO carry the count).
-  // It exists so the converter can re-emit a countless mastery object later (G5 owns counts-from-prose).
+  // It exists so the converter can re-emit a countless mastery object later. R4-G5 did NOT make it read: §6 takes
+  // the count from the class TABLE COLUMN instead (`COUNT_COLUMNS` in `pc.table-column.ts`), because the column
+  // is the truth on BOTH corpora, and `count.column` on the choice itself is booked to the G7 converter handoff.
+  // `starting_count` therefore still has ZERO read sites.
   // A THREE-declaration edit (finding 11): here, `class.types.ts`, and the generator's COPIED
   // `interface WeaponMasteryConfig` in tools/srd-canonical/merger-rules/class-merge.ts.
   starting_count: z.number().int().nonnegative().optional(),

@@ -34,7 +34,16 @@ const ASI_FEAT: Choice = { kind: "select-entity", id: "feat", entity_type: "feat
 /** id/name-slug → synthesized decision. Keep small and justified: this only
  *  serves un-annotated homebrew (the coverage gate keeps SRD authored).
  *  These shapes intentionally mirror the canonical authored overlay entries in
- *  `tools/srd-canonical/overlays/*.yaml`; keep them in sync. */
+ *  `tools/srd-canonical/overlays/*.yaml`; keep them in sync.
+ *
+ *  SUPPRESSED at the LEDGER, never here (R4-G5 §3.2.4 / §3.2.5): `buildDecisionLedger` drops a synthetic whose
+ *  `where.feature_type` is already served on the same class, either by a DECLARED selection pool whose resolved
+ *  twin emits a row at the character's level (the 2014 Fighter carried BOTH a `fighting-style` pool and this
+ *  synthetic on one key, so it drew two controls) or by a raw `feat_progression` row whose mapped category pairs
+ *  with that feature_type (the PHB 2024 Fighter / Paladin / Ranger, where this synthetic offered thirteen
+ *  wrong-edition optional features on a key nothing read). This TABLE is returned BY REFERENCE and is never
+ *  mutated: the ledger REBINDS its own local array instead, which is also what leaves the suppressed level its
+ *  informational card. */
 const TABLE: Record<string, Choice[]> = {
   "ability-score-improvement": [ASI_FEAT],
   "expertise": [{ kind: "select-proficiency", id: "expertise", count: 2, domain: "skill", from_proficient: true, expertise: true }],

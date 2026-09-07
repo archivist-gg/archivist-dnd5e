@@ -19,6 +19,10 @@ import {
 import { assembleEffectFeatures, collectProficiencyEffectGrants } from "./pc.feature-effects";
 import { bareEntitySlug, wikilinkTailSlug } from "../entities/slug";
 import { flattenAsiOrFeat } from "./pc.asi-flatten";
+import { strandedPicks } from "./pc.pools";
+import { countColumnsFor, readTableColumn } from "./pc.table-column";
+import { FEATURE_TYPE_FOR_CATEGORY, featProgressionCategory } from "../feat/feat.category-codes";
+import { warnOnce } from "../dnd/warn-once";
 
 export interface DecisionRegistry {
   search(query: string, entityType: string, limit: number): RegisteredEntity[];
@@ -34,6 +38,13 @@ export interface ResolvedOption {
   description?: string;
   /** True when a `from` slug has no entity behind it — render visible-but-inert. */
   missing?: boolean;
+  /** True when this option is a STORED pick that no longer answers to the pool's collapsed candidate list
+   *  (R4-G5 §3.2.3): a genuine prerequisite-failing pick, since §9.2.3 already rewrote every collapsed twin to
+   *  its survivor. Stamped by the pool synth from `strandedPicks`, never by `enumerateOptions`, which stays pure
+   *  over `(choice, ctx, ownerBare)` and cannot see the character. Both builder arms dress such an option with
+   *  the unresolved (crimson req) marker and the sheet's "prerequisite unmet" wording; the picker modal still
+   *  lists it as an ordinary candidate. */
+  stranded?: boolean;
 }
 
 /**
@@ -92,6 +103,12 @@ export interface DecisionItem {
    * `false` for every other item, informational ones included.
    */
   satisfied: boolean;
+  /** Present ONLY on a synthesized selection-pool item (R4-G5 §3.2.3): that pool's id and anchor level. It is
+   *  the TYPED marker every writer keys the pool write canon on (the chips arm, the selection table,
+   *  `renderLongListBrowse` and `DecisionPickModal`): a pool item persists an ARRAY even at count 1, the shape
+   *  `PoolTab` writes, while a `feat` or any other pick keeps its string shape. Absent on every other item, so
+   *  a truthiness test on it IS the discriminator. */
+  pool?: { id: string; anchorLevel: number };
   /**
    * Populated only for the selected branch of a select-inline (the
    * revealed-on-selection rule): a child decision becomes visible once its
@@ -141,8 +158,8 @@ const warnedAmbiguousBare = new Set<string>();
 // ── helpers ────────────────────────────────────────────────────────────────
 
 /** `wikilinkTailSlug` MOVED to `entities/slug.ts` in R4-G5 T1, beside `bareEntitySlug`, so `pc.pools.ts` can
- *  import it without importing this module (T2 makes this module import `pc.pools` for `strandedPicks`; the old
- *  direction would then be a cycle). The re-export is KEPT because `@archivist-gg/dnd5e/pc/pc.decision-engine` is
+ *  import it without importing this module (this module imports `pc.pools` for `strandedPicks`; the old
+ *  direction would be a cycle). The re-export is KEPT because `@archivist-gg/dnd5e/pc/pc.decision-engine` is
  *  a published subpath with three plugin importers (`components/passive/background-block.ts`,
  *  `components/builder/background-step.ts`, `components/builder/class-step.ts`, all under
  *  `packages/obsidian/src/modules/pc/`) plus this repo's `pc.resolver.ts` and
@@ -236,25 +253,38 @@ function enumerateOptions(choice: Choice, ctx: DecisionContext, ownerBare: strin
         // same vault. When the caller supplies `isEntityVisible`, visible
         // entities seed first so a hidden compendium can never shadow a visible
         // entity that shares a bare slug.
-        const pool = ctx.registry.search("", choice.entity_type, Number.POSITIVE_INFINITY)
-          .slice()
-          .sort((a, b) => a.name.localeCompare(b.name) || a.slug.localeCompare(b.slug));
-        const byBare = new Map<string, RegisteredEntity>();
-        const seed = (e: RegisteredEntity) => {
-          const bare = bareEntitySlug(e.slug);
-          if (byBare.has(bare)) {
-            if (!warnedAmbiguousBare.has(bare)) {
-              warnedAmbiguousBare.add(bare);
-              console.warn(`Archivist: bare slug "${bare}" matches multiple ${choice.entity_type} entities; using "${byBare.get(bare)!.slug}"`);
+        //
+        // LAZY since R4-G5 §3.2.6: the index is built on the FIRST `from` slug the registry cannot answer
+        // directly, so a pool synth whose `from` list is already full registry slugs never scans the whole
+        // optional-feature pool. The seeding ORDER is untouched, so the visible-first rule and its named control
+        // (`tests/pc-builder-class-step-v2.test.ts`, "an ambiguous bare `from` slug resolves to the VISIBLE
+        // twin") still hold, as does `tests/decision-bybare-determinism.test.ts`, every case of which stores a
+        // BARE slug and therefore still triggers the build.
+        let byBare: Map<string, RegisteredEntity> | undefined;
+        const bareIndex = (): Map<string, RegisteredEntity> => {
+          if (byBare) return byBare;
+          const built = new Map<string, RegisteredEntity>();
+          const pool = ctx.registry.search("", choice.entity_type, Number.POSITIVE_INFINITY)
+            .slice()
+            .sort((a, b) => a.name.localeCompare(b.name) || a.slug.localeCompare(b.slug));
+          const seed = (e: RegisteredEntity) => {
+            const bare = bareEntitySlug(e.slug);
+            if (built.has(bare)) {
+              if (!warnedAmbiguousBare.has(bare)) {
+                warnedAmbiguousBare.add(bare);
+                console.warn(`Archivist: bare slug "${bare}" matches multiple ${choice.entity_type} entities; using "${built.get(bare)!.slug}"`);
+              }
+              return;
             }
-            return;
-          }
-          byBare.set(bare, e);
+            built.set(bare, e);
+          };
+          for (const e of pool) if (ctx.isEntityVisible?.(e) ?? true) seed(e);
+          for (const e of pool) if (!(ctx.isEntityVisible?.(e) ?? true)) seed(e);
+          byBare = built;
+          return built;
         };
-        for (const e of pool) if (ctx.isEntityVisible?.(e) ?? true) seed(e);
-        for (const e of pool) if (!(ctx.isEntityVisible?.(e) ?? true)) seed(e);
         return choice.from.map((slug) => {
-          const e = ctx.registry.getByTypeAndSlug(choice.entity_type, slug) ?? byBare.get(slug);
+          const e = ctx.registry.getByTypeAndSlug(choice.entity_type, slug) ?? bareIndex().get(slug);
           return e ? { value: e.slug, label: e.name, entity: e } : { value: slug, label: slug, missing: true };
         });
       }
@@ -1079,6 +1109,32 @@ export function buildDecisionLedger(resolved: ResolvedCharacter, ctx: DecisionCo
     const readAt = (lvl: number) => (id: string): ChoiceValue | undefined =>
       (c.choices[lvl] as Record<string, ChoiceValue> | undefined)?.[id];
 
+    // The RAW `feat_progression` rows of this class and its subclass, read ONCE: the shape-B suppression needs
+    // them INSIDE the feature walk and the reader needs them after it (R4-G5 §3.2.5). RAW on purpose: the sheet
+    // reads raw entities, and a `category` code is mapped through a DATA table, never normalised by a parser
+    // (invariant 1).
+    const featProgressions = [...(entity.feat_progression ?? []), ...(c.subclass?.feat_progression ?? [])];
+
+    // The `feature_type`s whose recognizer SYNTHETIC this class must not be offered (R4-G5 §3.2.4 shape A and
+    // §3.2.5 shape B), computed BEFORE the walk because at the gate no decision exists yet.
+    //  * Shape A: a DECLARED selection pool whose resolved twin emits a ledger row at this character's level
+    //    (`count >= 1`). A cross-edition pairing that resolves `count 0` (a 2024 Bard under a 5e College of
+    //    Swords, or any converter subclass under an SRD class, whose tables carry no pool column at all) KEEPS
+    //    its recognizer row, so such a level is never left with no control.
+    //  * Shape B: a raw `feat_progression` row whose mapped category pairs with a `feature_type`, which today is
+    //    only fighting-style / fighting_style. This is what retires the DEAD pick that offered a PHB 2024
+    //    Fighter thirteen 2014 optional features on a key nothing read.
+    const suppressedFeatureTypes = new Set<string>();
+    for (const decl of [...(entity.selection_pools ?? []), ...(c.subclass?.selection_pools ?? [])]) {
+      const rp = resolved.pools.find((p) => p.classIndex === classIndex && p.id === decl.id);
+      if (rp && rp.count >= 1) suppressedFeatureTypes.add(decl.source.where.feature_type);
+    }
+    for (const entry of featProgressions) {
+      const category = featProgressionCategory(entry.category);
+      const ft = category ? FEATURE_TYPE_FOR_CATEGORY[category] : undefined;
+      if (ft) suppressedFeatureTypes.add(ft);
+    }
+
     // Entity-level: L1 skill choice (first class only — multiclass rules are Plan 5).
     if (classIndex === 0 && entity.skill_choices?.from?.length) {
       const skillChoice: Choice = {
@@ -1187,6 +1243,17 @@ export function buildDecisionLedger(resolved: ResolvedCharacter, ctx: DecisionCo
           continue;
         }
         choices = recognized ?? undefined;
+        // REBIND, never mutate: `recognizeDecision` returns the module-level TABLE array BY REFERENCE. Rebinding
+        // to a filtered array (which is `[]` for every shipped one-element TABLE row) is also what leaves the
+        // level its ONE informational card below: skipping the push instead would make a suppressed Fighting
+        // Style feature vanish from the ledger entirely (R4-G5 §3.2.4).
+        if (choices?.length) {
+          choices = choices.filter((ch) => {
+            if (ch.kind !== "select-entity") return true;
+            const ft = ch.where?.feature_type;
+            return !(ft !== undefined && suppressedFeatureTypes.has(ft));
+          });
+        }
       }
       if (!choices?.length) {
         // No structured/synthesized choice — still surface the feature as an
@@ -1212,7 +1279,21 @@ export function buildDecisionLedger(resolved: ResolvedCharacter, ctx: DecisionCo
           push(lvl, buildSubclassItem(ch, src, lvl, rf.feature.name, c, ctx, ownerBare, rf.feature.description));
           continue;
         }
-        push(lvl, buildItem(ch, src, lvl, rf.feature.name, readAt(lvl), ctx, ownerBare, effective,
+        // The count from the class TABLE COLUMN (R4-G5 §6.2): a `select-entity` choice whose id is an OWN key of
+        // COUNT_COLUMNS is emitted as a SHALLOW COPY whose count is the greater of the authored one and the
+        // column at the character's CURRENT class level. NEVER mutate the registry entity: `c.entity` IS the
+        // parsed document the whole session shares (invariant 1). `Choice.count` stays `number | undefined`, so
+        // no reader changes. MEASURED on both corpora: a Fighter 2024 grows 3 / 4 / 5 / 6 at levels 1 / 4 / 10 /
+        // 16 against an authored 3, a Barbarian 2024 grows 2 / 3 / 4, and Paladin / Ranger / Rogue 2024 carry no
+        // column and keep their authored 2. Skipping the copy when the column resolves to nothing is not a
+        // shortcut: `Math.max(n, 0)` is `n` for every non-negative authored count.
+        let emitted: Choice = ch;
+        if (ch.kind === "select-entity") {
+          const columns = countColumnsFor(ch.id);
+          const fromTable = columns ? readTableColumn(entity.table, c.level, columns) : null;
+          if (fromTable != null) emitted = { ...ch, count: Math.max(ch.count ?? 1, fromTable) };
+        }
+        push(lvl, buildItem(emitted, src, lvl, rf.feature.name, readAt(lvl), ctx, ownerBare, effective,
           { description: rf.feature.description }));
       }
     }
@@ -1245,15 +1326,67 @@ export function buildDecisionLedger(resolved: ResolvedCharacter, ctx: DecisionCo
     // class[classIndex].choices[anchorLevel][poolId]; the existing requiredCount
     // /statusOf logic marks it `partial` until `count` picks are made. The
     // `count < 1` guard omits the decision below the unlock level (count 0).
+    //
+    // R4-G5 §3.2.3 adds three things: the `from` list gains the STRANDED picks so a prerequisite-failing pick is
+    // visible at all; the built item's options carry a `stranded` flag for them; and the item's SELECTION comes
+    // from the RESOLVED `pool.selected`, not from the raw persisted array, so §9.2.3's bare-slug dedupe and
+    // survivor rewrite reach `selectedSlugs`, `statusOf` and the cap. A collapsed twin can therefore never be an
+    // invisible, still-counted pick. The typed `pool` marker is what the plugin's four writers key the ARRAY
+    // write canon on (§3.2.6).
     for (const pool of resolved.pools) {
       if (pool.classIndex !== classIndex || pool.count < 1) continue;
+      const stranded = strandedPicks(pool);
+      const strandedSlugs = new Set(stranded.map((e) => e.slug));
       const synth: Choice = {
         kind: "select-entity", id: pool.id, label: pool.label, count: pool.count,
-        entity_type: "optional-feature", from: pool.available.map((e) => e.slug),
+        entity_type: "optional-feature",
+        from: [...pool.available.map((e) => e.slug), ...stranded.map((e) => e.slug)],
       };
-      push(pool.anchorLevel, buildItem(
+      const item = buildItem(
         synth, { kind: "class", slug: entity.slug, level: pool.anchorLevel },
-        pool.anchorLevel, pool.label, readAt(pool.anchorLevel), ctx, ownerBare, effective));
+        pool.anchorLevel, pool.label, () => pool.selected.map((e) => e.slug), ctx, ownerBare, effective);
+      item.pool = { id: pool.id, anchorLevel: pool.anchorLevel };
+      for (const o of item.options) if (strandedSlugs.has(o.value)) o.stranded = true;
+      push(pool.anchorLevel, item);
+    }
+
+    // The class-side `feat_progression` reader (R4-G5 §3.2.5). It runs AFTER the feature walk because the walk
+    // is what pushes the recognizer's ASI `feat` items and the collision guard below reads them. MEASURED over
+    // the converted corpus 2026-09-07: 18 rows on 15 documents, 17 of them class or subclass, every one
+    // record-arm with numeric-string keys and value 1; the 18th sits on an OPTIONAL FEATURE (Lessons of the
+    // First Ones) under a `"*"` key, outside this walk (§11). No shipped `feat_progression` level collides with
+    // an ASI level on any carrier, so the guard below is a construction, not a live path. The count is CAPPED at
+    // 1 because `collectFeatSlugs` reads strings and every shipped value is 1.
+    for (const entry of featProgressions) {
+      const category = featProgressionCategory(entry.category);
+      if (!category) {
+        warnOnce(`feat-progression-category:${entity.slug}:${entry.name}`,
+          `Archivist: feat_progression "${entry.name}" on "${entity.slug}" carries no category this engine maps (${(entry.category ?? []).join(", ")}); no decision is offered`);
+        continue;
+      }
+      const progression = entry.progression;
+      if (Array.isArray(progression)) continue;   // the ARRAY arm is fixture-only on the class side
+      for (const key of Object.keys(progression)) {
+        const lvl = Number.parseInt(key, 10);
+        // The round trip is the gate, not `parseInt` alone, which accepts "3x" and the `"*"` key's NaN.
+        if (!Number.isInteger(lvl) || String(lvl) !== key) continue;
+        // LEVEL GATE, on the subclass-pick guarantee's own `subclassLevel <= c.level` precedent a few lines
+        // above: without it a level-19 Epic Boon row lands in a level-5 Fighter's ledger.
+        if (lvl > c.level) continue;
+        // `id: "feat"` is load-bearing, not cosmetic: three readers consume that literal key out of the
+        // persisted choice block (see `decision-recognizer.ts`'s ASI_FEAT comment). One pick per level.
+        if ((byLevel.get(lvl) ?? []).some((i) => i.key === "feat")) {
+          warnOnce(`feat-progression-collision:${entity.slug}:${lvl}`,
+            `Archivist: "${entry.name}" on "${entity.slug}" would add a second feat pick at level ${lvl}, where one already exists; skipping`);
+          continue;
+        }
+        const progressionChoice: Choice = {
+          kind: "select-entity", id: "feat", label: entry.name, count: 1,
+          entity_type: "feat", where: { category },
+        };
+        push(lvl, buildItem(progressionChoice, { kind: "class", slug: entity.slug, level: lvl },
+          lvl, entry.name, readAt(lvl), ctx, ownerBare, effective));
+      }
     }
 
     const levels = [...byLevel.entries()]
