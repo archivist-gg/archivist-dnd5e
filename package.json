@@ -54,6 +54,7 @@
     "./item/item.types": "./src/item/item.types.ts",
     "./monster/monster.ai-schema": "./src/monster/monster.ai-schema.ts",
     "./monster/monster.enrichment": "./src/monster/monster.enrichment.ts",
+    "./monster/monster.format": "./src/monster/monster.format.ts",
     "./monster/monster.parser": "./src/monster/monster.parser.ts",
     "./monster/monster.types": "./src/monster/monster.types.ts",
     "./optional-feature/optional-feature.codec": "./src/optional-feature/optional-feature.codec.ts",
