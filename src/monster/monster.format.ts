@@ -399,8 +399,11 @@ export function spellcastingLines(block: MonsterSpellcasting): string[] {
   // 5etools' meaning of `hidden`: the block's own `headerEntries` already names those spells in prose; measured 169 of
   // 170 groups, the 170th covered by a "any cleric spell" header. An entry of `hidden` names a frequency GROUP, or
   // `spells` (which omits the whole slot table); a `{ entry, hidden: true }` spell is omitted the same way.
-  const hidden = new Set(block.hidden ?? []);
-  const lines: string[] = [...(block.headerEntries ?? [])];
+  // Each of the three is `Array.isArray`-guarded for the same reason `spellsOf` is: the cast into this function makes
+  // the declared element types a compile-time claim only, `lair_actions` / `regional_actions` / `variant` are
+  // `z.array(z.unknown())` in the schema, and the render path is synchronous with no `createErrorBlock` boundary.
+  const hidden = new Set(Array.isArray(block.hidden) ? block.hidden : []);
+  const lines: string[] = Array.isArray(block.headerEntries) ? [...block.headerEntries] : [];
   for (const group of GROUP_ORDER) {
     if (hidden.has(group)) continue;
     const label = SPELLCASTING_LABELS[group];
@@ -438,7 +441,7 @@ export function spellcastingLines(block: MonsterSpellcasting): string[] {
       lines.push(`${ordinal(lvl)} Level${slots ? ` (${slots})` : ""}: ${s}`);
     }
   }
-  lines.push(...(block.footerEntries ?? []));
+  if (Array.isArray(block.footerEntries)) lines.push(...block.footerEntries);
   return lines;
 }
 

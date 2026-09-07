@@ -34,4 +34,9 @@ describe("entriesToMarkdown", () => {
     expect(entriesToMarkdown([{ type: "spellcasting", headerEntries: ["The knight casts:"], spells: { "1x": { spells: ["a"] } } }])).toBe("The knight casts:");
     expect(entriesToMarkdown([{ type: "spellcasting", headerEntries: ["The knight casts:"], spells: { "0": null } }])).toBe("The knight casts:");
   });
+  it("a non-iterable hidden, headerEntries or footerEntries yields the group lines instead of throwing", () => {
+    expect(entriesToMarkdown([{ type: "spellcasting", hidden: 5, will: ["a"] }])).toBe("At Will: a");
+    expect(entriesToMarkdown([{ type: "spellcasting", headerEntries: 5, will: ["a"] }])).toBe("At Will: a");
+    expect(entriesToMarkdown([{ type: "spellcasting", footerEntries: 5, will: ["a"] }])).toBe("At Will: a");
+  });
 });
