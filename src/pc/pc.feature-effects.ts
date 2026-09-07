@@ -286,14 +286,21 @@ export function assembleEffectFeatures(
   // a stored buff's BARE slug matches a resolved pool entry's, the ENTRY's slug is ADDED (the stale key
   // is left in place, so the rail's End control still clears it). `feature_uses` is deliberately NOT
   // aliased: the seed re-seeds under the resolved slug at the next load. The class-feature keyspace is
-  // untouched: those ids are feature ids, not slugs.
+  // SKIPPED on the READ side, because the two keyspaces are MEASURED to intersect: on the 13-book install
+  // TWO class-feature ids (`elemental-attunement`, `replicate-magic-item`) are also the bare slug of a
+  // shipped optional feature (R4-G5 T10, evidence/g5-t10-alias-intersection.txt). Both are
+  // `activatable: false` there, so neither can be written into `active_buffs` by the sheet today, but a
+  // stored FEATURE id must never alias a pool entry's slug: the plugin's Passive rail (`activeBuffItems`)
+  // resolves a stored key against `feature.id` FIRST for the same reason.
   // The aliases are COLLECTED first and added after: growing a Set while iterating it is the trap.
+  const featureIds = new Set((resolved.features ?? []).map((f) => f.feature.id).filter((id): id is string => !!id));
   const aliases: string[] = [];
   for (const pool of resolved.pools ?? []) {
     for (const entry of [...(pool.selected ?? []), ...(pool.grants ?? [])]) {
       if (activeBuffs.has(entry.slug)) continue;
       const bare = bareEntitySlug(entry.slug);
       for (const stored of activeBuffs) {
+        if (featureIds.has(stored)) continue;
         if (bareEntitySlug(stored) === bare) { aliases.push(entry.slug); break; }
       }
     }

@@ -20,7 +20,10 @@ import { durationSchema } from "./duration-schema";
  *  would lose an entire class, subclass or race note. The converter's own schema is `.strict()` with nine enums
  *  and a turn-order refine; mirroring that strictness here would make every future vocabulary addition a
  *  total-loss event. EXECUTED 2026-09-07: this exact shape parses 47 / 47 cache blocks and round-trips each
- *  byte-identically, while dropping `.nullable()` from `lifecycle.recreate_on` alone drops it to 36 / 47. */
+ *  byte-identically, while dropping `.nullable()` from `lifecycle.recreate_on` alone drops it to 36 / 47.
+ *  KEY ORDER IS LOAD-BEARING at the top level and at every nested node: it is the converter's declaration
+ *  order, and that 47-block instrument compares `JSON.stringify` output, so a key added out of that order
+ *  reds the round trip for a non-reason. Add a key where the converter declares it. */
 const companionSchema = z.object({
   statblock: z.string().optional(),
   statblock_wikilink: z.string().nullable().optional(),

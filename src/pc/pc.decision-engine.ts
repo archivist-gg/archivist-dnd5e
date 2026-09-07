@@ -160,7 +160,7 @@ const warnedAmbiguousBare = new Set<string>();
 /** `wikilinkTailSlug` MOVED to `entities/slug.ts` in R4-G5 T1, beside `bareEntitySlug`, so `pc.pools.ts` can
  *  import it without importing this module (this module imports `pc.pools` for `strandedPicks`; the old
  *  direction would be a cycle). The re-export is KEPT because `@archivist-gg/dnd5e/pc/pc.decision-engine` is
- *  a published subpath with three plugin importers (`components/passive/background-block.ts`,
+ *  a published subpath with three plugin importers OF THIS SYMBOL (`components/passive/background-block.ts`,
  *  `components/builder/background-step.ts`, `components/builder/class-step.ts`, all under
  *  `packages/obsidian/src/modules/pc/`) plus this repo's `pc.resolver.ts` and
  *  `tests/wikilink-tail-slug.test.ts`: a public
@@ -1124,6 +1124,9 @@ export function buildDecisionLedger(resolved: ResolvedCharacter, ctx: DecisionCo
     //  * Shape B: a raw `feat_progression` row whose mapped category pairs with a `feature_type`, which today is
     //    only fighting-style / fighting_style. This is what retires the DEAD pick that offered a PHB 2024
     //    Fighter thirteen 2014 optional features on a key nothing read.
+    //  * BOTH suppressions are CLASS-WIDE, never level-scoped: the set is built ONCE per class, before the walk,
+    //    and the gate inside the walk reads MEMBERSHIP alone. A `feature_type` in this set is suppressed at
+    //    EVERY level of this class, whichever shape put it there and whatever level its row sits at.
     const suppressedFeatureTypes = new Set<string>();
     for (const decl of [...(entity.selection_pools ?? []), ...(c.subclass?.selection_pools ?? [])]) {
       const rp = resolved.pools.find((p) => p.classIndex === classIndex && p.id === decl.id);

@@ -9,7 +9,7 @@ function resolveItemName(
   if (!registry) return undefined;
   const ref = entry.item.match(/^\[\[(.+?)\]\]$/);
   const slug = ref ? ref[1] : entry.item;
-  // `EntityRegistry.getBySlug(slug): RegisteredEntity | undefined` — `RegisteredEntity`
+  // `EntityRegistry.getBySlug(slug): RegisteredEntity | undefined` · `RegisteredEntity`
   // has `name: string`. See `@archivist-gg/core`'s entity-registry.
   return registry.getBySlug(slug)?.name;
 }
@@ -242,7 +242,7 @@ export function computeRestPlan(
     }
     pushPartialRecoveries(cats, character, index, "long");
 
-    // Item charges — long rest restores short, long, AND dawn (rest spans the night)
+    // Item charges: long rest restores short, long, AND dawn (rest spans the night)
     character.equipment.forEach((entry, idx) => {
       const rec = entry.state?.recovery;
       const charges = entry.state?.charges;

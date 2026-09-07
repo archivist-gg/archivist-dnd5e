@@ -343,6 +343,26 @@ describe("assembleEffectFeatures", () => {
     } as never;
     expect(assembleEffectFeatures(resolved).activeBuffs.size).toBe(1);
   });
+
+  it("RED FIRST (R4-G5 T11 fix wave): a stored CLASS-FEATURE id never aliases a pool entry whose bare slug equals it", () => {
+    // The two keyspaces intersect on two ids of the 13-book install (`elemental-attunement`,
+    // `replicate-magic-item`), so without the feature-id skip a stored FEATURE id would alias an
+    // unrelated pool entry and fold its effects. The class feature's own fold is untouched.
+    const resolved = {
+      features: [trait("elemental-attunement", true)],
+      pools: [{ id: "p", label: "P", classIndex: 0, anchorLevel: 3, count: 1,
+               selected: [{ slug: "a_optional-feature_elemental-attunement",
+                            entity: { name: "Elemental Attunement", activatable: true, effects: [{ kind: "resistance", damage_type: "cold" }] } }],
+               available: [], grants: [] }],
+      classes: [{ entity: { slug: "a_class_monk" } }],
+      state: { active_buffs: ["elemental-attunement"] },
+    } as never;
+    const out = assembleEffectFeatures(resolved);
+    expect(out.activeBuffs.has("a_optional-feature_elemental-attunement")).toBe(false);
+    // and the entry's effects never reach the totals: only the stored class feature's own resistance folds
+    expect(computeFeatureEffects(out.features, { activeBuffs: out.activeBuffs }).resistances.map((g) => g.value))
+      .toEqual(["fire"]);
+  });
 });
 
 describe("collectProficiencyEffectGrants", () => {
