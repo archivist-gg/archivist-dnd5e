@@ -24,7 +24,13 @@ export type RestCategoryId =
   | "exhaustion"
   | "hp-modifier-reset"
   | `feature:${string}`
-  | `item:${number}`;
+  | `item:${number}`
+  /** R4-G5 §4.4.2: END an active buff whose carrier declares a structured `duration`. The tail is the STORED
+   *  `state.active_buffs` key (a class feature's `id` or a pool entry's resolved `slug`). Emitted by
+   *  `pushBuffEnds` below and read by the plugin's `applyRestResets`, whose `buff:` arm removes that key
+   *  from `state.active_buffs`. That arm is the plugin half of R4-G5 Task 6: this type is the task's
+   *  dnd5e hard edge and lands first, so at THIS commit the arm is one commit away. */
+  | `buff:${string}`;
 
 export interface RestCategory {
   id: RestCategoryId;
@@ -75,6 +81,39 @@ function pushPartialRecoveries(cats: RestCategory[], character: Character, index
     if (restore !== "all" && !Number.isFinite(restore)) continue;
     const n = restore === "all" ? fu.used : Math.min(fu.used, restore);
     cats.push({ id: `feature:${key}`, label: res.name, preview: `${n} of ${fu.used} used restored`, restore });
+  }
+}
+
+/** R4-G5 §4.4.2 · the rest CLEAR: every active buff whose carrier declares a STRUCTURED `duration`
+ *  (`{amount, unit}`) ends at EVERY rest. The two keyspaces are named: a class feature answers on
+ *  `feature.id`, a pool pick on the RESOLVED entry's `slug` (§9.1). The rule is MAGNITUDE-BLIND on the
+ *  measured population (every shipped structured duration is `{1, minute}` 31, `{10, minute}` 12 or
+ *  `{1, hour}` 5, so a homebrew `{1, day}` buff would end at a short rest: the magnitude comparison is a
+ *  G8 row, §11). `durationSchema`'s string members (`instantaneous`, `until-dispelled`) never match, and
+ *  `typeof null === "object"` is why the guard tests `!d` FIRST: 2024 Rage carries `duration: null`.
+ *  The POOL arm is FIXTURE-ONLY today (measured 2026-09-07: 0 of the 226 converted and 0 of the 7 bundle
+ *  optional-feature documents carry a `duration` key at all). §9.2.4's bare-slug alias is NOT applied
+ *  here: it lives at the two sites §9.2.4 names (`assembleEffectFeatures` and the Passive rail), so a
+ *  buff stored under a COLLAPSED twin's slug folds and shows a rail tile but is not offered by the rest
+ *  plan; unreachable on shipped data by the same pool measurement. */
+function pushBuffEnds(cats: RestCategory[], character: Character, resolved: ResolvedCharacter): void {
+  const structured = (d: unknown): boolean => !!d && typeof d === "object";
+  for (const key of character.state.active_buffs ?? []) {
+    let name: string | undefined;
+    for (const rf of resolved.features ?? []) {
+      if (rf.feature.id === key && structured(rf.feature.duration)) { name = rf.feature.name; break; }
+    }
+    if (name === undefined) {
+      for (const pool of resolved.pools ?? []) {
+        const entry = [...(pool.selected ?? []), ...(pool.grants ?? [])].find((e) => e.slug === key);
+        if (entry && structured((entry.entity as { duration?: unknown }).duration)) {
+          name = entry.entity.name ?? key;
+          break;
+        }
+      }
+    }
+    if (name === undefined) continue;
+    cats.push({ id: `buff:${key}`, label: `End ${name}`, preview: "active → ended" });
   }
 }
 
@@ -227,6 +266,8 @@ export function computeRestPlan(
       });
     });
   }
+
+  pushBuffEnds(cats, character, resolved);
 
   const hdAvailable = type === "short"
     ? Object.entries(character.state.hit_dice ?? {})
