@@ -306,6 +306,43 @@ describe("assembleEffectFeatures", () => {
     expect(computeFeatureEffects(out.features, { activeBuffs: out.activeBuffs }).resistances.map((g) => g.value)).toEqual([]);
     expect(foldsNow(out.features[0], out.activeBuffs)).toBe(false);
   });
+
+  it("RED FIRST (R4-G5 §9.2.4, row 37): a buff stored under the NON-surviving twin folds the survivor's effects exactly once", () => {
+    // §9.2.3 rewrites a stored twin's pick to the surviving entry, but `active_buffs` is never pruned,
+    // so the stored key stays the OTHER edition's full slug. Matching by BARE slug at the set is what
+    // keeps the fold alive; the survivor is added, the stale key is left in place.
+    const survivor = {
+      slug: "players-handbook-2014_optional-feature_commanders-strike",
+      entity: { name: "Commander's Strike", activatable: true,
+                effects: [{ kind: "resistance", damage_type: "fire" }] },
+    };
+    const resolved = {
+      features: [],
+      pools: [{ id: "battle-master-maneuvers", label: "Maneuvers", classIndex: 0, anchorLevel: 3,
+               count: 3, selected: [survivor], available: [], grants: [] }],
+      classes: [{ entity: { slug: "players-handbook-2014_class_fighter" } }],
+      state: { active_buffs: ["players-handbook-2024_optional-feature_commanders-strike"] },
+    } as never;
+    const out = assembleEffectFeatures(resolved);
+    expect(out.activeBuffs.has(survivor.slug)).toBe(true);
+    // and the fold runs ONCE, not twice: one boon feature, one resistance
+    expect(computeFeatureEffects(out.features, { activeBuffs: out.activeBuffs }).resistances.map((g) => g.value))
+      .toEqual(["fire"]);
+    // the stale key is NOT pruned (the stated consequence: the rail's End control clears it)
+    expect(out.activeBuffs.has("players-handbook-2024_optional-feature_commanders-strike")).toBe(true);
+  });
+
+  it("a stored key that shares no bare slug with any pool entry adds nothing (the control)", () => {
+    const resolved = {
+      features: [],
+      pools: [{ id: "p", label: "P", classIndex: 0, anchorLevel: 3, count: 1,
+               selected: [{ slug: "a_optional-feature_parry", entity: { name: "Parry", activatable: true, effects: [{ kind: "resistance", damage_type: "cold" }] } }],
+               available: [], grants: [] }],
+      classes: [{ entity: { slug: "a_class_fighter" } }],
+      state: { active_buffs: ["b_optional-feature_riposte"] },
+    } as never;
+    expect(assembleEffectFeatures(resolved).activeBuffs.size).toBe(1);
+  });
 });
 
 describe("collectProficiencyEffectGrants", () => {

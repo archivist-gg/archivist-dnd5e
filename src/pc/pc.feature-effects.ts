@@ -280,6 +280,25 @@ export function assembleEffectFeatures(
   resolved: ResolvedCharacter,
 ): { features: ResolvedFeature[]; activeBuffs: Set<string> } {
   const activeBuffs = new Set(resolved.state?.active_buffs ?? []);
+  // R4-G5 §9.2.4: the cross-edition alias AT THE SET. §9.2.2's collapse removes a twin from
+  // `available` and §9.2.3 re-renders a stored pick under the SURVIVOR's slug, but nothing prunes
+  // `active_buffs`, so an Active state written under the other edition's slug would stop folding. Where
+  // a stored buff's BARE slug matches a resolved pool entry's, the ENTRY's slug is ADDED (the stale key
+  // is left in place, so the rail's End control still clears it). `feature_uses` is deliberately NOT
+  // aliased: the seed re-seeds under the resolved slug at the next load. The class-feature keyspace is
+  // untouched: those ids are feature ids, not slugs.
+  // The aliases are COLLECTED first and added after: growing a Set while iterating it is the trap.
+  const aliases: string[] = [];
+  for (const pool of resolved.pools ?? []) {
+    for (const entry of [...(pool.selected ?? []), ...(pool.grants ?? [])]) {
+      if (activeBuffs.has(entry.slug)) continue;
+      const bare = bareEntitySlug(entry.slug);
+      for (const stored of activeBuffs) {
+        if (bareEntitySlug(stored) === bare) { aliases.push(entry.slug); break; }
+      }
+    }
+  }
+  for (const a of aliases) activeBuffs.add(a);
   const buffFeatures: ResolvedFeature[] = [];
   const pushBoon = (item: { slug: string; entity?: OptionalFeatureEntity | null }, pool: ResolvedPool): void => {
     const e = item.entity;
