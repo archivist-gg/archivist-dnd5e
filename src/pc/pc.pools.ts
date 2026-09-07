@@ -188,8 +188,16 @@ export function resolvePool(
   const members = [...available, ...grants];
   const layout = derivePoolLayout(members);
   // Owner-aware (Gate 0 B1): the majority of the members' `consumes.resource` AMONG the ids the character owns.
-  // The plain majority is wrong on the 13-book install (43 cross-edition maneuvers vote 23 / 20 for the OTHER
-  // edition's id); intersecting with the owned ids fixes both the Battle Master and the Metamagic tab.
+  // WHY the intersection exists, as a PRE-COLLAPSE measurement and no longer as a current fact (R4-G5 invariant
+  // 8): before this phase a plain majority was wrong on the 13-book install, because one maneuver pool held all
+  // 43 cross-edition members and they voted 23 / 20 for the OTHER edition's id, breaking both the Battle Master
+  // and the Metamagic tab; intersecting with the owned ids fixed both. R4-G5's collapse ABOVE removed that
+  // population (maneuver 43 to 23), so `members` here is the COLLAPSED `available` plus the UNCOLLAPSED `grants`
+  // and can no longer hold both editions of one feature. The intersection STAYS and is not redundant: a survivor
+  // may still carry an id the character does not own (a cross-edition pairing, where the surviving documents are
+  // the other edition's, and any grant, which is never collapsed), and `index.has(id)` is what keeps such a vote
+  // out. CONSEQUENCE, stated: the collapse changed the POPULATION this vote and `derivePoolLayout` above both
+  // read.
   const votes = new Map<string, number>();
   for (const e of members) {
     const id = e.entity.consumes?.resource;

@@ -143,8 +143,10 @@ const warnedAmbiguousBare = new Set<string>();
 /** `wikilinkTailSlug` MOVED to `entities/slug.ts` in R4-G5 T1, beside `bareEntitySlug`, so `pc.pools.ts` can
  *  import it without importing this module (T2 makes this module import `pc.pools` for `strandedPicks`; the old
  *  direction would then be a cycle). The re-export is KEPT because `@archivist-gg/dnd5e/pc/pc.decision-engine` is
- *  a published subpath with three plugin importers (`passive/background-block.ts`, `builder/background-step.ts`,
- *  `builder/class-step.ts`) plus this repo's `pc.resolver.ts` and `tests/wikilink-tail-slug.test.ts`: a public
+ *  a published subpath with three plugin importers (`components/passive/background-block.ts`,
+ *  `components/builder/background-step.ts`, `components/builder/class-step.ts`, all under
+ *  `packages/obsidian/src/modules/pc/`) plus this repo's `pc.resolver.ts` and
+ *  `tests/wikilink-tail-slug.test.ts`: a public
  *  surface, not a migration shim, so the standing "retire every shim" rule does not reach it (spec §17 names the
  *  re-export explicitly). */
 export { wikilinkTailSlug };

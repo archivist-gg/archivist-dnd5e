@@ -328,6 +328,42 @@ describe("resolvePool · the cross-edition collapse (R4-G5 §9.2.2)", () => {
     const r = resolvePool(mkPrefixedClass(7), 0, pool, mkTwinRegistry(TWIN_MEMBERS), NO_INDEX);
     expect(r.available[0].compendium).toBe("PHB");                       // §13 row 36
   });
+
+  it("the resource vote follows the SURVIVOR: the collapsed twin's id never votes", () => {
+    // The pin the collapse's POPULATION change needs (fix round 1, IMPORTANT 1 c). `derivePoolLayout` and the
+    // owner-aware resource vote both read `[...available, ...grants]`, and `available` is now the COLLAPSED
+    // list, so twins carrying DIFFERENT `consumes.resource` ids can no longer both vote. BOTH ids are owned
+    // here, so the intersection cannot decide it: pre-collapse the two would tie 1 / 1 and insertion order
+    // would hand the win to "hb" (it sorts first on the name tie); post-collapse only the survivor votes.
+    // No mutant row is owed: this pins shipped-correct behaviour the collapse moved under it.
+    const voting = (prefix: string, resource: string) => {
+      const t = twin(prefix, "voting-boon", "Voting Boon", prefix.toUpperCase());
+      return { ...t, data: { ...t.data, consumes: { resource, amount: 1 } } };
+    };
+    const members = [voting("hb", "hb:dice"), voting("phb", "phb:dice")];
+    const owned = new Map([
+      ["hb:dice", { id: "hb:dice" } as never],
+      ["phb:dice", { id: "phb:dice" } as never],
+    ]);
+    const r = resolvePool(mkPrefixedClass(7), 0, pool, mkTwinRegistry(members), owned);
+    expect(r.resource).toBe("phb:dice");                                 // the owner-prefixed survivor's id
+    expect(r.available.map((e) => e.slug)).toEqual(["phb_optional-feature_voting-boon"]);
+  });
+
+  it("the scan sorts a COPY: a registry handing back a SHARED array keeps its own order", () => {
+    // `.slice()` before `.sort()` is the sole enforcement that the sort never writes onto the registry's own
+    // array (invariant 1: nothing writes onto a registry object), and nothing else would red if it were
+    // dropped. `mkTwinRegistry`'s `search` returns the SAME array object it was handed, exactly as a registry
+    // may, and the two members are registered in the order the sort would visibly reverse ("Zulu" before
+    // "Alpha"), so an in-place sort shows up here as a reordered fixture.
+    const shared = [
+      twin("zzz", "shared-b", "Zulu Shared", "Z Book"),
+      twin("aaa", "shared-a", "Alpha Shared", "A Book"),
+    ];
+    resolvePool(mkPrefixedClass(7), 0, pool, mkTwinRegistry(shared), NO_INDEX);
+    expect(shared.map((e) => e.slug))
+      .toEqual(["zzz_optional-feature_shared-b", "aaa_optional-feature_shared-a"]);
+  });
 });
 
 describe("resolvePool · the survival guard, the dedupe and strandedPicks (R4-G5 §9.2.3, §3.2.3)", () => {
