@@ -354,8 +354,9 @@ export function displayAsSection(displayAs: string | undefined): PlacedSection {
 
 const GROUP_ORDER = ["will", "daily", "rest", "restLong", "recharge", "legendary", "charges", "ritual"] as const;
 
-/** ONE label table: EVERY group of `GROUP_ORDER` owns its label text here, so the vocabulary is DATA and
- *  `spellcastingLines` carries no label literal. Title-cased to match the SRD 2024 statblock prose the vault already
+/** ONE label table: EVERY group of `GROUP_ORDER` owns its label text here, so the eight FREQUENCY-group labels are
+ *  DATA; the slot-table wording (`Cantrips (At Will):`, `N Level (N Slots):`) is generated in `spellcastingLines`
+ *  and deliberately outside this table. Title-cased to match the SRD 2024 statblock prose the vault already
  *  shows beside these entries. `plain` is a plain sub-key's label, and the whole label of the two count-less groups
  *  `will` and `ritual`; `each` is its `Ne` twin, absent where a group has no twin; `six` is `recharge`'s
  *  already-at-6 form. `N` stands for the sub-key's count. `charges` alone ends without a colon: `spellcastingLines`
