@@ -192,12 +192,17 @@ export function resolvePool(
   // 8): before this phase a plain majority was wrong on the 13-book install, because one maneuver pool held all
   // 43 cross-edition members and they voted 23 / 20 for the OTHER edition's id, breaking both the Battle Master
   // and the Metamagic tab; intersecting with the owned ids fixed both. R4-G5's collapse ABOVE removed that
-  // population (maneuver 43 to 23), so `members` here is the COLLAPSED `available` plus the UNCOLLAPSED `grants`
-  // and can no longer hold both editions of one feature. The intersection STAYS and is not redundant: a survivor
-  // may still carry an id the character does not own (a cross-edition pairing, where the surviving documents are
-  // the other edition's, and any grant, which is never collapsed), and `index.has(id)` is what keeps such a vote
-  // out. CONSEQUENCE, stated: the collapse changed the POPULATION this vote and `derivePoolLayout` above both
-  // read.
+  // population (maneuver 43 to 23), so `members` here is the COLLAPSED `available` plus the UNCOLLAPSED
+  // `grants`, and `available` contributes at most ONE member per bare slug.
+  //
+  // NOT "both editions can no longer meet here", which would be false: `grants` resolves through the full-scan
+  // `byBare` (last-wins) and is never collapsed against `available`, so a granted feature can still be the OTHER
+  // twin of an `available` survivor and both editions of one feature can reach this vote that way. Shipped
+  // exposure nil (the install's two `pool_grants` are bare-unambiguous). The intersection therefore STAYS and is
+  // not redundant: a member may still carry an id the character does not own, whether it is a grant or a
+  // cross-edition survivor, and `index.has(id)` is what keeps such a vote out.
+  //
+  // CONSEQUENCE, stated: the collapse changed the POPULATION this vote and `derivePoolLayout` above both read.
   const votes = new Map<string, number>();
   for (const e of members) {
     const id = e.entity.consumes?.resource;
