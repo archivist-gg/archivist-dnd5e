@@ -90,20 +90,21 @@ function pushPartialRecoveries(cats: RestCategory[], character: Character, index
  *
  *  MEASURED 2026-09-07 (R4-G5 T6 fix round 1, re-measured from the corpora, not copied) at the TWO
  *  positions this walk reads, a Feature's own `duration` and an optional-feature DOCUMENT's own: the
- *  13-book converted output carries 50 structured durations, `{1, minute}` 33 + `{10, minute}` 12 +
- *  `{1, hour}` 5, split 4 class / 44 subclass / 2 optional-feature. The rule is MAGNITUDE-BLIND on that
- *  population, so a homebrew `{1, day}` buff would end at a short rest: the magnitude comparison is a
- *  G8 row, §11.
+ *  whole 126-book converted output (13,709 documents) carries 50 structured durations, `{1, minute}` 33 +
+ *  `{10, minute}` 12 + `{1, hour}` 5, split 4 class / 44 subclass / 2 optional-feature. The rule is
+ *  MAGNITUDE-BLIND on that population, so a homebrew `{1, day}` buff would end at a short rest: the
+ *  magnitude comparison is a G8 row, §11.
  *
  *  The POOL arm is a LIVE shipped path, NOT a fixture: Xanathar's Ghostly Gaze (invocation) and Grasping
  *  Arrow (arcane shot) each carry `{amount: 1, unit: minute}` with `activatable: true`, so a Warlock with
  *  Ghostly Gaze active is offered "End Ghostly Gaze" at every rest.
  *
  *  `durationSchema`'s string members (`instantaneous`, `until-dispelled`) never match, and neither read
- *  position carries a string on either corpus (the 11 string durations in the converted output all sit at
- *  `effects[].duration`, a different field this walk never reads). The guard tests `!d` FIRST because
- *  `typeof null === "object"`: `duration: null` ships 0 times today, and the position that CAN carry it is
- *  the POOL ENTRY, whose schema is `durationSchema.nullable().optional()` (`optional-feature.schema.ts`,
+ *  position carries a string on either corpus (the 11 string durations inside class / subclass /
+ *  optional-feature documents all sit at `effects[].duration`, a different field this walk never reads).
+ *  The guard tests `!d` FIRST because `typeof null === "object"`: `duration: null` ships 0 times today,
+ *  and the position that CAN carry it is the POOL ENTRY, whose schema is
+ *  `durationSchema.nullable().optional()` (`optional-feature.schema.ts`,
  *  `OptionalFeatureEntity.duration?: Duration | null`), while `featureSchema.duration` is `.optional()`
  *  with no `.nullable()`, so a class feature cannot carry `null` past parse (the shipped 2024 Barbarian
  *  carries no `duration` key at all, which is why 2024 Rage is not offered).
