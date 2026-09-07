@@ -38,9 +38,14 @@ describe("migrateLegacy keeps the hand parser's tolerances (R4-G6 §4.1)", () =>
     expect(ok('name: X\nhp:\n  average: "52"').hp).toEqual({ average: 52 });
     expect(ok('name: X\nabilities:\n  str: "12"').abilities).toMatchObject({ str: 12 });
     expect(ok('name: X\nspeed:\n  walk: "30"').speed).toEqual({ walk: 30 });
+    expect(ok('name: X\nac:\n  - ac: "15"').ac).toEqual([{ ac: 15 }]);
+    expect(ok('name: X\nsaves:\n  wis: "+5"').saves).toEqual({ wis: 5 });
     expect(refused('name: X\npassive_perception: "high"')).toMatch(/passive_perception/);
     expect(refused('name: X\nspeed:\n  walk: "30 ft."')).toMatch(/speed/);
     expect(refused("name: X\nimage: ''")).toMatch(/image/);
+    expect(refused("name: X\nac:\n  - ac: fifteen")).toMatch(/"path": \[\s*"ac",\s*0,\s*"ac"\s*\]/);
+    expect(refused("name: X\nhp:\n  average: lots")).toMatch(/"path": \[\s*"hp",\s*"average"\s*\]/);
+    expect(refused("name: X\ninitiative:\n  advantage_mode: 7")).toMatch(/"path": \[\s*"initiative"\s*\]/);
   });
   it("step 5: the generic non-finite scrub", () => {
     expect(ok("name: X\nhp:\n  average: .nan\n  formula: 2d8").hp).toEqual({ formula: "2d8" });
