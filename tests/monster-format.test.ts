@@ -125,6 +125,12 @@ describe("challenge (§6; the four object shapes)", () => {
     expect(formatCR("constructor")?.tableMiss).toBe(true);
     expect(formatCR("constructor")?.xp).toBe(0);
   });
+  it("the lair and coven XP lookups normalise the same way cr does, and are own-property reads", () => {
+    expect(challengeLine({ cr: "0.25", lair: "0.5" })).toBe("0.25 (50 XP; PB +2), or 0.5 (100 XP) in its lair");
+    expect(challengeLine({ cr: "0.25", coven: "0.125" })).toBe("0.25 (50 XP; PB +2), or 0.125 (25 XP) as a coven");
+    expect(challengeLine({ cr: "5", lair: "constructor" })).toBe("5 (1,800 XP; PB +3), or constructor (0 XP) in its lair");
+    expect(challengeLine({ cr: "22", lair: "23" })).toBe("22 (41,000 XP; PB +7), or 23 (50,000 XP) in its lair");   // unchanged
+  });
 });
 
 describe("armor class, hit points, speed (§6)", () => {

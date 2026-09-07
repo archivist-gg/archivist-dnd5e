@@ -141,8 +141,9 @@ export interface FormattedCR {
 }
 
 /** The three decimal spellings the SRD authors for a fractional CR, mapped to the fraction `CR_TO_XP` keys on. DATA,
- *  not a branch: `formatCR` normalises the LOOKUP key only, so `crText` stays the AUTHORED string and the SRD's
- *  `0.25` renders as `0.25 (50 XP; PB +2)` beside the converter's `1/4 (50 XP; PB +2)` for the same creature. */
+ *  not a branch: only the LOOKUP key is normalised, so the rendered text stays the AUTHORED string and the SRD's
+ *  `0.25` renders as `0.25 (50 XP; PB +2)` beside the converter's `1/4 (50 XP; PB +2)` for the same creature. All
+ *  THREE CR-shaped fields go through it: `cr` in `formatCR`, and `lair` / `coven` in `challengeLine` via `xpFor`. */
 const CR_DECIMAL_KEYS: Readonly<Record<string, string>> = { "0.125": "1/8", "0.25": "1/4", "0.5": "1/2" };
 
 /** An OWN-property test. `Object.hasOwn` is ES2022 and this package's `lib` stops at ES7 (TS2550), so the table reads
@@ -151,17 +152,30 @@ function hasOwn(table: Readonly<Record<string, unknown>>, key: string): boolean 
   return Object.prototype.hasOwnProperty.call(table, key);
 }
 
+/** The authored CR text as the XP / PB tables key it: a decimal fraction becomes its fraction, everything else is
+ *  itself. An unknown spelling stays unknown, so the caller can still report a table MISS. */
+function crKey(text: string): string {
+  return hasOwn(CR_DECIMAL_KEYS, text) ? CR_DECIMAL_KEYS[text] : text;
+}
+
+/** The XP any CR-shaped field is worth: normalised key, OWN-property read, 0 for a key the table does not carry (so
+ *  a `lair: "constructor"` can never stringify a function into the Challenge line). */
+function xpFor(cr: string): number {
+  const key = crKey(cr);
+  return hasOwn(CR_TO_XP, key) ? CR_TO_XP[key] : 0;
+}
+
 export function formatCR(cr: string | MonsterCRStructured | undefined): FormattedCR | undefined {
   if (cr === undefined || cr === null) return undefined;
   const obj = typeof cr === "object" ? cr : { cr: String(cr) };
   const text = String(obj.cr);
   // `hasOwn`, never `in`: an authored `cr: "constructor"` would otherwise read `Object.prototype` and print a
   // stringified function as its XP. Both tables are read through it.
-  const key = hasOwn(CR_DECIMAL_KEYS, text) ? CR_DECIMAL_KEYS[text] : text;
+  const key = crKey(text);
   const tableMiss = !hasOwn(CR_TO_XP, key);
   return {
     crText: text,
-    xp: obj.xp ?? (tableMiss ? 0 : CR_TO_XP[key]),
+    xp: obj.xp ?? xpFor(text),
     pb: getProficiencyBonus(key),
     tableMiss,
     lair: obj.lair, coven: obj.coven, xpLair: obj.xp_lair, xpOverride: obj.xp,
@@ -186,8 +200,8 @@ export function challengeLine(cr: string | MonsterCRStructured | undefined, pbNo
   const xpText = `${formatXP(f.xp)} XP`;
   if (f.xpLair !== undefined) return `${f.crText} (${xpText}, or ${formatXP(f.xpLair)} XP in its lair; ${pbText})`;
   let line = `${f.crText} (${xpText}; ${pbText})`;
-  if (f.lair !== undefined) line += `, or ${f.lair} (${formatXP(CR_TO_XP[f.lair] ?? 0)} XP) in its lair`;
-  if (f.coven !== undefined) line += `, or ${f.coven} (${formatXP(CR_TO_XP[f.coven] ?? 0)} XP) as a coven`;
+  if (f.lair !== undefined) line += `, or ${f.lair} (${formatXP(xpFor(f.lair))} XP) in its lair`;
+  if (f.coven !== undefined) line += `, or ${f.coven} (${formatXP(xpFor(f.coven))} XP) as a coven`;
   return line;
 }
 
@@ -373,12 +387,16 @@ export const SPELLCASTING_LABELS: Readonly<Record<(typeof GROUP_ORDER)[number], 
   ritual: { plain: "Rituals:" },
 };
 
+/** The ELEMENT guard for every spell group: a `null` (a hand-authored empty YAML list item) and any non-object
+ *  non-string leaf yield NO spell rather than throwing. `typeof null === "object"`, so the check is explicit. */
 function spellText(e: MonsterSpellEntry): string | undefined {
   if (typeof e === "string") return e;
+  if (!e || typeof e !== "object") return undefined;
   return e.hidden ? undefined : e.entry;
 }
 /** A non-array group (a hand-typed `will: "fireball"`) yields NO spells rather than throwing: `entriesToMarkdown`
- *  reaches `spellcastingLines` through a cast, so the declared element type is not a runtime guarantee. */
+ *  reaches `spellcastingLines` through a cast, so the declared element type is not a runtime guarantee. This guards
+ *  the LIST; its ELEMENTS are guarded one level down, in `spellText`. */
 function spellsOf(list: MonsterSpellEntry[] | undefined): string {
   return (Array.isArray(list) ? list : []).map(spellText).filter((s): s is string => s !== undefined).join(", ");
 }

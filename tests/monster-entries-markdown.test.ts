@@ -39,4 +39,11 @@ describe("entriesToMarkdown", () => {
     expect(entriesToMarkdown([{ type: "spellcasting", headerEntries: 5, will: ["a"] }])).toBe("At Will: a");
     expect(entriesToMarkdown([{ type: "spellcasting", footerEntries: 5, will: ["a"] }])).toBe("At Will: a");
   });
+  it("a null spell ELEMENT yields no spell instead of throwing, in every group that reaches spellText", () => {
+    expect(entriesToMarkdown([{ type: "spellcasting", headerEntries: ["The knight casts:"], will: [null] }])).toBe("The knight casts:");
+    expect(entriesToMarkdown([{ type: "spellcasting", headerEntries: ["The knight casts:"], ritual: [null] }])).toBe("The knight casts:");
+    expect(entriesToMarkdown([{ type: "spellcasting", headerEntries: ["The knight casts:"], daily: { "1": [null] } }])).toBe("The knight casts:");
+    expect(entriesToMarkdown([{ type: "spellcasting", headerEntries: ["The knight casts:"], recharge: { "6": [null] } }])).toBe("The knight casts:");
+    expect(entriesToMarkdown([{ type: "spellcasting", will: [null, "a"] }])).toBe("At Will: a");   // the survivors still render
+  });
 });
