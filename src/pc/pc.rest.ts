@@ -29,7 +29,7 @@ export type RestCategoryId =
    *  `state.active_buffs` key (a class feature's `id` or a pool entry's resolved `slug`). Emitted by
    *  `pushBuffEnds` below and read by the plugin's `applyRestResets`, whose `buff:` arm removes that key
    *  from `state.active_buffs`. That arm is the plugin half of R4-G5 Task 6: this type is the task's
-   *  dnd5e hard edge and lands first, so at THIS commit the arm is one commit away. */
+   *  dnd5e hard edge and is committed first. */
   | `buff:${string}`;
 
 export interface RestCategory {
@@ -86,33 +86,55 @@ function pushPartialRecoveries(cats: RestCategory[], character: Character, index
 
 /** R4-G5 §4.4.2 · the rest CLEAR: every active buff whose carrier declares a STRUCTURED `duration`
  *  (`{amount, unit}`) ends at EVERY rest. The two keyspaces are named: a class feature answers on
- *  `feature.id`, a pool pick on the RESOLVED entry's `slug` (§9.1). The rule is MAGNITUDE-BLIND on the
- *  measured population (every shipped structured duration is `{1, minute}` 31, `{10, minute}` 12 or
- *  `{1, hour}` 5, so a homebrew `{1, day}` buff would end at a short rest: the magnitude comparison is a
- *  G8 row, §11). `durationSchema`'s string members (`instantaneous`, `until-dispelled`) never match, and
- *  `typeof null === "object"` is why the guard tests `!d` FIRST: 2024 Rage carries `duration: null`.
- *  The POOL arm is FIXTURE-ONLY today (measured 2026-09-07: 0 of the 226 converted and 0 of the 7 bundle
- *  optional-feature documents carry a `duration` key at all). §9.2.4's bare-slug alias is NOT applied
- *  here: it lives at the two sites §9.2.4 names (`assembleEffectFeatures` and the Passive rail), so a
- *  buff stored under a COLLAPSED twin's slug folds and shows a rail tile but is not offered by the rest
- *  plan; unreachable on shipped data by the same pool measurement. */
+ *  `feature.id`, a pool pick on the RESOLVED entry's `slug` (§9.1).
+ *
+ *  MEASURED 2026-09-07 (R4-G5 T6 fix round 1, re-measured from the corpora, not copied) at the TWO
+ *  positions this walk reads, a Feature's own `duration` and an optional-feature DOCUMENT's own: the
+ *  13-book converted output carries 50 structured durations, `{1, minute}` 33 + `{10, minute}` 12 +
+ *  `{1, hour}` 5, split 4 class / 44 subclass / 2 optional-feature. The rule is MAGNITUDE-BLIND on that
+ *  population, so a homebrew `{1, day}` buff would end at a short rest: the magnitude comparison is a
+ *  G8 row, §11.
+ *
+ *  The POOL arm is a LIVE shipped path, NOT a fixture: Xanathar's Ghostly Gaze (invocation) and Grasping
+ *  Arrow (arcane shot) each carry `{amount: 1, unit: minute}` with `activatable: true`, so a Warlock with
+ *  Ghostly Gaze active is offered "End Ghostly Gaze" at every rest.
+ *
+ *  `durationSchema`'s string members (`instantaneous`, `until-dispelled`) never match, and neither read
+ *  position carries a string on either corpus (the 11 string durations in the converted output all sit at
+ *  `effects[].duration`, a different field this walk never reads). The guard tests `!d` FIRST because
+ *  `typeof null === "object"`: `duration: null` ships 0 times today, and the position that CAN carry it is
+ *  the POOL ENTRY, whose schema is `durationSchema.nullable().optional()` (`optional-feature.schema.ts`,
+ *  `OptionalFeatureEntity.duration?: Duration | null`), while `featureSchema.duration` is `.optional()`
+ *  with no `.nullable()`, so a class feature cannot carry `null` past parse (the shipped 2024 Barbarian
+ *  carries no `duration` key at all, which is why 2024 Rage is not offered).
+ *
+ *  The SRD-only install is INERT: 0 structured durations anywhere in the bundle, and 0 of its 7
+ *  optional-feature documents carries a `duration` key.
+ *
+ *  §9.2.4's bare-slug alias is NOT applied here: it lives at the two sites §9.2.4 names
+ *  (`assembleEffectFeatures` and the Passive rail), so a buff stored under a COLLAPSED twin's slug folds
+ *  and shows a rail tile but is not offered by the rest plan. */
 function pushBuffEnds(cats: RestCategory[], character: Character, resolved: ResolvedCharacter): void {
   const structured = (d: unknown): boolean => !!d && typeof d === "object";
   for (const key of character.state.active_buffs ?? []) {
-    let name: string | undefined;
+    // `found` is the sentinel, never the name: a matched carrier with a runtime-missing name still emits
+    // its category (labelled by the stored key), and the two arms answer a missing name alike.
+    let found = false;
+    let name = key;
     for (const rf of resolved.features ?? []) {
-      if (rf.feature.id === key && structured(rf.feature.duration)) { name = rf.feature.name; break; }
+      if (rf.feature.id === key && structured(rf.feature.duration)) { found = true; name = rf.feature.name ?? key; break; }
     }
-    if (name === undefined) {
+    if (!found) {
       for (const pool of resolved.pools ?? []) {
         const entry = [...(pool.selected ?? []), ...(pool.grants ?? [])].find((e) => e.slug === key);
-        if (entry && structured((entry.entity as { duration?: unknown }).duration)) {
+        if (entry && structured(entry.entity.duration)) {
+          found = true;
           name = entry.entity.name ?? key;
           break;
         }
       }
     }
-    if (name === undefined) continue;
+    if (!found) continue;
     cats.push({ id: `buff:${key}`, label: `End ${name}`, preview: "active → ended" });
   }
 }

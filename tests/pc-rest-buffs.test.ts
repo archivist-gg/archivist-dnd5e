@@ -42,20 +42,20 @@ describe("computeRestPlan · the rest CLEAR for active buffs (R4-G5 §4.4.2)", (
     expect(computeRestPlan(character, resolved, derived, null, "long").categories).toContainEqual(RAGE_ROW);
   });
 
-  it("a duration-less buff is NOT offered at either rest (2024 Rage is the shipped carrier: `duration: null`; `typeof null === \"object\"` is why the guard tests `!d` first)", () => {
+  it("a duration-less buff is NOT offered at either rest (`typeof null === \"object\"` is why the guard tests `!d` first; MEASURED 2026-09-07: `duration: null` ships 0 times, the shipped 2024 Barbarian carries NO `duration` key, and the nullable position is the POOL ENTRY, so this fixture casts `null` onto a feature to reach the guard)", () => {
     const { character, resolved, derived } = setup(["rage"], [buffFeature("rage", "Rage", null)]);
     expect(ids(computeRestPlan(character, resolved, derived, null, "short"))).not.toContain("buff:rage");
     expect(ids(computeRestPlan(character, resolved, derived, null, "long"))).not.toContain("buff:rage");
   });
 
-  it("RED FIRST (FIXTURE-ONLY: no shipped feature carries a string `duration`): `until-dispelled` and `instantaneous` are never offered", () => {
+  it("GUARD (not a red-to-green case: green before the walk existed, red only under mutant t6-m23, §13 row 23): a string `duration` (`until-dispelled`, `instantaneous`) is never offered · FIXTURE-ONLY, MEASURED 2026-09-07: neither read position carries a string on either corpus", () => {
     const undis = setup(["ward"], [buffFeature("ward", "Ward", "until-dispelled")]);
     expect(ids(computeRestPlan(undis.character, undis.resolved, undis.derived, null, "long"))).not.toContain("buff:ward");
     const inst = setup(["ward"], [buffFeature("ward", "Ward", "instantaneous")]);
     expect(ids(computeRestPlan(inst.character, inst.resolved, inst.derived, null, "short"))).not.toContain("buff:ward");
   });
 
-  it("a POOL pick's own structured duration ends too, keyed on the RESOLVED entry slug (FIXTURE-ONLY: 0 of 226 converted and 0 of 7 bundle optional features carry `duration`, measured 2026-09-07)", () => {
+  it("a POOL pick's own structured duration ends too, keyed on the RESOLVED entry slug (a LIVE shipped path, MEASURED 2026-09-07: 2 of the 226 converted optional features carry a structured `duration`, Xanathar's Ghostly Gaze and Grasping Arrow, both `{1, minute}` and `activatable: true`; 0 of the 7 bundle ones do)", () => {
     const pool = {
       id: "runes", label: "Runes", classIndex: 0, count: 2, anchorLevel: 3, available: [], grants: [],
       selected: [{ slug: "tce_frost-rune", entity: { slug: "tce_frost-rune", name: "Frost Rune", duration: { amount: 10, unit: "minute" } } }],
