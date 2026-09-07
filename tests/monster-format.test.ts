@@ -121,7 +121,7 @@ describe("challenge (§6; the four object shapes)", () => {
     expect(challengeLine("0.5")).toBe("0.5 (100 XP; PB +2)");
     expect(formatCR("0.25")?.tableMiss).toBe(false);
     expect(formatCR("0.25")?.crText).toBe("0.25");                 // the LOOKUP normalises, the rendered text never does
-    expect(challengeLine("constructor")).toBe("constructor (PB +2)");   // `Object.hasOwn`, not `in`: a prototype key is a miss
+    expect(challengeLine("constructor")).toBe("constructor (PB +2)");   // an own-property test, not `in`: a prototype key is a miss
     expect(formatCR("constructor")?.tableMiss).toBe(true);
     expect(formatCR("constructor")?.xp).toBe(0);
   });
