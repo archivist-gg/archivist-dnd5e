@@ -115,6 +115,16 @@ describe("challenge (§6; the four object shapes)", () => {
     expect(formatCR({ cr: "11", lair: "13" })?.pb).toBe(4);
     expect(crString(5 as unknown as string)).toBe("5"); // a bare NUMBER narrows to its string (the arm `resolveMonster` used to carry)
   });
+  it("a decimal fractional cr keeps its authored text and looks up its XP by the fraction key; a prototype key is a table miss", () => {
+    expect(challengeLine("0.25")).toBe("0.25 (50 XP; PB +2)");     // the SRD spells fractions as decimals; the tables key on fractions
+    expect(challengeLine("0.125")).toBe("0.125 (25 XP; PB +2)");
+    expect(challengeLine("0.5")).toBe("0.5 (100 XP; PB +2)");
+    expect(formatCR("0.25")?.tableMiss).toBe(false);
+    expect(formatCR("0.25")?.crText).toBe("0.25");                 // the LOOKUP normalises, the rendered text never does
+    expect(challengeLine("constructor")).toBe("constructor (PB +2)");   // `Object.hasOwn`, not `in`: a prototype key is a miss
+    expect(formatCR("constructor")?.tableMiss).toBe(true);
+    expect(formatCR("constructor")?.xp).toBe(0);
+  });
 });
 
 describe("armor class, hit points, speed (§6)", () => {

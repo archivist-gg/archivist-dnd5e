@@ -140,15 +140,29 @@ export interface FormattedCR {
   lair?: string; coven?: string; xpLair?: number; xpOverride?: number;
 }
 
+/** The three decimal spellings the SRD authors for a fractional CR, mapped to the fraction `CR_TO_XP` keys on. DATA,
+ *  not a branch: `formatCR` normalises the LOOKUP key only, so `crText` stays the AUTHORED string and the SRD's
+ *  `0.25` renders as `0.25 (50 XP; PB +2)` beside the converter's `1/4 (50 XP; PB +2)` for the same creature. */
+const CR_DECIMAL_KEYS: Readonly<Record<string, string>> = { "0.125": "1/8", "0.25": "1/4", "0.5": "1/2" };
+
+/** An OWN-property test. `Object.hasOwn` is ES2022 and this package's `lib` stops at ES7 (TS2550), so the table reads
+ *  go through `hasOwnProperty` instead: what they must never use is `in`, which sees `Object.prototype`. */
+function hasOwn(table: Readonly<Record<string, unknown>>, key: string): boolean {
+  return Object.prototype.hasOwnProperty.call(table, key);
+}
+
 export function formatCR(cr: string | MonsterCRStructured | undefined): FormattedCR | undefined {
   if (cr === undefined || cr === null) return undefined;
   const obj = typeof cr === "object" ? cr : { cr: String(cr) };
   const text = String(obj.cr);
-  const tableMiss = !(text in CR_TO_XP);
+  // `hasOwn`, never `in`: an authored `cr: "constructor"` would otherwise read `Object.prototype` and print a
+  // stringified function as its XP. Both tables are read through it.
+  const key = hasOwn(CR_DECIMAL_KEYS, text) ? CR_DECIMAL_KEYS[text] : text;
+  const tableMiss = !hasOwn(CR_TO_XP, key);
   return {
     crText: text,
-    xp: obj.xp ?? CR_TO_XP[text] ?? 0,
-    pb: getProficiencyBonus(text),
+    xp: obj.xp ?? (tableMiss ? 0 : CR_TO_XP[key]),
+    pb: getProficiencyBonus(key),
     tableMiss,
     lair: obj.lair, coven: obj.coven, xpLair: obj.xp_lair, xpOverride: obj.xp,
   };
@@ -159,7 +173,7 @@ export function formatXP(xp: number): string {
   return String(xp).replace(/\B(?=(\d{3})+(?!\d))/g, ",");
 }
 
-/** The bare `cr` text (today's Challenge value; the PB / XP tables key on it). */
+/** The bare `cr` text (today's Challenge value; `formatCR` normalises it before the PB / XP table reads). */
 export function crString(cr: string | MonsterCRStructured | undefined): string | undefined {
   return formatCR(cr)?.crText;
 }
