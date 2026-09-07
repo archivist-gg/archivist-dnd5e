@@ -17,6 +17,36 @@ export interface FeatureRecharge {
   param: number;
 }
 
+/** The converter's 14-key companion binding (R4-G5 §7, ruling G5-UR2 "declare now, card after the G7 re-emit").
+ *  DECLARED, not read: the converter withholds the key today (`P9_NOT_EMITTED_FIELDS`), 0 converted and 0 bundle
+ *  notes carry it, and the Passive-tab card is a G8 booking. Every closed-vocabulary leaf is a plain `string` and
+ *  every position the converter can emit as null is `| null`, for the reason the schema mirror states: a class,
+ *  subclass or race parser refuses a WHOLE document on one nested leaf failure, so a mirror stricter than the
+ *  emitter is a total-loss risk on the day the re-emit lands. */
+export interface FeatureCompanion {
+  statblock?: string;
+  statblock_wikilink?: string | null;
+  count?: string;
+  count_scaling?: Array<{ level?: number; count?: string; source_quote?: string }>;
+  shares_action_economy?: boolean;
+  turn_order?: string;
+  turn_order_source_quote?: string | null;
+  proficiency_bonus_scaled?: Array<{ stat?: string; formula?: string; source_quote?: string }>;
+  lifecycle?: {
+    created_by?: string;
+    recreate_on?: string | null;
+    previous_instance_perishes?: boolean | null;
+    vanishes_if_owner_dies?: boolean | null;
+    vanishes_after?: string | null;
+    source_quote?: string;
+  } | null;
+  autonomy?: { when?: string; behaviour?: string; source_quote?: string } | null;
+  variants?: Array<{ axis?: string; choices?: string[]; chosen_at?: string; source_quote?: string }>;
+  base_statblock?: string | null;
+  overrides?: Array<{ field?: string; value?: string; source_quote?: string }>;
+  source_quote?: string;
+}
+
 export interface Feature {
   id?: string;
   name: string;
@@ -60,4 +90,7 @@ export interface Feature {
   // TEXT, never evaluated).
   action_cost?: ActionCost;
   save?: { ability: string; dc_formula: string };
+  /** The companion this feature binds (R4-G5 §7). Declared so the class / subclass / race parsers stop stripping
+   *  it on the day the G7 re-emit lands; nothing reads it in G5. */
+  companion?: FeatureCompanion;
 }

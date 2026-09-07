@@ -5,6 +5,57 @@ import { attackSchema } from "./attack-schema";
 import { featureEffectSchema } from "./feature-effect-schema";
 import { durationSchema } from "./duration-schema";
 
+/** LOCAL MIRROR of the converter's 14-key `companionSchema` (R4-G5 §7.2; ruling G5-UR2). It is deliberately
+ *  LOOSER than the emitter on TWO axes, and both are the same safety rule:
+ *    (1) every one of the NINE closed-vocabulary leaves is `z.string()`, never an enum (`turn_order`,
+ *        `lifecycle.created_by`, `lifecycle.recreate_on`, `autonomy.when`, `autonomy.behaviour`,
+ *        `variants[].axis`, `variants[].chosen_at`, `overrides[].field`, `proficiency_bonus_scaled[].stat`);
+ *    (2) every one of the NINE positions the converter can emit as null is `.nullable()` here
+ *        (`statblock_wikilink`, `turn_order_source_quote`, the `lifecycle` node, `lifecycle.recreate_on`,
+ *        `lifecycle.previous_instance_perishes`, `lifecycle.vanishes_if_owner_dies`,
+ *        `lifecycle.vanishes_after`, the `autonomy` node, `base_statblock`), because `z.string().optional()`
+ *        alone REJECTS `null` (measured).
+ *  No `.min(1)`, no `.strict()` and no `.refine()` at any node either. THE REASON: `parseClass` and its siblings
+ *  refuse a WHOLE document on one nested leaf failure, so a value the converter emits and this mirror rejects
+ *  would lose an entire class, subclass or race note. The converter's own schema is `.strict()` with nine enums
+ *  and a turn-order refine; mirroring that strictness here would make every future vocabulary addition a
+ *  total-loss event. EXECUTED 2026-09-07: this exact shape parses 47 / 47 cache blocks and round-trips each
+ *  byte-identically, while dropping `.nullable()` from `lifecycle.recreate_on` alone drops it to 36 / 47. */
+const companionSchema = z.object({
+  statblock: z.string().optional(),
+  statblock_wikilink: z.string().nullable().optional(),
+  count: z.string().optional(),
+  count_scaling: z.array(z.object({
+    level: z.number().optional(), count: z.string().optional(), source_quote: z.string().optional(),
+  })).optional(),
+  shares_action_economy: z.boolean().optional(),
+  turn_order: z.string().optional(),
+  turn_order_source_quote: z.string().nullable().optional(),
+  proficiency_bonus_scaled: z.array(z.object({
+    stat: z.string().optional(), formula: z.string().optional(), source_quote: z.string().optional(),
+  })).optional(),
+  lifecycle: z.object({
+    created_by: z.string().optional(),
+    recreate_on: z.string().nullable().optional(),
+    previous_instance_perishes: z.boolean().nullable().optional(),
+    vanishes_if_owner_dies: z.boolean().nullable().optional(),
+    vanishes_after: z.string().nullable().optional(),
+    source_quote: z.string().optional(),
+  }).nullable().optional(),
+  autonomy: z.object({
+    when: z.string().optional(), behaviour: z.string().optional(), source_quote: z.string().optional(),
+  }).nullable().optional(),
+  variants: z.array(z.object({
+    axis: z.string().optional(), choices: z.array(z.string()).optional(),
+    chosen_at: z.string().optional(), source_quote: z.string().optional(),
+  })).optional(),
+  base_statblock: z.string().nullable().optional(),
+  overrides: z.array(z.object({
+    field: z.string().optional(), value: z.string().optional(), source_quote: z.string().optional(),
+  })).optional(),
+  source_quote: z.string().optional(),
+});
+
 export const featureSchema: z.ZodType<unknown> = z.lazy(() =>
   z.object({
     id: z.string().min(1).optional(),
@@ -50,6 +101,11 @@ export const featureSchema: z.ZodType<unknown> = z.lazy(() =>
         // (no cycle: resource-schema imports neither; two spellings of a closed enum is the G1a
         // "fifth enum consumer" drift — gate1-r2 NEW-12)
     save: z.object({ ability: z.string().min(1), dc_formula: z.string().min(1) }).optional(),
+    // R4-G5 §7 (ruling G5-UR2): DECLARED so the class / subclass / race parsers stop stripping it on the day the
+    // G7 re-emit lands. The converter withholds it today (`P9_NOT_EMITTED_FIELDS`), so 0 converted and 0 bundle
+    // documents carry it and the census cannot see this key in either state (§12.1); the 47-block cache
+    // round-trip in `tests/feature-schema-widening.test.ts` is its instrument.
+    companion: companionSchema.optional(),
   }).refine(
     (f) => f.description !== undefined || (f.entries !== undefined && f.entries.length > 0),
     { message: "feature requires either description or non-empty entries" }
