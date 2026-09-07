@@ -47,6 +47,14 @@ describe("migrateLegacy keeps the hand parser's tolerances (R4-G6 §4.1)", () =>
     expect(refused("name: X\nhp:\n  average: lots")).toMatch(/"path": \[\s*"hp",\s*"average"\s*\]/);
     expect(refused("name: X\ninitiative:\n  advantage_mode: 7")).toMatch(/"path": \[\s*"initiative"\s*\]/);
   });
+  /* GREEN at their first run: they pin SHIPPED behaviour (spec §4.1, invariant 6). The hand parser dropped all three
+   * silently; the codec refuses them loudly, each at its own zod issue path. The step-2 lift is NUMBERS only, so a
+   * QUOTED `hp: "52"` / `ac: "15"` never reaches the object / array shape the schema declares. */
+  it("the three refusals the hand parser used to drop silently: a quoted hp, a quoted ac, a non-string name", () => {
+    expect(refused('name: X\nhp: "52"')).toMatch(/"path": \[\s*"hp"\s*\]/);
+    expect(refused('name: X\nac: "15"')).toMatch(/"path": \[\s*"ac"\s*\]/);
+    expect(refused("name: 5")).toMatch(/"path": \[\s*"name"\s*\]/);
+  });
   it("step 5: the generic non-finite scrub", () => {
     expect(ok("name: X\nhp:\n  average: .nan\n  formula: 2d8").hp).toEqual({ formula: "2d8" });
     expect(ok("name: X\nspeed:\n  fly: .nan\n  walk: 30").speed).toEqual({ walk: 30 });
