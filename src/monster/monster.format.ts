@@ -10,7 +10,7 @@ import { abilityModifier } from "../dnd/math";
 import { CR_TO_XP, getProficiencyBonus } from "./monster.enrichment";
 import type {
   AlignmentEntry, DamageQualifier, MonsterAC, MonsterCRStructured, MonsterGearEntry, MonsterHP, MonsterInitiative,
-  MonsterSectionHeader, MonsterSpeed, MonsterSpeedValue, MonsterTypeStructured,
+  MonsterSectionHeader, MonsterSpeed, MonsterSpeedValue, MonsterSpellcasting, MonsterSpellEntry, MonsterTypeStructured,
 } from "./monster.types";
 
 /** The plugin renderer's historical helper, byte for byte (`/\b\w/g`), so `player's` becomes `Player'S`. */
@@ -332,4 +332,142 @@ export const DISPLAY_AS_SECTION: Readonly<Record<string, Exclude<PlacedSection, 
 };
 export function displayAsSection(displayAs: string | undefined): PlacedSection {
   return (displayAs !== undefined && DISPLAY_AS_SECTION[displayAs]) || "traits";
+}
+
+// ---------------------------------------------------------------------------------------------------------------
+// spellcasting (§8.2)
+// ---------------------------------------------------------------------------------------------------------------
+
+/** ONE label table. Title-cased to match the SRD 2024 statblock prose the vault already shows beside these entries. */
+export const SPELLCASTING_LABELS: Readonly<Record<string, { each: string; plain: string }>> = {
+  daily: { each: "N/Day Each:", plain: "N/Day:" },
+  rest: { each: "N/Rest Each:", plain: "N/Rest:" },
+  restLong: { each: "N/Long Rest Each:", plain: "N/Long Rest:" },
+  legendary: { each: "N/Legendary Action Each:", plain: "N/Legendary Action:" },
+  charges: { each: "N Charges Each", plain: "N Charges" },
+};
+const GROUP_ORDER = ["will", "daily", "rest", "restLong", "recharge", "legendary", "charges", "ritual"] as const;
+
+function spellText(e: MonsterSpellEntry): string | undefined {
+  if (typeof e === "string") return e;
+  return e.hidden ? undefined : e.entry;
+}
+function spellsOf(list: MonsterSpellEntry[] | undefined): string {
+  return (list ?? []).map(spellText).filter((s): s is string => s !== undefined).join(", ");
+}
+/** Sub-keys DESCENDING by numeric prefix, the plain key BEFORE its `e` twin (5etools walks 9 down to 1, plain then
+ *  each; the shipped SRD 2024 prose prints `2/Day Each:` before `1/Day Each:`). */
+function sortedKeys(record: Record<string, unknown>): string[] {
+  return Object.keys(record).sort((a, b) => {
+    const na = parseInt(a, 10), nb = parseInt(b, 10);
+    if (na !== nb) return nb - na;
+    return (a.endsWith("e") ? 1 : 0) - (b.endsWith("e") ? 1 : 0);
+  });
+}
+function ordinal(n: number): string {
+  const s = ["th", "st", "nd", "rd"], v = n % 100;
+  return `${n}${s[(v - 20) % 10] ?? s[v] ?? s[0]}`;
+}
+
+export function spellcastingLines(block: MonsterSpellcasting): string[] {
+  // 5etools' meaning of `hidden`: the block's own `headerEntries` already names those spells in prose; measured 169 of
+  // 170 groups, the 170th covered by a "any cleric spell" header. An entry of `hidden` names a frequency GROUP, or
+  // `spells` (which omits the whole slot table); a `{ entry, hidden: true }` spell is omitted the same way.
+  const hidden = new Set(block.hidden ?? []);
+  const lines: string[] = [...(block.headerEntries ?? [])];
+  for (const group of GROUP_ORDER) {
+    if (hidden.has(group)) continue;
+    if (group === "will") { const s = spellsOf(block.will); if (s) lines.push(`At Will: ${s}`); continue; }
+    if (group === "ritual") { const s = spellsOf(block.ritual); if (s) lines.push(`Rituals: ${s}`); continue; }
+    if (group === "recharge") {
+      for (const k of sortedKeys(block.recharge ?? {})) {
+        const s = spellsOf(block.recharge![k]); if (!s) continue;
+        lines.push(`${k === "6" ? "Recharge 6" : `Recharge ${k}-6`}: ${s}`);
+      }
+      continue;
+    }
+    const record = block[group as "daily" | "rest" | "restLong" | "legendary" | "charges"] ?? {};
+    for (const k of sortedKeys(record)) {
+      const s = spellsOf(record[k]); if (!s) continue;
+      const n = parseInt(k, 10);
+      const label = (k.endsWith("e") ? SPELLCASTING_LABELS[group].each : SPELLCASTING_LABELS[group].plain).replace("N", String(n));
+      lines.push(group === "charges" ? `${label}${block.chargesItem ? ` (${block.chargesItem})` : ""}: ${s}` : `${label} ${s}`);
+    }
+  }
+  if (!hidden.has("spells") && block.spells) {
+    for (const lvl of Object.keys(block.spells).map(Number).sort((a, b) => a - b)) {
+      const level = block.spells[String(lvl)];
+      const s = level.spells.join(", "); if (!s) continue;
+      if (lvl === 0) { lines.push(`Cantrips (At Will): ${s}`); continue; }
+      const slots = level.slots !== undefined
+        ? (level.lower !== undefined ? `${level.slots} ${ordinal(level.lower)}-Level Slots` : `${level.slots} Slots`)
+        : undefined;
+      lines.push(`${ordinal(lvl)} Level${slots ? ` (${slots})` : ""}: ${s}`);
+    }
+  }
+  lines.push(...(block.footerEntries ?? []));
+  return lines;
+}
+
+// ---------------------------------------------------------------------------------------------------------------
+// 5etools entry trees (§8.3)
+// ---------------------------------------------------------------------------------------------------------------
+type Node = Record<string, unknown>;
+
+function inline(v: unknown): string {
+  if (typeof v === "string") return v;
+  if (Array.isArray(v)) return v.map(inline).filter(Boolean).join(" ");
+  if (v && typeof v === "object") {
+    const n = v as Node;
+    const parts: string[] = [];
+    if (typeof n.name === "string") parts.push(`**${n.name}.**`);
+    if (n.entry !== undefined) parts.push(inline(n.entry));
+    if (n.entries !== undefined) parts.push(inline(n.entries));
+    if (n.items !== undefined) parts.push(inline(n.items));
+    return parts.join(" ");
+  }
+  return v === undefined || v === null ? "" : String(v);
+}
+
+function blocksOf(v: unknown): string[] {
+  if (typeof v === "string") return [v];
+  if (Array.isArray(v)) return v.flatMap(blocksOf);
+  if (!v || typeof v !== "object") return [];
+  const n = v as Node;
+  const type = typeof n.type === "string" ? n.type : "entries";           // an untyped node is an `entries` node
+  switch (type) {
+    case "entries": case "section": {
+      const body = blocksOf(n.entries);
+      if (typeof n.name === "string" && body.length > 0) body[0] = `**${n.name}.** ${body[0]}`;
+      else if (typeof n.name === "string") body.push(`**${n.name}.**`);
+      return body;
+    }
+    case "list": {
+      const items = Array.isArray(n.items) ? n.items : [];
+      return [items.map((it) => `- ${inline(it)}`).join("\n")];
+    }
+    case "item": return [inline(n)];
+    case "table": {
+      const out: string[] = [];
+      if (typeof n.caption === "string") out.push(`**${n.caption}**`);
+      const cols = Array.isArray(n.colLabels) ? n.colLabels.map(inline) : [];
+      const rows = Array.isArray(n.rows) ? n.rows : [];
+      const table = [`| ${cols.join(" | ")} |`, `| ${cols.map(() => "---").join(" | ")} |`];
+      for (const r of rows) table.push(`| ${(Array.isArray(r) ? r : [r]).map(inline).join(" | ")} |`);
+      out.push(table.join("\n"));
+      return out;
+    }
+    case "inset": case "variant": case "variantInner": case "variantSub": {
+      const body = blocksOf(n.entries).map((b) => b.split("\n").map((l) => `> ${l}`).join("\n"));
+      const head = typeof n.name === "string" ? [`> **${n.name}**`] : [];
+      return [[...head, ...body].join("\n>\n")];
+    }
+    case "spellcasting": return [spellcastingLines(n as unknown as MonsterSpellcasting).join("\n")];
+    default: return [...blocksOf(n.entries), ...blocksOf(n.items), ...blocksOf(n.entry)];
+  }
+}
+
+/** The measured node vocabulary to markdown; never throws; an unknown type recurses into its children only. */
+export function entriesToMarkdown(tree: unknown): string {
+  return blocksOf(tree).filter((b) => b.length > 0).join("\n\n");
 }
