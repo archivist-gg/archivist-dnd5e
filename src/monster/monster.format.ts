@@ -325,6 +325,32 @@ export function formatGear(gear: (string | MonsterGearEntry)[] | undefined): str
   }).join(", ");
 }
 
+/**
+ * The Languages line (R4 {G5, G6} live rider 3, Z-9-9). Each entry is title-cased, as this line has always
+ * been, EXCEPT that the word immediately following an amount keeps the case it was authored in: that word is
+ * the amount's unit. `capitalizeWords` reached it too, so a block read `Deep Speech; Telepathy 120 Ft.` while
+ * the Senses line right above printed its own `darkvision 120 ft.` verbatim (Aboleth, Baphomet).
+ *
+ * The rule is a SHAPE, not a list of unit words: no vocabulary table enters this formatter. Measured over the
+ * converter corpus' 4,042 monster notes that carry a `languages` block, the words that follow an amount there
+ * are `ft` (527), `mile` (10), `miles` (7), `feet` (1), the conjunctions `and` (7) and `or` (2), and eight
+ * language names already authored with a capital (`Elvish`, `Common`, `Terran`, `Druidic`, `Ignan`, `Sylvan`,
+ * `Celestial`, `Draconic`, `Auran`). Keeping the AUTHORED case rather than lower-casing is what leaves those
+ * language names alone; the two conjunctions stop being title-cased, which is correct English and reaches no
+ * SRD bundle document (there, `ft` is the only word that ever follows an amount).
+ *
+ * What this does NOT change: the rest of an entry's free prose is still title-cased, so
+ * "understands Common and Deep Speech but can't speak" still renders with each word capitalised. That is the
+ * line's shipped register and a separate copy question, recorded rather than changed here.
+ */
+export function formatLanguages(list: string[] | undefined): string {
+  // `capitalizeWords`' own `/\b\w/g`, with an optional AMOUNT consumed in front of the word boundary: when that
+  // optional group participates, the match is returned untouched and the word keeps its case.
+  return (list ?? [])
+    .map((entry) => entry.replace(/([\d,]*\d[\d,]*\s+)?\b(\w)/g, (m, amount: string | undefined, ch: string) => (amount ? m : ch.toUpperCase())))
+    .join(", ");
+}
+
 /** `ALL_SKILLS` (`dnd/constants`) keyed by its own lower-cased spelling · the ONE canonical list, not a second
  *  copy of the game's eighteen names in this module. */
 const SKILL_DISPLAY: ReadonlyMap<string, string> = new Map(ALL_SKILLS.map((s) => [s.toLowerCase(), s]));

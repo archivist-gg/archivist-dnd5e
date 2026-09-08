@@ -6,7 +6,7 @@ import {
   capitalizeWords, capitalizeOutsideLinks, formatSize, sizeWord, formatAlignment, alignmentWords, formatType,
   formatCR, challengeLine, crString, formatAC, formatHP, formatSpeed, speedNumber, formatQualifiers, qualifierStrings,
   formatInitiative, formatGear, formatSkillsOther, legendaryIntro, sectionHeader, displayAsSection,
-  skillDisplayName,
+  skillDisplayName, formatLanguages,
 } from "../src/monster/monster.format";
 
 /** R4-G6 §6 · read-time decoding, tables as data. The SRD string arms must reproduce the plugin renderer's output
@@ -206,6 +206,18 @@ describe("qualifiers, initiative, gear, skills_other (§6)", () => {
   });
   it("formatSkillsOther names a two-word skill by the canonical list too", () => {
     expect(formatSkillsOther([{ one_of: { animal_handling: "+7", history: "+7" } }])).toBe("plus one of: Animal Handling +7, History +7");
+  });
+  // R4 {G5, G6} live rider 3, Z-9-9: the Languages line title-cases its entries, and the unit of a distance
+  // rode along, so a block read `Telepathy 120 Ft.` beside the Senses line's own `darkvision 120 ft.`. The
+  // word right after an AMOUNT is that amount's unit and keeps the case it was authored in; every other word
+  // is title-cased exactly as before.
+  it("formatLanguages leaves a measurement's unit in the case it was authored", () => {
+    expect(formatLanguages(["Deep Speech", "telepathy 120 ft."])).toBe("Deep Speech, Telepathy 120 ft.");
+    expect(formatLanguages(["all", "telepathy 120 ft."])).toBe("All, Telepathy 120 ft.");
+    expect(formatLanguages(["telepathy 1 mile (works only with you)"])).toBe("Telepathy 1 mile (Works Only With You)");
+    expect(formatLanguages(["telepathy 1,000 ft."])).toBe("Telepathy 1,000 ft.");
+    expect(formatLanguages(["any one language (usually Common)"])).toBe("Any One Language (Usually Common)");
+    expect(formatLanguages(undefined)).toBe("");
   });
 });
 
