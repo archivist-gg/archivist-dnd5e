@@ -333,7 +333,7 @@ export function formatGear(gear: (string | MonsterGearEntry)[] | undefined): str
  *
  * The rule is a SHAPE, not a list of unit words: no vocabulary table enters this formatter. Measured over the
  * converter corpus' 4,042 monster notes that carry a `languages` block, the words that follow an amount there
- * are `ft` (527), `mile` (10), `miles` (7), `feet` (1), the conjunctions `and` (7) and `or` (2), and eight
+ * are `ft` (527), `mile` (10), `miles` (7), `feet` (1), the conjunctions `and` (7) and `or` (2), and NINE
  * language names already authored with a capital (`Elvish`, `Common`, `Terran`, `Druidic`, `Ignan`, `Sylvan`,
  * `Celestial`, `Draconic`, `Auran`). Keeping the AUTHORED case rather than lower-casing is what leaves those
  * language names alone; the two conjunctions stop being title-cased, which is correct English and reaches no
