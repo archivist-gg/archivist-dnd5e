@@ -6,6 +6,7 @@ import {
   capitalizeWords, capitalizeOutsideLinks, formatSize, sizeWord, formatAlignment, alignmentWords, formatType,
   formatCR, challengeLine, crString, formatAC, formatHP, formatSpeed, speedNumber, formatQualifiers, qualifierStrings,
   formatInitiative, formatGear, formatSkillsOther, legendaryIntro, sectionHeader, displayAsSection,
+  skillDisplayName,
 } from "../src/monster/monster.format";
 
 /** R4-G6 §6 · read-time decoding, tables as data. The SRD string arms must reproduce the plugin renderer's output
@@ -192,6 +193,19 @@ describe("qualifiers, initiative, gear, skills_other (§6)", () => {
     expect(formatGear(["breastplate|xphb", { item: "javelin|xphb", quantity: 5 }, { item: "longsword|phb", displayName: "Gossamer (+1 Longsword)" }])).toBe("Breastplate, Javelin × 5, Gossamer (+1 Longsword)");
     expect(formatSkillsOther([{ one_of: { arcana: "+7", history: "+7" } }])).toBe("plus one of: Arcana +7, History +7");
     expect(formatSkillsOther(undefined)).toBeUndefined();
+  });
+  // R4 {G5, G6} live rider 3, Z-9-8: the two-word skills are what a title-caser cannot reach. The corpus and
+  // the SRD bundle write a monster's skill keys with an underscore (`animal_handling`), and `capitalizeWords`
+  // only upper-cases the first letter of each WORD, so the separator survived into the rendered line.
+  it("skillDisplayName answers from the canonical list and falls back for an off-list key", () => {
+    expect(skillDisplayName("animal_handling")).toBe("Animal Handling");
+    expect(skillDisplayName("sleight_of_hand")).toBe("Sleight of Hand");
+    expect(skillDisplayName("animal-handling")).toBe("Animal Handling");
+    expect(skillDisplayName("stealth")).toBe("Stealth");
+    expect(skillDisplayName("thieves_tools")).toBe("Thieves_tools");
+  });
+  it("formatSkillsOther names a two-word skill by the canonical list too", () => {
+    expect(formatSkillsOther([{ one_of: { animal_handling: "+7", history: "+7" } }])).toBe("plus one of: Animal Handling +7, History +7");
   });
 });
 

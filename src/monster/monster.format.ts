@@ -7,6 +7,7 @@
  */
 import type { Abilities } from "../types";
 import { abilityModifier } from "../dnd/math";
+import { ALL_SKILLS } from "../dnd/constants";
 import { CR_TO_XP, getProficiencyBonus } from "./monster.enrichment";
 import type {
   AlignmentEntry, DamageQualifier, MonsterAC, MonsterCRStructured, MonsterGearEntry, MonsterHP, MonsterInitiative,
@@ -324,13 +325,29 @@ export function formatGear(gear: (string | MonsterGearEntry)[] | undefined): str
   }).join(", ");
 }
 
+/** `ALL_SKILLS` (`dnd/constants`) keyed by its own lower-cased spelling · the ONE canonical list, not a second
+ *  copy of the game's eighteen names in this module. */
+const SKILL_DISPLAY: ReadonlyMap<string, string> = new Map(ALL_SKILLS.map((s) => [s.toLowerCase(), s]));
+
+/**
+ * A monster's `skills` (and `skills_other.one_of`) KEY to the name a reader sees (R4 {G5, G6} live rider 3,
+ * Z-9-8). Those keys are written with a separator · the SRD bundle's Donkey carries `animal_handling` and
+ * `sleight_of_hand` · and `capitalizeWords` only upper-cases the first letter of each WORD, so the separator
+ * survived and the line read `Animal_handling +0`. The separator is normalised and the CANONICAL list answers;
+ * a key the list does not know keeps `capitalizeWords`, which is byte for byte what every key rendered before
+ * (invariant 5: the sixteen one-word skills already agreed with the list, so only the two-word two move).
+ */
+export function skillDisplayName(key: string): string {
+  return SKILL_DISPLAY.get(key.replace(/[_-]+/g, " ").trim().toLowerCase()) ?? capitalizeWords(key);
+}
+
 export function formatSkillsOther(list: unknown[] | undefined): string | undefined {
   if (!list || list.length === 0) return undefined;
   const parts: string[] = [];
   for (const entry of list) {
     const oneOf = (entry as { one_of?: Record<string, unknown> } | null)?.one_of;
     if (!oneOf) continue;
-    parts.push(Object.entries(oneOf).map(([k, v]) => `${capitalizeWords(k)} ${String(v)}`).join(", "));
+    parts.push(Object.entries(oneOf).map(([k, v]) => `${skillDisplayName(k)} ${String(v)}`).join(", "));
   }
   return parts.length > 0 ? `plus one of: ${parts.join("; ")}` : undefined;
 }
