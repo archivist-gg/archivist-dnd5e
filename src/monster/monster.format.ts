@@ -208,17 +208,24 @@ export function challengeLine(cr: string | MonsterCRStructured | undefined, pbNo
 // ---------------------------------------------------------------------------------------------------------------
 // armor class, hit points, speed
 // ---------------------------------------------------------------------------------------------------------------
+/** R4 {G5, G6} live rider N-3-3: a BRACED entry joins with a SPACE, every other with ", ". The braces
+ *  flag marks an entry that reads as a parenthetical on the one before it ("15 (17 with mage armor)"),
+ *  so emitting the list comma as well gave the Archmage and the converter's Feonor
+ *  `Armor Class. 12, (15 with mage armor)`. The separator therefore belongs to the entry that FOLLOWS
+ *  it, not to the list, which is why this joins by hand rather than with `Array.join`. A braced entry
+ *  that opens the line still stands alone, and two unbraced entries still take the comma. */
 export function formatAC(ac: MonsterAC[] | undefined): string {
-  const parts: string[] = [];
+  const parts: { text: string; braced: boolean }[] = [];
   for (const entry of ac ?? []) {
-    if (entry.special !== undefined) { parts.push(entry.special); continue; }
+    if (entry.special !== undefined) { parts.push({ text: entry.special, braced: false }); continue; }
     if (entry.ac === undefined) continue;                      // neither ac nor special: skipped (§3.2)
     let text = String(entry.ac);
     if (entry.from && entry.from.length > 0) text += ` (${entry.from.map(capitalizeOutsideLinks).join(", ")})`;
     if (entry.condition) text += ` ${entry.condition}`;
-    parts.push(entry.braces ? `(${text})` : text);
+    parts.push(entry.braces ? { text: `(${text})`, braced: true } : { text, braced: false });
   }
-  return parts.length > 0 ? parts.join(", ") : "10";
+  if (parts.length === 0) return "10";
+  return parts.reduce((acc, p, i) => (i === 0 ? p.text : `${acc}${p.braced ? " " : ", "}${p.text}`), "");
 }
 
 export function formatHP(hp: MonsterHP | undefined): { text: string; formula?: string } {

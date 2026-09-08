@@ -136,7 +136,13 @@ describe("challenge (§6; the four object shapes)", () => {
 describe("armor class, hit points, speed (§6)", () => {
   it("formatAC renders every entry, braces, condition, special, and skips an empty entry", () => {
     expect(formatAC([{ ac: 23, from: ["natural armor"] }, { ac: 20, condition: "in humanoid form" }])).toBe("23 (Natural Armor), 20 in humanoid form");
-    expect(formatAC([{ ac: 15 }, { ac: 17, braces: true, condition: "with mage armor" }])).toBe("15, (17 with mage armor)");
+    // R4 {G5, G6} live rider N-3-3: a BRACED entry is a parenthetical on the entry before it, so the
+    // join gives it a space and not the comma the sibling entries take. The live sheets read
+    // `Armor Class. 12, (15 with mage armor)` on the Archmage and on the converter's Feonor.
+    expect(formatAC([{ ac: 15 }, { ac: 17, braces: true, condition: "with mage armor" }])).toBe("15 (17 with mage armor)");
+    // The comma still divides two unbraced entries, and a braced entry that opens the line stands alone.
+    expect(formatAC([{ ac: 12 }, { ac: 14, condition: "in bear form" }])).toBe("12, 14 in bear form");
+    expect(formatAC([{ ac: 13, braces: true }])).toBe("(13)");
     expect(formatAC([{ special: "12 + your Intelligence modifier" }])).toBe("12 + your Intelligence modifier");
     expect(formatAC([{}, { ac: 12 }])).toBe("12");
   });
