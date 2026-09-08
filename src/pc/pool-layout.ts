@@ -59,9 +59,14 @@ export function deriveEntryAffordance(entity: ResolvedPoolEntry["entity"]): Entr
 }
 
 /** Caption TEMPLATES per affordance, in the `RESET_LABELS` shape: the game sentence lives in DATA here, never in
- *  a renderer (invariant 3). `{amount}` and `{die}` are filled by `formatAffordanceCaption`. */
+ *  a renderer (invariant 3). `{amount}` and `{die}` are filled by `formatAffordanceCaption`.
+ *
+ *  The two placeholders ABUT (R4 {G5, G6} live rider N-1-12): the sheet read `1 d8 to an ally`, which is not how
+ *  a die is written. `{die}` is a FACE by contract · the caller passes what `resolveScalingDie` returns, which is
+ *  `base` or one of `scaling`'s entries, and every one of those in shipped data is face-shaped ("d6" throughout
+ *  the SRD runtime JSON and the compendium bundle) · so amount and face compose into one dice expression. */
 export const AFFORDANCE_CAPTIONS: Readonly<Record<EntryAffordance, string>> = {
-  "granted-die": "{amount} {die} to an ally",
+  "granted-die": "{amount}{die} to an ally",
 };
 
 /** Fill an affordance's caption template. PURE, and pure on purpose: the caller supplies values it has ALREADY

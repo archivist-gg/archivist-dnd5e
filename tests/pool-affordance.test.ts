@@ -29,12 +29,17 @@ describe("deriveEntryAffordance · the ONE hint to affordance table (R4-G5 §4.2
 });
 
 describe("formatAffordanceCaption · the sentence lives in DATA (R4-G5 §4.2.1)", () => {
+  // R4 {G5, G6} live rider N-1-12: the caption read `1 d8 to an ally` on the sheet, which is not how a
+  // die is written. `die` is a FACE by contract · it is whatever `resolveScalingDie` returns, and that
+  // function returns `base` or a `scaling` entry, every one of which is face-shaped in shipped data
+  // (measured: every `base` in the SRD runtime JSON and in the compendium bundle is "d6") · so the
+  // amount and the face join into one dice expression.
   it("fills {amount} and {die} from the values the caller already resolved", () => {
-    expect(formatAffordanceCaption("granted-die", { amount: 1, die: "d8" })).toBe("1 d8 to an ally");
-    expect(formatAffordanceCaption("granted-die", { amount: 2, die: "1d10" })).toBe("2 1d10 to an ally");
+    expect(formatAffordanceCaption("granted-die", { amount: 1, die: "d8" })).toBe("1d8 to an ally");
+    expect(formatAffordanceCaption("granted-die", { amount: 2, die: "d10" })).toBe("2d10 to an ally");
   });
   it("the template, not the rendered string, is what the table holds", () => {
-    expect(AFFORDANCE_CAPTIONS["granted-die"]).toBe("{amount} {die} to an ally");
+    expect(AFFORDANCE_CAPTIONS["granted-die"]).toBe("{amount}{die} to an ally");
   });
 });
 
