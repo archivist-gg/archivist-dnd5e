@@ -14,8 +14,11 @@ export function convert5eToolsTags(text: string): string {
     .replace(/\{@atk\s+rs\}/gi, 'Ranged Spell Attack:')
     // Hit bonus -> `atk:+N`
     .replace(/\{@hit\s+(\d+)\}/gi, '`atk:+$1`')
-    // Hit label
-    .replace(/\{@h\}/gi, 'Hit:')
+    // Hit label. R4 {G5, G6} live rider 3, Z-9-5: the tag carries the space. 5etools writes `{@h}` immediately
+    // before the amount ("{@h}5 ({@damage 1d10}) fire damage") and its own renderer supplies the space, so a
+    // bare `Hit:` here produced "Hit:5". Any authored whitespace after the tag is consumed with it, so the
+    // shape "{@h} {@damage ...}" that also occurs keeps exactly one space rather than gaining a second.
+    .replace(/\{@h\}\s*/gi, 'Hit: ')
     // Damage -> `damage:XdY+Z type`
     .replace(/\{@damage\s+([^}]+)\}/gi, '`damage:$1`')
     // Dice -> `roll:XdY+Z`
