@@ -628,7 +628,8 @@ function applyEffect(out: FeatureEffectTotals, eff: FeatureEffect, label: string
       for (const ab of eff.abilities) out.ability_bonus[ab] = (out.ability_bonus[ab] ?? 0) + eff.amount;
       break;
     default:
-      // Five kinds fold nothing here, by design: apply-condition (display-only), unarmored-ac (inert HERE, live in
+      // Six kinds fold nothing here, by design: unarmed-strike (read by recalc's `resolveUnarmedStrike`, R4-G6b §5.4),
+      // apply-condition (display-only), unarmored-ac (inert HERE, live in
       // unarmoredACBreakdown), and THREE of the seven R4-G1a arms (temp-hp, heal, extra-action) · `ability-score-increase`
       // folds flat above since R4-G3b §4 · `immunity` and `vulnerability` left this arm in R4-G3a §3 and now fold into their own
       // defense buckets above, and `save-outcome` left it in §5.3 for its own case just above.

@@ -474,6 +474,9 @@ export interface AttackRow {
   /** Action-economy cost for the Cost badge. Defaults to "action" at
    *  render time when absent. Settable via entry.overrides.action. */
   actionCost?: "action" | "bonus-action" | "reaction" | "free" | "special";
+  /** The engine's always-present unarmed row (R4-G6b §5): never an equipment entry, never `equipped`, no `slotKey`.
+   *  The weapons table gates its expand on this flag BEFORE the equipment lookup. Absent on every weapon row. */
+  unarmed?: true;
   /** When set, the weapon is being wielded one-handed but has a versatile
    *  two-handed option. The Actions tab renders both lines stacked in the
    *  damage cell instead of emitting a second row. */

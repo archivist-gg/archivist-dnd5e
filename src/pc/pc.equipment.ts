@@ -635,6 +635,49 @@ function buildAttackRow(args: {
   return row;
 }
 
+/** The die and ability set an `unarmed-strike` effect (or its synthetic) resolved for this character (R4-G6b §5.1). */
+export interface UnarmedStrikeSpec { dice?: string; abilities?: Ability[] }
+
+/** The always-present Unarmed Strike row (R4-G6b §5.1): 1 + the modifier bludgeoning, 5 ft, always proficient. The
+ *  damage string reproduces the OUTPUT of `buildAttackRow`'s `formatDice` (a closure over `dmgFlat` that cannot be
+ *  called): the flat part's `^\+0$` strip equals the whole-string `\+0$` strip for every modifier. The
+ *  ability is STR unless the spec lists others; the highest modifier wins and a LATER candidate wins a tie, so a
+ *  listed DEX beats STR on a tie (the shipped finesse idiom `mods.dex >= mods.str`). Called from recalc, which owns
+ *  the walk that produces `spec`; never from `computeAttacks`, so the row is present with or without a registry. */
+export function buildUnarmedRow(mods: Record<Ability, number>, proficiencyBonus: number, spec?: UnarmedStrikeSpec): AttackRow {
+  const candidates: Ability[] = ["str", ...(spec?.abilities ?? [])];
+  let ability: Ability = "str";
+  for (const ab of candidates) if (mods[ab] >= mods[ability]) ability = ab;
+  const abilityMod = mods[ability];
+  const toHit = abilityMod + proficiencyBonus;
+  const flat = `${abilityMod >= 0 ? "+" : ""}${abilityMod}`.replace(/^\+0$/, "");
+  const damageDice = `${spec?.dice ?? "1"}${flat}`;
+  const label = `${ability.toUpperCase()} modifier`;
+  return {
+    id: "unarmed-strike",
+    name: "Unarmed Strike",
+    unarmed: true,
+    range: "5 ft",
+    toHit,
+    damageDice,
+    damageType: "bludgeoning",
+    properties: [],
+    proficient: true,
+    breakdown: {
+      toHit: [
+        { source: label, amount: abilityMod, kind: "ability" },
+        { source: "Proficiency bonus", amount: proficiencyBonus, kind: "ability" },
+      ],
+      damage: [
+        { source: "Base damage", amount: 0, kind: "ability" },
+        { source: label, amount: abilityMod, kind: "ability" },
+      ],
+    },
+    subLabel: "unarmed",
+    actionCost: "action",
+  };
+}
+
 /** Byte-identical regex to the plugin's shared humanizeToken (spec D7) — row and
  *  card casing must never drift. */
 function humanizeWeaponToken(s: string): string {

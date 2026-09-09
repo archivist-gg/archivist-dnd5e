@@ -54,3 +54,29 @@ export function countColumnsFor(choiceId: string): string[] | undefined {
   if (!Object.prototype.hasOwnProperty.call(COUNT_COLUMNS, choiceId)) return undefined;
   return COUNT_COLUMNS[choiceId];
 }
+
+/** A DICE cell (`1d6`) of a (sub)class table column at `level`, or null when absent, non-string or not dice-shaped.
+ *  `readTableColumn` / `numericColumnsAt` parse INTEGERS and would read `1d6` as 1 (R4-G6b §5.3). Own-property
+ *  reads only: a key of `constructor` hands back the prototype's function otherwise. */
+export function diceColumnAt(
+  table: Record<number, { columns?: Record<string, string | number> }> | undefined,
+  level: number,
+  key: string,
+): string | null {
+  const cols = table?.[level]?.columns;
+  if (!cols || !Object.prototype.hasOwnProperty.call(cols, key)) return null;
+  const raw = cols[key];
+  if (typeof raw !== "string") return null;
+  const cell = raw.trim();
+  return /^\d+d\d+$/i.test(cell) ? cell : null;
+}
+
+/** The class-table COLUMN that scales an unarmed strike's die, per FEATURE id slug (R4-G6b §5.4's synthetic; the
+ *  `COUNT_COLUMNS` shape). Mirrors the G7 overlay entry this synthetic retires for SRD data; kept for homebrew. */
+export const UNARMED_DIE_COLUMNS: Readonly<Record<string, string>> = {
+  "martial-arts": "Martial Arts",
+};
+export function unarmedDieColumnFor(featureSlug: string): string | undefined {
+  if (!Object.prototype.hasOwnProperty.call(UNARMED_DIE_COLUMNS, featureSlug)) return undefined;
+  return UNARMED_DIE_COLUMNS[featureSlug];
+}

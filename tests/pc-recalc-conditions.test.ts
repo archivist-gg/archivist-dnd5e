@@ -112,11 +112,13 @@ describe("recalc — d20 test penalty (2024 exhaustion)", () => {
     }
   });
   it("exhaustion 3 reduces every attack-row toHit by 6", () => {
-    // No equipment in the fixture, so this only proves the empty-attacks path
-    // doesn't crash; meaningful coverage with magic-weapon attacks is added
-    // when the SP5 fixtures land. For now: the zero-attack case stays green.
+    // No equipment in the fixture, so the ONE row is the engine's always-present Unarmed Strike (R4-G6b §5): its
+    // toHit is the base (STR mod + PB) minus the d20 penalty of 6, which is the coverage the old `toEqual([])`
+    // assertion recorded as missing.
+    const base = recalc(makeResolved({ edition: "2024" }));
     const d = recalc(makeResolved({ exhaustion: 3, edition: "2024" }));
-    expect(d.attacks).toEqual([]);
+    expect(d.attacks.map((a) => a.name)).toEqual(["Unarmed Strike"]);
+    expect(d.attacks[0].toHit).toBe(base.attacks[0].toHit - 6);
   });
 });
 

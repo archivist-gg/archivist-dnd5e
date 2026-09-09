@@ -36,6 +36,11 @@ export type FeatureEffect =
     } & Qualified)
   | ({ kind: "ac-bonus"; value: number; requires_armor?: boolean } & Qualified)
   | ({ kind: "unarmored-ac"; abilities: Ability[]; base?: number; allow_shield?: boolean } & Qualified)
+  // R4-G6b §5.2: the always-present unarmed row's die and ability set. `dice` REPLACES the flat `1` ("roll the die in
+  // place of the normal damage"); `{ column }` reads the GRANTING class's table column at the character's level in
+  // that class; `abilities` lists the abilities allowed beside STR (the best modifier wins; a listed DEX beats STR on
+  // a tie, the finesse idiom). Read in recalc's `resolveUnarmedStrike`, never in `computeAttacks`.
+  | ({ kind: "unarmed-strike"; dice?: string | { column: string }; abilities?: Ability[] } & Qualified)
   // `weapons` recognises the sentinel "chosen" (the wielder's chosen weapon) as well as explicit weapon slug(s).
   | ({ kind: "weapon-ability"; ability: Ability | "spellcasting"; weapons?: string | string[] } & Qualified)
   | ({

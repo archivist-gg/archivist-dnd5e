@@ -13,14 +13,17 @@ import type { Ability, SkillSlug } from "@archivist-gg/dnd5e";
 import type { FeatEntity } from "@archivist-gg/dnd5e/feat/feat.types";
 import type { RaceEntity } from "@archivist-gg/dnd5e/race/race.types";
 import type { EntityRegistry } from "@archivist-gg/core";
-import { computeAppliedBonuses, computeSlotsAndAttacks, emptyAppliedBonuses } from "./pc.equipment";
+import { computeAppliedBonuses, computeSlotsAndAttacks, emptyAppliedBonuses, buildUnarmedRow, type UnarmedStrikeSpec } from "./pc.equipment";
+import { diceColumnAt, unarmedDieColumnFor } from "./pc.table-column";
 import { collectChosenProficiencies, collectChosenAbilityPoints } from "./pc.decision-engine";
 import { assembleEffectFeatures, computeFeatureEffects, selfEffectsOf, type FeatureEffectTotals } from "./pc.feature-effects";
 import { computeConditionEffects } from "./pc.conditions";
 import { toDefenseSlug } from "./pc.defense-normalize";
 import { resolveSpellcasting, effectiveSpellcastingAbility, deriveSpellSlots, computeSpellLimits, type CasterClassInput, type LimitClassInput } from "./pc.spellcasting";
+import type { FeatureEffect } from "../types/feature-effect";
 import type {
   ACTerm,
+  AttackRow,
   ChoiceValue,
   DefenseEntry,
   DefenseGrant,
@@ -32,6 +35,7 @@ import type {
   ProficiencyTri,
   ResolvedCharacter,
   ResolvedClass,
+  ResolvedFeature,
   CharacterOverrides,
   SpellcastingClassInfo,
   SpellLimitInfo,
@@ -346,6 +350,46 @@ export function unarmoredACBreakdown(
   }
 
   return { total: 10 + mods.dex, terms: baseTerms };
+}
+
+/** R4-G6b §5.4: the die and ability set for the always-present Unarmed Strike row. Authored `unarmed-strike` effects
+ *  first (a `{ column }` die is read from the GRANTING class's table at that class's level); then the SILENT synthetic:
+ *  a class-sourced feature whose id slug `unarmedDieColumnFor` knows (`martial-arts`) with NO authored effect, on a
+ *  class whose table carries that column with a dice value, contributes that die with DEX. The SHAPE is
+ *  `decision-recognizer.ts`'s (a table-driven synthetic mirroring an overlay entry, retired when the data is
+ *  authored: the G7 booking gives `overlay.schema.ts`'s class arm `effects` + `.strict()` and authors both Monks);
+ *  the PLACEMENT is here because the builder ledger never feeds `derived.attacks`. Merge: the die with the highest
+ *  average wins; the abilities are the union. Nothing writes onto a registry object. */
+export function resolveUnarmedStrike(resolved: ResolvedCharacter): UnarmedStrikeSpec {
+  const dice: string[] = [];
+  const abilities = new Set<Ability>();
+  const classOf = (rf: ResolvedFeature): ResolvedClass | undefined =>
+    rf.source.kind === "class" ? resolved.classes.find((c) => c.entity?.slug === rf.source.slug) : undefined;
+  const readDie = (rf: ResolvedFeature, d: string | { column: string } | undefined): string | undefined => {
+    if (typeof d === "string") return d;
+    if (!d) return undefined;
+    const cls = classOf(rf);
+    return cls ? diceColumnAt(cls.entity?.table as never, cls.level, d.column) ?? undefined : undefined;
+  };
+  for (const rf of resolved.features) {
+    const authored = selfEffectsOf(rf.feature).filter((e): e is Extract<FeatureEffect, { kind: "unarmed-strike" }> => e.kind === "unarmed-strike");
+    for (const e of authored) {
+      const d = readDie(rf, e.dice);
+      if (d) dice.push(d);
+      for (const ab of e.abilities ?? []) abilities.add(ab);
+    }
+    if (authored.length || rf.source.kind !== "class") continue;
+    const slug = (rf.feature.id ?? rf.feature.name ?? "").toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/(^-|-$)/g, "");
+    const column = unarmedDieColumnFor(slug);
+    if (!column) continue;
+    const d = readDie(rf, { column });
+    if (!d) continue;
+    dice.push(d);
+    abilities.add("dex");
+  }
+  const avg = (d: string): number => { const m = /^(\d+)d(\d+)$/i.exec(d); return m ? Number(m[1]) * (Number(m[2]) + 1) / 2 : 1; };
+  const best = dice.sort((a, b) => avg(b) - avg(a))[0];
+  return { ...(best ? { dice: best } : {}), ...(abilities.size ? { abilities: [...abilities] } : {}) };
 }
 
 /** Initiative = DEX mod + Alert (+5 in 2014). Extendable via feat flags. */
@@ -1113,6 +1157,10 @@ export function recalc(resolved: ResolvedCharacter, registry?: EntityRegistry): 
     )),
   };
 
+  // R4-G6b §5.4: the always-present Unarmed Strike row is appended BEFORE the post-apply map below, so it takes
+  // the d20 condition penalty, the crit range, the attack notes and the damage riders exactly like a weapon row.
+  const attackRows: AttackRow[] = [...(derivedEquipment?.attacks ?? []), buildUnarmedRow(mods, proficiencyBonus, resolveUnarmedStrike(resolved))];
+
   return {
     totalLevel,
     proficiencyBonus,
@@ -1152,7 +1200,7 @@ export function recalc(resolved: ResolvedCharacter, registry?: EntityRegistry): 
     // untouched rows keep `critRange`/`attackNotes` ABSENT (not 20 / not []).
     // crit-range: folded weapon crit threshold, only when an effect lowered it.
     // attackNotes: reroll-damage / attack-rule captions, only when non-empty.
-    attacks: (derivedEquipment?.attacks ?? []).map((a) => {
+    attacks: attackRows.map((a) => {
       const riders = [...(a.damageRiders ?? []), ...featureEffects.damageBonuses];
       return {
         ...a,

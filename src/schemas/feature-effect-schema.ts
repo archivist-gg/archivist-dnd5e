@@ -74,6 +74,12 @@ export const featureEffectSchema = z.discriminatedUnion("kind", [
     condition: conditionField, subject: subjectField,
   }),
   z.object({
+    kind: z.literal("unarmed-strike"),
+    dice: z.union([z.string().min(1), z.object({ column: z.string().min(1) })]).optional(),
+    abilities: z.array(abilityEnum).nonempty().optional(),
+    condition: conditionField, subject: subjectField,
+  }),
+  z.object({
     kind: z.literal("weapon-ability"),
     ability: z.union([abilityEnum, z.literal("spellcasting")]),
     weapons: z.union([z.literal("chosen"), z.string(), z.array(z.string())]).optional(),
