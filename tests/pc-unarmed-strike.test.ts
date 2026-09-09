@@ -93,4 +93,11 @@ describe("the Unarmed Strike row (R4-G6b §5)", () => {
     r.features.push({ feature: { id: "rage", name: "Rage", description: "", effects: [{ kind: "damage-bonus", damage_type: "Fire", amount: "2", applies_to: "weapon" }] }, source: { kind: "class", slug: "x", level: 1 } });
     expect(last(recalc(r).attacks).damageRiders?.map((x) => x.amount)).toEqual(["2"]);
   });
+  it("the Unarmored Defense name heuristic no longer pushes a sheet warning (R4-G6b §5.7)", () => {
+    const r = base({ str: 10, dex: 14, wis: 14 });
+    r.features.push({ feature: { id: "unarmored-defense", name: "Unarmored Defense", description: "" }, source: { kind: "class", slug: "srd-2024_class_monk", level: 1 } });
+    const d = recalc(r);
+    expect(d.warnings.some((w) => /Unarmored Defense detected/.test(w))).toBe(false);
+    expect(d.ac).toBe(10 + 2 + 2);
+  });
 });

@@ -88,7 +88,7 @@ describe("unarmoredAC", () => {
     });
     expect(unarmoredAC(resolved, mods, [])).toBe(15);
   });
-  it("name heuristic Barbarian → 10 + DEX + CON with warning", () => {
+  it("name heuristic Barbarian → 10 + DEX + CON, and SILENT since R4-G6b §5.7", () => {
     const resolved = emptyResolved();
     resolved.features.push({
       feature: { name: "Unarmored Defense" } as never,
@@ -96,7 +96,7 @@ describe("unarmoredAC", () => {
     });
     const warnings: string[] = [];
     expect(unarmoredAC(resolved, mods, warnings)).toBe(15);
-    expect(warnings.length).toBeGreaterThan(0);
+    expect(warnings.length).toBe(0);
   });
 });
 

@@ -327,12 +327,13 @@ export function unarmoredACBreakdown(
     }
   }
 
-  // Heuristic fallback by feature name.
+  // Heuristic fallback by feature name, SILENT (R4-G6b §5.7): the SRD Monk and Barbarian carry no `unarmored_defense`
+  // flag and no `unarmored-ac` effect, so this arm is what serves them; the authored route is the G7 booking (the
+  // overlay's class arm gains `effects` + `.strict()`). The `decision-recognizer.ts` precedent is silent too.
   for (const rf of resolved.features) {
     const name = (rf.feature.name ?? "").toLowerCase();
     if (!/unarmored\s*defense/.test(name)) continue;
     if (rf.source.kind === "class" && rf.source.slug.includes("monk")) {
-      warnings.push(`Unarmored Defense detected by name on ${rf.source.slug}; populate unarmored_defense:{ability:wis} flag for accuracy.`);
       const terms: ACTerm[] = [
         ...baseTerms,
         { source: "WIS modifier (Unarmored Defense)", amount: mods.wis, kind: "ability" },
@@ -340,7 +341,6 @@ export function unarmoredACBreakdown(
       return { total: 10 + mods.dex + mods.wis, terms };
     }
     if (rf.source.kind === "class" && rf.source.slug.includes("barbarian")) {
-      warnings.push(`Unarmored Defense detected by name on ${rf.source.slug}; populate unarmored_defense:{ability:con} flag for accuracy.`);
       const terms: ACTerm[] = [
         ...baseTerms,
         { source: "CON modifier (Unarmored Defense)", amount: mods.con, kind: "ability" },
