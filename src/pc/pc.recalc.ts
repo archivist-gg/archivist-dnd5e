@@ -269,7 +269,9 @@ export function multiclassMaxHP(classes: ResolvedClass[], conMod: number): numbe
  * Default AC = 10 + DEX mod. If any class's features include an
  * "Unarmored Defense"–style feature with a structured flag, applies the
  * variant (Monk: +WIS; Barbarian: +CON). Falls back to feature-name
- * regex matching with a warning pushed onto `warnings`.
+ * regex matching, SILENTLY since R4-G6b §5.7. `warnings` is retained for
+ * the exported signature and is no longer written to by this function or
+ * by `unarmoredACBreakdown`.
  */
 export function unarmoredAC(
   resolved: ResolvedCharacter,
