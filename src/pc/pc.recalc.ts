@@ -369,7 +369,7 @@ export function resolveUnarmedStrike(resolved: ResolvedCharacter): UnarmedStrike
     if (typeof d === "string") return d;
     if (!d) return undefined;
     const cls = classOf(rf);
-    return cls ? diceColumnAt(cls.entity?.table as never, cls.level, d.column) ?? undefined : undefined;
+    return cls ? diceColumnAt(cls.entity?.table, cls.level, d.column) ?? undefined : undefined;
   };
   for (const rf of resolved.features) {
     const authored = selfEffectsOf(rf.feature).filter((e): e is Extract<FeatureEffect, { kind: "unarmed-strike" }> => e.kind === "unarmed-strike");
