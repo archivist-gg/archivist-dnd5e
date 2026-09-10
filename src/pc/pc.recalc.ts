@@ -7,8 +7,10 @@ import {
   passive,
   attackBonus,
   saveDC,
+  isCanonicalDamageType,
 } from "@archivist-gg/dnd5e/dnd/math";
 import { ABILITY_KEYS, SKILL_ABILITY, ALL_SKILLS } from "@archivist-gg/dnd5e/dnd/constants";
+import { evaluateMaxFormula, isValidMaxFormula, type FormulaBindings } from "@archivist-gg/dnd5e/dnd/resource-formula";
 import type { Ability, SkillSlug } from "@archivist-gg/dnd5e";
 import type { FeatEntity } from "@archivist-gg/dnd5e/feat/feat.types";
 import type { RaceEntity } from "@archivist-gg/dnd5e/race/race.types";
@@ -28,6 +30,7 @@ import type {
   ACTerm,
   AttackRow,
   ChoiceValue,
+  DamageRider,
   DefenseEntry,
   DefenseGrant,
   DefenseOrigin,
@@ -266,6 +269,39 @@ export function hpLevelCount(classes: ResolvedClass[]): number {
  */
 export function multiclassMaxHP(classes: ResolvedClass[], conMod: number): number {
   return Math.max(1, hitDiceAverageSum(classes) + conMod * hpLevelCount(classes));
+}
+
+/** R4-G7 T6a E-4 (a) · a rider AMOUNT carrying a `{token}` resolves against the character before anything
+ *  prints it. The evaluator is the shipped resource DSL (`dnd/resource-formula.ts`), the one formula
+ *  grammar this package has; a formula it cannot parse is returned UNCHANGED and reaches the row as
+ *  prose, which the renderer then puts in the row's caption instead of the damage text.
+ *
+ *  `{prof_bonus}` is normalised to the DSL's own ident `{prof}` HERE rather than widened in the grammar:
+ *  it is the spelling 8 shipped race documents use for a rider amount (the triage's D-7), the converter
+ *  is asked for a resolvable formula there, and this alias retires with that data instead of leaving
+ *  `max_formula` a wider language everywhere else. */
+function resolveRiderAmount(amount: string, bindings: FormulaBindings): string {
+  if (!amount.includes("{")) return amount;
+  const formula = amount.replace(/\{prof_bonus\}/g, "{prof}");
+  if (!isValidMaxFormula(formula)) return amount;
+  return String(evaluateMaxFormula(formula, bindings));
+}
+
+/** R4-G7 T6a E-4 · one damage rider, made printable for the row it was merged onto: (a) its `{token}`
+ *  amount resolved, and (b) a `damage_type` outside the canonical `DAMAGE_TYPES` set replaced by the
+ *  ROW's own damage type. (b) is a data-SHAPE rule, never a table of prose spellings: `weapon`, `chosen`
+ *  and "same as the weapon's type" are all just "not a damage type", and what they mean is "this row's".
+ *  An ABSENT `damage_type` stays absent (it inherits nothing: the rider prints as a bare amount, and the
+ *  migrated manual override already carries its type inside `amount`). This is the one place that knows
+ *  BOTH the row's own type and the character's proficiency bonus and ability modifiers. */
+function resolveDamageRider(rider: DamageRider, rowDamageType: string, bindings: FormulaBindings): DamageRider {
+  const out: DamageRider = { ...rider, amount: resolveRiderAmount(rider.amount, bindings) };
+  if (rider.damage_type !== undefined) {
+    const resolved = isCanonicalDamageType(rider.damage_type) ? rider.damage_type : rowDamageType;
+    if (resolved) out.damage_type = resolved;
+    else delete out.damage_type;
+  }
+  return out;
 }
 
 /**
@@ -1197,6 +1233,17 @@ export function recalc(resolved: ResolvedCharacter, registry?: EntityRegistry): 
   // the d20 condition penalty, the crit range, the attack notes and the damage riders exactly like a weapon row.
   const attackRows: AttackRow[] = [...(derivedEquipment?.attacks ?? []), buildUnarmedRow(mods, proficiencyBonus, resolveUnarmedStrike(resolved))];
 
+  // R4-G7 T6a E-4 (a): the bindings a rider's `{token}` amount resolves against. A rider carries only its
+  // source feature's NAME, never that source's own level, so `class_level` binds to the total level like
+  // `level`; MEASURED over both corpora, the shipped rider tokens are `{level}` (19 cells) and
+  // `{prof_bonus}` (15), all of them on RACE traits, where the two are the same number anyway.
+  const riderBindings: FormulaBindings = {
+    level: totalLevel, class_level: totalLevel, prof: proficiencyBonus,
+    str_mod: mods.str, dex_mod: mods.dex, con_mod: mods.con,
+    int_mod: mods.int, wis_mod: mods.wis, cha_mod: mods.cha,
+    columns: {},
+  };
+
   return {
     totalLevel,
     proficiencyBonus,
@@ -1237,7 +1284,8 @@ export function recalc(resolved: ResolvedCharacter, registry?: EntityRegistry): 
     // crit-range: folded weapon crit threshold, only when an effect lowered it.
     // attackNotes: reroll-damage / attack-rule captions, only when non-empty.
     attacks: attackRows.map((a) => {
-      const riders = [...(a.damageRiders ?? []), ...featureEffects.damageBonuses];
+      const riders = [...(a.damageRiders ?? []), ...featureEffects.damageBonuses]
+        .map((r) => resolveDamageRider(r, a.damageType, riderBindings));
       return {
         ...a,
         toHit: a.toHit + conditionEffects.d20_test_penalty,

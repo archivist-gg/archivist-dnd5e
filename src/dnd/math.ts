@@ -1,4 +1,4 @@
-import { CR_PROFICIENCY, CR_XP, SIZE_HIT_DICE, ABILITY_KEYS } from "./constants";
+import { CR_PROFICIENCY, CR_XP, SIZE_HIT_DICE, ABILITY_KEYS, DAMAGE_TYPES } from "./constants";
 
 export function abilityModifier(score: number): number {
   return Math.floor((score - 10) / 2);
@@ -77,4 +77,31 @@ export function abilityNameToKey(name: string): (typeof ABILITY_KEYS)[number] | 
     return lower as (typeof ABILITY_KEYS)[number];
   }
   return null;
+}
+
+/** The canonical damage types as a lower-cased membership set. `DAMAGE_TYPES` is the vocabulary; this
+ *  is the test the damage-rider rules read (R4-G7 T6a E-4). */
+const CANONICAL_DAMAGE_TYPES = new Set(DAMAGE_TYPES.map((t) => t.toLowerCase()));
+
+/** Is `type` one of the canonical damage types, whatever its casing? A rider whose declared type is
+ *  anything else, a sentinel (`weapon`, `chosen`) or prose ("same as the weapon's type"), INHERITS the
+ *  weapon row's own damage type; `pc.recalc.ts` resolves that where the rider is merged onto the row,
+ *  never in a renderer, and never from a list of prose spellings. */
+export function isCanonicalDamageType(type: string): boolean {
+  return CANONICAL_DAMAGE_TYPES.has(type.trim().toLowerCase());
+}
+
+/** Can a damage rider be printed INSIDE the damage text, as a dice chip? Only when it reads as a dice
+ *  expression or a (signed) number, optionally followed by ONE canonical damage type: `1d6`, `+2`,
+ *  `1d6 fire`. Anything else is prose ("your Wisdom modifier necrotic", "half your fighter level
+ *  slashing") and belongs in the row's caption instead (R4-G7 T6a E-4 (c)).
+ *
+ *  `text` is the rider's PRINTED form, its amount plus its resolved damage type, because a shipped
+ *  rider may carry the type inside the amount itself (`{amount: "1d6 fire"}` with no `damage_type`, the
+ *  migrated manual override of `pc.equipment.ts`). */
+export function isRenderableDamageText(text: string): boolean {
+  const m = /^(?:\d*d\d+(?:\s*[+-]\s*\d+)?|[+-]?\d+)(?:\s+(.*))?$/i.exec(text.trim());
+  if (!m) return false;
+  const type = (m[1] ?? "").trim();
+  return type === "" || isCanonicalDamageType(type);
 }
