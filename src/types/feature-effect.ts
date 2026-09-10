@@ -18,7 +18,9 @@ export type FeatureEffect =
   | ({ kind: "immune-condition"; condition: string; while?: string } & Subject)
   | ({ kind: "resistance"; damage_type: string } & Qualified)
   | ({ kind: "hp-per-level-bonus"; value: number } & Qualified)
-  | ({ kind: "speed-bonus"; mode: "walk" | "fly" | "swim" | "climb" | "burrow"; value: number; set?: boolean } & Qualified)
+  // R4-G7 §7.3: `scales_at` carries the whole progression INSIDE the effect (the overlay map has no level
+  // component); the engine takes the highest entry at or below the effect's OWN source level.
+  | ({ kind: "speed-bonus"; mode: "walk" | "fly" | "swim" | "climb" | "burrow"; value: number; set?: boolean; scales_at?: { level: number; value: number }[] } & Qualified)
   | ({ kind: "sense"; type: SenseType; range: number } & Qualified)
   | ({
       kind: "apply-condition";
@@ -50,7 +52,8 @@ export type FeatureEffect =
       scope?: string;
     } & Qualified)
   | ({ kind: "crit-range"; min_roll: number; applies_to?: "weapon" | "spell" | "all" } & Qualified)
-  | ({ kind: "extra-attack"; count: number } & Qualified)
+  // `count` and every `scales_at[].count` are EXTRA attacks, not total attacks: recalc renders `1 + count`.
+  | ({ kind: "extra-attack"; count: number; scales_at?: { level: number; count: number }[] } & Qualified)
   | ({ kind: "reroll-damage"; max_reroll: number; applies_to?: "weapon" | "spell" | "all"; once_per_die?: boolean } & Qualified)
   | ({ kind: "attack-rule"; flag: "no-ranged-in-melee-disadvantage" } & Qualified)
   // R4-G1a declared these seven arms inert (spec D3). R4-G3a gives SIX of them semantics:

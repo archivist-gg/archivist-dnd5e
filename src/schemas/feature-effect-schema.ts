@@ -31,6 +31,12 @@ export const featureEffectSchema = z.discriminatedUnion("kind", [
     // when true, value is an absolute floor (Math.max), not additive; currently
     // only surfaced for mode:"walk" · other modes have no derived speed yet.
     set: z.boolean().optional(),
+    // R4-G7 §7.3: the WHOLE progression lives inside the effect, because the overlay's `class_features`
+    // map is keyed `<class>:<feature-slug>` with no level component and, after §7.1's fold, the sheet
+    // reads exactly ONE copy of a repeated feature. The engine takes the highest entry at or below the
+    // effect's OWN source level (`levelFor`), and applies it to the additive bonus and to a `set` floor
+    // alike. The Monk's Unarmored Movement is the shipped carrier shape.
+    scales_at: z.array(z.object({ level: z.number().int().min(1).max(20), value: z.number().int() })).optional(),
     condition: conditionField, subject: subjectField,
   }),
   z.object({
@@ -92,7 +98,16 @@ export const featureEffectSchema = z.discriminatedUnion("kind", [
     scope: z.string().optional(),
     condition: conditionField, subject: subjectField,
   }),
-  z.object({ kind: z.literal("extra-attack"), count: z.number().int().positive(), condition: conditionField, subject: subjectField }),
+  z.object({
+    kind: z.literal("extra-attack"),
+    // `count` is EXTRA attacks, never total attacks: the engine renders `1 + count`.
+    count: z.number().int().positive(),
+    // R4-G7 §7.3, the `speed-bonus` twin: the SRD 5e Fighter's one Extra Attack feature carries its whole
+    // 5 / 11 / 20 progression here, because `bucketFeaturesByLevel` emits one overlay record into every
+    // `gained_at` bucket and a per-copy count cannot be authored.
+    scales_at: z.array(z.object({ level: z.number().int().min(1).max(20), count: z.number().int().positive() })).optional(),
+    condition: conditionField, subject: subjectField,
+  }),
   z.object({
     kind: z.literal("crit-range"),
     min_roll: z.number().int().min(2).max(20),

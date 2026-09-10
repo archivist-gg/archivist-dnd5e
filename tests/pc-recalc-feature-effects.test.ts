@@ -932,3 +932,35 @@ describe("recalc feature effects: save-outcome pass-through (R4-G3a §5.3)", () 
     expect(d.saveOutcomes).toEqual([]);
   });
 });
+
+describe("recalc feature effects: extra-attack scales_at reads the SOURCE level (R4-G7 §7.3)", () => {
+  // [G2-B-4] [G2C1-I-2] NOT the file's `resolvedWith` / `effectFeature` pair: that pair sources every feature
+  // `{kind: "race"}` and leaves `totalLevel` at 0, so `resourceLevelFor` and a total-level read would return the
+  // SAME number and the mutant would survive. The fixture is built from `emptyResolved()` so the CLASS source and
+  // the total level genuinely disagree.
+  const scalingExtraAttack = {
+    feature: {
+      id: "extra-attack", name: "Extra Attack",
+      effects: [{ kind: "extra-attack", count: 1, scales_at: [{ level: 11, count: 2 }, { level: 20, count: 3 }] }],
+    } as never,
+    source: { kind: "class", slug: "fighter", level: 5 } as const,
+  };
+
+  it("a Fighter 5 / Wizard 6 (total 11) resolves the BASE count against the Fighter's level 5 (m7's kill row)", () => {
+    const r = emptyResolved();
+    r.classes = [mkClass("fighter", "d10", 5), mkClass("wizard", "d6", 6)];
+    r.totalLevel = 11;
+    r.features.push({ ...scalingExtraAttack, source: { kind: "class", slug: "fighter", level: 5 } });
+    // 1 EXTRA attack, so 2 attacks. A `resolved.totalLevel` read would find the level-11 entry and answer 3.
+    expect(recalc(r).attacksPerAction).toBe(2);
+  });
+
+  it("a Fighter 11 / Wizard 5 (total 16) resolves the level-11 entry: 3 attacks (a POSITIVE control, green under m7 too)", () => {
+    const r = emptyResolved();
+    r.classes = [mkClass("fighter", "d10", 11), mkClass("wizard", "d6", 5)];
+    r.totalLevel = 16;
+    r.features.push({ ...scalingExtraAttack, source: { kind: "class", slug: "fighter", level: 11 } });
+    // RED FIRST: `scales_at` was stripped by the schema and ignored by the fold, so this read 2.
+    expect(recalc(r).attacksPerAction).toBe(3);
+  });
+});

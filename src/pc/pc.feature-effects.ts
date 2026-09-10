@@ -43,6 +43,7 @@ export interface FeatureEffectTotals {
    * a "base speed becomes 60" feature). Max across all set effects; 0 = none.
    * recalc applies it as Math.max(set, race + additive bonuses) so it never
    * lowers an already-higher speed and is independent of the additive bonus.
+   * A `scales_at` progression resolves BEFORE the max, at the effect's own source level (R4-G7 §7.3).
    */
   speed_walk_set: number;
   /** Flat ability-score bumps from `ability-score-increase` effects whose `abilities` is a FIXED LIST (the three level-20
@@ -143,10 +144,11 @@ export interface FeatureEffectTotals {
    */
   critRange: number;
   /**
-   * Max extra attacks per Attack action granted by `extra-attack` effects.
+   * Max EXTRA attacks per Attack action granted by `extra-attack` effects, never the total:
    * Non-stacking (D&D Extra Attack features don't stack): folds via Math.max
    * from init 0, so 0 = no extra attacks. recalc maps this onto
    * DerivedStats.attacksPerAction as `1 + extraAttack`.
+   * A `scales_at` progression resolves BEFORE the max, at the effect's own source level (R4-G7 §7.3).
    */
   extraAttack: number;
   /**
@@ -227,9 +229,17 @@ function pushDefenseGrant(list: DefenseGrant[], value: string, source: string, c
  * is OFF by default, so callers passing no opts see activatable features fold to
  * nothing (correct — a buff is off until toggled). Non-activatable features fold
  * unconditionally regardless of opts.
+ *
+ * R4-G7 §7.3: `levelFor` answers "at what level does an effect from THIS source resolve", which is the rule
+ * `resourceLevelFor` (pc.resources.ts) already applies to a resource's own `scales_at`: the character's level
+ * in the granting class for a `class` source, the level in the class owning the subclass for a `subclass`
+ * source, the total level otherwise. Both production callers pass exactly that (dnd5e `pc.recalc.ts` and the
+ * plugin's builder `abilities-step.ts`); a caller that passes none leaves every `scales_at` unresolved and
+ * every effect at its BASE value, which is what a fixture with no character behind it should read.
  */
 export interface FeatureEffectsOpts {
   activeBuffs?: Set<string>;
+  levelFor?: (source: FeatureSource) => number;
 }
 
 /** Does this feature's effects fold right now? An activatable feature folds ONLY
@@ -353,8 +363,11 @@ export function computeFeatureEffects(
     // Activatable-buff gating lives in foldsNow (the one shared predicate); no
     // opts means an empty active set, so a buff is off by default.
     if (!foldsNow(rf, opts?.activeBuffs ?? new Set())) continue;
+    // R4-G7 §7.3: every effect of this feature resolves its `scales_at` against the level of ITS OWN source,
+    // read once per feature. `undefined` (no `levelFor`) leaves every effect at its base value.
+    const level = opts?.levelFor?.(rf.source);
     for (const eff of selfEffectsOf(rf.feature)) {
-      applyEffect(out, eff, rf.feature.name ?? "Feature");
+      applyEffect(out, eff, rf.feature.name ?? "Feature", level);
     }
   }
   return out;
@@ -493,7 +506,31 @@ export function collectProficiencyEffectGrants(
   return out;
 }
 
-function applyEffect(out: FeatureEffectTotals, eff: FeatureEffect, label: string): void {
+/** R4-G7 §7.3: the value an effect carries AT `level`. The highest `scales_at` entry at or below `level`
+ *  wins (the entries are read unsorted, and the FIRST entry of an equal level wins, the resolver's own
+ *  duplicate rule); the effect's own base value stands when `level` is undefined, when there are no entries
+ *  and when none qualifies. `key` names the entry field the arm scales: `count` for `extra-attack`, `value`
+ *  for `speed-bonus`. Never widens the arm: a base value with no `scales_at` is returned unchanged. */
+function scaled(
+  base: number,
+  key: "count" | "value",
+  scalesAt: ReadonlyArray<{ level: number; count?: number; value?: number }> | undefined,
+  level: number | undefined,
+): number {
+  if (level === undefined || !scalesAt?.length) return base;
+  let best = base;
+  let bestLevel = -1;
+  for (const step of scalesAt) {
+    if (step.level > level || step.level <= bestLevel) continue;
+    const v = step[key];
+    if (typeof v !== "number") continue;
+    best = v;
+    bestLevel = step.level;
+  }
+  return best;
+}
+
+function applyEffect(out: FeatureEffectTotals, eff: FeatureEffect, label: string, level?: number): void {
   switch (eff.kind) {
     case "initiative-bonus":
       out.initiative_bonus += eff.value;
@@ -502,15 +539,19 @@ function applyEffect(out: FeatureEffectTotals, eff: FeatureEffect, label: string
       out.hp_per_level_bonus += eff.value;
       out.hp_per_level_terms.push({ label, value: eff.value });
       break;
-    case "speed-bonus":
+    case "speed-bonus": {
       // Only walk reaches DerivedStats.speed; other modes have no derived surface yet.
       // `set:true` is an absolute floor (e.g. "base speed becomes 60"), tracked
       // separately (max) from the additive bonus; recalc Math.max-es the two.
+      // R4-G7 §7.3: BOTH branches read the level-resolved value, so a `set` floor scales like the bonus
+      // (no shipped document combines `set: true` with `scales_at` today; the rule is stated and pinned).
+      const value = scaled(eff.value, "value", eff.scales_at, level);
       if (eff.mode === "walk") {
-        if (eff.set) out.speed_walk_set = Math.max(out.speed_walk_set, eff.value);
-        else out.speed_walk_bonus += eff.value;
+        if (eff.set) out.speed_walk_set = Math.max(out.speed_walk_set, value);
+        else out.speed_walk_bonus += value;
       }
       break;
+    }
     case "sense":
       out.senses[eff.type] = Math.max(out.senses[eff.type], eff.range);
       break;
@@ -601,7 +642,9 @@ function applyEffect(out: FeatureEffectTotals, eff: FeatureEffect, label: string
     case "extra-attack":
       // Non-stacking: Extra Attack features don't add together (two count:1
       // effects → 1 extra attack, not 2). Highest count wins.
-      out.extraAttack = Math.max(out.extraAttack, eff.count);
+      // R4-G7 §7.3: `count` and every `scales_at[].count` are EXTRA attacks, so the level-resolved count
+      // enters the same Math.max fold and recalc still renders `1 + extraAttack`.
+      out.extraAttack = Math.max(out.extraAttack, scaled(eff.count, "count", eff.scales_at, level));
       break;
     case "reroll-damage":
       // Display-only caption. v1 does not filter by applies_to (unlike crit-range);

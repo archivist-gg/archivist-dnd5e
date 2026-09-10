@@ -18,6 +18,9 @@ import { diceColumnAt, unarmedDieColumnFor } from "./pc.table-column";
 import { collectChosenProficiencies, collectChosenAbilityPoints } from "./pc.decision-engine";
 import { assembleEffectFeatures, computeFeatureEffects, selfEffectsOf, type FeatureEffectTotals } from "./pc.feature-effects";
 import { computeConditionEffects } from "./pc.conditions";
+// R4-G7 §7.3: `pc.resources.ts` imports nothing from this module, so the level rule is shared by import
+// rather than copied (no value cycle) [G2-I-4].
+import { resourceLevelFor } from "./pc.resources";
 import { toDefenseSlug } from "./pc.defense-normalize";
 import { resolveSpellcasting, effectiveSpellcastingAbility, deriveSpellSlots, computeSpellLimits, type CasterClassInput, type LimitClassInput } from "./pc.spellcasting";
 import type { FeatureEffect } from "../types/feature-effect";
@@ -779,7 +782,10 @@ export function recalc(resolved: ResolvedCharacter, registry?: EntityRegistry): 
   // owns the assembly and foldsNow owns the activatable gating, so the display-side
   // proficiency collector reads exactly the same two rules (spec fence F3).
   const { features: effectFeatures, activeBuffs } = assembleEffectFeatures(resolved);
-  const featureEffects = computeFeatureEffects(effectFeatures, { activeBuffs });
+  // R4-G7 §7.3: `levelFor` resolves an effect's `scales_at` at the level of ITS OWN source, the rule
+  // `resourceLevelFor` already applies to a resource's own `scales_at`, so a Fighter 5 / Wizard 6 reads the
+  // Fighter's level 5 and not the total 11. The plugin's builder `abilities-step.ts` passes the same shape.
+  const featureEffects = computeFeatureEffects(effectFeatures, { activeBuffs, levelFor: (src) => resourceLevelFor(src, resolved) });
   const profsForApply = computeProficiencies(resolved);
   for (const t of chosenProfs.tools) {
     if (!profsForApply.tools.specific.includes(t)) profsForApply.tools.specific.push(t);
