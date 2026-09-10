@@ -25,6 +25,9 @@ import { wikilinkTailSlug } from "./pc.decision-engine";
 import { bareEntitySlug } from "../entities/slug";
 import { withResolvedActionCost } from "../schemas/feature-alias";
 import { collectAdditionalSpells } from "./pc.additional-spells";
+// R4-G7 §7.5: the sheet reads RAW registry entities, so the parser's own `components` / `duration`
+// normalisers are mirrored at resolve time, at every site that casts registry data to `Spell`.
+import { mirrorSpellShapes } from "../spell/spell.parser";
 
 export interface ResolveResult {
   character: ResolvedCharacter;
@@ -206,7 +209,7 @@ export class PCResolver {
         warnings.push(`Spell [[${n.slug}]] not found in compendium.`);
         continue;
       }
-      const entity = reg.data as unknown as Spell;
+      const entity = mirrorSpellShapes(reg.data as unknown as Spell);
       const isCantrip = (entity.level ?? 0) === 0;
       const classSlug = n.classSlug ?? primaryCasterSlug;
       const prep = isCantrip || n.alwaysPrepared ? true : (n.preparedFlag ?? false);
@@ -380,7 +383,7 @@ export function collectFeatGrantedSpells(
       warnings.push(`Feat spell [[${slug}]] not found in compendium.`);
       continue;
     }
-    const entity = reg.data as unknown as Spell;
+    const entity = mirrorSpellShapes(reg.data as unknown as Spell);
     out.push({ entity, slug, classSlug: null, source: "feat", prepared: true, alwaysPrepared: true, ability });
   }
   return out;
@@ -420,7 +423,7 @@ export function collectItemGrantedSpells(
       warnings.push(`Scroll spell [[${slug}]] not found in compendium.`);
       return;
     }
-    const entity = reg.data as unknown as Spell;
+    const entity = mirrorSpellShapes(reg.data as unknown as Spell);
     // DC-ability precedence: a per-instance override wins, then the character's own
     // class ability, then the character-level spellcasting_ability fallback. When all
     // are absent the scroll stays ability-less (never fabricated).

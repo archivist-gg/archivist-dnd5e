@@ -30,7 +30,7 @@ const DURATION_END_WORDS: Record<string, string> = { dispel: "dispelled", trigge
  * so this function narrows structurally instead of importing the schema's type. `toStringSafe` is
  * the unreachable-shape fallback (the schema has already accepted the value by the time we run).
  */
-function normalizeSpellComponents(value: unknown): string {
+export function normalizeSpellComponents(value: unknown): string {
   if (typeof value === "string") return value;
   if (value == null || typeof value !== "object" || Array.isArray(value)) return toStringSafe(value);
   const c = value as { v?: unknown; s?: unknown; m?: unknown; r?: unknown };
@@ -75,10 +75,27 @@ function normalizeSpellDurationEntry(entry: unknown): string {
  * NEVER synthesised here — the separate `concentration` boolean drives the sheet's `Conc · ` prefix.
  * Zero docs carry more than one entry; the `; ` join is the defensive path for the day one does.
  */
-function normalizeSpellDuration(value: unknown): string {
+export function normalizeSpellDuration(value: unknown): string {
   if (typeof value === "string") return value;
   if (!Array.isArray(value)) return toStringSafe(value);
   return value.map(entry => normalizeSpellDurationEntry(entry)).join("; ");
+}
+
+/**
+ * R4-G7 §7.5 · the RESOLVE-time twin of the two normalisations `parseSpell` performs below. The PC pipeline
+ * reads RAW registry entities (`reg.data as unknown as Spell`), so a converter spell reaches the sheet with a
+ * structured `components` object and `duration` array unless it passes through here; `componentLetters`
+ * (the sheet) and the add drawer's duration cell both read strings. The `!= null` guards MIRROR `parseSpell`'s
+ * own, so a spell that authors neither key keeps neither. Lives HERE, beside the normalisers, and not in
+ * `pc.resolver.ts`, which already imports `pc.additional-spells` and would make the two a value cycle
+ * [G2-I-2]. Returns a fresh object; the shared registry entity is never mutated.
+ */
+export function mirrorSpellShapes(entity: Spell): Spell {
+  return {
+    ...entity,
+    ...(entity.components != null ? { components: normalizeSpellComponents(entity.components) } : {}),
+    ...(entity.duration != null ? { duration: normalizeSpellDuration(entity.duration) } : {}),
+  };
 }
 
 export function parseSpell(source: string): ParseResult<Spell> {

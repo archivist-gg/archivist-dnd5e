@@ -6,6 +6,8 @@ import type { Ability } from "@archivist-gg/dnd5e";
 import { ABILITY_KEYS } from "@archivist-gg/dnd5e/dnd/constants";
 import { warnOnce } from "@archivist-gg/dnd5e/dnd/warn-once";
 import { slugify } from "../entities/slug";
+// R4-G7 §7.5: the same resolve-time mirror the resolver applies at its three sites.
+import { mirrorSpellShapes } from "../spell/spell.parser";
 import { RACE_STRUCTURAL_PSEUDO } from "../race/race.structural";
 import type { ResolvedClass, ResolvedSpell } from "./pc.types";
 
@@ -66,7 +68,7 @@ export function resolveSpellByName(opts: {
   const own = alreadyCollected.find((s) => slugify(String(s.entity.name ?? "")) === nameSlug);
   if (own) return { entity: own.entity, slug: own.slug };
   const exact = entities.getByTypeAndSlug("spell", `${prefixOf(carrierSlug)}_spell_${nameSlug}`);
-  if (exact) return { entity: exact.data as unknown as Spell, slug: exact.slug };
+  if (exact) return { entity: mirrorSpellShapes(exact.data as unknown as Spell), slug: exact.slug };
   const cands = index.byName.get(nameSlug) ?? [];
   if (cands.length === 0) {
     warnOnce(`addspells:miss:${nameSlug}`, `archivist: additional_spells ref "${nameSlug}" matches no spell in the compendium`);
@@ -78,7 +80,7 @@ export function resolveSpellByName(opts: {
   if (carrierEdition !== undefined) { const same = pool.filter((e) => editionOf(e.data) === carrierEdition); if (same.length > 0) pool = same; }
   pool = [...pool].sort((a, b) => (a.slug < b.slug ? -1 : a.slug > b.slug ? 1 : 0));
   if (pool.length > 1) warnOnce(`addspells:multi:${nameSlug}`, `archivist: additional_spells ref "${nameSlug}" matches ${cands.length} spells; using "${pool[0].slug}"`);
-  return { entity: pool[0].data as unknown as Spell, slug: pool[0].slug };
+  return { entity: mirrorSpellShapes(pool[0].data as unknown as Spell), slug: pool[0].slug };
 }
 
 type Sel = { kind?: unknown; id?: unknown; options?: unknown };
