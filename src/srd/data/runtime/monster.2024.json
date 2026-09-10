@@ -131,12 +131,10 @@
     ],
     "cr": "10",
     "saves": {
-      "str": 5,
       "dex": 3,
       "con": 6,
       "int": 8,
-      "wis": 6,
-      "cha": 4
+      "wis": 6
     },
     "skills": {
       "history": 12,
@@ -275,12 +273,8 @@
     ],
     "cr": "14",
     "saves": {
-      "str": 6,
       "dex": 7,
-      "con": 5,
-      "int": 2,
-      "wis": 6,
-      "cha": 4
+      "wis": 6
     },
     "skills": {
       "perception": 11,
@@ -409,12 +403,8 @@
     ],
     "cr": "16",
     "saves": {
-      "str": 7,
       "dex": 5,
-      "con": 6,
-      "int": 3,
-      "wis": 7,
-      "cha": 5
+      "wis": 7
     },
     "skills": {
       "perception": 12,
@@ -553,12 +543,8 @@
     ],
     "cr": "13",
     "saves": {
-      "str": 6,
       "dex": 5,
-      "con": 5,
-      "int": 2,
-      "wis": 6,
-      "cha": 3
+      "wis": 6
     },
     "skills": {
       "history": 7,
@@ -705,12 +691,8 @@
     ],
     "cr": "15",
     "saves": {
-      "str": 7,
       "dex": 5,
-      "con": 6,
-      "int": 3,
-      "wis": 7,
-      "cha": 5
+      "wis": 7
     },
     "skills": {
       "insight": 7,
@@ -850,12 +832,8 @@
     ],
     "cr": "14",
     "saves": {
-      "str": 6,
       "dex": 6,
-      "con": 5,
-      "int": 4,
-      "wis": 7,
-      "cha": 4
+      "wis": 7
     },
     "skills": {
       "deception": 9,
@@ -1001,12 +979,8 @@
     ],
     "cr": "17",
     "saves": {
-      "str": 8,
       "dex": 8,
-      "con": 7,
-      "int": 3,
-      "wis": 8,
-      "cha": 7
+      "wis": 8
     },
     "skills": {
       "insight": 8,
@@ -1149,12 +1123,8 @@
     ],
     "cr": "15",
     "saves": {
-      "str": 6,
       "dex": 6,
-      "con": 5,
-      "int": 4,
-      "wis": 7,
-      "cha": 4
+      "wis": 7
     },
     "skills": {
       "deception": 9,
@@ -1289,12 +1259,8 @@
     ],
     "cr": "17",
     "saves": {
-      "str": 8,
       "dex": 6,
-      "con": 7,
-      "int": 3,
-      "wis": 7,
-      "cha": 6
+      "wis": 7
     },
     "skills": {
       "perception": 13,
@@ -1432,12 +1398,8 @@
     ],
     "cr": "16",
     "saves": {
-      "str": 8,
       "dex": 5,
-      "con": 7,
-      "int": 3,
-      "wis": 6,
-      "cha": 6
+      "wis": 6
     },
     "skills": {
       "history": 8,
@@ -1572,12 +1534,8 @@
     ],
     "cr": "13",
     "saves": {
-      "str": 6,
       "dex": 5,
-      "con": 6,
-      "int": -1,
-      "wis": 6,
-      "cha": 1
+      "wis": 6
     },
     "skills": {
       "perception": 11,
@@ -1689,14 +1647,6 @@
       }
     ],
     "cr": "5",
-    "saves": {
-      "str": 2,
-      "dex": 5,
-      "con": 2,
-      "int": -2,
-      "wis": 0,
-      "cha": -2
-    },
     "alignment": "neutral",
     "passive_perception": 10
   },
@@ -1778,14 +1728,6 @@
     "legendary_actions": [],
     "traits": [],
     "cr": "2",
-    "saves": {
-      "str": 4,
-      "dex": 1,
-      "con": 3,
-      "int": -4,
-      "wis": 1,
-      "cha": -3
-    },
     "skills": {
       "perception": 5
     },
@@ -1921,12 +1863,8 @@
     ],
     "cr": "21",
     "saves": {
-      "str": 8,
       "dex": 9,
-      "con": 7,
-      "int": 3,
-      "wis": 9,
-      "cha": 6
+      "wis": 9
     },
     "skills": {
       "perception": 16,
@@ -2059,12 +1997,8 @@
     ],
     "cr": "23",
     "saves": {
-      "str": 9,
       "dex": 7,
-      "con": 8,
-      "int": 4,
-      "wis": 10,
-      "cha": 7
+      "wis": 10
     },
     "skills": {
       "perception": 17,
@@ -2203,12 +2137,8 @@
     ],
     "cr": "20",
     "saves": {
-      "str": 8,
       "dex": 6,
-      "con": 7,
-      "int": 3,
-      "wis": 8,
-      "cha": 6
+      "wis": 8
     },
     "skills": {
       "history": 9,
@@ -2355,12 +2285,8 @@
     ],
     "cr": "22",
     "saves": {
-      "str": 9,
       "dex": 7,
-      "con": 8,
-      "int": 4,
-      "wis": 10,
-      "cha": 7
+      "wis": 10
     },
     "skills": {
       "insight": 10,
@@ -2500,12 +2426,8 @@
     ],
     "cr": "21",
     "saves": {
-      "str": 8,
       "dex": 8,
-      "con": 7,
-      "int": 5,
-      "wis": 10,
-      "cha": 6
+      "wis": 10
     },
     "skills": {
       "deception": 13,
@@ -2651,12 +2573,8 @@
     ],
     "cr": "24",
     "saves": {
-      "str": 10,
       "dex": 9,
-      "con": 9,
-      "int": 4,
-      "wis": 10,
-      "cha": 9
+      "wis": 10
     },
     "skills": {
       "insight": 10,
@@ -2799,12 +2717,8 @@
     ],
     "cr": "22",
     "saves": {
-      "str": 8,
       "dex": 8,
-      "con": 7,
-      "int": 5,
-      "wis": 10,
-      "cha": 6
+      "wis": 10
     },
     "skills": {
       "deception": 13,
@@ -2939,12 +2853,8 @@
     ],
     "cr": "24",
     "saves": {
-      "str": 10,
       "dex": 7,
-      "con": 9,
-      "int": 4,
-      "wis": 9,
-      "cha": 8
+      "wis": 9
     },
     "skills": {
       "perception": 16,
@@ -3082,12 +2992,8 @@
     ],
     "cr": "23",
     "saves": {
-      "str": 10,
       "dex": 7,
-      "con": 9,
-      "int": 4,
-      "wis": 9,
-      "cha": 8
+      "wis": 9
     },
     "skills": {
       "history": 11,
@@ -3222,12 +3128,8 @@
     ],
     "cr": "20",
     "saves": {
-      "str": 8,
       "dex": 6,
-      "con": 8,
-      "int": 0,
-      "wis": 7,
-      "cha": 4
+      "wis": 7
     },
     "skills": {
       "perception": 13,
@@ -3316,14 +3218,6 @@
     "legendary_actions": [],
     "traits": [],
     "cr": "1",
-    "saves": {
-      "str": 2,
-      "dex": 0,
-      "con": 1,
-      "int": -5,
-      "wis": -4,
-      "cha": -5
-    },
     "alignment": "unaligned",
     "passive_perception": 6
   },
@@ -3402,12 +3296,7 @@
     "traits": [],
     "cr": "0.25",
     "saves": {
-      "str": 1,
-      "dex": 4,
-      "con": 0,
-      "int": -5,
-      "wis": -3,
-      "cha": -5
+      "dex": 4
     },
     "alignment": "unaligned",
     "passive_perception": 7
@@ -3485,14 +3374,6 @@
     "legendary_actions": [],
     "traits": [],
     "cr": "2",
-    "saves": {
-      "str": 3,
-      "dex": 2,
-      "con": 0,
-      "int": -5,
-      "wis": -4,
-      "cha": -5
-    },
     "alignment": "unaligned",
     "passive_perception": 6
   },
@@ -3565,14 +3446,6 @@
       }
     ],
     "cr": "2",
-    "saves": {
-      "str": 3,
-      "dex": 0,
-      "con": 2,
-      "int": -5,
-      "wis": 1,
-      "cha": -2
-    },
     "alignment": "unaligned",
     "passive_perception": 11
   },
@@ -3643,12 +3516,7 @@
     "traits": [],
     "cr": "3",
     "saves": {
-      "str": 6,
-      "dex": 0,
-      "con": 2,
-      "int": -4,
-      "wis": 1,
-      "cha": -3
+      "str": 6
     },
     "alignment": "unaligned",
     "passive_perception": 11
@@ -3743,14 +3611,6 @@
     "legendary_actions": [],
     "traits": [],
     "cr": "0.5",
-    "saves": {
-      "str": 3,
-      "dex": 2,
-      "con": 2,
-      "int": -2,
-      "wis": 1,
-      "cha": -2
-    },
     "skills": {
       "athletics": 5,
       "perception": 3
@@ -3832,14 +3692,6 @@
       }
     ],
     "cr": "4",
-    "saves": {
-      "str": 4,
-      "dex": 3,
-      "con": 1,
-      "int": -3,
-      "wis": 2,
-      "cha": -2
-    },
     "skills": {
       "stealth": 5
     },
@@ -3954,12 +3806,8 @@
     ],
     "cr": "12",
     "saves": {
-      "str": 0,
-      "dex": 2,
-      "con": 1,
       "int": 9,
-      "wis": 6,
-      "cha": 3
+      "wis": 6
     },
     "skills": {
       "arcana": 13,
@@ -4073,12 +3921,8 @@
     ],
     "cr": "8",
     "saves": {
-      "str": 0,
       "dex": 7,
-      "con": 2,
-      "int": 6,
-      "wis": 0,
-      "cha": 0
+      "int": 6
     },
     "skills": {
       "acrobatics": 7,
@@ -4138,14 +3982,6 @@
     "legendary_actions": [],
     "traits": [],
     "cr": "0",
-    "saves": {
-      "str": -4,
-      "dex": -1,
-      "con": 0,
-      "int": 0,
-      "wis": 0,
-      "cha": -2
-    },
     "alignment": "neutral",
     "passive_perception": 10
   },
@@ -4211,14 +4047,6 @@
     "legendary_actions": [],
     "traits": [],
     "cr": "2",
-    "saves": {
-      "str": 4,
-      "dex": -2,
-      "con": 2,
-      "int": 0,
-      "wis": 0,
-      "cha": -2
-    },
     "alignment": "neutral",
     "passive_perception": 10
   },
@@ -4282,14 +4110,6 @@
     "legendary_actions": [],
     "traits": [],
     "cr": "0.25",
-    "saves": {
-      "str": 2,
-      "dex": 1,
-      "con": 1,
-      "int": -4,
-      "wis": 0,
-      "cha": -3
-    },
     "alignment": "unaligned",
     "passive_perception": 10
   },
@@ -4374,12 +4194,7 @@
     ],
     "cr": "2",
     "saves": {
-      "str": 3,
-      "dex": 1,
-      "con": 4,
-      "int": 1,
-      "wis": 1,
-      "cha": 0
+      "con": 4
     },
     "alignment": "lawful neutral",
     "passive_perception": 11
@@ -4452,14 +4267,6 @@
       }
     ],
     "cr": "0",
-    "saves": {
-      "str": -1,
-      "dex": 2,
-      "con": 0,
-      "int": -3,
-      "wis": 1,
-      "cha": -2
-    },
     "alignment": "unaligned",
     "passive_perception": 11
   },
@@ -4516,14 +4323,6 @@
     "legendary_actions": [],
     "traits": [],
     "cr": "0",
-    "saves": {
-      "str": 0,
-      "dex": 0,
-      "con": 3,
-      "int": -4,
-      "wis": 1,
-      "cha": -3
-    },
     "skills": {
       "perception": 3
     },
@@ -4661,12 +4460,8 @@
     ],
     "cr": "19",
     "saves": {
-      "str": 8,
-      "dex": 2,
       "con": 12,
-      "int": 5,
-      "wis": 9,
-      "cha": 6
+      "wis": 9
     },
     "skills": {
       "perception": 9
@@ -4757,14 +4552,6 @@
     "legendary_actions": [],
     "traits": [],
     "cr": "0.125",
-    "saves": {
-      "str": 0,
-      "dex": 1,
-      "con": 1,
-      "int": 0,
-      "wis": 0,
-      "cha": 0
-    },
     "alignment": "neutral",
     "passive_perception": 10
   },
@@ -4866,10 +4653,7 @@
     "saves": {
       "str": 4,
       "dex": 5,
-      "con": 2,
-      "int": 2,
-      "wis": 2,
-      "cha": 2
+      "wis": 2
     },
     "skills": {
       "athletics": 4,
@@ -5013,9 +4797,7 @@
     "cr": "5",
     "saves": {
       "str": 6,
-      "dex": 3,
       "con": 7,
-      "int": 1,
       "wis": 5,
       "cha": 5
     },
@@ -5099,14 +4881,6 @@
     "legendary_actions": [],
     "traits": [],
     "cr": "3",
-    "saves": {
-      "str": 3,
-      "dex": -1,
-      "con": 2,
-      "int": -4,
-      "wis": -1,
-      "cha": -2
-    },
     "alignment": "unaligned",
     "passive_perception": 9
   },
@@ -5161,14 +4935,6 @@
     "legendary_actions": [],
     "traits": [],
     "cr": "0",
-    "saves": {
-      "str": -4,
-      "dex": 2,
-      "con": -1,
-      "int": -4,
-      "wis": 1,
-      "cha": -3
-    },
     "alignment": "unaligned",
     "passive_perception": 11
   },
@@ -5277,10 +5043,7 @@
     "cr": "3",
     "saves": {
       "str": 5,
-      "dex": 2,
       "con": 4,
-      "int": -1,
-      "wis": 0,
       "cha": 4
     },
     "alignment": "lawful evil",
@@ -5381,14 +5144,6 @@
     "legendary_actions": [],
     "traits": [],
     "cr": "11",
-    "saves": {
-      "str": 6,
-      "dex": 3,
-      "con": 4,
-      "int": -2,
-      "wis": 2,
-      "cha": 1
-    },
     "skills": {
       "perception": 6,
       "stealth": 7
@@ -5465,14 +5220,6 @@
       }
     ],
     "cr": "2",
-    "saves": {
-      "str": 3,
-      "dex": 1,
-      "con": 3,
-      "int": -1,
-      "wis": 0,
-      "cha": -1
-    },
     "alignment": "neutral",
     "passive_perception": 10
   },
@@ -5546,14 +5293,6 @@
     "legendary_actions": [],
     "traits": [],
     "cr": "0.5",
-    "saves": {
-      "str": 2,
-      "dex": 1,
-      "con": 2,
-      "int": -4,
-      "wis": 1,
-      "cha": -2
-    },
     "skills": {
       "perception": 5
     },
@@ -5657,12 +5396,8 @@
     ],
     "cr": "2",
     "saves": {
-      "str": 2,
       "dex": 4,
-      "con": 1,
-      "int": 0,
-      "wis": 2,
-      "cha": 1
+      "wis": 2
     },
     "skills": {
       "perception": 4,
@@ -5772,14 +5507,6 @@
       }
     ],
     "cr": "4",
-    "saves": {
-      "str": 3,
-      "dex": -3,
-      "con": 3,
-      "int": -5,
-      "wis": -2,
-      "cha": -5
-    },
     "alignment": "unaligned",
     "passive_perception": 8
   },
@@ -5857,14 +5584,6 @@
     "legendary_actions": [],
     "traits": [],
     "cr": "0.25",
-    "saves": {
-      "str": 1,
-      "dex": 3,
-      "con": 1,
-      "int": 0,
-      "wis": 1,
-      "cha": 0
-    },
     "skills": {
       "perception": 5,
       "stealth": 5
@@ -5940,14 +5659,6 @@
       }
     ],
     "cr": "0.125",
-    "saves": {
-      "str": -2,
-      "dex": 2,
-      "con": 0,
-      "int": -4,
-      "wis": 2,
-      "cha": -3
-    },
     "skills": {
       "perception": 6
     },
@@ -6044,12 +5755,8 @@
     "traits": [],
     "cr": "3",
     "saves": {
-      "str": 3,
       "dex": 2,
-      "con": 2,
-      "int": 1,
-      "wis": 2,
-      "cha": 2
+      "wis": 2
     },
     "skills": {
       "perception": 4,
@@ -6125,14 +5832,6 @@
       }
     ],
     "cr": "0.25",
-    "saves": {
-      "str": 1,
-      "dex": 0,
-      "con": 2,
-      "int": -4,
-      "wis": -1,
-      "cha": -3
-    },
     "alignment": "unaligned",
     "passive_perception": 9
   },
@@ -6247,8 +5946,6 @@
     "cr": "9",
     "saves": {
       "str": 8,
-      "dex": 3,
-      "con": 4,
       "int": 5,
       "wis": 6,
       "cha": 7
@@ -6346,12 +6043,8 @@
     "traits": [],
     "cr": "1",
     "saves": {
-      "str": 2,
       "dex": 2,
-      "con": 1,
-      "int": 0,
-      "wis": 2,
-      "cha": 1
+      "wis": 2
     },
     "skills": {
       "perception": 4,
@@ -6459,12 +6152,8 @@
     ],
     "cr": "2",
     "saves": {
-      "str": 3,
       "dex": 2,
-      "con": 2,
-      "int": 1,
-      "wis": 2,
-      "cha": 2
+      "wis": 2
     },
     "skills": {
       "perception": 4,
@@ -6560,14 +6249,6 @@
     "legendary_actions": [],
     "traits": [],
     "cr": "1",
-    "saves": {
-      "str": 3,
-      "dex": 1,
-      "con": 2,
-      "int": -4,
-      "wis": 1,
-      "cha": -2
-    },
     "skills": {
       "perception": 3
     },
@@ -6667,12 +6348,8 @@
     ],
     "cr": "3",
     "saves": {
-      "str": 3,
-      "dex": 2,
       "con": 4,
-      "int": 0,
-      "wis": 3,
-      "cha": 0
+      "wis": 3
     },
     "skills": {
       "stealth": 6,
@@ -6759,14 +6436,6 @@
       }
     ],
     "cr": "1",
-    "saves": {
-      "str": 2,
-      "dex": 2,
-      "con": 1,
-      "int": -1,
-      "wis": 0,
-      "cha": -1
-    },
     "skills": {
       "stealth": 6,
       "survival": 2
@@ -6856,14 +6525,6 @@
     "legendary_actions": [],
     "traits": [],
     "cr": "5",
-    "saves": {
-      "str": 4,
-      "dex": 0,
-      "con": 5,
-      "int": -4,
-      "wis": 0,
-      "cha": -3
-    },
     "skills": {
       "perception": 6
     },
@@ -6933,12 +6594,7 @@
     "traits": [],
     "cr": "0.125",
     "saves": {
-      "str": 2,
-      "dex": -1,
-      "con": 5,
-      "int": -4,
-      "wis": 0,
-      "cha": -3
+      "con": 5
     },
     "alignment": "unaligned",
     "passive_perception": 10
@@ -7002,12 +6658,7 @@
     ],
     "cr": "0",
     "saves": {
-      "str": -4,
-      "dex": 4,
-      "con": 0,
-      "int": -4,
-      "wis": 1,
-      "cha": -2
+      "dex": 4
     },
     "skills": {
       "perception": 3,
@@ -7114,14 +6765,6 @@
     "legendary_actions": [],
     "traits": [],
     "cr": "2",
-    "saves": {
-      "str": 4,
-      "dex": 2,
-      "con": 2,
-      "int": -1,
-      "wis": 1,
-      "cha": 0
-    },
     "skills": {
       "athletics": 6,
       "perception": 3
@@ -7233,12 +6876,8 @@
     ],
     "cr": "8",
     "saves": {
-      "str": 4,
-      "dex": 2,
       "con": 7,
-      "int": 0,
-      "wis": 4,
-      "cha": 2
+      "wis": 4
     },
     "alignment": "lawful evil",
     "passive_perception": 11
@@ -7360,14 +6999,6 @@
     "legendary_actions": [],
     "traits": [],
     "cr": "6",
-    "saves": {
-      "str": 4,
-      "dex": 0,
-      "con": 4,
-      "int": -4,
-      "wis": 2,
-      "cha": 0
-    },
     "skills": {
       "perception": 8
     },
@@ -7468,14 +7099,6 @@
       }
     ],
     "cr": "4",
-    "saves": {
-      "str": 4,
-      "dex": 0,
-      "con": 3,
-      "int": -3,
-      "wis": 0,
-      "cha": -3
-    },
     "skills": {
       "perception": 4
     },
@@ -7598,14 +7221,6 @@
       }
     ],
     "cr": "9",
-    "saves": {
-      "str": 5,
-      "dex": -1,
-      "con": 4,
-      "int": -4,
-      "wis": -1,
-      "cha": -5
-    },
     "alignment": "unaligned",
     "passive_perception": 9
   },
@@ -7718,14 +7333,6 @@
       }
     ],
     "cr": "8",
-    "saves": {
-      "str": 3,
-      "dex": 2,
-      "con": 1,
-      "int": 1,
-      "wis": 2,
-      "cha": -2
-    },
     "skills": {
       "stealth": 5
     },
@@ -7833,12 +7440,8 @@
     "traits": [],
     "cr": "9",
     "saves": {
-      "str": 8,
-      "dex": 0,
       "con": 10,
-      "int": 1,
-      "wis": 7,
-      "cha": 3
+      "wis": 7
     },
     "skills": {
       "insight": 7,
@@ -7910,14 +7513,6 @@
     "legendary_actions": [],
     "traits": [],
     "cr": "0.5",
-    "saves": {
-      "str": -2,
-      "dex": 1,
-      "con": 1,
-      "int": -4,
-      "wis": 1,
-      "cha": -3
-    },
     "alignment": "unaligned",
     "passive_perception": 11
   },
@@ -7990,14 +7585,6 @@
       }
     ],
     "cr": "0",
-    "saves": {
-      "str": 0,
-      "dex": 0,
-      "con": 0,
-      "int": 0,
-      "wis": 0,
-      "cha": 0
-    },
     "alignment": "neutral",
     "passive_perception": 10
   },
@@ -8070,14 +7657,6 @@
     "legendary_actions": [],
     "traits": [],
     "cr": "0.25",
-    "saves": {
-      "str": 2,
-      "dex": 2,
-      "con": 1,
-      "int": -5,
-      "wis": 0,
-      "cha": -4
-    },
     "skills": {
       "perception": 2,
       "stealth": 4
@@ -8171,12 +7750,8 @@
     "traits": [],
     "cr": "1",
     "saves": {
-      "str": 2,
       "dex": 3,
-      "con": 1,
-      "int": 2,
-      "wis": 2,
-      "cha": 1
+      "wis": 2
     },
     "skills": {
       "perception": 4,
@@ -8283,12 +7858,8 @@
     ],
     "cr": "4",
     "saves": {
-      "str": 3,
-      "dex": 5,
       "con": 5,
-      "int": 4,
-      "wis": 7,
-      "cha": 4
+      "wis": 7
     },
     "alignment": "lawful good",
     "passive_perception": 15
@@ -8351,14 +7922,6 @@
       }
     ],
     "cr": "0",
-    "saves": {
-      "str": -2,
-      "dex": 0,
-      "con": 1,
-      "int": -5,
-      "wis": -1,
-      "cha": -4
-    },
     "skills": {
       "stealth": 2
     },
@@ -8434,12 +7997,7 @@
     ],
     "cr": "0.5",
     "saves": {
-      "str": 2,
-      "dex": 0,
-      "con": 3,
-      "int": -4,
-      "wis": 0,
-      "cha": -3
+      "con": 3
     },
     "skills": {
       "stealth": 2
@@ -8510,12 +8068,7 @@
     "traits": [],
     "cr": "0.125",
     "saves": {
-      "str": 0,
-      "dex": 1,
-      "con": 0,
-      "int": 0,
-      "wis": 2,
-      "cha": 0
+      "wis": 2
     },
     "skills": {
       "deception": 2,
@@ -8603,12 +8156,7 @@
     "traits": [],
     "cr": "2",
     "saves": {
-      "str": 0,
-      "dex": 2,
-      "con": 1,
-      "int": 0,
-      "wis": 4,
-      "cha": 1
+      "wis": 4
     },
     "skills": {
       "deception": 3,
@@ -8691,14 +8239,6 @@
     "legendary_actions": [],
     "traits": [],
     "cr": "0.5",
-    "saves": {
-      "str": 3,
-      "dex": 1,
-      "con": 1,
-      "int": -4,
-      "wis": 0,
-      "cha": -3
-    },
     "skills": {
       "stealth": 3
     },
@@ -8773,14 +8313,6 @@
     "legendary_actions": [],
     "traits": [],
     "cr": "1",
-    "saves": {
-      "str": 2,
-      "dex": 2,
-      "con": 2,
-      "int": -4,
-      "wis": 1,
-      "cha": -2
-    },
     "skills": {
       "perception": 5,
       "stealth": 4
@@ -8857,14 +8389,6 @@
       }
     ],
     "cr": "0",
-    "saves": {
-      "str": 0,
-      "dex": 3,
-      "con": 0,
-      "int": -4,
-      "wis": 2,
-      "cha": -3
-    },
     "skills": {
       "perception": 4
     },
@@ -8974,10 +8498,6 @@
     ],
     "cr": "10",
     "saves": {
-      "str": 4,
-      "dex": 4,
-      "con": 4,
-      "int": 3,
       "wis": 9,
       "cha": 9
     },
@@ -9057,14 +8577,6 @@
       }
     ],
     "cr": "1",
-    "saves": {
-      "str": 3,
-      "dex": 2,
-      "con": 2,
-      "int": -4,
-      "wis": 1,
-      "cha": -2
-    },
     "skills": {
       "perception": 5,
       "stealth": 4
@@ -9172,12 +8684,8 @@
     ],
     "cr": "11",
     "saves": {
-      "str": 5,
       "dex": 6,
-      "con": 6,
-      "int": 2,
-      "wis": 7,
-      "cha": 5
+      "wis": 7
     },
     "alignment": "chaotic good",
     "passive_perception": 13
@@ -9262,14 +8770,6 @@
     "legendary_actions": [],
     "traits": [],
     "cr": "3",
-    "saves": {
-      "str": 0,
-      "dex": 4,
-      "con": 2,
-      "int": 0,
-      "wis": 1,
-      "cha": 2
-    },
     "skills": {
       "deception": 6,
       "insight": 3
@@ -9337,14 +8837,6 @@
     "legendary_actions": [],
     "traits": [],
     "cr": "0.25",
-    "saves": {
-      "str": 4,
-      "dex": 0,
-      "con": 2,
-      "int": -4,
-      "wis": 0,
-      "cha": -2
-    },
     "alignment": "unaligned",
     "passive_perception": 10
   },
@@ -9458,12 +8950,8 @@
     ],
     "cr": "17",
     "saves": {
-      "str": 7,
-      "dex": 0,
       "con": 11,
-      "int": 0,
-      "wis": 7,
-      "cha": 1
+      "wis": 7
     },
     "alignment": "neutral",
     "passive_perception": 11
@@ -9550,14 +9038,6 @@
     "legendary_actions": [],
     "traits": [],
     "cr": "0.25",
-    "saves": {
-      "str": 1,
-      "dex": 0,
-      "con": 1,
-      "int": -3,
-      "wis": -1,
-      "cha": -4
-    },
     "alignment": "chaotic evil",
     "passive_perception": 9
   },
@@ -9680,14 +9160,6 @@
       }
     ],
     "cr": "6",
-    "saves": {
-      "str": 3,
-      "dex": 4,
-      "con": 4,
-      "int": 1,
-      "wis": 3,
-      "cha": 1
-    },
     "skills": {
       "perception": 6,
       "stealth": 10
@@ -9789,14 +9261,6 @@
     "legendary_actions": [],
     "traits": [],
     "cr": "2",
-    "saves": {
-      "str": 0,
-      "dex": 1,
-      "con": 1,
-      "int": 1,
-      "wis": 3,
-      "cha": 0
-    },
     "skills": {
       "medicine": 5,
       "nature": 3,
@@ -9919,14 +9383,6 @@
       }
     ],
     "cr": "1",
-    "saves": {
-      "str": 0,
-      "dex": 1,
-      "con": 0,
-      "int": 2,
-      "wis": 2,
-      "cha": 4
-    },
     "skills": {
       "perception": 4,
       "stealth": 5
@@ -10032,14 +9488,6 @@
       }
     ],
     "cr": "0.5",
-    "saves": {
-      "str": -3,
-      "dex": 2,
-      "con": 0,
-      "int": -1,
-      "wis": 0,
-      "cha": 0
-    },
     "skills": {
       "perception": 2,
       "stealth": 4
@@ -10096,14 +9544,6 @@
     "legendary_actions": [],
     "traits": [],
     "cr": "0",
-    "saves": {
-      "str": -2,
-      "dex": 2,
-      "con": 1,
-      "int": -4,
-      "wis": 2,
-      "cha": -2
-    },
     "skills": {
       "perception": 6
     },
@@ -10221,14 +9661,6 @@
       }
     ],
     "cr": "5",
-    "saves": {
-      "str": 5,
-      "dex": -1,
-      "con": 5,
-      "int": -3,
-      "wis": 0,
-      "cha": -3
-    },
     "alignment": "neutral",
     "passive_perception": 10
   },
@@ -10349,10 +9781,6 @@
     ],
     "cr": "11",
     "saves": {
-      "str": 6,
-      "dex": 1,
-      "con": 7,
-      "int": 3,
       "wis": 6,
       "cha": 8
     },
@@ -10431,14 +9859,6 @@
     "legendary_actions": [],
     "traits": [],
     "cr": "4",
-    "saves": {
-      "str": 6,
-      "dex": -1,
-      "con": 3,
-      "int": -4,
-      "wis": 0,
-      "cha": -2
-    },
     "alignment": "unaligned",
     "passive_perception": 10
   },
@@ -10504,14 +9924,6 @@
     "legendary_actions": [],
     "traits": [],
     "cr": "0.25",
-    "saves": {
-      "str": 3,
-      "dex": 0,
-      "con": 0,
-      "int": -4,
-      "wis": 0,
-      "cha": -2
-    },
     "skills": {
       "perception": 2
     },
@@ -10629,11 +10041,8 @@
     ],
     "cr": "12",
     "saves": {
-      "str": 4,
       "dex": 7,
       "con": 8,
-      "int": 2,
-      "wis": 2,
       "cha": 8
     },
     "skills": {
@@ -10759,14 +10168,6 @@
       }
     ],
     "cr": "2",
-    "saves": {
-      "str": 2,
-      "dex": 2,
-      "con": 1,
-      "int": -2,
-      "wis": 1,
-      "cha": -1
-    },
     "skills": {
       "perception": 3,
       "stealth": 4,
@@ -10863,14 +10264,6 @@
     "legendary_actions": [],
     "traits": [],
     "cr": "4",
-    "saves": {
-      "str": 5,
-      "dex": -1,
-      "con": 3,
-      "int": -2,
-      "wis": 0,
-      "cha": -1
-    },
     "skills": {
       "perception": 4
     },
@@ -10984,14 +10377,6 @@
       }
     ],
     "cr": "5",
-    "saves": {
-      "str": 0,
-      "dex": 3,
-      "con": 3,
-      "int": -2,
-      "wis": 0,
-      "cha": -2
-    },
     "alignment": "neutral",
     "passive_perception": 10
   },
@@ -11085,11 +10470,8 @@
     "traits": [],
     "cr": "9",
     "saves": {
-      "str": 7,
       "dex": 3,
       "con": 10,
-      "int": 0,
-      "wis": 2,
       "cha": 5
     },
     "skills": {
@@ -11210,14 +10592,6 @@
       }
     ],
     "cr": "5",
-    "saves": {
-      "str": 4,
-      "dex": -1,
-      "con": 4,
-      "int": -2,
-      "wis": 0,
-      "cha": -3
-    },
     "alignment": "neutral",
     "passive_perception": 10
   },
@@ -11280,14 +10654,6 @@
       }
     ],
     "cr": "0.125",
-    "saves": {
-      "str": -3,
-      "dex": 2,
-      "con": 0,
-      "int": -4,
-      "wis": 1,
-      "cha": -3
-    },
     "alignment": "unaligned",
     "passive_perception": 11
   },
@@ -11355,14 +10721,6 @@
       }
     ],
     "cr": "0",
-    "saves": {
-      "str": -5,
-      "dex": 1,
-      "con": -1,
-      "int": -5,
-      "wis": -1,
-      "cha": -4
-    },
     "skills": {
       "perception": 1,
       "stealth": 3
@@ -11470,10 +10828,7 @@
     "traits": [],
     "cr": "8",
     "saves": {
-      "str": 6,
-      "dex": -1,
       "con": 8,
-      "int": -1,
       "wis": 3,
       "cha": 4
     },
@@ -11568,14 +10923,6 @@
       }
     ],
     "cr": "2",
-    "saves": {
-      "str": 2,
-      "dex": 0,
-      "con": 3,
-      "int": -2,
-      "wis": 0,
-      "cha": -2
-    },
     "skills": {
       "stealth": 4
     },
@@ -11672,14 +11019,6 @@
       }
     ],
     "cr": "2",
-    "saves": {
-      "str": 2,
-      "dex": -4,
-      "con": 5,
-      "int": -5,
-      "wis": -2,
-      "cha": -5
-    },
     "alignment": "unaligned",
     "passive_perception": 8
   },
@@ -11781,12 +11120,7 @@
     ],
     "cr": "2",
     "saves": {
-      "str": 3,
-      "dex": 3,
-      "con": 0,
-      "int": 0,
-      "wis": 2,
-      "cha": -1
+      "wis": 2
     },
     "alignment": "chaotic evil",
     "passive_perception": 10
@@ -11916,14 +11250,6 @@
       }
     ],
     "cr": "4",
-    "saves": {
-      "str": -2,
-      "dex": 1,
-      "con": 0,
-      "int": 0,
-      "wis": 1,
-      "cha": 3
-    },
     "alignment": "neutral",
     "passive_perception": 11
   },
@@ -12021,14 +11347,6 @@
     "legendary_actions": [],
     "traits": [],
     "cr": "1",
-    "saves": {
-      "str": 1,
-      "dex": 2,
-      "con": 0,
-      "int": -2,
-      "wis": 0,
-      "cha": -2
-    },
     "alignment": "chaotic evil",
     "passive_perception": 10
   },
@@ -12115,14 +11433,6 @@
     "legendary_actions": [],
     "traits": [],
     "cr": "7",
-    "saves": {
-      "str": 6,
-      "dex": 2,
-      "con": 4,
-      "int": -3,
-      "wis": 1,
-      "cha": -2
-    },
     "skills": {
       "athletics": 9,
       "perception": 4,
@@ -12196,14 +11506,6 @@
     "legendary_actions": [],
     "traits": [],
     "cr": "0.25",
-    "saves": {
-      "str": 1,
-      "dex": 0,
-      "con": 3,
-      "int": -4,
-      "wis": 1,
-      "cha": -3
-    },
     "skills": {
       "perception": 3
     },
@@ -12273,14 +11575,6 @@
     "legendary_actions": [],
     "traits": [],
     "cr": "0.25",
-    "saves": {
-      "str": 2,
-      "dex": 3,
-      "con": 0,
-      "int": -4,
-      "wis": 1,
-      "cha": -2
-    },
     "alignment": "unaligned",
     "passive_perception": 11
   },
@@ -12352,12 +11646,7 @@
     ],
     "cr": "2",
     "saves": {
-      "str": 5,
-      "dex": 0,
-      "con": 3,
-      "int": -4,
-      "wis": -2,
-      "cha": -3
+      "str": 5
     },
     "alignment": "unaligned",
     "passive_perception": 8
@@ -12425,14 +11714,6 @@
     "legendary_actions": [],
     "traits": [],
     "cr": "0.25",
-    "saves": {
-      "str": -3,
-      "dex": 2,
-      "con": 1,
-      "int": -5,
-      "wis": -2,
-      "cha": -4
-    },
     "alignment": "unaligned",
     "passive_perception": 8
   },
@@ -12511,14 +11792,6 @@
     "legendary_actions": [],
     "traits": [],
     "cr": "2",
-    "saves": {
-      "str": 4,
-      "dex": 2,
-      "con": 1,
-      "int": -5,
-      "wis": 0,
-      "cha": -4
-    },
     "skills": {
       "perception": 2
     },
@@ -12595,14 +11868,6 @@
       }
     ],
     "cr": "0.125",
-    "saves": {
-      "str": 1,
-      "dex": 1,
-      "con": 0,
-      "int": -5,
-      "wis": -1,
-      "cha": -4
-    },
     "skills": {
       "stealth": 3
     },
@@ -12701,14 +11966,6 @@
       }
     ],
     "cr": "5",
-    "saves": {
-      "str": 5,
-      "dex": -1,
-      "con": 3,
-      "int": -4,
-      "wis": 0,
-      "cha": -2
-    },
     "skills": {
       "stealth": 5
     },
@@ -12787,14 +12044,6 @@
     "legendary_actions": [],
     "traits": [],
     "cr": "1",
-    "saves": {
-      "str": 3,
-      "dex": 3,
-      "con": 1,
-      "int": -1,
-      "wis": 2,
-      "cha": 0
-    },
     "skills": {
       "perception": 6
     },
@@ -12872,11 +12121,7 @@
     "cr": "2",
     "saves": {
       "str": 6,
-      "dex": 6,
-      "con": 2,
-      "int": -2,
-      "wis": 2,
-      "cha": 0
+      "dex": 6
     },
     "skills": {
       "perception": 4
@@ -12944,14 +12189,6 @@
       }
     ],
     "cr": "0",
-    "saves": {
-      "str": -1,
-      "dex": 0,
-      "con": 1,
-      "int": -5,
-      "wis": -2,
-      "cha": -4
-    },
     "alignment": "unaligned",
     "passive_perception": 8
   },
@@ -12999,14 +12236,6 @@
     "legendary_actions": [],
     "traits": [],
     "cr": "0",
-    "saves": {
-      "str": 2,
-      "dex": 1,
-      "con": 1,
-      "int": -4,
-      "wis": 0,
-      "cha": -4
-    },
     "alignment": "unaligned",
     "passive_perception": 10
   },
@@ -13092,14 +12321,6 @@
       }
     ],
     "cr": "0.25",
-    "saves": {
-      "str": 1,
-      "dex": 1,
-      "con": 0,
-      "int": -4,
-      "wis": 0,
-      "cha": -4
-    },
     "skills": {
       "perception": 2,
       "stealth": 4
@@ -13171,12 +12392,7 @@
     "traits": [],
     "cr": "0.5",
     "saves": {
-      "str": 5,
-      "dex": 1,
-      "con": 1,
-      "int": -4,
-      "wis": 1,
-      "cha": -2
+      "str": 5
     },
     "skills": {
       "perception": 3
@@ -13256,14 +12472,6 @@
     "legendary_actions": [],
     "traits": [],
     "cr": "1",
-    "saves": {
-      "str": 3,
-      "dex": 2,
-      "con": 2,
-      "int": -4,
-      "wis": 1,
-      "cha": -2
-    },
     "skills": {
       "perception": 3
     },
@@ -13341,12 +12549,7 @@
     ],
     "cr": "0.25",
     "saves": {
-      "str": 2,
-      "dex": 3,
-      "con": 1,
-      "int": -4,
-      "wis": 0,
-      "cha": -3
+      "dex": 3
     },
     "alignment": "unaligned",
     "passive_perception": 10
@@ -13432,14 +12635,6 @@
       }
     ],
     "cr": "1",
-    "saves": {
-      "str": 3,
-      "dex": 1,
-      "con": 1,
-      "int": -3,
-      "wis": 0,
-      "cha": -3
-    },
     "skills": {
       "perception": 4,
       "stealth": 5
@@ -13531,12 +12726,7 @@
     ],
     "cr": "0.25",
     "saves": {
-      "str": 1,
-      "dex": 2,
-      "con": 1,
-      "int": 0,
-      "wis": 4,
-      "cha": 0
+      "wis": 4
     },
     "skills": {
       "perception": 6,
@@ -13604,12 +12794,7 @@
     ],
     "cr": "0.125",
     "saves": {
-      "str": -2,
-      "dex": 5,
-      "con": 0,
-      "int": -4,
-      "wis": 0,
-      "cha": -3
+      "dex": 5
     },
     "skills": {
       "perception": 2
@@ -13703,14 +12888,6 @@
     "legendary_actions": [],
     "traits": [],
     "cr": "3",
-    "saves": {
-      "str": 3,
-      "dex": 1,
-      "con": 2,
-      "int": -5,
-      "wis": -1,
-      "cha": -4
-    },
     "alignment": "unaligned",
     "passive_perception": 9
   },
@@ -13788,14 +12965,6 @@
       }
     ],
     "cr": "0.5",
-    "saves": {
-      "str": 2,
-      "dex": 1,
-      "con": 0,
-      "int": -4,
-      "wis": 1,
-      "cha": -3
-    },
     "alignment": "unaligned",
     "passive_perception": 11
   },
@@ -13863,14 +13032,6 @@
       }
     ],
     "cr": "5",
-    "saves": {
-      "str": 6,
-      "dex": 0,
-      "con": 5,
-      "int": -5,
-      "wis": 0,
-      "cha": -3
-    },
     "skills": {
       "perception": 3
     },
@@ -13963,14 +13124,6 @@
       }
     ],
     "cr": "1",
-    "saves": {
-      "str": 2,
-      "dex": 3,
-      "con": 1,
-      "int": -4,
-      "wis": 0,
-      "cha": -3
-    },
     "skills": {
       "perception": 4,
       "stealth": 7
@@ -14060,14 +13213,6 @@
       }
     ],
     "cr": "1",
-    "saves": {
-      "str": 2,
-      "dex": 1,
-      "con": 1,
-      "int": -4,
-      "wis": 0,
-      "cha": -4
-    },
     "alignment": "unaligned",
     "passive_perception": 10
   },
@@ -14134,14 +13279,6 @@
     "legendary_actions": [],
     "traits": [],
     "cr": "0.25",
-    "saves": {
-      "str": 0,
-      "dex": 4,
-      "con": 1,
-      "int": -4,
-      "wis": 0,
-      "cha": -4
-    },
     "skills": {
       "perception": 2
     },
@@ -14222,14 +13359,6 @@
       }
     ],
     "cr": "1",
-    "saves": {
-      "str": 2,
-      "dex": 0,
-      "con": 3,
-      "int": -2,
-      "wis": 1,
-      "cha": -2
-    },
     "skills": {
       "perception": 3
     },
@@ -14304,14 +13433,6 @@
       }
     ],
     "cr": "0.5",
-    "saves": {
-      "str": 0,
-      "dex": 2,
-      "con": 0,
-      "int": -5,
-      "wis": 0,
-      "cha": -4
-    },
     "alignment": "unaligned",
     "passive_perception": 10
   },
@@ -14378,14 +13499,6 @@
     "legendary_actions": [],
     "traits": [],
     "cr": "0.125",
-    "saves": {
-      "str": 0,
-      "dex": 3,
-      "con": 0,
-      "int": -3,
-      "wis": 1,
-      "cha": -3
-    },
     "skills": {
       "acrobatics": 5,
       "perception": 3,
@@ -14465,14 +13578,6 @@
       }
     ],
     "cr": "0.25",
-    "saves": {
-      "str": 1,
-      "dex": 3,
-      "con": 1,
-      "int": -4,
-      "wis": 1,
-      "cha": -3
-    },
     "skills": {
       "perception": 3,
       "stealth": 7
@@ -14566,14 +13671,6 @@
       }
     ],
     "cr": "2",
-    "saves": {
-      "str": 0,
-      "dex": -1,
-      "con": 3,
-      "int": -4,
-      "wis": 0,
-      "cha": -2
-    },
     "alignment": "chaotic neutral",
     "passive_perception": 10
   },
@@ -14682,9 +13779,7 @@
     "cr": "9",
     "saves": {
       "str": 9,
-      "dex": 2,
       "con": 9,
-      "int": 4,
       "wis": 7,
       "cha": 7
     },
@@ -14782,9 +13877,7 @@
       "str": 7,
       "dex": 5,
       "con": 6,
-      "int": 0,
-      "wis": 4,
-      "cha": 2
+      "wis": 4
     },
     "skills": {
       "athletics": 10,
@@ -14886,14 +13979,6 @@
     "legendary_actions": [],
     "traits": [],
     "cr": "0.5",
-    "saves": {
-      "str": 2,
-      "dex": 1,
-      "con": 0,
-      "int": -2,
-      "wis": 0,
-      "cha": -2
-    },
     "alignment": "chaotic evil",
     "passive_perception": 10
   },
@@ -14949,12 +14034,7 @@
     "traits": [],
     "cr": "0",
     "saves": {
-      "str": 2,
-      "dex": 0,
-      "con": 0,
-      "int": -4,
-      "wis": 0,
-      "cha": -3
+      "str": 2
     },
     "skills": {
       "perception": 2
@@ -15065,14 +14145,6 @@
     "legendary_actions": [],
     "traits": [],
     "cr": "1",
-    "saves": {
-      "str": 0,
-      "dex": 2,
-      "con": 0,
-      "int": 0,
-      "wis": -1,
-      "cha": 0
-    },
     "skills": {
       "stealth": 6
     },
@@ -15152,14 +14224,6 @@
     "legendary_actions": [],
     "traits": [],
     "cr": "0.125",
-    "saves": {
-      "str": -1,
-      "dex": 2,
-      "con": 0,
-      "int": 0,
-      "wis": -1,
-      "cha": -1
-    },
     "skills": {
       "stealth": 6
     },
@@ -15256,14 +14320,6 @@
     "legendary_actions": [],
     "traits": [],
     "cr": "0.25",
-    "saves": {
-      "str": -1,
-      "dex": 2,
-      "con": 0,
-      "int": 0,
-      "wis": -1,
-      "cha": -1
-    },
     "skills": {
       "stealth": 6
     },
@@ -15369,12 +14425,8 @@
     ],
     "cr": "3",
     "saves": {
-      "str": 4,
       "dex": 4,
-      "con": 3,
-      "int": 2,
-      "wis": 2,
-      "cha": 3
+      "wis": 2
     },
     "skills": {
       "perception": 4,
@@ -15461,14 +14513,6 @@
     "legendary_actions": [],
     "traits": [],
     "cr": "5",
-    "saves": {
-      "str": 5,
-      "dex": 0,
-      "con": 4,
-      "int": -4,
-      "wis": 1,
-      "cha": -2
-    },
     "skills": {
       "perception": 7
     },
@@ -15555,14 +14599,6 @@
       }
     ],
     "cr": "0.5",
-    "saves": {
-      "str": 1,
-      "dex": -2,
-      "con": 3,
-      "int": -5,
-      "wis": -2,
-      "cha": -4
-    },
     "skills": {
       "stealth": 2
     },
@@ -15668,12 +14704,8 @@
     ],
     "cr": "2",
     "saves": {
-      "str": 2,
       "dex": 3,
-      "con": 1,
-      "int": 2,
-      "wis": 2,
-      "cha": 1
+      "wis": 2
     },
     "skills": {
       "perception": 4,
@@ -15774,14 +14806,6 @@
       }
     ],
     "cr": "3",
-    "saves": {
-      "str": 4,
-      "dex": 1,
-      "con": 3,
-      "int": 1,
-      "wis": 2,
-      "cha": 2
-    },
     "skills": {
       "arcana": 5,
       "deception": 4,
@@ -15878,14 +14902,6 @@
     "legendary_actions": [],
     "traits": [],
     "cr": "2",
-    "saves": {
-      "str": 2,
-      "dex": 2,
-      "con": 0,
-      "int": -4,
-      "wis": 2,
-      "cha": -3
-    },
     "skills": {
       "stealth": 4
     },
@@ -15961,14 +14977,6 @@
     "legendary_actions": [],
     "traits": [],
     "cr": "2",
-    "saves": {
-      "str": 4,
-      "dex": 2,
-      "con": 3,
-      "int": -4,
-      "wis": 1,
-      "cha": -1
-    },
     "skills": {
       "perception": 5
     },
@@ -16038,14 +15046,6 @@
     "legendary_actions": [],
     "traits": [],
     "cr": "0.25",
-    "saves": {
-      "str": 3,
-      "dex": 1,
-      "con": 1,
-      "int": -1,
-      "wis": -1,
-      "cha": -2
-    },
     "skills": {
       "athletics": 5,
       "perception": 3,
@@ -16118,14 +15118,6 @@
     "legendary_actions": [],
     "traits": [],
     "cr": "0.125",
-    "saves": {
-      "str": 1,
-      "dex": 1,
-      "con": 1,
-      "int": 0,
-      "wis": 0,
-      "cha": 0
-    },
     "skills": {
       "perception": 2
     },
@@ -16220,14 +15212,6 @@
     "legendary_actions": [],
     "traits": [],
     "cr": "4",
-    "saves": {
-      "str": 4,
-      "dex": 2,
-      "con": 3,
-      "int": 1,
-      "wis": 2,
-      "cha": 1
-    },
     "skills": {
       "athletics": 6,
       "perception": 4
@@ -16335,7 +15319,6 @@
     ],
     "cr": "10",
     "saves": {
-      "str": 4,
       "dex": 8,
       "con": 7,
       "int": 7,
@@ -16446,12 +15429,8 @@
     ],
     "cr": "5",
     "saves": {
-      "str": 4,
       "dex": 5,
-      "con": 3,
-      "int": 0,
-      "wis": 5,
-      "cha": 2
+      "wis": 5
     },
     "skills": {
       "athletics": 7,
@@ -16530,14 +15509,6 @@
     "legendary_actions": [],
     "traits": [],
     "cr": "1",
-    "saves": {
-      "str": 1,
-      "dex": 1,
-      "con": 1,
-      "int": -2,
-      "wis": 0,
-      "cha": 1
-    },
     "alignment": "chaotic evil",
     "passive_perception": 10
   },
@@ -16590,14 +15561,6 @@
     "legendary_actions": [],
     "traits": [],
     "cr": "0",
-    "saves": {
-      "str": -3,
-      "dex": 3,
-      "con": -1,
-      "int": -4,
-      "wis": 2,
-      "cha": -2
-    },
     "skills": {
       "perception": 6
     },
@@ -16693,14 +15656,6 @@
       }
     ],
     "cr": "3",
-    "saves": {
-      "str": 3,
-      "dex": 1,
-      "con": 2,
-      "int": -2,
-      "wis": 1,
-      "cha": -2
-    },
     "skills": {
       "perception": 5
     },
@@ -16812,11 +15767,8 @@
     "cr": "8",
     "saves": {
       "str": 7,
-      "dex": 3,
       "con": 8,
-      "int": -3,
-      "wis": 4,
-      "cha": 1
+      "wis": 4
     },
     "alignment": "chaotic evil",
     "passive_perception": 11
@@ -16908,14 +15860,6 @@
     "legendary_actions": [],
     "traits": [],
     "cr": "5",
-    "saves": {
-      "str": 5,
-      "dex": -1,
-      "con": 4,
-      "int": -3,
-      "wis": -1,
-      "cha": -2
-    },
     "skills": {
       "perception": 2
     },
@@ -16996,14 +15940,6 @@
       }
     ],
     "cr": "1",
-    "saves": {
-      "str": 3,
-      "dex": 1,
-      "con": 1,
-      "int": -4,
-      "wis": 1,
-      "cha": -1
-    },
     "skills": {
       "perception": 5
     },
@@ -17085,12 +16021,7 @@
     ],
     "cr": "4",
     "saves": {
-      "str": 7,
-      "dex": -2,
-      "con": 2,
-      "int": -4,
-      "wis": 1,
-      "cha": -3
+      "str": 7
     },
     "skills": {
       "perception": 3
@@ -17195,14 +16126,6 @@
       }
     ],
     "cr": "3",
-    "saves": {
-      "str": 2,
-      "dex": 2,
-      "con": 2,
-      "int": 1,
-      "wis": 0,
-      "cha": 1
-    },
     "alignment": "lawful evil",
     "passive_perception": 10
   },
@@ -17297,14 +16220,6 @@
       }
     ],
     "cr": "0.5",
-    "saves": {
-      "str": 1,
-      "dex": 1,
-      "con": 1,
-      "int": 0,
-      "wis": 0,
-      "cha": -1
-    },
     "alignment": "lawful evil",
     "passive_perception": 10
   },
@@ -17374,10 +16289,6 @@
     ],
     "cr": "0",
     "saves": {
-      "str": -3,
-      "dex": 2,
-      "con": 2,
-      "int": 0,
       "wis": 2,
       "cha": 0
     },
@@ -17500,8 +16411,6 @@
     "saves": {
       "str": 10,
       "dex": 7,
-      "con": 5,
-      "int": 1,
       "wis": 7,
       "cha": 8
     },
@@ -17566,14 +16475,6 @@
       }
     ],
     "cr": "2",
-    "saves": {
-      "str": 4,
-      "dex": 2,
-      "con": 2,
-      "int": -5,
-      "wis": 0,
-      "cha": -3
-    },
     "skills": {
       "perception": 2
     },
@@ -17668,14 +16569,6 @@
       }
     ],
     "cr": "8",
-    "saves": {
-      "str": 5,
-      "dex": 1,
-      "con": 5,
-      "int": -4,
-      "wis": 0,
-      "cha": -2
-    },
     "skills": {
       "perception": 6
     },
@@ -17751,14 +16644,6 @@
       }
     ],
     "cr": "0",
-    "saves": {
-      "str": 0,
-      "dex": 1,
-      "con": 1,
-      "int": -4,
-      "wis": 1,
-      "cha": -3
-    },
     "skills": {
       "perception": 3
     },
@@ -17885,10 +16770,8 @@
     ],
     "cr": "14",
     "saves": {
-      "str": 5,
       "dex": 7,
       "con": 9,
-      "int": 4,
       "wis": 7,
       "cha": 9
     },
@@ -17999,14 +16882,6 @@
       }
     ],
     "cr": "0.5",
-    "saves": {
-      "str": -2,
-      "dex": 1,
-      "con": 0,
-      "int": -1,
-      "wis": 0,
-      "cha": 1
-    },
     "skills": {
       "perception": 2,
       "stealth": 3
@@ -18106,14 +16981,6 @@
       }
     ],
     "cr": "1",
-    "saves": {
-      "str": -2,
-      "dex": 3,
-      "con": 1,
-      "int": 0,
-      "wis": 1,
-      "cha": 2
-    },
     "skills": {
       "deception": 4,
       "insight": 3,
@@ -18223,14 +17090,6 @@
       }
     ],
     "cr": "4",
-    "saves": {
-      "str": -1,
-      "dex": 3,
-      "con": 1,
-      "int": 2,
-      "wis": 1,
-      "cha": 5
-    },
     "skills": {
       "deception": 9,
       "insight": 5,
@@ -18343,14 +17202,6 @@
       }
     ],
     "cr": "6",
-    "saves": {
-      "str": 3,
-      "dex": 4,
-      "con": 2,
-      "int": 0,
-      "wis": 2,
-      "cha": 0
-    },
     "skills": {
       "perception": 8,
       "stealth": 10
@@ -18486,14 +17337,6 @@
       }
     ],
     "cr": "16",
-    "saves": {
-      "str": 7,
-      "dex": -1,
-      "con": 5,
-      "int": -4,
-      "wis": 0,
-      "cha": -5
-    },
     "alignment": "unaligned",
     "passive_perception": 10
   },
@@ -18559,14 +17402,6 @@
     "legendary_actions": [],
     "traits": [],
     "cr": "0",
-    "saves": {
-      "str": -1,
-      "dex": 2,
-      "con": 0,
-      "int": -4,
-      "wis": 1,
-      "cha": -2
-    },
     "skills": {
       "perception": 5,
       "stealth": 4
@@ -18644,14 +17479,6 @@
       }
     ],
     "cr": "3",
-    "saves": {
-      "str": 4,
-      "dex": 2,
-      "con": 1,
-      "int": -4,
-      "wis": 1,
-      "cha": -2
-    },
     "skills": {
       "perception": 3,
       "stealth": 4
@@ -18754,12 +17581,8 @@
     "traits": [],
     "cr": "3",
     "saves": {
-      "str": 3,
-      "dex": 0,
       "con": 4,
-      "int": 0,
-      "wis": 2,
-      "cha": 2
+      "wis": 2
     },
     "alignment": "neutral",
     "passive_perception": 10
@@ -18844,14 +17667,6 @@
       }
     ],
     "cr": "0.125",
-    "saves": {
-      "str": -2,
-      "dex": 2,
-      "con": -1,
-      "int": -1,
-      "wis": -2,
-      "cha": -1
-    },
     "alignment": "neutral",
     "passive_perception": 8
   },
@@ -18991,9 +17806,7 @@
       "str": 17,
       "dex": 7,
       "con": 15,
-      "int": 6,
-      "wis": 11,
-      "cha": 5
+      "wis": 11
     },
     "skills": {
       "history": 13,
@@ -19092,14 +17905,6 @@
     "legendary_actions": [],
     "traits": [],
     "cr": "4",
-    "saves": {
-      "str": 3,
-      "dex": 1,
-      "con": 2,
-      "int": 2,
-      "wis": 2,
-      "cha": 3
-    },
     "skills": {
       "deception": 7,
       "insight": 4,
@@ -19188,14 +17993,6 @@
       }
     ],
     "cr": "0",
-    "saves": {
-      "str": 0,
-      "dex": -3,
-      "con": 0,
-      "int": -5,
-      "wis": 0,
-      "cha": -4
-    },
     "alignment": "lawful evil",
     "passive_perception": 10
   },
@@ -19346,12 +18143,10 @@
     ],
     "cr": "21",
     "saves": {
-      "str": 0,
       "dex": 10,
       "con": 10,
       "int": 12,
-      "wis": 9,
-      "cha": 3
+      "wis": 9
     },
     "skills": {
       "arcana": 19,
@@ -19450,14 +18245,6 @@
       }
     ],
     "cr": "1",
-    "saves": {
-      "str": 3,
-      "dex": 2,
-      "con": 0,
-      "int": -4,
-      "wis": 1,
-      "cha": -1
-    },
     "skills": {
       "perception": 3,
       "stealth": 4
@@ -19523,14 +18310,6 @@
       }
     ],
     "cr": "0",
-    "saves": {
-      "str": -4,
-      "dex": 0,
-      "con": 0,
-      "int": -5,
-      "wis": -1,
-      "cha": -4
-    },
     "alignment": "unaligned",
     "passive_perception": 9
   },
@@ -19631,12 +18410,8 @@
     "traits": [],
     "cr": "6",
     "saves": {
-      "str": -1,
-      "dex": 2,
-      "con": 0,
       "int": 6,
-      "wis": 4,
-      "cha": 0
+      "wis": 4
     },
     "skills": {
       "arcana": 6,
@@ -19735,14 +18510,6 @@
       }
     ],
     "cr": "0.5",
-    "saves": {
-      "str": -1,
-      "dex": 1,
-      "con": 1,
-      "int": -2,
-      "wis": 0,
-      "cha": 0
-    },
     "skills": {
       "stealth": 3
     },
@@ -19828,14 +18595,6 @@
       }
     ],
     "cr": "0.5",
-    "saves": {
-      "str": -2,
-      "dex": 2,
-      "con": 1,
-      "int": -1,
-      "wis": 0,
-      "cha": 0
-    },
     "alignment": "chaotic neutral",
     "passive_perception": 10
   },
@@ -19913,11 +18672,7 @@
     "cr": "6",
     "saves": {
       "str": 10,
-      "dex": -1,
-      "con": 8,
-      "int": -4,
-      "wis": 0,
-      "cha": -2
+      "con": 8
     },
     "alignment": "unaligned",
     "passive_perception": 10
@@ -20012,14 +18767,6 @@
     "legendary_actions": [],
     "traits": [],
     "cr": "3",
-    "saves": {
-      "str": 3,
-      "dex": 3,
-      "con": 3,
-      "int": -2,
-      "wis": 1,
-      "cha": -1
-    },
     "alignment": "lawful evil",
     "passive_perception": 11
   },
@@ -20146,9 +18893,7 @@
     "cr": "16",
     "saves": {
       "str": 9,
-      "dex": 5,
       "con": 10,
-      "int": 4,
       "wis": 8,
       "cha": 10
     },
@@ -20220,14 +18965,6 @@
     "legendary_actions": [],
     "traits": [],
     "cr": "0.125",
-    "saves": {
-      "str": 1,
-      "dex": 2,
-      "con": 1,
-      "int": -4,
-      "wis": 1,
-      "cha": -2
-    },
     "skills": {
       "perception": 5
     },
@@ -20351,12 +19088,7 @@
     "traits": [],
     "cr": "6",
     "saves": {
-      "str": 0,
-      "dex": 3,
-      "con": 3,
-      "int": 1,
-      "wis": 4,
-      "cha": 2
+      "wis": 4
     },
     "skills": {
       "deception": 5,
@@ -20439,14 +19171,6 @@
       }
     ],
     "cr": "0.125",
-    "saves": {
-      "str": 0,
-      "dex": 1,
-      "con": 1,
-      "int": 0,
-      "wis": 2,
-      "cha": 1
-    },
     "alignment": "neutral",
     "passive_perception": 12
   },
@@ -20567,14 +19291,6 @@
       }
     ],
     "cr": "2",
-    "saves": {
-      "str": 4,
-      "dex": 2,
-      "con": 2,
-      "int": -1,
-      "wis": 0,
-      "cha": -1
-    },
     "alignment": "chaotic evil",
     "passive_perception": 10
   },
@@ -20663,14 +19379,6 @@
       }
     ],
     "cr": "2",
-    "saves": {
-      "str": 3,
-      "dex": 1,
-      "con": 2,
-      "int": -3,
-      "wis": 1,
-      "cha": -1
-    },
     "skills": {
       "stealth": 5
     },
@@ -20763,14 +19471,6 @@
     "legendary_actions": [],
     "traits": [],
     "cr": "3",
-    "saves": {
-      "str": 4,
-      "dex": 0,
-      "con": 3,
-      "int": -2,
-      "wis": 3,
-      "cha": -1
-    },
     "skills": {
       "perception": 7,
       "survival": 7
@@ -20865,14 +19565,6 @@
     "legendary_actions": [],
     "traits": [],
     "cr": "2",
-    "saves": {
-      "str": 4,
-      "dex": 0,
-      "con": 2,
-      "int": -2,
-      "wis": -1,
-      "cha": -3
-    },
     "alignment": "lawful evil",
     "passive_perception": 9
   },
@@ -20944,12 +19636,7 @@
     ],
     "cr": "0.125",
     "saves": {
-      "str": 4,
-      "dex": 0,
-      "con": 1,
-      "int": -4,
-      "wis": 0,
-      "cha": -3
+      "str": 4
     },
     "alignment": "unaligned",
     "passive_perception": 10
@@ -21040,12 +19727,7 @@
     "traits": [],
     "cr": "3",
     "saves": {
-      "str": 3,
-      "dex": -1,
-      "con": 2,
-      "int": -2,
-      "wis": 3,
-      "cha": 1
+      "wis": 3
     },
     "alignment": "lawful evil",
     "passive_perception": 11
@@ -21205,12 +19887,8 @@
     ],
     "cr": "15",
     "saves": {
-      "str": 4,
-      "dex": 0,
-      "con": 3,
       "int": 5,
-      "wis": 9,
-      "cha": 3
+      "wis": 9
     },
     "skills": {
       "history": 5,
@@ -21338,8 +20016,6 @@
     ],
     "cr": "13",
     "saves": {
-      "str": 5,
-      "dex": 0,
       "con": 11,
       "int": 9,
       "wis": 6,
@@ -21459,14 +20135,6 @@
       }
     ],
     "cr": "5",
-    "saves": {
-      "str": 4,
-      "dex": 2,
-      "con": 3,
-      "int": 3,
-      "wis": 2,
-      "cha": 3
-    },
     "skills": {
       "deception": 6,
       "insight": 5,
@@ -21562,14 +20230,6 @@
       }
     ],
     "cr": "3",
-    "saves": {
-      "str": 4,
-      "dex": 2,
-      "con": 3,
-      "int": 0,
-      "wis": 1,
-      "cha": 2
-    },
     "alignment": "neutral evil",
     "passive_perception": 11
   },
@@ -21642,14 +20302,6 @@
     "legendary_actions": [],
     "traits": [],
     "cr": "0.125",
-    "saves": {
-      "str": 0,
-      "dex": 1,
-      "con": 0,
-      "int": 1,
-      "wis": 2,
-      "cha": 3
-    },
     "skills": {
       "deception": 5,
       "insight": 4,
@@ -21753,14 +20405,6 @@
       }
     ],
     "cr": "2",
-    "saves": {
-      "str": 2,
-      "dex": -2,
-      "con": 2,
-      "int": -4,
-      "wis": -2,
-      "cha": -5
-    },
     "alignment": "unaligned",
     "passive_perception": 8
   },
@@ -21848,11 +20492,7 @@
     ],
     "cr": "0",
     "saves": {
-      "str": -3,
-      "dex": 2,
       "con": 30,
-      "int": -4,
-      "wis": 0,
       "cha": -3
     },
     "skills": {
@@ -21947,14 +20587,6 @@
     "legendary_actions": [],
     "traits": [],
     "cr": "2",
-    "saves": {
-      "str": 4,
-      "dex": -1,
-      "con": 3,
-      "int": -3,
-      "wis": -2,
-      "cha": -2
-    },
     "alignment": "chaotic evil",
     "passive_perception": 8
   },
@@ -22035,12 +20667,7 @@
     ],
     "cr": "2",
     "saves": {
-      "str": 4,
-      "dex": -2,
-      "con": 4,
-      "int": -4,
-      "wis": 0,
-      "cha": -3
+      "wis": 0
     },
     "alignment": "neutral evil",
     "passive_perception": 8
@@ -22163,10 +20790,8 @@
     ],
     "cr": "7",
     "saves": {
-      "str": 4,
       "dex": 3,
       "con": 6,
-      "int": 2,
       "wis": 4,
       "cha": 5
     },
@@ -22273,12 +20898,7 @@
     "traits": [],
     "cr": "5",
     "saves": {
-      "str": 3,
-      "dex": 0,
-      "con": 7,
-      "int": -2,
-      "wis": 1,
-      "cha": -2
+      "con": 7
     },
     "alignment": "neutral",
     "passive_perception": 11
@@ -22341,14 +20961,6 @@
       }
     ],
     "cr": "0",
-    "saves": {
-      "str": -4,
-      "dex": 1,
-      "con": -1,
-      "int": -4,
-      "wis": 1,
-      "cha": -2
-    },
     "skills": {
       "perception": 5,
       "stealth": 5
@@ -22425,14 +21037,6 @@
     "legendary_actions": [],
     "traits": [],
     "cr": "3",
-    "saves": {
-      "str": 5,
-      "dex": 1,
-      "con": 3,
-      "int": -4,
-      "wis": 1,
-      "cha": -2
-    },
     "skills": {
       "perception": 5
     },
@@ -22508,14 +21112,6 @@
     "legendary_actions": [],
     "traits": [],
     "cr": "0.25",
-    "saves": {
-      "str": 2,
-      "dex": 3,
-      "con": 0,
-      "int": -4,
-      "wis": 2,
-      "cha": -2
-    },
     "skills": {
       "perception": 4,
       "stealth": 6
@@ -22590,10 +21186,8 @@
     "traits": [],
     "cr": "2",
     "saves": {
-      "str": 4,
       "dex": 4,
       "con": 5,
-      "int": 0,
       "wis": 4,
       "cha": 3
     },
@@ -22697,14 +21291,6 @@
       }
     ],
     "cr": "3",
-    "saves": {
-      "str": 2,
-      "dex": 3,
-      "con": 1,
-      "int": -2,
-      "wis": 0,
-      "cha": -2
-    },
     "skills": {
       "stealth": 7
     },
@@ -22769,14 +21355,6 @@
       }
     ],
     "cr": "0",
-    "saves": {
-      "str": -4,
-      "dex": 3,
-      "con": -1,
-      "int": -5,
-      "wis": -2,
-      "cha": -4
-    },
     "alignment": "unaligned",
     "passive_perception": 8
   },
@@ -22857,11 +21435,7 @@
     "traits": [],
     "cr": "1",
     "saves": {
-      "str": 0,
       "dex": 5,
-      "con": 1,
-      "int": -1,
-      "wis": 1,
       "cha": 4
     },
     "alignment": "neutral",
@@ -22970,8 +21544,6 @@
     "saves": {
       "str": 3,
       "dex": 7,
-      "con": 2,
-      "int": 0,
       "wis": 5,
       "cha": 6
     },
@@ -23132,12 +21704,8 @@
     ],
     "cr": "20",
     "saves": {
-      "str": 8,
       "dex": 8,
-      "con": 7,
-      "int": 6,
-      "wis": 10,
-      "cha": 7
+      "wis": 10
     },
     "skills": {
       "perception": 10,
@@ -23263,9 +21831,7 @@
     "cr": "16",
     "saves": {
       "str": 12,
-      "dex": 5,
       "con": 12,
-      "int": 4,
       "wis": 11,
       "cha": 12
     },
@@ -23343,14 +21909,6 @@
       }
     ],
     "cr": "2",
-    "saves": {
-      "str": 4,
-      "dex": 2,
-      "con": 3,
-      "int": -4,
-      "wis": 1,
-      "cha": -3
-    },
     "skills": {
       "perception": 3,
       "stealth": 4
@@ -23429,14 +21987,6 @@
     "legendary_actions": [],
     "traits": [],
     "cr": "2",
-    "saves": {
-      "str": 5,
-      "dex": 2,
-      "con": 3,
-      "int": -4,
-      "wis": 1,
-      "cha": -2
-    },
     "skills": {
       "perception": 5,
       "stealth": 4
@@ -23505,12 +22055,7 @@
     "traits": [],
     "cr": "0.125",
     "saves": {
-      "str": 4,
-      "dex": 0,
-      "con": 1,
-      "int": -4,
-      "wis": 0,
-      "cha": -2
+      "str": 4
     },
     "alignment": "unaligned",
     "passive_perception": 10
@@ -23617,14 +22162,6 @@
     "legendary_actions": [],
     "traits": [],
     "cr": "2",
-    "saves": {
-      "str": 3,
-      "dex": 0,
-      "con": 1,
-      "int": 1,
-      "wis": 3,
-      "cha": 1
-    },
     "skills": {
       "medicine": 7,
       "perception": 5,
@@ -23729,14 +22266,6 @@
     "legendary_actions": [],
     "traits": [],
     "cr": "0.25",
-    "saves": {
-      "str": 2,
-      "dex": 0,
-      "con": 1,
-      "int": 0,
-      "wis": 2,
-      "cha": 0
-    },
     "skills": {
       "medicine": 4,
       "religion": 2
@@ -23829,14 +22358,6 @@
       }
     ],
     "cr": "0.25",
-    "saves": {
-      "str": -2,
-      "dex": 2,
-      "con": 1,
-      "int": 0,
-      "wis": 1,
-      "cha": 0
-    },
     "skills": {
       "perception": 5,
       "stealth": 4
@@ -23912,14 +22433,6 @@
       }
     ],
     "cr": "0.25",
-    "saves": {
-      "str": 1,
-      "dex": 2,
-      "con": 0,
-      "int": -4,
-      "wis": -1,
-      "cha": -3
-    },
     "skills": {
       "perception": 1
     },
@@ -24028,12 +22541,8 @@
     ],
     "cr": "15",
     "saves": {
-      "str": 9,
-      "dex": -2,
       "con": 11,
-      "int": -5,
-      "wis": 4,
-      "cha": -3
+      "wis": 4
     },
     "alignment": "unaligned",
     "passive_perception": 9
@@ -24140,14 +22649,6 @@
       }
     ],
     "cr": "1",
-    "saves": {
-      "str": -3,
-      "dex": 3,
-      "con": 0,
-      "int": -2,
-      "wis": 0,
-      "cha": 0
-    },
     "skills": {
       "stealth": 5
     },
@@ -24254,14 +22755,6 @@
       }
     ],
     "cr": "13",
-    "saves": {
-      "str": 2,
-      "dex": 3,
-      "con": 4,
-      "int": 1,
-      "wis": 3,
-      "cha": 5
-    },
     "skills": {
       "deception": 10,
       "insight": 8,
@@ -24328,14 +22821,6 @@
       }
     ],
     "cr": "0",
-    "saves": {
-      "str": -4,
-      "dex": 0,
-      "con": -1,
-      "int": -4,
-      "wis": 0,
-      "cha": -3
-    },
     "skills": {
       "perception": 2
     },
@@ -24398,14 +22883,6 @@
       }
     ],
     "cr": "0",
-    "saves": {
-      "str": -4,
-      "dex": 2,
-      "con": 0,
-      "int": -3,
-      "wis": 1,
-      "cha": -2
-    },
     "skills": {
       "perception": 3
     },
@@ -24502,12 +22979,8 @@
     "traits": [],
     "cr": "4",
     "saves": {
-      "str": 4,
       "dex": 2,
-      "con": 3,
-      "int": 1,
-      "wis": 2,
-      "cha": 2
+      "wis": 2
     },
     "skills": {
       "perception": 4,
@@ -24592,14 +23065,6 @@
       }
     ],
     "cr": "0.5",
-    "saves": {
-      "str": 2,
-      "dex": 2,
-      "con": 1,
-      "int": -5,
-      "wis": 0,
-      "cha": -3
-    },
     "skills": {
       "perception": 2
     },
@@ -24686,14 +23151,6 @@
       }
     ],
     "cr": "11",
-    "saves": {
-      "str": 7,
-      "dex": 1,
-      "con": 5,
-      "int": -3,
-      "wis": 0,
-      "cha": -3
-    },
     "alignment": "unaligned",
     "passive_perception": 10
   },
@@ -24757,14 +23214,6 @@
     "legendary_actions": [],
     "traits": [],
     "cr": "2",
-    "saves": {
-      "str": 5,
-      "dex": -1,
-      "con": 2,
-      "int": -4,
-      "wis": 1,
-      "cha": -2
-    },
     "alignment": "unaligned",
     "passive_perception": 11
   },
@@ -24828,14 +23277,6 @@
     "legendary_actions": [],
     "traits": [],
     "cr": "0.25",
-    "saves": {
-      "str": 3,
-      "dex": 1,
-      "con": 1,
-      "int": -4,
-      "wis": 0,
-      "cha": -2
-    },
     "alignment": "unaligned",
     "passive_perception": 10
   },
@@ -24935,12 +23376,8 @@
     "traits": [],
     "cr": "11",
     "saves": {
-      "str": 9,
       "dex": 4,
-      "con": 5,
-      "int": -4,
-      "wis": 4,
-      "cha": -1
+      "wis": 4
     },
     "skills": {
       "perception": 8
@@ -25036,14 +23473,6 @@
       }
     ],
     "cr": "5",
-    "saves": {
-      "str": 4,
-      "dex": -1,
-      "con": 3,
-      "int": -2,
-      "wis": 3,
-      "cha": -2
-    },
     "skills": {
       "perception": 6,
       "stealth": 5
@@ -25145,14 +23574,6 @@
       }
     ],
     "cr": "0.5",
-    "saves": {
-      "str": 1,
-      "dex": 1,
-      "con": 1,
-      "int": -4,
-      "wis": 1,
-      "cha": -2
-    },
     "alignment": "unaligned",
     "passive_perception": 11
   },
@@ -25239,11 +23660,7 @@
     "cr": "2",
     "saves": {
       "str": 6,
-      "dex": 5,
-      "con": 2,
-      "int": -4,
-      "wis": 1,
-      "cha": -1
+      "dex": 5
     },
     "skills": {
       "perception": 5,
@@ -25351,14 +23768,6 @@
       }
     ],
     "cr": "0.5",
-    "saves": {
-      "str": 1,
-      "dex": 0,
-      "con": 1,
-      "int": 1,
-      "wis": 1,
-      "cha": -1
-    },
     "skills": {
       "perception": 5
     },
@@ -25453,14 +23862,6 @@
       }
     ],
     "cr": "5",
-    "saves": {
-      "str": 4,
-      "dex": 2,
-      "con": 2,
-      "int": 0,
-      "wis": 0,
-      "cha": 1
-    },
     "alignment": "neutral evil",
     "passive_perception": 10
   },
@@ -25541,14 +23942,6 @@
       }
     ],
     "cr": "0.5",
-    "saves": {
-      "str": 1,
-      "dex": 3,
-      "con": 0,
-      "int": 1,
-      "wis": 0,
-      "cha": 2
-    },
     "skills": {
       "perception": 2,
       "performance": 6,
@@ -25607,14 +24000,6 @@
     "legendary_actions": [],
     "traits": [],
     "cr": "0",
-    "saves": {
-      "str": -4,
-      "dex": 0,
-      "con": -1,
-      "int": -5,
-      "wis": -1,
-      "cha": -4
-    },
     "alignment": "unaligned",
     "passive_perception": 9
   },
@@ -25705,14 +24090,6 @@
     "legendary_actions": [],
     "traits": [],
     "cr": "0.5",
-    "saves": {
-      "str": 0,
-      "dex": 2,
-      "con": 1,
-      "int": 0,
-      "wis": 1,
-      "cha": 0
-    },
     "skills": {
       "nature": 4,
       "perception": 5,
@@ -25818,14 +24195,6 @@
       }
     ],
     "cr": "2",
-    "saves": {
-      "str": 3,
-      "dex": 1,
-      "con": 3,
-      "int": 1,
-      "wis": 1,
-      "cha": 1
-    },
     "alignment": "chaotic evil",
     "passive_perception": 11
   },
@@ -25885,14 +24254,6 @@
       }
     ],
     "cr": "0",
-    "saves": {
-      "str": -5,
-      "dex": 1,
-      "con": -1,
-      "int": -5,
-      "wis": 0,
-      "cha": -4
-    },
     "skills": {
       "perception": 2,
       "stealth": 5
@@ -26000,14 +24361,6 @@
       }
     ],
     "cr": "0.5",
-    "saves": {
-      "str": -2,
-      "dex": 2,
-      "con": 1,
-      "int": -2,
-      "wis": 0,
-      "cha": -1
-    },
     "skills": {
       "stealth": 6
     },
@@ -26104,14 +24457,6 @@
       }
     ],
     "cr": "5",
-    "saves": {
-      "str": 4,
-      "dex": -1,
-      "con": 3,
-      "int": -3,
-      "wis": 0,
-      "cha": -3
-    },
     "skills": {
       "stealth": 3
     },
@@ -26224,14 +24569,6 @@
       }
     ],
     "cr": "7",
-    "saves": {
-      "str": 4,
-      "dex": -1,
-      "con": 4,
-      "int": -2,
-      "wis": 0,
-      "cha": -4
-    },
     "alignment": "unaligned",
     "passive_perception": 10
   },
@@ -26285,14 +24622,6 @@
     "legendary_actions": [],
     "traits": [],
     "cr": "0",
-    "saves": {
-      "str": -5,
-      "dex": -5,
-      "con": 0,
-      "int": -5,
-      "wis": -4,
-      "cha": -5
-    },
     "alignment": "unaligned",
     "passive_perception": 6
   },
@@ -26387,12 +24716,8 @@
     "traits": [],
     "cr": "2",
     "saves": {
-      "str": 4,
       "dex": 2,
-      "con": 3,
-      "int": 1,
-      "wis": 2,
-      "cha": 2
+      "wis": 2
     },
     "skills": {
       "perception": 4,
@@ -26489,14 +24814,6 @@
     "legendary_actions": [],
     "traits": [],
     "cr": "0.25",
-    "saves": {
-      "str": 0,
-      "dex": 3,
-      "con": 2,
-      "int": -2,
-      "wis": -1,
-      "cha": -3
-    },
     "alignment": "lawful evil",
     "passive_perception": 9
   },
@@ -26640,14 +24957,6 @@
       }
     ],
     "cr": "21",
-    "saves": {
-      "str": 8,
-      "dex": 6,
-      "con": 8,
-      "int": 7,
-      "wis": 7,
-      "cha": 10
-    },
     "skills": {
       "perception": 14
     },
@@ -26752,14 +25061,6 @@
       }
     ],
     "cr": "1",
-    "saves": {
-      "str": -5,
-      "dex": 2,
-      "con": 0,
-      "int": 0,
-      "wis": 0,
-      "cha": 0
-    },
     "alignment": "chaotic evil",
     "passive_perception": 10
   },
@@ -26885,14 +25186,6 @@
       }
     ],
     "cr": "11",
-    "saves": {
-      "str": 4,
-      "dex": 2,
-      "con": 3,
-      "int": 4,
-      "wis": 4,
-      "cha": 4
-    },
     "skills": {
       "arcana": 12,
       "history": 12,
@@ -27026,12 +25319,10 @@
     ],
     "cr": "17",
     "saves": {
-      "str": 6,
       "dex": 6,
       "con": 11,
       "int": 9,
-      "wis": 12,
-      "cha": 4
+      "wis": 12
     },
     "skills": {
       "arcana": 9,
@@ -27130,14 +25421,6 @@
       }
     ],
     "cr": "1",
-    "saves": {
-      "str": -2,
-      "dex": 3,
-      "con": 1,
-      "int": 2,
-      "wis": 1,
-      "cha": 0
-    },
     "skills": {
       "arcana": 4,
       "religion": 4,
@@ -27210,14 +25493,6 @@
       }
     ],
     "cr": "0",
-    "saves": {
-      "str": -4,
-      "dex": 2,
-      "con": -1,
-      "int": -5,
-      "wis": 0,
-      "cha": -4
-    },
     "skills": {
       "stealth": 4
     },
@@ -27332,10 +25607,8 @@
     ],
     "cr": "8",
     "saves": {
-      "str": 4,
       "dex": 6,
       "con": 5,
-      "int": 3,
       "wis": 5,
       "cha": 6
     },
@@ -27425,14 +25698,6 @@
     "legendary_actions": [],
     "traits": [],
     "cr": "0.25",
-    "saves": {
-      "str": -4,
-      "dex": 4,
-      "con": 0,
-      "int": 2,
-      "wis": 1,
-      "cha": 0
-    },
     "skills": {
       "perception": 3,
       "stealth": 8
@@ -27528,14 +25793,6 @@
     "legendary_actions": [],
     "traits": [],
     "cr": "1",
-    "saves": {
-      "str": 0,
-      "dex": 2,
-      "con": 0,
-      "int": 1,
-      "wis": 2,
-      "cha": 3
-    },
     "skills": {
       "deception": 5,
       "insight": 4,
@@ -27642,14 +25899,6 @@
       }
     ],
     "cr": "0.25",
-    "saves": {
-      "str": -3,
-      "dex": 0,
-      "con": 0,
-      "int": 0,
-      "wis": 0,
-      "cha": 1
-    },
     "skills": {
       "stealth": 2
     },
@@ -27719,14 +25968,6 @@
     "legendary_actions": [],
     "traits": [],
     "cr": "0.125",
-    "saves": {
-      "str": -3,
-      "dex": 3,
-      "con": 0,
-      "int": -4,
-      "wis": -1,
-      "cha": -2
-    },
     "alignment": "unaligned",
     "passive_perception": 9
   },
@@ -27831,12 +26072,9 @@
     "traits": [],
     "cr": "7",
     "saves": {
-      "str": 6,
       "dex": 5,
       "con": 8,
-      "int": 0,
-      "wis": 4,
-      "cha": -1
+      "wis": 4
     },
     "skills": {
       "athletics": 12,
@@ -27967,14 +26205,6 @@
       }
     ],
     "cr": "10",
-    "saves": {
-      "str": 6,
-      "dex": -1,
-      "con": 5,
-      "int": -4,
-      "wis": 0,
-      "cha": -5
-    },
     "alignment": "unaligned",
     "passive_perception": 10
   },
@@ -28100,9 +26330,7 @@
     "cr": "13",
     "saves": {
       "str": 14,
-      "dex": 2,
       "con": 10,
-      "int": 3,
       "wis": 10,
       "cha": 9
     },
@@ -28218,14 +26446,6 @@
       }
     ],
     "cr": "4",
-    "saves": {
-      "str": -1,
-      "dex": 3,
-      "con": 1,
-      "int": 2,
-      "wis": 1,
-      "cha": 5
-    },
     "skills": {
       "deception": 9,
       "insight": 5,
@@ -28306,14 +26526,6 @@
       }
     ],
     "cr": "0.25",
-    "saves": {
-      "str": -3,
-      "dex": 2,
-      "con": 0,
-      "int": -4,
-      "wis": 1,
-      "cha": -3
-    },
     "alignment": "unaligned",
     "passive_perception": 11
   },
@@ -28404,14 +26616,6 @@
       }
     ],
     "cr": "3",
-    "saves": {
-      "str": 2,
-      "dex": 2,
-      "con": 0,
-      "int": -3,
-      "wis": 0,
-      "cha": -3
-    },
     "alignment": "neutral evil",
     "passive_perception": 10
   },
@@ -28491,14 +26695,6 @@
       }
     ],
     "cr": "0.5",
-    "saves": {
-      "str": -4,
-      "dex": 1,
-      "con": 2,
-      "int": -5,
-      "wis": -2,
-      "cha": -5
-    },
     "alignment": "unaligned",
     "passive_perception": 8
   },
@@ -28566,14 +26762,6 @@
       }
     ],
     "cr": "1",
-    "saves": {
-      "str": 1,
-      "dex": 3,
-      "con": -1,
-      "int": -5,
-      "wis": -2,
-      "cha": -4
-    },
     "alignment": "unaligned",
     "passive_perception": 8
   },
@@ -28647,14 +26835,6 @@
       }
     ],
     "cr": "0.25",
-    "saves": {
-      "str": -1,
-      "dex": 0,
-      "con": -1,
-      "int": -4,
-      "wis": 0,
-      "cha": -4
-    },
     "alignment": "unaligned",
     "passive_perception": 10
   },
@@ -28736,14 +26916,6 @@
       }
     ],
     "cr": "0.25",
-    "saves": {
-      "str": -2,
-      "dex": 2,
-      "con": 1,
-      "int": -3,
-      "wis": 1,
-      "cha": -2
-    },
     "skills": {
       "perception": 5
     },
@@ -28820,14 +26992,6 @@
       }
     ],
     "cr": "2",
-    "saves": {
-      "str": -1,
-      "dex": 4,
-      "con": 0,
-      "int": -5,
-      "wis": 0,
-      "cha": -4
-    },
     "alignment": "unaligned",
     "passive_perception": 10
   },
@@ -29001,9 +27165,7 @@
     ],
     "cr": "30",
     "saves": {
-      "str": 10,
       "dex": 9,
-      "con": 10,
       "int": 5,
       "wis": 9,
       "cha": 9
@@ -29083,14 +27245,6 @@
     "legendary_actions": [],
     "traits": [],
     "cr": "1",
-    "saves": {
-      "str": 3,
-      "dex": 3,
-      "con": 2,
-      "int": -4,
-      "wis": 1,
-      "cha": -1
-    },
     "skills": {
       "perception": 3,
       "stealth": 7
@@ -29186,14 +27340,6 @@
       }
     ],
     "cr": "0.5",
-    "saves": {
-      "str": 2,
-      "dex": 1,
-      "con": 2,
-      "int": 0,
-      "wis": 0,
-      "cha": 0
-    },
     "alignment": "neutral",
     "passive_perception": 10
   },
@@ -29293,10 +27439,7 @@
     "cr": "4",
     "saves": {
       "str": 5,
-      "dex": 2,
       "con": 5,
-      "int": 0,
-      "wis": 0,
       "cha": 2
     },
     "alignment": "neutral",
@@ -29408,14 +27551,6 @@
       }
     ],
     "cr": "9",
-    "saves": {
-      "str": 6,
-      "dex": -1,
-      "con": 5,
-      "int": 1,
-      "wis": 3,
-      "cha": 1
-    },
     "alignment": "chaotic good",
     "passive_perception": 13
   },
@@ -29485,14 +27620,6 @@
     "legendary_actions": [],
     "traits": [],
     "cr": "5",
-    "saves": {
-      "str": 6,
-      "dex": -1,
-      "con": 3,
-      "int": -4,
-      "wis": 0,
-      "cha": -3
-    },
     "alignment": "unaligned",
     "passive_perception": 10
   },
@@ -29585,14 +27712,6 @@
       }
     ],
     "cr": "5",
-    "saves": {
-      "str": 4,
-      "dex": 1,
-      "con": 5,
-      "int": -2,
-      "wis": -1,
-      "cha": -2
-    },
     "skills": {
       "perception": 5
     },
@@ -29674,14 +27793,6 @@
       }
     ],
     "cr": "0.5",
-    "saves": {
-      "str": 4,
-      "dex": 1,
-      "con": 0,
-      "int": -5,
-      "wis": -1,
-      "cha": -5
-    },
     "alignment": "chaotic evil",
     "passive_perception": 9
   },
@@ -29771,11 +27882,7 @@
     "cr": "8",
     "saves": {
       "str": 10,
-      "dex": 0,
-      "con": 4,
-      "int": -4,
-      "wis": 4,
-      "cha": -1
+      "wis": 4
     },
     "skills": {
       "perception": 4
@@ -29921,14 +28028,6 @@
       }
     ],
     "cr": "5",
-    "saves": {
-      "str": 4,
-      "dex": 2,
-      "con": 2,
-      "int": 0,
-      "wis": 3,
-      "cha": 3
-    },
     "alignment": "lawful good",
     "passive_perception": 13,
     "legendary_resistance": 3
@@ -30067,10 +28166,8 @@
     ],
     "cr": "13",
     "saves": {
-      "str": 4,
       "dex": 9,
       "con": 9,
-      "int": 3,
       "wis": 7,
       "cha": 9
     },
@@ -30171,12 +28268,8 @@
     ],
     "cr": "3",
     "saves": {
-      "str": 3,
       "dex": 5,
-      "con": 2,
-      "int": 0,
-      "wis": 2,
-      "cha": 2
+      "wis": 2
     },
     "skills": {
       "perception": 4,
@@ -30284,12 +28377,8 @@
     ],
     "cr": "5",
     "saves": {
-      "str": 3,
       "dex": 6,
-      "con": 3,
-      "int": 0,
-      "wis": 3,
-      "cha": 1
+      "wis": 3
     },
     "skills": {
       "perception": 3,
@@ -30361,14 +28450,6 @@
     "legendary_actions": [],
     "traits": [],
     "cr": "0.125",
-    "saves": {
-      "str": -4,
-      "dex": 2,
-      "con": 0,
-      "int": -5,
-      "wis": 0,
-      "cha": -4
-    },
     "alignment": "unaligned",
     "passive_perception": 10
   },
@@ -30440,14 +28521,6 @@
     "legendary_actions": [],
     "traits": [],
     "cr": "0.25",
-    "saves": {
-      "str": -4,
-      "dex": -5,
-      "con": 0,
-      "int": -5,
-      "wis": -4,
-      "cha": -5
-    },
     "alignment": "unaligned",
     "passive_perception": 6
   },
@@ -30564,10 +28637,7 @@
     ],
     "cr": "6",
     "saves": {
-      "str": 3,
       "dex": 5,
-      "con": 4,
-      "int": -1,
       "wis": 4,
       "cha": 2
     },
@@ -30642,14 +28712,6 @@
       }
     ],
     "cr": "0",
-    "saves": {
-      "str": -2,
-      "dex": 0,
-      "con": 1,
-      "int": -4,
-      "wis": 1,
-      "cha": -3
-    },
     "skills": {
       "perception": 3
     },
@@ -30717,12 +28779,7 @@
     "traits": [],
     "cr": "0.5",
     "saves": {
-      "str": 4,
-      "dex": 1,
-      "con": 1,
-      "int": -4,
-      "wis": 3,
-      "cha": -2
+      "wis": 3
     },
     "alignment": "unaligned",
     "passive_perception": 11
@@ -30794,14 +28851,6 @@
     "legendary_actions": [],
     "traits": [],
     "cr": "0.5",
-    "saves": {
-      "str": 4,
-      "dex": 1,
-      "con": 2,
-      "int": -4,
-      "wis": -1,
-      "cha": -3
-    },
     "alignment": "lawful evil",
     "passive_perception": 9
   },
@@ -30876,14 +28925,6 @@
       }
     ],
     "cr": "0.125",
-    "saves": {
-      "str": 1,
-      "dex": 0,
-      "con": 0,
-      "int": -1,
-      "wis": 0,
-      "cha": -1
-    },
     "alignment": "neutral",
     "passive_perception": 10
   },
@@ -30981,14 +29022,6 @@
     "legendary_actions": [],
     "traits": [],
     "cr": "3",
-    "saves": {
-      "str": 3,
-      "dex": 1,
-      "con": 2,
-      "int": 0,
-      "wis": 0,
-      "cha": 0
-    },
     "skills": {
       "athletics": 5,
       "perception": 2
@@ -31104,14 +29137,6 @@
       }
     ],
     "cr": "5",
-    "saves": {
-      "str": 4,
-      "dex": 2,
-      "con": 4,
-      "int": -3,
-      "wis": 0,
-      "cha": -1
-    },
     "alignment": "neutral",
     "passive_perception": 10
   },
@@ -31166,14 +29191,6 @@
     "legendary_actions": [],
     "traits": [],
     "cr": "0",
-    "saves": {
-      "str": -4,
-      "dex": 3,
-      "con": -1,
-      "int": -4,
-      "wis": 1,
-      "cha": -4
-    },
     "skills": {
       "acrobatics": 5,
       "perception": 3,
@@ -31297,14 +29314,6 @@
     "legendary_actions": [],
     "traits": [],
     "cr": "5",
-    "saves": {
-      "str": 4,
-      "dex": 0,
-      "con": 3,
-      "int": 0,
-      "wis": 1,
-      "cha": 1
-    },
     "skills": {
       "perception": 7
     },
@@ -31423,14 +29432,6 @@
     "legendary_actions": [],
     "traits": [],
     "cr": "4",
-    "saves": {
-      "str": 3,
-      "dex": 0,
-      "con": 2,
-      "int": 0,
-      "wis": 0,
-      "cha": -1
-    },
     "skills": {
       "perception": 2
     },
@@ -31551,14 +29552,6 @@
     "legendary_actions": [],
     "traits": [],
     "cr": "2",
-    "saves": {
-      "str": 0,
-      "dex": 3,
-      "con": 1,
-      "int": 0,
-      "wis": 0,
-      "cha": -1
-    },
     "skills": {
       "perception": 4,
       "stealth": 5
@@ -31685,14 +29678,6 @@
     "legendary_actions": [],
     "traits": [],
     "cr": "4",
-    "saves": {
-      "str": 3,
-      "dex": 2,
-      "con": 3,
-      "int": 0,
-      "wis": 1,
-      "cha": 0
-    },
     "skills": {
       "perception": 5,
       "stealth": 4
@@ -31820,14 +29805,6 @@
       }
     ],
     "cr": "3",
-    "saves": {
-      "str": 3,
-      "dex": 2,
-      "con": 2,
-      "int": 0,
-      "wis": 0,
-      "cha": 0
-    },
     "skills": {
       "perception": 4,
       "stealth": 4
@@ -31933,12 +29910,8 @@
     ],
     "cr": "2",
     "saves": {
-      "str": 2,
       "dex": 2,
-      "con": 2,
-      "int": -3,
-      "wis": 2,
-      "cha": 0
+      "wis": 2
     },
     "skills": {
       "perception": 4,
@@ -32056,14 +30029,6 @@
       }
     ],
     "cr": "3",
-    "saves": {
-      "str": 2,
-      "dex": 2,
-      "con": 3,
-      "int": 0,
-      "wis": 1,
-      "cha": 2
-    },
     "skills": {
       "perception": 3,
       "stealth": 4
@@ -32184,14 +30149,6 @@
       }
     ],
     "cr": "2",
-    "saves": {
-      "str": -5,
-      "dex": 9,
-      "con": 0,
-      "int": 1,
-      "wis": 2,
-      "cha": 0
-    },
     "alignment": "chaotic evil",
     "passive_perception": 12
   },
@@ -32277,14 +30234,6 @@
       }
     ],
     "cr": "3",
-    "saves": {
-      "str": 4,
-      "dex": 1,
-      "con": 2,
-      "int": -2,
-      "wis": 1,
-      "cha": -1
-    },
     "skills": {
       "perception": 5,
       "stealth": 5
@@ -32361,14 +30310,6 @@
       }
     ],
     "cr": "0.25",
-    "saves": {
-      "str": 2,
-      "dex": 2,
-      "con": 1,
-      "int": -4,
-      "wis": 1,
-      "cha": -2
-    },
     "skills": {
       "perception": 5,
       "stealth": 4
@@ -32441,14 +30382,6 @@
     "legendary_actions": [],
     "traits": [],
     "cr": "0.5",
-    "saves": {
-      "str": 3,
-      "dex": 1,
-      "con": 1,
-      "int": -2,
-      "wis": 0,
-      "cha": -1
-    },
     "skills": {
       "perception": 4
     },
@@ -32556,14 +30489,6 @@
       }
     ],
     "cr": "5",
-    "saves": {
-      "str": -2,
-      "dex": 3,
-      "con": 3,
-      "int": 1,
-      "wis": 2,
-      "cha": 2
-    },
     "alignment": "neutral evil",
     "passive_perception": 12
   },
@@ -32654,14 +30579,6 @@
     "legendary_actions": [],
     "traits": [],
     "cr": "6",
-    "saves": {
-      "str": 4,
-      "dex": 0,
-      "con": 3,
-      "int": -3,
-      "wis": 1,
-      "cha": -2
-    },
     "skills": {
       "perception": 4
     },
@@ -32783,14 +30700,6 @@
       }
     ],
     "cr": "5",
-    "saves": {
-      "str": 3,
-      "dex": 0,
-      "con": 6,
-      "int": 0,
-      "wis": 0,
-      "cha": 0
-    },
     "skills": {
       "perception": 6,
       "stealth": 6
@@ -32896,12 +30805,8 @@
     ],
     "cr": "7",
     "saves": {
-      "str": 4,
       "dex": 5,
-      "con": 3,
-      "int": 1,
-      "wis": 3,
-      "cha": 2
+      "wis": 3
     },
     "skills": {
       "perception": 6,
@@ -33001,12 +30906,8 @@
     "traits": [],
     "cr": "9",
     "saves": {
-      "str": 5,
       "dex": 4,
-      "con": 4,
-      "int": 2,
-      "wis": 5,
-      "cha": 3
+      "wis": 5
     },
     "skills": {
       "perception": 9,
@@ -33108,12 +31009,8 @@
     "traits": [],
     "cr": "6",
     "saves": {
-      "str": 4,
       "dex": 3,
-      "con": 3,
-      "int": 1,
-      "wis": 3,
-      "cha": 2
+      "wis": 3
     },
     "skills": {
       "perception": 6,
@@ -33223,12 +31120,8 @@
     ],
     "cr": "8",
     "saves": {
-      "str": 5,
       "dex": 3,
-      "con": 4,
-      "int": 2,
-      "wis": 4,
-      "cha": 3
+      "wis": 4
     },
     "skills": {
       "insight": 4,
@@ -33331,12 +31224,8 @@
     "traits": [],
     "cr": "7",
     "saves": {
-      "str": 4,
       "dex": 4,
-      "con": 3,
-      "int": 3,
-      "wis": 4,
-      "cha": 2
+      "wis": 4
     },
     "skills": {
       "deception": 5,
@@ -33446,12 +31335,8 @@
     ],
     "cr": "10",
     "saves": {
-      "str": 6,
       "dex": 6,
-      "con": 5,
-      "int": 3,
-      "wis": 5,
-      "cha": 5
+      "wis": 5
     },
     "skills": {
       "insight": 5,
@@ -33562,12 +31447,8 @@
     ],
     "cr": "8",
     "saves": {
-      "str": 4,
       "dex": 4,
-      "con": 3,
-      "int": 3,
-      "wis": 4,
-      "cha": 2
+      "wis": 4
     },
     "skills": {
       "deception": 5,
@@ -33668,12 +31549,8 @@
     "traits": [],
     "cr": "10",
     "saves": {
-      "str": 6,
       "dex": 4,
-      "con": 5,
-      "int": 2,
-      "wis": 4,
-      "cha": 4
+      "wis": 4
     },
     "skills": {
       "perception": 8,
@@ -33774,12 +31651,8 @@
     "traits": [],
     "cr": "9",
     "saves": {
-      "str": 6,
       "dex": 4,
-      "con": 5,
-      "int": 2,
-      "wis": 4,
-      "cha": 4
+      "wis": 4
     },
     "skills": {
       "history": 6,
@@ -33888,12 +31761,8 @@
     ],
     "cr": "6",
     "saves": {
-      "str": 4,
       "dex": 3,
-      "con": 4,
-      "int": -2,
-      "wis": 3,
-      "cha": 1
+      "wis": 3
     },
     "skills": {
       "perception": 6,
@@ -33979,12 +31848,7 @@
     ],
     "cr": "0.25",
     "saves": {
-      "str": 1,
-      "dex": -2,
-      "con": 3,
-      "int": -4,
-      "wis": 0,
-      "cha": -3
+      "wis": 0
     },
     "alignment": "neutral evil",
     "passive_perception": 8

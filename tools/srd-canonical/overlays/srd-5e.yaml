@@ -500,6 +500,123 @@ class_features:
   path-of-the-berserker:intimidating-presence:
     noChoices: true # in-play target pick, not a build decision
 
+  # ===================================================================
+  # R4-G7 T5 (spec §8.1 item 2) · the typed mechanics the SRD prose states and
+  # the upstream source cannot express. Until this phase the whole bundle carried
+  # ZERO `kind: extra-attack`, ZERO `kind: unarmed-strike`, ZERO `kind: speed-bonus`
+  # and ZERO `kind: unarmored-ac` (MEASURED at 0.3.3), so every one of these
+  # mechanics reached the sheet only through a renderer fallback or not at all.
+  #
+  # Keys are CLASS-SCOPED on purpose. `lookupFeatureOverlay` tries
+  # `<owner>:<feature-slug>` first and a BARE `<feature-slug>` second, and the bare
+  # form lands on every class AND every subclass whose feature slugifies to it ·
+  # `extra-attack` and `unarmored-defense` are each carried by more than one class.
+  #
+  # `count` is the number of EXTRA attacks, never the total: the engine renders
+  # `1 + count`, so `count: 1` IS RAW's "attack twice" at level 5.
+  # ===================================================================
+
+  # --- Monk ---
+  # The Martial Arts die is the class table's own column, read at the character's
+  # level; authoring a literal here would freeze it at one tier.
+  monk:martial-arts:
+    effects:
+      - kind: unarmed-strike
+        dice: { column: "Martial Arts" }
+        abilities: [dex]
+  monk:unarmored-defense:
+    effects:
+      - kind: unarmored-ac
+        abilities: [dex, wis]
+  # ONE effect carries the WHOLE progression: the overlay map has no level
+  # component, so `bucketFeaturesByLevel` emits this same record into every level
+  # the feature is gained at. `mode: walk` is required by the schema and is the
+  # only mode that reaches DerivedStats.speed; no `set`, so it is ADDITIVE.
+  # Table: +10 at 2, +15 at 6, +20 at 10, +25 at 14, +30 at 18 (MEASURED).
+  monk:unarmored-movement:
+    effects:
+      - kind: speed-bonus
+        mode: walk
+        value: 10
+        scales_at: [{ level: 6, value: 15 }, { level: 10, value: 20 }, { level: 14, value: 25 }, { level: 18, value: 30 }]
+  # The Ki Points column runs 2..20 and equals the monk level, and the `ki` feature
+  # authored NO resources at all, so the class table promised a pool the sheet
+  # could not draw (R4-G7 T1 harvest section 5). The 2024 twin already authors this.
+  monk:ki:
+    resources:
+      - id: "monk:ki-points"
+        name: Ki Points
+        max_formula: "class_level"
+        reset: short-rest
+
+  # --- Barbarian ---
+  barbarian:unarmored-defense:
+    effects:
+      - kind: unarmored-ac
+        abilities: [dex, con]
+        allow_shield: true
+  barbarian:fast-movement:
+    effects:
+      - kind: speed-bonus
+        mode: walk
+        value: 10
+
+  # --- Sorcerer ---
+  # The Sorcery Points column runs 2..20 and equals the sorcerer level; the same
+  # defect as the Monk's Ki above, and the same fix the 2024 Sorcerer already has.
+  sorcerer:font-of-magic:
+    resources:
+      - id: "sorcerer:sorcery-points"
+        name: Sorcery Points
+        max_formula: "class_level"
+        reset: long-rest
+
+  # --- Extra Attack, one key per class document ---
+  # The Fighter's is ONE upstream feature gained at 5, 11 and 20, so its whole
+  # progression lives inside the effect and the non-stacking Math.max fold yields
+  # x2 / x3 / x4 attacks at those levels.
+  fighter:extra-attack:
+    effects:
+      - kind: extra-attack
+        count: 1
+        scales_at: [{ level: 11, count: 2 }, { level: 20, count: 3 }]
+  barbarian:extra-attack:
+    effects:
+      - kind: extra-attack
+        count: 1
+  monk:extra-attack:
+    effects:
+      - kind: extra-attack
+        count: 1
+  paladin:extra-attack:
+    effects:
+      - kind: extra-attack
+        count: 1
+  ranger:extra-attack:
+    effects:
+      - kind: extra-attack
+        count: 1
+
+  # ===================================================================
+  # R4-G7 T5 (spec §8.1 item 4b) · what the Open5e cache cannot supply for four
+  # SRD 5.1 creatures: an empty `speed` on all four and a null `hit_dice` on the
+  # first three. Authored from the SRD 5.1 stat blocks, never hand-edited into
+  # the generated data. The Shrieker's 0 ft. is RAW: it is a fungus.
+  # ===================================================================
+
+creatures:
+  donkey:
+    speed: { walk: 40 }
+    hp: { formula: "2d8+2" }        # SRD 5.1 Donkey: HP 11 (2d8 + 2), Speed 40 ft.
+  elf-drow:
+    speed: { walk: 30 }
+    hp: { formula: "3d8" }          # SRD 5.1 Drow: HP 13 (3d8), Speed 30 ft.
+  gnome-deep-svirfneblin:
+    speed: { walk: 20 }
+    hp: { formula: "3d6+6" }        # SRD 5.1 Deep Gnome: HP 16 (3d6 + 6), Speed 20 ft.
+  shrieker:
+    speed: { walk: 0 }              # SRD 5.1 Shrieker: Speed 0 ft.
+
 race_traits:
   # Dragonborn -- 2014 breath weapon: 1 use, regain on a short or long rest.
   breath-weapon:

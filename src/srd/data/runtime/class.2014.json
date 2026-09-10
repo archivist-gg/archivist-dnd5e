@@ -337,7 +337,17 @@
         {
           "id": "unarmored-defense",
           "name": "Unarmored Defense",
-          "description": "While you are not wearing any armor, your Armor Class equals 10 + your Dexterity modifier + your Constitution modifier. You can use a shield and still gain this benefit."
+          "description": "While you are not wearing any armor, your Armor Class equals 10 + your Dexterity modifier + your Constitution modifier. You can use a shield and still gain this benefit.",
+          "effects": [
+            {
+              "kind": "unarmored-ac",
+              "abilities": [
+                "dex",
+                "con"
+              ],
+              "allow_shield": true
+            }
+          ]
         }
       ],
       "2": [
@@ -389,12 +399,25 @@
         {
           "id": "extra-attack",
           "name": "Extra Attack",
-          "description": "Beginning at 5th level, you can attack twice, instead of once, whenever you take the Attack action on your turn."
+          "description": "Beginning at 5th level, you can attack twice, instead of once, whenever you take the Attack action on your turn.",
+          "effects": [
+            {
+              "kind": "extra-attack",
+              "count": 1
+            }
+          ]
         },
         {
           "id": "fast-movement",
           "name": "Fast Movement",
-          "description": "Starting at 5th level, your speed increases by 10 feet while you aren’t wearing heavy armor."
+          "description": "Starting at 5th level, your speed increases by 10 feet while you aren’t wearing heavy armor.",
+          "effects": [
+            {
+              "kind": "speed-bonus",
+              "mode": "walk",
+              "value": 10
+            }
+          ]
         }
       ],
       "7": [
@@ -2822,7 +2845,23 @@
         {
           "id": "extra-attack",
           "name": "Extra Attack",
-          "description": "Beginning at 5th level, you can attack twice, instead of once, whenever you take the Attack action on your turn.\r\n\r\nThe number of attacks increases to three when you reach 11th level in this class and to four when you reach 20th level in this class."
+          "description": "Beginning at 5th level, you can attack twice, instead of once, whenever you take the Attack action on your turn.\r\n\r\nThe number of attacks increases to three when you reach 11th level in this class and to four when you reach 20th level in this class.",
+          "effects": [
+            {
+              "kind": "extra-attack",
+              "count": 1,
+              "scales_at": [
+                {
+                  "level": 11,
+                  "count": 2
+                },
+                {
+                  "level": 20,
+                  "count": 3
+                }
+              ]
+            }
+          ]
         }
       ],
       "6": [
@@ -2866,7 +2905,23 @@
         {
           "id": "extra-attack",
           "name": "Extra Attack",
-          "description": "Beginning at 5th level, you can attack twice, instead of once, whenever you take the Attack action on your turn.\r\n\r\nThe number of attacks increases to three when you reach 11th level in this class and to four when you reach 20th level in this class."
+          "description": "Beginning at 5th level, you can attack twice, instead of once, whenever you take the Attack action on your turn.\r\n\r\nThe number of attacks increases to three when you reach 11th level in this class and to four when you reach 20th level in this class.",
+          "effects": [
+            {
+              "kind": "extra-attack",
+              "count": 1,
+              "scales_at": [
+                {
+                  "level": 11,
+                  "count": 2
+                },
+                {
+                  "level": 20,
+                  "count": 3
+                }
+              ]
+            }
+          ]
         }
       ],
       "12": [
@@ -2967,7 +3022,23 @@
         {
           "id": "extra-attack",
           "name": "Extra Attack",
-          "description": "Beginning at 5th level, you can attack twice, instead of once, whenever you take the Attack action on your turn.\r\n\r\nThe number of attacks increases to three when you reach 11th level in this class and to four when you reach 20th level in this class."
+          "description": "Beginning at 5th level, you can attack twice, instead of once, whenever you take the Attack action on your turn.\r\n\r\nThe number of attacks increases to three when you reach 11th level in this class and to four when you reach 20th level in this class.",
+          "effects": [
+            {
+              "kind": "extra-attack",
+              "count": 1,
+              "scales_at": [
+                {
+                  "level": 11,
+                  "count": 2
+                },
+                {
+                  "level": 20,
+                  "count": 3
+                }
+              ]
+            }
+          ]
         }
       ]
     },
@@ -3290,24 +3361,77 @@
         {
           "id": "martial-arts",
           "name": "Martial Arts",
-          "description": "At 1st level, your practice of martial arts gives you mastery of combat styles that use unarmed strikes and monk weapons, which are shortswords and any simple melee weapons that don't have the two- handed or heavy property.\r\n\r\nYou gain the following benefits while you are unarmed or wielding only monk weapons and you aren't wearing armor or wielding a shield:\r\n\r\n* You can use Dexterity instead of Strength for the attack and damage rolls of your unarmed strikes and monk weapons.\r\n* You can roll a d4 in place of the normal damage of your unarmed strike or monk weapon. This die changes as you gain monk levels, as shown in the Martial Arts column of the Monk table.\r\n* When you use the Attack action with an unarmed strike or a monk weapon on your turn, you can make one unarmed strike as a bonus action. For example, if you take the Attack action and attack with a quarterstaff, you can also make an unarmed strike as a bonus action, assuming you haven't already taken a bonus action this turn. \r\n\r\nCertain monasteries use specialized forms of the monk weapons. For example, you might use a club that is two lengths of wood connected by a short chain (called a nunchaku) or a sickle with a shorter, straighter blade (called a kama). Whatever name you use for a monk weapon, you can use the game statistics provided for the weapon."
+          "description": "At 1st level, your practice of martial arts gives you mastery of combat styles that use unarmed strikes and monk weapons, which are shortswords and any simple melee weapons that don't have the two- handed or heavy property.\r\n\r\nYou gain the following benefits while you are unarmed or wielding only monk weapons and you aren't wearing armor or wielding a shield:\r\n\r\n* You can use Dexterity instead of Strength for the attack and damage rolls of your unarmed strikes and monk weapons.\r\n* You can roll a d4 in place of the normal damage of your unarmed strike or monk weapon. This die changes as you gain monk levels, as shown in the Martial Arts column of the Monk table.\r\n* When you use the Attack action with an unarmed strike or a monk weapon on your turn, you can make one unarmed strike as a bonus action. For example, if you take the Attack action and attack with a quarterstaff, you can also make an unarmed strike as a bonus action, assuming you haven't already taken a bonus action this turn. \r\n\r\nCertain monasteries use specialized forms of the monk weapons. For example, you might use a club that is two lengths of wood connected by a short chain (called a nunchaku) or a sickle with a shorter, straighter blade (called a kama). Whatever name you use for a monk weapon, you can use the game statistics provided for the weapon.",
+          "effects": [
+            {
+              "kind": "unarmed-strike",
+              "dice": {
+                "column": "Martial Arts"
+              },
+              "abilities": [
+                "dex"
+              ]
+            }
+          ]
         },
         {
           "id": "unarmored-defense",
           "name": "Unarmored Defense",
-          "description": "Beginning at 1st level, while you are wearing no armor and not wielding a shield, your AC equals 10 + your Dexterity modifier + your Wisdom modifier."
+          "description": "Beginning at 1st level, while you are wearing no armor and not wielding a shield, your AC equals 10 + your Dexterity modifier + your Wisdom modifier.",
+          "effects": [
+            {
+              "kind": "unarmored-ac",
+              "abilities": [
+                "dex",
+                "wis"
+              ]
+            }
+          ]
         }
       ],
       "2": [
         {
           "id": "ki",
           "name": "Ki",
-          "description": "Starting at 2nd level, your training allows you to harness the mystic energy of ki. Your access to this energy is represented by a number of ki points. Your monk level determines the number of points you have, as shown in the Ki Points column of the Monk table.\r\n\r\nYou can spend these points to fuel various ki features. You start knowing three such features: Flurry of Blows, Patient Defense, and Step of the Wind. You learn more ki features as you gain levels in this class.\r\n\r\nWhen you spend a ki point, it is unavailable until you finish a short or long rest, at the end of which you draw all of your expended ki back into yourself. You must spend at least 30 minutes of the rest meditating to regain your ki points.\r\n\r\nSome of your ki features require your target to make a saving throw to resist the feature's effects. The saving throw DC is calculated as follows:\r\n\r\n*Ki save DC* = 8 + your proficiency bonus + your Wisdom modifier\r\n\r\n### Flurry of Blows\r\n\r\nImmediately after you take the Attack action on your turn, you can spend 1 ki point to make two unarmed strikes as a bonus action. \r\n\r\n### Patient Defense\r\n\r\nYou can spend 1 ki point to take the Dodge action as a bonus action on your turn.\r\n\r\n### Step of the Wind\r\n\r\nYou can spend 1 ki point to take the Disengage or Dash action as a bonus action on your turn, and your jump distance is doubled for the turn."
+          "description": "Starting at 2nd level, your training allows you to harness the mystic energy of ki. Your access to this energy is represented by a number of ki points. Your monk level determines the number of points you have, as shown in the Ki Points column of the Monk table.\r\n\r\nYou can spend these points to fuel various ki features. You start knowing three such features: Flurry of Blows, Patient Defense, and Step of the Wind. You learn more ki features as you gain levels in this class.\r\n\r\nWhen you spend a ki point, it is unavailable until you finish a short or long rest, at the end of which you draw all of your expended ki back into yourself. You must spend at least 30 minutes of the rest meditating to regain your ki points.\r\n\r\nSome of your ki features require your target to make a saving throw to resist the feature's effects. The saving throw DC is calculated as follows:\r\n\r\n*Ki save DC* = 8 + your proficiency bonus + your Wisdom modifier\r\n\r\n### Flurry of Blows\r\n\r\nImmediately after you take the Attack action on your turn, you can spend 1 ki point to make two unarmed strikes as a bonus action. \r\n\r\n### Patient Defense\r\n\r\nYou can spend 1 ki point to take the Dodge action as a bonus action on your turn.\r\n\r\n### Step of the Wind\r\n\r\nYou can spend 1 ki point to take the Disengage or Dash action as a bonus action on your turn, and your jump distance is doubled for the turn.",
+          "resources": [
+            {
+              "id": "monk:ki-points",
+              "name": "Ki Points",
+              "max_formula": "class_level",
+              "reset": "short-rest"
+            }
+          ]
         },
         {
           "id": "unarmored-movement",
           "name": "Unarmored Movement",
-          "description": "Starting at 2nd level, your speed increases by 10 feet while you are not wearing armor or wielding a shield. This bonus increases when you reach certain monk levels, as shown in the Monk table.\r\n\r\nAt 9th level, you gain the ability to move along vertical surfaces and across liquids on your turn without falling during the move."
+          "description": "Starting at 2nd level, your speed increases by 10 feet while you are not wearing armor or wielding a shield. This bonus increases when you reach certain monk levels, as shown in the Monk table.\r\n\r\nAt 9th level, you gain the ability to move along vertical surfaces and across liquids on your turn without falling during the move.",
+          "effects": [
+            {
+              "kind": "speed-bonus",
+              "mode": "walk",
+              "value": 10,
+              "scales_at": [
+                {
+                  "level": 6,
+                  "value": 15
+                },
+                {
+                  "level": 10,
+                  "value": 20
+                },
+                {
+                  "level": 14,
+                  "value": 25
+                },
+                {
+                  "level": 18,
+                  "value": 30
+                }
+              ]
+            }
+          ]
         }
       ],
       "3": [
@@ -3357,7 +3481,13 @@
         {
           "id": "extra-attack",
           "name": "Extra Attack",
-          "description": "Beginning at 5th level, you can attack twice, instead of once, whenever you take the Attack action on your turn."
+          "description": "Beginning at 5th level, you can attack twice, instead of once, whenever you take the Attack action on your turn.",
+          "effects": [
+            {
+              "kind": "extra-attack",
+              "count": 1
+            }
+          ]
         },
         {
           "id": "stunning-strike",
@@ -3958,7 +4088,13 @@
         {
           "id": "extra-attack",
           "name": "Extra Attack",
-          "description": "Beginning at 5th level, you can attack twice, instead of once, whenever you take the Attack action on your turn."
+          "description": "Beginning at 5th level, you can attack twice, instead of once, whenever you take the Attack action on your turn.",
+          "effects": [
+            {
+              "kind": "extra-attack",
+              "count": 1
+            }
+          ]
         }
       ],
       "6": [
@@ -4618,7 +4754,13 @@
         {
           "id": "extra-attack",
           "name": "Extra Attack",
-          "description": "Beginning at 5th level, you can attack twice, instead of once, whenever you take the Attack action on your turn."
+          "description": "Beginning at 5th level, you can attack twice, instead of once, whenever you take the Attack action on your turn.",
+          "effects": [
+            {
+              "kind": "extra-attack",
+              "count": 1
+            }
+          ]
         }
       ],
       "6": [
@@ -5928,7 +6070,15 @@
         {
           "id": "font-of-magic",
           "name": "Font of Magic",
-          "description": "At 2nd level, you tap into a deep wellspring of magic within yourself. This wellspring is represented by sorcery points, which allow you to create a variety of magical effects.\r\n\r\n### Sorcery Points\r\n\r\nYou have 2 sorcery points, and you gain more as you reach higher levels, as shown in the Sorcery Points column of the Sorcerer table. You can never have more sorcery points than shown on the table for your level. You regain all spent sorcery points when you finish a long rest.\r\n\r\n### Flexible Casting\r\n\r\nYou can use your sorcery points to gain additional spell slots, or sacrifice spell slots to gain additional sorcery points. You learn other ways to use your sorcery points as you reach higher levels.\r\n\r\n***Creating Spell Slots.*** You can transform unexpended sorcery points into one spell slot as a bonus action on your turn. The Creating Spell Slots table shows the cost of creating a spell slot of a given level. You can create spell slots no higher in level than 5th.\r\n\r\nAny spell slot you create with this feature vanishes when you finish a long rest.\r\n\r\n### Creating Spell Slots (table)\r\n| Spell Slot Level | Sorcery Point Cost |\r\n| --- | --- |\r\n| 1st | 2 |\r\n| 2nd | 3 |\r\n| 3rd | 5 |\r\n| 4th | 6 |\r\n| 5th | 7|\r\n\r\n***Converting a Spell Slot to Sorcery Points.*** As a bonus action on your turn, you can expend one spell slot and gain a number of sorcery points equal to the slot's level."
+          "description": "At 2nd level, you tap into a deep wellspring of magic within yourself. This wellspring is represented by sorcery points, which allow you to create a variety of magical effects.\r\n\r\n### Sorcery Points\r\n\r\nYou have 2 sorcery points, and you gain more as you reach higher levels, as shown in the Sorcery Points column of the Sorcerer table. You can never have more sorcery points than shown on the table for your level. You regain all spent sorcery points when you finish a long rest.\r\n\r\n### Flexible Casting\r\n\r\nYou can use your sorcery points to gain additional spell slots, or sacrifice spell slots to gain additional sorcery points. You learn other ways to use your sorcery points as you reach higher levels.\r\n\r\n***Creating Spell Slots.*** You can transform unexpended sorcery points into one spell slot as a bonus action on your turn. The Creating Spell Slots table shows the cost of creating a spell slot of a given level. You can create spell slots no higher in level than 5th.\r\n\r\nAny spell slot you create with this feature vanishes when you finish a long rest.\r\n\r\n### Creating Spell Slots (table)\r\n| Spell Slot Level | Sorcery Point Cost |\r\n| --- | --- |\r\n| 1st | 2 |\r\n| 2nd | 3 |\r\n| 3rd | 5 |\r\n| 4th | 6 |\r\n| 5th | 7|\r\n\r\n***Converting a Spell Slot to Sorcery Points.*** As a bonus action on your turn, you can expend one spell slot and gain a number of sorcery points equal to the slot's level.",
+          "resources": [
+            {
+              "id": "sorcerer:sorcery-points",
+              "name": "Sorcery Points",
+              "max_formula": "class_level",
+              "reset": "long-rest"
+            }
+          ]
         }
       ],
       "3": [

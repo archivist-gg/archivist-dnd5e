@@ -11,7 +11,7 @@ export interface CanonicalBuildConfig {
    *  Read from STRUCTURED_RULES_PATH env var; no default. */
   structuredRulesPath: string;
 
-  /** Path to overlay YAML files (per edition). */
+  /** Path to overlay YAML files (per edition). OVERLAY_DIR overrides it (mutation controls). */
   overlayDir: string;
 
   /** Output roots. */
@@ -55,14 +55,23 @@ export function loadConfig(): CanonicalBuildConfig {
   const bundleOutDir = process.env.BUNDLE_OUT_DIR
     ? path.resolve(process.env.BUNDLE_OUT_DIR)
     : path.resolve(dnd5ePkg, "..", "archivist-obsidian", ".compendium-bundle");
+  // CANONICAL_OUT_DIR / RUNTIME_OUT_DIR mirror BUNDLE_OUT_DIR above, and exist for the same reason
+  // it does: so a build can be pointed somewhere that is not the tracked tree. Added at R4-G7 T5,
+  // where a mutation control has to re-run the WHOLE generator against a deliberately broken overlay
+  // and compare the output · with only BUNDLE_OUT_DIR overridable that run would rewrite
+  // `src/srd/data/` in place, which is the one thing a mutant must never do.
   return {
     open5eApi: "https://api.open5e.com/v2",
     open5eCacheDir: path.join(__dirname, ".cache", "open5e"),
     structuredRulesPath,
-    overlayDir: path.join(__dirname, "overlays"),
+    overlayDir: process.env.OVERLAY_DIR ? path.resolve(process.env.OVERLAY_DIR) : path.join(__dirname, "overlays"),
     // Canonical + runtime SRD JSON live inside the dnd5e package.
-    canonicalOutDir: path.join(dnd5ePkg, "src", "srd", "data", "canonical"),
-    runtimeOutDir: path.join(dnd5ePkg, "src", "srd", "data", "runtime"),
+    canonicalOutDir: process.env.CANONICAL_OUT_DIR
+      ? path.resolve(process.env.CANONICAL_OUT_DIR)
+      : path.join(dnd5ePkg, "src", "srd", "data", "canonical"),
+    runtimeOutDir: process.env.RUNTIME_OUT_DIR
+      ? path.resolve(process.env.RUNTIME_OUT_DIR)
+      : path.join(dnd5ePkg, "src", "srd", "data", "runtime"),
     bundleOutDir,
     editions,
     refreshOpen5e: has("--refresh-open5e"),

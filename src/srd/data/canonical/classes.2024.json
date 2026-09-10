@@ -331,7 +331,17 @@
         {
           "id": "unarmored-defense",
           "name": "Unarmored Defense",
-          "description": "While you aren't wearing any armor, your base Armor Class equals 10 plus your Dexterity and Constitution modifiers. You can use a Shield and still gain this benefit."
+          "description": "While you aren't wearing any armor, your base Armor Class equals 10 plus your Dexterity and Constitution modifiers. You can use a Shield and still gain this benefit.",
+          "effects": [
+            {
+              "kind": "unarmored-ac",
+              "abilities": [
+                "dex",
+                "con"
+              ],
+              "allow_shield": true
+            }
+          ]
         },
         {
           "id": "weapon-mastery",
@@ -417,12 +427,25 @@
         {
           "id": "extra-attack",
           "name": "Extra Attack",
-          "description": "You can attack twice instead of once whenever you take the Attack action on your turn."
+          "description": "You can attack twice instead of once whenever you take the Attack action on your turn.",
+          "effects": [
+            {
+              "kind": "extra-attack",
+              "count": 1
+            }
+          ]
         },
         {
           "id": "fast-movement",
           "name": "Fast Movement",
-          "description": "Your speed increases by 10 feet while you aren't wearing Heavy armor."
+          "description": "Your speed increases by 10 feet while you aren't wearing Heavy armor.",
+          "effects": [
+            {
+              "kind": "speed-bonus",
+              "mode": "walk",
+              "value": 10
+            }
+          ]
         }
       ],
       "7": [
@@ -2406,8 +2429,8 @@
       "dex"
     ],
     "saving_throws": [
-      "dex",
-      "str"
+      "str",
+      "con"
     ],
     "proficiencies": {
       "armor": [
@@ -2624,7 +2647,7 @@
         "prof_bonus": 5,
         "feature_ids": [
           "indomitable",
-          "studdied-attacks"
+          "studied-attacks"
         ],
         "columns": {
           "Second Wind": "4",
@@ -2730,11 +2753,11 @@
               "max_formula": "2",
               "scales_at": [
                 {
-                  "level": 10,
+                  "level": 4,
                   "max": "3"
                 },
                 {
-                  "level": 17,
+                  "level": 10,
                   "max": "4"
                 }
               ],
@@ -2820,7 +2843,13 @@
         {
           "id": "extra-attack",
           "name": "Extra Attack",
-          "description": "You can attack twice instead of once whenever you take the Attack action on your turn."
+          "description": "You can attack twice instead of once whenever you take the Attack action on your turn.",
+          "effects": [
+            {
+              "kind": "extra-attack",
+              "count": 1
+            }
+          ]
         },
         {
           "id": "tactical-shift",
@@ -2874,7 +2903,13 @@
         {
           "id": "two-extra-attacks",
           "name": "Two Extra Attacks",
-          "description": "You can attack three times instead of once whenever you take the Attack action on your turn."
+          "description": "You can attack three times instead of once whenever you take the Attack action on your turn.",
+          "effects": [
+            {
+              "kind": "extra-attack",
+              "count": 2
+            }
+          ]
         }
       ],
       "12": [
@@ -2899,8 +2934,8 @@
           "description": "If you fail a saving throw, you can reroll it with a bonus equal to your Fighter level. You must use the new roll, and you can't use this feature again until you finish a Long Rest."
         },
         {
-          "id": "studdied-attacks",
-          "name": "Studdied Attacks",
+          "id": "studied-attacks",
+          "name": "Studied Attacks",
           "description": "You study your opponents and learn from each attack you make. If you make an attack roll against a creature and miss, you have Advantage on your next attack roll against that creature before the end of your next turn."
         }
       ],
@@ -2980,7 +3015,13 @@
         {
           "id": "three-extra-attacks",
           "name": "Three Extra Attacks",
-          "description": "You can attack four times instead of once whenever you take the Attack action on your turn."
+          "description": "You can attack four times instead of once whenever you take the Attack action on your turn.",
+          "effects": [
+            {
+              "kind": "extra-attack",
+              "count": 3
+            }
+          ]
         }
       ]
     },
@@ -3074,13 +3115,13 @@
         "prof_bonus": 2,
         "feature_ids": [
           "monks-focus",
-          "unarmoed-movement",
+          "unarmored-movement",
           "uncanny-metabolism"
         ],
         "columns": {
           "Focus Points": "2",
           "Martial Arts": "1d6",
-          "Unarmoed Movement": "+10 ft."
+          "Unarmored Movement": "+10 ft."
         }
       },
       "3": {
@@ -3092,7 +3133,7 @@
         "columns": {
           "Focus Points": "3",
           "Martial Arts": "1d6",
-          "Unarmoed Movement": "+10 ft."
+          "Unarmored Movement": "+10 ft."
         }
       },
       "4": {
@@ -3104,7 +3145,7 @@
         "columns": {
           "Focus Points": "4",
           "Martial Arts": "1d6",
-          "Unarmoed Movement": "+10 ft."
+          "Unarmored Movement": "+10 ft."
         }
       },
       "5": {
@@ -3116,7 +3157,7 @@
         "columns": {
           "Focus Points": "5",
           "Martial Arts": "1d8",
-          "Unarmoed Movement": "+10 ft."
+          "Unarmored Movement": "+10 ft."
         }
       },
       "6": {
@@ -3127,7 +3168,7 @@
         "columns": {
           "Focus Points": "6",
           "Martial Arts": "1d8",
-          "Unarmoed Movement": "+15 ft."
+          "Unarmored Movement": "+15 ft."
         }
       },
       "7": {
@@ -3138,7 +3179,7 @@
         "columns": {
           "Focus Points": "7",
           "Martial Arts": "1d8",
-          "Unarmoed Movement": "+15 ft."
+          "Unarmored Movement": "+15 ft."
         }
       },
       "8": {
@@ -3149,7 +3190,7 @@
         "columns": {
           "Focus Points": "8",
           "Martial Arts": "1d8",
-          "Unarmoed Movement": "+15 ft."
+          "Unarmored Movement": "+15 ft."
         }
       },
       "9": {
@@ -3160,7 +3201,7 @@
         "columns": {
           "Focus Points": "9",
           "Martial Arts": "1d8",
-          "Unarmoed Movement": "+15 ft."
+          "Unarmored Movement": "+15 ft."
         }
       },
       "10": {
@@ -3172,7 +3213,7 @@
         "columns": {
           "Focus Points": "10",
           "Martial Arts": "1d8",
-          "Unarmoed Movement": "+20 ft."
+          "Unarmored Movement": "+20 ft."
         }
       },
       "11": {
@@ -3181,7 +3222,7 @@
         "columns": {
           "Focus Points": "11",
           "Martial Arts": "1d10",
-          "Unarmoed Movement": "+20 ft."
+          "Unarmored Movement": "+20 ft."
         }
       },
       "12": {
@@ -3192,7 +3233,7 @@
         "columns": {
           "Focus Points": "12",
           "Martial Arts": "1d10",
-          "Unarmoed Movement": "+20 ft."
+          "Unarmored Movement": "+20 ft."
         }
       },
       "13": {
@@ -3203,7 +3244,7 @@
         "columns": {
           "Focus Points": "13",
           "Martial Arts": "1d10",
-          "Unarmoed Movement": "+20 ft."
+          "Unarmored Movement": "+20 ft."
         }
       },
       "14": {
@@ -3214,7 +3255,7 @@
         "columns": {
           "Focus Points": "14",
           "Martial Arts": "1d10",
-          "Unarmoed Movement": "+25 ft."
+          "Unarmored Movement": "+25 ft."
         }
       },
       "15": {
@@ -3225,7 +3266,7 @@
         "columns": {
           "Focus Points": "15",
           "Martial Arts": "1d10",
-          "Unarmoed Movement": "+25 ft."
+          "Unarmored Movement": "+25 ft."
         }
       },
       "16": {
@@ -3236,7 +3277,7 @@
         "columns": {
           "Focus Points": "16",
           "Martial Arts": "1d10",
-          "Unarmoed Movement": "+25 ft."
+          "Unarmored Movement": "+25 ft."
         }
       },
       "17": {
@@ -3245,7 +3286,7 @@
         "columns": {
           "Focus Points": "17",
           "Martial Arts": "1d12",
-          "Unarmoed Movement": "+25 ft."
+          "Unarmored Movement": "+25 ft."
         }
       },
       "18": {
@@ -3256,7 +3297,7 @@
         "columns": {
           "Focus Points": "18",
           "Martial Arts": "1d12",
-          "Unarmoed Movement": "+30 ft."
+          "Unarmored Movement": "+30 ft."
         }
       },
       "19": {
@@ -3267,7 +3308,7 @@
         "columns": {
           "Focus Points": "19",
           "Martial Arts": "1d12",
-          "Unarmoed Movement": "+30 ft."
+          "Unarmored Movement": "+30 ft."
         }
       },
       "20": {
@@ -3278,7 +3319,7 @@
         "columns": {
           "Focus Points": "20",
           "Martial Arts": "1d12",
-          "Unarmoed Movement": "+30 ft."
+          "Unarmored Movement": "+30 ft."
         }
       }
     },
@@ -3287,12 +3328,32 @@
         {
           "id": "martial-arts",
           "name": "Martial Arts",
-          "description": "Your practice of martial arts gives you mastery of combat styles that use your Unarmed Strike and Monk weapons, which are the following:\n\n- Simple Melee weapons\n- Martial Melee weapons that have the Light property\n\nYou gain the following benefits while you are unarmed or wielding only Monk weapons and you aren't wearing armor or wielding a Shield.\n\n**Bonus Unarmed Strike.** You can make an Unarmed Strike as a Bonus Action.\n\n**Martial Arts Die.** You can roll 1d6 in place of the normal damage of your Unarmed Strike or Monk weapons. This die changes as you gain Monk levels, as shown in the Martial Arts column of the Monk Features table.\n\n**Dexterous Attacks.** You can use your Dexterity modifier instead of your Strength modifier for the attack and damage rolls of your Unarmed Strikes and Monk weapons. In addition, when you use the Grapple or Shove option of your Unarmed Strike, you can use your Dexterity modifier instead of your Strength modifier to determine the save DC."
+          "description": "Your practice of martial arts gives you mastery of combat styles that use your Unarmed Strike and Monk weapons, which are the following:\n\n- Simple Melee weapons\n- Martial Melee weapons that have the Light property\n\nYou gain the following benefits while you are unarmed or wielding only Monk weapons and you aren't wearing armor or wielding a Shield.\n\n**Bonus Unarmed Strike.** You can make an Unarmed Strike as a Bonus Action.\n\n**Martial Arts Die.** You can roll 1d6 in place of the normal damage of your Unarmed Strike or Monk weapons. This die changes as you gain Monk levels, as shown in the Martial Arts column of the Monk Features table.\n\n**Dexterous Attacks.** You can use your Dexterity modifier instead of your Strength modifier for the attack and damage rolls of your Unarmed Strikes and Monk weapons. In addition, when you use the Grapple or Shove option of your Unarmed Strike, you can use your Dexterity modifier instead of your Strength modifier to determine the save DC.",
+          "effects": [
+            {
+              "kind": "unarmed-strike",
+              "dice": {
+                "column": "Martial Arts"
+              },
+              "abilities": [
+                "dex"
+              ]
+            }
+          ]
         },
         {
           "id": "unarmored-defense",
           "name": "Unarmored Defense",
-          "description": "While you aren't wearing armor or wielding a Shield, your base Armor Class equals 10 plus your Dexterity and Wisdom modifiers."
+          "description": "While you aren't wearing armor or wielding a Shield, your base Armor Class equals 10 plus your Dexterity and Wisdom modifiers.",
+          "effects": [
+            {
+              "kind": "unarmored-ac",
+              "abilities": [
+                "dex",
+                "wis"
+              ]
+            }
+          ]
         }
       ],
       "2": [
@@ -3310,9 +3371,34 @@
           ]
         },
         {
-          "id": "unarmoed-movement",
-          "name": "Unarmoed Movement",
-          "description": "Your speed increases by 10 feet while you aren't wearing armor or wielding a Shield. This bonus increases when you reach certain Monk levels, as shown on the Monk Features table."
+          "id": "unarmored-movement",
+          "name": "Unarmored Movement",
+          "description": "Your speed increases by 10 feet while you aren't wearing armor or wielding a Shield. This bonus increases when you reach certain Monk levels, as shown on the Monk Features table.",
+          "effects": [
+            {
+              "kind": "speed-bonus",
+              "mode": "walk",
+              "value": 10,
+              "scales_at": [
+                {
+                  "level": 6,
+                  "value": 15
+                },
+                {
+                  "level": 10,
+                  "value": 20
+                },
+                {
+                  "level": 14,
+                  "value": 25
+                },
+                {
+                  "level": 18,
+                  "value": 30
+                }
+              ]
+            }
+          ]
         },
         {
           "id": "uncanny-metabolism",
@@ -3375,7 +3461,13 @@
         {
           "id": "extra-attack",
           "name": "Extra Attack",
-          "description": "You can attack twice instead of once whenever you take the Attack action on your turn."
+          "description": "You can attack twice instead of once whenever you take the Attack action on your turn.",
+          "effects": [
+            {
+              "kind": "extra-attack",
+              "count": 1
+            }
+          ]
         },
         {
           "id": "stunning-strike",
@@ -3996,7 +4088,13 @@
         {
           "id": "extra-attack",
           "name": "Extra Attack",
-          "description": "You can attack twice instead of once whenever you take the Attack action on your turn."
+          "description": "You can attack twice instead of once whenever you take the Attack action on your turn.",
+          "effects": [
+            {
+              "kind": "extra-attack",
+              "count": 1
+            }
+          ]
         },
         {
           "id": "faithful-steed",
@@ -4586,7 +4684,13 @@
         {
           "id": "extra-attack",
           "name": "Extra Attack",
-          "description": "You can attack twice instead of once whenever you take the Attack action on your turn."
+          "description": "You can attack twice instead of once whenever you take the Attack action on your turn.",
+          "effects": [
+            {
+              "kind": "extra-attack",
+              "count": 1
+            }
+          ]
         }
       ],
       "6": [

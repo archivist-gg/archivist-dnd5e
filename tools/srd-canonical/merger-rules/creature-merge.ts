@@ -1,6 +1,7 @@
 import type { MergeRule, CanonicalEntry } from "../merger";
 import type { Overlay } from "../overlay.schema";
 import { rewriteCrossRefs } from "../cross-ref-map";
+import { bareSlug } from "./class-merge";
 import type { Attack } from "@archivist-gg/dnd5e/types/attack";
 import type { Feature, FeatureRecharge } from "@archivist-gg/dnd5e/types/feature";
 import {
@@ -8,6 +9,7 @@ import {
   type ConversionContext,
   type ConverterAbilities,
 } from "@archivist-gg/dnd5e/dnd/srd-tag-converter";
+import { SKILL_ABILITY, ABILITY_KEYS, ALL_SKILLS } from "@archivist-gg/dnd5e/dnd/constants";
 
 interface Open5eDamageType {
   key: string;
@@ -86,13 +88,66 @@ export interface CreatureCanonical {
   traits: Feature[];
 }
 
+/** What the `creatures:` overlay section may say about one creature (R4-G7 T5, spec §8.1 item 4b).
+ *  Mirrors `creatureOverrideSchema`; both fields optional, both narrow. */
+export interface CreatureOverride {
+  speed?: Partial<Record<"walk" | "fly" | "swim" | "climb" | "burrow", number>>;
+  hp?: { formula: string };
+}
+
 export const creatureMergeRule: MergeRule = {
   kind: "creature",
-  pickOverlay(_overlay: Overlay, _slug: string): unknown {
-    // Creatures are well-structured in Open5e; no overlay applies here.
-    return null;
+  pickOverlay(overlay: Overlay, slug: string): unknown {
+    // Creatures are well-structured in Open5e with FOUR measured exceptions, so the overlay that
+    // applies here says only what the cache cannot: `speed` is empty on the Donkey, the Elf Drow,
+    // the Gnome Deep and the Shrieker, and `hit_dice` is null on the first three (MEASURED at
+    // 0.3.3). Keyed by the vendor-free bare slug like every other overlay section; `slug` arrives
+    // as the Open5e document key (`srd_donkey`).
+    return overlay.creatures?.[bareSlug(slug)] ?? null;
   },
 };
+
+/**
+ * Does an upstream save / skill bonus say anything the plain ability modifier does not?
+ *
+ * Proficiency and expertise only ever ADD, so a bonus at or below the modifier carries no
+ * information: it is the ability score restated. Note that the survivors include genuine ZEROES on
+ * negative abilities · the SRD Zombie's `Wis +0` is WIS -2 plus a +2 proficiency bonus, and RAW
+ * prints it · which is why the rule is written against the MODIFIER and not against zero.
+ */
+export function exceedsPlainModifier(bonus: unknown, modifier: unknown): boolean {
+  if (typeof bonus !== "number") return false;
+  // No modifier to compare against (an ability the upstream block omits): keep the entry rather
+  // than silently dropping data we cannot judge.
+  if (typeof modifier !== "number") return true;
+  return bonus > modifier;
+}
+
+/**
+ * Is this whole upstream block a PLACEHOLDER rather than data?
+ *
+ * The per-entry rule above is not enough on its own. Eight SRD 5.1 beasts of burden (Camel, Donkey,
+ * Draft Horse, Elephant, Mule, Pony, Riding Horse, Warhorse) carry an EXHAUSTIVE block · all six
+ * saves, all eighteen skills · with every value 0 against modifiers that are not, so `0 > -4` would
+ * read the Donkey's blank Intelligence as a +4 expertise. MEASURED over both caches at 0.3.3: 8 such
+ * save blocks and 8 such skill blocks, all 2014, and NONE in 2024.
+ *
+ * All three clauses are load-bearing. EXHAUSTIVE, because a short all-zero block is real data: the
+ * Zombie and the Ogre Zombie carry a ONE-key `{wisdom: 0}`, which is their RAW proficient save.
+ * ALL-ZERO, because a block with any real bonus in it is real. A NONZERO MODIFIER somewhere,
+ * because the 2024 Commoner's six zeroes sit on six +0 abilities and are simply true (the per-entry
+ * rule drops them anyway).
+ */
+export function isPlaceholderBonusBlock(
+  block: Record<string, unknown>,
+  domainSize: number,
+  modifierFor: (key: string) => number | undefined,
+): boolean {
+  const entries = Object.entries(block);
+  if (entries.length < domainSize) return false;
+  if (entries.some(([, v]) => v !== 0)) return false;
+  return entries.some(([k]) => (modifierFor(k) ?? 0) !== 0);
+}
 
 const ABILITY_KEY_MAP: Record<string, "str" | "dex" | "con" | "int" | "wis" | "cha"> = {
   strength: "str",
@@ -395,22 +450,42 @@ export function toCreatureCanonical(entry: CanonicalEntry): CreatureCanonical {
   const crRaw = base.challenge_rating;
   const cr = typeof crRaw === "number" || typeof crRaw === "string" ? String(crRaw) : undefined;
 
-  const savingThrowsRaw = (base.saving_throws ?? {}) as Record<string, unknown>;
-  const saves = toShortAbilityKeys(savingThrowsRaw);
-
-  const skillsRaw = (base.skill_bonuses ?? {}) as Record<string, unknown>;
-  const skills: Record<string, number> = {};
-  for (const [k, v] of Object.entries(skillsRaw)) {
-    if (typeof v === "number") skills[k] = v;
+  // Saves / skills: emitted ONLY where the bonus exceeds the plain ability modifier, so a stat
+  // block lists what the creature is actually proficient in. See `exceedsPlainModifier`.
+  const modifiers = toShortAbilityKeys((base.modifiers ?? {}) as Record<string, unknown>);
+  const savesRaw = toShortAbilityKeys((base.saving_throws ?? {}) as Record<string, unknown>);
+  const saves: Record<string, number> = {};
+  if (!isPlaceholderBonusBlock(savesRaw, ABILITY_KEYS.length, (k) => modifiers[k])) {
+    for (const [k, v] of Object.entries(savesRaw)) {
+      if (exceedsPlainModifier(v, modifiers[k])) saves[k] = v;
+    }
   }
 
-  // Speed: Open5e v2 uses { walk, swim, fly, climb, burrow, unit }. Only emit modes > 0.
+  // Upstream skill keys are underscore-separated ("animal_handling"); the SHARED SKILL_ABILITY map
+  // (dnd/constants.ts, the one pc.recalc reads) is space-separated. Normalise, never re-declare.
+  const skillModifier = (k: string): number | undefined => modifiers[SKILL_ABILITY[k.toLowerCase().replace(/_/g, " ")]];
+  const skillsRaw = (base.skill_bonuses ?? {}) as Record<string, unknown>;
+  const skills: Record<string, number> = {};
+  if (!isPlaceholderBonusBlock(skillsRaw, ALL_SKILLS.length, skillModifier)) {
+    for (const [k, v] of Object.entries(skillsRaw)) {
+      if (exceedsPlainModifier(v, skillModifier(k))) skills[k] = v as number;
+    }
+  }
+
+  // Speed: Open5e v2 uses { walk, swim, fly, climb, burrow, unit }. Only emit modes > 0, then let
+  // the overlay say what the cache could not (four creatures, spec §8.1 item 4b). The authored
+  // modes MERGE into the emitted ones and an authored 0 survives: the Shrieker's RAW speed is 0 ft.
   const speedRaw = (base.speed ?? {}) as Record<string, unknown>;
   const speed: Record<string, number> = {};
   for (const k of ["walk", "fly", "swim", "climb", "burrow"]) {
     const v = speedRaw[k];
     if (typeof v === "number" && v > 0) speed[k] = v;
   }
+  const creatureOverlay = entry.overlay as CreatureOverride | null;
+  for (const [mode, value] of Object.entries(creatureOverlay?.speed ?? {})) {
+    if (typeof value === "number") speed[mode] = value;
+  }
+  if (creatureOverlay?.hp?.formula && hp.formula === undefined) hp.formula = creatureOverlay.hp.formula;
 
   const senses = composeSenses(base);
 

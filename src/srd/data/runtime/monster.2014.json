@@ -7160,34 +7160,6 @@
     "legendary_actions": [],
     "traits": [],
     "cr": "0.125",
-    "saves": {
-      "str": 0,
-      "dex": 0,
-      "con": 0,
-      "int": 0,
-      "wis": 0,
-      "cha": 0
-    },
-    "skills": {
-      "acrobatics": 0,
-      "animal_handling": 0,
-      "arcana": 0,
-      "athletics": 0,
-      "deception": 0,
-      "history": 0,
-      "insight": 0,
-      "intimidation": 0,
-      "investigation": 0,
-      "medicine": 0,
-      "nature": 0,
-      "perception": 0,
-      "performance": 0,
-      "persuasion": 0,
-      "religion": 0,
-      "sleight_of_hand": 0,
-      "stealth": 0,
-      "survival": 0
-    },
     "alignment": "unaligned",
     "passive_perception": 9
   },
@@ -9496,9 +9468,12 @@
       }
     ],
     "hp": {
-      "average": 11
+      "average": 11,
+      "formula": "2d8+2"
     },
-    "speed": {},
+    "speed": {
+      "walk": 40
+    },
     "abilities": {
       "str": 14,
       "dex": 10,
@@ -9518,34 +9493,6 @@
     "legendary_actions": [],
     "traits": [],
     "cr": "0",
-    "saves": {
-      "str": 0,
-      "dex": 0,
-      "con": 0,
-      "int": 0,
-      "wis": 0,
-      "cha": 0
-    },
-    "skills": {
-      "acrobatics": 0,
-      "animal_handling": 0,
-      "arcana": 0,
-      "athletics": 0,
-      "deception": 0,
-      "history": 0,
-      "insight": 0,
-      "intimidation": 0,
-      "investigation": 0,
-      "medicine": 0,
-      "nature": 0,
-      "perception": 0,
-      "performance": 0,
-      "persuasion": 0,
-      "religion": 0,
-      "sleight_of_hand": 0,
-      "stealth": 0,
-      "survival": 0
-    },
     "alignment": "unaligned",
     "passive_perception": 10
   },
@@ -9707,34 +9654,6 @@
     "legendary_actions": [],
     "traits": [],
     "cr": "0.25",
-    "saves": {
-      "str": 0,
-      "dex": 0,
-      "con": 0,
-      "int": 0,
-      "wis": 0,
-      "cha": 0
-    },
-    "skills": {
-      "acrobatics": 0,
-      "animal_handling": 0,
-      "arcana": 0,
-      "athletics": 0,
-      "deception": 0,
-      "history": 0,
-      "insight": 0,
-      "intimidation": 0,
-      "investigation": 0,
-      "medicine": 0,
-      "nature": 0,
-      "perception": 0,
-      "performance": 0,
-      "persuasion": 0,
-      "religion": 0,
-      "sleight_of_hand": 0,
-      "stealth": 0,
-      "survival": 0
-    },
     "alignment": "unaligned",
     "passive_perception": 10
   },
@@ -11022,34 +10941,6 @@
       }
     ],
     "cr": "4",
-    "saves": {
-      "str": 0,
-      "dex": 0,
-      "con": 0,
-      "int": 0,
-      "wis": 0,
-      "cha": 0
-    },
-    "skills": {
-      "acrobatics": 0,
-      "animal_handling": 0,
-      "arcana": 0,
-      "athletics": 0,
-      "deception": 0,
-      "history": 0,
-      "insight": 0,
-      "intimidation": 0,
-      "investigation": 0,
-      "medicine": 0,
-      "nature": 0,
-      "perception": 0,
-      "performance": 0,
-      "persuasion": 0,
-      "religion": 0,
-      "sleight_of_hand": 0,
-      "stealth": 0,
-      "survival": 0
-    },
     "alignment": "unaligned",
     "passive_perception": 10
   },
@@ -11066,9 +10957,12 @@
       }
     ],
     "hp": {
-      "average": 13
+      "average": 13,
+      "formula": "3d8"
     },
-    "speed": {},
+    "speed": {
+      "walk": 30
+    },
     "abilities": {
       "str": 10,
       "dex": 14,
@@ -15627,9 +15521,12 @@
       }
     ],
     "hp": {
-      "average": 16
+      "average": 16,
+      "formula": "3d6+6"
     },
-    "speed": {},
+    "speed": {
+      "walk": 20
+    },
     "abilities": {
       "str": 15,
       "dex": 14,
@@ -21540,34 +21437,6 @@
       }
     ],
     "cr": "0.125",
-    "saves": {
-      "str": 0,
-      "dex": 0,
-      "con": 0,
-      "int": 0,
-      "wis": 0,
-      "cha": 0
-    },
-    "skills": {
-      "acrobatics": 0,
-      "animal_handling": 0,
-      "arcana": 0,
-      "athletics": 0,
-      "deception": 0,
-      "history": 0,
-      "insight": 0,
-      "intimidation": 0,
-      "investigation": 0,
-      "medicine": 0,
-      "nature": 0,
-      "perception": 0,
-      "performance": 0,
-      "persuasion": 0,
-      "religion": 0,
-      "sleight_of_hand": 0,
-      "stealth": 0,
-      "survival": 0
-    },
     "alignment": "unaligned",
     "passive_perception": 10
   },
@@ -24012,34 +23881,6 @@
     "legendary_actions": [],
     "traits": [],
     "cr": "0.125",
-    "saves": {
-      "str": 0,
-      "dex": 0,
-      "con": 0,
-      "int": 0,
-      "wis": 0,
-      "cha": 0
-    },
-    "skills": {
-      "acrobatics": 0,
-      "animal_handling": 0,
-      "arcana": 0,
-      "athletics": 0,
-      "deception": 0,
-      "history": 0,
-      "insight": 0,
-      "intimidation": 0,
-      "investigation": 0,
-      "medicine": 0,
-      "nature": 0,
-      "perception": 0,
-      "performance": 0,
-      "persuasion": 0,
-      "religion": 0,
-      "sleight_of_hand": 0,
-      "stealth": 0,
-      "survival": 0
-    },
     "alignment": "unaligned",
     "passive_perception": 10
   },
@@ -25148,34 +24989,6 @@
     "legendary_actions": [],
     "traits": [],
     "cr": "0.25",
-    "saves": {
-      "str": 0,
-      "dex": 0,
-      "con": 0,
-      "int": 0,
-      "wis": 0,
-      "cha": 0
-    },
-    "skills": {
-      "acrobatics": 0,
-      "animal_handling": 0,
-      "arcana": 0,
-      "athletics": 0,
-      "deception": 0,
-      "history": 0,
-      "insight": 0,
-      "intimidation": 0,
-      "investigation": 0,
-      "medicine": 0,
-      "nature": 0,
-      "perception": 0,
-      "performance": 0,
-      "persuasion": 0,
-      "religion": 0,
-      "sleight_of_hand": 0,
-      "stealth": 0,
-      "survival": 0
-    },
     "alignment": "unaligned",
     "passive_perception": 10
   },
@@ -26718,7 +26531,9 @@
       "average": 13,
       "formula": "3d8"
     },
-    "speed": {},
+    "speed": {
+      "walk": 0
+    },
     "abilities": {
       "str": 1,
       "dex": 1,
@@ -30929,34 +30744,6 @@
       }
     ],
     "cr": "0.5",
-    "saves": {
-      "str": 0,
-      "dex": 0,
-      "con": 0,
-      "int": 0,
-      "wis": 0,
-      "cha": 0
-    },
-    "skills": {
-      "acrobatics": 0,
-      "animal_handling": 0,
-      "arcana": 0,
-      "athletics": 0,
-      "deception": 0,
-      "history": 0,
-      "insight": 0,
-      "intimidation": 0,
-      "investigation": 0,
-      "medicine": 0,
-      "nature": 0,
-      "perception": 0,
-      "performance": 0,
-      "persuasion": 0,
-      "religion": 0,
-      "sleight_of_hand": 0,
-      "stealth": 0,
-      "survival": 0
-    },
     "alignment": "unaligned",
     "passive_perception": 11
   },

@@ -7,7 +7,20 @@ const OVERLAY_DIR = path.resolve(__dirname, "../../../tools/srd-canonical/overla
 
 describe("overlaySchema", () => {
   it("accepts class_features with action economy", () => {
-    const overlay = {
+    const overlay = { class_features: { "action-surge": { action_cost: "special" } } };
+    expect(overlaySchema.safeParse(overlay).success).toBe(true);
+  });
+
+  /* ⚠️ TRUTH MAINTENANCE, R4-G7 T5. Until this phase the case above also authored
+   *   uses: { max: 1, recharge: "short-rest", scales_at: [{ level: 17, value: 2 }] }
+   * and asserted `success === true`. `uses` is NOT a declared key on any overlay feature schema and
+   * never has been: the shared `featureOverrideSchema` is non-strict, so the whole block was
+   * silently stripped and the assertion passed on `action_cost` alone. The limited-use route is
+   * `resources[]` (the `overlay resources` describe below), which is what the shipped overlays
+   * author. Now that `class_features` has its own STRICT schema the stale shape fails loudly, so it
+   * is pinned here in the direction that is actually true. */
+  it("REJECTS the legacy `uses:` shape, which the non-strict schema used to strip in silence", () => {
+    const legacy = {
       class_features: {
         "action-surge": {
           action_cost: "special",
@@ -15,7 +28,7 @@ describe("overlaySchema", () => {
         },
       },
     };
-    expect(overlaySchema.safeParse(overlay).success).toBe(true);
+    expect(overlaySchema.safeParse(legacy).success).toBe(false);
   });
 
   it("accepts optional_feature_slugs map", () => {
@@ -161,14 +174,14 @@ describe("race_traits overlay effects (R4-P3c)", () => {
     expect(() => overlaySchema.parse({ race_traits: { tinker: { totallyBogusKey: 42 } } })).toThrow();
   });
 
-  it("still strips an unknown key on the other three feature sections", () => {
-    // Unchanged behaviour: only race_traits went strict.
+  // R4-G7 T5 (spec §8.1 item 1): class_features left this list when it got its OWN strict
+  // schema. The two sections named here are the CONTROL that the SHARED, non-strict
+  // featureOverrideSchema was not stiffened underneath them.
+  it("still strips an unknown key on feat_features and background_features (the control)", () => {
     const parsed = overlaySchema.parse({
-      class_features: { x: { totallyBogusKey: 42 } },
       feat_features: { x: { totallyBogusKey: 42 } },
       background_features: { x: { totallyBogusKey: 42 } },
     });
-    expect(parsed.class_features!.x).toEqual({});
     expect(parsed.feat_features!.x).toEqual({});
     expect(parsed.background_features!.x).toEqual({});
   });
@@ -244,5 +257,68 @@ describe("real overlay: the L19 Epic Boon pick key (R4-P4)", () => {
     // than throwing an anonymous "cannot read properties of undefined" below.
     expect(ov.class_features?.["epic-boon"], "class_features['epic-boon'] is missing from srd-2024.yaml").toBeDefined();
     expect(ov.class_features!["epic-boon"].choices![0].id).toBe("feat");
+  });
+});
+
+/**
+ * R4-G7 T5 · the class-feature `effects` arm and the `creatures:` arm (spec §8.1 items 1 and 4, §15 row 16).
+ *
+ * Two schemas move here and they must not be confused. `class_features` gets its OWN
+ * `classFeatureOverrideSchema` (the `raceTraitOverrideSchema` precedent): an `effects` array plus
+ * `.strict()`. The SHARED `featureOverrideSchema` underneath `feat_features` / `background_features`
+ * stays exactly as it was, and the control above plus the `feat_features` guard below are what prove
+ * it: `feat-merge.ts` already reads `overlaid?.effects`, so widening the shared schema would open a
+ * second, undocumented authoring route for feat effects rather than the one route this phase wants.
+ *
+ * `creatures:` is a NEW top-level section, the first overlay route creature-merge has ever had. It
+ * carries only what the upstream Open5e cache cannot supply for the four SRD 5.1 creatures whose
+ * `speed` is empty and whose `hit_dice` is null (measured: Donkey, Elf Drow, Gnome Deep, Shrieker),
+ * so its entry object is `.strict()` and its two fields are shaped, not free.
+ */
+describe("class_features effects + the creatures arm (R4-G7 T5)", () => {
+  it("KEEPS an authored effects array on a class feature instead of silently stripping it", () => {
+    const parsed = overlaySchema.parse({
+      class_features: { "fighter:extra-attack": { effects: [{ kind: "extra-attack", count: 1 }] } },
+    });
+    expect(parsed.class_features!["fighter:extra-attack"].effects)
+      .toEqual([{ kind: "extra-attack", count: 1 }]);
+  });
+
+  it("keeps the scaling arms on an authored class-feature effect", () => {
+    const parsed = overlaySchema.parse({
+      class_features: {
+        "fighter:extra-attack": {
+          effects: [{ kind: "extra-attack", count: 1, scales_at: [{ level: 11, count: 2 }, { level: 20, count: 3 }] }],
+        },
+        "monk:unarmored-movement": {
+          effects: [{ kind: "speed-bonus", mode: "walk", value: 10, scales_at: [{ level: 6, value: 15 }] }],
+        },
+      },
+    });
+    expect(parsed.class_features!["fighter:extra-attack"].effects![0])
+      .toEqual({ kind: "extra-attack", count: 1, scales_at: [{ level: 11, count: 2 }, { level: 20, count: 3 }] });
+    expect(parsed.class_features!["monk:unarmored-movement"].effects![0])
+      .toEqual({ kind: "speed-bonus", mode: "walk", value: 10, scales_at: [{ level: 6, value: 15 }] });
+  });
+
+  it("REJECTS an unknown key under class_features instead of silently stripping it", () => {
+    expect(() => overlaySchema.parse({ class_features: { x: { totallyBogusKey: 42 } } })).toThrow();
+  });
+
+  it("REJECTS an empty or malformed class-feature effects array", () => {
+    expect(overlaySchema.safeParse({ class_features: { x: { effects: [] } } }).success).toBe(false);
+    expect(overlaySchema.safeParse({ class_features: { x: { effects: [{ kind: "extra-attack" }] } } }).success).toBe(false);
+  });
+
+  it("accepts a creatures entry carrying speed and an hp formula", () => {
+    const parsed = overlaySchema.parse({
+      creatures: { donkey: { speed: { walk: 40 }, hp: { formula: "2d8+2" } } },
+    });
+    expect(parsed.creatures!.donkey).toEqual({ speed: { walk: 40 }, hp: { formula: "2d8+2" } });
+  });
+
+  it("REJECTS an unknown key inside a creatures entry, and a malformed hp formula", () => {
+    expect(() => overlaySchema.parse({ creatures: { donkey: { totallyBogusKey: 42 } } })).toThrow();
+    expect(overlaySchema.safeParse({ creatures: { donkey: { hp: { formula: "2d8 plus 2" } } } }).success).toBe(false);
   });
 });

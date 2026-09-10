@@ -3,12 +3,16 @@
  * schema, without running the full canonical build. Exits nonzero if either
  * overlay fails schema validation.
  *
- * Run: npx tsx packages/dnd5e/tools/srd-canonical/validate-overlays.ts
+ * Run: npx tsx tools/srd-canonical/validate-overlays.ts   (from the dnd5e repo root)
  */
 import * as path from "node:path";
+import { fileURLToPath } from "node:url";
 import { loadOverlay } from "./sources/overlay";
 
-const overlayDir = path.join(__dirname, "overlays");
+// ESM, like config.ts: this file is loaded as a module (package.json "type": "module"), so
+// `__dirname` is not defined and every run threw a ReferenceError before it read a single overlay.
+// Found and fixed at R4-G7 T5, when the step that authors the overlays asked for this check.
+const overlayDir = path.join(path.dirname(fileURLToPath(import.meta.url)), "overlays");
 const FILES = ["srd-5e.yaml", "srd-2024.yaml"];
 
 async function main(): Promise<void> {

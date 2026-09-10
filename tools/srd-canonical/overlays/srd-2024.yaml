@@ -19,7 +19,11 @@ class_features:
       - id: "fighter:second-wind"
         name: Second Wind
         max_formula: "2"
-        scales_at: [{ level: 10, max: "3" }, { level: 17, max: "4" }]
+        # R4-G7 T5 (T1 harvest section 5): the scale POINTS were 10 and 17 and disagreed with the
+        # class table's own Second Wind column, which reads 2 / 3 at level 4 / 4 at level 10
+        # (MEASURED on the shipped bundle). RAW 2024 is the table, so a level-5 Fighter drew 2 uses
+        # where the sheet's own table promised 3, and a level-11 Fighter drew 3 where it promised 4.
+        scales_at: [{ level: 4, max: "3" }, { level: 10, max: "4" }]
         reset: short-rest
     healing: { dice: "1d10", bonus: "{level}" }
   # Barbarian (2024 -- Rage uses 2/3/4/5/6; no level-20 "unlimited" entry)
@@ -585,6 +589,82 @@ class_features:
   path-of-the-berserker:intimidating-presence:
     noChoices: true # in-play target pick, not a build decision
 
+  # ===================================================================
+  # R4-G7 T5 (spec §8.1 item 2) · the typed mechanics the SRD prose states and
+  # the upstream source cannot express. See the twin block in srd-5e.yaml for the
+  # measurement and for why every key is CLASS-SCOPED; `count` is the number of
+  # EXTRA attacks, never the total, because the engine renders `1 + count`.
+  # ===================================================================
+
+  # --- Monk ---
+  monk:martial-arts:
+    effects:
+      - kind: unarmed-strike
+        dice: { column: "Martial Arts" }
+        abilities: [dex]
+  monk:unarmored-defense:
+    effects:
+      - kind: unarmored-ac
+        abilities: [dex, wis]
+  # Keyed with the CORRECTED spelling. The 2024 upstream names this feature
+  # "Unarmoed Movement", so its slug was `unarmoed-movement` until T5's normaliser
+  # (class-merge NAME_FIXES_2024) fixed the name ahead of the overlay lookup.
+  # Table: +10 at 2, +15 at 6, +20 at 10, +25 at 14, +30 at 18 (MEASURED).
+  monk:unarmored-movement:
+    effects:
+      - kind: speed-bonus
+        mode: walk
+        value: 10
+        scales_at: [{ level: 6, value: 15 }, { level: 10, value: 20 }, { level: 14, value: 25 }, { level: 18, value: 30 }]
+
+  # --- Barbarian ---
+  barbarian:unarmored-defense:
+    effects:
+      - kind: unarmored-ac
+        abilities: [dex, con]
+        allow_shield: true
+  barbarian:fast-movement:
+    effects:
+      - kind: speed-bonus
+        mode: walk
+        value: 10
+
+  # --- Extra Attack, one key per class document ---
+  # The 2024 Fighter is the one document whose progression is NOT one feature: it
+  # carries three separately-named entries (Extra Attack at 5 "attack twice", Two
+  # Extra Attacks at 11 "attack three times", Three Extra Attacks at 20 "attack
+  # four times"), so each is authored at its own key and the non-stacking Math.max
+  # fold yields x2 / x3 / x4. Its `extra-attack` entry is gained at 5 ONLY, which
+  # is why it carries no `scales_at` where the 5e twin does.
+  fighter:extra-attack:
+    effects:
+      - kind: extra-attack
+        count: 1
+  fighter:two-extra-attacks:
+    effects:
+      - kind: extra-attack
+        count: 2
+  fighter:three-extra-attacks:
+    effects:
+      - kind: extra-attack
+        count: 3
+  barbarian:extra-attack:
+    effects:
+      - kind: extra-attack
+        count: 1
+  monk:extra-attack:
+    effects:
+      - kind: extra-attack
+        count: 1
+  paladin:extra-attack:
+    effects:
+      - kind: extra-attack
+        count: 1
+  ranger:extra-attack:
+    effects:
+      - kind: extra-attack
+        count: 1
+
 # ===================================================================
 # Entity-level class overrides (SP2 Plan 3). Keyed by bare class slug.
 # skill_choices + starting_equipment transcribed from each class's Core Traits
@@ -690,6 +770,9 @@ classes:
             grants: [{ gold: 50 }]
     starting_gold: { fixed: 50 }
   fighter:
+    # R4-G7 T5 (spec §8.1 item 2): the upstream pair is [dex, str]; RAW 2024 is STR + CON, and the
+    # SRD 5e Fighter's own [con, str] agrees on the pair. The ONE saving-throw fix of this phase.
+    saving_throws: [str, con]
     subclass_feature_name: Fighter Subclass
     skill_choices:
       count: 2

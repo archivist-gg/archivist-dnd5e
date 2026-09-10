@@ -1,12 +1,18 @@
+# ⚠️ The `action-surge` entry carried a `uses:` block until R4-G7 T5. `uses` is not, and never was, a
+# declared key on any overlay feature schema: the shared non-strict `featureOverrideSchema` stripped
+# it in silence, so this fixture exercised `action_cost` and nothing else. The limited-use route is
+# `resources[]`, which is what the shipped overlays author and what is written here now. Since
+# `class_features` went STRICT in that task the stale shape would fail loudly, which is how it
+# was found.
 class_features:
   action-surge:
     action_cost: special
-    uses:
-      max: 1
-      recharge: short-rest
-      scales_at:
-        - level: 17
-          value: 2
+    resources:
+      - id: "fighter:action-surge"
+        name: Action Surge
+        max_formula: "1"
+        scales_at: [{ level: 17, max: "2" }]
+        reset: short-rest
 optional_feature_slugs:
   invocation:
     - agonizing-blast

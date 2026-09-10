@@ -896,3 +896,106 @@ describe("real overlay: entity-level tool `choices` for Bard and Monk [P3a task 
     expect(out.choices?.[0]?.from).toEqual([...ARTISANS_TOOLS, ...MUSICAL_INSTRUMENTS]);
   });
 });
+
+/**
+ * R4-G7 T5 · the three class-pipeline changes of spec §8.1 items 1, 2 and 3.
+ *
+ * 1. `effects` reaches the emitted feature. The overlay's `class_features` map is keyed
+ *    `<class>:<feature-slug>` with NO level component and `bucketFeaturesByLevel` emits ONE overlay
+ *    record into EVERY `gained_at` bucket, which is why the SRD 5e Fighter's whole 5 / 11 / 20
+ *    Extra Attack progression has to live inside one effect (`scales_at`) rather than one effect per
+ *    copy: measured below on a two-level feature.
+ * 2. The 2024 NAME normaliser. Both upstream typos are ONE site each in `classes.2024.json`
+ *    (MEASURED at T5: `unarmoed` 1, `studdied` 1; both 0 in `classes.2014.json`), and the 2024 Monk's
+ *    carrier is a single CLASS_LEVEL_FEATURE that ALSO owns 19 table cells, so the rename has to land
+ *    before BOTH the slug/name emit and the column label or the bundle keeps a mixed spelling.
+ * 3. The `classes:` saving-throw override, the ONE upstream pair the SRD block gets wrong.
+ */
+describe("class-merge: R4-G7 T5 · effects, the 2024 name normaliser, saving_throws", () => {
+  const featured = (name: string, levels: number[], cells: Array<{ level: number; column_value: string }> = []) => ({
+    key: `srd_x_${name.toLowerCase().replace(/\s+/g, "-")}`,
+    name,
+    desc: `${name} does a thing.`,
+    feature_type: "CLASS_LEVEL_FEATURE",
+    gained_at: levels.map((level) => ({ level, detail: null })),
+    data_for_class_table: cells,
+  });
+
+  const drive = (edition: "2014" | "2024", bare: string, features: unknown[], overlay: unknown = null) =>
+    toClassCanonical(baseEntry({
+      slug: `${edition === "2014" ? "srd-5e" : "srd-2024"}_class_${bare}`,
+      edition,
+      base: {
+        key: `srd_${bare}`,
+        name: bare[0].toUpperCase() + bare.slice(1),
+        desc: "",
+        hit_dice: "D8",
+        subclass_of: null,
+        saving_throws: [{ name: "Dexterity" }, { name: "Strength" }],
+        features,
+      },
+      overlay,
+    })) as {
+      saving_throws: string[];
+      table: Record<string, { columns?: Record<string, string | number>; feature_ids: string[] }>;
+      features_by_level: Record<string, Array<{ id?: string; name: string; effects?: unknown[] }>>;
+    };
+
+  it("emits an authored overlay effects array onto the feature, in EVERY level bucket it is gained at", () => {
+    const out = drive("2014", "fighter", [featured("Extra Attack", [5, 11, 20])], {
+      class_features: {
+        "fighter:extra-attack": {
+          effects: [{ kind: "extra-attack", count: 1, scales_at: [{ level: 11, count: 2 }, { level: 20, count: 3 }] }],
+        },
+      },
+      classes: null,
+    });
+    for (const lvl of ["5", "11", "20"]) {
+      expect(out.features_by_level[lvl]?.[0]?.effects, `level ${lvl}`)
+        .toEqual([{ kind: "extra-attack", count: 1, scales_at: [{ level: 11, count: 2 }, { level: 20, count: 3 }] }]);
+    }
+  });
+
+  it("leaves a feature with no authored effects without an `effects` key at all", () => {
+    const out = drive("2014", "fighter", [featured("Second Wind", [1])], { class_features: {}, classes: null });
+    expect(Object.keys(out.features_by_level["1"][0])).not.toContain("effects");
+  });
+
+  it("renames the two 2024 upstream typos in the feature name, the id, the table row and the COLUMN LABEL", () => {
+    const out = drive("2024", "monk", [
+      featured("Unarmoed Movement", [2, 2], [{ level: 2, column_value: "+10 ft." }]),
+      featured("Studdied Attacks", [13]),
+    ]);
+    expect(out.features_by_level["2"][0]).toMatchObject({ id: "unarmored-movement", name: "Unarmored Movement" });
+    expect(out.table["2"].feature_ids).toContain("unarmored-movement");
+    expect(Object.keys(out.table["2"].columns ?? {})).toContain("Unarmored Movement");
+    expect(out.features_by_level["13"][0]).toMatchObject({ id: "studied-attacks", name: "Studied Attacks" });
+    expect(out.table["13"].feature_ids).toContain("studied-attacks");
+  });
+
+  it("looks the RENAMED slug up in the overlay, so the Monk speed-bonus is keyed monk:unarmored-movement", () => {
+    const out = drive("2024", "monk", [featured("Unarmoed Movement", [2])], {
+      class_features: { "monk:unarmored-movement": { effects: [{ kind: "speed-bonus", mode: "walk", value: 10 }] } },
+      classes: null,
+    });
+    expect(out.features_by_level["2"][0].effects).toEqual([{ kind: "speed-bonus", mode: "walk", value: 10 }]);
+  });
+
+  it("passes an unknown 2024 feature name through untouched, and does not rename in the 2014 pipeline", () => {
+    const out2024 = drive("2024", "monk", [featured("Deflect Attacks", [3])]);
+    expect(out2024.features_by_level["3"][0]).toMatchObject({ id: "deflect-attacks", name: "Deflect Attacks" });
+    // Scoped to the 2024 pipeline, where both typos live: `classes.2014.json` carries 0 of either.
+    const out2014 = drive("2014", "monk", [featured("Unarmoed Movement", [2])]);
+    expect(out2014.features_by_level["2"][0].name).toBe("Unarmoed Movement");
+  });
+
+  it("takes the saving-throw pair from the classes: overlay when one is authored", () => {
+    const out = drive("2024", "fighter", [], {
+      class_features: null,
+      classes: { fighter: { saving_throws: ["str", "con"] } },
+    });
+    expect(out.saving_throws).toEqual(["str", "con"]);
+    // Control: with no override the upstream pair (Dexterity, Strength) survives unchanged.
+    expect(drive("2024", "fighter", []).saving_throws).toEqual(["dex", "str"]);
+  });
+});

@@ -1,5 +1,5 @@
 import { describe, it, expect, vi } from "vitest";
-import { toCreatureCanonical } from "../../../tools/srd-canonical/merger-rules/creature-merge";
+import { toCreatureCanonical, creatureMergeRule, isPlaceholderBonusBlock } from "../../../tools/srd-canonical/merger-rules/creature-merge";
 import type { CanonicalEntry } from "../../../tools/srd-canonical/merger";
 
 // Aboleth shape, modeled on real Open5e v2 (2024) data — primary damage in
@@ -656,5 +656,136 @@ describe("creature-merge prose-to-formula-tag conversion", () => {
     });
     const slam = result.actions!.find(a => a.name === "Slam")!;
     expect(slam.entries![0]).toContain("`atk:STR+PB`");
+  });
+});
+
+/**
+ * R4-G7 T5 · the SRD monster data floor (spec §8.1 item 4).
+ *
+ * (a) THE PROFICIENCY PREDICATE. Open5e emits a save / skill bonus for every ability on part of the
+ *     corpus (MEASURED at 0.3.3 over both caches: 339 creatures carry all six saves · 331 of them
+ *     the whole 2024 set · 8 carry all eighteen skills, and 204 carry at least one entry whose value
+ *     is 0), so the shipped stat blocks list saves and skills RAW does not give the creature. The
+ *     rule is: emit an entry only when it EXCEEDS the plain ability modifier, which is the only
+ *     thing a proficiency or an expertise can ever do to it.
+ *
+ *     "Exceeds", not "differs", and that is forced by the data rather than chosen: the eight beasts
+ *     of burden (Camel, Donkey, Draft Horse, Elephant, Mule, Pony, Riding Horse, Warhorse) carry an
+ *     all-ZERO save block against nonzero modifiers · 18 save and 16 skill entries BELOW the
+ *     modifier, all eight creatures, 0 in the 2024 cache. `!==` would keep every one of them and the
+ *     Donkey would ship four saves it does not have, which is the outcome §8.1 item 4(a) names as
+ *     wrong. Every entry this predicate keeps still DIFFERS from its modifier, so §15 row 15's
+ *     clause holds either way.
+ *
+ * (b) THE OVERLAY. `pickOverlay` returned a hardcoded `null` with the comment "no overlay applies
+ *     here"; four SRD 5.1 creatures make that false (empty `speed`, null `hit_dice`), so it now
+ *     resolves the new `creatures:` section by bare slug and the comment says what it does.
+ */
+describe("creature-merge: the save / skill proficiency floor (R4-G7 T5)", () => {
+  const archmage2014: Record<string, unknown> = {
+    key: "srd_archmage", name: "Archmage", document: { name: "SRD 5.1", key: "srd" },
+    size: { name: "Medium", key: "medium" }, type: { name: "Humanoid", key: "humanoid" },
+    armor_class: 12, hit_points: 99, hit_dice: "18d8+18", challenge_rating: 12,
+    ability_scores: { strength: 10, dexterity: 14, constitution: 12, intelligence: 20, wisdom: 15, charisma: 16 },
+    modifiers: { strength: 0, dexterity: 2, constitution: 1, intelligence: 5, wisdom: 2, charisma: 3 },
+    // The 2024 cache shape: every ability present, only two of them actually proficient.
+    saving_throws: { strength: 0, dexterity: 2, constitution: 1, intelligence: 9, wisdom: 6, charisma: 3 },
+    skill_bonuses: { arcana: 13, history: 9, perception: 6, athletics: 0, stealth: 2 },
+    speed: { walk: 30, unit: "feet" },
+    languages: { as_string: "Common" },
+    resistances_and_immunities: {}, actions: [], traits: [],
+  };
+
+  const donkey2014: Record<string, unknown> = {
+    key: "srd_donkey", name: "Donkey", document: { name: "SRD 5.1", key: "srd" },
+    size: { name: "Medium", key: "medium" }, type: { name: "Beast", key: "beast" },
+    armor_class: 10, hit_points: 11, hit_dice: null, challenge_rating: 0,
+    ability_scores: { strength: 14, dexterity: 10, constitution: 13, intelligence: 2, wisdom: 10, charisma: 5 },
+    modifiers: { strength: 2, dexterity: 0, constitution: 1, intelligence: -4, wisdom: 0, charisma: -3 },
+    // The beast-of-burden shape: an all-zero block against nonzero modifiers.
+    saving_throws: { strength: 0, dexterity: 0, constitution: 0, intelligence: 0, wisdom: 0, charisma: 0 },
+    skill_bonuses: { athletics: 0, perception: 0, stealth: 0 },
+    speed: { walk: 0, unit: "feet" },
+    languages: { as_string: "" },
+    resistances_and_immunities: {}, actions: [], traits: [],
+  };
+
+  it("keeps exactly the Archmage's two proficient saves and drops the four that equal the modifier", () => {
+    const out = toCreatureCanonical(buildEntry(archmage2014, "2014"));
+    expect(out.saves).toEqual({ int: 9, wis: 6 });
+  });
+
+  it("keeps only the skills that exceed their ability modifier", () => {
+    const out = toCreatureCanonical(buildEntry(archmage2014, "2014"));
+    // arcana / history / perception are proficient; athletics (0 = STR 0) and stealth (2 = DEX 2) are not.
+    expect(out.skills).toEqual({ arcana: 13, history: 9, perception: 6 });
+  });
+
+  it("gives the Donkey no saves and no skills at all, against its all-zero upstream block", () => {
+    const out = toCreatureCanonical(buildEntry(donkey2014, "2014"));
+    expect(out.saves).toBeUndefined();
+    expect(out.skills).toBeUndefined();
+  });
+
+  it("keeps a genuine zero on a NEGATIVE ability: the Zombie's RAW Wis +0 (WIS -2 plus PB 2)", () => {
+    // The one-key upstream block the placeholder guard must NOT swallow. MEASURED at 0.3.3:
+    // the 2014 Zombie and Ogre Zombie carry `{wisdom: 0}` and nothing else.
+    const zombie = {
+      ...donkey2014, key: "srd_zombie", name: "Zombie",
+      ability_scores: { strength: 13, dexterity: 6, constitution: 16, intelligence: 3, wisdom: 6, charisma: 5 },
+      modifiers: { strength: 1, dexterity: -2, constitution: 3, intelligence: -4, wisdom: -2, charisma: -3 },
+      saving_throws: { wisdom: 0 },
+      skill_bonuses: {},
+    };
+    expect(toCreatureCanonical(buildEntry(zombie, "2014")).saves).toEqual({ wis: 0 });
+  });
+
+  it("the placeholder guard fires ONLY on an exhaustive all-zero block over nonzero modifiers", () => {
+    const mods: Record<string, number> = { str: 2, dex: 0, con: 1, int: -4, wis: 0, cha: -3 };
+    const zeroSix = { str: 0, dex: 0, con: 0, int: 0, wis: 0, cha: 0 };
+    expect(isPlaceholderBonusBlock(zeroSix, 6, (k) => mods[k])).toBe(true);
+    // Short block (the Zombie): real data.
+    expect(isPlaceholderBonusBlock({ wis: 0 }, 6, (k) => mods[k])).toBe(false);
+    // A real bonus anywhere: real data.
+    expect(isPlaceholderBonusBlock({ ...zeroSix, int: 9 }, 6, (k) => mods[k])).toBe(false);
+    // The 2024 Commoner: six zeroes on six +0 abilities are simply true.
+    expect(isPlaceholderBonusBlock(zeroSix, 6, () => 0)).toBe(false);
+  });
+
+  it("applies an authored creatures overlay: the Donkey's speed and hit-dice formula", () => {
+    const entry = buildEntry(donkey2014, "2014");
+    entry.overlay = creatureMergeRule.pickOverlay(
+      { creatures: { donkey: { speed: { walk: 40 }, hp: { formula: "2d8+2" } } } } as never,
+      "srd_donkey",
+    );
+    const out = toCreatureCanonical(entry);
+    expect(out.speed).toEqual({ walk: 40 });
+    expect(out.hp).toEqual({ average: 11, formula: "2d8+2" });
+  });
+
+  it("pickOverlay resolves the creatures section by BARE slug and returns null when nothing is authored", () => {
+    expect(creatureMergeRule.pickOverlay({ creatures: { donkey: { speed: { walk: 40 } } } } as never, "srd_donkey"))
+      .toEqual({ speed: { walk: 40 } });
+    expect(creatureMergeRule.pickOverlay({ creatures: { donkey: { speed: { walk: 40 } } } } as never, "srd_archmage"))
+      .toBeNull();
+    expect(creatureMergeRule.pickOverlay({} as never, "srd_donkey")).toBeNull();
+  });
+
+  it("merges the authored modes into the emitted ones rather than replacing the block", () => {
+    const entry = buildEntry({ ...donkey2014, speed: { walk: 0, swim: 20, unit: "feet" } }, "2014");
+    entry.overlay = creatureMergeRule.pickOverlay(
+      { creatures: { donkey: { speed: { walk: 40 } } } } as never,
+      "srd_donkey",
+    );
+    expect(toCreatureCanonical(entry).speed).toEqual({ swim: 20, walk: 40 });
+  });
+
+  it("keeps an authored zero, which is the Shrieker's RAW speed", () => {
+    const entry = buildEntry({ ...donkey2014, name: "Shrieker", key: "srd_shrieker" }, "2014");
+    entry.overlay = creatureMergeRule.pickOverlay(
+      { creatures: { shrieker: { speed: { walk: 0 } } } } as never,
+      "srd_shrieker",
+    );
+    expect(toCreatureCanonical(entry).speed).toEqual({ walk: 0 });
   });
 });

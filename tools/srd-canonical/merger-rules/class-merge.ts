@@ -4,6 +4,7 @@ import { rewriteCrossRefs } from "../cross-ref-map";
 import { slugifyName } from "../sources/slug-normalize";
 import type { Resource } from "@archivist-gg/dnd5e/types/resource";
 import type { Choice } from "@archivist-gg/dnd5e/types/choice";
+import type { FeatureEffect } from "@archivist-gg/dnd5e/types/feature-effect";
 import type { StartingEquipmentEntry, StartingGold } from "@archivist-gg/dnd5e/types/equipment-grant";
 // CasterType is declared ONCE in schemas/caster-type-schema.ts; CASTER_TYPE_MAP reads it. Never redeclare it.
 import type { CasterType } from "@archivist-gg/dnd5e/schemas/caster-type-schema";
@@ -84,6 +85,11 @@ export interface ClassFeatureOut {
   action?: "action" | "bonus-action" | "reaction" | "free" | "special";
   resources?: Resource[];
   choices?: Choice[];
+  /** R4-G7 T5 (spec §8.1 items 1 and 2): the typed mechanics the SRD prose states and the
+   *  upstream source cannot express (extra-attack, unarmed-strike, unarmored-ac, speed-bonus).
+   *  Authored ONLY through the overlay's `class_features` map, validated by the strict
+   *  `classFeatureOverrideSchema`, and read by `computeFeatureEffects` at resolve time. */
+  effects?: FeatureEffect[];
 }
 
 interface ResourceOut {
@@ -425,6 +431,9 @@ export type FeatureOverlayMap = Record<
     action_cost?: ClassFeatureOut["action"];
     resources?: Resource[];
     choices?: Choice[];
+    // R4-G7 T5: authored typed mechanics. Declared on the SHARED map because
+    // subclass-merge emits from the same record; see its bucketer.
+    effects?: FeatureEffect[];
   }
 >;
 
@@ -434,6 +443,8 @@ export type FeatureOverlayMap = Record<
  */
 export interface ClassOverride {
   skill_choices?: { count: number; from: SkillSlug[] };
+  /** R4-G7 T5: the authored saving-throw pair, when the upstream one is wrong. */
+  saving_throws?: Ability[];
   starting_equipment?: StartingEquipmentEntry[];
   starting_gold?: StartingGold;
   subclass_level?: number;
@@ -460,6 +471,41 @@ export function lookupFeatureOverlay<T>(
   featureSlug: string,
 ): T | undefined {
   return map?.[`${ownerBareSlug}:${featureSlug}`] ?? map?.[featureSlug];
+}
+
+/**
+ * The upstream 2024 class feature names this generator corrects, and THE ONLY route by which any
+ * SRD feature is renamed (R4-G7 spec §8.1 item 3).
+ *
+ * Why a normaliser and not an overlay key: `featureOverrideSchema` declares no `name`, so an
+ * authored one is not authoring at all · it is silently discarded. And the name is not one field
+ * but four outputs: `bucketFeaturesByLevel` emits `name: f.name`, derives `id = slugifyName(f.name)`
+ * from it, pushes that id into the level's `feature_ids`, and `buildTable` reuses the SAME `f.name`
+ * as a class-table COLUMN LABEL. Correcting the name upstream of both consumers moves all four
+ * together; correcting any one of them alone ships a document that disagrees with itself.
+ *
+ * MEASURED at T5 in `.cache/open5e/`: ONE occurrence of each typo, both in `classes.2024.json`
+ * (the 2024 Monk's `Unarmoed Movement`, a CLASS_LEVEL_FEATURE that also owns 19 table cells, and the
+ * 2024 Fighter's `Studdied Attacks`), ZERO in `classes.2014.json` · which is why the fix is scoped
+ * to the 2024 pipeline. Both upstream `key`s are already spelled correctly
+ * (`srd-2024_monk_unarmored-movement`, `srd-2024_fighter_studied-attacks`); only the display NAME
+ * is wrong, and the emitted slug is derived from the name, never the key.
+ */
+const NAME_FIXES_2024: Record<string, string> = {
+  "Unarmoed Movement": "Unarmored Movement",
+  "Studdied Attacks": "Studied Attacks",
+};
+
+/** Apply {@link NAME_FIXES_2024} to the upstream feature list, once, before ANY consumer reads
+ *  `f.name`. Returns the same array when the edition is 2014 or nothing matches, so the common path
+ *  allocates nothing. */
+function applyNameFixes(features: Open5eClassFeature[], edition: "2014" | "2024"): Open5eClassFeature[] {
+  if (edition !== "2024") return features;
+  if (!features.some((f) => NAME_FIXES_2024[f.name] !== undefined)) return features;
+  return features.map((f) => {
+    const fixed = NAME_FIXES_2024[f.name];
+    return fixed === undefined ? f : { ...f, name: fixed };
+  });
 }
 
 interface SubclassFeatureHint {
@@ -517,6 +563,7 @@ function bucketFeaturesByLevel(
         ...(overlaid?.action_cost ? { action: overlaid.action_cost } : {}),
         ...(overlaid?.resources ? { resources: overlaid.resources } : {}),
         ...(overlaid?.choices ? { choices: overlaid.choices } : {}),
+        ...(overlaid?.effects ? { effects: overlaid.effects } : {}),
       };
       const key = String(lvl);
       out[key] ??= [];
@@ -665,11 +712,15 @@ export function toClassCanonical(entry: CanonicalEntry): ClassCanonical {
   const ownerBareSlug = bareSlug(entry.slug);
   const classOverride = ov?.classes?.[ownerBareSlug];
 
-  const features = base.features ?? [];
+  // ONE rename route, applied before ANY consumer reads a feature name (see NAME_FIXES_2024):
+  // the bucketer's name / id / feature_ids emit and buildTable's column label all read `f.name`.
+  const features = applyNameFixes(base.features ?? [], entry.edition);
 
   const hit_die = normalizeHitDie(base.hit_dice ?? base.hit_points?.hit_dice);
+  // The authored pair beats the upstream one and skips `clampSavingThrows` entirely: the schema
+  // already fixes it at exactly two, so there is nothing to pad or trim.
   const savingsParsed = parseSavingThrows(base.saving_throws);
-  const saving_throws = clampSavingThrows(savingsParsed);
+  const saving_throws = classOverride?.saving_throws ?? clampSavingThrows(savingsParsed);
   const primary_abilities = resolvePrimaryAbilities(entry.slug, base.name, saving_throws);
 
   const { proficiencies, skill_choices } = parseProficienciesProse(features);

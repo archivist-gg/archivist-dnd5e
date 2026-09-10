@@ -198,9 +198,13 @@ describe("authored overlay effect slugs are in vocabulary", () => {
   // left alone, the walk could have lost HALF its reach and still passed. So
   // the rule is: author effects, re-measure, raise this. Both numbers here are
   // the output of that re-measure, not a carried-forward guess.
+  // RE-MEASURED at R4-G7 T5, per this block's own rule (author effects, re-measure, raise this):
+  // 2014 = 32 effect objects (11 proficiency, 10 resistance, 5 extra-attack, 2 unarmored-ac,
+  // 2 speed-bonus, 1 unarmed-strike, 1 ac-bonus) · 2024 = 31 (18 resistance, 7 extra-attack,
+  // 2 unarmored-ac, 2 speed-bonus, 1 unarmed-strike, 1 ac-bonus, no proficiency). Was 22 / 19.
   it.each([
-    { edition: "2014", file: OVERLAY_2014, minEffects: 22 },
-    { edition: "2024", file: OVERLAY_2024, minEffects: 19 },
+    { edition: "2014", file: OVERLAY_2014, minEffects: 32 },
+    { edition: "2024", file: OVERLAY_2024, minEffects: 31 },
   ])("every authored effect slug is in vocabulary ($edition)", async ({ edition, file, minEffects }) => {
     const overlay = await loadOverlay(file);
     expect(allEffects(overlay).length).toBeGreaterThanOrEqual(minEffects);
@@ -290,10 +294,14 @@ describe("authored overlay effect slugs are in vocabulary", () => {
     // The literal length on its own is SELF-REFERENTIAL: it goes red only when
     // someone edits the list above, never when a new section is added to
     // `overlaySchema`, which is the case that actually makes the walk blind.
-    // So tie it to the schema. `optional_feature_slugs` is the single declared
-    // section that cannot carry effects (it is a record of slug ARRAYS), so the
-    // walked list plus that one key must be exactly the schema's key set.
-    expect([...SECTIONS_WITH_EFFECTS, "optional_feature_slugs"].sort())
+    // So tie it to the schema. TWO declared sections cannot carry effects and are
+    // named here rather than walked: `optional_feature_slugs` (a record of slug
+    // ARRAYS) and, since R4-G7 T5, `creatures` (a record of `{speed, hp}` records
+    // for the four SRD 5.1 creatures the upstream cache cannot supply · monsters
+    // carry no feature effects at all, which is why `SECTIONS_WITH_EFFECTS` stays
+    // at NINE). The walked list plus those two keys must be exactly the schema's
+    // key set.
+    expect([...SECTIONS_WITH_EFFECTS, "optional_feature_slugs", "creatures"].sort())
       .toEqual(Object.keys(overlaySchema.shape).sort());
   });
 });

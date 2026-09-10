@@ -224,7 +224,10 @@ describe("backgroundMergeRule", () => {
         desc: "x",
         document: { key: "srd-2024", name: "SRD 5.2" },
         benefits: [
-          { name: "Feat", desc: "Magic Initiate (Cleric)", type: "feat" },
+          // ⚠️ Was `Magic Initiate (Cleric)` until R4-G7 T5, asserting the wikilink the source
+          // states. That link points at a document the bundle does not ship, so the case now uses a
+          // name that IS shipped and the two corrected ones are pinned in their own describe below.
+          { name: "Feat", desc: "Savage Attacker", type: "feat" },
           { name: "Feature", desc: "F.", type: "feature" },
         ],
       } as never,
@@ -233,7 +236,7 @@ describe("backgroundMergeRule", () => {
       overlay: null,
     };
     const out = toBackgroundCanonical(canonical);
-    expect(out.origin_feat).toBe("[[SRD 2024/Feats/Magic Initiate (Cleric)]]");
+    expect(out.origin_feat).toBe("[[SRD 2024/Feats/Savage Attacker]]");
   });
 
   it("falls back to placeholder feature description when benefits[] has no feature entry", () => {
@@ -401,5 +404,51 @@ describe("2024 background languages (Common + choose 2) [R3-P2 D2]", () => {
     expect(from).toHaveLength(2);
     expect(from!.every((s) => GAMING_SETS.includes(s))).toBe(true);
     expect(from).toEqual(["dice-set", "playing-cards"]);
+  });
+});
+
+/**
+ * R4-G7 T5 · the two SRD 2024 origin-feat links that point at documents the bundle does not ship
+ * (spec §8.1 item 6, the NAMED expected row).
+ *
+ * MEASURED at bundle 0.3.3: `SRD 2024/Backgrounds/Acolyte.md` links `Magic Initiate (Cleric)` and
+ * `Sage.md` links `Magic Initiate (Wizard)`, while `SRD 2024/Feats/` ships exactly ONE
+ * `Magic Initiate.md` and `.cache/open5e/feats.2024.json` carries exactly ONE `Magic Initiate`
+ * entry. Both links are therefore broken, and the engine's tier-3 resolver silently redirects them
+ * to `srd-2024_feat_magic-initiate` · a fallback doing the data's job.
+ *
+ * DECISION (T5, with the count): RE-POINT, do not emit per-class documents. Two reasons, both
+ * measured. The generator has no per-class feat to emit · it would have to fabricate three copies of
+ * the one upstream entry. And the shipped `Magic Initiate` already carries the class list as a
+ * DECISION: a `select-inline` `spell-list` choice over cleric / druid / wizard, each branch holding
+ * its own cantrip and level-1 spell picks. Splitting it into three documents would delete the pick
+ * and hard-code the branch the background happens to name.
+ */
+describe("origin_feat links resolve to a document the bundle ships (R4-G7 T5)", () => {
+  const drive = (bg: string, featDesc: string): { origin_feat: string | null } =>
+    toBackgroundCanonical({
+      slug: `srd-2024_background_${bg}`,
+      edition: "2024",
+      kind: "background",
+      base: {
+        key: bg, name: bg[0].toUpperCase() + bg.slice(1), desc: "",
+        document: { key: "srd-2024", name: "SRD 5.2" },
+        benefits: [{ name: "Feat", desc: featDesc, type: "feat" }],
+      } as never,
+      structured: null, activation: null, overlay: null,
+    }) as { origin_feat: string | null };
+
+  it("re-points both parenthesised Magic Initiate names at the one shipped document", () => {
+    expect(drive("acolyte", "Magic Initiate (Cleric)").origin_feat)
+      .toBe("[[SRD 2024/Feats/Magic Initiate]]");
+    expect(drive("sage", "Magic Initiate (Wizard)").origin_feat)
+      .toBe("[[SRD 2024/Feats/Magic Initiate]]");
+  });
+
+  it("leaves every other origin feat name exactly as the source states it", () => {
+    expect(drive("soldier", "Savage Attacker").origin_feat).toBe("[[SRD 2024/Feats/Savage Attacker]]");
+    expect(drive("criminal", "Alert").origin_feat).toBe("[[SRD 2024/Feats/Alert]]");
+    // Not a blanket parenthesis strip: only the two measured names are corrected.
+    expect(drive("x", "Some Feat (Bard)").origin_feat).toBe("[[SRD 2024/Feats/Some Feat (Bard)]]");
   });
 });

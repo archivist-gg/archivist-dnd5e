@@ -103,6 +103,12 @@ function bucketFeaturesByLevel(
         ...(overlaid?.action_cost ? { action: overlaid.action_cost } : {}),
         ...(overlaid?.resources ? { resources: overlaid.resources } : {}),
         ...(overlaid?.choices ? { choices: overlaid.choices } : {}),
+        // R4-G7 T5: subclass features share the `class_features` overlay namespace and the same
+        // FeatureOverlayMap record, so an `effects` array authored at a subclass-scoped key would
+        // otherwise be validated by the schema, carried into the map, and then dropped HERE in
+        // silence. No SRD subclass authors one today (MEASURED: zero data delta in the T5 regen);
+        // this closes the divergence rather than waiting for the first author to find it.
+        ...(overlaid?.effects ? { effects: overlaid.effects } : {}),
       };
       const key = String(lvl);
       out[key] ??= [];

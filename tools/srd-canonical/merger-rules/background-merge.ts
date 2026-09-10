@@ -73,6 +73,26 @@ const SKILL_NAME_TO_SLUG: Record<string, SkillSlug> = {
   survival: "survival",
 };
 
+/**
+ * Origin-feat names the upstream 2024 source states with a class in parentheses, mapped to the feat
+ * document the bundle actually ships (R4-G7 T5, spec §8.1 item 6).
+ *
+ * MEASURED at 0.3.3: `.cache/open5e/feats.2024.json` carries ONE `Magic Initiate`, the bundle ships
+ * ONE `SRD 2024/Feats/Magic Initiate.md`, and exactly TWO backgrounds (Acolyte, Sage) name it with a
+ * class suffix · so both links resolve to nothing and only the engine's tier-3 name fallback saves
+ * them. The one shipped document already carries the class list as a decision (a `select-inline`
+ * `spell-list` pick over cleric / druid / wizard), so re-pointing preserves the player's choice
+ * where emitting three fabricated per-class documents would delete it.
+ *
+ * An exact-name map, never a blanket parenthesis strip: a future feat whose real name carries
+ * parentheses must keep them, and a NEW broken link should surface as one rather than be quietly
+ * rewritten into some other document.
+ */
+const ORIGIN_FEAT_NAME_FIXES: Record<string, string> = {
+  "Magic Initiate (Cleric)": "Magic Initiate",
+  "Magic Initiate (Wizard)": "Magic Initiate",
+};
+
 const ABILITY_NAME_TO_KEY: Record<string, Ability> = {
   strength: "str",
   dexterity: "dex",
@@ -159,7 +179,7 @@ export function toBackgroundCanonical(entry: CanonicalEntry): BackgroundCanonica
         break;
       }
       case "feat": {
-        const featName = (b.desc ?? "").trim();
+        const featName = ORIGIN_FEAT_NAME_FIXES[(b.desc ?? "").trim()] ?? (b.desc ?? "").trim();
         if (featName) {
           originFeat = `[[${compendium}/Feats/${featName}]]`;
         }
