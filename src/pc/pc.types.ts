@@ -281,18 +281,24 @@ export interface ResolvedFeature {
   renderSuppressed?: boolean;
   /** The feat's entire substance is a full ability-score improvement (a pure ASI). The DISPLAY layer hides these. */
   buildOnly?: boolean;
-  /** R4-G7 §7.1: the per-level `choices` of the LOWER copies the resolve-time fold collapsed into this wrapper,
-   *  ASCENDING by level, one entry per folded copy that CARRIES choices (a copy with none contributes none).
-   *  A wrapper-only field, the `chosenInline` precedent: the shared registry `Feature` is never touched.
+  /** R4-G7 §7.1: EVERY LOWER copy the resolve-time fold collapsed into this wrapper, ASCENDING by level, with
+   *  that copy's own card identity (`name`, and `description` = its `description` else its `entries` joined) and
+   *  its `choices` when it carries any. A wrapper-only field, the `chosenInline` precedent: the shared registry
+   *  `Feature` is never touched.
    *
-   *  The invariant every walker relies on: the TOP copy's own choices stay on `feature.choices` and are NEVER
-   *  repeated here, so visiting `foldedFrom` (each at its own `level`) and then `feature.choices` (at
-   *  `source.level`) visits every folded copy's choices EXACTLY ONCE, in ascending level order · the order the
-   *  un-folded list had. That is what keeps "a level-N decision on a repeated feature stays a decision at level
-   *  N" true while the sheet renders ONE row. Its two readers are `visitProficiencyChoices` (through
-   *  `collectChosenProficiencies`) and `buildDecisionLedger`, both in `pc.decision-engine.ts`. Absent on an
-   *  unfolded wrapper and on a folded one whose lower copies carry no choices. */
-  foldedFrom?: { level: number; choices: Choice[] }[];
+   *  The invariant every walker relies on: the TOP copy's own name, prose and choices stay on `feature` and are
+   *  NEVER repeated here, so visiting `foldedFrom` (each entry at its own `level`) and then `feature` (at
+   *  `source.level`) visits every folded copy EXACTLY ONCE, in ascending level order · the order the un-folded
+   *  list had. That is what keeps "a level-N decision on a repeated feature stays a decision at level N" true,
+   *  and what keeps the builder's per-level strip complete, while the sheet renders ONE row.
+   *
+   *  Both readers live in `pc.decision-engine.ts`: `visitProficiencyChoices` (through
+   *  `collectChosenProficiencies`) walks the entries that carry `choices` and nothing else, and
+   *  `buildDecisionLedger` emits each entry at its own level, its choices when it has them and otherwise the
+   *  informational card the un-folded copy emitted. Per-copy `name` and `description` are load-bearing, not
+   *  decoration: MEASURED over both corpora, 63 of the 131 repeated-id families have a copy whose description
+   *  differs from the top copy's and 1 has a differing name. Absent on an unfolded wrapper. */
+  foldedFrom?: { level: number; name: string; description?: string; choices?: Choice[] }[];
 }
 
 export interface ResolvedSpell {

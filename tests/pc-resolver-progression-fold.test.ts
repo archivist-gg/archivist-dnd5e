@@ -41,7 +41,10 @@ describe("the resolve-time fold of repeated features (spec §7.1, ruling R-G7-4)
     expect(lvlOf(out[0])).toBe(5);
     expect(out[0].feature.description).toBe("at 5");               // the HIGHEST copy's identity
     // §7.1: the FIRST declaration of each resource id wins (the `resolveFeatureResources` duplicate rule, applied
-    // in ASCENDING level order), so the level-1 copy's declaration is the one the wrapper carries.
+    // in ASCENDING level order), so the level-1 copy's declaration is the one the wrapper carries. The COUNT is
+    // the load-bearing half (m3b): the plugin renders `resources.slice(1)` as extra rows on the feature card, so
+    // four un-deduped copies of one resource id would print three phantom rows with the whole suite green.
+    expect(out[0].feature.resources).toHaveLength(1);
     expect(out[0].feature.resources?.[0].max_formula).toBe("2");
   });
 
@@ -122,6 +125,7 @@ describe("the resolve-time fold of repeated features (spec §7.1, ruling R-G7-4)
 
   it("the folded channel-divinity wrapper carries the level-2 resource and the index still holds it (m3's kill row)", () => {
     const rows = collectResolvedFeatures(null, [cleric], null, []);
+    expect(last(withId(rows, "channel-divinity")).feature.resources).toHaveLength(1);
     expect(last(withId(rows, "channel-divinity")).feature.resources?.[0]?.id).toBe("cleric:channel-divinity");
     expect(resolveFeatureResources(rows).get("cleric:channel-divinity")?.name).toBe("Channel Divinity");
     expect(last(withId(rows, "channel-divinity")).feature.description).toBe("at 18");

@@ -664,9 +664,10 @@ function visitProficiencyChoices(
       const belongs = rf.source.kind === "class" ? rf.source.slug === entity.slug
         : c.subclass != null && rf.source.slug === c.subclass.slug;
       if (!belongs) continue;
-      // R4-G7 §7.1: a folded wrapper carries its lower copies' choices, each read at that copy's OWN level, so
-      // a level-N decision on a repeated feature stays a decision at level N. Ascending FIRST, then the top
-      // copy's own choices, which is the order (and the collection order) the un-folded list had.
+      // R4-G7 §7.1: a folded wrapper carries its lower copies, each read at that copy's OWN level, so a level-N
+      // decision on a repeated feature stays a decision at level N. Ascending FIRST, then the top copy's own
+      // choices, which is the order (and the collection order) the un-folded list had. A copy that carries no
+      // choices walks NOTHING here (`walk` iterates `choices ?? []`): its per-level card is the ledger's job.
       for (const copy of rf.foldedFrom ?? []) walk(copy.choices, readAt(copy.level));
       walk(rf.feature.choices, readAt(rf.source.level));
     }
@@ -1265,19 +1266,29 @@ export function buildDecisionLedger(resolved: ResolvedCharacter, ctx: DecisionCo
             { description: rf.feature.description }));
         }
       };
-      for (const copy of rf.foldedFrom ?? []) emitChoices(copy.choices, copy.level);
+      // R4-G7 §7.1 fix round 1: ONE informational card per feature COPY, the contract this loop has always
+      // carried ("EVERY gained feature appears in the per-level strip"), rebuilt for a folded wrapper. Each card
+      // uses its OWN copy's name and prose: MEASURED over both corpora, 63 of the 131 repeated-id families have
+      // a copy whose description differs from the top copy's and 1 has a differing name.
+      const informationalItem = (atLvl: number, name: string, description: string | undefined): DecisionItem => ({
+        key: rf.feature.id ?? name, source: src, level: atLvl,
+        featureName: name,
+        description,
+        choice: { kind: "select-inline", id: rf.feature.id ?? name, options: [{ value: "_", label: "_" }] },
+        options: [], selected: undefined, status: "informational",
+        satisfied: false,
+      });
+      // Every folded LOWER copy at its own level: its choices when it carries any, else the card the un-folded
+      // copy emitted. A copy with neither choices nor prose emits nothing, exactly as it did un-folded.
+      for (const copy of rf.foldedFrom ?? []) {
+        if (copy.choices?.length) emitChoices(copy.choices, copy.level);
+        else if (copy.description) push(copy.level, informationalItem(copy.level, copy.name, copy.description));
+      }
       let choices = rf.feature.choices;
       if (!choices?.length) {
         const recognized = recognizeDecision(rf.feature);
         if (recognized === "informational") {
-          push(lvl, {
-            key: rf.feature.id ?? rf.feature.name, source: src, level: lvl,
-            featureName: rf.feature.name,
-            description: rf.feature.description ?? rf.feature.entries?.join("\n\n"),
-            choice: { kind: "select-inline", id: rf.feature.id ?? rf.feature.name, options: [{ value: "_", label: "_" }] },
-            options: [], selected: undefined, status: "informational",
-            satisfied: false,
-          });
+          push(lvl, informationalItem(lvl, rf.feature.name, rf.feature.description ?? rf.feature.entries?.join("\n\n")));
           continue;
         }
         choices = recognized ?? undefined;
@@ -1299,14 +1310,7 @@ export function buildDecisionLedger(resolved: ResolvedCharacter, ctx: DecisionCo
         // (complete view; no silent gaps for plain-flavor features like Blood Price).
         // Skip synthetic resource-only carriers (entity-level resources, no prose).
         if (rf.feature.description || rf.feature.entries?.length) {
-          push(lvl, {
-            key: rf.feature.id ?? rf.feature.name, source: src, level: lvl,
-            featureName: rf.feature.name,
-            description: rf.feature.description ?? rf.feature.entries?.join("\n\n"),
-            choice: { kind: "select-inline", id: rf.feature.id ?? rf.feature.name, options: [{ value: "_", label: "_" }] },
-            options: [], selected: undefined, status: "informational",
-            satisfied: false,
-          });
+          push(lvl, informationalItem(lvl, rf.feature.name, rf.feature.description ?? rf.feature.entries?.join("\n\n")));
         }
         continue;
       }

@@ -704,8 +704,10 @@ type LevelledFeature = ResolvedFeature & { source: Extract<FeatureSource, { leve
  *     is untouched by the fold;
  *   · `chosenInline` values are CONCATENATED, so every level's inline pick still renders on the one wrapper.
  *
- * DECISIONS are not merged, they are CARRIED: the wrapper takes `foldedFrom`, one entry per folded LOWER copy
- * that carries `choices`, ascending by level. The decision engine reads a feature's per-level choices off
+ * DECISIONS and CARDS are not merged, they are CARRIED: the wrapper takes `foldedFrom`, one entry per folded
+ * LOWER copy (ascending, whether or not it carries choices), with that copy's own name and prose. The decision
+ * engine emits one informational card PER COPY, so a choice-less repeated feature keeps a card at every level it
+ * was gained at; and it reads a feature's per-level choices off
  * `resolved.features` (NOT off `features_by_level`), at `visitProficiencyChoices` and at `buildDecisionLedger`,
  * and takes the level from the wrapper, so without that field a lower copy's persisted pick would be neither
  * collected nor offered (MEASURED: a Rogue 6 with `expertise` at 1 and 6 lost its two level-1 picks). The TOP
@@ -735,13 +737,20 @@ function foldRepeated(list: LevelledFeature[]): ResolvedFeature[] {
     const sorted = [...arr].sort((a, b) => a.source.level - b.source.level);
     const top = sorted[sorted.length - 1];
     const effects = sorted.flatMap((c) => c.feature.effects ?? []);
+    // The predicate MUTATES `seen` (`&& seen.add(...)`, which returns the Set, i.e. truthy): first declaration
+    // of each resource id wins, and the filter and the bookkeeping stay one expression.
     const seen = new Set<string>();
     const resources = sorted.flatMap((c) => (c.feature.resources ?? []).filter((r) => !seen.has(r.id) && seen.add(r.id)));
     const chosenInline = sorted.flatMap((c) => (c.chosenInline ? [c.chosenInline] : []));
-    // Every folded copy BELOW the top one that carries choices, ascending; the top copy's own stay on `feature`.
-    const foldedFrom = sorted.slice(0, -1)
-      .filter((c) => c.feature.choices?.length)
-      .map((c) => ({ level: c.source.level, choices: c.feature.choices as Choice[] }));
+    // EVERY folded copy BELOW the top one, ascending, with its OWN card identity; the top copy's stays on
+    // `feature`. A copy that carries no choices is still carried, because the builder emits its per-level card.
+    const cardProse = (f: Feature): string | undefined => f.description ?? (f.entries?.length ? f.entries.join("\n\n") : undefined);
+    const foldedFrom = sorted.slice(0, -1).map((c) => ({
+      level: c.source.level,
+      name: c.feature.name,
+      ...(cardProse(c.feature) ? { description: cardProse(c.feature) } : {}),
+      ...(c.feature.choices?.length ? { choices: c.feature.choices } : {}),
+    }));
     return {
       ...top,
       feature: { ...top.feature, ...(effects.length ? { effects } : {}), ...(resources.length ? { resources } : {}) },
@@ -811,7 +820,7 @@ export function collectResolvedFeatures(
     const foldedClass = foldRepeated(classFeatures);
     const foldedSubclass = foldRepeated(subclassFeatures);
     out.push(...foldedClass);
-    // Entity-level class resources (declared on the class, not on a feature) —
+    // Entity-level class resources (declared on the class, not on a feature),
     // surfaced so the seed and rest see them like feature-level resources. The
     // `resources` array is shared with the registry entity (read-only
     // downstream), so no copy is needed. Pushed DIRECTLY, never through the fold
