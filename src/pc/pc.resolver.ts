@@ -683,6 +683,59 @@ function isAsiSlotFeature(feature: Feature): boolean {
   );
 }
 
+/** The fold runs per class list and per subclass list, so every member's source is a levelled arm [G2-B-3]. */
+type LevelledFeature = ResolvedFeature & { source: Extract<FeatureSource, { level: number }> };
+
+/**
+ * R4-G7 §7.1, the user ruling R-G7-4: the resolve-time fold of a REPEATED feature id. Within ONE class list
+ * (and, separately, within ONE subclass list) the copies collected at or below the character's level fold into
+ * ONE wrapper, so the sheet lists a progression family once instead of once per level.
+ *
+ * The kept wrapper is the HIGHEST-level copy: its identity (`name`, `description`, `action`, `action_cost`) and
+ * its `source`. THREE payloads merge across the folded copies in ASCENDING level order:
+ *   · `effects` are CONCATENATED, so a lower copy's effect is never lost (the Storm Herald shape carries its
+ *     effects on the middle copy only);
+ *   · `resources` keep the FIRST declaration of each resource `id`, which is `resolveFeatureResources`'s own
+ *     duplicate rule, so a family that declares its resource on the LOWEST copy only keeps it (the PHB 2014
+ *     Cleric's `channel-divinity` declares it at level 2 alone) and `feature_uses`, keyed by the RESOURCE id,
+ *     is untouched by the fold;
+ *   · `chosenInline` values are CONCATENATED, so every level's inline pick still renders on the one wrapper.
+ *
+ * NEVER folded: a feature without an `id`, an `isAsiSlotFeature` copy (`buildOnly`: the ASI slots at 4 and 8
+ * stay two wrappers) and the entity-level resources pseudo-feature, which its caller pushes to `out` directly
+ * and never hands to this function. A class copy and a subclass copy that share an id never fold across each
+ * other, because the caller folds the two lists separately. Nothing is mutated: every folded wrapper is a
+ * fresh object over the shared registry `Feature`.
+ */
+function foldRepeated(list: LevelledFeature[]): ResolvedFeature[] {
+  const byId = new Map<string, LevelledFeature[]>();
+  const order: LevelledFeature[] = [];
+  for (const rf of list) {
+    const id = rf.feature.id;
+    if (!id || rf.buildOnly) { order.push(rf); continue; }        // id-less, ASI slots: never folded
+    const arr = byId.get(id);
+    if (arr) arr.push(rf); else { byId.set(id, [rf]); order.push(rf); }
+  }
+  return order.map((rf) => {
+    // The two carve-outs are re-tested HERE as well as at the collect above: an ASI slot beside two folding
+    // copies of its own id must keep its own wrapper rather than resolve to their folded one.
+    if (!rf.feature.id || rf.buildOnly) return rf;
+    const arr = byId.get(rf.feature.id);
+    if (!arr || arr.length === 1) return rf;
+    const sorted = [...arr].sort((a, b) => a.source.level - b.source.level);
+    const top = sorted[sorted.length - 1];
+    const effects = sorted.flatMap((c) => c.feature.effects ?? []);
+    const seen = new Set<string>();
+    const resources = sorted.flatMap((c) => (c.feature.resources ?? []).filter((r) => !seen.has(r.id) && seen.add(r.id)));
+    const chosenInline = sorted.flatMap((c) => (c.chosenInline ? [c.chosenInline] : []));
+    return {
+      ...top,
+      feature: { ...top.feature, ...(effects.length ? { effects } : {}), ...(resources.length ? { resources } : {}) },
+      ...(chosenInline.length ? { chosenInline: chosenInline.flat() } : {}),
+    };
+  });
+}
+
 export function collectResolvedFeatures(
   race: RaceEntity | null,
   classes: ResolvedClass[],
@@ -695,6 +748,11 @@ export function collectResolvedFeatures(
     if (!c.entity) continue;
     const slug = c.entity.slug;
     const byLevel = c.entity.features_by_level ?? {};
+    // R4-G7 §7.1: the two lists are collected FIRST and folded separately, so a class copy and a subclass
+    // copy that share an id never fold across each other. `out` keeps today's order: class features, the
+    // entity-level class resources, subclass features, the entity-level subclass resources.
+    const classFeatures: LevelledFeature[] = [];
+    const subclassFeatures: LevelledFeature[] = [];
     for (const [lvlStr, feats0] of Object.entries(byLevel)) {
       const lvl = parseInt(lvlStr, 10);
       if (Number.isNaN(lvl) || lvl > c.level) continue;
@@ -706,23 +764,13 @@ export function collectResolvedFeatures(
         // HERE as well as in the parser. Same object back when nothing applies. Read once, so the
         // ASI-slot test (which reads `action`) and the pushed feature see the same shape.
         const feature = withResolvedActionCost(feat);
-        out.push({
+        classFeatures.push({
           feature,
           source: { kind: "class", slug, level: lvl } satisfies FeatureSource,
           ...(chosenInline ? { chosenInline } : {}),
           ...(isAsiSlotFeature(feature) ? { buildOnly: true } : {}),
         });
       }
-    }
-    // Entity-level class resources (declared on the class, not on a feature) —
-    // surfaced so the seed and rest see them like feature-level resources. The
-    // `resources` array is shared with the registry entity (read-only
-    // downstream), so no copy is needed.
-    if (c.entity.resources?.length) {
-      out.push({
-        feature: { name: c.entity.name, resources: c.entity.resources },
-        source: { kind: "class", slug, level: 1 } satisfies FeatureSource,
-      });
     }
     if (c.subclass) {
       const sSlug = c.subclass.slug;
@@ -736,7 +784,7 @@ export function collectResolvedFeatures(
           const chosenInline = resolveChosenInline(feat, c.choices?.[lvl]);
           // Task 12 again: same resolve-time alias on the subclass half.
           const feature = withResolvedActionCost(feat);
-          out.push({
+          subclassFeatures.push({
             feature,
             source: { kind: "subclass", slug: sSlug, level: lvl } satisfies FeatureSource,
             ...(chosenInline ? { chosenInline } : {}),
@@ -744,13 +792,28 @@ export function collectResolvedFeatures(
           });
         }
       }
-      // Entity-level subclass resources.
-      if (c.subclass.resources?.length) {
-        out.push({
-          feature: { name: c.subclass.name, resources: c.subclass.resources },
-          source: { kind: "subclass", slug: sSlug, level: 1 } satisfies FeatureSource,
-        });
-      }
+    }
+    const foldedClass = foldRepeated(classFeatures);
+    const foldedSubclass = foldRepeated(subclassFeatures);
+    out.push(...foldedClass);
+    // Entity-level class resources (declared on the class, not on a feature) —
+    // surfaced so the seed and rest see them like feature-level resources. The
+    // `resources` array is shared with the registry entity (read-only
+    // downstream), so no copy is needed. Pushed DIRECTLY, never through the fold
+    // (it carries no `feature.id` and is not a progression copy) [G2-B-3].
+    if (c.entity.resources?.length) {
+      out.push({
+        feature: { name: c.entity.name, resources: c.entity.resources },
+        source: { kind: "class", slug, level: 1 } satisfies FeatureSource,
+      });
+    }
+    out.push(...foldedSubclass);
+    // Entity-level subclass resources.
+    if (c.subclass?.resources?.length) {
+      out.push({
+        feature: { name: c.subclass.name, resources: c.subclass.resources },
+        source: { kind: "subclass", slug: c.subclass.slug, level: 1 } satisfies FeatureSource,
+      });
     }
   }
 
