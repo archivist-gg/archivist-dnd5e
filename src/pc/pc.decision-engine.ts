@@ -664,6 +664,10 @@ function visitProficiencyChoices(
       const belongs = rf.source.kind === "class" ? rf.source.slug === entity.slug
         : c.subclass != null && rf.source.slug === c.subclass.slug;
       if (!belongs) continue;
+      // R4-G7 §7.1: a folded wrapper carries its lower copies' choices, each read at that copy's OWN level, so
+      // a level-N decision on a repeated feature stays a decision at level N. Ascending FIRST, then the top
+      // copy's own choices, which is the order (and the collection order) the un-folded list had.
+      for (const copy of rf.foldedFrom ?? []) walk(copy.choices, readAt(copy.level));
       walk(rf.feature.choices, readAt(rf.source.level));
     }
 
@@ -1231,6 +1235,37 @@ export function buildDecisionLedger(resolved: ResolvedCharacter, ctx: DecisionCo
         : c.subclass != null && src.slug === c.subclass.slug;
       if (!belongs) continue;
       const lvl = src.level;
+      // R4-G7 §7.1: ONE copy's choices emitted at ONE level. Called for every folded LOWER copy at that copy's
+      // own level (ascending, the un-folded order) and then for the wrapper's own choices at `src.level`, so a
+      // level-N decision on a repeated feature stays a decision at level N while the sheet renders ONE row.
+      // The count-column read below stays on the CHARACTER's current class level, never on `atLvl`.
+      const emitChoices = (list: Choice[], atLvl: number): void => {
+        for (const ch of list) {
+          // The subclass decision is structural: it reads/writes ClassEntry.subclass.
+          if (ch.kind === "select-entity" && ch.entity_type === "subclass") {
+            sawAuthoredSubclass = true;
+            push(atLvl, buildSubclassItem(ch, src, atLvl, rf.feature.name, c, ctx, ownerBare, rf.feature.description));
+            continue;
+          }
+          // The count from the class TABLE COLUMN (R4-G5 §6.2): a `select-entity` choice whose id is an OWN key of
+          // COUNT_COLUMNS is emitted as a SHALLOW COPY whose count is the greater of the authored one and the
+          // column at the character's CURRENT class level. NEVER mutate the registry entity: `c.entity` IS the
+          // parsed document the whole session shares (invariant 1). `Choice.count` stays `number | undefined`, so
+          // no reader changes. MEASURED on both corpora: a Fighter 2024 grows 3 / 4 / 5 / 6 at levels 1 / 4 / 10 /
+          // 16 against an authored 3, a Barbarian 2024 grows 2 / 3 / 4, and Paladin / Ranger / Rogue 2024 carry no
+          // column and keep their authored 2. Skipping the copy when the column resolves to nothing is not a
+          // shortcut: `Math.max(n, 0)` is `n` for every non-negative authored count.
+          let emitted: Choice = ch;
+          if (ch.kind === "select-entity") {
+            const columns = countColumnsFor(ch.id);
+            const fromTable = columns ? readTableColumn(entity.table, c.level, columns) : null;
+            if (fromTable != null) emitted = { ...ch, count: Math.max(ch.count ?? 1, fromTable) };
+          }
+          push(atLvl, buildItem(emitted, src, atLvl, rf.feature.name, readAt(atLvl), ctx, ownerBare, effective,
+            { description: rf.feature.description }));
+        }
+      };
+      for (const copy of rf.foldedFrom ?? []) emitChoices(copy.choices, copy.level);
       let choices = rf.feature.choices;
       if (!choices?.length) {
         const recognized = recognizeDecision(rf.feature);
@@ -1275,30 +1310,7 @@ export function buildDecisionLedger(resolved: ResolvedCharacter, ctx: DecisionCo
         }
         continue;
       }
-      for (const ch of choices) {
-        // The subclass decision is structural: it reads/writes ClassEntry.subclass.
-        if (ch.kind === "select-entity" && ch.entity_type === "subclass") {
-          sawAuthoredSubclass = true;
-          push(lvl, buildSubclassItem(ch, src, lvl, rf.feature.name, c, ctx, ownerBare, rf.feature.description));
-          continue;
-        }
-        // The count from the class TABLE COLUMN (R4-G5 §6.2): a `select-entity` choice whose id is an OWN key of
-        // COUNT_COLUMNS is emitted as a SHALLOW COPY whose count is the greater of the authored one and the
-        // column at the character's CURRENT class level. NEVER mutate the registry entity: `c.entity` IS the
-        // parsed document the whole session shares (invariant 1). `Choice.count` stays `number | undefined`, so
-        // no reader changes. MEASURED on both corpora: a Fighter 2024 grows 3 / 4 / 5 / 6 at levels 1 / 4 / 10 /
-        // 16 against an authored 3, a Barbarian 2024 grows 2 / 3 / 4, and Paladin / Ranger / Rogue 2024 carry no
-        // column and keep their authored 2. Skipping the copy when the column resolves to nothing is not a
-        // shortcut: `Math.max(n, 0)` is `n` for every non-negative authored count.
-        let emitted: Choice = ch;
-        if (ch.kind === "select-entity") {
-          const columns = countColumnsFor(ch.id);
-          const fromTable = columns ? readTableColumn(entity.table, c.level, columns) : null;
-          if (fromTable != null) emitted = { ...ch, count: Math.max(ch.count ?? 1, fromTable) };
-        }
-        push(lvl, buildItem(emitted, src, lvl, rf.feature.name, readAt(lvl), ctx, ownerBare, effective,
-          { description: rf.feature.description }));
-      }
+      emitChoices(choices, lvl);
     }
 
     // Subclass-pick guarantee (Fix B): when the class declares a subclass_level

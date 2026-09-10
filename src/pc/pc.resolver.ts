@@ -704,6 +704,13 @@ type LevelledFeature = ResolvedFeature & { source: Extract<FeatureSource, { leve
  *     is untouched by the fold;
  *   · `chosenInline` values are CONCATENATED, so every level's inline pick still renders on the one wrapper.
  *
+ * DECISIONS are not merged, they are CARRIED: the wrapper takes `foldedFrom`, one entry per folded LOWER copy
+ * that carries `choices`, ascending by level. The decision engine reads a feature's per-level choices off
+ * `resolved.features` (NOT off `features_by_level`), at `visitProficiencyChoices` and at `buildDecisionLedger`,
+ * and takes the level from the wrapper, so without that field a lower copy's persisted pick would be neither
+ * collected nor offered (MEASURED: a Rogue 6 with `expertise` at 1 and 6 lost its two level-1 picks). The TOP
+ * copy's own `choices` stay on `feature.choices`, so the pair is visited exactly once each.
+ *
  * NEVER folded: a feature without an `id`, an `isAsiSlotFeature` copy (`buildOnly`: the ASI slots at 4 and 8
  * stay two wrappers) and the entity-level resources pseudo-feature, which its caller pushes to `out` directly
  * and never hands to this function. A class copy and a subclass copy that share an id never fold across each
@@ -731,10 +738,15 @@ function foldRepeated(list: LevelledFeature[]): ResolvedFeature[] {
     const seen = new Set<string>();
     const resources = sorted.flatMap((c) => (c.feature.resources ?? []).filter((r) => !seen.has(r.id) && seen.add(r.id)));
     const chosenInline = sorted.flatMap((c) => (c.chosenInline ? [c.chosenInline] : []));
+    // Every folded copy BELOW the top one that carries choices, ascending; the top copy's own stay on `feature`.
+    const foldedFrom = sorted.slice(0, -1)
+      .filter((c) => c.feature.choices?.length)
+      .map((c) => ({ level: c.source.level, choices: c.feature.choices as Choice[] }));
     return {
       ...top,
       feature: { ...top.feature, ...(effects.length ? { effects } : {}), ...(resources.length ? { resources } : {}) },
       ...(chosenInline.length ? { chosenInline: chosenInline.flat() } : {}),
+      ...(foldedFrom.length ? { foldedFrom } : {}),
     };
   });
 }

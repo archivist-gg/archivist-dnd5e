@@ -10,7 +10,7 @@ import type { Ability } from "../types/choice";
 import type { ArmorEntity } from "../armor/armor.types";
 import type { WeaponEntity } from "../weapon/weapon.types";
 import type { ItemEntity } from "../item/item.types";
-import type { SkillSlug, Feature } from "@archivist-gg/dnd5e";
+import type { SkillSlug, Feature, Choice } from "@archivist-gg/dnd5e";
 import type { ClassEntity } from "@archivist-gg/dnd5e/class/class.types";
 import type { CasterType } from "@archivist-gg/dnd5e/schemas/caster-type-schema";
 import type { RaceEntity } from "@archivist-gg/dnd5e/race/race.types";
@@ -281,6 +281,18 @@ export interface ResolvedFeature {
   renderSuppressed?: boolean;
   /** The feat's entire substance is a full ability-score improvement (a pure ASI). The DISPLAY layer hides these. */
   buildOnly?: boolean;
+  /** R4-G7 §7.1: the per-level `choices` of the LOWER copies the resolve-time fold collapsed into this wrapper,
+   *  ASCENDING by level, one entry per folded copy that CARRIES choices (a copy with none contributes none).
+   *  A wrapper-only field, the `chosenInline` precedent: the shared registry `Feature` is never touched.
+   *
+   *  The invariant every walker relies on: the TOP copy's own choices stay on `feature.choices` and are NEVER
+   *  repeated here, so visiting `foldedFrom` (each at its own `level`) and then `feature.choices` (at
+   *  `source.level`) visits every folded copy's choices EXACTLY ONCE, in ascending level order · the order the
+   *  un-folded list had. That is what keeps "a level-N decision on a repeated feature stays a decision at level
+   *  N" true while the sheet renders ONE row. Its two readers are `visitProficiencyChoices` (through
+   *  `collectChosenProficiencies`) and `buildDecisionLedger`, both in `pc.decision-engine.ts`. Absent on an
+   *  unfolded wrapper and on a folded one whose lower copies carry no choices. */
+  foldedFrom?: { level: number; choices: Choice[] }[];
 }
 
 export interface ResolvedSpell {
