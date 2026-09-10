@@ -81,7 +81,10 @@ export const featureEffectSchema = z.discriminatedUnion("kind", [
   }),
   z.object({
     kind: z.literal("unarmed-strike"),
-    dice: z.union([z.string().min(1), z.object({ column: z.string().min(1) })]).optional(),
+    // R4-G7 §7.2: a bare die expression, `<count>d<faces>`. `resolveUnarmedStrike` averages the flat arm with
+    // /^(\d+)d(\d+)$/ and silently averages anything else as 1, so a modifier tail ("1d6+1") or a missing
+    // half ("d6", "1d") must refuse here rather than mis-average there. The `i` arm keeps an authored `1D6`.
+    dice: z.union([z.string().regex(/^\d+d\d+$/i), z.object({ column: z.string().min(1) })]).optional(),
     abilities: z.array(abilityEnum).nonempty().optional(),
     condition: conditionField, subject: subjectField,
   }),

@@ -104,3 +104,53 @@ describe("the Unarmed Strike row (R4-G6b §5)", () => {
     expect(d.ac).toBe(10 + 2 + 2);
   });
 });
+
+// R4-G7 §7.2 / §14.7 · CHARACTERISATION pins. `resolveUnarmedStrike` is UNCHANGED by G7: these five `it`s are
+// green BY CONSTRUCTION and record what the shipped clauses do, so the G6b booking is discharged by evidence
+// rather than by a change. Each names the clause it pins.
+describe("characterisation: the shipped resolveUnarmedStrike clauses (R4-G7 §7.2, §14.7)", () => {
+  const t = { 1: { columns: { "Martial Arts": "1d6" } } };
+
+  it("characterisation: an authored arm's `condition` is never read (the qualifier is carried, never evaluated)", () => {
+    const r = monkResolved(1, t, { str: 10, dex: 16 });
+    r.features[0].feature.effects = [{ kind: "unarmed-strike", dice: "1d10", condition: "While raging" }];
+    expect(last(recalc(r).attacks).damageDice).toBe("1d10");
+  });
+
+  it("characterisation: `foldsNow` is never consulted here, so an activatable feature contributes with its buff OFF", () => {
+    const r = monkResolved(1, t, { str: 10, dex: 16 });
+    r.features[0].feature.activatable = true;                       // and `state.active_buffs` is empty
+    r.features[0].feature.effects = [{ kind: "unarmed-strike", dice: "1d10" }];
+    expect(r.state.active_buffs).toEqual([]);
+    expect(last(recalc(r).attacks).damageDice).toBe("1d10");
+  });
+
+  it("characterisation: an authored unarmed-strike WITHOUT `dice` suppresses the martial-arts synthetic", () => {
+    const r = monkResolved(1, t, { str: 10, dex: 16 });
+    r.features[0].feature.effects = [{ kind: "unarmed-strike", abilities: ["dex"] }];
+    // The class table still carries `Martial Arts: 1d6`; the `if (authored.length || ...) continue` clause is
+    // what keeps the row on the BASE die, with the authored ability set still applied.
+    expect(last(recalc(r).attacks).damageDice).toBe("1+3");
+    expect(last(recalc(r).attacks).breakdown.toHit[0].source).toBe("DEX modifier");
+  });
+
+  it("characterisation: two contributions keep the die with the higher average, either way round", () => {
+    const higherAuthored = monkResolved(1, t, { str: 10, dex: 16 });
+    higherAuthored.features.push({ feature: { id: "iron-fists", name: "Iron Fists", description: "", effects: [{ kind: "unarmed-strike", dice: "1d10" }] }, source: { kind: "class", slug: "test_class_monk", level: 1 } });
+    expect(last(recalc(higherAuthored).attacks).damageDice).toBe("1d10+3");
+    const higherColumn = monkResolved(1, t, { str: 10, dex: 16 });
+    higherColumn.features.push({ feature: { id: "soft-fists", name: "Soft Fists", description: "", effects: [{ kind: "unarmed-strike", dice: "1d4" }] }, source: { kind: "class", slug: "test_class_monk", level: 1 } });
+    expect(last(recalc(higherColumn).attacks).damageDice).toBe("1d6+3");
+  });
+
+  it("characterisation: a `{column}` die on a NON-CLASS source resolves to NOTHING (the base row; booked to G8)", () => {
+    const r = base({ str: 16, dex: 10 });
+    r.classes = [{ entity: { slug: "test_class_monk", name: "Monk", table: t } as never, level: 1, subclass: null, choices: {} }];
+    r.totalLevel = 1;
+    // `classOf` returns undefined for a race source, so `readDie` answers undefined and the row keeps its base
+    // damage. G7 pins the behaviour; which class table a non-class `{column}` should read is the G8 booking.
+    r.features = [{ feature: { id: "draconic-fists", name: "Draconic Fists", description: "", effects: [{ kind: "unarmed-strike", dice: { column: "Martial Arts" } }] }, source: { kind: "race", slug: "dragonborn" } }];
+    expect(last(recalc(r).attacks).damageDice).toBe("1+3");
+    expect(last(recalc(r).attacks).breakdown.toHit[0].source).toBe("STR modifier");
+  });
+});
