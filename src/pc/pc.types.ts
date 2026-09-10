@@ -294,10 +294,14 @@ export interface ResolvedFeature {
    *
    *  Both readers live in `pc.decision-engine.ts`: `visitProficiencyChoices` (through
    *  `collectChosenProficiencies`) walks the entries that carry `choices` and nothing else, and
-   *  `buildDecisionLedger` emits each entry at its own level, its choices when it has them and otherwise the
-   *  informational card the un-folded copy emitted. Per-copy `name` and `description` are load-bearing, not
-   *  decoration: MEASURED over both corpora, 63 of the 131 repeated-id families have a copy whose description
-   *  differs from the top copy's and 1 has a differing name. Absent on an unfolded wrapper. */
+   *  `buildDecisionLedger` runs each entry at its own level through the SAME branch it runs the wrapper through
+   *  (`emitCopy`): its authored choices when it has them, else `recognizeDecision`'s synthesized decision under
+   *  the suppression filter, else the informational card, else nothing. Per-copy `name` and `description` are
+   *  load-bearing, not decoration: they decide what the recognizer sees and what the row prints. MEASURED over
+   *  both corpora, 63 of the 131 repeated-id families have a copy whose description differs from the top copy's
+   *  and 1 has a differing name (an UPPER BOUND: it counts `ability-score-improvement` families, which are
+   *  `buildOnly` and never fold; the non-ASI carriers are `artificer-specialist-feature`, `path-feature`,
+   *  `bard-college-feature`, `expertise` and their siblings). Absent on an unfolded wrapper. */
   foldedFrom?: { level: number; name: string; description?: string; choices?: Choice[] }[];
 }
 

@@ -25,7 +25,8 @@ const expertise = (level: number, withChoices: boolean) => ({
 const ROGUE = {
   slug: "fx_class_rogue", name: "Rogue", hit_die: "d8", edition: "2014",
   primary_abilities: ["dex"], saving_throws: ["dex", "int"], table: {},
-  // The level-3 copy carries NO choices: it must contribute no `foldedFrom` entry (nothing is walked twice).
+  // The level-3 copy carries NO choices, so it exercises the OTHER half of the per-copy branch: it still gets a
+  // `foldedFrom` entry (every lower copy does, since round 1), and the ledger runs it through the recognizer.
   features_by_level: { "1": [expertise(1, true)], "3": [expertise(3, false)], "6": [expertise(6, true)] },
 };
 const registry = () => buildMockRegistry([{ slug: "fx_class_rogue", entityType: "class", data: ROGUE }]);

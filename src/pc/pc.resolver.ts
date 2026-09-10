@@ -706,8 +706,10 @@ type LevelledFeature = ResolvedFeature & { source: Extract<FeatureSource, { leve
  *
  * DECISIONS and CARDS are not merged, they are CARRIED: the wrapper takes `foldedFrom`, one entry per folded
  * LOWER copy (ascending, whether or not it carries choices), with that copy's own name and prose. The decision
- * engine emits one informational card PER COPY, so a choice-less repeated feature keeps a card at every level it
- * was gained at; and it reads a feature's per-level choices off
+ * engine runs EVERY copy through one branch at its own level, the wrapper's included: its authored choices, else
+ * `recognizeDecision`'s synthesized decision under the suppression filter, else an informational card, else
+ * nothing. So a repeated feature keeps a row at every level it was gained at, of the same shape the un-folded
+ * copy had; and the engine reads a feature's per-level choices off
  * `resolved.features` (NOT off `features_by_level`), at `visitProficiencyChoices` and at `buildDecisionLedger`,
  * and takes the level from the wrapper, so without that field a lower copy's persisted pick would be neither
  * collected nor offered (MEASURED: a Rogue 6 with `expertise` at 1 and 6 lost its two level-1 picks). The TOP

@@ -670,7 +670,8 @@ function visitProficiencyChoices(
       // R4-G7 §7.1: a folded wrapper carries its lower copies, each read at that copy's OWN level, so a level-N
       // decision on a repeated feature stays a decision at level N. Ascending FIRST, then the top copy's own
       // choices, which is the order (and the collection order) the un-folded list had. A copy that carries no
-      // choices walks NOTHING here (`walk` iterates `choices ?? []`): its per-level card is the ledger's job.
+      // choices walks NOTHING here (`walk` iterates `choices ?? []`): what such a copy becomes, a synthesized
+      // decision or a card, is the LEDGER's branch (`emitCopy`), and neither shape is collected here.
       for (const copy of rf.foldedFrom ?? []) walk(copy.choices, readAt(copy.level));
       walk(rf.feature.choices, readAt(rf.source.level));
     }
@@ -1290,9 +1291,12 @@ export function buildDecisionLedger(resolved: ResolvedCharacter, ctx: DecisionCo
        * un-folded one was a 2-pick `select-proficiency` decision).
        *
        * `recognizeDecision` reads `id ?? name` and `description` ONLY, so a copy is recognized by its OWN name
-       * and prose under the FAMILY's id. `prose` is the card text and the recognizer's input alike for a folded
-       * copy, because `foldedFrom` carries one prose field; they differ only for a copy that authors `entries`
-       * and no `description`, of which the corpora carry none (measured at fix round 2).
+       * and prose under the FAMILY's id. TWO prose fields, deliberately: `description` is the RAW one, which the
+       * recognizer reads and which `buildItem` stamps on a decision row (so the WRAPPER's rows stay byte-identical
+       * to the pre-fold engine's), and `prose` is the CARD text, the description else the entries joined. A folded
+       * copy carries one prose field, so the two coincide for it; they differ only for a feature that authors
+       * `entries` without a `description`, of which BOTH corpora carry NONE (422 class / subclass documents,
+       * 2,816 features, 0 carriers of a non-empty `entries`: `E/g7-t2-entries-census.txt`).
        */
       const emitCopy = (copy: { level: number; name: string; description?: string; prose?: string; choices?: Choice[] }): void => {
         let list = copy.choices;
@@ -1323,7 +1327,9 @@ export function buildDecisionLedger(resolved: ResolvedCharacter, ctx: DecisionCo
           if (copy.prose) push(copy.level, informationalItem(copy.level, copy.name, copy.prose));
           return;
         }
-        emitChoices(list, copy.level, copy.name, copy.prose);
+        // The RAW description, never the card prose: `buildItem`'s `{ description }` is what the pre-fold engine
+        // passed (`rf.feature.description`), and a folded copy's two fields hold the same string anyway.
+        emitChoices(list, copy.level, copy.name, copy.description);
       };
       // Every folded LOWER copy at its own level, ascending, then the wrapper's own at `src.level`.
       for (const copy of rf.foldedFrom ?? []) emitCopy({ ...copy, prose: copy.description });
