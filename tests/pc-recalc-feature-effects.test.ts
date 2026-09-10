@@ -545,18 +545,21 @@ describe("recalc — feature effects: AC", () => {
     expect(recalc(r, registry()).ac).toBe(25);
   });
 
-  it("unarmored-ac adds Σabilities over base on the no-armor path", () => {
+  it("unarmored-ac sums ONLY the abilities its own list names (R4-G7 T6a E-1)", () => {
     const r = resolvedWith(mkClass("reaver", "d10", 1), [{ kind: "unarmored-ac", abilities: ["cha"] }]);
     r.definition.abilities = { str: 10, dex: 14, con: 10, int: 10, wis: 10, cha: 16 };
-    // 10 + DEX(+2) + CHA(+3) = 15
-    expect(recalc(r).ac).toBe(15);
+    // 10 + CHA(+3) = 13: the list does not name `dex`, so no DEX term. The plain 10 + DEX(+2) = 12 is
+    // the other candidate and loses. (Before E-1 the DEX modifier was added to every formula, printing
+    // 15 here and on the four measured Circle of the Moon 2024 rows, where the oracle read 15 / 16.)
+    expect(recalc(r).ac).toBe(13);
   });
 
-  it("unarmored-ac with empty abilities is base + DEX only (explicit base)", () => {
+  it("unarmored-ac with an EMPTY abilities list is the base alone (R4-G7 T6a E-1)", () => {
     const r = resolvedWith(mkClass("reaver", "d10", 1), [{ kind: "unarmored-ac", abilities: [], base: 13 }]);
     r.definition.abilities = { str: 10, dex: 14, con: 10, int: 10, wis: 10, cha: 10 };
-    // 13 + DEX(+2) = 15 (Draconic-Resilience shape; no extra ability mods)
-    expect(recalc(r).ac).toBe(15);
+    // 13 + nothing = 13, still above the plain 10 + DEX(+2) = 12. A formula that wants the DEX modifier
+    // names it: 15 of the 16 measured `unarmored-ac` carriers do (spec §4, the oracle's own rule).
+    expect(recalc(r).ac).toBe(13);
   });
 
   it("unarmored-ac does not double-count DEX when listed in abilities", () => {

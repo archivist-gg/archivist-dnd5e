@@ -16,7 +16,7 @@ import type { EntityRegistry } from "@archivist-gg/core";
 import { computeAppliedBonuses, computeSlotsAndAttacks, emptyAppliedBonuses, buildUnarmedRow, type UnarmedStrikeSpec } from "./pc.equipment";
 import { diceColumnAt, unarmedDieColumnFor } from "./pc.table-column";
 import { collectChosenProficiencies, collectChosenAbilityPoints } from "./pc.decision-engine";
-import { assembleEffectFeatures, computeFeatureEffects, selfEffectsOf, type FeatureEffectTotals } from "./pc.feature-effects";
+import { assembleEffectFeatures, computeFeatureEffects, foldsNow, selfEffectsOf, type FeatureEffectTotals } from "./pc.feature-effects";
 import { computeConditionEffects } from "./pc.conditions";
 // R4-G7 §7.3: `pc.resources.ts` imports nothing from this module, so the level rule is shared by import
 // rather than copied (no value cycle) [G2-I-4].
@@ -269,12 +269,13 @@ export function multiclassMaxHP(classes: ResolvedClass[], conMod: number): numbe
 }
 
 /**
- * Default AC = 10 + DEX mod. If any class's features include an
- * "Unarmored Defense"–style feature with a structured flag, applies the
- * variant (Monk: +WIS; Barbarian: +CON). Falls back to feature-name
- * regex matching, SILENTLY since R4-G6b §5.7. `warnings` is retained for
- * the exported signature and is no longer written to by this function or
- * by `unarmoredACBreakdown`.
+ * The BEST APPLICABLE unarmoured formula (R4-G7 T6a, spec §4): the plain 10 + DEX mod, against every
+ * `unarmored-ac` effect that folds right now (its `base ?? 10` plus the modifier of every ability its
+ * OWN `abilities` list names), highest total winning. A class feature carrying an "Unarmored
+ * Defense"-style structured flag, or only the feature NAME (matched SILENTLY since R4-G6b §5.7), is the
+ * FALLBACK for a document that authors no effect at all (Monk: +WIS; Barbarian: +CON). `warnings` is
+ * retained for the exported signature and is no longer written to by this function or by
+ * `unarmoredACBreakdown`.
  */
 export function unarmoredAC(
   resolved: ResolvedCharacter,
@@ -285,38 +286,60 @@ export function unarmoredAC(
 }
 
 /**
- * Same logic as `unarmoredAC` but also returns a structured breakdown of the
- * contributing terms (Base 10, DEX, optional class unarmored defense ability).
- * Used by recalc to assemble a richer acBreakdown when no armor is equipped.
+ * Same rule as `unarmoredAC` but also returns the WINNING formula's structured terms (its base, then one
+ * term per ability its `abilities` list names, in that list's order) and whether that formula admits a
+ * shield. Used by recalc to assemble a richer acBreakdown when no armor is equipped.
+ *
+ * `shieldBonus` is the equipped shield's contribution, read for the COMPARISON only: it is NOT part of
+ * the returned `total` or `terms`, because the shield is one of the additive terms recalc merges on the
+ * unarmoured path, and `shieldAllowed` is what tells that caller to keep it. A shield counts on a
+ * candidate only where its effect declares `allow_shield === true` (absent is NOT true: the SRD Monk
+ * omits the key and RAW allows the Monk no shield), and always on the plain 10 + DEX candidate, which is
+ * unarmoured-with-a-shield. Both fallback arms keep the shipped answer, shield included.
  */
 export function unarmoredACBreakdown(
   resolved: ResolvedCharacter,
   mods: Record<Ability, number>,
   warnings: string[],
-): { total: number; terms: ACTerm[] } {
+  shieldBonus = 0,
+): { total: number; terms: ACTerm[]; shieldAllowed: boolean } {
   const baseTerms: ACTerm[] = [
     { source: "Unarmored", amount: 10, kind: "unarmored" },
     { source: "DEX modifier", amount: mods.dex, kind: "dex" },
   ];
 
-  // Generic unarmored-ac effect (e.g. Reaver Bravado: 10 + DEX + CHA).
-  // Takes precedence over the legacy unarmored_defense flag scan below.
+  // Generic unarmored-ac effects (an Unarmored Defense is authored as `{abilities: [dex, con], base: 10}`,
+  // a 2024 Circle of the Moon as `{abilities: [wis], base: 13}`). Each is a CANDIDATE beside the
+  // always-present plain 10 + DEX, and the best applicable total wins; the legacy scans below serve only
+  // a document that authors no effect. The walk is gated by `foldsNow` with the fold's own active-buff
+  // set, so an activatable formula is off here exactly while it is off in computeFeatureEffects.
+  const { activeBuffs } = assembleEffectFeatures(resolved);
+  const candidates: { total: number; terms: ACTerm[]; shieldAllowed: boolean }[] = [
+    { total: 10 + mods.dex, terms: baseTerms, shieldAllowed: true },
+  ];
   for (const rf of resolved.features) {
-    const eff = selfEffectsOf(rf.feature).find((e) => e.kind === "unarmored-ac");
-    if (eff && eff.kind === "unarmored-ac") {
+    if (!foldsNow(rf, activeBuffs)) continue;
+    for (const eff of selfEffectsOf(rf.feature)) {
+      if (eff.kind !== "unarmored-ac") continue;
       const base = eff.base ?? 10;
-      const terms: ACTerm[] = [
-        { source: "Unarmored", amount: base, kind: "unarmored" },
-        { source: "DEX modifier", amount: mods.dex, kind: "dex" },
-      ];
-      let total = base + mods.dex;
+      const terms: ACTerm[] = [{ source: "Unarmored", amount: base, kind: "unarmored" }];
+      let total = base;
+      // The `abilities` list IS the ability set: a list that does not name `dex` carries no DEX term
+      // (R4-G7 T6a E-1; ONE of the 16 measured carriers, the 2024 Circle of the Moon, is such a list).
       for (const ab of eff.abilities) {
-        if (ab === "dex") continue; // dex already included
-        terms.push({ source: `${ab.toUpperCase()} modifier (${rf.feature.name ?? "Unarmored"})`, amount: mods[ab], kind: "ability" });
+        terms.push(ab === "dex"
+          ? { source: "DEX modifier", amount: mods.dex, kind: "dex" }
+          : { source: `${ab.toUpperCase()} modifier (${rf.feature.name ?? "Unarmored"})`, amount: mods[ab], kind: "ability" });
         total += mods[ab];
       }
-      return { total, terms };
+      candidates.push({ total, terms, shieldAllowed: eff.allow_shield === true });
     }
+  }
+  if (candidates.length > 1) {
+    const applied = (c: { total: number; shieldAllowed: boolean }): number => c.total + (c.shieldAllowed ? shieldBonus : 0);
+    let best = candidates[0];
+    for (const c of candidates) if (applied(c) > applied(best)) best = c;
+    return best;
   }
 
   for (const rf of resolved.features) {
@@ -328,7 +351,7 @@ export function unarmoredACBreakdown(
         ...baseTerms,
         { source: `${ab.toUpperCase()} modifier (Unarmored Defense)`, amount: amt, kind: "ability" },
       ];
-      return { total: 10 + mods.dex + amt, terms };
+      return { total: 10 + mods.dex + amt, terms, shieldAllowed: true };
     }
   }
 
@@ -343,18 +366,18 @@ export function unarmoredACBreakdown(
         ...baseTerms,
         { source: "WIS modifier (Unarmored Defense)", amount: mods.wis, kind: "ability" },
       ];
-      return { total: 10 + mods.dex + mods.wis, terms };
+      return { total: 10 + mods.dex + mods.wis, terms, shieldAllowed: true };
     }
     if (rf.source.kind === "class" && rf.source.slug.includes("barbarian")) {
       const terms: ACTerm[] = [
         ...baseTerms,
         { source: "CON modifier (Unarmored Defense)", amount: mods.con, kind: "ability" },
       ];
-      return { total: 10 + mods.dex + mods.con, terms };
+      return { total: 10 + mods.dex + mods.con, terms, shieldAllowed: true };
     }
   }
 
-  return { total: 10 + mods.dex, terms: baseTerms };
+  return { total: 10 + mods.dex, terms: baseTerms, shieldAllowed: true };
 }
 
 /** R4-G6b §5.4: the die and ability set for the always-present Unarmed Strike row. Authored `unarmed-strike` effects
@@ -1032,14 +1055,19 @@ export function recalc(resolved: ResolvedCharacter, registry?: EntityRegistry): 
       acBreakdownDerived = [...derivedEquipment.acBreakdown, ...featTerms];
       acInformationalDerived = derivedEquipment.acInformational;
     } else {
-      const { total: unarmored, terms: unarmoredTerms } = unarmoredACBreakdown(resolved, mods, warnings);
+      // The shield's own contribution is handed to the unarmoured rule for the COMPARISON (a formula that
+      // does not declare `allow_shield: true` is weighed without it), and comes back as `shieldAllowed`.
+      const shieldBonus = derivedEquipment.acBreakdown
+        .filter((b) => b.kind === "shield")
+        .reduce((sum, b) => sum + b.amount, 0);
+      const { total: unarmored, terms: unarmoredTerms, shieldAllowed } = unarmoredACBreakdown(resolved, mods, warnings, shieldBonus);
       // Pull additive contributions that stand alone without body armor: item
       // bonuses, per-entry overrides, AND a shield (RAW: a shield grants +2 even
-      // when unarmored). The `armor`/`dex` terms are skipped — there's no body
-      // armor, and the unarmored base already incorporates DEX (and class
-      // unarmored defense).
+      // when unarmored) where the winning unarmoured formula admits one. The
+      // `armor`/`dex` terms are skipped — there's no body armor, and the unarmored
+      // base already incorporates DEX (and class unarmored defense).
       const additive = derivedEquipment.acBreakdown.filter(
-        (b) => b.kind === "item" || b.kind === "override" || b.kind === "shield",
+        (b) => b.kind === "item" || b.kind === "override" || (b.kind === "shield" && shieldAllowed),
       );
       const featTerms = featureAcTermsFor(false);
       const additiveSum = additive.reduce((sum, b) => sum + b.amount, 0);
