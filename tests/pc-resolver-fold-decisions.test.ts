@@ -4,6 +4,9 @@ import { collectChosenProficiencies, buildDecisionLedger } from "../src/pc/pc.de
 import { buildMockRegistry } from "./mock-entity-registry";
 import type { Character } from "../src/pc/pc.types";
 
+/** `Choice` is a union and only some arms declare `count`; every row read here is a `select-proficiency`. */
+const countOf = (c: unknown): number | undefined => (c as { count?: number }).count;
+
 // R4-G7 §7.1 RIDER: the resolve-time fold renders ONE row for a repeated feature, and a level-N DECISION on
 // that feature must stay a decision at level N. Both readers of a feature's per-level choices walk
 // `resolved.features` and take the level from the WRAPPER (`pc.decision-engine.ts`: `visitProficiencyChoices`,
@@ -12,7 +15,9 @@ import type { Character } from "../src/pc/pc.types";
 // `expertise` repeating at 1 and 6, each copy carrying the same `select-proficiency` choice id.
 
 const expertise = (level: number, withChoices: boolean) => ({
-  id: "expertise", name: "Expertise", description: `at ${level}`,
+  // Distinct NAMES per copy so the assertions can prove each row carries ITS OWN copy's identity: the id is what
+  // folds them (and what the recognizer keys on), never the name.
+  id: "expertise", name: `Expertise ${level}`, description: `at ${level}`,
   ...(withChoices
     ? { choices: [{ kind: "select-proficiency", id: "expertise", count: 2, domain: "skill", from_proficient: true, expertise: true }] }
     : {}),
@@ -49,13 +54,23 @@ describe("a folded feature's lower copies keep their decisions at their own leve
     const items = buildDecisionLedger(character, { registry: reg } as never)
       .classes[0].levels.flatMap((l) => l.items).filter((i) => i.key === "expertise");
     // RED FIRST: only the level-6 row was offered, so the level-1 picks were persisted and unreachable.
-    // The level-3 copy carries prose but no choices, so it contributes its own INFORMATIONAL card at 3, which
-    // is exactly what the un-folded list emitted (fix round 1).
+    // The level-3 copy carries prose and no choices, and `expertise` is in the recognizer's TABLE, so the
+    // un-folded ledger emitted a SYNTHESIZED `select-proficiency` decision there, not a card (fix round 2).
     expect(items.map((i) => i.level)).toEqual([1, 3, 6]);
     // "done" in this engine's vocabulary is `resolved` (DecisionStatus = resolved | partial | unresolved | informational).
-    expect(items.map((i) => i.status)).toEqual(["resolved", "informational", "resolved"]);
-    expect(items.filter((i) => i.status === "resolved").map((i) => i.selected)).toEqual([["stealth", "perception"], ["arcana", "athletics"]]);
+    // The level-3 row is resolved because this character already HOLDS four expertise picks (the F4 inclusion).
+    expect(items.map((i) => i.status)).toEqual(["resolved", "resolved", "resolved"]);
+    expect(items[1].choice.kind).toBe("select-proficiency");
+    expect(countOf(items[1].choice)).toBe(2);
+    // This character already holds all four of its skill proficiencies as expertise (levels 1 and 6), so the
+    // level-3 row offers nothing left to pick and reads `resolved`; the four-option shape is pinned by the
+    // pick-less probes below.
+    expect(items[1].options).toHaveLength(0);
     expect(items[1].description).toBe("at 3");
+    // Fix round 2 finding B: a lower copy's DECISION row carries its own name and prose, not the top copy's.
+    expect(items.map((i) => i.featureName)).toEqual(["Expertise 1", "Expertise 3", "Expertise 6"]);
+    expect(items.map((i) => i.description)).toEqual(["at 1", "at 3", "at 6"]);
+    expect(items.filter((i) => i.level !== 3).map((i) => i.selected)).toEqual([["stealth", "perception"], ["arcana", "athletics"]]);
   });
 
   it("the wrapper carries ONE entry per choice-CARRYING lower copy, and the top copy's choices stay on the feature", () => {
@@ -97,6 +112,35 @@ describe("a folded feature's lower copies keep their decisions at their own leve
     expect(items.map((i) => i.description)).toEqual(["You inspire, at 1.", "You inspire, at 5."]);
     // and the SHEET still renders ONE row.
     expect(character.features.filter((f) => f.feature.id === "bardic-inspiration")).toHaveLength(1);
+  });
+
+  // The reviewer's read-only probes, as tests. C: a repeated recognizer-TABLE id that carries prose on NO copy
+  // must yield the SYNTHESIZED decision at EVERY level, not one decision and one card. D: the same shape
+  // un-folded, the ground truth C is measured against (m13's pair).
+  const proseOnly = (level: number) => ({ id: "expertise", name: `Expertise ${level}`, description: `Choose two of your skill proficiencies, at ${level}.` });
+  const rogueAt = (levels: number[], charLevel: number) => {
+    const features_by_level = Object.fromEntries(levels.map((l) => [String(l), [proseOnly(l)]]));
+    const reg = buildMockRegistry([{ slug: "fx_class_rogue", entityType: "class", data: { ...ROGUE, features_by_level } }]);
+    const ch = { ...rogue6(), class: [{ name: "[[fx_class_rogue]]", level: charLevel, subclass: null, choices: {} }] } as unknown as Character;
+    const { character } = new PCResolver(reg).resolve(ch);
+    return buildDecisionLedger(character, { registry: reg } as never)
+      .classes[0].levels.flatMap((l) => l.items).filter((i) => i.key === "expertise");
+  };
+
+  it("a FOLDED recognizer-table family with prose on every copy keeps the SYNTHESIZED decision at every level (m13's kill row)", () => {
+    const items = rogueAt([3, 6], 6);
+    // RED FIRST (fix round 2): the folded level-3 copy fell straight to the informational card, so a 2-pick
+    // control became an inert row.
+    expect(items.map((i) => [i.level, i.choice.kind, i.status])).toEqual([[3, "select-proficiency", "unresolved"], [6, "select-proficiency", "unresolved"]]);
+    expect(items.map((i) => countOf(i.choice))).toEqual([2, 2]);
+    expect(items.map((i) => i.options.length)).toEqual([4, 4]);
+  });
+
+  it("the UN-FOLDED ground truth: the same prose-only copy at one level yields the same synthesized decision (CONTROL)", () => {
+    const items = rogueAt([6], 6);
+    expect(items.map((i) => [i.level, i.choice.kind, i.status])).toEqual([[6, "select-proficiency", "unresolved"]]);
+    expect(countOf(items[0].choice)).toBe(2);
+    expect(items[0].options).toHaveLength(4);
   });
 
   it("an UNFOLDED feature carries no foldedFrom at all (the field is absent, not empty)", () => {

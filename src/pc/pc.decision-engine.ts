@@ -4,6 +4,9 @@ import { ABILITY_KEYS } from "@archivist-gg/dnd5e/dnd/constants";
 import type { ResolvedCharacter, ChoiceValue, FeatureSource, ProficiencyTri } from "./pc.types";
 import type { EntityRegistry, RegisteredEntity } from "@archivist-gg/core";
 import { recognizeDecision } from "./decision-recognizer";
+// R4-G7 §7.1 fix round 2: the recognizer input a folded COPY is built from (`recognizeDecision` reads
+// `id ?? name` and `description` only, so a minimal Feature-shaped literal is the whole input).
+import type { Feature } from "@archivist-gg/dnd5e/types/feature";
 import { resolveOriginFeat } from "./pc.resolver";
 import { humanizeProficiency, toProfSlug } from "./pc.proficiency-normalize";
 import {
@@ -1240,12 +1243,12 @@ export function buildDecisionLedger(resolved: ResolvedCharacter, ctx: DecisionCo
       // own level (ascending, the un-folded order) and then for the wrapper's own choices at `src.level`, so a
       // level-N decision on a repeated feature stays a decision at level N while the sheet renders ONE row.
       // The count-column read below stays on the CHARACTER's current class level, never on `atLvl`.
-      const emitChoices = (list: Choice[], atLvl: number): void => {
+      const emitChoices = (list: Choice[], atLvl: number, name: string, description: string | undefined): void => {
         for (const ch of list) {
           // The subclass decision is structural: it reads/writes ClassEntry.subclass.
           if (ch.kind === "select-entity" && ch.entity_type === "subclass") {
             sawAuthoredSubclass = true;
-            push(atLvl, buildSubclassItem(ch, src, atLvl, rf.feature.name, c, ctx, ownerBare, rf.feature.description));
+            push(atLvl, buildSubclassItem(ch, src, atLvl, name, c, ctx, ownerBare, description));
             continue;
           }
           // The count from the class TABLE COLUMN (R4-G5 §6.2): a `select-entity` choice whose id is an OWN key of
@@ -1262,8 +1265,8 @@ export function buildDecisionLedger(resolved: ResolvedCharacter, ctx: DecisionCo
             const fromTable = columns ? readTableColumn(entity.table, c.level, columns) : null;
             if (fromTable != null) emitted = { ...ch, count: Math.max(ch.count ?? 1, fromTable) };
           }
-          push(atLvl, buildItem(emitted, src, atLvl, rf.feature.name, readAt(atLvl), ctx, ownerBare, effective,
-            { description: rf.feature.description }));
+          push(atLvl, buildItem(emitted, src, atLvl, name, readAt(atLvl), ctx, ownerBare, effective,
+            { description }));
         }
       };
       // R4-G7 §7.1 fix round 1: ONE informational card per feature COPY, the contract this loop has always
@@ -1278,43 +1281,59 @@ export function buildDecisionLedger(resolved: ResolvedCharacter, ctx: DecisionCo
         options: [], selected: undefined, status: "informational",
         satisfied: false,
       });
-      // Every folded LOWER copy at its own level: its choices when it carries any, else the card the un-folded
-      // copy emitted. A copy with neither choices nor prose emits nothing, exactly as it did un-folded.
-      for (const copy of rf.foldedFrom ?? []) {
-        if (copy.choices?.length) emitChoices(copy.choices, copy.level);
-        else if (copy.description) push(copy.level, informationalItem(copy.level, copy.name, copy.description));
-      }
-      let choices = rf.feature.choices;
-      if (!choices?.length) {
-        const recognized = recognizeDecision(rf.feature);
-        if (recognized === "informational") {
-          push(lvl, informationalItem(lvl, rf.feature.name, rf.feature.description ?? rf.feature.entries?.join("\n\n")));
-          continue;
+      /**
+       * R4-G7 §7.1 fix round 2: ONE copy of this feature, at ONE level, through the WHOLE branch this loop has
+       * always run for the wrapper: its AUTHORED choices when it has any, else `recognizeDecision`'s synthesized
+       * decision under the suppression filter, else the informational card, else nothing. The wrapper's own copy
+       * and every folded LOWER copy go through THIS function, so two copies of one repeated feature can never be
+       * routed differently (before this, a folded prose-only `expertise` copy became an inert card where the
+       * un-folded one was a 2-pick `select-proficiency` decision).
+       *
+       * `recognizeDecision` reads `id ?? name` and `description` ONLY, so a copy is recognized by its OWN name
+       * and prose under the FAMILY's id. `prose` is the card text and the recognizer's input alike for a folded
+       * copy, because `foldedFrom` carries one prose field; they differ only for a copy that authors `entries`
+       * and no `description`, of which the corpora carry none (measured at fix round 2).
+       */
+      const emitCopy = (copy: { level: number; name: string; description?: string; prose?: string; choices?: Choice[] }): void => {
+        let list = copy.choices;
+        if (!list?.length) {
+          const recognized = recognizeDecision({ id: rf.feature.id, name: copy.name, description: copy.description } as Feature);
+          if (recognized === "informational") {
+            push(copy.level, informationalItem(copy.level, copy.name, copy.prose));
+            return;
+          }
+          list = recognized ?? undefined;
+          // REBIND, never mutate: `recognizeDecision` returns the module-level TABLE array BY REFERENCE. Rebinding
+          // to a filtered array (which is `[]` for every shipped one-element TABLE row) is also what leaves the
+          // level its ONE informational card below: skipping the push instead would make a suppressed Fighting
+          // Style feature vanish from the ledger entirely (R4-G5 §3.2.4).
+          if (list?.length) {
+            list = list.filter((ch) => {
+              if (ch.kind !== "select-entity") return true;
+              const ft = ch.where?.feature_type;
+              return !(ft !== undefined && suppressedFeatureTypes.has(ft));
+            });
+          }
         }
-        choices = recognized ?? undefined;
-        // REBIND, never mutate: `recognizeDecision` returns the module-level TABLE array BY REFERENCE. Rebinding
-        // to a filtered array (which is `[]` for every shipped one-element TABLE row) is also what leaves the
-        // level its ONE informational card below: skipping the push instead would make a suppressed Fighting
-        // Style feature vanish from the ledger entirely (R4-G5 §3.2.4).
-        if (choices?.length) {
-          choices = choices.filter((ch) => {
-            if (ch.kind !== "select-entity") return true;
-            const ft = ch.where?.feature_type;
-            return !(ft !== undefined && suppressedFeatureTypes.has(ft));
-          });
+        if (!list?.length) {
+          // No structured/synthesized choice, so still surface the feature as an
+          // informational card so EVERY gained feature appears in the per-level strip
+          // (complete view; no silent gaps for plain-flavor features like Blood Price).
+          // Skip synthetic resource-only carriers (entity-level resources, no prose).
+          if (copy.prose) push(copy.level, informationalItem(copy.level, copy.name, copy.prose));
+          return;
         }
-      }
-      if (!choices?.length) {
-        // No structured/synthesized choice — still surface the feature as an
-        // informational card so EVERY gained feature appears in the per-level strip
-        // (complete view; no silent gaps for plain-flavor features like Blood Price).
-        // Skip synthetic resource-only carriers (entity-level resources, no prose).
-        if (rf.feature.description || rf.feature.entries?.length) {
-          push(lvl, informationalItem(lvl, rf.feature.name, rf.feature.description ?? rf.feature.entries?.join("\n\n")));
-        }
-        continue;
-      }
-      emitChoices(choices, lvl);
+        emitChoices(list, copy.level, copy.name, copy.prose);
+      };
+      // Every folded LOWER copy at its own level, ascending, then the wrapper's own at `src.level`.
+      for (const copy of rf.foldedFrom ?? []) emitCopy({ ...copy, prose: copy.description });
+      emitCopy({
+        level: lvl, name: rf.feature.name, description: rf.feature.description,
+        // The card prose: the description, else the entries joined. `||`, not `??`, so an EMPTY description
+        // falls through to the entries the way this branch's own guard always did.
+        prose: rf.feature.description || (rf.feature.entries?.length ? rf.feature.entries.join("\n\n") : undefined),
+        choices: rf.feature.choices,
+      });
     }
 
     // Subclass-pick guarantee (Fix B): when the class declares a subclass_level
