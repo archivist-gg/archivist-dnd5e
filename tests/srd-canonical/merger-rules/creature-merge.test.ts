@@ -780,6 +780,29 @@ describe("creature-merge: the save / skill proficiency floor (R4-G7 T5)", () => 
     expect(toCreatureCanonical(entry).speed).toEqual({ swim: 20, walk: 40 });
   });
 
+  it("an authored hp formula WINS over the cache's own hit dice, like the speed modes beside it", () => {
+    // R4-G7 T5 fix round 1. The apply was fill-only (`&& hp.formula === undefined`), so an `hp` authored on a
+    // creature whose cache entry HAS hit dice parsed clean, validated clean, and did nothing · the same silent
+    // authoring this task added `.strict()` to `class_features` to close. The overlay wins, as it does for `speed`
+    // and as `buildSpellcasting` does for the caster config. No shipped creature reaches this (the three that
+    // author a formula are exactly the three whose `hit_dice` is null), which is why the regen is data-neutral.
+    const entry = buildEntry({ ...donkey2014, hit_dice: "9d10+18", hit_points: 67 }, "2014");
+    entry.overlay = creatureMergeRule.pickOverlay(
+      { creatures: { donkey: { hp: { formula: "2d8+2" } } } } as never,
+      "srd_donkey",
+    );
+    expect(toCreatureCanonical(entry).hp).toEqual({ average: 67, formula: "2d8+2" });
+  });
+
+  it("leaves the cache's hit dice alone when the overlay authors no hp at all", () => {
+    const entry = buildEntry({ ...donkey2014, hit_dice: "9d10+18", hit_points: 67 }, "2014");
+    entry.overlay = creatureMergeRule.pickOverlay(
+      { creatures: { donkey: { speed: { walk: 40 } } } } as never,
+      "srd_donkey",
+    );
+    expect(toCreatureCanonical(entry).hp).toEqual({ average: 67, formula: "9d10+18" });
+  });
+
   it("keeps an authored zero, which is the Shrieker's RAW speed", () => {
     const entry = buildEntry({ ...donkey2014, name: "Shrieker", key: "srd_shrieker" }, "2014");
     entry.overlay = creatureMergeRule.pickOverlay(

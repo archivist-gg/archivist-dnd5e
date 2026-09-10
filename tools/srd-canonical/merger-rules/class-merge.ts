@@ -498,8 +498,9 @@ const NAME_FIXES_2024: Record<string, string> = {
 
 /** Apply {@link NAME_FIXES_2024} to the upstream feature list, once, before ANY consumer reads
  *  `f.name`. Returns the same array when the edition is 2014 or nothing matches, so the common path
- *  allocates nothing. */
-function applyNameFixes(features: Open5eClassFeature[], edition: "2014" | "2024"): Open5eClassFeature[] {
+ *  allocates nothing. Exported so `validate-overlays.ts` resolves overlay keys against the SAME
+ *  corrected names the bucketer emits, rather than a second copy of the map. */
+export function applyNameFixes(features: Open5eClassFeature[], edition: "2014" | "2024"): Open5eClassFeature[] {
   if (edition !== "2024") return features;
   if (!features.some((f) => NAME_FIXES_2024[f.name] !== undefined)) return features;
   return features.map((f) => {
@@ -507,6 +508,13 @@ function applyNameFixes(features: Open5eClassFeature[], edition: "2014" | "2024"
     return fixed === undefined ? f : { ...f, name: fixed };
   });
 }
+
+/** The upstream `feature_type` values that reach `features_by_level` from a CLASS document.
+ *  `subclass-merge` keeps the narrower `CLASS_LEVEL_FEATURE` only, so an overlay key resolver has to ask which
+ *  kind of document it is looking at. Exported so that resolver reads these values rather than re-typing them. */
+export const CLASS_FEATURE_TYPES_EMITTED: ReadonlySet<string> = new Set(["CLASS_LEVEL_FEATURE", "CORE_TRAITS_TABLE"]);
+/** The subset `subclass-merge`'s bucketer keeps. */
+export const SUBCLASS_FEATURE_TYPES_EMITTED: ReadonlySet<string> = new Set(["CLASS_LEVEL_FEATURE"]);
 
 interface SubclassFeatureHint {
   /** Resolved subclass-grant level (e.g. 3) used to bucket the subclass feature. */
@@ -538,9 +546,8 @@ function bucketFeaturesByLevel(
       || featureName === subclassHint.name;
   };
 
-  const KEEP_TYPES = new Set(["CLASS_LEVEL_FEATURE", "CORE_TRAITS_TABLE"]);
   for (const f of features) {
-    if (!KEEP_TYPES.has(f.feature_type)) continue;
+    if (!CLASS_FEATURE_TYPES_EMITTED.has(f.feature_type)) continue;
     const featureSlug = slugifyName(f.name);
     const overlaid = lookupFeatureOverlay(overlay, ownerBareSlug, featureSlug);
     const description = rewriteCrossRefs(f.desc ?? "", edition);

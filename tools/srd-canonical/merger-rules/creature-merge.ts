@@ -89,7 +89,9 @@ export interface CreatureCanonical {
 }
 
 /** What the `creatures:` overlay section may say about one creature (R4-G7 T5, spec §8.1 item 4b).
- *  Mirrors `creatureOverrideSchema`; both fields optional, both narrow. */
+ *  Mirrors `creatureOverrideSchema`; both fields optional, both narrow, and BOTH override what the cache says
+ *  rather than merely filling a gap (the modes merge into the emitted block, an authored formula replaces the
+ *  upstream one). */
 export interface CreatureOverride {
   speed?: Partial<Record<"walk" | "fly" | "swim" | "climb" | "burrow", number>>;
   hp?: { formula: string };
@@ -485,7 +487,12 @@ export function toCreatureCanonical(entry: CanonicalEntry): CreatureCanonical {
   for (const [mode, value] of Object.entries(creatureOverlay?.speed ?? {})) {
     if (typeof value === "number") speed[mode] = value;
   }
-  if (creatureOverlay?.hp?.formula && hp.formula === undefined) hp.formula = creatureOverlay.hp.formula;
+  // The overlay WINS, exactly as it does for the speed modes above and as `buildSpellcasting` does for the caster
+  // config. It was fill-only until R4-G7 T5 fix round 1, which meant an `hp` authored on a creature whose cache
+  // entry already carries `hit_dice` parsed clean, validated clean and did NOTHING · silent authoring, the very
+  // failure class this task added `.strict()` to `class_features` to close. Data-neutral on the shipped corpus:
+  // the three creatures that author a formula are precisely the three whose upstream `hit_dice` is null.
+  if (creatureOverlay?.hp?.formula) hp.formula = creatureOverlay.hp.formula;
 
   const senses = composeSenses(base);
 

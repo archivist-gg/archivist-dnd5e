@@ -129,7 +129,12 @@ const optionalFeatureKind = z.enum(["invocation", "fighting_style", "metamagic",
  *  record (`wlak: 40`) would author nothing, leave the creature's speed empty, and look exactly
  *  like the defect this arm exists to close. `nonnegative`, not `positive`, because the Shrieker's
  *  RAW speed IS 0 ft. (it is a fungus): authoring `walk: 0` says "measured zero" where an absent
- *  entry says "no data", and `formatSpeed` renders both as the same empty string. */
+ *  entry says "no data", and `formatSpeed` renders both as the same empty string.
+ *
+ *  Both fields OVERRIDE the cache, they do not merely fill a gap: an authored mode replaces that mode and an
+ *  authored `hp.formula` replaces the upstream `hit_dice`. Anything else would let an authored value parse clean,
+ *  validate clean and do nothing, which is the silent-authoring failure this file's `.strict()` arms exist to
+ *  close. Today every authored value happens to fill a gap; the rule is what stops that being load-bearing. */
 const creatureOverrideSchema = z.object({
   speed: z.object({
     walk: z.number().int().nonnegative().optional(),

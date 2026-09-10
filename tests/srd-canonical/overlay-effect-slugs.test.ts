@@ -2,6 +2,7 @@ import { describe, it, expect } from "vitest";
 import * as path from "node:path";
 import { loadOverlay } from "../../tools/srd-canonical/sources/overlay";
 import { overlaySchema } from "../../tools/srd-canonical/overlay.schema";
+import { unresolvedClassFeatureKeys } from "../../tools/srd-canonical/validate-overlays";
 import { ALL_SKILL_SLUGS, ALL_TOOLS, ALL_LANGUAGES } from "../../src/types/choice";
 import { toProfSlug } from "../../src/pc/pc.proficiency-normalize";
 import { isWeaponSlugProficient } from "../../src/pc/pc.equipment";
@@ -359,5 +360,44 @@ describe("the five prose-only race proficiency grants are authored exactly", () 
   // decision). Adding `effects` must not cost it that flag.
   it("keeps tinker's pre-existing noChoices flag", async () => {
     expect((await raceTraits()).tinker?.noChoices).toBe(true);
+  });
+});
+
+/**
+ * R4-G7 T5 fix round 1 · every authored `class_features` KEY resolves to an emitted feature.
+ *
+ * The sibling guard above checks the VOCABULARY inside an effect. This one checks the KEY the whole entry hangs
+ * off, which is a different and older failure mode: `.strict()` closes unknown FIELDS, but the key namespace is
+ * open by construction, so a misspelled key parses clean, validates clean, and is silently never looked up.
+ *
+ * It is not hypothetical. The 2024 Monk's upstream feature name was `Unarmoed Movement` until this task's
+ * normaliser corrected it, so `monk:unarmoed-movement` was the live spelling and `monk:unarmored-movement` would
+ * have authored NOTHING · with no test, no warning and a green build. The check runs in `validate-overlays.ts` too
+ * (it now runs at all); this file is what makes the suite refuse a regression.
+ */
+describe("every authored class_features key resolves to an emitted feature (R4-G7 T5 fix round 1)", () => {
+  it.each([
+    { edition: "2014", file: OVERLAY_2014, minKeys: 70 },
+    { edition: "2024", file: OVERLAY_2024, minKeys: 90 },
+  ] as const)("$edition: no key authors nothing", async ({ edition, file, minKeys }) => {
+    const overlay = await loadOverlay(file);
+    // The non-vacuity floor first: a resolver that returned an empty key list would pass the real assertion.
+    expect(Object.keys(overlay.class_features ?? {}).length).toBeGreaterThanOrEqual(minKeys);
+    expect(unresolvedClassFeatureKeys(overlay, edition)).toEqual([]);
+  });
+
+  it("and it is not a rubber stamp: the pre-normaliser spelling is REJECTED", () => {
+    // The exact key the 2024 Monk would have carried without this task's rename, plus a plain typo.
+    expect(unresolvedClassFeatureKeys(
+      { class_features: { "monk:unarmoed-movement": {}, "monk:unarmored-movement": {}, "fighter:totally-bogus": {} } },
+      "2024",
+    )).toEqual(["monk:unarmoed-movement", "fighter:totally-bogus"]);
+  });
+
+  it("accepts BOTH lookup forms, because lookupFeatureOverlay tries both", () => {
+    // `rage` is authored bare in the shipped 2014 overlay and lands on the Barbarian; the scoped form resolves too.
+    const bare = unresolvedClassFeatureKeys({ class_features: { rage: {} } }, "2014");
+    const scoped = unresolvedClassFeatureKeys({ class_features: { "barbarian:rage": {} } }, "2014");
+    expect([bare, scoped]).toEqual([[], []]);
   });
 });

@@ -3,7 +3,7 @@ import type { Overlay } from "../overlay.schema";
 import { rewriteCrossRefs } from "../cross-ref-map";
 import { slugifyName } from "../sources/slug-normalize";
 import type { ClassFeatureOut, FeatureOverlayMap } from "./class-merge";
-import { lookupFeatureOverlay, bareSlug } from "./class-merge";
+import { lookupFeatureOverlay, bareSlug, SUBCLASS_FEATURE_TYPES_EMITTED } from "./class-merge";
 
 /**
  * Open5e v2 class-endpoint feature shape (subset). Mirrors the type in
@@ -86,7 +86,7 @@ function bucketFeaturesByLevel(
 ): Record<string, ClassFeatureOut[]> {
   const out: Record<string, ClassFeatureOut[]> = {};
   for (const f of features) {
-    if (f.feature_type !== "CLASS_LEVEL_FEATURE") continue;
+    if (!SUBCLASS_FEATURE_TYPES_EMITTED.has(f.feature_type)) continue;
     const featureSlug = slugifyName(f.name);
     const overlaid = lookupFeatureOverlay(overlay, ownerBareSlug, featureSlug);
     const description = rewriteCrossRefs(f.desc ?? "", edition);
