@@ -52,6 +52,9 @@ describe("the Unarmed Strike row (R4-G6b §5)", () => {
     expect(u.damageDice).toBe("1+3");
     expect(u.damageType).toBe("bludgeoning");
     expect(u.range).toBe("5 ft");
+    // The sub-label is an ENGINE string like `Unarmed Strike`, `5 ft` and `bludgeoning`, so it ships in the
+    // casing the sheet prints: the renderer humanizes a weapon token, never this one (R4-G6b live rider R-1).
+    expect(u.subLabel).toBe("Unarmed");
     expect(u.slotKey).toBeUndefined();
     expect(u.breakdown.toHit.map((t) => t.source)).toEqual(["STR modifier", "Proficiency bonus"]);
     expect(u.breakdown.damage.map((t) => t.source)).toEqual(["Base damage", "STR modifier"]);

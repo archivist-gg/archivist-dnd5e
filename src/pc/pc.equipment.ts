@@ -643,7 +643,10 @@ export interface UnarmedStrikeSpec { dice?: string; abilities?: Ability[] }
  *  called): the flat part's `^\+0$` strip equals the whole-string `\+0$` strip for every modifier. The
  *  ability is STR unless the spec lists others; the highest modifier wins and a LATER candidate wins a tie, so a
  *  listed DEX beats STR on a tie (the shipped finesse idiom `mods.dex >= mods.str`). Called from recalc, which owns
- *  the walk that produces `spec`; never from `computeAttacks`, so the row is present with or without a registry. */
+ *  the walk that produces `spec`; never from `computeAttacks`, so the row is present with or without a registry.
+ *  The `subLabel` is an ENGINE string, printed as it ships: the sheet humanizes a weapon's category tokens, and
+ *  this row carries no weapon, so `Unarmed` is capitalised here beside `Unarmed Strike`, `5 ft` and `bludgeoning`
+ *  rather than in a renderer (R4-G6b live rider R-1). */
 export function buildUnarmedRow(mods: Record<Ability, number>, proficiencyBonus: number, spec?: UnarmedStrikeSpec): AttackRow {
   const candidates: Ability[] = ["str", ...(spec?.abilities ?? [])];
   let ability: Ability = "str";
@@ -673,7 +676,7 @@ export function buildUnarmedRow(mods: Record<Ability, number>, proficiencyBonus:
         { source: label, amount: abilityMod, kind: "ability" },
       ],
     },
-    subLabel: "unarmed",
+    subLabel: "Unarmed",
     actionCost: "action",
   };
 }
