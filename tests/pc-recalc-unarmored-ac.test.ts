@@ -64,7 +64,7 @@ const acFeature = (eff: FeatureEffect, name: string, extra: Record<string, unkno
 const registryWithShield = () =>
   buildMockRegistry([{ slug: "shield", entityType: "armor", name: "Shield", data: SHIELD as unknown as Record<string, unknown> }]);
 
-describe("unarmoredACBreakdown — E-1: the effect's `abilities` list is the whole ability set", () => {
+describe("unarmoredACBreakdown · E-1: the effect's `abilities` list is the whole ability set", () => {
   it("an abilities list without `dex` adds no DEX term (the Circle of the Moon 2024 witness)", () => {
     const r = mkResolved(baseChar(), [acFeature({ kind: "unarmored-ac", abilities: ["wis"], base: 13 }, "Circle Forms")]);
     const { total, terms } = unarmoredACBreakdown(r, MODS, []);
@@ -83,7 +83,7 @@ describe("unarmoredACBreakdown — E-1: the effect's `abilities` list is the who
   });
 });
 
-describe("unarmoredACBreakdown — E-2: the best applicable formula wins", () => {
+describe("unarmoredACBreakdown · E-2: the best applicable formula wins", () => {
   it("the arcane-archer witness: a shield beats an unarmored-ac effect that does not allow one", () => {
     const c = baseChar();
     c.equipment = [{ item: "[[shield]]", equipped: true }];
@@ -109,7 +109,7 @@ describe("unarmoredACBreakdown — E-2: the best applicable formula wins", () =>
   });
 });
 
-describe("unarmoredACBreakdown — E-5: the walk is gated by foldsNow", () => {
+describe("unarmoredACBreakdown · E-5: the walk is gated by foldsNow", () => {
   it("an ACTIVATABLE unarmored-ac with an empty active-buff set does not fold", () => {
     const r = mkResolved(baseChar(), [
       acFeature({ kind: "unarmored-ac", abilities: ["wis"], base: 13 }, "Circle Forms", { id: "circle-forms", activatable: true }),

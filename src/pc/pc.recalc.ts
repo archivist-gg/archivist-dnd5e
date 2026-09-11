@@ -1100,7 +1100,7 @@ export function recalc(resolved: ResolvedCharacter, registry?: EntityRegistry): 
       // Pull additive contributions that stand alone without body armor: item
       // bonuses, per-entry overrides, AND a shield (RAW: a shield grants +2 even
       // when unarmored) where the winning unarmoured formula admits one. The
-      // `armor`/`dex` terms are skipped — there's no body armor, and the unarmored
+      // `armor`/`dex` terms are skipped: there is no body armor, and the unarmored
       // base already incorporates DEX (and class unarmored defense).
       const additive = derivedEquipment.acBreakdown.filter(
         (b) => b.kind === "item" || b.kind === "override" || (b.kind === "shield" && shieldAllowed),

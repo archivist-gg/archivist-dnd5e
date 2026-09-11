@@ -85,7 +85,7 @@ const rows = (effects: FeatureEffect[]): { weapon: AttackRow; unarmed: AttackRow
 
 const amounts = (a: AttackRow): string[] => (a.damageRiders ?? []).map((r) => r.amount);
 
-describe("damage riders — E-3 CHARACTERISATION (the shipped `applies_to` rule, pinned, not changed)", () => {
+describe("damage riders · E-3 CHARACTERISATION (the shipped `applies_to` rule, pinned, not changed)", () => {
   it("CHARACTERISATION: a rider with `applies_to: \"spell\"` reaches NO attack row", () => {
     const { weapon, unarmed } = rows([{ kind: "damage-bonus", applies_to: "spell", amount: "1d6", damage_type: "force" }]);
     expect(weapon.damageRiders).toBeUndefined();
@@ -105,7 +105,7 @@ describe("damage riders — E-3 CHARACTERISATION (the shipped `applies_to` rule,
   });
 });
 
-describe("damage riders — E-4 (a): a `{token}` amount resolves before it is printed", () => {
+describe("damage riders · E-4 (a): a `{token}` amount resolves before it is printed", () => {
   it("`{prof_bonus}` resolves to the character's proficiency bonus", () => {
     const { weapon, unarmed } = rows([{ kind: "damage-bonus", amount: "{prof_bonus}", damage_type: "radiant" }]);
     expect(amounts(weapon)).toEqual(["3"]); // fighter 5 → PB 3
@@ -123,7 +123,7 @@ describe("damage riders — E-4 (a): a `{token}` amount resolves before it is pr
   });
 });
 
-describe("damage riders — E-4 (b): a non-canonical damage type inherits the weapon row's own", () => {
+describe("damage riders · E-4 (b): a non-canonical damage type inherits the weapon row's own", () => {
   const typesOf = (a: AttackRow): (string | undefined)[] => (a.damageRiders ?? []).map((r) => r.damage_type);
 
   it("`weapon` inherits the row's type (slashing on a Longsword, bludgeoning on the Unarmed Strike)", () => {
