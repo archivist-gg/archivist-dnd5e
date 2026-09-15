@@ -1,5 +1,5 @@
 import { describe, it, expect } from "vitest";
-import { spellScales, spellEffectAtSlot, upcastLevelsFor } from "../src/spell/spell.scaling";
+import { spellScales, spellEffectAtSlot, spellEffectAtCharacterLevel, upcastLevelsFor } from "../src/spell/spell.scaling";
 import type { Spell } from "@archivist-gg/dnd5e/spell/spell.types";
 
 const mm2024: Spell = {
@@ -49,6 +49,61 @@ describe("spellEffectAtSlot", () => {
   it("returns null when there is no option for that level", () => {
     expect(spellEffectAtSlot(fireball, 9)).toBeNull();
     expect(spellEffectAtSlot(shield, 2)).toBeNull();
+  });
+});
+
+// R4-G7 T8 RIDER-15 (F-NODICE (a)): a cantrip's damage at the character's TOTAL level. The two document shapes
+// are the shipped ones: PHB 2024 / SRD 2024 / the converter author `player_level_5`, `_11`, `_17` only; SRD 5e
+// authors one option per level from 5 to 20 (and SRD 5e Acid Splash / Poison Spray open with `player_level_2..4`
+// carrying an EMPTY `damage_roll`).
+const fireBolt2024: Spell = {
+  name: "Fire Bolt", level: 0,
+  casting_options: [
+    { type: "player_level_5", damage_roll: "2d10" },
+    { type: "player_level_11", damage_roll: "3d10" },
+    { type: "player_level_17", damage_roll: "4d10" },
+  ],
+} as Spell;
+const perLevel = (from: number, to: number, roll: (n: number) => string) =>
+  Array.from({ length: to - from + 1 }, (_, i) => ({ type: `player_level_${from + i}`, damage_roll: roll(from + i) }));
+const fireBoltSrd5e: Spell = {
+  name: "Fire Bolt", level: 0,
+  casting_options: perLevel(5, 20, (n) => (n >= 17 ? "4d10" : n >= 11 ? "3d10" : "2d10")),
+} as Spell;
+const acidSplashSrd5e: Spell = {
+  name: "Acid Splash", level: 0,
+  casting_options: [...perLevel(2, 4, () => ""), ...perLevel(5, 20, (n) => (n >= 17 ? "4d6" : n >= 11 ? "3d6" : "2d6"))],
+} as Spell;
+const eldritchBlast2024: Spell = {
+  name: "Eldritch Blast", level: 0,
+  casting_options: [{ type: "player_level_5", target_count: 2 }, { type: "player_level_17", target_count: 4 }],
+} as Spell;
+
+describe("spellEffectAtCharacterLevel (R4-G7 T8 RIDER-15)", () => {
+  it("takes the HIGHEST player_level_<N> at or below the level: a 2024 Fire Bolt at 20 is 4d10", () => {
+    expect(spellEffectAtCharacterLevel(fireBolt2024, 20)).toBe("4d10");   // kills an exact-match port and a first-qualifying pick
+  });
+  it("never reads an option ABOVE the level: a 2024 Fire Bolt at 10 is 2d10", () => {
+    expect(spellEffectAtCharacterLevel(fireBolt2024, 10)).toBe("2d10");   // kills a max that ignores the level gate
+  });
+  it("is null when no option qualifies: a 2024 Fire Bolt at 4 (the base 1d10 is not in the data)", () => {
+    expect(spellEffectAtCharacterLevel(fireBolt2024, 4)).toBeNull();
+  });
+  it("reads the SRD 5e one-option-per-level shape: Fire Bolt at 6 is 2d10", () => {
+    expect(spellEffectAtCharacterLevel(fireBoltSrd5e, 6)).toBe("2d10");
+    expect(spellEffectAtCharacterLevel(fireBoltSrd5e, 12)).toBe("3d10");
+  });
+  it("an EMPTY damage_roll never qualifies: SRD 5e Acid Splash at 4 is null, never an empty string; at 5 it is 2d6", () => {
+    expect(spellEffectAtCharacterLevel(acidSplashSrd5e, 4)).toBeNull();
+    expect(spellEffectAtCharacterLevel(acidSplashSrd5e, 5)).toBe("2d6");
+  });
+  it("a player_level option without a damage_roll never qualifies (Eldritch Blast 2024's beams)", () => {
+    expect(spellEffectAtCharacterLevel(eldritchBlast2024, 20)).toBeNull();
+  });
+  it("is null for a LEVELLED spell and for an absent level (a fixture-built derived omits totalLevel)", () => {
+    expect(spellEffectAtCharacterLevel({ ...fireBolt2024, level: 1 } as Spell, 20)).toBeNull();
+    expect(spellEffectAtCharacterLevel(fireBolt2024, undefined as unknown as number)).toBeNull();
+    expect(spellEffectAtCharacterLevel({ name: "Light", level: 0 } as Spell, 20)).toBeNull();
   });
 });
 

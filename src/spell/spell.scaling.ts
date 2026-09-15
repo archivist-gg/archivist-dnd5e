@@ -6,7 +6,7 @@ export function spellScales(spell: Spell): boolean {
 }
 
 /**
- * At-a-glance scaled effect for casting `spell` with a slot of `slotLevel`,
+ * At-a-glance scaled effect for casting a LEVELLED `spell` with a slot of `slotLevel`,
  * read from structured `casting_options` (`type: "slot_level_<N>"`). Returns
  * null when absent or untrustworthy. `damage_roll` is shown as-is; a
  * `target_count` that equals the slot level is the known SRD-2014 bad encoding
@@ -23,6 +23,29 @@ export function spellEffectAtSlot(spell: Spell, slotLevel: number): string | nul
   }
   if (opt.duration) return opt.duration;
   return opt.desc ?? null;
+}
+
+const PLAYER_LEVEL_TYPE = /^player_level_(\d+)$/;
+
+/**
+ * R4-G7 T8 RIDER-15 (F-NODICE (a)): a CANTRIP's damage roll at the character's total level, read from structured
+ * `casting_options` (`type: "player_level_<N>"`). The roll of the HIGHEST `N <= characterLevel` wins: SRD 5e authors
+ * one option per level from 5 to 20, SRD 2024 and the converter author only 5 / 11 / 17. An option with no roll or an
+ * EMPTY one never qualifies (SRD 5e Acid Splash and Poison Spray open with `player_level_2..4` carrying
+ * `damage_roll: ''`; Eldritch Blast 2024 authors `target_count` only). Null for a levelled spell, for a level that is
+ * not a finite number (a fixture-built `derived` omits `totalLevel`), and when nothing qualifies: no corpus authors
+ * `player_level_1`, so a cantrip's base roll below level 5 is not in the data and nothing is invented here.
+ */
+export function spellEffectAtCharacterLevel(spell: Spell, characterLevel: number): string | null {
+  if ((spell.level ?? 0) !== 0 || !Number.isFinite(characterLevel)) return null;
+  let best: { n: number; roll: string } | null = null;
+  for (const opt of spell.casting_options ?? []) {
+    const m = PLAYER_LEVEL_TYPE.exec(String(opt.type ?? ""));
+    if (!m || typeof opt.damage_roll !== "string" || opt.damage_roll.trim() === "") continue;
+    const n = Number(m[1]);
+    if (n <= characterLevel && (best === null || n > best.n)) best = { n, roll: opt.damage_roll };
+  }
+  return best ? best.roll : null;
 }
 
 /** Owned slot levels strictly above the spell's base level (scaling spells only). */
