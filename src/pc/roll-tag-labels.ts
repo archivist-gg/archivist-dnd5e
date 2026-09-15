@@ -30,6 +30,12 @@ export const ROLL_MODE_WORD: Record<RollModifierMode, string> = { advantage: "ad
 export const ROLL_NOUN: Record<RollKind | "any", string> = { "ability-check": "ability checks", "saving-throw": "saving throws", attack: "attack rolls", any: "rolls" };
 export const AUTO_FAIL_TAG = "AUTO-FAIL";
 
+/** R4-G7 T8 RIDER-20 (F-ADV) · the ONE glyph a CONDITIONAL tag appends to its text: a `roll-modifier` entry that carries a
+ *  `condition`, or a `scope` the normaliser could not map (the qualifier the converter left in `scope`), and a `save-outcome`
+ *  entry that carries a `condition`. `ADV` alone reads "always"; `ADV*` says "only sometimes, hover for when". The chip
+ *  carriers append it to the `ROLL_MODE_TAG` / `saveOutcomeTag` text, so the glyph is spelled here once. */
+export const CONDITIONAL_TAG_MARK = "*";
+
 /** The closed `save-outcome` result vocabulary as display glyphs: how much damage you still take.
  *  `Record<SaveOutcome, string>` (the alias from pc.types.ts) so the union is spelled once. */
 export const OUTCOME: Record<SaveOutcome, string> = { none: "0", half: "½", full: "1" };

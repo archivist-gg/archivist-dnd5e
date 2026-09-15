@@ -12,7 +12,7 @@
  * extending the table cannot pass.
  */
 import { describe, it, expect } from "vitest";
-import { ROLL_MODE_TAG, ROLL_MODE_WORD, ROLL_NOUN, saveOutcomeTag, AUTO_FAIL_TAG } from "../src/pc/roll-tag-labels";
+import { ROLL_MODE_TAG, ROLL_MODE_WORD, ROLL_NOUN, saveOutcomeTag, AUTO_FAIL_TAG, CONDITIONAL_TAG_MARK } from "../src/pc/roll-tag-labels";
 describe("roll tag labels (R4-G3a §5.2)", () => {
   it("mode tags", () => expect(ROLL_MODE_TAG).toEqual({ advantage: "ADV", disadvantage: "DIS", reroll: "RR", "add-d4": "+D4" }));
   it("mode words + roll nouns", () => {
@@ -26,4 +26,7 @@ describe("roll tag labels (R4-G3a §5.2)", () => {
       expect(saveOutcomeTag(s, f)).toMatch(/^[0½1]\/[0½1]$/);
     expect(AUTO_FAIL_TAG).toBe("AUTO-FAIL");
   });
+  // R4-G7 T8 RIDER-20 (F-ADV): the ONE glyph a conditional roll / outcome tag appends to its text. The plugin's three chip
+  // carriers print `ROLL_MODE_TAG[mode] + CONDITIONAL_TAG_MARK`, so its value lives here and never as a plugin literal.
+  it("the conditional tag mark", () => expect(CONDITIONAL_TAG_MARK).toBe("*"));
 });
