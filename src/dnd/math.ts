@@ -84,11 +84,28 @@ export function abilityNameToKey(name: string): (typeof ABILITY_KEYS)[number] | 
 const CANONICAL_DAMAGE_TYPES = new Set(DAMAGE_TYPES.map((t) => t.toLowerCase()));
 
 /** Is `type` one of the canonical damage types, whatever its casing? A rider whose declared type is
- *  anything else, a sentinel (`weapon`, `chosen`) or prose ("same as the weapon's type"), INHERITS the
- *  weapon row's own damage type; `pc.recalc.ts` resolves that where the rider is merged onto the row,
- *  never in a renderer, and never from a list of prose spellings. */
+ *  anything else, a sentinel (`weapon`) or prose ("same as the weapon's type"), INHERITS the weapon row's
+ *  own damage type; `pc.recalc.ts` resolves that where the rider is merged onto the row, never in a
+ *  renderer, and never from a list of prose spellings. The ONE exception is the schema's own sentinel
+ *  {@link CHOSEN_DAMAGE_TYPE}, which means the player's choice, not the row's type (R4-G7 T8 RIDER-13). */
 export function isCanonicalDamageType(type: string): boolean {
   return CANONICAL_DAMAGE_TYPES.has(type.trim().toLowerCase());
+}
+
+/** The schema's own damage-type sentinel for a rider whose type the PLAYER picks when the damage is dealt
+ *  (`feature-effect-schema.ts`, the `damage-bonus` arm: "player-selected damage type at action time"). It is a
+ *  declared schema value, not a prose spelling, so it never inherits the weapon row's type: the rider keeps it,
+ *  and the sheet prints the amount with no type and {@link CHOSEN_DAMAGE_TYPE_NOTE} in the row's caption
+ *  (R4-G7 T8 RIDER-13). */
+export const CHOSEN_DAMAGE_TYPE = "chosen";
+
+/** The caption words a renderer prints for a {@link CHOSEN_DAMAGE_TYPE} rider in place of a damage type. One
+ *  constant, so no renderer spells the phrase itself. */
+export const CHOSEN_DAMAGE_TYPE_NOTE = "damage type of your choice";
+
+/** Is `type` the {@link CHOSEN_DAMAGE_TYPE} sentinel, whatever its casing or surrounding space? */
+export function isChosenDamageType(type: string | undefined): boolean {
+  return type !== undefined && type.trim().toLowerCase() === CHOSEN_DAMAGE_TYPE;
 }
 
 /** Can a damage rider be printed INSIDE the damage text, as a dice chip? Only when it reads as a dice

@@ -1,6 +1,7 @@
 import { describe, it, expect } from "vitest";
 import { recalc } from "../src/pc/pc.recalc";
 import { computeFeatureEffects } from "../src/pc/pc.feature-effects";
+import { CHOSEN_DAMAGE_TYPE, CHOSEN_DAMAGE_TYPE_NOTE, isChosenDamageType } from "../src/dnd/math";
 import type { AttackRow, Character, ResolvedCharacter, ResolvedClass, ResolvedFeature } from "../src/pc/pc.types";
 import type { FeatureEffect } from "@archivist-gg/dnd5e/types/feature-effect";
 import { buildMockRegistry } from "./mock-entity-registry";
@@ -15,8 +16,9 @@ import { LONGSWORD } from "./equipment-fixtures";
  *       the filter and the first pin below goes RED.
  *   E-4 (a) a rider `amount` carrying a `{token}` resolves against the character before it is printed;
  *       (b) a rider `damage_type` outside the canonical `DAMAGE_TYPES` set INHERITS the weapon row's own
- *       damage type. Both live at the merge site in `pc.recalc.ts`, the one place that knows the weapon
- *       row's own type AND the character's proficiency bonus and ability modifiers.
+ *       damage type, except the schema sentinel `chosen` (R4-G7 T8 RIDER-13, the last describe below).
+ *       Both live at the merge site in `pc.recalc.ts`, the one place that knows the weapon row's own type
+ *       AND the character's proficiency bonus and ability modifiers.
  */
 
 function mkClass(slug: string, die: string, level: number): ResolvedClass {
@@ -174,5 +176,33 @@ describe("damage riders · RIDER-12: a rider carries its effect's `condition`", 
     const { weapon } = rows([{ kind: "damage-bonus", amount: "1d8", damage_type: "radiant" }]);
     expect(weapon.damageRiders).toEqual([{ amount: "1d8", damage_type: "radiant", source: "Effect Source" }]);
     expect("condition" in (weapon.damageRiders?.[0] ?? {})).toBe(false);
+  });
+});
+
+// R4-G7 T8 RIDER-13 (F-RIDER (b)): the schema's own sentinel `chosen` ("player-selected damage type at action time",
+// `feature-effect-schema.ts`) is NOT "this row's type". T6a's shape rule made every non-canonical type inherit the row's,
+// so Nature Domain 5e's Divine Strike ("cold, fire, or lightning, your choice") printed `1d8 bludgeoning` (38 corpus
+// riders). `chosen` now stays on the rider verbatim, never inherits, and the sheet prints it with no type and a caption
+// whose words come from `CHOSEN_DAMAGE_TYPE_NOTE`. Every OTHER non-canonical spelling keeps inheriting (E-4 (b) above).
+describe("damage riders · RIDER-13: the `chosen` sentinel never inherits the row's damage type", () => {
+  const typesOf = (a: AttackRow): (string | undefined)[] => (a.damageRiders ?? []).map((r) => r.damage_type);
+
+  it("a `chosen` rider keeps `chosen` on the Longsword row AND on the Unarmed Strike row", () => {
+    const { weapon, unarmed } = rows([{ kind: "damage-bonus", amount: "1d8", damage_type: "chosen" }]);
+    expect(typesOf(weapon)).toEqual(["chosen"]);
+    expect(typesOf(unarmed)).toEqual(["chosen"]);
+  });
+
+  it("the sentinel is matched whatever its casing or surrounding space, and kept as authored", () => {
+    const { weapon } = rows([{ kind: "damage-bonus", amount: "1d8", damage_type: " Chosen " }]);
+    expect(typesOf(weapon)).toEqual([" Chosen "]);
+    expect(isChosenDamageType(" Chosen ")).toBe(true);
+  });
+
+  it("CONTROL: the one exported constant pair is the sentinel and the caption words", () => {
+    expect(CHOSEN_DAMAGE_TYPE).toBe("chosen");
+    expect(CHOSEN_DAMAGE_TYPE_NOTE).toContain("your choice");
+    expect(isChosenDamageType("weapon")).toBe(false);
+    expect(isChosenDamageType(undefined)).toBe(false);
   });
 });
