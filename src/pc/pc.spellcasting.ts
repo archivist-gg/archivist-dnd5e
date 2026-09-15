@@ -81,48 +81,63 @@ function firstListedCasterClass(spellClasses: readonly unknown[] | undefined, ca
   return casterClassSlugs.find((slug) => listed.has(baseClassName(slug))) ?? null;
 }
 
-/** One caster class as the attribution rule reads it: a class slug (the resolver passes the class-ref slug, the add drawer
- *  the entity slug; both are compared through `baseClassName`) and its profile's `spellList` (null when none is named). */
+/** One caster class as the attribution rule reads it: a class slug and its profile's `spellList` (null when none is named).
+ *  The slug is compared through `baseClassName` and also looks up the registered `class` document for its compendium, so it
+ *  must be a registered class slug: the resolver passes the class-ref slug its own lookup used, the add drawer the resolved
+ *  entity's `slug` (equal to the registered slug on every bundle and converter class document, and backfilled from it when a
+ *  custom body omits it). */
 export interface AttributionCaster {
   classSlug: string;
   spellList: string | null;
 }
 
-const LISTED_CLASS_NAMES = new WeakMap<EntityRegistry, { count: number; names: ReadonlySet<string> }>();
+const LISTED_CLASS_NAMES = new WeakMap<EntityRegistry, { count: number; byCompendium: ReadonlyMap<string, ReadonlySet<string>> }>();
+const NO_NAMES: ReadonlySet<string> = new Set<string>();
 
-/** Every base class name some spell in the registry lists in its `classes`: ONE walk of the spell bucket per registry,
- *  repeated only when `registry.count()` changes (an entity registered under a new slug, or one removed). Known gap:
- *  re-registering an existing spell in place (same slug, same count) with a different `classes` list is not seen until
- *  the count next moves. */
-export function listedSpellClassNames(registry: EntityRegistry): ReadonlySet<string> {
+/** Every base class name a spell of ONE compendium lists in its `classes`, the compendium read off the registered spell
+ *  document (`RegisteredEntity.compendium`). ONE walk of the spell bucket per registry fills every compendium's set at once,
+ *  so each compendium is computed once; the walk repeats only when `registry.count()` changes (an entity registered under a
+ *  new slug, or one removed). The core registry exposes no change generation, version or event, so the count is the only
+ *  key. Known gap: re-registering an existing spell in place (same slug, same count; the plugin's `updateEntity` does this)
+ *  with a different `classes` list is not seen until the count next moves. A compendium with no spells gets the empty set. */
+export function listedSpellClassNames(registry: EntityRegistry, compendium: string): ReadonlySet<string> {
   const count = registry.count();
-  const cached = LISTED_CLASS_NAMES.get(registry);
-  if (cached && cached.count === count) return cached.names;
-  const names = new Set<string>();
-  for (const e of registry.search("", "spell", Number.POSITIVE_INFINITY)) {
-    const classes = (e.data as { classes?: unknown }).classes;
-    if (Array.isArray(classes)) for (const c of classes) names.add(baseClassName(String(c)));
+  let cached = LISTED_CLASS_NAMES.get(registry);
+  if (!cached || cached.count !== count) {
+    const byCompendium = new Map<string, Set<string>>();
+    for (const e of registry.search("", "spell", Number.POSITIVE_INFINITY)) {
+      const classes = (e.data as { classes?: unknown }).classes;
+      if (!Array.isArray(classes)) continue;
+      let names = byCompendium.get(e.compendium);
+      if (!names) byCompendium.set(e.compendium, (names = new Set<string>()));
+      for (const c of classes) names.add(baseClassName(String(c)));
+    }
+    cached = { count, byCompendium };
+    LISTED_CLASS_NAMES.set(registry, cached);
   }
-  LISTED_CLASS_NAMES.set(registry, { count, names });
-  return names;
+  return cached.byCompendium.get(compendium) ?? NO_NAMES;
 }
 
 /**
- * R4-G7 T8 RIDER-19 (F-PACT) and its fix round 1 (review C-1): the caster class an UN-CLASSED known spell belongs to. The
- * ONE rule, read by the resolver (an entry with no `class:`) and by the Spells tab's add drawer (the `class:` it writes).
+ * R4-G7 T8 RIDER-19 (F-PACT) and its fix rounds 1 and 2 (review C-1): the caster class an UN-CLASSED known spell belongs to.
+ * The ONE rule, read by the resolver (an entry with no `class:`) and by the Spells tab's add drawer (the `class:` it writes).
  * The spell stays with the FIRST caster class (class-entry order) unless the first caster's own list is OBSERVABLE and does
  * not name the spell, in which case it goes to the first LATER caster whose base class name the spell's `classes` names.
  * Observable means (i) the first caster's profile names a list (`spellList` non-null; the converter's Arcane Trickster and
  * Eldritch Knight name none, and their spells say `wizard`, never `rogue` / `fighter`) AND (ii) its base class name is
- * listed on at least one spell in the registry (the SRD 5e bundle lists `paladin` on no spell, DATA-SRD). So a single
- * caster, a spell the first caster's list names (Detect Magic on a Paladin / Warlock), a spell no caster names, and every
- * spell of an unobservable first caster resolve exactly as before RIDER-19; Armor of Agathys (`classes: [warlock]`) on a
- * Paladin-first Paladin / Warlock goes to the Warlock. Null only when there is no caster class.
+ * listed on at least one spell of the first class document's OWN compendium (`RegisteredEntity.compendium` of the registered
+ * `class` document and of each spell document): the SRD 5e bundle lists `paladin` on no spell (DATA-SRD) while a real vault
+ * also holds SRD 2024 and converted books that do, so only the class's own book can speak for its list. A class document the
+ * registry does not hold, or a compendium with no spells, is unobservable. So a single caster, a spell the first caster's list
+ * names (Detect Magic on a Paladin / Warlock), a spell no caster names, and every spell of an unobservable first caster
+ * resolve exactly as before RIDER-19; Armor of Agathys (`classes: [warlock]`) on a Player's Handbook Paladin-first Paladin /
+ * Warlock goes to the Warlock. Null only when there is no caster class.
  * Consequences a move carries: the spell's DC / attack become the new class's, it follows that class's Pact Magic routing,
  * and a plain entry (no prepared flag) moved from a `known` caster to a `prepared` one is not castable until prepared.
- * Known limit: a list EXTENSION on an observable first caster (a 2014 Fiend Warlock's Burning Hands, Bard Magical Secrets,
- * Divine Soul) is not visible in the spell's base-list `classes`, so such a spell moves to a later caster that names it;
- * an explicit `class:` is the override. The registry walk for (ii) runs only when a move is in question.
+ * Known limit: a list EXTENSION on an observable first caster (a 2014 Fiend Warlock's patron-granted Burning Hands, Bard
+ * Magical Secrets, Divine Soul) is not visible in the spell's base-list `classes`, so such a spell moves to a later caster
+ * that names it; an explicit `class:` is the override. The class lookup and the registry walk for (ii) run only when a move
+ * is in question.
  */
 export function attributeUnclassedSpell(
   spellClasses: readonly unknown[] | undefined,
@@ -134,7 +149,8 @@ export function attributeUnclassedSpell(
   const listed = firstListedCasterClass(spellClasses, casters.map((c) => c.classSlug));
   if (listed == null || listed === first.classSlug) return first.classSlug;
   if (first.spellList == null) return first.classSlug;
-  if (!listedSpellClassNames(registry).has(baseClassName(first.classSlug))) return first.classSlug;
+  const compendium = registry.getByTypeAndSlug("class", first.classSlug)?.compendium;
+  if (compendium == null || !listedSpellClassNames(registry, compendium).has(baseClassName(first.classSlug))) return first.classSlug;
   return listed;
 }
 

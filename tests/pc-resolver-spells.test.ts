@@ -3,6 +3,7 @@ import type { EntityRegistry } from "@archivist-gg/core";
 import { PCResolver, collectResolvedFeatures } from "../src/pc/pc.resolver";
 import { recalc } from "../src/pc/pc.recalc";
 import { baseClassName } from "../src/class/class.slug";
+import { attributeUnclassedSpell } from "../src/pc/pc.spellcasting";
 import { buildMockRegistry } from "./mock-entity-registry";
 import type { Character } from "../src/pc/pc.types";
 
@@ -231,6 +232,47 @@ describe("PCResolver · the first caster keeps its un-classed spells unless its 
     const of = (slug: string) => character.spells.find((s) => s.slug === slug)?.classSlug;
     expect(of("players-handbook-2024_spell_armor-of-agathys")).toBe("players-handbook-2024_class_warlock");
     expect(of("players-handbook-2024_spell_bless")).toBe("players-handbook-2024_class_paladin");
+  });
+  // Fix round 2 (ruling on round-1 concern 2): guard (ii) reads the first class's OWN compendium (`RegisteredEntity.compendium`, core
+  // `entity-registry.ts:11`, on the class document and on each spell document), because a real vault holds SRD 2024 and converted
+  // books whose spells list `paladin`. Slugs, compendium names and `classes` as the bundle / converter documents carry them.
+  const vault = () => buildMockRegistry([
+    { ...cls("srd-5e_class_paladin", "Paladin", { caster_type: "half", ability: "cha", preparation: "prepared", spell_list: "paladin" }), compendium: "SRD 5e" },
+    { ...cls("srd-5e_class_warlock", "Warlock", { caster_type: "pact", ability: "cha", preparation: "known", spell_list: "warlock" }), compendium: "SRD 5e" },
+    { ...spell("srd-5e_spell_command", "Command", ["cleric", "warlock"]), compendium: "SRD 5e" },
+    { ...spell("srd-5e_spell_hex", "Hex", ["warlock"]), compendium: "SRD 5e" },
+    { ...cls("srd-2024_class_paladin", "Paladin", { caster_type: "half", ability: "cha", preparation: "prepared", spell_list: "paladin" }), compendium: "SRD 2024" },
+    { ...spell("srd-2024_spell_bless", "Bless", ["cleric", "paladin"]), compendium: "SRD 2024" },
+    { ...spell("srd-2024_spell_command", "Command", ["bard", "cleric", "paladin"]), compendium: "SRD 2024" },
+    { ...cls("players-handbook-2024_class_paladin", "Paladin", { caster_type: "artificer", ability: "cha", preparation: "prepared", spell_list: "paladin" }), compendium: "Player's Handbook (2024)" },
+    { ...cls("players-handbook-2024_class_warlock", "Warlock", { caster_type: "pact", ability: "cha", preparation: "known", spell_list: "warlock" }), compendium: "Player's Handbook (2024)" },
+    { ...spell("players-handbook-2024_spell_armor-of-agathys", "Armor of Agathys", ["warlock"]), compendium: "Player's Handbook (2024)" },
+    { ...spell("players-handbook-2024_spell_bless", "Bless", ["cleric", "paladin"]), compendium: "Player's Handbook (2024)" },
+    { ...cls("homebrew_class_paladin", "Paladin", { caster_type: "half", ability: "cha", preparation: "prepared", spell_list: "paladin" }), compendium: "Homebrew" },
+  ]);
+  it("the real vault shape: an SRD 5e Paladin-first / Warlock beside SRD 2024 spells listing paladin keeps Command and Hex on the Paladin", () => {
+    const { character } = new PCResolver(vault()).resolve(pc([["srd-5e_class_paladin", null], ["srd-5e_class_warlock", null]], ["[[srd-5e_spell_command]]", "[[srd-5e_spell_hex]]"], 16));
+    const of = (slug: string) => character.spells.find((s) => s.slug === slug)?.classSlug;
+    expect(of("srd-5e_spell_command")).toBe("srd-5e_class_paladin");
+    expect(of("srd-5e_spell_hex")).toBe("srd-5e_class_paladin");
+  });
+  it("control, the same registry: a Paladin 2024-first / Warlock still sends Armor of Agathys to the Warlock (its own book lists paladin)", () => {
+    const { character } = new PCResolver(vault()).resolve(pc([["players-handbook-2024_class_paladin", null], ["players-handbook-2024_class_warlock", null]],
+      ["[[players-handbook-2024_spell_armor-of-agathys]]", "[[players-handbook-2024_spell_bless]]"], 16));
+    const of = (slug: string) => character.spells.find((s) => s.slug === slug)?.classSlug;
+    expect(of("players-handbook-2024_spell_armor-of-agathys")).toBe("players-handbook-2024_class_warlock");
+    expect(of("players-handbook-2024_spell_bless")).toBe("players-handbook-2024_class_paladin");
+  });
+  it("a first class whose compendium carries no spells at all is unobservable: a Homebrew Paladin-first / Warlock keeps Armor of Agathys", () => {
+    const { character } = new PCResolver(vault()).resolve(pc([["homebrew_class_paladin", null], ["players-handbook-2024_class_warlock", null]],
+      ["[[players-handbook-2024_spell_armor-of-agathys]]"], 16));
+    expect(character.spells.find((s) => s.slug === "players-handbook-2024_spell_armor-of-agathys")?.classSlug).toBe("homebrew_class_paladin");
+  });
+  it("a first caster whose class document the registry does not hold is unobservable (the helper, as the add drawer calls it)", () => {
+    const casters = [{ classSlug: "unregistered_class_paladin", spellList: "paladin" }, { classSlug: "players-handbook-2024_class_warlock", spellList: "warlock" }];
+    const reg = vault();
+    expect(attributeUnclassedSpell(["warlock"], casters, reg)).toBe("unregistered_class_paladin");
+    expect(attributeUnclassedSpell(["warlock"], [{ ...casters[0], classSlug: "players-handbook-2024_class_paladin" }, casters[1]], reg)).toBe("players-handbook-2024_class_warlock");
   });
   it("(ii) walks the registry's spells at most once per registry, only when a move is in question, and follows a registry that grows", () => {
     const reg = srd5();
