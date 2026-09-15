@@ -229,6 +229,30 @@ describe("legendary intro, section headers, displayAs (§6)", () => {
     expect(legendaryIntro({ name: "Zariel", is_named_creature: true, short_name: true }, 3)).toMatch(/^Zariel can take 3/);
     expect(legendaryIntro({ name: "Dragon", legendary_actions_lair_count: 4 }, 3)).toMatch(/can take 3 legendary actions \(4 in its lair\)/);
   });
+
+  /**
+   * R4-G7 T8 wave E, B026-D9 (controller ruling on INV-4): a NAMED creature with no authored `short_name` takes
+   * 5etools' own short name instead of its whole title. Ported from `Renderer.monster.getShortNameFromName`
+   * (5etools v2.28.0, `js/render.js:10197-10202`): the name before the first comma, the `(adult|ancient|young) X
+   * dragon/dracolich` collapse, then the FIRST WORD for a named creature. The live pass read "Tyreus, Illusionist can
+   * take 3 legendary actions ... Tyreus, Illusionist regains" on the Tyreus note, whose 5etools entry carries
+   * `isNamedCreature: true` and no `shortName` (verified in `bestiary-aitfr-fcd.json`).
+   * The GENERIC arm is EXPECTED and unchanged by the same ruling: "the aboleth", "the aspect of tiamat".
+   */
+  it("legendaryIntro shortens a NAMED creature's own name (the 5etools rule) and leaves a generic one alone", () => {
+    expect(legendaryIntro({ name: "Tyreus, Illusionist", is_named_creature: true }, 3)).toMatch(/^Tyreus can take 3 /);
+    expect(legendaryIntro({ name: "Tyreus, Illusionist", is_named_creature: true }, 3)).toMatch(/ Tyreus regains spent legendary actions/);
+    expect(legendaryIntro({ name: "Ygorl, Lord of Entropy", is_named_creature: true }, 3)).toMatch(/^Ygorl can take 3 /);
+    expect(legendaryIntro({ name: "Ancient Bronze Dragon", is_named_creature: true }, 3)).toMatch(/^Dragon can take 3 /);
+    // the FIRST-WORD half of the rule, which the comma split alone does not give: a named creature with a title
+    expect(legendaryIntro({ name: "Alyxian the Absolved", is_named_creature: true }, 3)).toMatch(/^Alyxian can take 3 /);
+    // an authored short_name still wins, and `true` still means the whole name
+    expect(legendaryIntro({ name: "Tyreus, Illusionist", is_named_creature: true, short_name: "Tyreus the Bold" }, 3)).toMatch(/^Tyreus the Bold can take/);
+    expect(legendaryIntro({ name: "Strahd von Zarovich", is_named_creature: true, short_name: true }, 3)).toMatch(/^Strahd von Zarovich can take/);
+    // the generic arm: untouched, comma and all
+    expect(legendaryIntro({ name: "Animal Lord; Hunter" }, 3)).toMatch(/^The animal lord; hunter can take/);
+    expect(legendaryIntro({ name: "Adult Deep Dragon" }, 3)).toMatch(/^The adult deep dragon can take/);
+  });
   it("sectionHeader prefers section_headers, falls back to mythic_header for mythic", () => {
     expect(sectionHeader({ section_headers: [{ section: "mythic", header: ["If the trait activated..."] }] }, "mythic")).toEqual(["If the trait activated..."]);
     expect(sectionHeader({ mythic_header: ["Fallback"] }, "mythic")).toEqual(["Fallback"]);

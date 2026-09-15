@@ -26,6 +26,18 @@ describe("spellcastingLines", () => {
       "*New spell.",
     ]);
   });
+  /**
+   * R4-G7 T8 wave E, B026-D10: a count of one is a SLOT. The label was pluralised unconditionally, so the Archmage,
+   * Feonor and Tyreus each printed "6th Level (1 Slots)" through "9th Level (1 Slots)". Corpus: 203 converter notes
+   * carry 366 slot levels with `slots: 1`.
+   */
+  it("a single slot is singular, on both the plain and the lower-level form", () => {
+    expect(spellcastingLines({ spells: { "6": { slots: 1, spells: ["disintegrate"] } } })).toEqual(["6th Level (1 Slot): disintegrate"]);
+    expect(spellcastingLines({ spells: { "6": { slots: 2, spells: ["disintegrate"] } } })).toEqual(["6th Level (2 Slots): disintegrate"]);
+    expect(spellcastingLines({ spells: { "3": { slots: 1, lower: 1, spells: ["fireball"] } } })).toEqual(["3rd Level (1 1st-Level Slot): fireball"]);
+    expect(spellcastingLines({ spells: { "3": { slots: 3, lower: 1, spells: ["fireball"] } } })).toEqual(["3rd Level (3 1st-Level Slots): fireball"]);
+  });
+
   it("every group label", () => {
     const lines = spellcastingLines({
       rest: { "1e": ["a"] }, restLong: { "1": ["b"] }, recharge: { "5": ["c"], "6": ["d"] }, legendary: { "1e": ["e"] },

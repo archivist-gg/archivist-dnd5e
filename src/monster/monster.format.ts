@@ -381,12 +381,25 @@ export function formatSkillsOther(list: unknown[] | undefined): string | undefin
 // ---------------------------------------------------------------------------------------------------------------
 // legendary intro, section headers, displayAs
 // ---------------------------------------------------------------------------------------------------------------
+/**
+ * 5etools' own short name for a creature, ported from `Renderer.monster.getShortNameFromName` (v2.28.0,
+ * `js/render.js:10197-10202`): the name before the first comma, the `(adult|ancient|young) X dragon|dracolich` collapse,
+ * then the FIRST WORD. R4-G7 T8 wave E, B026-D9: the generated legendary sentence used to paste the whole title in, so
+ * a comma name read "Tyreus, Illusionist can take 3 legendary actions ... Tyreus, Illusionist regains" (that note carries
+ * `isNamedCreature: true` and no `shortName` in 5etools' own data). It is applied to a NAMED creature only: for a generic
+ * one the sentence keeps the lowercased full name ("the aboleth", "the aspect of tiamat"), which is 5etools' output too
+ * and the R4-G6 spec §6 decision.
+ */
+function shortNameOfNamed(name: string): string {
+  return name.split(",")[0].replace(/(?:adult|ancient|young) \w+ (dragon|dracolich)/gi, "$1").split(" ")[0];
+}
+
 export function legendaryIntro(
   m: { name: string; is_named_creature?: boolean; short_name?: string | boolean; legendary_actions_lair_count?: number },
   count: number,
 ): string {
   const subject = m.is_named_creature
-    ? (typeof m.short_name === "string" ? m.short_name : m.name)
+    ? (typeof m.short_name === "string" ? m.short_name : (m.short_name === true ? m.name : shortNameOfNamed(m.name)))
     : `the ${m.name.toLowerCase()}`;
   const Subject = m.is_named_creature ? subject : `The ${m.name.toLowerCase()}`;
   const lair = m.legendary_actions_lair_count !== undefined ? ` (${m.legendary_actions_lair_count} in its lair)` : "";
@@ -504,8 +517,11 @@ export function spellcastingLines(block: MonsterSpellcasting): string[] {
       const lvl = Number(key);
       const s = level.spells.join(", "); if (!s) continue;
       if (lvl === 0) { lines.push(`Cantrips (At Will): ${s}`); continue; }
+      // R4-G7 T8 wave E, B026-D10: one slot is a Slot. The plural was unconditional, so the Archmage, Feonor and Tyreus
+      // each printed "6th Level (1 Slots)"; 203 converter notes carry 366 slot levels with `slots: 1`.
+      const plural = level.slots === 1 ? "Slot" : "Slots";
       const slots = level.slots !== undefined
-        ? (level.lower !== undefined ? `${level.slots} ${ordinal(level.lower)}-Level Slots` : `${level.slots} Slots`)
+        ? (level.lower !== undefined ? `${level.slots} ${ordinal(level.lower)}-Level ${plural}` : `${level.slots} ${plural}`)
         : undefined;
       lines.push(`${ordinal(lvl)} Level${slots ? ` (${slots})` : ""}: ${s}`);
     }
