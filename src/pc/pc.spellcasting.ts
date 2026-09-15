@@ -2,7 +2,7 @@ import type { Ability } from "@archivist-gg/dnd5e";
 import type { CharacterOverrides, KnownSpellEntry, ResolvedClass } from "./pc.types";
 import { abilityModifier } from "@archivist-gg/dnd5e/dnd/math";
 import type { CasterType } from "@archivist-gg/dnd5e/class/class.types";
-import { bareSlug } from "@archivist-gg/dnd5e/class/class.slug";
+import { bareSlug, baseClassName } from "@archivist-gg/dnd5e/class/class.slug";
 import { readTableColumn } from "./pc.table-column";
 
 export interface SpellcastingProfile {
@@ -67,6 +67,21 @@ export function normalizeKnownSpell(entry: KnownSpellEntry): NormalizedKnownSpel
     preparedFlag: entry.prepared,
     alwaysPrepared: entry.always_prepared ?? false,
   };
+}
+
+/**
+ * R4-G7 T8 RIDER-19 (F-PACT): the caster class an UN-CLASSED known spell belongs to: the FIRST caster class, in
+ * class-entry order, whose base class name (`baseClassName`, the key `classSpellCandidates` matches a spell's `classes`
+ * with) appears in the spell's own `classes` list. Null when none does, so the caller keeps its first caster. Whenever
+ * the first caster's list names the spell it wins, so a single-caster character and a spell both lists name (Detect
+ * Magic on a Paladin / Warlock) resolve exactly as before; only a spell the first caster's list does NOT name moves (Armor
+ * of Agathys to the Warlock of a Paladin-first sheet). A subclass-list caster whose spells name another class (an Arcane
+ * Trickster's `wizard` spells) matches nothing.
+ */
+export function firstListedCasterClass(spellClasses: readonly unknown[] | undefined, casterClassSlugs: readonly string[]): string | null {
+  if (!Array.isArray(spellClasses) || spellClasses.length === 0) return null;
+  const listed = new Set(spellClasses.map((c) => baseClassName(String(c))));
+  return casterClassSlugs.find((slug) => listed.has(baseClassName(slug))) ?? null;
 }
 
 export interface CasterClassInput {

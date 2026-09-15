@@ -76,3 +76,57 @@ describe("§16 row 48 · the background push is the sixth `withResolvedActionCos
     expect(row.feature.action).toBe("bonus-action");
   });
 });
+
+// R4-G7 T8 RIDER-19 (F-PACT): an un-classed known spell goes to the FIRST caster class (class-entry order) whose base name
+// its own `classes` names, not blindly to the first caster. Live witness W-A2 `conv-paladin5e5-warlock5e5`: the
+// Paladin-first sheet printed "No spells." under PACT MAGIC while Armor of Agathys (`classes: [warlock]`) sat in the 1st
+// level block, because every un-classed entry fell to `primaryCasterSlug`. A spell no caster list names keeps the first
+// caster; an explicit `class:` always wins.
+describe("PCResolver · an un-classed known spell on a multiclass caster (R4-G7 T8 RIDER-19)", () => {
+  const MC = buildMockRegistry([
+    { slug: "players-handbook-2014_class_paladin", entityType: "class", data: { slug: "players-handbook-2014_class_paladin", name: "Paladin", spellcasting: { caster_type: "half", ability: "cha", preparation: "prepared", spell_list: "paladin" }, table: {}, features_by_level: {} } },
+    { slug: "players-handbook-2014_class_warlock", entityType: "class", data: { slug: "players-handbook-2014_class_warlock", name: "Warlock", spellcasting: { caster_type: "pact", ability: "cha", preparation: "known", spell_list: "warlock" }, table: {}, features_by_level: {} } },
+    { slug: "players-handbook-2014_class_cleric", entityType: "class", data: { slug: "players-handbook-2014_class_cleric", name: "Cleric", spellcasting: { caster_type: "full", ability: "wis", preparation: "prepared", spell_list: "cleric" }, table: {}, features_by_level: {} } },
+    { slug: "players-handbook-2014_class_fighter", entityType: "class", data: { slug: "players-handbook-2014_class_fighter", name: "Fighter", table: {}, features_by_level: {} } },
+    { slug: "phb_spell_armor-of-agathys", entityType: "spell", data: { name: "Armor of Agathys", level: 1, classes: ["warlock"] } },
+    { slug: "phb_spell_bless", entityType: "spell", data: { name: "Bless", level: 1, classes: ["cleric", "paladin"] } },
+    { slug: "phb_spell_detect-magic", entityType: "spell", data: { name: "Detect Magic", level: 1, classes: ["paladin", "warlock", "wizard"] } },
+    { slug: "phb_spell_shield", entityType: "spell", data: { name: "Shield", level: 1, classes: ["sorcerer", "wizard"] } },
+  ]);
+  const PAL = "players-handbook-2014_class_paladin", WAR = "players-handbook-2014_class_warlock", CLE = "players-handbook-2014_class_cleric", FTR = "players-handbook-2014_class_fighter";
+  const mc = (classes: string[], known: Character["spells"]["known"]): Character => ({
+    ...char(known), class: classes.map((c) => ({ name: `[[${c}]]`, level: 5, subclass: null, choices: {} })),
+  });
+  const slugOf = (character: { spells: { slug: string; classSlug: string | null }[] }, slug: string) =>
+    character.spells.find((s) => s.slug === slug)?.classSlug;
+
+  it("a Paladin-first Paladin / Warlock: Armor of Agathys (classes: [warlock]) is the Warlock's spell", () => {
+    const { character } = new PCResolver(MC).resolve(mc([PAL, WAR], ["[[phb_spell_armor-of-agathys]]", "[[phb_spell_bless]]"]));
+    expect(slugOf(character, "phb_spell_armor-of-agathys")).toBe(WAR);
+    expect(slugOf(character, "phb_spell_bless")).toBe(PAL);
+  });
+  it("a Warlock-first sheet sends the Paladin's own spell to the Paladin (the rule is not an order swap)", () => {
+    const { character } = new PCResolver(MC).resolve(mc([WAR, PAL], ["[[phb_spell_bless]]", "[[phb_spell_armor-of-agathys]]"]));
+    expect(slugOf(character, "phb_spell_bless")).toBe(PAL);
+    expect(slugOf(character, "phb_spell_armor-of-agathys")).toBe(WAR);
+  });
+  it("the FIRST listed caster wins, not a unique one: Bless on a Warlock / Cleric / Paladin is the Cleric's", () => {
+    const { character } = new PCResolver(MC).resolve(mc([WAR, CLE, PAL], ["[[phb_spell_bless]]", "[[phb_spell_armor-of-agathys]]"]));
+    expect(slugOf(character, "phb_spell_bless")).toBe(CLE);
+    expect(slugOf(character, "phb_spell_armor-of-agathys")).toBe(WAR);
+  });
+  it("a spell BOTH lists name (Detect Magic) and one NEITHER names (Shield) stay with the first caster", () => {
+    const { character } = new PCResolver(MC).resolve(mc([PAL, WAR], ["[[phb_spell_detect-magic]]", "[[phb_spell_shield]]"]));
+    expect(slugOf(character, "phb_spell_detect-magic")).toBe(PAL);
+    expect(slugOf(character, "phb_spell_shield")).toBe(PAL);
+  });
+  it("an explicit `class:` always wins, even naming a class the spell's list does not name", () => {
+    const { character } = new PCResolver(MC).resolve(mc([PAL, WAR], [{ spell: "[[phb_spell_armor-of-agathys]]", class: `[[${PAL}]]` }]));
+    expect(slugOf(character, "phb_spell_armor-of-agathys")).toBe(PAL);
+  });
+  it("a non-caster class never attracts a spell, and a single caster keeps every un-classed spell (characterisation)", () => {
+    const { character } = new PCResolver(MC).resolve(mc([FTR, PAL], ["[[phb_spell_armor-of-agathys]]", "[[phb_spell_bless]]"]));
+    expect(slugOf(character, "phb_spell_armor-of-agathys")).toBe(PAL);
+    expect(slugOf(character, "phb_spell_bless")).toBe(PAL);
+  });
+});
