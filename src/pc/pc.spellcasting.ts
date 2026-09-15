@@ -1,3 +1,4 @@
+import type { EntityRegistry } from "@archivist-gg/core";
 import type { Ability } from "@archivist-gg/dnd5e";
 import type { CharacterOverrides, KnownSpellEntry, ResolvedClass } from "./pc.types";
 import { abilityModifier } from "@archivist-gg/dnd5e/dnd/math";
@@ -9,7 +10,8 @@ export interface SpellcastingProfile {
   ability: Ability;
   casterType: CasterType;
   preparation: "known" | "prepared";
-  /** null when neither block names a list (the converter's EK/AT); read by nothing today (measured), carried. */
+  /** null when neither block names a list (the converter's EK/AT). Read by the known-spell attribution guard
+   *  (`attributeUnclassedSpell`, guard (i)) and carried to `SpellcastingClassInfo.spellList`. */
   spellList: string | null;
   table: Record<number, { columns?: Record<string, string | number> }>;
 }
@@ -69,19 +71,71 @@ export function normalizeKnownSpell(entry: KnownSpellEntry): NormalizedKnownSpel
   };
 }
 
-/**
- * R4-G7 T8 RIDER-19 (F-PACT): the caster class an UN-CLASSED known spell belongs to: the FIRST caster class, in
- * class-entry order, whose base class name (`baseClassName`, the key `classSpellCandidates` matches a spell's `classes`
- * with) appears in the spell's own `classes` list. Null when none does, so the caller keeps its first caster. Whenever
- * the first caster's list names the spell it wins, so a single-caster character and a spell both lists name (Detect
- * Magic on a Paladin / Warlock) resolve exactly as before; only a spell the first caster's list does NOT name moves (Armor
- * of Agathys to the Warlock of a Paladin-first sheet). A subclass-list caster whose spells name another class (an Arcane
- * Trickster's `wizard` spells) matches nothing.
- */
-export function firstListedCasterClass(spellClasses: readonly unknown[] | undefined, casterClassSlugs: readonly string[]): string | null {
+/** The raw matching step of the attribution rule: the FIRST caster slug, in class-entry order, whose base class name
+ *  (`baseClassName`, the key `classSpellCandidates` matches a spell's `classes` with) appears in the spell's own `classes`
+ *  list; null for an absent / empty list or when no caster is named. Never called on its own: `attributeUnclassedSpell`
+ *  decides whether a match may take the spell off the first caster. */
+function firstListedCasterClass(spellClasses: readonly unknown[] | undefined, casterClassSlugs: readonly string[]): string | null {
   if (!Array.isArray(spellClasses) || spellClasses.length === 0) return null;
   const listed = new Set(spellClasses.map((c) => baseClassName(String(c))));
   return casterClassSlugs.find((slug) => listed.has(baseClassName(slug))) ?? null;
+}
+
+/** One caster class as the attribution rule reads it: a class slug (the resolver passes the class-ref slug, the add drawer
+ *  the entity slug; both are compared through `baseClassName`) and its profile's `spellList` (null when none is named). */
+export interface AttributionCaster {
+  classSlug: string;
+  spellList: string | null;
+}
+
+const LISTED_CLASS_NAMES = new WeakMap<EntityRegistry, { count: number; names: ReadonlySet<string> }>();
+
+/** Every base class name some spell in the registry lists in its `classes`: ONE walk of the spell bucket per registry,
+ *  repeated only when `registry.count()` changes (an entity registered under a new slug, or one removed). Known gap:
+ *  re-registering an existing spell in place (same slug, same count) with a different `classes` list is not seen until
+ *  the count next moves. */
+export function listedSpellClassNames(registry: EntityRegistry): ReadonlySet<string> {
+  const count = registry.count();
+  const cached = LISTED_CLASS_NAMES.get(registry);
+  if (cached && cached.count === count) return cached.names;
+  const names = new Set<string>();
+  for (const e of registry.search("", "spell", Number.POSITIVE_INFINITY)) {
+    const classes = (e.data as { classes?: unknown }).classes;
+    if (Array.isArray(classes)) for (const c of classes) names.add(baseClassName(String(c)));
+  }
+  LISTED_CLASS_NAMES.set(registry, { count, names });
+  return names;
+}
+
+/**
+ * R4-G7 T8 RIDER-19 (F-PACT) and its fix round 1 (review C-1): the caster class an UN-CLASSED known spell belongs to. The
+ * ONE rule, read by the resolver (an entry with no `class:`) and by the Spells tab's add drawer (the `class:` it writes).
+ * The spell stays with the FIRST caster class (class-entry order) unless the first caster's own list is OBSERVABLE and does
+ * not name the spell, in which case it goes to the first LATER caster whose base class name the spell's `classes` names.
+ * Observable means (i) the first caster's profile names a list (`spellList` non-null; the converter's Arcane Trickster and
+ * Eldritch Knight name none, and their spells say `wizard`, never `rogue` / `fighter`) AND (ii) its base class name is
+ * listed on at least one spell in the registry (the SRD 5e bundle lists `paladin` on no spell, DATA-SRD). So a single
+ * caster, a spell the first caster's list names (Detect Magic on a Paladin / Warlock), a spell no caster names, and every
+ * spell of an unobservable first caster resolve exactly as before RIDER-19; Armor of Agathys (`classes: [warlock]`) on a
+ * Paladin-first Paladin / Warlock goes to the Warlock. Null only when there is no caster class.
+ * Consequences a move carries: the spell's DC / attack become the new class's, it follows that class's Pact Magic routing,
+ * and a plain entry (no prepared flag) moved from a `known` caster to a `prepared` one is not castable until prepared.
+ * Known limit: a list EXTENSION on an observable first caster (a 2014 Fiend Warlock's Burning Hands, Bard Magical Secrets,
+ * Divine Soul) is not visible in the spell's base-list `classes`, so such a spell moves to a later caster that names it;
+ * an explicit `class:` is the override. The registry walk for (ii) runs only when a move is in question.
+ */
+export function attributeUnclassedSpell(
+  spellClasses: readonly unknown[] | undefined,
+  casters: readonly AttributionCaster[],
+  registry: EntityRegistry,
+): string | null {
+  const first = casters[0];
+  if (!first) return null;
+  const listed = firstListedCasterClass(spellClasses, casters.map((c) => c.classSlug));
+  if (listed == null || listed === first.classSlug) return first.classSlug;
+  if (first.spellList == null) return first.classSlug;
+  if (!listedSpellClassNames(registry).has(baseClassName(first.classSlug))) return first.classSlug;
+  return listed;
 }
 
 export interface CasterClassInput {

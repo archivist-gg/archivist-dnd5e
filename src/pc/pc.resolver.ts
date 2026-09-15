@@ -17,7 +17,7 @@ import type {
   FeatureSource,
   LevelChoices,
 } from "./pc.types";
-import { normalizeKnownSpell, resolveSpellcasting, effectiveSpellcastingAbility, firstListedCasterClass } from "./pc.spellcasting";
+import { normalizeKnownSpell, resolveSpellcasting, effectiveSpellcastingAbility, attributeUnclassedSpell, type AttributionCaster } from "./pc.spellcasting";
 import { resolveAllPools } from "./pc.pools";
 import { resolveFeatureResources, resolveResourceIndex } from "./pc.resources";
 import { resolveEntityForEntry, isItemEntity } from "./pc.slotting";
@@ -194,13 +194,15 @@ export class PCResolver {
     const extraFeatures = collectChosenGrantedFeatures(character, classes, this.entities, race, background);
     features.push(...extraFeatures);
 
-    // The caster classes in class-entry order, and the primary (first) one, for known spells that don't name their
-    // class. Caster-ness is data-driven (resolveSpellcasting), preserving the stripped class-ref slug used elsewhere
-    // for spell attribution.
-    const casterClassSlugs = classes
-      .map((c, i) => (c.entity && resolveSpellcasting(c) ? stripSlug(character.class[i].name) : null))
-      .filter((slug): slug is string => slug != null);
-    const primaryCasterSlug = casterClassSlugs[0] ?? null;
+    // The caster classes in class-entry order, for known spells that don't name their class. Caster-ness is data-driven
+    // (resolveSpellcasting), preserving the stripped class-ref slug used elsewhere for spell attribution; each carries
+    // its profile's `spellList` for the attribution guard.
+    const casters: AttributionCaster[] = [];
+    classes.forEach((c, i) => {
+      const profile = c.entity ? resolveSpellcasting(c) : null;
+      const classSlug = profile ? stripSlug(character.class[i].name) : null;
+      if (profile && classSlug != null) casters.push({ classSlug, spellList: profile.spellList });
+    });
 
     const spells: ResolvedSpell[] = [];
     for (const raw of character.spells.known ?? []) {
@@ -212,10 +214,10 @@ export class PCResolver {
       }
       const entity = mirrorSpellShapes(reg.data as unknown as Spell);
       const isCantrip = (entity.level ?? 0) === 0;
-      // R4-G7 T8 RIDER-19: an explicit `class:` wins; an un-classed spell goes to the FIRST caster class its own
-      // `classes` list names (Armor of Agathys to the Warlock of a Paladin-first sheet, so the sheet's Pact
-      // Magic block lists it), else to the first caster as before.
-      const classSlug = n.classSlug ?? firstListedCasterClass(entity.classes, casterClassSlugs) ?? primaryCasterSlug;
+      // R4-G7 T8 RIDER-19: an explicit `class:` wins; an un-classed spell stays with the first caster unless that
+      // caster's own list is observable and does not name it (Armor of Agathys goes to the Warlock of a Paladin-first
+      // sheet, so the sheet's Pact Magic block lists it). The rule and its guards live in `attributeUnclassedSpell`.
+      const classSlug = n.classSlug ?? attributeUnclassedSpell(entity.classes, casters, this.entities);
       const prep = isCantrip || n.alwaysPrepared ? true : (n.preparedFlag ?? false);
       // R4-G3b §5.2.7: `persisted` marks a row that LIVES in character.spells.known, so the sheet's
       // remove / toggle controls act on something real. It is stamped here and by no other producer.

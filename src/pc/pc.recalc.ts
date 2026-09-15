@@ -1170,6 +1170,7 @@ export function recalc(resolved: ResolvedCharacter, registry?: EntityRegistry): 
       attackBonus: atk,
       casterType: profile.casterType,
       preparation: profile.preparation,
+      spellList: profile.spellList,
     });
     slotInputs.push({ casterType: profile.casterType, level: c.level });
     limitInputs.push({ classSlug: c.entity.slug, level: c.level, profile, abilityScore: scores[ab] });

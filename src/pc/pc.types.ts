@@ -747,6 +747,9 @@ export interface SpellcastingClassInfo {
   /** The shared caster-type vocabulary; see schemas/caster-type-schema.ts (never spell the members out again). */
   casterType: CasterType;
   preparation: "known" | "prepared";
+  /** The profile's `spellList` (null when neither block names one), so the add drawer can call the same
+   *  `attributeUnclassedSpell` the resolver does. recalc always sets it; optional so hand-built rows read as unobservable. */
+  spellList?: string | null;
 }
 
 export interface SpellLimitInfo {
