@@ -638,9 +638,12 @@ function buildAttackRow(args: {
 /** The die and ability set an `unarmed-strike` effect (or its synthetic) resolved for this character (R4-G6b §5.1). */
 export interface UnarmedStrikeSpec { dice?: string; abilities?: Ability[] }
 
-/** The always-present Unarmed Strike row (R4-G6b §5.1): 1 + the modifier bludgeoning, 5 ft, always proficient. The
- *  damage string reproduces the OUTPUT of `buildAttackRow`'s `formatDice` (a closure over `dmgFlat` that cannot be
- *  called): the flat part's `^\+0$` strip equals the whole-string `\+0$` strip for every modifier. The
+/** The always-present Unarmed Strike row (R4-G6b §5.1): 1 + the modifier bludgeoning, 5 ft, always proficient. With a
+ *  DIE the damage string reproduces the OUTPUT of `buildAttackRow`'s `formatDice` (a closure over `dmgFlat` that cannot
+ *  be called): the flat part's `^\+0$` strip equals the whole-string `\+0$` strip for every modifier, so a die reads
+ *  `1d6-1`. With NO die the base is the number 1, and a signed suffix on a number is unevaluated arithmetic (`1-1`,
+ *  `1+3`), so the flat base prints EVALUATED and floored at 0: `String(Math.max(0, 1 + mod))` (R4-G7 T8 RIDER-10; the
+ *  user's Q-3 "1 + STR" is the formula, the evaluated number its display). The
  *  ability is STR unless the spec lists others; the highest modifier wins and a LATER candidate wins a tie, so a
  *  listed DEX beats STR on a tie (the shipped finesse idiom `mods.dex >= mods.str`). Called from recalc, which owns
  *  the walk that produces `spec`; never from `computeAttacks`, so the row is present with or without a registry.
@@ -654,7 +657,7 @@ export function buildUnarmedRow(mods: Record<Ability, number>, proficiencyBonus:
   const abilityMod = mods[ability];
   const toHit = abilityMod + proficiencyBonus;
   const flat = `${abilityMod >= 0 ? "+" : ""}${abilityMod}`.replace(/^\+0$/, "");
-  const damageDice = `${spec?.dice ?? "1"}${flat}`;
+  const damageDice = spec?.dice ? `${spec.dice}${flat}` : String(Math.max(0, 1 + abilityMod));
   const label = `${ability.toUpperCase()} modifier`;
   return {
     id: "unarmed-strike",

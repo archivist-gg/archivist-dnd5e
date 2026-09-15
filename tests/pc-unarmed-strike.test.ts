@@ -49,7 +49,8 @@ describe("the Unarmed Strike row (R4-G6b §5)", () => {
     expect(u.id).toBe("unarmed-strike");
     expect(u.proficient).toBe(true);
     expect(u.toHit).toBe(3 + 2);
-    expect(u.damageDice).toBe("1+3");
+    // R4-G7 T8 RIDER-10: the flat base is EVALUATED (1 + 3), never printed as the arithmetic "1+3".
+    expect(u.damageDice).toBe("4");
     expect(u.damageType).toBe("bludgeoning");
     expect(u.range).toBe("5 ft");
     // The sub-label is an ENGINE string like `Unarmed Strike`, `5 ft` and `bludgeoning`, so it ships in the
@@ -59,9 +60,17 @@ describe("the Unarmed Strike row (R4-G6b §5)", () => {
     expect(u.breakdown.toHit.map((t) => t.source)).toEqual(["STR modifier", "Proficiency bonus"]);
     expect(u.breakdown.damage.map((t) => t.source)).toEqual(["Base damage", "STR modifier"]);
   });
-  it("a +0 STR reads `1` and a -1 STR reads `1-1`", () => {
+  it("a -1 STR reads `0` and a +0 STR reads `1` (R4-G7 T8 RIDER-10: the flat base is evaluated)", () => {
+    expect(recalc(base({ str: 8 })).attacks[0].damageDice).toBe("0");
     expect(recalc(base({ str: 10 })).attacks[0].damageDice).toBe("1");
-    expect(recalc(base({ str: 8 })).attacks[0].damageDice).toBe("1-1");
+  });
+  it("the evaluated flat base floors at 0: STR 1 (modifier -5) reads `0`, never a negative number", () => {
+    expect(recalc(base({ str: 1 })).attacks[0].damageDice).toBe("0");
+    expect(recalc(base({ str: 1 })).attacks[0].toHit).toBe(-5 + 2);   // the modifier still reaches the attack roll
+  });
+  it("CONTROL: a die keeps the signed suffix, so a -1 DEX Monk die reads `1d6-1`", () => {
+    const t = { 1: { columns: { "Martial Arts": "1d6" } } };
+    expect(last(recalc(monkResolved(1, t, { str: 8, dex: 8 })).attacks).damageDice).toBe("1d6-1");
   });
   it("a sword plus unarmed: two rows, the unarmed LAST", () => {
     const d = recalc(withShortsword(base({ str: 12, dex: 14 })), registry);
@@ -129,8 +138,9 @@ describe("characterisation: the shipped resolveUnarmedStrike clauses (R4-G7 §7.
     const r = monkResolved(1, t, { str: 10, dex: 16 });
     r.features[0].feature.effects = [{ kind: "unarmed-strike", abilities: ["dex"] }];
     // The class table still carries `Martial Arts: 1d6`; the `if (authored.length || ...) continue` clause is
-    // what keeps the row on the BASE die, with the authored ability set still applied.
-    expect(last(recalc(r).attacks).damageDice).toBe("1+3");
+    // what keeps the row on the BASE die, with the authored ability set still applied. The base is the flat 1,
+    // printed evaluated since R4-G7 T8 RIDER-10 (1 + DEX 3 = `4`; the clause pinned here is unchanged).
+    expect(last(recalc(r).attacks).damageDice).toBe("4");
     expect(last(recalc(r).attacks).breakdown.toHit[0].source).toBe("DEX modifier");
   });
 
@@ -150,7 +160,8 @@ describe("characterisation: the shipped resolveUnarmedStrike clauses (R4-G7 §7.
     // `classOf` returns undefined for a race source, so `readDie` answers undefined and the row keeps its base
     // damage. G7 pins the behaviour; which class table a non-class `{column}` should read is the G8 booking.
     r.features = [{ feature: { id: "draconic-fists", name: "Draconic Fists", description: "", effects: [{ kind: "unarmed-strike", dice: { column: "Martial Arts" } }] }, source: { kind: "race", slug: "dragonborn" } }];
-    expect(last(recalc(r).attacks).damageDice).toBe("1+3");
+    // The base damage prints evaluated since R4-G7 T8 RIDER-10 (1 + STR 3 = `4`).
+    expect(last(recalc(r).attacks).damageDice).toBe("4");
     expect(last(recalc(r).attacks).breakdown.toHit[0].source).toBe("STR modifier");
   });
 });
