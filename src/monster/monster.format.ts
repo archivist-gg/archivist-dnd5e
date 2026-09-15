@@ -555,10 +555,27 @@ function blocksOf(v: unknown): string[] {
     case "table": {
       const out: string[] = [];
       if (typeof n.caption === "string") out.push(`**${n.caption}**`);
-      const cols = Array.isArray(n.colLabels) ? n.colLabels.map(inline) : [];
+      // R4-G7 T8 wave E, B026-D6: every `|` inside a cell (and inside a column label) is ESCAPED. A cell may hold a
+      // pipe-aliased wikilink, and an unescaped pipe there is read as a column delimiter: GFM then drops the cells past
+      // the header's column count and the cell ends at the raw `[[...` with its alias gone, which is what the live pass
+      // saw on Andir Valmakos. `[[target\|alias]]` is the documented table idiom and Obsidian renders it as ONE link
+      // with its alias (MEASURED live in W-Er, plain and inside a blockquote). The pattern eats an existing backslash so
+      // an already-escaped pipe is not doubled; 0 cell in the corpus carries one today.
+      const cell = (v: unknown): string => inline(v).replace(/\\?\|/g, "\\|");
+      // R4-G7 T8 wave E, B026-D8 (the engine half): a column's own alignment, which this function used to ignore, so
+      // every column emitted `---` and the reader centred each cell from its own table rule. 15 of the 31 corpus tables
+      // author `text-center` / `text-right` in `colStyles` (the other tokens are widths, `col-2`, `col-11`, ...).
+      const styles = Array.isArray(n.colStyles) ? n.colStyles.map((x) => String(x)) : [];
+      const alignment = (i: number): string => {
+        const s = styles[i] ?? "";
+        if (/\btext-center\b/.test(s)) return ":---:";
+        if (/\btext-right\b/.test(s)) return "---:";
+        return "---";
+      };
+      const cols = Array.isArray(n.colLabels) ? n.colLabels.map(cell) : [];
       const rows = Array.isArray(n.rows) ? n.rows : [];
-      const table = [`| ${cols.join(" | ")} |`, `| ${cols.map(() => "---").join(" | ")} |`];
-      for (const r of rows) table.push(`| ${(Array.isArray(r) ? r : [r]).map(inline).join(" | ")} |`);
+      const table = [`| ${cols.join(" | ")} |`, `| ${cols.map((_, i) => alignment(i)).join(" | ")} |`];
+      for (const r of rows) table.push(`| ${(Array.isArray(r) ? r : [r]).map(cell).join(" | ")} |`);
       out.push(table.join("\n"));
       return out;
     }
