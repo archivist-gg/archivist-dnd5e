@@ -8,7 +8,7 @@ import { recognizeDecision } from "./decision-recognizer";
 // `id ?? name` and `description` only, so a minimal Feature-shaped literal is the whole input).
 import type { Feature } from "@archivist-gg/dnd5e/types/feature";
 import { resolveOriginFeat } from "./pc.resolver";
-import { humanizeProficiency, toProfSlug } from "./pc.proficiency-normalize";
+import { humanizeProficiency, proficiencyLabel, toProfSlug } from "./pc.proficiency-normalize";
 import {
   collectProficiencyGrants,
   type ProficiencyEntry,
@@ -806,9 +806,12 @@ type ProficiencyDomain = "languages" | "tools";
  *  The `label` rule has THREE branches and the middle one is the whole point:
  *  a value the USER TYPED (off-vocabulary and sourced from `add[]`) renders
  *  VERBATIM, because humanizing "MCDM" yields "Mcdm" and destroys the casing
- *  the raw store exists to preserve. Off-vocabulary GRANT/PICK prose still
- *  routes through humanizeProficiency(toProfSlug(...)) · byte-identical to the
- *  module-private prettyName in pc.proficiencies.ts, and deliberately so: FOUR
+ *  the raw store exists to preserve. Off-vocabulary GRANT/PICK values route
+ *  through `proficiencyLabel` · byte-identical to the module-private prettyName
+ *  in pc.proficiencies.ts, and deliberately so. That label keeps
+ *  humanizeProficiency(toProfSlug(...)) for a slug-shaped value and prints
+ *  authored prose (a phrase carrying uppercase) as authored with the U+2019
+ *  fold (R4-G7 T8 RIDER-14), so the fold below still holds. FOUR
  *  off-vocabulary tool grants ship in the SRD bundle today, all of them in
  *  `classToolFixed` · Bard and Monk in BOTH editions, 2 x 2, censused over
  *  src/srd/data/runtime/*.json against ALL_TOOLS. (Spec §3.3's table lists only
@@ -829,7 +832,7 @@ function proficiencyEntryFor(
     ? humanizeProficiency(value)
     : origin === "custom"
       ? raw                                     // USER-TYPED off-vocabulary: verbatim, preserve casing
-      : humanizeProficiency(toProfSlug(raw));   // grant/pick prose: byte-identical to today's prettyName
+      : proficiencyLabel(raw);                  // grant/pick: byte-identical to prettyName (RIDER-14 prose rule)
   return { value, label, sources, origin, ...(expertise ? { expertise: true } : {}) };
 }
 

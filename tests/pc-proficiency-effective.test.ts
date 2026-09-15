@@ -76,18 +76,20 @@ describe("computeEffectiveProficiencies", () => {
   });
 
   // ───────────────────────────────────────────────────────────────────────────
-  // The THIRD label branch (spec §3.3): off-vocabulary GRANT/PICK prose renders
-  // `humanizeProficiency(toProfSlug(raw))`, byte-identical to the module-private
-  // prettyName, NOT verbatim. Verbatim is reserved for values the user typed.
+  // The THIRD label branch (spec §3.3): an off-vocabulary GRANT/PICK renders
+  // `proficiencyLabel(raw)`, byte-identical to the module-private prettyName,
+  // NOT the raw string. The raw string is reserved for values the user typed.
+  // Since R4-G7 T8 RIDER-14 that label keeps authored PROSE casing (a phrase
+  // carrying uppercase) instead of title-casing it word by word, and still folds.
   //
   // This branch is LIVE in shipped data. Census over src/srd/data/runtime/*.json
   // against ALL_TOOLS finds exactly FOUR off-vocabulary fixed grants, all in
   // classToolFixed: Bard and Monk in both editions. The 2014 Monk below is the
-  // one that carries a U+2019, and so the only one where "humanize" and
-  // "verbatim" differ by more than casing · a blanket verbatim rule would put a
-  // curly apostrophe on screen, undoing the fold R4-P3a landed.
+  // one that carries a U+2019, and so the one where the label and the raw value
+  // differ by more than casing · a blanket raw rule would put a curly apostrophe
+  // on screen, undoing the fold R4-P3a landed.
   // ───────────────────────────────────────────────────────────────────────────
-  it("humanizes an OFF-VOCABULARY GRANT rather than passing it through verbatim", () => {
+  it("labels an OFF-VOCABULARY GRANT through the fold rather than passing the raw string through", () => {
     const monk2014 = {
       race: undefined,
       classes: [{
@@ -108,9 +110,11 @@ describe("computeEffectiveProficiencies", () => {
     expect(eff.tools[0]).toMatchObject({
       // Off-vocabulary, so `value` is the raw string · U+2019 and all.
       value: "Choose one type of artisan’s tools or one musical instrument",
-      // ...but the LABEL is humanized through toProfSlug, which folds U+2019 to
-      // ASCII. This exact string is what the sheet renders today.
-      label: "Choose One Type Of Artisan's Tools Or One Musical Instrument",
+      // ...but the LABEL folds U+2019 to ASCII. The value is authored prose (it
+      // carries an uppercase letter), so its casing is kept as authored (R4-G7 T8
+      // RIDER-14; it read "Choose One Type Of Artisan's Tools Or One Musical
+      // Instrument" before).
+      label: "Choose one type of artisan's tools or one musical instrument",
       origin: "grant",
       sources: ["Monk"],
     });

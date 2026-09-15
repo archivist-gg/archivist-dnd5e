@@ -3,7 +3,7 @@ import {
   collectChosenProficiencies,
   computeEffectiveProficiencies,
 } from "./pc.decision-engine";
-import { humanizeProficiency, toProfSlug } from "./pc.proficiency-normalize";
+import { proficiencyLabel, toProfSlug } from "./pc.proficiency-normalize";
 import {
   collectProficiencyGrants,
   type ProficiencyEntry,
@@ -127,7 +127,8 @@ export function aggregateProficiencies(resolved: ResolvedCharacter): Proficiency
  *
  *  DEDUPE is keyed on `toProfSlug`, not on the raw value. The bucket this
  *  replaced was
- *  a `Set<prettyName(raw)>`, and prettyName is `humanizeProficiency(toProfSlug(raw))`,
+ *  a `Set<prettyName(raw)>`, and prettyName was `humanizeProficiency(toProfSlug(raw))` (R4-G7 T8 RIDER-14
+ *  keeps that for every slug-shaped value; only authored prose now prints as authored),
  *  so slug-keying reproduces the shipped collapse exactly: a Fighter/Paladin
  *  double grant of `heavy` stays ONE row, and two spellings of one category
  *  ("hand crossbows" / "hand-crossbows") do not split into two.
@@ -215,5 +216,7 @@ function composeGrantEntries(buckets: ProficiencyGrant[][], picks: string[] = []
  *  render "Hand_crossbow" on the panel. Re-derive this count too, over the
  *  compendium in play, before widening what feeds this. */
 function prettyName(slug: string): string {
-  return humanizeProficiency(toProfSlug(slug));
+  // R4-G7 T8 RIDER-14: `proficiencyLabel` IS the composition above for a slug-shaped value, and prints authored
+  // prose (a phrase carrying uppercase) as authored instead of title-casing it word by word.
+  return proficiencyLabel(slug);
 }

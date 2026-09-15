@@ -1,6 +1,6 @@
 import { describe, it, expect } from "vitest";
 import { aggregateProficiencies } from "../src/pc/pc.proficiencies";
-import { humanizeProficiency, toProfSlug } from "../src/pc/pc.proficiency-normalize";
+import { humanizeProficiency, toProfSlug, proficiencyLabel } from "../src/pc/pc.proficiency-normalize";
 import type { ResolvedCharacter, ChoiceValue } from "../src/pc/pc.types";
 import cls2014 from "../src/srd/data/runtime/class.2014.json";
 import bg2024 from "../src/srd/data/runtime/background.2024.json";
@@ -376,5 +376,38 @@ describe("aggregateProficiencies · tool expertise (R4-G4 §9.2)", () => {
     } as unknown as ResolvedCharacter;
     expect(aggregateProficiencies(resolved).tools[0].expertise).toBe(true);
     expect(aggregateProficiencies(resolved).tools).toHaveLength(1);
+  });
+});
+
+// R4-G7 T8 RIDER-14 (F-HUMAN): AUTHORED proficiency prose keeps its authored casing; only a slug-shaped value is
+// title-cased. The humanizer lower-cased and then title-cased every value word by word, so the PHB 2024 Monk's
+// weapon grant printed "Martial Weapons That Have The Light Property" and the Bladesinger's "... The 2h Or H
+// Property" (B001-D3). The rule reads the value's SHAPE, never a word list: a value with no whitespace is a slug,
+// and a phrase with no uppercase letter carries no casing to keep (it is its slug spelled with spaces, and shares
+// the slug's dedupe key), so both keep today's title case; a phrase that carries authored uppercase is printed as
+// authored (U+2019 folded, whitespace collapsed, first character capitalised).
+describe("RIDER-14: authored proficiency prose keeps its casing", () => {
+  it("the PHB 2024 Monk shape: the sentence keeps its casing and the lowercase noun phrase keeps its title case", () => {
+    const agg = aggregateProficiencies(srdResolved({
+      classes: [{ slug: "monk", name: "Monk", proficiencies: { weapons: { fixed: ["Martial weapons that have the Light property", "hand crossbows"] } } }],
+    }));
+    expect(agg.weapons.map((e) => e.label)).toEqual(["Hand Crossbows", "Martial weapons that have the Light property"]);
+    expect(agg.weapons.map((e) => e.value)).toEqual(["hand crossbows", "Martial weapons that have the Light property"]);
+  });
+
+  it("the Bladesinger shape keeps `2H` and `H` as authored", () => {
+    expect(proficiencyLabel("Melee Martial weapons that don't have the 2H or H property"))
+      .toBe("Melee Martial weapons that don't have the 2H or H property");
+  });
+
+  it("CONTROL: a slug still humanizes as today, apostrophe retained (`thieves'-tools`)", () => {
+    expect(proficiencyLabel("thieves'-tools")).toBe("Thieves' Tools");
+    expect(proficiencyLabel("thieves'-tools")).toBe(humanizeProficiency(toProfSlug("thieves'-tools")));
+    expect(proficiencyLabel("heavy")).toBe("Heavy");
+  });
+
+  it("authored prose is folded, not re-cased: U+2019 to ASCII, whitespace collapsed, the first character capitalised", () => {
+    expect(proficiencyLabel("one type of Artisan’s Tools  of your choice")).toBe("One type of Artisan's Tools of your choice");
+    expect(proficiencyLabel("Choose three Musical Instruments")).toBe("Choose three Musical Instruments");
   });
 });

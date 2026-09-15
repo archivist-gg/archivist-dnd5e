@@ -25,3 +25,18 @@ export const toProfSlug = (s: string): string =>
  *  the duplicate-row defect (one proficiency rendering as two rows). */
 export const humanizeProficiency = (s: string): string =>
   s.replace(/-/g, " ").replace(/(^|\s)\w/g, (c) => c.toUpperCase());
+
+/** The display label for one AUTHORED proficiency value that no vocabulary canonicalizes (R4-G7 T8 RIDER-14).
+ *  The rule reads the value's SHAPE, never a word list:
+ *  - a value with no whitespace is a slug ("thieves'-tools", "heavy"), and a phrase with no uppercase letter
+ *    ("hand crossbows") carries no authored casing and shares its slug's `toProfSlug` key: both keep today's
+ *    `humanizeProficiency(toProfSlug(raw))` (the fold and the apostrophe rule of the composition above);
+ *  - a phrase that carries authored uppercase is PROSE ("Martial weapons that have the Light property",
+ *    "... the 2H or H property") and prints as authored: U+2019 folded to ASCII, whitespace trimmed and collapsed,
+ *    the first character capitalised, every other letter untouched. Title-casing it word by word lower-cased
+ *    `2H` to `2h` and read "That Have The Light Property". */
+export const proficiencyLabel = (raw: string): string => {
+  const text = raw.replace(/’/g, "'").trim().replace(/\s+/g, " ");
+  if (!/\s/.test(text) || text === text.toLowerCase()) return humanizeProficiency(toProfSlug(raw));
+  return text.charAt(0).toUpperCase() + text.slice(1);
+};
