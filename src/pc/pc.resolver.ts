@@ -355,18 +355,11 @@ export function collectChosenWeaponMasteries(character: Character): { bare: stri
 }
 
 /**
- * Walks class.choices for `feat` entries. Returns bare slugs (no `[[ ]]`), de-duplicated in first-seen order.
- * The slugs of `collectFeatPicks`, which keeps each pick's slot.
- */
-export function collectFeatSlugs(character: Character): string[] {
-  return collectFeatPicks(character).map((p) => p.slug);
-}
-
-/**
  * R4-G7 T8 RIDER-23 · every `choices[<level>].feat` pick with the slot it was taken at: the index of its class entry and
  * the level key as a number (`null` when the key is not an integer). De-duplicated by slug in first-seen order (class
  * entries in order, level keys ascending as `Object.entries` yields integer keys), so a feat picked twice keeps its FIRST
- * slot, exactly the order `collectFeatSlugs` always had.
+ * slot. Slugs are bare (no `[[ ]]`). The resolver's one walk of class.choices for `feat` entries: the slug-only wrapper that
+ * mapped it had no production caller after RIDER-23 and was retired in wave D fix round 1.
  */
 export function collectFeatPicks(character: Character): { slug: string; classIndex: number; level: number | null }[] {
   const picks = new Map<string, { slug: string; classIndex: number; level: number | null }>();

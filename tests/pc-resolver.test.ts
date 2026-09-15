@@ -1,5 +1,8 @@
 import { describe, it, expect } from "vitest";
-import { PCResolver, stripSlug, collectFeatSlugs, resolveOriginFeat } from "../src/pc/pc.resolver";
+import { readdirSync, readFileSync, statSync } from "node:fs";
+import path from "node:path";
+import * as resolverModule from "../src/pc/pc.resolver";
+import { PCResolver, stripSlug, collectFeatPicks, resolveOriginFeat } from "../src/pc/pc.resolver";
 import { buildMockRegistry } from "./mock-entity-registry";
 import { resolveResourceIndex } from "../src/pc/pc.resources";
 import { featureEffectSchema } from "@archivist-gg/dnd5e/schemas/feature-effect-schema";
@@ -150,16 +153,38 @@ describe("stripSlug", () => {
   });
 });
 
-describe("collectFeatSlugs", () => {
+// R4-G7 T8 fix round 1 (wave D review Minor 6, ruled): `collectFeatSlugs` had no production caller after RIDER-23 (`resolve`
+// reads `collectFeatPicks`, which keeps each pick's slot), so it is retired and its tests read the picks' slugs.
+describe("collectFeatSlugs is retired", () => {
+  it("the resolver module no longer exports it, and no source file or overlay still names it", () => {
+    expect(Object.keys(resolverModule)).not.toContain("collectFeatSlugs");
+    const root = path.join(__dirname, "..");
+    const files: string[] = [];
+    const walk = (dir: string): void => {
+      for (const name of readdirSync(dir)) {
+        const full = path.join(dir, name);
+        if (statSync(full).isDirectory()) walk(full);
+        else if (/\.(ts|yaml)$/.test(name)) files.push(full);
+      }
+    };
+    walk(path.join(root, "src"));
+    walk(path.join(root, "tools", "srd-canonical", "overlays"));
+    const naming = files.filter((f) => readFileSync(f, "utf8").includes("collectFeatSlugs")).map((f) => path.relative(root, f));
+    expect(naming).toEqual([]);
+  });
+});
+
+describe("collectFeatPicks · the slugs", () => {
+  const slugs = (char: Character): string[] => collectFeatPicks(char).map((p) => p.slug);
   it("pulls feat slugs from class choices", () => {
     const char: Character = minimalCharacter();
     char.class[0].choices = { 4: { feat: "[[sure-step]]" }, 8: { feat: "[[deft-strike]]" } };
-    expect(collectFeatSlugs(char).sort()).toEqual(["deft-strike", "sure-step"]);
+    expect(slugs(char).sort()).toEqual(["deft-strike", "sure-step"]);
   });
   it("deduplicates", () => {
     const char: Character = minimalCharacter();
     char.class[0].choices = { 4: { feat: "[[sure-step]]" }, 8: { feat: "[[sure-step]]" } };
-    expect(collectFeatSlugs(char)).toEqual(["sure-step"]);
+    expect(slugs(char)).toEqual(["sure-step"]);
   });
 
   // CHARACTERISATION LOCK, not proof of R4-P4's epic-boon re-key. This reader
@@ -176,7 +201,7 @@ describe("collectFeatSlugs", () => {
   it("(characterisation) a level-19 block keyed `feat` resolves the boon, and only the boon", () => {
     const char = minimalCharacter();
     char.class[0].choices = { 19: { feat: "srd-2024_feat_boon-of-fate", "feat:asi": { cha: 1 } } };
-    expect(collectFeatSlugs(char)).toEqual(["srd-2024_feat_boon-of-fate"]);
+    expect(slugs(char)).toEqual(["srd-2024_feat_boon-of-fate"]);
   });
 });
 

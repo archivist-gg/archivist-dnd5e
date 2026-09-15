@@ -234,7 +234,7 @@ describe("race entity-level override: fixed ability score increases (R4-P4)", ()
 
 describe("real overlay: the L19 Epic Boon pick key (R4-P4)", () => {
   // Reads the REAL srd-2024.yaml, deliberately. THREE readers CONSUME the
-  // literal string `feat` off the persisted choice block: collectFeatSlugs and
+  // literal string `feat` off the persisted choice block: collectFeatPicks and
   // PCResolver.resolve's feat-to-spell pass (both in pc.resolver.ts) and
   // collectClassFeatAbilityPoints (pc.recalc.ts). ONE more only DETECTS it:
   // collectClassAsiBranch (pc.recalc.ts) tests `typeof block.feat` to spot the

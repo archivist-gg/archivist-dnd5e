@@ -188,7 +188,7 @@ class_features:
   # open feat pick (the "another feat of your choice" clause).
   # The pick id is `feat` for the same load-bearing reason as the ASI block
   # above: THREE readers CONSUME the literal string `feat` off the persisted
-  # block (collectFeatSlugs and the feat-to-spell pass, both in pc.resolver.ts,
+  # block (collectFeatPicks and the feat-to-spell pass, both in pc.resolver.ts,
   # and collectClassFeatAbilityPoints in pc.recalc.ts), plus ONE that only
   # DETECTS it: collectClassAsiBranch (pc.recalc.ts) tests `typeof block.feat`
   # to spot the feat branch and never reads the value. All four are cited by

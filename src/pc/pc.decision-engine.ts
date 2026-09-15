@@ -1428,7 +1428,7 @@ export function buildDecisionLedger(resolved: ResolvedCharacter, ctx: DecisionCo
     // record-arm with numeric-string keys and value 1; the 18th sits on an OPTIONAL FEATURE (Lessons of the
     // First Ones) under a `"*"` key, outside this walk (§11). No shipped `feat_progression` level collides with
     // an ASI level on any carrier, so the guard below is a construction, not a live path. The count is CAPPED at
-    // 1 because `collectFeatSlugs` reads strings and every shipped value is 1.
+    // 1 because `collectFeatPicks` reads strings and every shipped value is 1.
     for (const entry of featProgressions) {
       const category = featProgressionCategory(entry.category);
       if (!category) {

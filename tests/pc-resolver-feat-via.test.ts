@@ -3,8 +3,8 @@
  *
  * The resolver synthesizes ONE feature per feat, named after the feat, with `source: {kind: "feat", slug}`. The sheet's
  * source line printed `Feat: <the feat's own name>` under a row titled with that same name, on every feat row (167 rows
- * on 100 of 127 S01 sheets), because the source kept no origin: `collectFeatSlugs` read `choices[<level>].feat` and
- * dropped the class and the level. `via` is `{kind: "class", slug, level}` for a class-slot pick and `{kind: "background",
+ * on 100 of 127 S01 sheets), because the source kept no origin: the resolver's feat walk (then `collectFeatSlugs`, retired
+ * in wave D fix round 1) read `choices[<level>].feat` and dropped the class and the level. `via` is `{kind: "class", slug, level}` for a class-slot pick and `{kind: "background",
  * slug}` for a 2024 background's origin feat, so the sheet can say "Fighter 4" or "Background: Soldier".
  */
 import { describe, it, expect } from "vitest";

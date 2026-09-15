@@ -499,7 +499,7 @@ export function speedFromRace(resolved: ResolvedCharacter): number {
  * earlier cited it as an existing example, which it was not. EVERY reader OF THE
  * FEAT PICK keys on the LITERAL string `feat`, and there are THREE of them, not
  * the two the R4-P4 spec §2.3 and task brief enumerate: this function
- * (`block.feat`, below), `collectFeatSlugs` (pc.resolver.ts) and
+ * (`block.feat`, below), `collectFeatPicks` (pc.resolver.ts) and
  * `PCResolver.resolve`'s feat-to-spell application pass, the two
  * `collectFeatGrantedSpells` calls (pc.resolver.ts), the one that
  * makes a SPELL-granting boon work. Note the qualifier: this is NOT a claim that

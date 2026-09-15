@@ -11,7 +11,7 @@ export const DECISION_SIGNAL = [/\bchoose (one|two|three|a|an)\b/i, /\bof your c
 // on this value; it stays in place because hand-authored homebrew still emits
 // the two-step shape and `choiceSchema` still accepts it.
 // `id: "feat"` is load-bearing, not cosmetic. THREE readers CONSUME the literal
-// `feat` key out of the persisted choice block · `collectFeatSlugs`
+// `feat` key out of the persisted choice block · `collectFeatPicks`
 // (pc.resolver.ts), `PCResolver.resolve`'s feat-to-spell pass (pc.resolver.ts,
 // the one that makes a SPELL-granting feat work) and
 // `collectClassFeatAbilityPoints` (pc.recalc.ts). A fourth site,
