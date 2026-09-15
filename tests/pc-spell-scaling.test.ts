@@ -1,5 +1,5 @@
 import { describe, it, expect } from "vitest";
-import { spellScales, spellEffectAtSlot, spellEffectAtCharacterLevel, upcastLevelsFor } from "../src/spell/spell.scaling";
+import { spellScales, spellEffectAtSlot, spellEffectPartsAtSlot, spellEffectAtCharacterLevel, upcastLevelsFor } from "../src/spell/spell.scaling";
 import type { Spell } from "@archivist-gg/dnd5e/spell/spell.types";
 
 const mm2024: Spell = {
@@ -49,6 +49,48 @@ describe("spellEffectAtSlot", () => {
   it("returns null when there is no option for that level", () => {
     expect(spellEffectAtSlot(fireball, 9)).toBeNull();
     expect(spellEffectAtSlot(shield, 2)).toBeNull();
+  });
+});
+
+// R4-G7 T8 RIDER-16 (F-CHIP (a)): the scaled value keeps the FIELD it came from, so the sheet can decide where a
+// value prints (a chip, the duration cell, a caption) from the field and never from a spell list. The shapes are the
+// shipped documents': PHB 2014 Bestow Curse (`slot_level_4 duration: 10 minutes`, base `duration: 1 minute`) and PHB
+// 2024 False Life (`slot_level_2 desc: You gain 2d4 + 9 temporary hit points.`).
+const bestowCurse2014: Spell = {
+  name: "Bestow Curse", level: 3, duration: "1 minute", concentration: true, damage: { types: ["necrotic"] },
+  casting_options: [{ type: "slot_level_4", duration: "10 minutes" }, { type: "slot_level_5", duration: "8 hours" }],
+} as Spell;
+const falseLife2024: Spell = {
+  name: "False Life", level: 1,
+  casting_options: [{ type: "slot_level_2", desc: "You gain 2d4 + 9 temporary hit points." }],
+} as Spell;
+const rollAndDesc: Spell = {
+  name: "Both", level: 1,
+  casting_options: [{ type: "slot_level_2", damage_roll: "3d6", desc: "and a sentence" }],
+} as Spell;
+
+describe("spellEffectPartsAtSlot (R4-G7 T8 RIDER-16)", () => {
+  it("a duration option returns the duration FIELD: Bestow Curse at 4th is { duration, 10 minutes }", () => {
+    expect(spellEffectPartsAtSlot(bestowCurse2014, 4)).toEqual({ field: "duration", value: "10 minutes" });
+  });
+  it("a desc option returns the desc FIELD with the sentence verbatim: False Life at 2nd", () => {
+    expect(spellEffectPartsAtSlot(falseLife2024, 2)).toEqual({ field: "desc", value: "You gain 2d4 + 9 temporary hit points." });
+  });
+  it("a target_count option returns the target_count FIELD, its value the printed count", () => {
+    expect(spellEffectPartsAtSlot(mm2024, 2)).toEqual({ field: "target_count", value: "4 targets" });
+  });
+  it("a damage_roll option returns the damage_roll FIELD; a roll wins over a desc on the same option (the precedence is kept)", () => {
+    expect(spellEffectPartsAtSlot(fireball, 4)).toEqual({ field: "damage_roll", value: "9d6" });
+    expect(spellEffectPartsAtSlot(rollAndDesc, 2)).toEqual({ field: "damage_roll", value: "3d6" });
+  });
+  it("keeps every guard: the 2014 bad target_count encoding and an absent option are null", () => {
+    expect(spellEffectPartsAtSlot(mm2014, 2)).toBeNull();
+    expect(spellEffectPartsAtSlot(fireball, 9)).toBeNull();
+    expect(spellEffectPartsAtSlot(shield, 2)).toBeNull();
+  });
+  it("spellEffectAtSlot stays the value-only wrapper", () => {
+    expect(spellEffectAtSlot(bestowCurse2014, 5)).toBe("8 hours");
+    expect(spellEffectAtSlot(falseLife2024, 2)).toBe("You gain 2d4 + 9 temporary hit points.");
   });
 });
 

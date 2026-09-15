@@ -5,24 +5,40 @@ export function spellScales(spell: Spell): boolean {
   return (spell.casting_options?.length ?? 0) > 0 || (spell.at_higher_levels?.length ?? 0) > 0;
 }
 
+/** The `casting_options` field a scaled value was read from (R4-G7 T8 RIDER-16). */
+export type SpellEffectField = "damage_roll" | "target_count" | "duration" | "desc";
+
+/** A scaled value and the FIELD it came from, so a renderer decides where it prints from the field. */
+export interface SpellEffectParts {
+  field: SpellEffectField;
+  /** As printed: the roll, `"<N> targets"`, the duration, or the authored sentence verbatim. */
+  value: string;
+}
+
 /**
  * At-a-glance scaled effect for casting a LEVELLED `spell` with a slot of `slotLevel`,
- * read from structured `casting_options` (`type: "slot_level_<N>"`). Returns
- * null when absent or untrustworthy. `damage_roll` is shown as-is; a
- * `target_count` that equals the slot level is the known SRD-2014 bad encoding
- * (e.g. Magic Missile 2nd->2 instead of 4) and is suppressed. This errs toward
- * showing nothing rather than a wrong number.
+ * read from structured `casting_options` (`type: "slot_level_<N>"`), WITH the field it
+ * came from. Returns null when absent or untrustworthy. The FIRST present field wins, in
+ * this order: `damage_roll`, `target_count`, `duration`, `desc` (so an option carrying a
+ * roll AND a sentence yields the roll). A `target_count` that equals the slot level is
+ * the known SRD-2014 bad encoding (e.g. Magic Missile 2nd->2 instead of 4) and is
+ * suppressed. This errs toward showing nothing rather than a wrong number.
  */
-export function spellEffectAtSlot(spell: Spell, slotLevel: number): string | null {
+export function spellEffectPartsAtSlot(spell: Spell, slotLevel: number): SpellEffectParts | null {
   const opt = (spell.casting_options ?? []).find((o) => o.type === `slot_level_${slotLevel}`);
   if (!opt) return null;
-  if (opt.damage_roll) return opt.damage_roll;
+  if (opt.damage_roll) return { field: "damage_roll", value: opt.damage_roll };
   if (typeof opt.target_count === "number") {
     if (opt.target_count === slotLevel) return null; // 2014 bad-encoding guard
-    return `${opt.target_count} targets`;
+    return { field: "target_count", value: `${opt.target_count} targets` };
   }
-  if (opt.duration) return opt.duration;
-  return opt.desc ?? null;
+  if (opt.duration) return { field: "duration", value: opt.duration };
+  return opt.desc != null ? { field: "desc", value: opt.desc } : null;
+}
+
+/** The value of `spellEffectPartsAtSlot`, without its field. */
+export function spellEffectAtSlot(spell: Spell, slotLevel: number): string | null {
+  return spellEffectPartsAtSlot(spell, slotLevel)?.value ?? null;
 }
 
 const PLAYER_LEVEL_TYPE = /^player_level_(\d+)$/;
