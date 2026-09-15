@@ -15,6 +15,7 @@ import type {
   ResolvedFeature,
   ResolvedSpell,
   FeatureSource,
+  FeatVia,
   LevelChoices,
 } from "./pc.types";
 import { normalizeKnownSpell, resolveSpellcasting, effectiveSpellcastingAbility, attributeUnclassedSpell, type AttributionCaster } from "./pc.spellcasting";
@@ -158,11 +159,16 @@ export class PCResolver {
       choices: c.choices,
     }));
 
-    const featSlugs = collectFeatSlugs(character);
+    // R4-G7 T8 RIDER-23: each class-slot pick keeps its slot, keyed by the RESOLVED feat slug (the ref may be a path or a
+    // bare slug) and named by the resolved class entity's slug, the identity the sheet's class arm looks the name up by.
     const feats: FeatEntity[] = [];
-    for (const slug of featSlugs) {
-      const f = lookup<FeatEntity>(`[[${slug}]]`, "feat");
-      if (f) feats.push(f);
+    const featVia = new Map<string, FeatVia>();
+    for (const pick of collectFeatPicks(character)) {
+      const f = lookup<FeatEntity>(`[[${pick.slug}]]`, "feat");
+      if (!f) continue;
+      feats.push(f);
+      const classSlug = classes[pick.classIndex]?.entity?.slug ?? stripSlug(character.class[pick.classIndex]?.name ?? null);
+      if (classSlug && pick.level !== null && !featVia.has(f.slug)) featVia.set(f.slug, { kind: "class", slug: classSlug, level: pick.level });
     }
 
     // D2-3(ii): a 2024 background's FIXED origin feat flows through the SAME feat
@@ -188,9 +194,14 @@ export class PCResolver {
     if (originFeat && !feats.some((f) => f.slug === originFeat.feat.slug)) {
       feats.push(originFeat.feat);
     }
+    // RIDER-23: the origin feat's slot is the background, unless the same feat is ALSO a class-slot pick: the de-dup above
+    // keeps ONE row, and that row keeps the class slot it was listed at first.
+    if (originFeat && background && !featVia.has(originFeat.feat.slug)) {
+      featVia.set(originFeat.feat.slug, { kind: "background", slug: background.slug });
+    }
 
     const totalLevel = classes.reduce((sum, c) => sum + c.level, 0);
-    const features = collectResolvedFeatures(race, classes, background, feats);
+    const features = collectResolvedFeatures(race, classes, background, feats, featVia);
     const extraFeatures = collectChosenGrantedFeatures(character, classes, this.entities, race, background);
     features.push(...extraFeatures);
 
@@ -344,21 +355,32 @@ export function collectChosenWeaponMasteries(character: Character): { bare: stri
 }
 
 /**
- * Walks class.choices for `feat` entries and adds background feat slugs.
- * Returns bare slugs (no `[[ ]]`).
+ * Walks class.choices for `feat` entries. Returns bare slugs (no `[[ ]]`), de-duplicated in first-seen order.
+ * The slugs of `collectFeatPicks`, which keeps each pick's slot.
  */
 export function collectFeatSlugs(character: Character): string[] {
-  const slugs = new Set<string>();
-  for (const c of character.class) {
-    for (const [, choiceBlock] of Object.entries(c.choices)) {
+  return collectFeatPicks(character).map((p) => p.slug);
+}
+
+/**
+ * R4-G7 T8 RIDER-23 · every `choices[<level>].feat` pick with the slot it was taken at: the index of its class entry and
+ * the level key as a number (`null` when the key is not an integer). De-duplicated by slug in first-seen order (class
+ * entries in order, level keys ascending as `Object.entries` yields integer keys), so a feat picked twice keeps its FIRST
+ * slot, exactly the order `collectFeatSlugs` always had.
+ */
+export function collectFeatPicks(character: Character): { slug: string; classIndex: number; level: number | null }[] {
+  const picks = new Map<string, { slug: string; classIndex: number; level: number | null }>();
+  character.class.forEach((c, classIndex) => {
+    for (const [lvl, choiceBlock] of Object.entries(c.choices)) {
       const feat = (choiceBlock as { feat?: string })?.feat;
       if (typeof feat === "string") {
         const s = stripSlug(feat);
-        if (s) slugs.add(s);
+        const level = /^\d+$/.test(lvl) ? Number(lvl) : null;
+        if (s && !picks.has(s)) picks.set(s, { slug: s, classIndex, level });
       }
     }
-  }
-  return [...slugs];
+  });
+  return [...picks.values()];
 }
 
 /**
@@ -779,6 +801,8 @@ export function collectResolvedFeatures(
   classes: ResolvedClass[],
   background: BackgroundEntity | null,
   feats: FeatEntity[],
+  // R4-G7 T8 RIDER-23: each feat's granting slot, keyed by feat slug; a feat absent from the map keeps the bare source.
+  featVia: ReadonlyMap<string, FeatVia> = new Map(),
 ): ResolvedFeature[] {
   const out: ResolvedFeature[] = [];
 
@@ -879,6 +903,8 @@ export function collectResolvedFeatures(
   }
 
   for (const feat of feats) {
+    const via = featVia.get(feat.slug);
+    const featSource: FeatureSource = { kind: "feat", slug: feat.slug, ...(via ? { via } : {}) };
     const bundled = (feat as unknown as { features?: Feature[] }).features ?? [];
     const entityEffects = feat.effects ?? [];
     // R4-G4 §8: this `if (bundled.length > 0)` arm is DEAD on both shipped corpora. Measured
@@ -896,7 +922,7 @@ export function collectResolvedFeatures(
         const feature = i === 0
           ? { ...f, action: f.action ?? feat.action_cost, ...(entityEffects.length > 0 ? { effects: [...(f.effects ?? []), ...entityEffects] } : {}) }
           : f;
-        out.push({ feature, source: { kind: "feat", slug: feat.slug } });
+        out.push({ feature, source: featSource });
       });
     } else {
       const name = feat.name ?? feat.slug;
@@ -914,7 +940,7 @@ export function collectResolvedFeatures(
           ...(feat.action_cost ? { action: feat.action_cost } : {}),
           ...(entityEffects.length > 0 ? { effects: entityEffects } : {}),
         },
-        source: { kind: "feat", slug: feat.slug },
+        source: featSource,
         ...(buildOnly ? { buildOnly: true } : {}),
       });
     }

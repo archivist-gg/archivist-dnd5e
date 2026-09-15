@@ -261,12 +261,20 @@ export interface Character {
 // Resolved (after slug lookups against EntityRegistry)
 // ─────────────────────────────────────────────────────────────
 
+/** R4-G7 T8 RIDER-23 (F-FEATSRC) · the slot that granted a feat: a class's `choices[<level>].feat` pick, or a 2024
+ *  background's origin feat. Its two members ARE the `class` and `background` sources below, so a renderer formats `via`
+ *  through the arms it already has ("Fighter 4", "Background: Soldier"). */
+export type FeatVia = { kind: "class"; slug: string; level: number } | { kind: "background"; slug: string };
+
 export type FeatureSource =
   | { kind: "class"; slug: string; level: number }
   | { kind: "subclass"; slug: string; level: number }
   | { kind: "race"; slug: string }
   | { kind: "background"; slug: string }
-  | { kind: "feat"; slug: string };
+  // `via` is OPTIONAL: set by `PCResolver.resolve` for every feat it resolves from a class slot or an origin feat, absent
+  // wherever a feat source is built without a character (`collectResolvedFeatures` called with no provenance map, the
+  // builder's decision items).
+  | { kind: "feat"; slug: string; via?: FeatVia };
 
 export interface ResolvedFeature {
   feature: Feature;
