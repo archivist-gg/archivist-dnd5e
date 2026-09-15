@@ -1,3 +1,5 @@
+import type { Edition } from "../types/edition";
+
 export const CR_PROFICIENCY: Record<string, number> = {
   "0": 2, "1/8": 2, "1/4": 2, "1/2": 2,
   "1": 2, "2": 2, "3": 2, "4": 2,
@@ -76,6 +78,17 @@ export const CONDITIONS: string[] = [
 ];
 
 export const STANDARD_SENSES: string[] = ["Blindsight", "Darkvision", "Tremorsense", "Truesight"];
+
+/** R4-G7 T8 RIDER-22 (F-STDACT) · the standard combat actions any character can take, per rules edition, in the book's
+ *  alphabetical order. The plugin's Actions tab reads the character's edition, so this is rendering data, never a
+ *  renderer constant (it printed ONE union of both editions). 2014 is the PHB chapter 9 list; 2024 is the 2024 action
+ *  list, which drops Cast a Spell (now Magic) and Use an Object (now Utilize) and adds Influence and Study. No rules
+ *  glossary ships in the SRD 2024 bundle; its prose names ten of the twelve as "the <X> action" and none of the 2014-only
+ *  names (measured 2026-09-15 over the plugin repo's `.compendium-bundle/SRD 2024`). */
+export const STANDARD_ACTIONS: Record<Edition, readonly string[]> = {
+  "2014": ["Attack", "Cast a Spell", "Dash", "Disengage", "Dodge", "Help", "Hide", "Ready", "Search", "Use an Object"],
+  "2024": ["Attack", "Dash", "Disengage", "Dodge", "Help", "Hide", "Influence", "Magic", "Ready", "Search", "Study", "Utilize"],
+};
 
 export const ALIGNMENT_ETHICAL: string[] = ["Lawful", "Neutral", "Chaotic", "Unaligned", "Any"];
 export const ALIGNMENT_MORAL: string[] = ["Good", "Neutral", "Evil"];
