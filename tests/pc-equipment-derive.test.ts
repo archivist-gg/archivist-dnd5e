@@ -624,6 +624,31 @@ describe("computeSlotsAndAttacks — attack rows", () => {
     expect(d.attacks[0].damageRiders).toEqual([{ amount: "2d6", damage_type: "fire", source: "Flamebrand" }]);
   });
 
+  // R4-G7 T8 item 12 (wave B review Minor 3): an ITEM rider's authored `condition` reaches the attack row exactly as a
+  // FEATURE rider's does since RIDER-12 (`pc.feature-effects.ts` `damage-bonus`), so the sheet's by-FIELD rule (a rider with a
+  // condition is a caption, never damage on every hit) holds for both carriers. 0 of 43 shipped item riders author one today
+  // (census 2026-09-15); the rider above, with none, keeps no `condition` key.
+  it("an item damage rider carries its authored condition onto the attack row", () => {
+    const longsword: WeaponEntity = {
+      name: "Longsword", slug: "longsword", edition: "2014", category: "martial-melee",
+      damage: { dice: "1d8", type: "slashing", versatile_dice: "1d10" }, properties: ["versatile"],
+    };
+    const dragonslayer: ItemEntity = {
+      name: "Dragon Slayer", slug: "dragon-slayer-longsword", type: "weapon", rarity: "rare", base_item: "[[longsword]]",
+      damage_riders: [{ amount: "3d6", damage_type: "slashing", condition: "when you hit a dragon" }],
+    };
+    const reg = buildMockRegistry([
+      { slug: "longsword", entityType: "weapon", name: "Longsword", data: longsword as never },
+      { slug: "dragon-slayer-longsword", entityType: "item", name: "Dragon Slayer", data: dragonslayer as never },
+    ]);
+    const c = baseChar();
+    c.equipment = [{ item: "[[dragon-slayer-longsword]]", equipped: true, slot: "mainhand" }];
+    const d = computeSlotsAndAttacks(mkResolved(c), { str: 0, dex: 0, con: 0, int: 0, wis: 0, cha: 0 }, fullProfs, reg, [], 2);
+    expect(d.attacks[0].damageRiders).toEqual([
+      { amount: "3d6", damage_type: "slashing", source: "Dragon Slayer", condition: "when you hit a dragon" },
+    ]);
+  });
+
   it("PC equipment with a vault-path wikilink for a magic weapon flows magic bonuses (PC-7)", () => {
     // Regression: pre-PC-7 the slot-assignment + attack-row passes in
     // pc.equipment used a slug-only lookup that silently missed

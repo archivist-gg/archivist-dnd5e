@@ -148,8 +148,8 @@ describe("PCResolver · an un-classed known spell on a multiclass caster (R4-G7 
 
 // R4-G7 T8 RIDER-19 fix round 1 (review C-1): the first caster keeps every un-classed spell unless its OWN list is
 // observable: (i) its profile names a list (`spellList` non-null; the converter's Arcane Trickster / Eldritch Knight name
-// none, their spells name `wizard`) AND (ii) its base class name is on at least one spell in the registry (the SRD 5e bundle
-// lists `paladin` on no spell, DATA-SRD). Shapes from the review's probe (`g7-t8-rider-wave-C-review-probe.mts.txt`). Booked
+// none, their spells name `wizard`) AND (ii) its base class name is on at least one spell of the first class document's OWN
+// compendium (scoped since fix round 2, `443da43`; the SRD 5e bundle lists `paladin` on no spell, DATA-SRD). Shapes from the review's probe (`g7-t8-rider-wave-C-review-probe.mts.txt`). Booked
 // known limit: a list EXTENSION on an observable first caster (a 2014 Fiend Warlock's Burning Hands, Magical Secrets, Divine
 // Soul) still moves; an explicit `class:` is the override.
 describe("PCResolver · the first caster keeps its un-classed spells unless its own list is observable (R4-G7 T8 RIDER-19 fix round 1)", () => {

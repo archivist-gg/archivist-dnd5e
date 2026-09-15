@@ -468,12 +468,14 @@ export interface HPBreakdown {
 /** An additive on-hit damage rider (dice or flat) applied to an attack, from a
  *  feature (global — all weapon attacks) or a magic item (that weapon only).
  *  `amount` is a dice/flat string ("2d6", "1d8", "2"); `damage_type` optional
- *  (a bare manual override string carries its type inline); `source` is a human
- *  label for the expand/tooltip. `condition` is the source effect's own qualifier
- *  ("for a 1st-level spell slot"), CARRIED verbatim and never evaluated (R4-G7 T8
- *  RIDER-12); absent when the effect authors none. The sheet renders an
- *  unconditional rider with a renderable amount as its own damage chip on the row,
- *  and a rider with a `condition` (or a prose amount) as the row's caption. */
+ *  (a bare manual override string carries its type inline, and the schema's
+ *  `chosen` sentinel is kept, never replaced by the row's type, RIDER-13); `source`
+ *  is a human label for the expand/tooltip. `condition` is the source's own
+ *  qualifier ("for a 1st-level spell slot"), CARRIED verbatim and never evaluated,
+ *  from a feature effect (R4-G7 T8 RIDER-12) and from an item's `damage_riders`
+ *  entry alike; absent when the source authors none. How the sheet prints a rider
+ *  (a damage chip, or the row's caption) is the plugin renderer's policy, stated
+ *  once at `weapons-table.ts` `renderWeaponRow`. */
 export interface DamageRider {
   amount: string;
   damage_type?: string;

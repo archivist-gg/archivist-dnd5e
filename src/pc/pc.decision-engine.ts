@@ -811,14 +811,17 @@ type ProficiencyDomain = "languages" | "tools";
  *  in pc.proficiencies.ts, and deliberately so. That label keeps
  *  humanizeProficiency(toProfSlug(...)) for a slug-shaped value and prints
  *  authored prose (a phrase carrying uppercase) as authored with the U+2019
- *  fold (R4-G7 T8 RIDER-14), so the fold below still holds. FOUR
- *  off-vocabulary tool grants ship in the SRD bundle today, all of them in
- *  `classToolFixed` · Bard and Monk in BOTH editions, 2 x 2, censused over
- *  src/srd/data/runtime/*.json against ALL_TOOLS. (Spec §3.3's table lists only
- *  three: it omits the 2024 Bard's "Choose 3 Musical Instruments". Count the
- *  census, not the table.) The 2014 Monk's value carries a U+2019, so a blanket
- *  verbatim rule would put a curly apostrophe in the DOM and regress the fold
- *  R4-P3a landed. */
+ *  fold (R4-G7 T8 RIDER-14), so the fold below still holds. The grant arm is
+ *  LIVE in the CONVERTER corpus and not in the SRD (measured 2026-09-15 against
+ *  ALL_TOOLS; the earlier "four SRD grants" count was false at this head): the
+ *  SRD's fixed class tool grants (`src/srd/data/runtime/class.{2014,2024}.json`
+ *  and the compendium bundle) are Druid and Rogue in both editions, every one a
+ *  vocabulary hit, while the converter output's class documents carry SEVEN
+ *  off-vocabulary `tools.fixed` values, choice prose left in the fixed list:
+ *  three Artificers, and Bard and Monk in both Player's Handbooks. None of the
+ *  seven carries a U+2019; the fold still matters here because an off-vocabulary
+ *  value that does (a homebrew class, a hand-typed grant) would otherwise put a
+ *  curly apostrophe in the DOM, regressing the fold R4-P3a landed. */
 function proficiencyEntryFor(
   raw: string,
   vocab: string[],

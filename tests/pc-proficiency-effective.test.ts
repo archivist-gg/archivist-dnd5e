@@ -82,12 +82,14 @@ describe("computeEffectiveProficiencies", () => {
   // Since R4-G7 T8 RIDER-14 that label keeps authored PROSE casing (a phrase
   // carrying uppercase) instead of title-casing it word by word, and still folds.
   //
-  // This branch is LIVE in shipped data. Census over src/srd/data/runtime/*.json
-  // against ALL_TOOLS finds exactly FOUR off-vocabulary fixed grants, all in
-  // classToolFixed: Bard and Monk in both editions. The 2014 Monk below is the
-  // one that carries a U+2019, and so the one where the label and the raw value
-  // differ by more than casing · a blanket raw rule would put a curly apostrophe
-  // on screen, undoing the fold R4-P3a landed.
+  // This branch is LIVE in the converter corpus, not in the SRD (measured
+  // 2026-09-15 against ALL_TOOLS): the SRD runtime class JSON and the bundle grant
+  // fixed tools only to Druid and Rogue, all vocabulary hits, while the converter's
+  // class documents carry SEVEN off-vocabulary `tools.fixed` values (three
+  // Artificers; Bard and Monk in both Player's Handbooks), none with a U+2019. The
+  // fixture below is therefore HAND-WRITTEN, a Monk-shaped value given a U+2019 so
+  // the label and the raw value differ by more than casing · a blanket raw rule
+  // would put a curly apostrophe on screen, undoing the fold R4-P3a landed.
   // ───────────────────────────────────────────────────────────────────────────
   it("labels an OFF-VOCABULARY GRANT through the fold rather than passing the raw string through", () => {
     const monk2014 = {
@@ -95,7 +97,7 @@ describe("computeEffectiveProficiencies", () => {
       classes: [{
         entity: {
           slug: "monk", name: "Monk",
-          // Verbatim from src/srd/data/runtime/class.2014.json · note the U+2019.
+          // Hand-written (no shipped class grant is off-vocabulary AND curly) · note the U+2019.
           proficiencies: { tools: { fixed: ["Choose one type of artisan’s tools or one musical instrument"] } },
         },
         level: 1, subclass: null, choices: {},

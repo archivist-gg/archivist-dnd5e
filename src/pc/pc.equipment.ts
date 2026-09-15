@@ -508,7 +508,9 @@ function magicBonusesForWeaponEntry(
     itemRiders = Array.isArray(entity.damage_riders)
       ? entity.damage_riders
           .filter((r) => (r.applies_to ?? "weapon") !== "spell")
-          .map((r) => ({ amount: r.amount, damage_type: r.damage_type, source: entity.name }))
+          // R4-G7 T8 (wave B review Minor 3): an authored `condition` is CARRIED exactly as a feature rider's is
+          // (`pc.feature-effects.ts` `damage-bonus`, RIDER-12), so the sheet reads both carriers by the same field.
+          .map((r) => ({ amount: r.amount, damage_type: r.damage_type, source: entity.name, ...(r.condition ? { condition: r.condition } : {}) }))
       : [];
   }
 
