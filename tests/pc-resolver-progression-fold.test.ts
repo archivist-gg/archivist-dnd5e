@@ -157,4 +157,23 @@ describe("the resolve-time fold of repeated features (spec §7.1, ruling R-G7-4)
     expect(last(withId(rows, "favored-terrain")).chosenInline).toEqual([{ label: "Forest" }, { label: "Coast" }]);
     expect(withId(rows, "favored-terrain")).toHaveLength(1);
   });
+
+  // R4-G7 T8 RIDER-11 (F-FOLDORD): the wrapper wears the TOP copy's level on its badge, so it sits where the TOP
+  // copy sat in the un-folded list, never at its lowest copy's slot ahead of the features gained in between.
+  it("the folded wrapper sits at its TOP copy's position: [a@1, x@2, b@5, x@9] at level 9 lists a, b, x", () => {
+    const f = (id: string) => ({ id, name: id, description: id });
+    const rows = collectResolvedFeatures(null, [mkClass({ "1": [f("a")], "2": [f("x")], "5": [f("b")], "9": [f("x")] }, 9)], null, []);
+    expect(rows.map((r) => r.feature.id)).toEqual(["a", "b", "x"]);
+    const x = withId(rows, "x")[0];
+    expect(lvlOf(x)).toBe(9);
+    expect(x.foldedFrom?.[0].level).toBe(2);
+  });
+
+  it("the TOP copy's position holds with a same-level neighbour on each side and an id-less feature between the copies", () => {
+    const f = (id: string) => ({ id, name: id, description: id });
+    const rows = collectResolvedFeatures(null, [mkClass({
+      "2": [f("x"), f("y")], "3": [{ name: "Nameless", description: "n" }], "6": [f("p"), f("x"), f("q")],
+    }, 6)], null, []);
+    expect(rows.map((r) => r.feature.id ?? r.feature.name)).toEqual(["y", "Nameless", "p", "x", "q"]);
+  });
 });

@@ -153,3 +153,39 @@ describe("a folded feature's lower copies keep their decisions at their own leve
     expect(collectChosenProficiencies(character).expertise).toEqual(["stealth", "perception"]);
   });
 });
+
+// R4-G7 T8 RIDER-11 (F-FOLDORD): the ledger pushes each item into its LEVEL's bucket in the order it walks
+// `resolved.features`, and a folded wrapper emits every lower copy when the walk reaches the WRAPPER. So the
+// wrapper's slot decided where a copy landed INSIDE its level: the T2 slot (the lowest copy) put the TOP copy's
+// card ahead of the features authored before it at the top level, and the RIDER-11 slot (the top copy) puts a
+// LOWER copy's card behind the features authored after it at the lower level. MEASURED over both corpora
+// (`$E/g7-t8-wB/ledger-order.mjs`): 136 (document, character level, level) buckets on 9 documents differ from the
+// un-folded order with the T2 slot, 288 on 19 with the top slot. Each level's items keep the UN-FOLDED order:
+// the class list before the subclass list, then the feature's authored index in `features_by_level[level]`.
+describe("a folded family's cards keep the un-folded order inside every level (R4-G7 T8 RIDER-11)", () => {
+  const card = (id: string, level: number) => ({ id, name: `${id} ${level}`, description: `The ${id} feature, at ${level}.` });
+  const CLS = { slug: "fx_class_order", name: "Orderer", hit_die: "d8", edition: "2014", primary_abilities: ["str"], saving_throws: ["str", "con"], table: {},
+    features_by_level: { "1": [card("x", 1), card("y", 1)], "6": [card("p", 6), card("x", 6), card("q", 6)] } };
+  const SUB = { slug: "fx_subclass_order", name: "Order Path", parent_class: "fx_class_order", edition: "2014",
+    features_by_level: { "1": [card("s", 1)], "6": [card("s", 6)] } };
+  const orderer = (): Character => ({
+    ...rogue6(), name: "Orderly",
+    class: [{ name: "[[fx_class_order]]", level: 6, subclass: "[[fx_subclass_order]]", choices: {} }],
+  }) as unknown as Character;
+  const ledgerKeysByLevel = (): Record<number, string[]> => {
+    const reg = buildMockRegistry([
+      { slug: "fx_class_order", entityType: "class", data: CLS },
+      { slug: "fx_subclass_order", entityType: "subclass", data: SUB },
+    ]);
+    const { character } = new PCResolver(reg).resolve(orderer());
+    const ids = new Set(["x", "y", "p", "q", "s"]);
+    return Object.fromEntries(buildDecisionLedger(character, { registry: reg } as never).classes[0].levels
+      .map((l) => [l.level, l.items.filter((i) => ids.has(i.key)).map((i) => i.featureName)]));
+  };
+
+  it("level 1 lists the lower x copy BEFORE y, and level 6 lists x BETWEEN p and q, the subclass card last in each", () => {
+    const byLevel = ledgerKeysByLevel();
+    expect(byLevel[1]).toEqual(["x 1", "y 1", "s 1"]);
+    expect(byLevel[6]).toEqual(["p 6", "x 6", "q 6", "s 6"]);
+  });
+});

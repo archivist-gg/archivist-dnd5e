@@ -669,7 +669,10 @@ function visitProficiencyChoices(
       if (!belongs) continue;
       // R4-G7 §7.1: a folded wrapper carries its lower copies, each read at that copy's OWN level, so a level-N
       // decision on a repeated feature stays a decision at level N. Ascending FIRST, then the top copy's own
-      // choices, which is the order (and the collection order) the un-folded list had. A copy that carries no
+      // choices, which is the order the un-folded list had WITHIN the family. Across features this walk follows the
+      // wrapper's slot (the TOP copy's since R4-G7 T8 RIDER-11): `collectChosenProficiencies` dedupes every bucket,
+      // and its four readers key it (the ledger's effective sets, recalc's `includes` fold) or sort it by label
+      // (`computeEffectiveProficiencies`, `composeGrantEntries`). A copy that carries no
       // choices walks NOTHING here (`walk` iterates `choices ?? []`): what such a copy becomes, a synthesized
       // decision or a card, is the LEDGER's branch (`emitCopy`), and neither shape is collected here.
       for (const copy of rf.foldedFrom ?? []) walk(copy.choices, readAt(copy.level));
@@ -1232,6 +1235,18 @@ export function buildDecisionLedger(resolved: ResolvedCharacter, ctx: DecisionCo
     // below never synthesizes a duplicate (mirrors the browse walker's
     // collectBrowseDecisions; the 2024 Bard alone lacks the authored choice).
     let sawAuthoredSubclass = false;
+    // R4-G7 T8 RIDER-11: the walk STAGES its items and pushes them after it, in the UN-FOLDED order inside each
+    // level: the class list before the subclass list, then the feature's index in its document's
+    // `features_by_level[level]`. A folded wrapper emits its lower copies when the walk reaches the WRAPPER, so
+    // without this the wrapper's slot in `resolved.features` decided where a copy's card sat inside its level (the
+    // T2 slot moved the TOP copy's card ahead of its level's earlier features; the top slot moves a LOWER copy's
+    // card behind its level's later ones). One copy's several items share a rank and keep their emission order.
+    const staged: { level: number; item: DecisionItem; rank: number; seq: number }[] = [];
+    const authoredRank = (kind: "class" | "subclass", level: number, feature: Feature): number => {
+      const at = (kind === "class" ? entity : c.subclass)?.features_by_level?.[level] ?? [];
+      const index = at.findIndex((f) => (feature.id ? f.id === feature.id : f.name === feature.name));
+      return (kind === "class" ? 0 : 1) * 1_000_000 + (index < 0 ? 999_999 : index);
+    };
     for (const rf of resolved.features) {
       const src = rf.source;
       if (src.kind !== "class" && src.kind !== "subclass") continue;
@@ -1240,6 +1255,9 @@ export function buildDecisionLedger(resolved: ResolvedCharacter, ctx: DecisionCo
         : c.subclass != null && src.slug === c.subclass.slug;
       if (!belongs) continue;
       const lvl = src.level;
+      const stage = (atLvl: number, item: DecisionItem): void => {
+        staged.push({ level: atLvl, item, rank: authoredRank(src.kind, atLvl, rf.feature), seq: staged.length });
+      };
       // R4-G7 §7.1: ONE copy's choices emitted at ONE level. Called for every folded LOWER copy at that copy's
       // own level (ascending, the un-folded order) and then for the wrapper's own choices at `src.level`, so a
       // level-N decision on a repeated feature stays a decision at level N while the sheet renders ONE row.
@@ -1249,7 +1267,7 @@ export function buildDecisionLedger(resolved: ResolvedCharacter, ctx: DecisionCo
           // The subclass decision is structural: it reads/writes ClassEntry.subclass.
           if (ch.kind === "select-entity" && ch.entity_type === "subclass") {
             sawAuthoredSubclass = true;
-            push(atLvl, buildSubclassItem(ch, src, atLvl, name, c, ctx, ownerBare, description));
+            stage(atLvl, buildSubclassItem(ch, src, atLvl, name, c, ctx, ownerBare, description));
             continue;
           }
           // The count from the class TABLE COLUMN (R4-G5 §6.2): a `select-entity` choice whose id is an OWN key of
@@ -1266,7 +1284,7 @@ export function buildDecisionLedger(resolved: ResolvedCharacter, ctx: DecisionCo
             const fromTable = columns ? readTableColumn(entity.table, c.level, columns) : null;
             if (fromTable != null) emitted = { ...ch, count: Math.max(ch.count ?? 1, fromTable) };
           }
-          push(atLvl, buildItem(emitted, src, atLvl, name, readAt(atLvl), ctx, ownerBare, effective,
+          stage(atLvl, buildItem(emitted, src, atLvl, name, readAt(atLvl), ctx, ownerBare, effective,
             { description }));
         }
       };
@@ -1303,7 +1321,7 @@ export function buildDecisionLedger(resolved: ResolvedCharacter, ctx: DecisionCo
         if (!list?.length) {
           const recognized = recognizeDecision({ id: rf.feature.id, name: copy.name, description: copy.description } as Feature);
           if (recognized === "informational") {
-            push(copy.level, informationalItem(copy.level, copy.name, copy.prose));
+            stage(copy.level, informationalItem(copy.level, copy.name, copy.prose));
             return;
           }
           list = recognized ?? undefined;
@@ -1324,7 +1342,7 @@ export function buildDecisionLedger(resolved: ResolvedCharacter, ctx: DecisionCo
           // informational card so EVERY gained feature appears in the per-level strip
           // (complete view; no silent gaps for plain-flavor features like Blood Price).
           // Skip synthetic resource-only carriers (entity-level resources, no prose).
-          if (copy.prose) push(copy.level, informationalItem(copy.level, copy.name, copy.prose));
+          if (copy.prose) stage(copy.level, informationalItem(copy.level, copy.name, copy.prose));
           return;
         }
         // The RAW description, never the card prose: `buildItem`'s `{ description }` is what the pre-fold engine
@@ -1341,6 +1359,10 @@ export function buildDecisionLedger(resolved: ResolvedCharacter, ctx: DecisionCo
         choices: rf.feature.choices,
       });
     }
+    // The staged items reach their level buckets in the un-folded order (RIDER-11, above), BEFORE the readers
+    // below that look into `byLevel` (the feat_progression collision guard).
+    staged.sort((a, b) => a.rank - b.rank || a.seq - b.seq);
+    for (const s of staged) push(s.level, s.item);
 
     // Subclass-pick guarantee (Fix B): when the class declares a subclass_level
     // that the character has reached but NO authored subclass select-entity was

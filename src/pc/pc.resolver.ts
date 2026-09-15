@@ -694,8 +694,8 @@ type LevelledFeature = ResolvedFeature & { source: Extract<FeatureSource, { leve
  * (and, separately, within ONE subclass list) the copies collected at or below the character's level fold into
  * ONE wrapper, so the sheet lists a progression family once instead of once per level.
  *
- * The kept wrapper is the HIGHEST-level copy: its identity (`name`, `description`, `action`, `action_cost`) and
- * its `source`. THREE payloads merge across the folded copies in ASCENDING level order:
+ * The kept wrapper is the HIGHEST-level copy: its identity (`name`, `description`, `action`, `action_cost`), its
+ * `source` and its SLOT in the list (R4-G7 T8 RIDER-11). THREE payloads merge across the folded copies in ASCENDING level order:
  *   · `effects` are CONCATENATED, so a lower copy's effect is never lost (the Storm Herald shape carries its
  *     effects on the middle copy only);
  *   · `resources` keep the FIRST declaration of each resource `id`, which is `resolveFeatureResources`'s own
@@ -723,21 +723,26 @@ type LevelledFeature = ResolvedFeature & { source: Extract<FeatureSource, { leve
  */
 function foldRepeated(list: LevelledFeature[]): ResolvedFeature[] {
   const byId = new Map<string, LevelledFeature[]>();
-  const order: LevelledFeature[] = [];
   for (const rf of list) {
     const id = rf.feature.id;
-    if (!id || rf.buildOnly) { order.push(rf); continue; }        // id-less, ASI slots: never folded
+    if (!id || rf.buildOnly) continue;                               // id-less, ASI slots: never folded
     const arr = byId.get(id);
-    if (arr) arr.push(rf); else { byId.set(id, [rf]); order.push(rf); }
+    if (arr) arr.push(rf); else byId.set(id, [rf]);
   }
-  return order.map((rf) => {
+  // R4-G7 T8 RIDER-11 (F-FOLDORD): the output walks the INPUT order and a folding family is emitted at its TOP
+  // copy's slot (object identity, never "the last occurrence": the caller feeds ascending levels, a test may not),
+  // so the wrapper sits where the copy whose level its badge wears sat in the un-folded list. Every lower copy's
+  // slot is dropped. The T2 walk emitted it at the LOWEST copy's slot, ahead of the features gained in between.
+  const out: ResolvedFeature[] = [];
+  for (const rf of list) {
     // The two carve-outs are re-tested HERE as well as at the collect above: an ASI slot beside two folding
     // copies of its own id must keep its own wrapper rather than resolve to their folded one.
-    if (!rf.feature.id || rf.buildOnly) return rf;
+    if (!rf.feature.id || rf.buildOnly) { out.push(rf); continue; }
     const arr = byId.get(rf.feature.id);
-    if (!arr || arr.length === 1) return rf;
+    if (!arr || arr.length === 1) { out.push(rf); continue; }
     const sorted = [...arr].sort((a, b) => a.source.level - b.source.level);
     const top = sorted[sorted.length - 1];
+    if (rf !== top) continue;                                        // a lower copy: folded into the top's slot
     const effects = sorted.flatMap((c) => c.feature.effects ?? []);
     // The predicate MUTATES `seen` (`&& seen.add(...)`, which returns the Set, i.e. truthy): first declaration
     // of each resource id wins, and the filter and the bookkeeping stay one expression.
@@ -753,13 +758,14 @@ function foldRepeated(list: LevelledFeature[]): ResolvedFeature[] {
       ...(cardProse(c.feature) ? { description: cardProse(c.feature) } : {}),
       ...(c.feature.choices?.length ? { choices: c.feature.choices } : {}),
     }));
-    return {
+    out.push({
       ...top,
       feature: { ...top.feature, ...(effects.length ? { effects } : {}), ...(resources.length ? { resources } : {}) },
       ...(chosenInline.length ? { chosenInline: chosenInline.flat() } : {}),
       ...(foldedFrom.length ? { foldedFrom } : {}),
-    };
-  });
+    });
+  }
+  return out;
 }
 
 export function collectResolvedFeatures(
