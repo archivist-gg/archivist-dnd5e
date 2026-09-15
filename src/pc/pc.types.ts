@@ -461,11 +461,16 @@ export interface HPBreakdown {
  *  feature (global — all weapon attacks) or a magic item (that weapon only).
  *  `amount` is a dice/flat string ("2d6", "1d8", "2"); `damage_type` optional
  *  (a bare manual override string carries its type inline); `source` is a human
- *  label for the expand/tooltip. Rendered as its own damage chip on the row. */
+ *  label for the expand/tooltip. `condition` is the source effect's own qualifier
+ *  ("for a 1st-level spell slot"), CARRIED verbatim and never evaluated (R4-G7 T8
+ *  RIDER-12); absent when the effect authors none. The sheet renders an
+ *  unconditional rider with a renderable amount as its own damage chip on the row,
+ *  and a rider with a `condition` (or a prose amount) as the row's caption. */
 export interface DamageRider {
   amount: string;
   damage_type?: string;
   source?: string;
+  condition?: string;
 }
 
 export interface AttackRow {

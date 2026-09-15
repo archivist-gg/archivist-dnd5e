@@ -293,7 +293,8 @@ function resolveRiderAmount(amount: string, bindings: FormulaBindings): string {
  *  and "same as the weapon's type" are all just "not a damage type", and what they mean is "this row's".
  *  An ABSENT `damage_type` stays absent (it inherits nothing: the rider prints as a bare amount, and the
  *  migrated manual override already carries its type inside `amount`). This is the one place that knows
- *  BOTH the row's own type and the character's proficiency bonus and ability modifiers. */
+ *  BOTH the row's own type and the character's proficiency bonus and ability modifiers. Every other field,
+ *  `source` and the carried `condition` (R4-G7 T8 RIDER-12) among them, passes through the spread unchanged. */
 function resolveDamageRider(rider: DamageRider, rowDamageType: string, bindings: FormulaBindings): DamageRider {
   const out: DamageRider = { ...rider, amount: resolveRiderAmount(rider.amount, bindings) };
   if (rider.damage_type !== undefined) {

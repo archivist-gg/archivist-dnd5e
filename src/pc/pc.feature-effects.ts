@@ -657,10 +657,14 @@ function applyEffect(out: FeatureEffectTotals, eff: FeatureEffect, label: string
     case "damage-bonus":
       // Additive on-hit damage rider (dice or flat string). weapon/all fold onto
       // weapon attack rows in recalc; spell-only has no surface yet. `condition`
-      // is DROPPED here: `DamageRider` carries no such field, so the qualifier
-      // survives only in the source feature's prose (spec R4-G3a §3.1).
+      // is CARRIED onto the rider when the effect authors one (R4-G7 T8 RIDER-12,
+      // reversing spec R4-G3a §3.1's drop): a conditional rider is not damage on
+      // every hit, and the sheet can only say so if the qualifier reaches it.
       if ((eff.applies_to ?? "weapon") !== "spell") {
-        out.damageBonuses.push({ amount: eff.amount, damage_type: eff.damage_type, source: label });
+        out.damageBonuses.push({
+          amount: eff.amount, damage_type: eff.damage_type, source: label,
+          ...(eff.condition ? { condition: eff.condition } : {}),
+        });
       }
       break;
     case "ability-score-increase":

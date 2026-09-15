@@ -1,5 +1,6 @@
 import { describe, it, expect } from "vitest";
 import { recalc } from "../src/pc/pc.recalc";
+import { computeFeatureEffects } from "../src/pc/pc.feature-effects";
 import type { AttackRow, Character, ResolvedCharacter, ResolvedClass, ResolvedFeature } from "../src/pc/pc.types";
 import type { FeatureEffect } from "@archivist-gg/dnd5e/types/feature-effect";
 import { buildMockRegistry } from "./mock-entity-registry";
@@ -146,5 +147,32 @@ describe("damage riders · E-4 (b): a non-canonical damage type inherits the wea
     const { weapon } = rows([{ kind: "damage-bonus", amount: "1d6" } as FeatureEffect]);
     expect(typesOf(weapon)).toEqual([undefined]);
     expect(weapon.damageRiders).toEqual([{ amount: "1d6", source: "Effect Source" }]);
+  });
+});
+
+// R4-G7 T8 RIDER-12 (F-RIDER (a)): a `damage-bonus` effect's `condition` is CARRIED on the rider, never dropped, so
+// the sheet can tell "on every hit" from "only when ...". The inv-1 measure: 241 of the 343 feature riders that reach a
+// weapon row carry a condition (a 5e Paladin read "+ 2d8 radiant + 1d8 radiant + 1d8 radiant" on every swing). The
+// policy is by FIELD: any authored `condition` rides along, whatever its prose says (spec R4-G3a §3.1 reversed).
+describe("damage riders · RIDER-12: a rider carries its effect's `condition`", () => {
+  it("computeFeatureEffects keeps the condition on the rider it pushes", () => {
+    const totals = computeFeatureEffects([{
+      feature: { name: "Divine Smite", effects: [{ kind: "damage-bonus", amount: "2d8", damage_type: "radiant", applies_to: "weapon", condition: "for a 1st-level spell slot" }] } as never,
+      source: { kind: "class", slug: "x", level: 2 },
+    }]);
+    expect(totals.damageBonuses[0].condition).toBe("for a 1st-level spell slot");
+    expect(totals.damageBonuses[0]).toEqual({ amount: "2d8", damage_type: "radiant", source: "Divine Smite", condition: "for a 1st-level spell slot" });
+  });
+
+  it("through recalc, the rider on the weapon row AND on the Unarmed Strike row keeps its condition", () => {
+    const { weapon, unarmed } = rows([{ kind: "damage-bonus", amount: "1d8", damage_type: "radiant", condition: "if the target is an undead or a fiend" }]);
+    expect(weapon.damageRiders?.[0].condition).toBe("if the target is an undead or a fiend");
+    expect(unarmed.damageRiders?.[0].condition).toBe("if the target is an undead or a fiend");
+  });
+
+  it("CONTROL: a rider with no condition carries no `condition` key at all", () => {
+    const { weapon } = rows([{ kind: "damage-bonus", amount: "1d8", damage_type: "radiant" }]);
+    expect(weapon.damageRiders).toEqual([{ amount: "1d8", damage_type: "radiant", source: "Effect Source" }]);
+    expect("condition" in (weapon.damageRiders?.[0] ?? {})).toBe(false);
   });
 });
