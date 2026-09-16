@@ -40,6 +40,18 @@ export const featureEffectSchema = z.discriminatedUnion("kind", [
     condition: conditionField, subject: subjectField,
   }),
   z.object({
+    // The attunement CAP, as data. `value` is an absolute cap ("you can now attune to up to four"),
+    // never an increment, so two grants MAX rather than sum and a grant can never lower the cap:
+    // recalc folds it as Math.max(3, granted). `scales_at` carries a whole progression on ONE effect —
+    // the `speed-bonus` / `extra-attack` shape (R4-G7 §7.3) — because the overlay has no level axis and
+    // the Artificer's three steps (10 -> 4, 14 -> 5, 18 -> 6) would otherwise need three separate
+    // features, one of which is embedded prose inside another feature's description.
+    kind: z.literal("attunement-limit"),
+    value: z.number().int().positive(),
+    scales_at: z.array(z.object({ level: z.number().int().min(1).max(20), value: z.number().int().positive() })).optional(),
+    condition: conditionField, subject: subjectField,
+  }),
+  z.object({
     kind: z.literal("sense"),
     type: z.enum(["darkvision", "blindsight", "tremorsense", "truesight"]),
     range: z.number().int().nonnegative(),

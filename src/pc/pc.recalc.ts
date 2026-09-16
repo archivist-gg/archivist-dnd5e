@@ -1088,7 +1088,7 @@ export function recalc(resolved: ResolvedCharacter, registry?: EntityRegistry): 
     // `?? []` coalesce is the recalc read boundary for the mastery gate: the
     // resolver always sets weaponMasteries, but untypechecked test fixtures may
     // omit it — never thread `undefined` into the `.includes` gate downstream.
-    derivedEquipment = computeSlotsAndAttacks(resolved, mods, profsForApply, registry, warnings, proficiencyBonus, weaponAbilities, resolved.weaponMasteries ?? []);
+    derivedEquipment = computeSlotsAndAttacks(resolved, mods, profsForApply, registry, warnings, proficiencyBonus, weaponAbilities, resolved.weaponMasteries ?? [], featureEffects.attunement_set);
     if (derivedEquipment.equippedSlots.armor) {
       const featTerms = featureAcTermsFor(true);
       acDerived = derivedEquipment.ac + sumTerms(featTerms);
@@ -1302,7 +1302,7 @@ export function recalc(resolved: ResolvedCharacter, registry?: EntityRegistry): 
     equippedSlots: derivedEquipment?.equippedSlots ?? {},
     carriedWeight: derivedEquipment?.carriedWeight ?? 0,
     attunementUsed: derivedEquipment?.attunementUsed ?? 0,
-    attunementLimit: derivedEquipment?.attunementLimit ?? (overrides.attunement_limit ?? 3),
+    attunementLimit: derivedEquipment?.attunementLimit ?? (overrides.attunement_limit ?? Math.max(3, featureEffects.attunement_set)),
     conditionEffects,
     rollModifiers: featureEffects.rollModifiers,
     saveOutcomes: featureEffects.saveOutcomes,

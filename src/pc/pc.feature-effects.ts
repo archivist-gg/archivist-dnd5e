@@ -46,6 +46,15 @@ export interface FeatureEffectTotals {
    * A `scales_at` progression resolves BEFORE the max, at the effect's own source level (R4-G7 §7.3).
    */
   speed_walk_set: number;
+  /**
+   * Absolute attunement CAP granted by `attunement-limit` effects (the Artificer's Magic Item
+   * Adept / Savant / Master line). Max across all grants; 0 = nothing granted it. recalc applies it
+   * as Math.max(3, attunement_set) so a grant can never LOWER the baseline, and an explicit
+   * `overrides.attunement_limit` on the character still wins outright — a number the player typed is
+   * intent, not a derived value. A `scales_at` progression resolves BEFORE the max, at the effect's
+   * own source level (R4-G7 §7.3).
+   */
+  attunement_set: number;
   /** Flat ability-score bumps from `ability-score-increase` effects whose `abilities` is a FIXED LIST (the three level-20
    *  capstones). `chosen` arms are the ASI SLOT's second encoding and MUST NOT fold (the synthesized feat decision pays
    *  them; a flat fold double-counts). No cap: `max` is declared and unread (user ruling 2026-09-03). */
@@ -174,6 +183,7 @@ export function emptyFeatureEffectTotals(): FeatureEffectTotals {
     hp_per_level_terms: [],
     speed_walk_bonus: 0,
     speed_walk_set: 0,
+    attunement_set: 0,
     ability_bonus: {},
     senses: { darkvision: 0, blindsight: 0, tremorsense: 0, truesight: 0 },
     ac_terms: [],
@@ -550,6 +560,11 @@ function applyEffect(out: FeatureEffectTotals, eff: FeatureEffect, label: string
         if (eff.set) out.speed_walk_set = Math.max(out.speed_walk_set, value);
         else out.speed_walk_bonus += value;
       }
+      break;
+    }
+    case "attunement-limit": {
+      // An absolute cap, so MAX (never +=): two features that both raise it leave the higher one.
+      out.attunement_set = Math.max(out.attunement_set, scaled(eff.value, "value", eff.scales_at, level));
       break;
     }
     case "sense":

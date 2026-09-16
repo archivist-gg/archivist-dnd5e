@@ -868,6 +868,9 @@ export function computeSlotsAndAttacks(
   // whose ResolvedCharacter omits weaponMasteries) never hit `undefined.includes`
   // in the mastery gate. recalc passes `resolved.weaponMasteries ?? []`.
   weaponMasteries: string[] = [],
+  // Absolute attunement cap granted by `attunement-limit` effects (FeatureEffectTotals.attunement_set);
+  // 0 = nothing granted it. Defaults to 0 so direct callers keep the 3-item baseline.
+  attunementFloor = 0,
 ): DerivedEquipment {
   const equippedSlots = assignSlots(resolved, registry, warnings);
   const overrides = resolved.definition.overrides ?? {};
@@ -884,6 +887,8 @@ export function computeSlotsAndAttacks(
     carriedWeight: computeCarriedWeight(resolved, registry),
     // Attunement is persistent: an attuned item still occupies a slot even when unequipped (SRD).
     attunementUsed: (resolved.definition.equipment ?? []).filter((e) => e.attuned).length,
-    attunementLimit: overrides.attunement_limit ?? 3,
+    // PRECEDENCE: an explicit character override wins outright (a number the player typed is intent);
+    // otherwise the baseline 3 is raised — never lowered — by whatever features granted.
+    attunementLimit: overrides.attunement_limit ?? Math.max(3, attunementFloor),
   };
 }

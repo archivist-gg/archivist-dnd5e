@@ -21,6 +21,7 @@ export type FeatureEffect =
   // R4-G7 §7.3: `scales_at` carries the whole progression INSIDE the effect (the overlay map has no level
   // component); the engine takes the highest entry at or below the effect's OWN source level.
   | ({ kind: "speed-bonus"; mode: "walk" | "fly" | "swim" | "climb" | "burrow"; value: number; set?: boolean; scales_at?: { level: number; value: number }[] } & Qualified)
+  | ({ kind: "attunement-limit"; value: number; scales_at?: { level: number; value: number }[] } & Qualified)
   | ({ kind: "sense"; type: SenseType; range: number } & Qualified)
   | ({
       kind: "apply-condition";
