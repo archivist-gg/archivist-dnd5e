@@ -47,6 +47,12 @@ export interface ResolvedResource {
   die?: ResourceDie; scalesAt?: ResourceScaleStep[];
   recovery?: ResolvedRecovery[];
   owner: ResourceOwner;
+  /** Which control draws this resource — the declaring note's `rendering_hint`, carried verbatim and
+   *  never interpreted here. The renderer owns the hint → component table; the engine only delivers the
+   *  string, so adding a component is a change in ONE table and adding a resource is no code at all. */
+  renderingHint?: string;
+  /** `band` = also drawn in the header strip. Absent = the Resources tab alone. */
+  surface?: "band" | "tab";
 }
 export type ResourceIndex = ReadonlyMap<string, ResolvedResource>;
 
@@ -78,6 +84,8 @@ function toResolvedResource(r: Resource, fallbackName: string, owner: ResourceOw
     id: r.id, name: r.name ?? fallbackName, reset: r.reset, maxFormula: r.max_formula,
     ...(r.die ? { die: r.die } : {}), ...(r.scales_at ? { scalesAt: r.scales_at } : {}),
     ...(r.recovery?.length ? { recovery: r.recovery.map(resolveRecovery) } : {}),
+    ...(r.rendering_hint ? { renderingHint: r.rendering_hint } : {}),
+    ...(r.surface ? { surface: r.surface } : {}),
     owner,
   };
 }
@@ -125,8 +133,11 @@ export function resolveResourceIndex(resolved: ResolvedCharacter): ResourceIndex
         warnOnce(`pool-uses:${entry.slug}`, `optional feature "${entry.slug}" has a prose uses.max (${JSON.stringify(uses.max)}); no tracker`);
         continue;
       }
+      const pres = entry.entity as { rendering_hint?: string; surface?: "band" | "tab" };
       out.set(entry.slug, {
         id: entry.slug, name: entry.entity.name, reset: uses.recharge, maxFormula,
+        ...(pres.rendering_hint ? { renderingHint: pres.rendering_hint } : {}),
+        ...(pres.surface ? { surface: pres.surface } : {}),
         owner: { kind: "pool", poolId: pool.id, poolLabel: pool.label, source: { kind: "class", slug: classSlug, level: pool.anchorLevel } },
       });
     }

@@ -46,6 +46,11 @@ export interface Resource {
   scales_at?: ResourceScaleStep[];
   die?: ResourceDie;
   reset: ResetTrigger;
+  /** Presentation, carried and never interpreted by the engine: which control draws this resource.
+   *  The renderer owns the hint → component table. */
+  rendering_hint?: string;
+  /** `band` = also drawn in the header strip; absent = the Resources tab alone. */
+  surface?: "band" | "tab";
   consumes?: ResourceConsumesLink;
   recovery?: ResourceRecovery[];
 }

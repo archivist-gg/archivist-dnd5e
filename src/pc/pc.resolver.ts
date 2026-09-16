@@ -6,6 +6,8 @@ import type { BackgroundEntity } from "@archivist-gg/dnd5e/background/background
 import type { FeatEntity } from "@archivist-gg/dnd5e/feat/feat.types";
 import type { Feature, Choice, Ability } from "@archivist-gg/dnd5e";
 import type { Spell } from "@archivist-gg/dnd5e/spell/spell.types";
+import type { Resource } from "@archivist-gg/dnd5e/types/resource";
+import { isValidMaxFormula } from "../dnd/resource-formula";
 import { ABILITY_KEYS } from "@archivist-gg/dnd5e/dnd/constants";
 import type {
   Character,
@@ -204,6 +206,7 @@ export class PCResolver {
     const features = collectResolvedFeatures(race, classes, background, feats, featVia);
     const extraFeatures = collectChosenGrantedFeatures(character, classes, this.entities, race, background);
     features.push(...extraFeatures);
+    features.push(...collectAdditionalFeatures(character, this.entities, warnings));
 
     // The caster classes in class-entry order, for known spells that don't name their class. Caster-ness is data-driven
     // (resolveSpellcasting), preserving the stripped class-ref slug used elsewhere for spell attribution; each carries
@@ -602,6 +605,73 @@ export function collectChosenGrantedFeatures(
     if (background.feature) {
       walkChoiceGrants((background.feature as { choices?: Choice[] }).choices, atBg, emitBg, registry);
     }
+  }
+  return out;
+}
+
+/**
+ * `character.additional_features` → ResolvedFeatures (the DM-grant path).
+ *
+ * Deliberately NOT routed through `walkChoiceGrants`: that converter emits
+ * `{id, name, description, effects, action}` and DROPS `uses`, which is correct there because a pool
+ * pick's tracker is built separately by `resolveResourceIndex`'s pools loop. A campaign grant has no
+ * pool, so nothing would ever build its tracker — the feature would render as a card with no counter.
+ * This walk therefore converts `uses` into the feature's own `resources[]`, which
+ * `resolveFeatureResources` already indexes, and the grant gets a tracker with no pool involved.
+ *
+ * A prose `uses.max` (the 4 shipped carriers that have one) yields no resource rather than a broken
+ * tracker, matching the pools loop's rule; the feature still renders.
+ */
+export function collectAdditionalFeatures(
+  character: Character,
+  entities: EntityRegistry,
+  warnings: string[],
+): ResolvedFeature[] {
+  const out: ResolvedFeature[] = [];
+  for (const entry of character.additional_features ?? []) {
+    const slug = stripSlug(entry) ?? entry;
+    const reg = entities.getByTypeAndSlug("optional-feature", slug);
+    if (!reg) {
+      warnings.push(`Granted feature [[${slug}]] not found in compendium as optional-feature.`);
+      continue;
+    }
+    const d = reg.data as {
+      name?: string; slug?: string; description?: string; effects?: unknown[];
+      action_cost?: string | null; passive?: boolean; activatable?: boolean;
+      duration?: unknown; consumes?: unknown;
+      rendering_hint?: string; surface?: "band" | "tab";
+      uses?: { max: number | string; recharge: string; recovery?: unknown[] } | null;
+    };
+    const feature: Feature = {
+      id: d.slug ?? slug,
+      name: d.name ?? slug,
+      description: d.description,
+      ...(d.effects?.length ? { effects: d.effects as Feature["effects"] } : {}),
+      ...(d.action_cost ? { action: d.action_cost as Feature["action"] } : {}),
+      ...(d.passive !== undefined ? { passive: d.passive } : {}),
+      ...(d.activatable !== undefined ? { activatable: d.activatable } : {}),
+      ...(d.duration ? { duration: d.duration as Feature["duration"] } : {}),
+      ...(d.consumes ? { consumes: d.consumes as Feature["consumes"] } : {}),
+    };
+    const uses = d.uses;
+    if (uses) {
+      const maxFormula = String(uses.max);
+      if (isValidMaxFormula(maxFormula)) {
+        feature.resources = [{
+          id: d.slug ?? slug,
+          name: d.name ?? slug,
+          max_formula: maxFormula,
+          reset: uses.recharge as Resource["reset"],
+          ...(uses.recovery?.length ? { recovery: uses.recovery as Resource["recovery"] } : {}),
+          // Presentation rides the resource, so the band and the tab read one object.
+          ...(d.rendering_hint ? { rendering_hint: d.rendering_hint } : {}),
+          ...(d.surface ? { surface: d.surface } : {}),
+        }];
+      } else {
+        warnings.push(`Granted feature "${slug}" has a prose uses.max (${JSON.stringify(uses.max)}); no tracker.`);
+      }
+    }
+    out.push({ feature, source: { kind: "campaign", slug } });
   }
   return out;
 }

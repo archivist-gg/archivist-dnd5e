@@ -247,6 +247,9 @@ export interface Character {
   equipment: EquipmentEntry[];
   overrides: CharacterOverrides;
   currency?: { cp: number; sp: number; ep: number; gp: number; pp: number };
+  /** DM grants: optional-feature slugs resolved onto the character with no class, level or pool behind
+   *  them. Placement is the declaring note's `surface`, never a flag here. */
+  additional_features?: string[];
   notes?: string;
   defenses?: {
     resistances?: string[];
@@ -274,7 +277,9 @@ export type FeatureSource =
   // `via` is OPTIONAL: set by `PCResolver.resolve` for every feat it resolves from a class slot or an origin feat, absent
   // wherever a feat source is built without a character (`collectResolvedFeatures` called with no provenance map, the
   // builder's decision items).
-  | { kind: "feat"; slug: string; via?: FeatVia };
+  | { kind: "feat"; slug: string; via?: FeatVia }
+  /** A DM grant listed in `character.additional_features`. No class, no level, no pool behind it. */
+  | { kind: "campaign"; slug: string };
 
 export interface ResolvedFeature {
   feature: Feature;

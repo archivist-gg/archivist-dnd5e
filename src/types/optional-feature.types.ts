@@ -62,6 +62,8 @@ export interface OptionalFeatureEntity {
    *  `rendering_hint` is the ONE of these whose VALUES are load-bearing (88 records carry a
    *  real marker such as `dice-pool`); reading it is G4's row, declaring it is this one's. */
   rendering_hint?: string;
+  /** `band` = also drawn in the header strip. Absent/`tab` = the Resources tab only. */
+  surface?: "band" | "tab";
   additional_spells?: AdditionalSpellsEntry[];
   is_class_feature_variant?: boolean;
   has_fluff_images?: boolean;

@@ -32,6 +32,17 @@ const prerequisiteSchema = z.discriminatedUnion("kind", [
 const usesSchema = z.object({
   max: z.union([z.number(), z.string()]),
   recharge: resetTriggerEnum,
+  /** Partial recovery, for a pool a rest does NOT fully refill (a sanity track that regains 1 per long
+   *  rest). Same shape a feature's `resources[].recovery` uses, so `ResolvedResource.recovery` — which
+   *  has carried the field since R4-G4 — is populated identically from either side. Optional: all 35
+   *  shipped `uses` carriers omit it and parse unchanged. */
+  recovery: z.array(z.object({
+    id: z.string().min(1),
+    name: z.string().min(1),
+    amount: z.union([z.number(), z.string()]),
+    reset: resetTriggerEnum,
+    restores: z.enum(["uses", "spell-slots"]).optional(),
+  })).optional(),
 });
 
 export const optionalFeatureEntitySchema = z.object({
@@ -53,6 +64,12 @@ export const optionalFeatureEntitySchema = z.object({
   // its slug is present in state.active_buffs (toggled in the PoolTab).
   activatable: z.boolean().optional(),
   rendering_hint: z.string().optional(),        // the ONE root with load-bearing VALUES (88 records, G4's)
+  /** WHERE this resource is drawn. `band` puts it in the header strip beside HP; anything else, and the
+   *  default, leaves it to the Resources tab. The tab ALWAYS lists every resource — it is the complete
+   *  inventory of what the character can spend, and a row missing from it would read as a bug — so this
+   *  key only ever ADDS a second, curated home. Opt-in on purpose: the band's whole value is being short,
+   *  which an opt-out flag would erode one new grant at a time. */
+  surface: z.enum(["band", "tab"]).optional(),
   additional_spells: z.array(additionalSpellsEntrySchema).optional(),   // 54
   is_class_feature_variant: z.boolean().optional(),                     // 25
   has_fluff_images: z.boolean().optional(),                             // 2

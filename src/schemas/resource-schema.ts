@@ -20,6 +20,10 @@ export const resourceSchema = z.object({
     resource: z.string().min(1),
     amount: z.number().int().positive(),
   }).optional(),
+  /** Presentation, carried and never interpreted by the engine: which control draws this resource, and
+   *  whether it also appears in the header band. The renderer owns the hint → component table. */
+  rendering_hint: z.string().optional(),
+  surface: z.enum(["band", "tab"]).optional(),
   recovery: z.array(z.object({
     id: z.string().min(1),
     name: z.string().min(1),

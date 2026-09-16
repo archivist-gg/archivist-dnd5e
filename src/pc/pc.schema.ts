@@ -302,6 +302,15 @@ export const characterSchema = z.object({
     gp: z.number().int().nonnegative(),
     pp: z.number().int().nonnegative(),
   }).optional(),
+  /** Features granted directly to this character by the DM — a campaign boon, a sanity track, hero
+   *  points. Each entry names an `optional-feature` entity; the engine resolves it exactly the way a
+   *  pool pick resolves, but with no pool and no class choice behind it.
+   *
+   *  WHERE a grant is drawn is the declaring NOTE's business, not the character's: the note's
+   *  `surface: band` opts it into the header strip. A character-side opt-OUT flag lived here briefly
+   *  and was removed — two mechanisms for one job, and the opt-out eroded the band's shortness one
+   *  grant at a time. */
+  additional_features: z.array(z.string().min(1)).default([]),
   notes: z.string().optional(),
   defenses: z.object({
     resistances: z.array(z.string()).default([]),
