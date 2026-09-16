@@ -5,7 +5,7 @@
     "edition": "2014",
     "source": "SRD 5.1",
     "feature_type": "invocation",
-    "description": "When you cast {@spell eldritch blast}, add your Charisma modifier to the damage it deals on a hit.",
+    "description": "When you cast _eldritch blast_, add your Charisma modifier to the damage it deals on a hit.",
     "prerequisites": [
       {
         "kind": "spell-known",
@@ -57,7 +57,7 @@
     "edition": "2014",
     "source": "SRD 5.1",
     "feature_type": "invocation",
-    "description": "You can cast {@spell detect magic} at will, without expending a spell slot.",
+    "description": "You can cast _detect magic_ at will, without expending a spell slot.",
     "prerequisites": [],
     "available_to": [],
     "effects": []

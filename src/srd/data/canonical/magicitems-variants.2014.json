@@ -1019,7 +1019,7 @@
     "attunement": {
       "required": true
     },
-    "description": "{#itemEntry Armor of Resistance}",
+    "description": "You have resistance to acid damage while you wear this armor.",
     "weight": 20
   },
   {
@@ -1034,7 +1034,7 @@
     "attunement": {
       "required": true
     },
-    "description": "{#itemEntry Armor of Resistance}",
+    "description": "You have resistance to acid damage while you wear this armor.",
     "weight": 55
   },
   {
@@ -1049,7 +1049,7 @@
     "attunement": {
       "required": true
     },
-    "description": "{#itemEntry Armor of Resistance}",
+    "description": "You have resistance to acid damage while you wear this armor.",
     "weight": 20
   },
   {
@@ -1064,7 +1064,7 @@
     "attunement": {
       "required": true
     },
-    "description": "{#itemEntry Armor of Resistance}",
+    "description": "You have resistance to acid damage while you wear this armor.",
     "weight": 40
   },
   {
@@ -1079,7 +1079,7 @@
     "attunement": {
       "required": true
     },
-    "description": "{#itemEntry Armor of Resistance}",
+    "description": "You have resistance to acid damage while you wear this armor.",
     "weight": 12
   },
   {
@@ -1094,7 +1094,7 @@
     "attunement": {
       "required": true
     },
-    "description": "{#itemEntry Armor of Resistance}",
+    "description": "You have resistance to acid damage while you wear this armor.",
     "weight": 10
   },
   {
@@ -1109,7 +1109,7 @@
     "attunement": {
       "required": true
     },
-    "description": "{#itemEntry Armor of Resistance}",
+    "description": "You have resistance to acid damage while you wear this armor.",
     "weight": 8
   },
   {
@@ -1124,7 +1124,7 @@
     "attunement": {
       "required": true
     },
-    "description": "{#itemEntry Armor of Resistance}",
+    "description": "You have resistance to acid damage while you wear this armor.",
     "weight": 65
   },
   {
@@ -1139,7 +1139,7 @@
     "attunement": {
       "required": true
     },
-    "description": "{#itemEntry Armor of Resistance}",
+    "description": "You have resistance to acid damage while you wear this armor.",
     "weight": 40
   },
   {
@@ -1154,7 +1154,7 @@
     "attunement": {
       "required": true
     },
-    "description": "{#itemEntry Armor of Resistance}",
+    "description": "You have resistance to acid damage while you wear this armor.",
     "weight": 45
   },
   {
@@ -1169,7 +1169,7 @@
     "attunement": {
       "required": true
     },
-    "description": "{#itemEntry Armor of Resistance}",
+    "description": "You have resistance to acid damage while you wear this armor.",
     "weight": 60
   },
   {
@@ -1184,7 +1184,7 @@
     "attunement": {
       "required": true
     },
-    "description": "{#itemEntry Armor of Resistance}",
+    "description": "You have resistance to acid damage while you wear this armor.",
     "weight": 13
   },
   {
@@ -1199,7 +1199,7 @@
     "attunement": {
       "required": true
     },
-    "description": "{#itemEntry Armor of Resistance}",
+    "description": "You have resistance to cold damage while you wear this armor.",
     "weight": 20
   },
   {
@@ -1214,7 +1214,7 @@
     "attunement": {
       "required": true
     },
-    "description": "{#itemEntry Armor of Resistance}",
+    "description": "You have resistance to cold damage while you wear this armor.",
     "weight": 55
   },
   {
@@ -1229,7 +1229,7 @@
     "attunement": {
       "required": true
     },
-    "description": "{#itemEntry Armor of Resistance}",
+    "description": "You have resistance to cold damage while you wear this armor.",
     "weight": 20
   },
   {
@@ -1244,7 +1244,7 @@
     "attunement": {
       "required": true
     },
-    "description": "{#itemEntry Armor of Resistance}",
+    "description": "You have resistance to cold damage while you wear this armor.",
     "weight": 40
   },
   {
@@ -1259,7 +1259,7 @@
     "attunement": {
       "required": true
     },
-    "description": "{#itemEntry Armor of Resistance}",
+    "description": "You have resistance to cold damage while you wear this armor.",
     "weight": 12
   },
   {
@@ -1274,7 +1274,7 @@
     "attunement": {
       "required": true
     },
-    "description": "{#itemEntry Armor of Resistance}",
+    "description": "You have resistance to cold damage while you wear this armor.",
     "weight": 10
   },
   {
@@ -1289,7 +1289,7 @@
     "attunement": {
       "required": true
     },
-    "description": "{#itemEntry Armor of Resistance}",
+    "description": "You have resistance to cold damage while you wear this armor.",
     "weight": 8
   },
   {
@@ -1304,7 +1304,7 @@
     "attunement": {
       "required": true
     },
-    "description": "{#itemEntry Armor of Resistance}",
+    "description": "You have resistance to cold damage while you wear this armor.",
     "weight": 65
   },
   {
@@ -1319,7 +1319,7 @@
     "attunement": {
       "required": true
     },
-    "description": "{#itemEntry Armor of Resistance}",
+    "description": "You have resistance to cold damage while you wear this armor.",
     "weight": 40
   },
   {
@@ -1334,7 +1334,7 @@
     "attunement": {
       "required": true
     },
-    "description": "{#itemEntry Armor of Resistance}",
+    "description": "You have resistance to cold damage while you wear this armor.",
     "weight": 45
   },
   {
@@ -1349,7 +1349,7 @@
     "attunement": {
       "required": true
     },
-    "description": "{#itemEntry Armor of Resistance}",
+    "description": "You have resistance to cold damage while you wear this armor.",
     "weight": 60
   },
   {
@@ -1364,7 +1364,7 @@
     "attunement": {
       "required": true
     },
-    "description": "{#itemEntry Armor of Resistance}",
+    "description": "You have resistance to cold damage while you wear this armor.",
     "weight": 13
   },
   {
@@ -1379,7 +1379,7 @@
     "attunement": {
       "required": true
     },
-    "description": "{#itemEntry Armor of Resistance}",
+    "description": "You have resistance to fire damage while you wear this armor.",
     "weight": 20
   },
   {
@@ -1394,7 +1394,7 @@
     "attunement": {
       "required": true
     },
-    "description": "{#itemEntry Armor of Resistance}",
+    "description": "You have resistance to fire damage while you wear this armor.",
     "weight": 55
   },
   {
@@ -1409,7 +1409,7 @@
     "attunement": {
       "required": true
     },
-    "description": "{#itemEntry Armor of Resistance}",
+    "description": "You have resistance to fire damage while you wear this armor.",
     "weight": 20
   },
   {
@@ -1424,7 +1424,7 @@
     "attunement": {
       "required": true
     },
-    "description": "{#itemEntry Armor of Resistance}",
+    "description": "You have resistance to fire damage while you wear this armor.",
     "weight": 40
   },
   {
@@ -1439,7 +1439,7 @@
     "attunement": {
       "required": true
     },
-    "description": "{#itemEntry Armor of Resistance}",
+    "description": "You have resistance to fire damage while you wear this armor.",
     "weight": 12
   },
   {
@@ -1454,7 +1454,7 @@
     "attunement": {
       "required": true
     },
-    "description": "{#itemEntry Armor of Resistance}",
+    "description": "You have resistance to fire damage while you wear this armor.",
     "weight": 10
   },
   {
@@ -1469,7 +1469,7 @@
     "attunement": {
       "required": true
     },
-    "description": "{#itemEntry Armor of Resistance}",
+    "description": "You have resistance to fire damage while you wear this armor.",
     "weight": 8
   },
   {
@@ -1484,7 +1484,7 @@
     "attunement": {
       "required": true
     },
-    "description": "{#itemEntry Armor of Resistance}",
+    "description": "You have resistance to fire damage while you wear this armor.",
     "weight": 65
   },
   {
@@ -1499,7 +1499,7 @@
     "attunement": {
       "required": true
     },
-    "description": "{#itemEntry Armor of Resistance}",
+    "description": "You have resistance to fire damage while you wear this armor.",
     "weight": 40
   },
   {
@@ -1514,7 +1514,7 @@
     "attunement": {
       "required": true
     },
-    "description": "{#itemEntry Armor of Resistance}",
+    "description": "You have resistance to fire damage while you wear this armor.",
     "weight": 45
   },
   {
@@ -1529,7 +1529,7 @@
     "attunement": {
       "required": true
     },
-    "description": "{#itemEntry Armor of Resistance}",
+    "description": "You have resistance to fire damage while you wear this armor.",
     "weight": 60
   },
   {
@@ -1544,7 +1544,7 @@
     "attunement": {
       "required": true
     },
-    "description": "{#itemEntry Armor of Resistance}",
+    "description": "You have resistance to fire damage while you wear this armor.",
     "weight": 13
   },
   {
@@ -1559,7 +1559,7 @@
     "attunement": {
       "required": true
     },
-    "description": "{#itemEntry Armor of Resistance}",
+    "description": "You have resistance to force damage while you wear this armor.",
     "weight": 20
   },
   {
@@ -1574,7 +1574,7 @@
     "attunement": {
       "required": true
     },
-    "description": "{#itemEntry Armor of Resistance}",
+    "description": "You have resistance to force damage while you wear this armor.",
     "weight": 55
   },
   {
@@ -1589,7 +1589,7 @@
     "attunement": {
       "required": true
     },
-    "description": "{#itemEntry Armor of Resistance}",
+    "description": "You have resistance to force damage while you wear this armor.",
     "weight": 20
   },
   {
@@ -1604,7 +1604,7 @@
     "attunement": {
       "required": true
     },
-    "description": "{#itemEntry Armor of Resistance}",
+    "description": "You have resistance to force damage while you wear this armor.",
     "weight": 40
   },
   {
@@ -1619,7 +1619,7 @@
     "attunement": {
       "required": true
     },
-    "description": "{#itemEntry Armor of Resistance}",
+    "description": "You have resistance to force damage while you wear this armor.",
     "weight": 12
   },
   {
@@ -1634,7 +1634,7 @@
     "attunement": {
       "required": true
     },
-    "description": "{#itemEntry Armor of Resistance}",
+    "description": "You have resistance to force damage while you wear this armor.",
     "weight": 10
   },
   {
@@ -1649,7 +1649,7 @@
     "attunement": {
       "required": true
     },
-    "description": "{#itemEntry Armor of Resistance}",
+    "description": "You have resistance to force damage while you wear this armor.",
     "weight": 8
   },
   {
@@ -1664,7 +1664,7 @@
     "attunement": {
       "required": true
     },
-    "description": "{#itemEntry Armor of Resistance}",
+    "description": "You have resistance to force damage while you wear this armor.",
     "weight": 65
   },
   {
@@ -1679,7 +1679,7 @@
     "attunement": {
       "required": true
     },
-    "description": "{#itemEntry Armor of Resistance}",
+    "description": "You have resistance to force damage while you wear this armor.",
     "weight": 40
   },
   {
@@ -1694,7 +1694,7 @@
     "attunement": {
       "required": true
     },
-    "description": "{#itemEntry Armor of Resistance}",
+    "description": "You have resistance to force damage while you wear this armor.",
     "weight": 45
   },
   {
@@ -1709,7 +1709,7 @@
     "attunement": {
       "required": true
     },
-    "description": "{#itemEntry Armor of Resistance}",
+    "description": "You have resistance to force damage while you wear this armor.",
     "weight": 60
   },
   {
@@ -1724,7 +1724,7 @@
     "attunement": {
       "required": true
     },
-    "description": "{#itemEntry Armor of Resistance}",
+    "description": "You have resistance to force damage while you wear this armor.",
     "weight": 13
   },
   {
@@ -1739,7 +1739,7 @@
     "attunement": {
       "required": true
     },
-    "description": "{#itemEntry Armor of Resistance}",
+    "description": "You have resistance to lightning damage while you wear this armor.",
     "weight": 20
   },
   {
@@ -1754,7 +1754,7 @@
     "attunement": {
       "required": true
     },
-    "description": "{#itemEntry Armor of Resistance}",
+    "description": "You have resistance to lightning damage while you wear this armor.",
     "weight": 55
   },
   {
@@ -1769,7 +1769,7 @@
     "attunement": {
       "required": true
     },
-    "description": "{#itemEntry Armor of Resistance}",
+    "description": "You have resistance to lightning damage while you wear this armor.",
     "weight": 20
   },
   {
@@ -1784,7 +1784,7 @@
     "attunement": {
       "required": true
     },
-    "description": "{#itemEntry Armor of Resistance}",
+    "description": "You have resistance to lightning damage while you wear this armor.",
     "weight": 40
   },
   {
@@ -1799,7 +1799,7 @@
     "attunement": {
       "required": true
     },
-    "description": "{#itemEntry Armor of Resistance}",
+    "description": "You have resistance to lightning damage while you wear this armor.",
     "weight": 12
   },
   {
@@ -1814,7 +1814,7 @@
     "attunement": {
       "required": true
     },
-    "description": "{#itemEntry Armor of Resistance}",
+    "description": "You have resistance to lightning damage while you wear this armor.",
     "weight": 10
   },
   {
@@ -1829,7 +1829,7 @@
     "attunement": {
       "required": true
     },
-    "description": "{#itemEntry Armor of Resistance}",
+    "description": "You have resistance to lightning damage while you wear this armor.",
     "weight": 8
   },
   {
@@ -1844,7 +1844,7 @@
     "attunement": {
       "required": true
     },
-    "description": "{#itemEntry Armor of Resistance}",
+    "description": "You have resistance to lightning damage while you wear this armor.",
     "weight": 65
   },
   {
@@ -1859,7 +1859,7 @@
     "attunement": {
       "required": true
     },
-    "description": "{#itemEntry Armor of Resistance}",
+    "description": "You have resistance to lightning damage while you wear this armor.",
     "weight": 40
   },
   {
@@ -1874,7 +1874,7 @@
     "attunement": {
       "required": true
     },
-    "description": "{#itemEntry Armor of Resistance}",
+    "description": "You have resistance to lightning damage while you wear this armor.",
     "weight": 45
   },
   {
@@ -1889,7 +1889,7 @@
     "attunement": {
       "required": true
     },
-    "description": "{#itemEntry Armor of Resistance}",
+    "description": "You have resistance to lightning damage while you wear this armor.",
     "weight": 60
   },
   {
@@ -1904,7 +1904,7 @@
     "attunement": {
       "required": true
     },
-    "description": "{#itemEntry Armor of Resistance}",
+    "description": "You have resistance to lightning damage while you wear this armor.",
     "weight": 13
   },
   {
@@ -1919,7 +1919,7 @@
     "attunement": {
       "required": true
     },
-    "description": "{#itemEntry Armor of Resistance}",
+    "description": "You have resistance to necrotic damage while you wear this armor.",
     "weight": 20
   },
   {
@@ -1934,7 +1934,7 @@
     "attunement": {
       "required": true
     },
-    "description": "{#itemEntry Armor of Resistance}",
+    "description": "You have resistance to necrotic damage while you wear this armor.",
     "weight": 55
   },
   {
@@ -1949,7 +1949,7 @@
     "attunement": {
       "required": true
     },
-    "description": "{#itemEntry Armor of Resistance}",
+    "description": "You have resistance to necrotic damage while you wear this armor.",
     "weight": 20
   },
   {
@@ -1964,7 +1964,7 @@
     "attunement": {
       "required": true
     },
-    "description": "{#itemEntry Armor of Resistance}",
+    "description": "You have resistance to necrotic damage while you wear this armor.",
     "weight": 40
   },
   {
@@ -1979,7 +1979,7 @@
     "attunement": {
       "required": true
     },
-    "description": "{#itemEntry Armor of Resistance}",
+    "description": "You have resistance to necrotic damage while you wear this armor.",
     "weight": 12
   },
   {
@@ -1994,7 +1994,7 @@
     "attunement": {
       "required": true
     },
-    "description": "{#itemEntry Armor of Resistance}",
+    "description": "You have resistance to necrotic damage while you wear this armor.",
     "weight": 10
   },
   {
@@ -2009,7 +2009,7 @@
     "attunement": {
       "required": true
     },
-    "description": "{#itemEntry Armor of Resistance}",
+    "description": "You have resistance to necrotic damage while you wear this armor.",
     "weight": 8
   },
   {
@@ -2024,7 +2024,7 @@
     "attunement": {
       "required": true
     },
-    "description": "{#itemEntry Armor of Resistance}",
+    "description": "You have resistance to necrotic damage while you wear this armor.",
     "weight": 65
   },
   {
@@ -2039,7 +2039,7 @@
     "attunement": {
       "required": true
     },
-    "description": "{#itemEntry Armor of Resistance}",
+    "description": "You have resistance to necrotic damage while you wear this armor.",
     "weight": 40
   },
   {
@@ -2054,7 +2054,7 @@
     "attunement": {
       "required": true
     },
-    "description": "{#itemEntry Armor of Resistance}",
+    "description": "You have resistance to necrotic damage while you wear this armor.",
     "weight": 45
   },
   {
@@ -2069,7 +2069,7 @@
     "attunement": {
       "required": true
     },
-    "description": "{#itemEntry Armor of Resistance}",
+    "description": "You have resistance to necrotic damage while you wear this armor.",
     "weight": 60
   },
   {
@@ -2084,7 +2084,7 @@
     "attunement": {
       "required": true
     },
-    "description": "{#itemEntry Armor of Resistance}",
+    "description": "You have resistance to necrotic damage while you wear this armor.",
     "weight": 13
   },
   {
@@ -2099,7 +2099,7 @@
     "attunement": {
       "required": true
     },
-    "description": "{#itemEntry Armor of Resistance}",
+    "description": "You have resistance to poison damage while you wear this armor.",
     "weight": 20
   },
   {
@@ -2114,7 +2114,7 @@
     "attunement": {
       "required": true
     },
-    "description": "{#itemEntry Armor of Resistance}",
+    "description": "You have resistance to poison damage while you wear this armor.",
     "weight": 55
   },
   {
@@ -2129,7 +2129,7 @@
     "attunement": {
       "required": true
     },
-    "description": "{#itemEntry Armor of Resistance}",
+    "description": "You have resistance to poison damage while you wear this armor.",
     "weight": 20
   },
   {
@@ -2144,7 +2144,7 @@
     "attunement": {
       "required": true
     },
-    "description": "{#itemEntry Armor of Resistance}",
+    "description": "You have resistance to poison damage while you wear this armor.",
     "weight": 40
   },
   {
@@ -2159,7 +2159,7 @@
     "attunement": {
       "required": true
     },
-    "description": "{#itemEntry Armor of Resistance}",
+    "description": "You have resistance to poison damage while you wear this armor.",
     "weight": 12
   },
   {
@@ -2174,7 +2174,7 @@
     "attunement": {
       "required": true
     },
-    "description": "{#itemEntry Armor of Resistance}",
+    "description": "You have resistance to poison damage while you wear this armor.",
     "weight": 10
   },
   {
@@ -2189,7 +2189,7 @@
     "attunement": {
       "required": true
     },
-    "description": "{#itemEntry Armor of Resistance}",
+    "description": "You have resistance to poison damage while you wear this armor.",
     "weight": 8
   },
   {
@@ -2204,7 +2204,7 @@
     "attunement": {
       "required": true
     },
-    "description": "{#itemEntry Armor of Resistance}",
+    "description": "You have resistance to poison damage while you wear this armor.",
     "weight": 65
   },
   {
@@ -2219,7 +2219,7 @@
     "attunement": {
       "required": true
     },
-    "description": "{#itemEntry Armor of Resistance}",
+    "description": "You have resistance to poison damage while you wear this armor.",
     "weight": 40
   },
   {
@@ -2234,7 +2234,7 @@
     "attunement": {
       "required": true
     },
-    "description": "{#itemEntry Armor of Resistance}",
+    "description": "You have resistance to poison damage while you wear this armor.",
     "weight": 45
   },
   {
@@ -2249,7 +2249,7 @@
     "attunement": {
       "required": true
     },
-    "description": "{#itemEntry Armor of Resistance}",
+    "description": "You have resistance to poison damage while you wear this armor.",
     "weight": 60
   },
   {
@@ -2264,7 +2264,7 @@
     "attunement": {
       "required": true
     },
-    "description": "{#itemEntry Armor of Resistance}",
+    "description": "You have resistance to poison damage while you wear this armor.",
     "weight": 13
   },
   {
@@ -2279,7 +2279,7 @@
     "attunement": {
       "required": true
     },
-    "description": "{#itemEntry Armor of Resistance}",
+    "description": "You have resistance to psychic damage while you wear this armor.",
     "weight": 20
   },
   {
@@ -2294,7 +2294,7 @@
     "attunement": {
       "required": true
     },
-    "description": "{#itemEntry Armor of Resistance}",
+    "description": "You have resistance to psychic damage while you wear this armor.",
     "weight": 55
   },
   {
@@ -2309,7 +2309,7 @@
     "attunement": {
       "required": true
     },
-    "description": "{#itemEntry Armor of Resistance}",
+    "description": "You have resistance to psychic damage while you wear this armor.",
     "weight": 20
   },
   {
@@ -2324,7 +2324,7 @@
     "attunement": {
       "required": true
     },
-    "description": "{#itemEntry Armor of Resistance}",
+    "description": "You have resistance to psychic damage while you wear this armor.",
     "weight": 40
   },
   {
@@ -2339,7 +2339,7 @@
     "attunement": {
       "required": true
     },
-    "description": "{#itemEntry Armor of Resistance}",
+    "description": "You have resistance to psychic damage while you wear this armor.",
     "weight": 12
   },
   {
@@ -2354,7 +2354,7 @@
     "attunement": {
       "required": true
     },
-    "description": "{#itemEntry Armor of Resistance}",
+    "description": "You have resistance to psychic damage while you wear this armor.",
     "weight": 10
   },
   {
@@ -2369,7 +2369,7 @@
     "attunement": {
       "required": true
     },
-    "description": "{#itemEntry Armor of Resistance}",
+    "description": "You have resistance to psychic damage while you wear this armor.",
     "weight": 8
   },
   {
@@ -2384,7 +2384,7 @@
     "attunement": {
       "required": true
     },
-    "description": "{#itemEntry Armor of Resistance}",
+    "description": "You have resistance to psychic damage while you wear this armor.",
     "weight": 65
   },
   {
@@ -2399,7 +2399,7 @@
     "attunement": {
       "required": true
     },
-    "description": "{#itemEntry Armor of Resistance}",
+    "description": "You have resistance to psychic damage while you wear this armor.",
     "weight": 40
   },
   {
@@ -2414,7 +2414,7 @@
     "attunement": {
       "required": true
     },
-    "description": "{#itemEntry Armor of Resistance}",
+    "description": "You have resistance to psychic damage while you wear this armor.",
     "weight": 45
   },
   {
@@ -2429,7 +2429,7 @@
     "attunement": {
       "required": true
     },
-    "description": "{#itemEntry Armor of Resistance}",
+    "description": "You have resistance to psychic damage while you wear this armor.",
     "weight": 60
   },
   {
@@ -2444,7 +2444,7 @@
     "attunement": {
       "required": true
     },
-    "description": "{#itemEntry Armor of Resistance}",
+    "description": "You have resistance to psychic damage while you wear this armor.",
     "weight": 13
   },
   {
@@ -2459,7 +2459,7 @@
     "attunement": {
       "required": true
     },
-    "description": "{#itemEntry Armor of Resistance}",
+    "description": "You have resistance to radiant damage while you wear this armor.",
     "weight": 20
   },
   {
@@ -2474,7 +2474,7 @@
     "attunement": {
       "required": true
     },
-    "description": "{#itemEntry Armor of Resistance}",
+    "description": "You have resistance to radiant damage while you wear this armor.",
     "weight": 55
   },
   {
@@ -2489,7 +2489,7 @@
     "attunement": {
       "required": true
     },
-    "description": "{#itemEntry Armor of Resistance}",
+    "description": "You have resistance to radiant damage while you wear this armor.",
     "weight": 20
   },
   {
@@ -2504,7 +2504,7 @@
     "attunement": {
       "required": true
     },
-    "description": "{#itemEntry Armor of Resistance}",
+    "description": "You have resistance to radiant damage while you wear this armor.",
     "weight": 40
   },
   {
@@ -2519,7 +2519,7 @@
     "attunement": {
       "required": true
     },
-    "description": "{#itemEntry Armor of Resistance}",
+    "description": "You have resistance to radiant damage while you wear this armor.",
     "weight": 12
   },
   {
@@ -2534,7 +2534,7 @@
     "attunement": {
       "required": true
     },
-    "description": "{#itemEntry Armor of Resistance}",
+    "description": "You have resistance to radiant damage while you wear this armor.",
     "weight": 10
   },
   {
@@ -2549,7 +2549,7 @@
     "attunement": {
       "required": true
     },
-    "description": "{#itemEntry Armor of Resistance}",
+    "description": "You have resistance to radiant damage while you wear this armor.",
     "weight": 8
   },
   {
@@ -2564,7 +2564,7 @@
     "attunement": {
       "required": true
     },
-    "description": "{#itemEntry Armor of Resistance}",
+    "description": "You have resistance to radiant damage while you wear this armor.",
     "weight": 65
   },
   {
@@ -2579,7 +2579,7 @@
     "attunement": {
       "required": true
     },
-    "description": "{#itemEntry Armor of Resistance}",
+    "description": "You have resistance to radiant damage while you wear this armor.",
     "weight": 40
   },
   {
@@ -2594,7 +2594,7 @@
     "attunement": {
       "required": true
     },
-    "description": "{#itemEntry Armor of Resistance}",
+    "description": "You have resistance to radiant damage while you wear this armor.",
     "weight": 45
   },
   {
@@ -2609,7 +2609,7 @@
     "attunement": {
       "required": true
     },
-    "description": "{#itemEntry Armor of Resistance}",
+    "description": "You have resistance to radiant damage while you wear this armor.",
     "weight": 60
   },
   {
@@ -2624,7 +2624,7 @@
     "attunement": {
       "required": true
     },
-    "description": "{#itemEntry Armor of Resistance}",
+    "description": "You have resistance to radiant damage while you wear this armor.",
     "weight": 13
   },
   {
@@ -2639,7 +2639,7 @@
     "attunement": {
       "required": true
     },
-    "description": "{#itemEntry Armor of Resistance}",
+    "description": "You have resistance to thunder damage while you wear this armor.",
     "weight": 20
   },
   {
@@ -2654,7 +2654,7 @@
     "attunement": {
       "required": true
     },
-    "description": "{#itemEntry Armor of Resistance}",
+    "description": "You have resistance to thunder damage while you wear this armor.",
     "weight": 55
   },
   {
@@ -2669,7 +2669,7 @@
     "attunement": {
       "required": true
     },
-    "description": "{#itemEntry Armor of Resistance}",
+    "description": "You have resistance to thunder damage while you wear this armor.",
     "weight": 20
   },
   {
@@ -2684,7 +2684,7 @@
     "attunement": {
       "required": true
     },
-    "description": "{#itemEntry Armor of Resistance}",
+    "description": "You have resistance to thunder damage while you wear this armor.",
     "weight": 40
   },
   {
@@ -2699,7 +2699,7 @@
     "attunement": {
       "required": true
     },
-    "description": "{#itemEntry Armor of Resistance}",
+    "description": "You have resistance to thunder damage while you wear this armor.",
     "weight": 12
   },
   {
@@ -2714,7 +2714,7 @@
     "attunement": {
       "required": true
     },
-    "description": "{#itemEntry Armor of Resistance}",
+    "description": "You have resistance to thunder damage while you wear this armor.",
     "weight": 10
   },
   {
@@ -2729,7 +2729,7 @@
     "attunement": {
       "required": true
     },
-    "description": "{#itemEntry Armor of Resistance}",
+    "description": "You have resistance to thunder damage while you wear this armor.",
     "weight": 8
   },
   {
@@ -2744,7 +2744,7 @@
     "attunement": {
       "required": true
     },
-    "description": "{#itemEntry Armor of Resistance}",
+    "description": "You have resistance to thunder damage while you wear this armor.",
     "weight": 65
   },
   {
@@ -2759,7 +2759,7 @@
     "attunement": {
       "required": true
     },
-    "description": "{#itemEntry Armor of Resistance}",
+    "description": "You have resistance to thunder damage while you wear this armor.",
     "weight": 40
   },
   {
@@ -2774,7 +2774,7 @@
     "attunement": {
       "required": true
     },
-    "description": "{#itemEntry Armor of Resistance}",
+    "description": "You have resistance to thunder damage while you wear this armor.",
     "weight": 45
   },
   {
@@ -2789,7 +2789,7 @@
     "attunement": {
       "required": true
     },
-    "description": "{#itemEntry Armor of Resistance}",
+    "description": "You have resistance to thunder damage while you wear this armor.",
     "weight": 60
   },
   {
@@ -2804,7 +2804,7 @@
     "attunement": {
       "required": true
     },
-    "description": "{#itemEntry Armor of Resistance}",
+    "description": "You have resistance to thunder damage while you wear this armor.",
     "weight": 13
   },
   {
@@ -2991,7 +2991,7 @@
     "attunement": {
       "required": true
     },
-    "description": "You gain a +1 bonus to attack and damage rolls made with this magic weapon. In addition, while you are attuned to this weapon, your hit point maximum increases by 1 for each level you have attained.\n\nWhenever a hostile creature damages you while the axe is in your possession, you must succeed on a {@dc 15} Wisdom saving throw or go berserk. While berserk, you must use your action each round to attack the creature nearest to you with the axe. If you can make extra attacks as part of the {@action Attack} action, you use those extra attacks, moving to attack the next nearest creature after you fell your current target. If you have multiple possible targets, you attack one at random. You are berserk until you start your turn with no creatures within 60 feet of you that you can see or hear.",
+    "description": "You gain a +1 bonus to attack and damage rolls made with this magic weapon. In addition, while you are attuned to this weapon, your hit point maximum increases by 1 for each level you have attained.\n\nWhenever a hostile creature damages you while the axe is in your possession, you must succeed on a `dc:15` Wisdom saving throw or go berserk. While berserk, you must use your action each round to attack the creature nearest to you with the axe. If you can make extra attacks as part of the **Attack** action, you use those extra attacks, moving to attack the next nearest creature after you fell your current target. If you have multiple possible targets, you attack one at random. You are berserk until you start your turn with no creatures within 60 feet of you that you can see or hear.",
     "weight": 4
   },
   {
@@ -3010,7 +3010,7 @@
     "attunement": {
       "required": true
     },
-    "description": "You gain a +1 bonus to attack and damage rolls made with this magic weapon. In addition, while you are attuned to this weapon, your hit point maximum increases by 1 for each level you have attained.\n\nWhenever a hostile creature damages you while the axe is in your possession, you must succeed on a {@dc 15} Wisdom saving throw or go berserk. While berserk, you must use your action each round to attack the creature nearest to you with the axe. If you can make extra attacks as part of the {@action Attack} action, you use those extra attacks, moving to attack the next nearest creature after you fell your current target. If you have multiple possible targets, you attack one at random. You are berserk until you start your turn with no creatures within 60 feet of you that you can see or hear.",
+    "description": "You gain a +1 bonus to attack and damage rolls made with this magic weapon. In addition, while you are attuned to this weapon, your hit point maximum increases by 1 for each level you have attained.\n\nWhenever a hostile creature damages you while the axe is in your possession, you must succeed on a `dc:15` Wisdom saving throw or go berserk. While berserk, you must use your action each round to attack the creature nearest to you with the axe. If you can make extra attacks as part of the **Attack** action, you use those extra attacks, moving to attack the next nearest creature after you fell your current target. If you have multiple possible targets, you attack one at random. You are berserk until you start your turn with no creatures within 60 feet of you that you can see or hear.",
     "weight": 7
   },
   {
@@ -3029,7 +3029,7 @@
     "attunement": {
       "required": true
     },
-    "description": "You gain a +1 bonus to attack and damage rolls made with this magic weapon. In addition, while you are attuned to this weapon, your hit point maximum increases by 1 for each level you have attained.\n\nWhenever a hostile creature damages you while the axe is in your possession, you must succeed on a {@dc 15} Wisdom saving throw or go berserk. While berserk, you must use your action each round to attack the creature nearest to you with the axe. If you can make extra attacks as part of the {@action Attack} action, you use those extra attacks, moving to attack the next nearest creature after you fell your current target. If you have multiple possible targets, you attack one at random. You are berserk until you start your turn with no creatures within 60 feet of you that you can see or hear.",
+    "description": "You gain a +1 bonus to attack and damage rolls made with this magic weapon. In addition, while you are attuned to this weapon, your hit point maximum increases by 1 for each level you have attained.\n\nWhenever a hostile creature damages you while the axe is in your possession, you must succeed on a `dc:15` Wisdom saving throw or go berserk. While berserk, you must use your action each round to attack the creature nearest to you with the axe. If you can make extra attacks as part of the **Attack** action, you use those extra attacks, moving to attack the next nearest creature after you fell your current target. If you have multiple possible targets, you attack one at random. You are berserk until you start your turn with no creatures within 60 feet of you that you can see or hear.",
     "weight": 2
   },
   {
@@ -3143,7 +3143,7 @@
     "attunement": {
       "required": false
     },
-    "description": "You gain a +1 bonus to attack and damage rolls made with this magic weapon.\n\nWhen you hit a dragon with this weapon, the dragon takes an extra {@damage 3d6} damage of the weapon's type. For the purpose of this weapon, \"dragon\" refers to any creature with the dragon type, including dragon turtles and wyverns.",
+    "description": "You gain a +1 bonus to attack and damage rolls made with this magic weapon.\n\nWhen you hit a dragon with this weapon, the dragon takes an extra `damage:3d6` damage of the weapon's type. For the purpose of this weapon, \"dragon\" refers to any creature with the dragon type, including dragon turtles and wyverns.",
     "weight": 3
   },
   {
@@ -3158,7 +3158,7 @@
     "attunement": {
       "required": true
     },
-    "description": "You can use a bonus action to speak this magic sword's command word, causing flames to erupt from the blade. These flames shed bright light in a 40-foot radius and dim light for an additional 40 feet. While the sword is ablaze, it deals an extra {@damage 2d6} fire damage to any target it hits. The flames last until you use a bonus action to speak the command word again or until you drop or sheathe the sword.",
+    "description": "You can use a bonus action to speak this magic sword's command word, causing flames to erupt from the blade. These flames shed bright light in a 40-foot radius and dim light for an additional 40 feet. While the sword is ablaze, it deals an extra `damage:2d6` fire damage to any target it hits. The flames last until you use a bonus action to speak the command word again or until you drop or sheathe the sword.",
     "weight": 3
   },
   {
@@ -3173,7 +3173,7 @@
     "attunement": {
       "required": true
     },
-    "description": "When you hit with an attack using this magic sword, the target takes an extra {@damage 1d6} cold damage. In addition, while you hold the sword, you have resistance to fire damage.\n\nIn freezing temperatures, the blade sheds bright light in a 10-foot radius and dim light for an additional 10 feet.\n\nWhen you draw this weapon, you can extinguish all nonmagical flames within 30 feet of you. This property can be used no more than once per hour.",
+    "description": "When you hit with an attack using this magic sword, the target takes an extra `damage:1d6` cold damage. In addition, while you hold the sword, you have resistance to fire damage.\n\nIn freezing temperatures, the blade sheds bright light in a 10-foot radius and dim light for an additional 10 feet.\n\nWhen you draw this weapon, you can extinguish all nonmagical flames within 30 feet of you. This property can be used no more than once per hour.",
     "weight": 3
   },
   {
@@ -3192,7 +3192,7 @@
     "attunement": {
       "required": false
     },
-    "description": "You gain a +1 bonus to attack and damage rolls made with this magic weapon.\n\nWhen you hit a giant with it, the giant takes an extra {@damage 2d6} damage of the weapon's type and must succeed on a {@dc 15} Strength saving throw or fall {@condition prone}. For the purpose of this weapon, \"giant\" refers to any creature with the giant type, including ettins and trolls.",
+    "description": "You gain a +1 bonus to attack and damage rolls made with this magic weapon.\n\nWhen you hit a giant with it, the giant takes an extra `damage:2d6` damage of the weapon's type and must succeed on a `dc:15` Strength saving throw or fall prone. For the purpose of this weapon, \"giant\" refers to any creature with the giant type, including ettins and trolls.",
     "weight": 3
   },
   {
@@ -3211,7 +3211,7 @@
     "attunement": {
       "required": true
     },
-    "description": "You gain a +3 bonus to attack and damage rolls made with this magic weapon. When you hit a fiend or an undead with it, that creature takes an extra {@damage 2d10} radiant damage.\n\nWhile you hold the drawn sword, it creates an aura in a 10-foot radius around you. You and all creatures friendly to you in the aura have advantage on saving throws against spells and other magical effects. If you have 17 or more levels in the paladin class, the radius of the aura increases to 30 feet.",
+    "description": "You gain a +3 bonus to attack and damage rolls made with this magic weapon. When you hit a fiend or an undead with it, that creature takes an extra `damage:2d10` radiant damage.\n\nWhile you hold the drawn sword, it creates an aura in a 10-foot radius around you. You and all creatures friendly to you in the aura have advantage on saving throws against spells and other magical effects. If you have 17 or more levels in the paladin class, the radius of the aura increases to 30 feet.",
     "weight": 3
   },
   {
@@ -3245,7 +3245,7 @@
     "attunement": {
       "required": false
     },
-    "description": "Mithral is a light, flexible metal. A mithral chain shirt or breastplate can be worn under normal clothes. If the armor normally imposes disadvantage on Dexterity ({@skill Stealth}) checks or has a Strength requirement, the mithral version of the armor doesn't.",
+    "description": "Mithral is a light, flexible metal. A mithral chain shirt or breastplate can be worn under normal clothes. If the armor normally imposes disadvantage on Dexterity (Stealth) checks or has a Strength requirement, the mithral version of the armor doesn't.",
     "weight": 20
   },
   {
@@ -3260,7 +3260,7 @@
     "attunement": {
       "required": false
     },
-    "description": "Mithral is a light, flexible metal. A mithral chain shirt or breastplate can be worn under normal clothes. If the armor normally imposes disadvantage on Dexterity ({@skill Stealth}) checks or has a Strength requirement, the mithral version of the armor doesn't.",
+    "description": "Mithral is a light, flexible metal. A mithral chain shirt or breastplate can be worn under normal clothes. If the armor normally imposes disadvantage on Dexterity (Stealth) checks or has a Strength requirement, the mithral version of the armor doesn't.",
     "weight": 55
   },
   {
@@ -3275,7 +3275,7 @@
     "attunement": {
       "required": false
     },
-    "description": "Mithral is a light, flexible metal. A mithral chain shirt or breastplate can be worn under normal clothes. If the armor normally imposes disadvantage on Dexterity ({@skill Stealth}) checks or has a Strength requirement, the mithral version of the armor doesn't.",
+    "description": "Mithral is a light, flexible metal. A mithral chain shirt or breastplate can be worn under normal clothes. If the armor normally imposes disadvantage on Dexterity (Stealth) checks or has a Strength requirement, the mithral version of the armor doesn't.",
     "weight": 20
   },
   {
@@ -3290,7 +3290,7 @@
     "attunement": {
       "required": false
     },
-    "description": "Mithral is a light, flexible metal. A mithral chain shirt or breastplate can be worn under normal clothes. If the armor normally imposes disadvantage on Dexterity ({@skill Stealth}) checks or has a Strength requirement, the mithral version of the armor doesn't.",
+    "description": "Mithral is a light, flexible metal. A mithral chain shirt or breastplate can be worn under normal clothes. If the armor normally imposes disadvantage on Dexterity (Stealth) checks or has a Strength requirement, the mithral version of the armor doesn't.",
     "weight": 40
   },
   {
@@ -3305,7 +3305,7 @@
     "attunement": {
       "required": false
     },
-    "description": "Mithral is a light, flexible metal. A mithral chain shirt or breastplate can be worn under normal clothes. If the armor normally imposes disadvantage on Dexterity ({@skill Stealth}) checks or has a Strength requirement, the mithral version of the armor doesn't.",
+    "description": "Mithral is a light, flexible metal. A mithral chain shirt or breastplate can be worn under normal clothes. If the armor normally imposes disadvantage on Dexterity (Stealth) checks or has a Strength requirement, the mithral version of the armor doesn't.",
     "weight": 12
   },
   {
@@ -3320,7 +3320,7 @@
     "attunement": {
       "required": false
     },
-    "description": "Mithral is a light, flexible metal. A mithral chain shirt or breastplate can be worn under normal clothes. If the armor normally imposes disadvantage on Dexterity ({@skill Stealth}) checks or has a Strength requirement, the mithral version of the armor doesn't.",
+    "description": "Mithral is a light, flexible metal. A mithral chain shirt or breastplate can be worn under normal clothes. If the armor normally imposes disadvantage on Dexterity (Stealth) checks or has a Strength requirement, the mithral version of the armor doesn't.",
     "weight": 65
   },
   {
@@ -3335,7 +3335,7 @@
     "attunement": {
       "required": false
     },
-    "description": "Mithral is a light, flexible metal. A mithral chain shirt or breastplate can be worn under normal clothes. If the armor normally imposes disadvantage on Dexterity ({@skill Stealth}) checks or has a Strength requirement, the mithral version of the armor doesn't.",
+    "description": "Mithral is a light, flexible metal. A mithral chain shirt or breastplate can be worn under normal clothes. If the armor normally imposes disadvantage on Dexterity (Stealth) checks or has a Strength requirement, the mithral version of the armor doesn't.",
     "weight": 40
   },
   {
@@ -3350,7 +3350,7 @@
     "attunement": {
       "required": false
     },
-    "description": "Mithral is a light, flexible metal. A mithral chain shirt or breastplate can be worn under normal clothes. If the armor normally imposes disadvantage on Dexterity ({@skill Stealth}) checks or has a Strength requirement, the mithral version of the armor doesn't.",
+    "description": "Mithral is a light, flexible metal. A mithral chain shirt or breastplate can be worn under normal clothes. If the armor normally imposes disadvantage on Dexterity (Stealth) checks or has a Strength requirement, the mithral version of the armor doesn't.",
     "weight": 45
   },
   {
@@ -3365,7 +3365,7 @@
     "attunement": {
       "required": false
     },
-    "description": "Mithral is a light, flexible metal. A mithral chain shirt or breastplate can be worn under normal clothes. If the armor normally imposes disadvantage on Dexterity ({@skill Stealth}) checks or has a Strength requirement, the mithral version of the armor doesn't.",
+    "description": "Mithral is a light, flexible metal. A mithral chain shirt or breastplate can be worn under normal clothes. If the armor normally imposes disadvantage on Dexterity (Stealth) checks or has a Strength requirement, the mithral version of the armor doesn't.",
     "weight": 60
   },
   {
@@ -3384,7 +3384,7 @@
     "attunement": {
       "required": true
     },
-    "description": "You gain a +2 bonus to attack and damage rolls made with this magic weapon.\n\nThe sword has {@dice 1d8 + 1} charges. If you score a critical hit against a creature that has fewer than 100 hit points, it must succeed on a {@dc 15} Constitution saving throw or be slain instantly as the sword tears its life force from its body (a construct or an undead is immune). The sword loses 1 charge if the creature is slain. When the sword has no charges remaining, it loses this property.",
+    "description": "You gain a +2 bonus to attack and damage rolls made with this magic weapon.\n\nThe sword has `roll:1d8 + 1` charges. If you score a critical hit against a creature that has fewer than 100 hit points, it must succeed on a `dc:15` Constitution saving throw or be slain instantly as the sword tears its life force from its body (a construct or an undead is immune). The sword loses 1 charge if the creature is slain. When the sword has no charges remaining, it loses this property.",
     "weight": 3
   },
   {
@@ -3399,7 +3399,7 @@
     "attunement": {
       "required": true
     },
-    "description": "When you attack a creature with this magic weapon and roll a 20 on the attack roll, that target takes an extra 10 necrotic damage if it isn't a construct or an undead. You also gain 10 temporary hit points.\n\n{@note Note: According to the SRD, it is an extra {@damage 3d6} necrotic damage, although {@link this is incorrect|https://rpg.stackexchange.com/a/174522/53884}.}",
+    "description": "When you attack a creature with this magic weapon and roll a 20 on the attack roll, that target takes an extra 10 necrotic damage if it isn't a construct or an undead. You also gain 10 temporary hit points.",
     "weight": 6
   },
   {
@@ -3414,7 +3414,7 @@
     "attunement": {
       "required": true
     },
-    "description": "When you attack a creature with this magic weapon and roll a 20 on the attack roll, that target takes an extra 10 necrotic damage if it isn't a construct or an undead. You also gain 10 temporary hit points.\n\n{@note Note: According to the SRD, it is an extra {@damage 3d6} necrotic damage, although {@link this is incorrect|https://rpg.stackexchange.com/a/174522/53884}.}",
+    "description": "When you attack a creature with this magic weapon and roll a 20 on the attack roll, that target takes an extra 10 necrotic damage if it isn't a construct or an undead. You also gain 10 temporary hit points.",
     "weight": 3
   },
   {
@@ -3429,7 +3429,7 @@
     "attunement": {
       "required": true
     },
-    "description": "When you attack a creature with this magic weapon and roll a 20 on the attack roll, that target takes an extra 10 necrotic damage if it isn't a construct or an undead. You also gain 10 temporary hit points.\n\n{@note Note: According to the SRD, it is an extra {@damage 3d6} necrotic damage, although {@link this is incorrect|https://rpg.stackexchange.com/a/174522/53884}.}",
+    "description": "When you attack a creature with this magic weapon and roll a 20 on the attack roll, that target takes an extra 10 necrotic damage if it isn't a construct or an undead. You also gain 10 temporary hit points.",
     "weight": 2
   },
   {
@@ -3444,7 +3444,7 @@
     "attunement": {
       "required": true
     },
-    "description": "When you attack a creature with this magic weapon and roll a 20 on the attack roll, that target takes an extra 10 necrotic damage if it isn't a construct or an undead. You also gain 10 temporary hit points.\n\n{@note Note: According to the SRD, it is an extra {@damage 3d6} necrotic damage, although {@link this is incorrect|https://rpg.stackexchange.com/a/174522/53884}.}",
+    "description": "When you attack a creature with this magic weapon and roll a 20 on the attack roll, that target takes an extra 10 necrotic damage if it isn't a construct or an undead. You also gain 10 temporary hit points.",
     "weight": 3
   },
   {
@@ -3459,7 +3459,7 @@
     "attunement": {
       "required": true
     },
-    "description": "When you attack a creature with this magic weapon and roll a 20 on the attack roll, that target takes an extra 10 necrotic damage if it isn't a construct or an undead. You also gain 10 temporary hit points.\n\n{@note Note: According to the SRD, it is an extra {@damage 3d6} necrotic damage, although {@link this is incorrect|https://rpg.stackexchange.com/a/174522/53884}.}",
+    "description": "When you attack a creature with this magic weapon and roll a 20 on the attack roll, that target takes an extra 10 necrotic damage if it isn't a construct or an undead. You also gain 10 temporary hit points.",
     "weight": 2
   },
   {
@@ -3474,7 +3474,7 @@
     "attunement": {
       "required": true
     },
-    "description": "When you attack an object with this magic sword and hit, maximize your weapon damage dice against the target.\n\nWhen you attack a creature with this weapon and roll a 20 on the attack roll, that target takes an extra 14 slashing damage. Then roll another {@dice d20}. If you roll a 20, you lop off one of the target's limbs, with the effect of such loss determined by the DM. If the creature has no limb to sever, you lop off a portion of its body instead.\n\n{@note Note: According to the SRD, it is an extra {@damage 4d6} slashing damage, although {@link this is incorrect|https://rpg.stackexchange.com/a/174522/53884}}.\n\nIn addition, you can speak the sword's command to cause the blade to shed bright light in a 10-foot radius and dim light for an additional 10 feet. Speaking the command word again or sheathing the sword puts out the light.",
+    "description": "When you attack an object with this magic sword and hit, maximize your weapon damage dice against the target.\n\nWhen you attack a creature with this weapon and roll a 20 on the attack roll, that target takes an extra 14 slashing damage. Then roll another `roll:d20`. If you roll a 20, you lop off one of the target's limbs, with the effect of such loss determined by the DM. If the creature has no limb to sever, you lop off a portion of its body instead.\n\nIn addition, you can speak the sword's command to cause the blade to shed bright light in a 10-foot radius and dim light for an additional 10 feet. Speaking the command word again or sheathing the sword puts out the light.",
     "weight": 6
   },
   {
@@ -3489,7 +3489,7 @@
     "attunement": {
       "required": true
     },
-    "description": "When you attack an object with this magic sword and hit, maximize your weapon damage dice against the target.\n\nWhen you attack a creature with this weapon and roll a 20 on the attack roll, that target takes an extra 14 slashing damage. Then roll another {@dice d20}. If you roll a 20, you lop off one of the target's limbs, with the effect of such loss determined by the DM. If the creature has no limb to sever, you lop off a portion of its body instead.\n\n{@note Note: According to the SRD, it is an extra {@damage 4d6} slashing damage, although {@link this is incorrect|https://rpg.stackexchange.com/a/174522/53884}}.\n\nIn addition, you can speak the sword's command to cause the blade to shed bright light in a 10-foot radius and dim light for an additional 10 feet. Speaking the command word again or sheathing the sword puts out the light.",
+    "description": "When you attack an object with this magic sword and hit, maximize your weapon damage dice against the target.\n\nWhen you attack a creature with this weapon and roll a 20 on the attack roll, that target takes an extra 14 slashing damage. Then roll another `roll:d20`. If you roll a 20, you lop off one of the target's limbs, with the effect of such loss determined by the DM. If the creature has no limb to sever, you lop off a portion of its body instead.\n\nIn addition, you can speak the sword's command to cause the blade to shed bright light in a 10-foot radius and dim light for an additional 10 feet. Speaking the command word again or sheathing the sword puts out the light.",
     "weight": 3
   },
   {
@@ -3504,7 +3504,7 @@
     "attunement": {
       "required": true
     },
-    "description": "When you attack an object with this magic sword and hit, maximize your weapon damage dice against the target.\n\nWhen you attack a creature with this weapon and roll a 20 on the attack roll, that target takes an extra 14 slashing damage. Then roll another {@dice d20}. If you roll a 20, you lop off one of the target's limbs, with the effect of such loss determined by the DM. If the creature has no limb to sever, you lop off a portion of its body instead.\n\n{@note Note: According to the SRD, it is an extra {@damage 4d6} slashing damage, although {@link this is incorrect|https://rpg.stackexchange.com/a/174522/53884}}.\n\nIn addition, you can speak the sword's command to cause the blade to shed bright light in a 10-foot radius and dim light for an additional 10 feet. Speaking the command word again or sheathing the sword puts out the light.",
+    "description": "When you attack an object with this magic sword and hit, maximize your weapon damage dice against the target.\n\nWhen you attack a creature with this weapon and roll a 20 on the attack roll, that target takes an extra 14 slashing damage. Then roll another `roll:d20`. If you roll a 20, you lop off one of the target's limbs, with the effect of such loss determined by the DM. If the creature has no limb to sever, you lop off a portion of its body instead.\n\nIn addition, you can speak the sword's command to cause the blade to shed bright light in a 10-foot radius and dim light for an additional 10 feet. Speaking the command word again or sheathing the sword puts out the light.",
     "weight": 3
   },
   {
@@ -3519,7 +3519,7 @@
     "attunement": {
       "required": true
     },
-    "description": "Hit points lost to this weapon's damage can be regained only through a short or long rest, rather than by regeneration, magic, or any other means.\n\nOnce per turn, when you hit a creature with an attack using this magic weapon, you can wound the target. At the start of each of the wounded creature's turns, it takes {@damage 1d4} necrotic damage for each time you've wounded it, and it can then make a {@dc 15} Constitution saving throw, ending the effect of all such wounds on itself on a success. Alternatively, the wounded creature, or a creature within 5 feet of it, can use an action to make a {@dc 15} Wisdom ({@skill Medicine}) check, ending the effect of such wounds on it on a success.",
+    "description": "Hit points lost to this weapon's damage can be regained only through a short or long rest, rather than by regeneration, magic, or any other means.\n\nOnce per turn, when you hit a creature with an attack using this magic weapon, you can wound the target. At the start of each of the wounded creature's turns, it takes `damage:1d4` necrotic damage for each time you've wounded it, and it can then make a `dc:15` Constitution saving throw, ending the effect of all such wounds on itself on a success. Alternatively, the wounded creature, or a creature within 5 feet of it, can use an action to make a `dc:15` Wisdom (Medicine) check, ending the effect of such wounds on it on a success.",
     "weight": 6
   },
   {
@@ -3534,7 +3534,7 @@
     "attunement": {
       "required": true
     },
-    "description": "Hit points lost to this weapon's damage can be regained only through a short or long rest, rather than by regeneration, magic, or any other means.\n\nOnce per turn, when you hit a creature with an attack using this magic weapon, you can wound the target. At the start of each of the wounded creature's turns, it takes {@damage 1d4} necrotic damage for each time you've wounded it, and it can then make a {@dc 15} Constitution saving throw, ending the effect of all such wounds on itself on a success. Alternatively, the wounded creature, or a creature within 5 feet of it, can use an action to make a {@dc 15} Wisdom ({@skill Medicine}) check, ending the effect of such wounds on it on a success.",
+    "description": "Hit points lost to this weapon's damage can be regained only through a short or long rest, rather than by regeneration, magic, or any other means.\n\nOnce per turn, when you hit a creature with an attack using this magic weapon, you can wound the target. At the start of each of the wounded creature's turns, it takes `damage:1d4` necrotic damage for each time you've wounded it, and it can then make a `dc:15` Constitution saving throw, ending the effect of all such wounds on itself on a success. Alternatively, the wounded creature, or a creature within 5 feet of it, can use an action to make a `dc:15` Wisdom (Medicine) check, ending the effect of such wounds on it on a success.",
     "weight": 3
   },
   {
@@ -3549,7 +3549,7 @@
     "attunement": {
       "required": true
     },
-    "description": "Hit points lost to this weapon's damage can be regained only through a short or long rest, rather than by regeneration, magic, or any other means.\n\nOnce per turn, when you hit a creature with an attack using this magic weapon, you can wound the target. At the start of each of the wounded creature's turns, it takes {@damage 1d4} necrotic damage for each time you've wounded it, and it can then make a {@dc 15} Constitution saving throw, ending the effect of all such wounds on itself on a success. Alternatively, the wounded creature, or a creature within 5 feet of it, can use an action to make a {@dc 15} Wisdom ({@skill Medicine}) check, ending the effect of such wounds on it on a success.",
+    "description": "Hit points lost to this weapon's damage can be regained only through a short or long rest, rather than by regeneration, magic, or any other means.\n\nOnce per turn, when you hit a creature with an attack using this magic weapon, you can wound the target. At the start of each of the wounded creature's turns, it takes `damage:1d4` necrotic damage for each time you've wounded it, and it can then make a `dc:15` Constitution saving throw, ending the effect of all such wounds on itself on a success. Alternatively, the wounded creature, or a creature within 5 feet of it, can use an action to make a `dc:15` Wisdom (Medicine) check, ending the effect of such wounds on it on a success.",
     "weight": 2
   },
   {
@@ -3564,7 +3564,7 @@
     "attunement": {
       "required": true
     },
-    "description": "Hit points lost to this weapon's damage can be regained only through a short or long rest, rather than by regeneration, magic, or any other means.\n\nOnce per turn, when you hit a creature with an attack using this magic weapon, you can wound the target. At the start of each of the wounded creature's turns, it takes {@damage 1d4} necrotic damage for each time you've wounded it, and it can then make a {@dc 15} Constitution saving throw, ending the effect of all such wounds on itself on a success. Alternatively, the wounded creature, or a creature within 5 feet of it, can use an action to make a {@dc 15} Wisdom ({@skill Medicine}) check, ending the effect of such wounds on it on a success.",
+    "description": "Hit points lost to this weapon's damage can be regained only through a short or long rest, rather than by regeneration, magic, or any other means.\n\nOnce per turn, when you hit a creature with an attack using this magic weapon, you can wound the target. At the start of each of the wounded creature's turns, it takes `damage:1d4` necrotic damage for each time you've wounded it, and it can then make a `dc:15` Constitution saving throw, ending the effect of all such wounds on itself on a success. Alternatively, the wounded creature, or a creature within 5 feet of it, can use an action to make a `dc:15` Wisdom (Medicine) check, ending the effect of such wounds on it on a success.",
     "weight": 3
   },
   {
@@ -3579,7 +3579,7 @@
     "attunement": {
       "required": true
     },
-    "description": "Hit points lost to this weapon's damage can be regained only through a short or long rest, rather than by regeneration, magic, or any other means.\n\nOnce per turn, when you hit a creature with an attack using this magic weapon, you can wound the target. At the start of each of the wounded creature's turns, it takes {@damage 1d4} necrotic damage for each time you've wounded it, and it can then make a {@dc 15} Constitution saving throw, ending the effect of all such wounds on itself on a success. Alternatively, the wounded creature, or a creature within 5 feet of it, can use an action to make a {@dc 15} Wisdom ({@skill Medicine}) check, ending the effect of such wounds on it on a success.",
+    "description": "Hit points lost to this weapon's damage can be regained only through a short or long rest, rather than by regeneration, magic, or any other means.\n\nOnce per turn, when you hit a creature with an attack using this magic weapon, you can wound the target. At the start of each of the wounded creature's turns, it takes `damage:1d4` necrotic damage for each time you've wounded it, and it can then make a `dc:15` Constitution saving throw, ending the effect of all such wounds on itself on a success. Alternatively, the wounded creature, or a creature within 5 feet of it, can use an action to make a `dc:15` Wisdom (Medicine) check, ending the effect of such wounds on it on a success.",
     "weight": 2
   },
   {
@@ -3594,7 +3594,7 @@
     "attunement": {
       "required": false
     },
-    "description": "When you roll a 20 with this magic weapon, the target takes an extra 7 {=dmgType} damage.\n\n{@note Note: According to the SRD, it is an extra {@damage 2d6} {=dmgType} damage, although {@link this is incorrect|https://rpg.stackexchange.com/a/174522/53884}.}",
+    "description": "When you roll a 20 with this magic weapon, the target takes an extra 7 {=dmgType} damage.",
     "weight": 4
   },
   {
@@ -3609,7 +3609,7 @@
     "attunement": {
       "required": false
     },
-    "description": "When you roll a 20 with this magic weapon, the target takes an extra 7 {=dmgType} damage.\n\n{@note Note: According to the SRD, it is an extra {@damage 2d6} {=dmgType} damage, although {@link this is incorrect|https://rpg.stackexchange.com/a/174522/53884}.}",
+    "description": "When you roll a 20 with this magic weapon, the target takes an extra 7 {=dmgType} damage.",
     "weight": 1
   },
   {
@@ -3624,7 +3624,7 @@
     "attunement": {
       "required": false
     },
-    "description": "When you roll a 20 with this magic weapon, the target takes an extra 7 {=dmgType} damage.\n\n{@note Note: According to the SRD, it is an extra {@damage 2d6} {=dmgType} damage, although {@link this is incorrect|https://rpg.stackexchange.com/a/174522/53884}.}",
+    "description": "When you roll a 20 with this magic weapon, the target takes an extra 7 {=dmgType} damage.",
     "weight": 2
   },
   {
@@ -3639,7 +3639,7 @@
     "attunement": {
       "required": false
     },
-    "description": "When you roll a 20 with this magic weapon, the target takes an extra 7 {=dmgType} damage.\n\n{@note Note: According to the SRD, it is an extra {@damage 2d6} {=dmgType} damage, although {@link this is incorrect|https://rpg.stackexchange.com/a/174522/53884}.}",
+    "description": "When you roll a 20 with this magic weapon, the target takes an extra 7 {=dmgType} damage.",
     "weight": 1
   },
   {
@@ -3654,7 +3654,7 @@
     "attunement": {
       "required": false
     },
-    "description": "When you roll a 20 with this magic weapon, the target takes an extra 7 {=dmgType} damage.\n\n{@note Note: According to the SRD, it is an extra {@damage 2d6} {=dmgType} damage, although {@link this is incorrect|https://rpg.stackexchange.com/a/174522/53884}.}",
+    "description": "When you roll a 20 with this magic weapon, the target takes an extra 7 {=dmgType} damage.",
     "weight": 0.25
   },
   {
@@ -3669,7 +3669,7 @@
     "attunement": {
       "required": false
     },
-    "description": "When you roll a 20 with this magic weapon, the target takes an extra 7 {=dmgType} damage.\n\n{@note Note: According to the SRD, it is an extra {@damage 2d6} {=dmgType} damage, although {@link this is incorrect|https://rpg.stackexchange.com/a/174522/53884}.}",
+    "description": "When you roll a 20 with this magic weapon, the target takes an extra 7 {=dmgType} damage.",
     "weight": 2
   },
   {
@@ -3684,7 +3684,7 @@
     "attunement": {
       "required": false
     },
-    "description": "When you roll a 20 with this magic weapon, the target takes an extra 7 {=dmgType} damage.\n\n{@note Note: According to the SRD, it is an extra {@damage 2d6} {=dmgType} damage, although {@link this is incorrect|https://rpg.stackexchange.com/a/174522/53884}.}",
+    "description": "When you roll a 20 with this magic weapon, the target takes an extra 7 {=dmgType} damage.",
     "weight": 6
   },
   {
@@ -3699,7 +3699,7 @@
     "attunement": {
       "required": false
     },
-    "description": "When you roll a 20 with this magic weapon, the target takes an extra 7 {=dmgType} damage.\n\n{@note Note: According to the SRD, it is an extra {@damage 2d6} {=dmgType} damage, although {@link this is incorrect|https://rpg.stackexchange.com/a/174522/53884}.}",
+    "description": "When you roll a 20 with this magic weapon, the target takes an extra 7 {=dmgType} damage.",
     "weight": 7
   },
   {
@@ -3714,7 +3714,7 @@
     "attunement": {
       "required": false
     },
-    "description": "When you roll a 20 with this magic weapon, the target takes an extra 7 {=dmgType} damage.\n\n{@note Note: According to the SRD, it is an extra {@damage 2d6} {=dmgType} damage, although {@link this is incorrect|https://rpg.stackexchange.com/a/174522/53884}.}",
+    "description": "When you roll a 20 with this magic weapon, the target takes an extra 7 {=dmgType} damage.",
     "weight": 10
   },
   {
@@ -3729,7 +3729,7 @@
     "attunement": {
       "required": false
     },
-    "description": "When you roll a 20 with this magic weapon, the target takes an extra 7 {=dmgType} damage.\n\n{@note Note: According to the SRD, it is an extra {@damage 2d6} {=dmgType} damage, although {@link this is incorrect|https://rpg.stackexchange.com/a/174522/53884}.}",
+    "description": "When you roll a 20 with this magic weapon, the target takes an extra 7 {=dmgType} damage.",
     "weight": 6
   },
   {
@@ -3744,7 +3744,7 @@
     "attunement": {
       "required": false
     },
-    "description": "When you roll a 20 with this magic weapon, the target takes an extra 7 {=dmgType} damage.\n\n{@note Note: According to the SRD, it is an extra {@damage 2d6} {=dmgType} damage, although {@link this is incorrect|https://rpg.stackexchange.com/a/174522/53884}.}",
+    "description": "When you roll a 20 with this magic weapon, the target takes an extra 7 {=dmgType} damage.",
     "weight": 6
   },
   {
@@ -3759,7 +3759,7 @@
     "attunement": {
       "required": false
     },
-    "description": "When you roll a 20 with this magic weapon, the target takes an extra 7 {=dmgType} damage.\n\n{@note Note: According to the SRD, it is an extra {@damage 2d6} {=dmgType} damage, although {@link this is incorrect|https://rpg.stackexchange.com/a/174522/53884}.}",
+    "description": "When you roll a 20 with this magic weapon, the target takes an extra 7 {=dmgType} damage.",
     "weight": 3
   },
   {
@@ -3774,7 +3774,7 @@
     "attunement": {
       "required": false
     },
-    "description": "When you roll a 20 with this magic weapon, the target takes an extra 7 {=dmgType} damage.\n\n{@note Note: According to the SRD, it is an extra {@damage 2d6} {=dmgType} damage, although {@link this is incorrect|https://rpg.stackexchange.com/a/174522/53884}.}",
+    "description": "When you roll a 20 with this magic weapon, the target takes an extra 7 {=dmgType} damage.",
     "weight": 2
   },
   {
@@ -3789,7 +3789,7 @@
     "attunement": {
       "required": false
     },
-    "description": "When you roll a 20 with this magic weapon, the target takes an extra 7 {=dmgType} damage.\n\n{@note Note: According to the SRD, it is an extra {@damage 2d6} {=dmgType} damage, although {@link this is incorrect|https://rpg.stackexchange.com/a/174522/53884}.}",
+    "description": "When you roll a 20 with this magic weapon, the target takes an extra 7 {=dmgType} damage.",
     "weight": 18
   },
   {
@@ -3804,7 +3804,7 @@
     "attunement": {
       "required": false
     },
-    "description": "When you roll a 20 with this magic weapon, the target takes an extra 7 {=dmgType} damage.\n\n{@note Note: According to the SRD, it is an extra {@damage 2d6} {=dmgType} damage, although {@link this is incorrect|https://rpg.stackexchange.com/a/174522/53884}.}",
+    "description": "When you roll a 20 with this magic weapon, the target takes an extra 7 {=dmgType} damage.",
     "weight": 2
   },
   {
@@ -3819,7 +3819,7 @@
     "attunement": {
       "required": false
     },
-    "description": "When you roll a 20 with this magic weapon, the target takes an extra 7 {=dmgType} damage.\n\n{@note Note: According to the SRD, it is an extra {@damage 2d6} {=dmgType} damage, although {@link this is incorrect|https://rpg.stackexchange.com/a/174522/53884}.}",
+    "description": "When you roll a 20 with this magic weapon, the target takes an extra 7 {=dmgType} damage.",
     "weight": 6
   },
   {
@@ -3834,7 +3834,7 @@
     "attunement": {
       "required": false
     },
-    "description": "When you roll a 20 with this magic weapon, the target takes an extra 7 {=dmgType} damage.\n\n{@note Note: According to the SRD, it is an extra {@damage 2d6} {=dmgType} damage, although {@link this is incorrect|https://rpg.stackexchange.com/a/174522/53884}.}",
+    "description": "When you roll a 20 with this magic weapon, the target takes an extra 7 {=dmgType} damage.",
     "weight": 5
   },
   {
@@ -3849,7 +3849,7 @@
     "attunement": {
       "required": false
     },
-    "description": "When you roll a 20 with this magic weapon, the target takes an extra 7 {=dmgType} damage.\n\n{@note Note: According to the SRD, it is an extra {@damage 2d6} {=dmgType} damage, although {@link this is incorrect|https://rpg.stackexchange.com/a/174522/53884}.}",
+    "description": "When you roll a 20 with this magic weapon, the target takes an extra 7 {=dmgType} damage.",
     "weight": 2
   },
   {
@@ -3864,7 +3864,7 @@
     "attunement": {
       "required": false
     },
-    "description": "When you roll a 20 with this magic weapon, the target takes an extra 7 {=dmgType} damage.\n\n{@note Note: According to the SRD, it is an extra {@damage 2d6} {=dmgType} damage, although {@link this is incorrect|https://rpg.stackexchange.com/a/174522/53884}.}",
+    "description": "When you roll a 20 with this magic weapon, the target takes an extra 7 {=dmgType} damage.",
     "weight": 2
   },
   {
@@ -3879,7 +3879,7 @@
     "attunement": {
       "required": false
     },
-    "description": "When you roll a 20 with this magic weapon, the target takes an extra 7 {=dmgType} damage.\n\n{@note Note: According to the SRD, it is an extra {@damage 2d6} {=dmgType} damage, although {@link this is incorrect|https://rpg.stackexchange.com/a/174522/53884}.}",
+    "description": "When you roll a 20 with this magic weapon, the target takes an extra 7 {=dmgType} damage.",
     "weight": 3
   },
   {
@@ -3894,7 +3894,7 @@
     "attunement": {
       "required": false
     },
-    "description": "When you roll a 20 with this magic weapon, the target takes an extra 7 {=dmgType} damage.\n\n{@note Note: According to the SRD, it is an extra {@damage 2d6} {=dmgType} damage, although {@link this is incorrect|https://rpg.stackexchange.com/a/174522/53884}.}",
+    "description": "When you roll a 20 with this magic weapon, the target takes an extra 7 {=dmgType} damage.",
     "weight": 4
   },
   {
@@ -3909,7 +3909,7 @@
     "attunement": {
       "required": false
     },
-    "description": "When you roll a 20 with this magic weapon, the target takes an extra 7 {=dmgType} damage.\n\n{@note Note: According to the SRD, it is an extra {@damage 2d6} {=dmgType} damage, although {@link this is incorrect|https://rpg.stackexchange.com/a/174522/53884}.}",
+    "description": "When you roll a 20 with this magic weapon, the target takes an extra 7 {=dmgType} damage.",
     "weight": 10
   },
   {
@@ -3924,7 +3924,7 @@
     "attunement": {
       "required": false
     },
-    "description": "When you roll a 20 with this magic weapon, the target takes an extra 7 {=dmgType} damage.\n\n{@note Note: According to the SRD, it is an extra {@damage 2d6} {=dmgType} damage, although {@link this is incorrect|https://rpg.stackexchange.com/a/174522/53884}.}",
+    "description": "When you roll a 20 with this magic weapon, the target takes an extra 7 {=dmgType} damage.",
     "weight": 4
   },
   {
@@ -3939,7 +3939,7 @@
     "attunement": {
       "required": false
     },
-    "description": "When you roll a 20 with this magic weapon, the target takes an extra 7 {=dmgType} damage.\n\n{@note Note: According to the SRD, it is an extra {@damage 2d6} {=dmgType} damage, although {@link this is incorrect|https://rpg.stackexchange.com/a/174522/53884}.}",
+    "description": "When you roll a 20 with this magic weapon, the target takes an extra 7 {=dmgType} damage.",
     "weight": 3
   },
   {
@@ -3954,7 +3954,7 @@
     "attunement": {
       "required": false
     },
-    "description": "When you roll a 20 with this magic weapon, the target takes an extra 7 {=dmgType} damage.\n\n{@note Note: According to the SRD, it is an extra {@damage 2d6} {=dmgType} damage, although {@link this is incorrect|https://rpg.stackexchange.com/a/174522/53884}.}",
+    "description": "When you roll a 20 with this magic weapon, the target takes an extra 7 {=dmgType} damage.",
     "weight": 18
   },
   {
@@ -3969,7 +3969,7 @@
     "attunement": {
       "required": false
     },
-    "description": "When you roll a 20 with this magic weapon, the target takes an extra 7 {=dmgType} damage.\n\n{@note Note: According to the SRD, it is an extra {@damage 2d6} {=dmgType} damage, although {@link this is incorrect|https://rpg.stackexchange.com/a/174522/53884}.}",
+    "description": "When you roll a 20 with this magic weapon, the target takes an extra 7 {=dmgType} damage.",
     "weight": 4
   },
   {
@@ -3984,7 +3984,7 @@
     "attunement": {
       "required": false
     },
-    "description": "When you roll a 20 with this magic weapon, the target takes an extra 7 {=dmgType} damage.\n\n{@note Note: According to the SRD, it is an extra {@damage 2d6} {=dmgType} damage, although {@link this is incorrect|https://rpg.stackexchange.com/a/174522/53884}.}",
+    "description": "When you roll a 20 with this magic weapon, the target takes an extra 7 {=dmgType} damage.",
     "weight": 2
   },
   {
@@ -3999,7 +3999,7 @@
     "attunement": {
       "required": false
     },
-    "description": "When you roll a 20 with this magic weapon, the target takes an extra 7 {=dmgType} damage.\n\n{@note Note: According to the SRD, it is an extra {@damage 2d6} {=dmgType} damage, although {@link this is incorrect|https://rpg.stackexchange.com/a/174522/53884}.}",
+    "description": "When you roll a 20 with this magic weapon, the target takes an extra 7 {=dmgType} damage.",
     "weight": 3
   },
   {
@@ -4014,7 +4014,7 @@
     "attunement": {
       "required": false
     },
-    "description": "When you roll a 20 with this magic weapon, the target takes an extra 7 {=dmgType} damage.\n\n{@note Note: According to the SRD, it is an extra {@damage 2d6} {=dmgType} damage, although {@link this is incorrect|https://rpg.stackexchange.com/a/174522/53884}.}",
+    "description": "When you roll a 20 with this magic weapon, the target takes an extra 7 {=dmgType} damage.",
     "weight": 2
   },
   {
@@ -4029,7 +4029,7 @@
     "attunement": {
       "required": false
     },
-    "description": "When you roll a 20 with this magic weapon, the target takes an extra 7 {=dmgType} damage.\n\n{@note Note: According to the SRD, it is an extra {@damage 2d6} {=dmgType} damage, although {@link this is incorrect|https://rpg.stackexchange.com/a/174522/53884}.}",
+    "description": "When you roll a 20 with this magic weapon, the target takes an extra 7 {=dmgType} damage.",
     "weight": 2
   },
   {
@@ -4044,7 +4044,7 @@
     "attunement": {
       "required": false
     },
-    "description": "When you roll a 20 with this magic weapon, the target takes an extra 7 {=dmgType} damage.\n\n{@note Note: According to the SRD, it is an extra {@damage 2d6} {=dmgType} damage, although {@link this is incorrect|https://rpg.stackexchange.com/a/174522/53884}.}",
+    "description": "When you roll a 20 with this magic weapon, the target takes an extra 7 {=dmgType} damage.",
     "weight": 2
   },
   {
@@ -4059,7 +4059,7 @@
     "attunement": {
       "required": false
     },
-    "description": "When you roll a 20 with this magic weapon, the target takes an extra 7 {=dmgType} damage.\n\n{@note Note: According to the SRD, it is an extra {@damage 2d6} {=dmgType} damage, although {@link this is incorrect|https://rpg.stackexchange.com/a/174522/53884}.}"
+    "description": "When you roll a 20 with this magic weapon, the target takes an extra 7 {=dmgType} damage."
   },
   {
     "slug": "srd-5e_item_vicious-spear",
@@ -4073,7 +4073,7 @@
     "attunement": {
       "required": false
     },
-    "description": "When you roll a 20 with this magic weapon, the target takes an extra 7 {=dmgType} damage.\n\n{@note Note: According to the SRD, it is an extra {@damage 2d6} {=dmgType} damage, although {@link this is incorrect|https://rpg.stackexchange.com/a/174522/53884}.}",
+    "description": "When you roll a 20 with this magic weapon, the target takes an extra 7 {=dmgType} damage.",
     "weight": 3
   },
   {
@@ -4088,7 +4088,7 @@
     "attunement": {
       "required": false
     },
-    "description": "When you roll a 20 with this magic weapon, the target takes an extra 7 {=dmgType} damage.\n\n{@note Note: According to the SRD, it is an extra {@damage 2d6} {=dmgType} damage, although {@link this is incorrect|https://rpg.stackexchange.com/a/174522/53884}.}",
+    "description": "When you roll a 20 with this magic weapon, the target takes an extra 7 {=dmgType} damage.",
     "weight": 4
   },
   {
@@ -4103,7 +4103,7 @@
     "attunement": {
       "required": false
     },
-    "description": "When you roll a 20 with this magic weapon, the target takes an extra 7 {=dmgType} damage.\n\n{@note Note: According to the SRD, it is an extra {@damage 2d6} {=dmgType} damage, although {@link this is incorrect|https://rpg.stackexchange.com/a/174522/53884}.}",
+    "description": "When you roll a 20 with this magic weapon, the target takes an extra 7 {=dmgType} damage.",
     "weight": 2
   },
   {
@@ -4118,7 +4118,7 @@
     "attunement": {
       "required": false
     },
-    "description": "When you roll a 20 with this magic weapon, the target takes an extra 7 {=dmgType} damage.\n\n{@note Note: According to the SRD, it is an extra {@damage 2d6} {=dmgType} damage, although {@link this is incorrect|https://rpg.stackexchange.com/a/174522/53884}.}",
+    "description": "When you roll a 20 with this magic weapon, the target takes an extra 7 {=dmgType} damage.",
     "weight": 2
   },
   {
@@ -4133,7 +4133,7 @@
     "attunement": {
       "required": false
     },
-    "description": "When you roll a 20 with this magic weapon, the target takes an extra 7 {=dmgType} damage.\n\n{@note Note: According to the SRD, it is an extra {@damage 2d6} {=dmgType} damage, although {@link this is incorrect|https://rpg.stackexchange.com/a/174522/53884}.}",
+    "description": "When you roll a 20 with this magic weapon, the target takes an extra 7 {=dmgType} damage.",
     "weight": 3
   },
   {
@@ -4152,7 +4152,7 @@
     "attunement": {
       "required": true
     },
-    "description": "You gain a +3 bonus to attack and damage rolls made with this magic weapon. In addition, the weapon ignores resistance to slashing damage.\n\nWhen you attack a creature that has at least one head with this weapon and roll a 20 on the attack roll, you cut off one of the creature's heads. The creature dies if it can't survive without the lost head. A creature is immune to this effect if it is immune to slashing damage, doesn't have or need a head, has legendary actions, or the DM decides that the creature is too big for its head to be cut off with this weapon. Such a creature instead takes an extra {@damage 6d8} slashing damage from the hit.",
+    "description": "You gain a +3 bonus to attack and damage rolls made with this magic weapon. In addition, the weapon ignores resistance to slashing damage.\n\nWhen you attack a creature that has at least one head with this weapon and roll a 20 on the attack roll, you cut off one of the creature's heads. The creature dies if it can't survive without the lost head. A creature is immune to this effect if it is immune to slashing damage, doesn't have or need a head, has legendary actions, or the DM decides that the creature is too big for its head to be cut off with this weapon. Such a creature instead takes an extra `damage:6d8` slashing damage from the hit.",
     "weight": 6
   },
   {
@@ -4171,7 +4171,7 @@
     "attunement": {
       "required": true
     },
-    "description": "You gain a +3 bonus to attack and damage rolls made with this magic weapon. In addition, the weapon ignores resistance to slashing damage.\n\nWhen you attack a creature that has at least one head with this weapon and roll a 20 on the attack roll, you cut off one of the creature's heads. The creature dies if it can't survive without the lost head. A creature is immune to this effect if it is immune to slashing damage, doesn't have or need a head, has legendary actions, or the DM decides that the creature is too big for its head to be cut off with this weapon. Such a creature instead takes an extra {@damage 6d8} slashing damage from the hit.",
+    "description": "You gain a +3 bonus to attack and damage rolls made with this magic weapon. In addition, the weapon ignores resistance to slashing damage.\n\nWhen you attack a creature that has at least one head with this weapon and roll a 20 on the attack roll, you cut off one of the creature's heads. The creature dies if it can't survive without the lost head. A creature is immune to this effect if it is immune to slashing damage, doesn't have or need a head, has legendary actions, or the DM decides that the creature is too big for its head to be cut off with this weapon. Such a creature instead takes an extra `damage:6d8` slashing damage from the hit.",
     "weight": 3
   },
   {
@@ -4190,7 +4190,7 @@
     "attunement": {
       "required": true
     },
-    "description": "You gain a +3 bonus to attack and damage rolls made with this magic weapon. In addition, the weapon ignores resistance to slashing damage.\n\nWhen you attack a creature that has at least one head with this weapon and roll a 20 on the attack roll, you cut off one of the creature's heads. The creature dies if it can't survive without the lost head. A creature is immune to this effect if it is immune to slashing damage, doesn't have or need a head, has legendary actions, or the DM decides that the creature is too big for its head to be cut off with this weapon. Such a creature instead takes an extra {@damage 6d8} slashing damage from the hit.",
+    "description": "You gain a +3 bonus to attack and damage rolls made with this magic weapon. In addition, the weapon ignores resistance to slashing damage.\n\nWhen you attack a creature that has at least one head with this weapon and roll a 20 on the attack roll, you cut off one of the creature's heads. The creature dies if it can't survive without the lost head. A creature is immune to this effect if it is immune to slashing damage, doesn't have or need a head, has legendary actions, or the DM decides that the creature is too big for its head to be cut off with this weapon. Such a creature instead takes an extra `damage:6d8` slashing damage from the hit.",
     "weight": 3
   }
 ]

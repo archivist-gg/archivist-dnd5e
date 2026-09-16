@@ -342,7 +342,7 @@
     "additional_spells": {
       "known": {
         "1": [
-          "[[SRD 2024/Spells/Druidcraft|xphb|druidcraft|xphb]]"
+          "[[SRD 2024/Spells/Druidcraft|druidcraft]]"
         ]
       }
     }
@@ -785,8 +785,8 @@
     "additional_spells": {
       "known": {
         "1": [
-          "[[SRD 2024/Spells/Thaumaturgy|xphb|thaumaturgy|xphb]]",
-          "[[SRD 2024/Spells/Fire Bolt|xphb|fire bolt|xphb]]"
+          "[[SRD 2024/Spells/Thaumaturgy|thaumaturgy]]",
+          "[[SRD 2024/Spells/Fire Bolt|fire bolt]]"
         ]
       }
     }

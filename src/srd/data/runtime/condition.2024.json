@@ -25,7 +25,7 @@
     "name": "Exhaustion",
     "edition": "2024",
     "source": "SRD 5.2",
-    "description": "While you have the Exhaustion condition, you experience the following effects.\n\n**Exhaustion Levels.** This condition is cumulative. Each time you receive it, you gain 1 Exhaustion level. You die if your Exhaustion level is 6.\n\n**D20 Tests Affected.** When you make a D20 Test the roll is reduced by 2 times your Exhaustion level.\n\n**Speed Reduced.** Your Speed is reduced by a number of feet equal to 5 times your Exhaustion level.\n\n**Removing Exhaustion Levels.** Finishing a Long Rest removes 1 of your Exhaustion levels. When your Exhaustion level reaches 0, the condition ends."
+    "description": "While you have the Exhaustion condition, you experience the following effects.\n\n**Exhaustion Levels.** This condition is cumulative. Each time you receive it, you gain 1 Exhaustion level. You die if your Exhaustion level is 6.\n\n**D20 Tests Affected.** When you make a D20 Test, the roll is reduced by 2 times your Exhaustion level.\n\n**Speed Reduced.** Your Speed is reduced by a number of feet equal to 5 times your Exhaustion level.\n\n**Removing Exhaustion Levels.** Finishing a Long Rest removes 1 of your Exhaustion levels. When your Exhaustion level reaches 0, the condition ends."
   },
   {
     "slug": "srd-2024_condition_frightened",
@@ -46,7 +46,7 @@
     "name": "Incapacitated",
     "edition": "2024",
     "source": "SRD 5.2",
-    "description": "While you have the Incapacitated condition, you experience the following effects.\n\n**Inactive.** You can't take any Action, Bonus Action, or Reaction.\n\n**No Concentration.** Your *Concentration|XPHB* is broken.\n\n**Speechless.** You can't speak.\n\n**Surprised.** If you're Incapacitated when you roll Initiative, you have Disadvantage on the roll."
+    "description": "While you have the Incapacitated condition, you experience the following effects.\n\n**Inactive.** You can't take any Action, Bonus Action, or Reaction.\n\n**No Concentration.** Your *Concentration* is broken.\n\n**Speechless.** You can't speak.\n\n**Surprised.** If you're Incapacitated when you roll Initiative, you have Disadvantage on the roll."
   },
   {
     "slug": "srd-2024_condition_invisible",

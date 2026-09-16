@@ -50,16 +50,136 @@ export interface ExpandedItem {
   weight?: number;
 }
 
+/**
+ * One shared prose template from the structured-rules dump's `itemEntry` table, keyed by name
+ * and source. A variant whose `inherits.entries` is a `{#itemEntry Name|SOURCE}` pointer carries
+ * NO prose of its own: the pointer IS the whole description, and upstream replaces it with this
+ * template's `entriesTemplate` filled from the referencing variant's own fields.
+ */
+export interface ItemEntryTemplate {
+  name: string;
+  source: string;
+  entriesTemplate: unknown[];
+}
+
+/** A pointer with no `|SOURCE` resolves against the 2014 source, which is where the bare form lives. */
+const DEFAULT_ITEM_ENTRY_SOURCE = "DMG";
+
+const STANDALONE_POINTER = /^\{#itemEntry\s+([^{}]*)\}$/;
+const MUSTACHE_SLOT = /\{\{([^{}]*)\}\}/g;
+
+/**
+ * An editorial aside written by the structured-rules dump's own contributors, not SRD text.
+ * Upstream writes them as a standalone `{@note …}` element of `entries`, and every one of the
+ * shipped occurrences has that shape. It is dropped HERE, as a whole element, rather than in the
+ * emit sanitiser, because the markdown writer's cross-reference pass mangles the aside's nested
+ * `{@link …|url}` into a half-literal that no later pass can key on: leave it to the backstop
+ * and 37 of the 45 shipped copies survive.
+ */
+function isEditorialNote(entry: unknown): boolean {
+  return typeof entry === "string" && /^\{@note\b/.test(entry.trim());
+}
+
+/** Upstream's `getFullImmRes` join: one verbatim, two with "and", three or more with an Oxford comma. */
+function formatImmResList(values: readonly string[]): string {
+  if (values.length === 1) return values[0];
+  const separator = values.length > 2 ? ", " : " ";
+  return `${values.slice(0, -1).join(separator)}${separator}and ${values[values.length - 1]}`;
+}
+
+function resistWords(inherits: Record<string, unknown>): string[] | null {
+  const value = inherits.resist;
+  if (!Array.isArray(value) || value.length === 0) return null;
+  if (!value.every((v): v is string => typeof v === "string")) return null;
+  return value;
+}
+
+/**
+ * Fill the four mustache slots the shared templates use from the REFERENCING variant's own
+ * `inherits`. Returns null when any slot cannot be filled, so the caller can leave the pointer
+ * standing and warn rather than emit a half-written sentence.
+ */
+function fillTemplateSlots(text: string, inherits: Record<string, unknown>): string | null {
+  let failed = false;
+  const filled = text.replace(MUSTACHE_SLOT, (_m, body: string) => {
+    const key = body.trim();
+    if (key === "item.resist" || key === "getFullImmRes item.resist") {
+      const words = resistWords(inherits);
+      if (!words) { failed = true; return ""; }
+      return key === "item.resist" ? words[0] : formatImmResList(words);
+    }
+    if (key === "item.detail1" || key === "item.detail2") {
+      const detail = inherits[key.slice("item.".length)];
+      if (typeof detail !== "string" || detail === "") { failed = true; return ""; }
+      return detail;
+    }
+    failed = true;
+    return "";
+  });
+  return failed ? null : filled;
+}
+
+/**
+ * Replace each standalone `{#itemEntry …}` pointer in `entries` with the referenced template's
+ * own text, filled from `inherits`. Never invents prose: a pointer that cannot be resolved is
+ * left exactly as it is and reported, and the emit sanitiser then strips it rather than shipping
+ * a template directive as a description.
+ */
+function resolveItemEntryPointers(
+  entries: unknown[],
+  inherits: Record<string, unknown>,
+  templates: readonly ItemEntryTemplate[],
+  where: string,
+): unknown[] {
+  if (!entries.some(e => typeof e === "string" && e.includes("{#itemEntry"))) return entries;
+  const out: unknown[] = [];
+  for (const entry of entries) {
+    const match = typeof entry === "string" ? STANDALONE_POINTER.exec(entry.trim()) : null;
+    if (!match) {
+      out.push(entry);
+      continue;
+    }
+    const parts = match[1].split("|");
+    const name = parts[0].trim();
+    const source = parts.length >= 2 && parts[1].trim() !== "" ? parts[1].trim() : DEFAULT_ITEM_ENTRY_SOURCE;
+    const template = templates.find(
+      t => t.name.toLowerCase() === name.toLowerCase() && t.source.toLowerCase() === source.toLowerCase(),
+    );
+    const nodes = template?.entriesTemplate;
+    if (!Array.isArray(nodes) || nodes.length === 0) {
+      console.warn(`[expand-variants] ${where}: no itemEntry template "${name}|${source}"; pointer left unresolved`);
+      out.push(entry);
+      continue;
+    }
+    let ok = true;
+    const filled: unknown[] = [];
+    for (const node of nodes) {
+      if (typeof node !== "string") { filled.push(node); continue; }
+      const text = fillTemplateSlots(node, inherits);
+      if (text === null) { ok = false; break; }
+      filled.push(text);
+    }
+    if (!ok) {
+      console.warn(`[expand-variants] ${where}: itemEntry template "${name}|${source}" has a slot this variant cannot fill; pointer left unresolved`);
+      out.push(entry);
+      continue;
+    }
+    out.push(...filled);
+  }
+  return out;
+}
+
 export function expandVariants(
   baseItems: BaseItem[],
   variants: VariantRule[],
   edition: "2014" | "2024",
+  itemEntryTemplates: readonly ItemEntryTemplate[] = [],
 ): ExpandedItem[] {
   const out: ExpandedItem[] = [];
   for (const variant of variants) {
     const matchingBases = pickMatchingBases(baseItems, variant);
     for (const base of matchingBases) {
-      out.push(applyVariantToBase(variant, base, edition));
+      out.push(applyVariantToBase(variant, base, edition, itemEntryTemplates));
     }
   }
   return out;
@@ -176,7 +296,12 @@ function expandedName(variant: VariantRule, base: BaseItem): string {
   return `${base.name}, ${variant.name}`;
 }
 
-function applyVariantToBase(variant: VariantRule, base: BaseItem, edition: "2014" | "2024"): ExpandedItem {
+function applyVariantToBase(
+  variant: VariantRule,
+  base: BaseItem,
+  edition: "2014" | "2024",
+  itemEntryTemplates: readonly ItemEntryTemplate[] = [],
+): ExpandedItem {
   const inherits = variant.inherits ?? {};
   const compendium = compendiumLabel(edition);
   const subfolder = baseSubfolder(base);
@@ -223,7 +348,7 @@ function applyVariantToBase(variant: VariantRule, base: BaseItem, edition: "2014
     base_item: `[[${compendium}/${subfolder}/${base.name}]]`,
     ...(bonuses ? { bonuses } : {}),
     attunement: { required: reqAttune },
-    description: buildDescription(variant, base, inherits),
+    description: buildDescription(variant, base, inherits, itemEntryTemplates),
     ...(weight !== undefined ? { weight } : {}),
   };
 }
@@ -244,10 +369,18 @@ function substituteTemplateVars(text: string, inherits: Record<string, unknown>)
   });
 }
 
-function buildDescription(variant: VariantRule, base: BaseItem, inherits: Record<string, unknown>): string {
+function buildDescription(
+  variant: VariantRule,
+  base: BaseItem,
+  inherits: Record<string, unknown>,
+  itemEntryTemplates: readonly ItemEntryTemplate[] = [],
+): string {
   const entries = inherits.entries;
   if (Array.isArray(entries)) {
-    const text = (entries as unknown[]).filter((e): e is string => typeof e === "string").join("\n\n");
+    const where = `${variant.name} (${base.name})`;
+    const resolved = resolveItemEntryPointers(entries as unknown[], inherits, itemEntryTemplates, where)
+      .filter(e => !isEditorialNote(e));
+    const text = resolved.filter((e): e is string => typeof e === "string").join("\n\n");
     if (text.length > 0) return substituteTemplateVars(text, inherits);
   }
   const bonusStr = (inherits.bonusWeapon ?? inherits.bonusAc ?? "") as string;

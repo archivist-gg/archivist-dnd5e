@@ -671,7 +671,7 @@
       {
         "name": "Thunderclap",
         "entries": [
-          "Constitution Saving Throw: `dc:17`, each creature in a 20-foot-radius Sphere [Area of Effect]|XPHB|Sphere centered on a point the dragon can see within 90 feet. Failure: `dmg:3d6` Thunder damage, and the target has the Deafened condition until the end of its next turn."
+          "Constitution Saving Throw: `dc:17`, each creature in a 20-foot-radius Sphere centered on a point the dragon can see within 90 feet. Failure: `dmg:3d6` Thunder damage, and the target has the Deafened condition until the end of its next turn."
         ]
       }
     ],
@@ -1097,7 +1097,7 @@
       {
         "name": "Noxious Miasma",
         "entries": [
-          "Constitution Saving Throw: `dc:17`, each creature in a 20-foot-radius Sphere [Area of Effect]|XPHB|Sphere centered on a point the dragon can see within 90 feet. Failure: `dmg:2d6` Poison damage, and the target takes a -2 penalty to AC until the end of its next turn. Failure or Success: The dragon can't take this action again until the start of its next turn."
+          "Constitution Saving Throw: `dc:17`, each creature in a 20-foot-radius Sphere centered on a point the dragon can see within 90 feet. Failure: `dmg:2d6` Poison damage, and the target takes a -2 penalty to AC until the end of its next turn. Failure or Success: The dragon can't take this action again until the start of its next turn."
         ]
       },
       {
@@ -1502,7 +1502,7 @@
       {
         "name": "Freezing Burst",
         "entries": [
-          "Constitution Saving Throw: `dc:14`, each creature in a 30-foot-radius Sphere [Area of Effect]|XPHB|Sphere centered on a point the dragon can see within 120 feet. Failure: `dmg:2d6` Cold damage, and the target's Speed is 0 until the end of the target's next turn. Failure or Success: The dragon can't take this action again until the start of its next turn."
+          "Constitution Saving Throw: `dc:14`, each creature in a 30-foot-radius Sphere centered on a point the dragon can see within 120 feet. Failure: `dmg:2d6` Cold damage, and the target's Speed is 0 until the end of the target's next turn. Failure or Success: The dragon can't take this action again until the start of its next turn."
         ]
       },
       {
@@ -2265,7 +2265,7 @@
       {
         "name": "Thunderclap",
         "entries": [
-          "Constitution Saving Throw: `dc:22`, each creature in a 20-foot-radius Sphere [Area of Effect]|XPHB|Sphere centered on a point the dragon can see within 120 feet. Failure: `dmg:3d8` Thunder damage, and the target has the Deafened condition until the end of its next turn."
+          "Constitution Saving Throw: `dc:22`, each creature in a 20-foot-radius Sphere centered on a point the dragon can see within 120 feet. Failure: `dmg:3d8` Thunder damage, and the target has the Deafened condition until the end of its next turn."
         ]
       }
     ],
@@ -2691,7 +2691,7 @@
       {
         "name": "Noxious Miasma",
         "entries": [
-          "Constitution Saving Throw: `dc:21`, each creature in a 30-foot-radius Sphere [Area of Effect]|XPHB|Sphere centered on a point the dragon can see within 90 feet. Failure: `dmg:5d6` Poison damage, and the target takes a -2 penalty to AC until the end of its next turn. Failure or Success: The dragon can't take this action again until the start of its next turn."
+          "Constitution Saving Throw: `dc:21`, each creature in a 30-foot-radius Sphere centered on a point the dragon can see within 90 feet. Failure: `dmg:5d6` Poison damage, and the target takes a -2 penalty to AC until the end of its next turn. Failure or Success: The dragon can't take this action again until the start of its next turn."
         ]
       },
       {
@@ -3096,7 +3096,7 @@
       {
         "name": "Freezing Burst",
         "entries": [
-          "Constitution Saving Throw: `dc:20`, each creature in a 30-foot-radius Sphere [Area of Effect]|XPHB|Sphere centered on a point the dragon can see within 120 feet. Failure: `dmg:4d6` Cold damage, and the target's Speed is 0 until the end of the target's next turn. Failure or Success: The dragon can't take this action again until the start of its next turn."
+          "Constitution Saving Throw: `dc:20`, each creature in a 30-foot-radius Sphere centered on a point the dragon can see within 120 feet. Failure: `dmg:4d6` Cold damage, and the target's Speed is 0 until the end of the target's next turn. Failure or Success: The dragon can't take this action again until the start of its next turn."
         ]
       },
       {
@@ -5102,7 +5102,7 @@
       {
         "name": "Swallow",
         "entries": [
-          "Dexterity Saving Throw: `dc:18`, one Large or smaller creature Grappled by the behir (the behir can have only one creature swallowed at a time). Failure: The behir swallows the target, which is no longer Grappled. While swallowed, a creature has the Blinded and Restrained conditions, has Cover|XPHB|Total Cover against attacks and other effects outside the behir, and takes `dmg:6d6` Acid damage at the start of each of the behir's turns. If the behir takes 30 damage or more on a single turn from the swallowed creature, the behir must succeed on a `dc:14` Constitution saving throw at the end of that turn or regurgitate the creature, which falls in a space within 10 feet of the behir and has the Prone condition. If the behir dies, a swallowed creature is no longer Restrained and can escape from the corpse by using 15 feet of movement, exiting Prone."
+          "Dexterity Saving Throw: `dc:18`, one Large or smaller creature Grappled by the behir (the behir can have only one creature swallowed at a time). Failure: The behir swallows the target, which is no longer Grappled. While swallowed, a creature has the Blinded and Restrained conditions, has Total Cover against attacks and other effects outside the behir, and takes `dmg:6d6` Acid damage at the start of each of the behir's turns. If the behir takes 30 damage or more on a single turn from the swallowed creature, the behir must succeed on a `dc:14` Constitution saving throw at the end of that turn or regurgitate the creature, which falls in a space within 10 feet of the behir and has the Prone condition. If the behir dies, a swallowed creature is no longer Restrained and can escape from the corpse by using 15 feet of movement, exiting Prone."
         ]
       },
       {
@@ -8650,7 +8650,7 @@
       {
         "name": "Create Whirlwind",
         "entries": [
-          "The djinni conjures a whirlwind at a point it can see within 120 feet. The whirlwind fills a 20-foot-radius, 60-foot-high Cylinder [Area of Effect]|XPHB|Cylinder centered on that point. The whirlwind lasts until the djinni's Concentration on it ends. The djinni can move the whirlwind up to 20 feet at the start of each of its turns. Whenever the whirlwind enters a creature's space or a creature enters the whirlwind, that creature is subjected to the following effect. Strength Saving Throw: `dc:STR` (a creature makes this save only once per turn, and the djinni is unaffected). Failure: While in the whirlwind, the target has the Restrained condition and moves with the whirlwind. At the start of each of its turns, the Restrained target takes `dmg:6d6` Thunder damage. At the end of each of its turns, the target repeats the save, ending the effect on itself on a success."
+          "The djinni conjures a whirlwind at a point it can see within 120 feet. The whirlwind fills a 20-foot-radius, 60-foot-high Cylinder centered on that point. The whirlwind lasts until the djinni's Concentration on it ends. The djinni can move the whirlwind up to 20 feet at the start of each of its turns. Whenever the whirlwind enters a creature's space or a creature enters the whirlwind, that creature is subjected to the following effect. Strength Saving Throw: `dc:STR` (a creature makes this save only once per turn, and the djinni is unaffected). Failure: While in the whirlwind, the target has the Restrained condition and moves with the whirlwind. At the start of each of its turns, the Restrained target takes `dmg:6d6` Thunder damage. At the end of each of its turns, the target repeats the save, ending the effect on itself on a success."
         ]
       },
       {
@@ -10035,7 +10035,7 @@
       {
         "name": "Magic Rope",
         "entries": [
-          "The erinyes has a magic rope. While bearing it, the erinyes can use the Entangling Rope action. The rope has AC 20, HP 90, and Immunity to Poison and Psychic damage. The rope turns to dust if reduced to 0 Hit Points, if it is 5+ feet away from the erinyes for 1 hour or more, or if the erinyes dies. If the rope is damaged or destroyed, the erinyes can fully restore it when finishing a Short Rest|XPHB|Short or Long Rest."
+          "The erinyes has a magic rope. While bearing it, the erinyes can use the Entangling Rope action. The rope has AC 20, HP 90, and Immunity to Poison and Psychic damage. The rope turns to dust if reduced to 0 Hit Points, if it is 5+ feet away from the erinyes for 1 hour or more, or if the erinyes dies. If the rope is damaged or destroyed, the erinyes can fully restore it when finishing a Short or Long Rest."
         ]
       }
     ],
@@ -10998,7 +10998,7 @@
       {
         "name": "Engulf",
         "entries": [
-          "The cube moves up to its Speed without provoking Opportunity Attacks. The cube can move through the spaces of Large or smaller creatures if it has room inside itself to contain them (see the Ooze Cube [Area of Effect]|XPHB|Cube trait). Dexterity Saving Throw: `dc:12`, each creature whose space the cube enters for the first time during this move. Failure: `dmg:3d6` Acid damage, and the target is engulfed. An engulfed target is suffocating, can't cast spells with a Verbal component, has the Restrained condition, and takes `dmg:3d6` Acid damage at the start of each of the cube's turns. When the cube moves, the engulfed target moves with it. An engulfed target can try to escape by taking an action to make a `dc:STR` Strength (Athletics) check. On a successful check, the target escapes and enters the nearest unoccupied space. Success: Half damage, and the target moves to an unoccupied space within 5 feet of the cube. If there is no unoccupied space, the target fails the save instead."
+          "The cube moves up to its Speed without provoking Opportunity Attacks. The cube can move through the spaces of Large or smaller creatures if it has room inside itself to contain them (see the Ooze Cube trait). Dexterity Saving Throw: `dc:12`, each creature whose space the cube enters for the first time during this move. Failure: `dmg:3d6` Acid damage, and the target is engulfed. An engulfed target is suffocating, can't cast spells with a Verbal component, has the Restrained condition, and takes `dmg:3d6` Acid damage at the start of each of the cube's turns. When the cube moves, the engulfed target moves with it. An engulfed target can try to escape by taking an action to make a `dc:STR` Strength (Athletics) check. On a successful check, the target escapes and enters the nearest unoccupied space. Success: Half damage, and the target moves to an unoccupied space within 5 feet of the cube. If there is no unoccupied space, the target fails the save instead."
         ]
       }
     ],
@@ -11008,7 +11008,7 @@
       {
         "name": "Ooze Cube",
         "entries": [
-          "The cube fills its entire space and is transparent. Other creatures can enter that space, but a creature that does so is subjected to the cube's Engulf and has Disadvantage on the saving throw. Creatures inside the cube have Cover|XPHB|Total Cover, and the cube can hold one Large creature or up to four Medium or Small creatures inside itself at a time. As an action, a creature within 5 feet of the cube can pull a creature or an object out of the cube by succeeding on a `dc:STR` Strength (Athletics) check, and the puller takes `dmg:3d6` Acid damage."
+          "The cube fills its entire space and is transparent. Other creatures can enter that space, but a creature that does so is subjected to the cube's Engulf and has Disadvantage on the saving throw. Creatures inside the cube have Total Cover, and the cube can hold one Large creature or up to four Medium or Small creatures inside itself at a time. As an action, a creature within 5 feet of the cube can pull a creature or an object out of the cube by succeeding on a `dc:STR` Strength (Athletics) check, and the puller takes `dmg:3d6` Acid damage."
         ]
       },
       {
@@ -11421,7 +11421,7 @@
       {
         "name": "Boulder Toss",
         "entries": [
-          "The ape hurls a boulder at a point it can see within 90 feet. Dexterity Saving Throw: `dc:17`, each creature in a 5-foot-radius Sphere [Area of Effect]|XPHB|Sphere centered on that point. Failure: `dmg:7d6` Bludgeoning damage. If the target is a Large or smaller creature, it has the Prone condition. Success: Half damage only."
+          "The ape hurls a boulder at a point it can see within 90 feet. Dexterity Saving Throw: `dc:17`, each creature in a 5-foot-radius Sphere centered on that point. Failure: `dmg:7d6` Bludgeoning damage. If the target is a Large or smaller creature, it has the Prone condition. Success: Half damage only."
         ],
         "recharge": {
           "type": "recharge_on_roll",
@@ -12300,7 +12300,7 @@
       {
         "name": "Swallow",
         "entries": [
-          "The frog swallows a Small or smaller target it is grappling. While swallowed, the target isn't Grappled but has the Blinded and Restrained conditions, and it has Cover|XPHB|Total Cover against attacks and other effects outside the frog. While swallowing the target, the frog can't use Bite, and if the frog dies, the swallowed target is no longer Restrained and can escape from the corpse using 5 feet of movement, exiting with the Prone condition. At the end of the frog's next turn, the swallowed target takes `dmg:2d4` Acid damage. If that damage doesn't kill it, the frog disgorges it, causing it to exit Prone."
+          "The frog swallows a Small or smaller target it is grappling. While swallowed, the target isn't Grappled but has the Blinded and Restrained conditions, and it has Total Cover against attacks and other effects outside the frog. While swallowing the target, the frog can't use Bite, and if the frog dies, the swallowed target is no longer Restrained and can escape from the corpse using 5 feet of movement, exiting with the Prone condition. At the end of the frog's next turn, the swallowed target takes `dmg:2d4` Acid damage. If that damage doesn't kill it, the frog disgorges it, causing it to exit Prone."
         ]
       }
     ],
@@ -13192,7 +13192,7 @@
       {
         "name": "Swallow",
         "entries": [
-          "The toad swallows a Medium or smaller target it is grappling. While swallowed, the target isn't Grappled but has the Blinded and Restrained conditions, and it has Cover|XPHB|Total Cover against attacks and other effects outside the toad. In addition, the target takes `dmg:3d6` Acid damage at the end of each of the toad's turns. The toad can have only one target swallowed at a time, and it can't use Bite while it has a swallowed target. If the toad dies, a swallowed creature is no longer Restrained and can escape from the corpse using 5 feet of movement, exiting with the Prone condition."
+          "The toad swallows a Medium or smaller target it is grappling. While swallowed, the target isn't Grappled but has the Blinded and Restrained conditions, and it has Total Cover against attacks and other effects outside the toad. In addition, the target takes `dmg:3d6` Acid damage at the end of each of the toad's turns. The toad can have only one target swallowed at a time, and it can't use Bite while it has a swallowed target. If the toad dies, a swallowed creature is no longer Restrained and can escape from the corpse using 5 feet of movement, exiting with the Prone condition."
         ]
       }
     ],
@@ -13646,7 +13646,7 @@
       {
         "name": "Blinding Spittle",
         "entries": [
-          "Dexterity Saving Throw: `dc:10`, each creature in a 10-foot-radius Sphere [Area of Effect]|XPHB|Sphere centered on a point within 30 feet. Failure: `dmg:2d6` Radiant damage, and the target has the Blinded condition until the end of the mouther's next turn."
+          "Dexterity Saving Throw: `dc:10`, each creature in a 10-foot-radius Sphere centered on a point within 30 feet. Failure: `dmg:2d6` Radiant damage, and the target has the Blinded condition until the end of the mouther's next turn."
         ],
         "recharge": {
           "type": "recharge_on_roll",
@@ -17762,7 +17762,7 @@
       {
         "name": "Swallow",
         "entries": [
-          "Dexterity Saving Throw: `dc:25`, one creature Grappled by the kraken (it can have up to four creatures swallowed at a time). Failure: `dmg:3d8+STR` Piercing damage. If the target is Large or smaller, it is swallowed and no longer Grappled. A swallowed creature has the Restrained condition, has Cover|XPHB|Total Cover against attacks and other effects outside the kraken, and takes `dmg:7d6` Acid damage at the start of each of its turns. If the kraken takes 50 damage or more on a single turn from a creature inside it, the kraken must succeed on a `dc:25` Constitution saving throw at the end of that turn or regurgitate all swallowed creatures, each of which falls in a space within 10 feet of the kraken with the Prone condition. If the kraken dies, any swallowed creature no longer has the Restrained condition and can escape from the corpse using 15 feet of movement, exiting Prone."
+          "Dexterity Saving Throw: `dc:25`, one creature Grappled by the kraken (it can have up to four creatures swallowed at a time). Failure: `dmg:3d8+STR` Piercing damage. If the target is Large or smaller, it is swallowed and no longer Grappled. A swallowed creature has the Restrained condition, has Total Cover against attacks and other effects outside the kraken, and takes `dmg:7d6` Acid damage at the start of each of its turns. If the kraken takes 50 damage or more on a single turn from a creature inside it, the kraken must succeed on a `dc:25` Constitution saving throw at the end of that turn or regurgitate all swallowed creatures, each of which falls in a space within 10 feet of the kraken with the Prone condition. If the kraken dies, any swallowed creature no longer has the Restrained condition and can escape from the corpse using 15 feet of movement, exiting Prone."
         ]
       }
     ],
@@ -21796,7 +21796,7 @@
       {
         "name": "Holy Burst",
         "entries": [
-          "Dexterity Saving Throw: `dc:20`, each enemy in a 20-foot-radius Sphere [Area of Effect]|XPHB|Sphere centered on a point the planetar can see within 120 feet. Failure: `dmg:7d6` Radiant damage. Success: Half damage."
+          "Dexterity Saving Throw: `dc:20`, each enemy in a 20-foot-radius Sphere centered on a point the planetar can see within 120 feet. Failure: `dmg:7d6` Radiant damage. Success: Half damage."
         ]
       },
       {
@@ -22489,7 +22489,7 @@
       {
         "name": "Swallow",
         "entries": [
-          "Strength Saving Throw: `dc:19`, one Large or smaller creature Grappled by the worm (it can have up to three creatures swallowed at a time). Failure: The target is swallowed by the worm, and the Grappled condition ends. A swallowed creature has the Blinded and Restrained conditions, has Cover|XPHB|Total Cover against attacks and other effects outside the worm, and takes `dmg:5d6` Acid damage at the start of each of the worm's turns. If the worm takes 30 damage or more on a single turn from a creature inside it, the worm must succeed on a `dc:21` Constitution saving throw at the end of that turn or regurgitate all swallowed creatures, each of which falls in a space within 5 feet of the worm and has the Prone condition. If the worm dies, any swallowed creature no longer has the Restrained condition and can escape from the corpse using 20 feet of movement, exiting Prone."
+          "Strength Saving Throw: `dc:19`, one Large or smaller creature Grappled by the worm (it can have up to three creatures swallowed at a time). Failure: The target is swallowed by the worm, and the Grappled condition ends. A swallowed creature has the Blinded and Restrained conditions, has Total Cover against attacks and other effects outside the worm, and takes `dmg:5d6` Acid damage at the start of each of the worm's turns. If the worm takes 30 damage or more on a single turn from a creature inside it, the worm must succeed on a `dc:21` Constitution saving throw at the end of that turn or regurgitate all swallowed creatures, each of which falls in a space within 5 feet of the worm and has the Prone condition. If the worm dies, any swallowed creature no longer has the Restrained condition and can escape from the corpse using 20 feet of movement, exiting Prone."
         ]
       },
       {
@@ -22706,7 +22706,7 @@
       {
         "name": "Cursed Touch",
         "entries": [
-          "Melee Attack Roll: `atk:CHA+PB`, reach 5 ft. `dmg:2d6+CHA` Slashing damage plus `dmg:3d12` Necrotic damage. If the target is a creature, it is cursed. While cursed, the target gains no benefit from finishing a Short Rest|XPHB|Short or Long Rest."
+          "Melee Attack Roll: `atk:CHA+PB`, reach 5 ft. `dmg:2d6+CHA` Slashing damage plus `dmg:3d12` Necrotic damage. If the target is a creature, it is cursed. While cursed, the target gains no benefit from finishing a Short or Long Rest."
         ],
         "attacks": [
           {
@@ -23136,7 +23136,7 @@
       {
         "name": "Swallow",
         "entries": [
-          "Strength Saving Throw: `dc:STR`, one Large or smaller creature Grappled by the remorhaz (it can have up to two creatures swallowed at a time). Failure: The target is swallowed by the remorhaz, and the Grappled condition ends. A swallowed creature has the Blinded and Restrained conditions, it has Cover|XPHB|Total Cover against attacks and other effects outside the remorhaz, and it takes `dmg:3d6` Acid damage plus `dmg:3d6` Fire damage at the start of each of the remorhaz's turns. If the remorhaz takes 30 damage or more on a single turn from a creature inside it, the remorhaz must succeed on a `dc:15` Constitution saving throw at the end of that turn or regurgitate all swallowed creatures, each of which falls in a space within 5 feet of the remorhaz and has the Prone condition. If the remorhaz dies, any swallowed creature no longer has the Restrained condition and can escape from the corpse by using 15 feet of movement, exiting Prone."
+          "Strength Saving Throw: `dc:STR`, one Large or smaller creature Grappled by the remorhaz (it can have up to two creatures swallowed at a time). Failure: The target is swallowed by the remorhaz, and the Grappled condition ends. A swallowed creature has the Blinded and Restrained conditions, it has Total Cover against attacks and other effects outside the remorhaz, and it takes `dmg:3d6` Acid damage plus `dmg:3d6` Fire damage at the start of each of the remorhaz's turns. If the remorhaz takes 30 damage or more on a single turn from a creature inside it, the remorhaz must succeed on a `dc:15` Constitution saving throw at the end of that turn or regurgitate all swallowed creatures, each of which falls in a space within 5 feet of the remorhaz and has the Prone condition. If the remorhaz dies, any swallowed creature no longer has the Restrained condition and can escape from the corpse by using 15 feet of movement, exiting Prone."
         ]
       }
     ],
@@ -23552,7 +23552,7 @@
       {
         "name": "Destroy Metal",
         "entries": [
-          "The rust monster touches a nonmagical metal object within 5 feet of itself that isn't being worn or carried. The touch destroys a 1-foot Cube [Area of Effect]|XPHB|Cube of the object."
+          "The rust monster touches a nonmagical metal object within 5 feet of itself that isn't being worn or carried. The touch destroys a 1-foot Cube of the object."
         ]
       }
     ],
@@ -26303,7 +26303,7 @@
       {
         "name": "Lightning Storm",
         "entries": [
-          "Dexterity Saving Throw: `dc:18`, each creature in a 10-foot-radius, 40-foot-high Cylinder [Area of Effect]|XPHB|Cylinder originating from a point the giant can see within 500 feet. Failure: `dmg:10d10` Lightning damage. Success: Half damage."
+          "Dexterity Saving Throw: `dc:18`, each creature in a 10-foot-radius, 40-foot-high Cylinder originating from a point the giant can see within 500 feet. Failure: `dmg:10d10` Lightning damage. Success: Half damage."
         ],
         "recharge": {
           "type": "recharge_on_roll",
@@ -27054,7 +27054,7 @@
       {
         "name": "Swallow",
         "entries": [
-          "Strength Saving Throw: `dc:STR`, one Large or smaller creature Grappled by the tarrasque (it can have up to six creatures swallowed at a time). Failure: The target is swallowed, and the Grappled condition ends. A swallowed creature has the Blinded and Restrained conditions and can't teleport, it has Cover|XPHB|Total Cover against attacks and other effects outside the tarrasque, and it takes `dmg:16d6` Acid damage at the start of each of the tarrasque's turns. If the tarrasque takes 60 damage or more on a single turn from a creature inside it, the tarrasque must succeed on a `dc:20` Constitution saving throw at the end of that turn or regurgitate all swallowed creatures, each of which falls in a space within 10 feet of the tarrasque and has the Prone condition. If the tarrasque dies, any swallowed creature no longer has the Restrained condition and can escape from the corpse using 20 feet of movement, exiting Prone."
+          "Strength Saving Throw: `dc:STR`, one Large or smaller creature Grappled by the tarrasque (it can have up to six creatures swallowed at a time). Failure: The target is swallowed, and the Grappled condition ends. A swallowed creature has the Blinded and Restrained conditions and can't teleport, it has Total Cover against attacks and other effects outside the tarrasque, and it takes `dmg:16d6` Acid damage at the start of each of the tarrasque's turns. If the tarrasque takes 60 damage or more on a single turn from a creature inside it, the tarrasque must succeed on a `dc:20` Constitution saving throw at the end of that turn or regurgitate all swallowed creatures, each of which falls in a space within 10 feet of the tarrasque and has the Prone condition. If the tarrasque dies, any swallowed creature no longer has the Restrained condition and can escape from the corpse using 20 feet of movement, exiting Prone."
         ]
       },
       {

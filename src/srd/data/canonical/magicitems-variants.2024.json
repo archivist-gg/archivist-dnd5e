@@ -10,7 +10,7 @@
     "attunement": {
       "required": false
     },
-    "description": "This suit of armor is reinforced with adamantine, one of the hardest substances in existence. While you're wearing it, any {@variantrule Critical Hit|XPHB} against you becomes a normal hit.",
+    "description": "This suit of armor is reinforced with adamantine, one of the hardest substances in existence. While you're wearing it, any Critical Hit against you becomes a normal hit.",
     "weight": 20
   },
   {
@@ -24,7 +24,7 @@
     "attunement": {
       "required": false
     },
-    "description": "This suit of armor is reinforced with adamantine, one of the hardest substances in existence. While you're wearing it, any {@variantrule Critical Hit|XPHB} against you becomes a normal hit.",
+    "description": "This suit of armor is reinforced with adamantine, one of the hardest substances in existence. While you're wearing it, any Critical Hit against you becomes a normal hit.",
     "weight": 55
   },
   {
@@ -38,7 +38,7 @@
     "attunement": {
       "required": false
     },
-    "description": "This suit of armor is reinforced with adamantine, one of the hardest substances in existence. While you're wearing it, any {@variantrule Critical Hit|XPHB} against you becomes a normal hit.",
+    "description": "This suit of armor is reinforced with adamantine, one of the hardest substances in existence. While you're wearing it, any Critical Hit against you becomes a normal hit.",
     "weight": 20
   },
   {
@@ -52,7 +52,7 @@
     "attunement": {
       "required": false
     },
-    "description": "This suit of armor is reinforced with adamantine, one of the hardest substances in existence. While you're wearing it, any {@variantrule Critical Hit|XPHB} against you becomes a normal hit.",
+    "description": "This suit of armor is reinforced with adamantine, one of the hardest substances in existence. While you're wearing it, any Critical Hit against you becomes a normal hit.",
     "weight": 40
   },
   {
@@ -66,7 +66,7 @@
     "attunement": {
       "required": false
     },
-    "description": "This suit of armor is reinforced with adamantine, one of the hardest substances in existence. While you're wearing it, any {@variantrule Critical Hit|XPHB} against you becomes a normal hit.",
+    "description": "This suit of armor is reinforced with adamantine, one of the hardest substances in existence. While you're wearing it, any Critical Hit against you becomes a normal hit.",
     "weight": 12
   },
   {
@@ -80,7 +80,7 @@
     "attunement": {
       "required": false
     },
-    "description": "This suit of armor is reinforced with adamantine, one of the hardest substances in existence. While you're wearing it, any {@variantrule Critical Hit|XPHB} against you becomes a normal hit.",
+    "description": "This suit of armor is reinforced with adamantine, one of the hardest substances in existence. While you're wearing it, any Critical Hit against you becomes a normal hit.",
     "weight": 65
   },
   {
@@ -94,7 +94,7 @@
     "attunement": {
       "required": false
     },
-    "description": "This suit of armor is reinforced with adamantine, one of the hardest substances in existence. While you're wearing it, any {@variantrule Critical Hit|XPHB} against you becomes a normal hit.",
+    "description": "This suit of armor is reinforced with adamantine, one of the hardest substances in existence. While you're wearing it, any Critical Hit against you becomes a normal hit.",
     "weight": 40
   },
   {
@@ -108,7 +108,7 @@
     "attunement": {
       "required": false
     },
-    "description": "This suit of armor is reinforced with adamantine, one of the hardest substances in existence. While you're wearing it, any {@variantrule Critical Hit|XPHB} against you becomes a normal hit.",
+    "description": "This suit of armor is reinforced with adamantine, one of the hardest substances in existence. While you're wearing it, any Critical Hit against you becomes a normal hit.",
     "weight": 45
   },
   {
@@ -122,7 +122,7 @@
     "attunement": {
       "required": false
     },
-    "description": "This suit of armor is reinforced with adamantine, one of the hardest substances in existence. While you're wearing it, any {@variantrule Critical Hit|XPHB} against you becomes a normal hit.",
+    "description": "This suit of armor is reinforced with adamantine, one of the hardest substances in existence. While you're wearing it, any Critical Hit against you becomes a normal hit.",
     "weight": 60
   },
   {
@@ -136,7 +136,7 @@
     "attunement": {
       "required": true
     },
-    "description": "{#itemEntry Armor of Resistance|XDMG}",
+    "description": "You have Resistance to acid damage while you wear this armor.",
     "weight": 20
   },
   {
@@ -150,7 +150,7 @@
     "attunement": {
       "required": true
     },
-    "description": "{#itemEntry Armor of Resistance|XDMG}",
+    "description": "You have Resistance to acid damage while you wear this armor.",
     "weight": 55
   },
   {
@@ -164,7 +164,7 @@
     "attunement": {
       "required": true
     },
-    "description": "{#itemEntry Armor of Resistance|XDMG}",
+    "description": "You have Resistance to acid damage while you wear this armor.",
     "weight": 20
   },
   {
@@ -178,7 +178,7 @@
     "attunement": {
       "required": true
     },
-    "description": "{#itemEntry Armor of Resistance|XDMG}",
+    "description": "You have Resistance to acid damage while you wear this armor.",
     "weight": 40
   },
   {
@@ -192,7 +192,7 @@
     "attunement": {
       "required": true
     },
-    "description": "{#itemEntry Armor of Resistance|XDMG}",
+    "description": "You have Resistance to acid damage while you wear this armor.",
     "weight": 12
   },
   {
@@ -206,7 +206,7 @@
     "attunement": {
       "required": true
     },
-    "description": "{#itemEntry Armor of Resistance|XDMG}",
+    "description": "You have Resistance to acid damage while you wear this armor.",
     "weight": 10
   },
   {
@@ -220,7 +220,7 @@
     "attunement": {
       "required": true
     },
-    "description": "{#itemEntry Armor of Resistance|XDMG}",
+    "description": "You have Resistance to acid damage while you wear this armor.",
     "weight": 8
   },
   {
@@ -234,7 +234,7 @@
     "attunement": {
       "required": true
     },
-    "description": "{#itemEntry Armor of Resistance|XDMG}",
+    "description": "You have Resistance to acid damage while you wear this armor.",
     "weight": 65
   },
   {
@@ -248,7 +248,7 @@
     "attunement": {
       "required": true
     },
-    "description": "{#itemEntry Armor of Resistance|XDMG}",
+    "description": "You have Resistance to acid damage while you wear this armor.",
     "weight": 40
   },
   {
@@ -262,7 +262,7 @@
     "attunement": {
       "required": true
     },
-    "description": "{#itemEntry Armor of Resistance|XDMG}",
+    "description": "You have Resistance to acid damage while you wear this armor.",
     "weight": 45
   },
   {
@@ -276,7 +276,7 @@
     "attunement": {
       "required": true
     },
-    "description": "{#itemEntry Armor of Resistance|XDMG}",
+    "description": "You have Resistance to acid damage while you wear this armor.",
     "weight": 60
   },
   {
@@ -290,7 +290,7 @@
     "attunement": {
       "required": true
     },
-    "description": "{#itemEntry Armor of Resistance|XDMG}",
+    "description": "You have Resistance to acid damage while you wear this armor.",
     "weight": 13
   },
   {
@@ -304,7 +304,7 @@
     "attunement": {
       "required": true
     },
-    "description": "{#itemEntry Armor of Resistance|XDMG}",
+    "description": "You have Resistance to cold damage while you wear this armor.",
     "weight": 20
   },
   {
@@ -318,7 +318,7 @@
     "attunement": {
       "required": true
     },
-    "description": "{#itemEntry Armor of Resistance|XDMG}",
+    "description": "You have Resistance to cold damage while you wear this armor.",
     "weight": 55
   },
   {
@@ -332,7 +332,7 @@
     "attunement": {
       "required": true
     },
-    "description": "{#itemEntry Armor of Resistance|XDMG}",
+    "description": "You have Resistance to cold damage while you wear this armor.",
     "weight": 20
   },
   {
@@ -346,7 +346,7 @@
     "attunement": {
       "required": true
     },
-    "description": "{#itemEntry Armor of Resistance|XDMG}",
+    "description": "You have Resistance to cold damage while you wear this armor.",
     "weight": 40
   },
   {
@@ -360,7 +360,7 @@
     "attunement": {
       "required": true
     },
-    "description": "{#itemEntry Armor of Resistance|XDMG}",
+    "description": "You have Resistance to cold damage while you wear this armor.",
     "weight": 12
   },
   {
@@ -374,7 +374,7 @@
     "attunement": {
       "required": true
     },
-    "description": "{#itemEntry Armor of Resistance|XDMG}",
+    "description": "You have Resistance to cold damage while you wear this armor.",
     "weight": 10
   },
   {
@@ -388,7 +388,7 @@
     "attunement": {
       "required": true
     },
-    "description": "{#itemEntry Armor of Resistance|XDMG}",
+    "description": "You have Resistance to cold damage while you wear this armor.",
     "weight": 8
   },
   {
@@ -402,7 +402,7 @@
     "attunement": {
       "required": true
     },
-    "description": "{#itemEntry Armor of Resistance|XDMG}",
+    "description": "You have Resistance to cold damage while you wear this armor.",
     "weight": 65
   },
   {
@@ -416,7 +416,7 @@
     "attunement": {
       "required": true
     },
-    "description": "{#itemEntry Armor of Resistance|XDMG}",
+    "description": "You have Resistance to cold damage while you wear this armor.",
     "weight": 40
   },
   {
@@ -430,7 +430,7 @@
     "attunement": {
       "required": true
     },
-    "description": "{#itemEntry Armor of Resistance|XDMG}",
+    "description": "You have Resistance to cold damage while you wear this armor.",
     "weight": 45
   },
   {
@@ -444,7 +444,7 @@
     "attunement": {
       "required": true
     },
-    "description": "{#itemEntry Armor of Resistance|XDMG}",
+    "description": "You have Resistance to cold damage while you wear this armor.",
     "weight": 60
   },
   {
@@ -458,7 +458,7 @@
     "attunement": {
       "required": true
     },
-    "description": "{#itemEntry Armor of Resistance|XDMG}",
+    "description": "You have Resistance to cold damage while you wear this armor.",
     "weight": 13
   },
   {
@@ -472,7 +472,7 @@
     "attunement": {
       "required": true
     },
-    "description": "{#itemEntry Armor of Resistance|XDMG}",
+    "description": "You have Resistance to fire damage while you wear this armor.",
     "weight": 20
   },
   {
@@ -486,7 +486,7 @@
     "attunement": {
       "required": true
     },
-    "description": "{#itemEntry Armor of Resistance|XDMG}",
+    "description": "You have Resistance to fire damage while you wear this armor.",
     "weight": 55
   },
   {
@@ -500,7 +500,7 @@
     "attunement": {
       "required": true
     },
-    "description": "{#itemEntry Armor of Resistance|XDMG}",
+    "description": "You have Resistance to fire damage while you wear this armor.",
     "weight": 20
   },
   {
@@ -514,7 +514,7 @@
     "attunement": {
       "required": true
     },
-    "description": "{#itemEntry Armor of Resistance|XDMG}",
+    "description": "You have Resistance to fire damage while you wear this armor.",
     "weight": 40
   },
   {
@@ -528,7 +528,7 @@
     "attunement": {
       "required": true
     },
-    "description": "{#itemEntry Armor of Resistance|XDMG}",
+    "description": "You have Resistance to fire damage while you wear this armor.",
     "weight": 12
   },
   {
@@ -542,7 +542,7 @@
     "attunement": {
       "required": true
     },
-    "description": "{#itemEntry Armor of Resistance|XDMG}",
+    "description": "You have Resistance to fire damage while you wear this armor.",
     "weight": 10
   },
   {
@@ -556,7 +556,7 @@
     "attunement": {
       "required": true
     },
-    "description": "{#itemEntry Armor of Resistance|XDMG}",
+    "description": "You have Resistance to fire damage while you wear this armor.",
     "weight": 8
   },
   {
@@ -570,7 +570,7 @@
     "attunement": {
       "required": true
     },
-    "description": "{#itemEntry Armor of Resistance|XDMG}",
+    "description": "You have Resistance to fire damage while you wear this armor.",
     "weight": 65
   },
   {
@@ -584,7 +584,7 @@
     "attunement": {
       "required": true
     },
-    "description": "{#itemEntry Armor of Resistance|XDMG}",
+    "description": "You have Resistance to fire damage while you wear this armor.",
     "weight": 40
   },
   {
@@ -598,7 +598,7 @@
     "attunement": {
       "required": true
     },
-    "description": "{#itemEntry Armor of Resistance|XDMG}",
+    "description": "You have Resistance to fire damage while you wear this armor.",
     "weight": 45
   },
   {
@@ -612,7 +612,7 @@
     "attunement": {
       "required": true
     },
-    "description": "{#itemEntry Armor of Resistance|XDMG}",
+    "description": "You have Resistance to fire damage while you wear this armor.",
     "weight": 60
   },
   {
@@ -626,7 +626,7 @@
     "attunement": {
       "required": true
     },
-    "description": "{#itemEntry Armor of Resistance|XDMG}",
+    "description": "You have Resistance to fire damage while you wear this armor.",
     "weight": 13
   },
   {
@@ -640,7 +640,7 @@
     "attunement": {
       "required": true
     },
-    "description": "{#itemEntry Armor of Resistance|XDMG}",
+    "description": "You have Resistance to force damage while you wear this armor.",
     "weight": 20
   },
   {
@@ -654,7 +654,7 @@
     "attunement": {
       "required": true
     },
-    "description": "{#itemEntry Armor of Resistance|XDMG}",
+    "description": "You have Resistance to force damage while you wear this armor.",
     "weight": 55
   },
   {
@@ -668,7 +668,7 @@
     "attunement": {
       "required": true
     },
-    "description": "{#itemEntry Armor of Resistance|XDMG}",
+    "description": "You have Resistance to force damage while you wear this armor.",
     "weight": 20
   },
   {
@@ -682,7 +682,7 @@
     "attunement": {
       "required": true
     },
-    "description": "{#itemEntry Armor of Resistance|XDMG}",
+    "description": "You have Resistance to force damage while you wear this armor.",
     "weight": 40
   },
   {
@@ -696,7 +696,7 @@
     "attunement": {
       "required": true
     },
-    "description": "{#itemEntry Armor of Resistance|XDMG}",
+    "description": "You have Resistance to force damage while you wear this armor.",
     "weight": 12
   },
   {
@@ -710,7 +710,7 @@
     "attunement": {
       "required": true
     },
-    "description": "{#itemEntry Armor of Resistance|XDMG}",
+    "description": "You have Resistance to force damage while you wear this armor.",
     "weight": 10
   },
   {
@@ -724,7 +724,7 @@
     "attunement": {
       "required": true
     },
-    "description": "{#itemEntry Armor of Resistance|XDMG}",
+    "description": "You have Resistance to force damage while you wear this armor.",
     "weight": 8
   },
   {
@@ -738,7 +738,7 @@
     "attunement": {
       "required": true
     },
-    "description": "{#itemEntry Armor of Resistance|XDMG}",
+    "description": "You have Resistance to force damage while you wear this armor.",
     "weight": 65
   },
   {
@@ -752,7 +752,7 @@
     "attunement": {
       "required": true
     },
-    "description": "{#itemEntry Armor of Resistance|XDMG}",
+    "description": "You have Resistance to force damage while you wear this armor.",
     "weight": 40
   },
   {
@@ -766,7 +766,7 @@
     "attunement": {
       "required": true
     },
-    "description": "{#itemEntry Armor of Resistance|XDMG}",
+    "description": "You have Resistance to force damage while you wear this armor.",
     "weight": 45
   },
   {
@@ -780,7 +780,7 @@
     "attunement": {
       "required": true
     },
-    "description": "{#itemEntry Armor of Resistance|XDMG}",
+    "description": "You have Resistance to force damage while you wear this armor.",
     "weight": 60
   },
   {
@@ -794,7 +794,7 @@
     "attunement": {
       "required": true
     },
-    "description": "{#itemEntry Armor of Resistance|XDMG}",
+    "description": "You have Resistance to force damage while you wear this armor.",
     "weight": 13
   },
   {
@@ -808,7 +808,7 @@
     "attunement": {
       "required": true
     },
-    "description": "{#itemEntry Armor of Resistance|XDMG}",
+    "description": "You have Resistance to lightning damage while you wear this armor.",
     "weight": 20
   },
   {
@@ -822,7 +822,7 @@
     "attunement": {
       "required": true
     },
-    "description": "{#itemEntry Armor of Resistance|XDMG}",
+    "description": "You have Resistance to lightning damage while you wear this armor.",
     "weight": 55
   },
   {
@@ -836,7 +836,7 @@
     "attunement": {
       "required": true
     },
-    "description": "{#itemEntry Armor of Resistance|XDMG}",
+    "description": "You have Resistance to lightning damage while you wear this armor.",
     "weight": 20
   },
   {
@@ -850,7 +850,7 @@
     "attunement": {
       "required": true
     },
-    "description": "{#itemEntry Armor of Resistance|XDMG}",
+    "description": "You have Resistance to lightning damage while you wear this armor.",
     "weight": 40
   },
   {
@@ -864,7 +864,7 @@
     "attunement": {
       "required": true
     },
-    "description": "{#itemEntry Armor of Resistance|XDMG}",
+    "description": "You have Resistance to lightning damage while you wear this armor.",
     "weight": 12
   },
   {
@@ -878,7 +878,7 @@
     "attunement": {
       "required": true
     },
-    "description": "{#itemEntry Armor of Resistance|XDMG}",
+    "description": "You have Resistance to lightning damage while you wear this armor.",
     "weight": 10
   },
   {
@@ -892,7 +892,7 @@
     "attunement": {
       "required": true
     },
-    "description": "{#itemEntry Armor of Resistance|XDMG}",
+    "description": "You have Resistance to lightning damage while you wear this armor.",
     "weight": 8
   },
   {
@@ -906,7 +906,7 @@
     "attunement": {
       "required": true
     },
-    "description": "{#itemEntry Armor of Resistance|XDMG}",
+    "description": "You have Resistance to lightning damage while you wear this armor.",
     "weight": 65
   },
   {
@@ -920,7 +920,7 @@
     "attunement": {
       "required": true
     },
-    "description": "{#itemEntry Armor of Resistance|XDMG}",
+    "description": "You have Resistance to lightning damage while you wear this armor.",
     "weight": 40
   },
   {
@@ -934,7 +934,7 @@
     "attunement": {
       "required": true
     },
-    "description": "{#itemEntry Armor of Resistance|XDMG}",
+    "description": "You have Resistance to lightning damage while you wear this armor.",
     "weight": 45
   },
   {
@@ -948,7 +948,7 @@
     "attunement": {
       "required": true
     },
-    "description": "{#itemEntry Armor of Resistance|XDMG}",
+    "description": "You have Resistance to lightning damage while you wear this armor.",
     "weight": 60
   },
   {
@@ -962,7 +962,7 @@
     "attunement": {
       "required": true
     },
-    "description": "{#itemEntry Armor of Resistance|XDMG}",
+    "description": "You have Resistance to lightning damage while you wear this armor.",
     "weight": 13
   },
   {
@@ -976,7 +976,7 @@
     "attunement": {
       "required": true
     },
-    "description": "{#itemEntry Armor of Resistance|XDMG}",
+    "description": "You have Resistance to necrotic damage while you wear this armor.",
     "weight": 20
   },
   {
@@ -990,7 +990,7 @@
     "attunement": {
       "required": true
     },
-    "description": "{#itemEntry Armor of Resistance|XDMG}",
+    "description": "You have Resistance to necrotic damage while you wear this armor.",
     "weight": 55
   },
   {
@@ -1004,7 +1004,7 @@
     "attunement": {
       "required": true
     },
-    "description": "{#itemEntry Armor of Resistance|XDMG}",
+    "description": "You have Resistance to necrotic damage while you wear this armor.",
     "weight": 20
   },
   {
@@ -1018,7 +1018,7 @@
     "attunement": {
       "required": true
     },
-    "description": "{#itemEntry Armor of Resistance|XDMG}",
+    "description": "You have Resistance to necrotic damage while you wear this armor.",
     "weight": 40
   },
   {
@@ -1032,7 +1032,7 @@
     "attunement": {
       "required": true
     },
-    "description": "{#itemEntry Armor of Resistance|XDMG}",
+    "description": "You have Resistance to necrotic damage while you wear this armor.",
     "weight": 12
   },
   {
@@ -1046,7 +1046,7 @@
     "attunement": {
       "required": true
     },
-    "description": "{#itemEntry Armor of Resistance|XDMG}",
+    "description": "You have Resistance to necrotic damage while you wear this armor.",
     "weight": 10
   },
   {
@@ -1060,7 +1060,7 @@
     "attunement": {
       "required": true
     },
-    "description": "{#itemEntry Armor of Resistance|XDMG}",
+    "description": "You have Resistance to necrotic damage while you wear this armor.",
     "weight": 8
   },
   {
@@ -1074,7 +1074,7 @@
     "attunement": {
       "required": true
     },
-    "description": "{#itemEntry Armor of Resistance|XDMG}",
+    "description": "You have Resistance to necrotic damage while you wear this armor.",
     "weight": 65
   },
   {
@@ -1088,7 +1088,7 @@
     "attunement": {
       "required": true
     },
-    "description": "{#itemEntry Armor of Resistance|XDMG}",
+    "description": "You have Resistance to necrotic damage while you wear this armor.",
     "weight": 40
   },
   {
@@ -1102,7 +1102,7 @@
     "attunement": {
       "required": true
     },
-    "description": "{#itemEntry Armor of Resistance|XDMG}",
+    "description": "You have Resistance to necrotic damage while you wear this armor.",
     "weight": 45
   },
   {
@@ -1116,7 +1116,7 @@
     "attunement": {
       "required": true
     },
-    "description": "{#itemEntry Armor of Resistance|XDMG}",
+    "description": "You have Resistance to necrotic damage while you wear this armor.",
     "weight": 60
   },
   {
@@ -1130,7 +1130,7 @@
     "attunement": {
       "required": true
     },
-    "description": "{#itemEntry Armor of Resistance|XDMG}",
+    "description": "You have Resistance to necrotic damage while you wear this armor.",
     "weight": 13
   },
   {
@@ -1144,7 +1144,7 @@
     "attunement": {
       "required": true
     },
-    "description": "{#itemEntry Armor of Resistance|XDMG}",
+    "description": "You have Resistance to poison damage while you wear this armor.",
     "weight": 20
   },
   {
@@ -1158,7 +1158,7 @@
     "attunement": {
       "required": true
     },
-    "description": "{#itemEntry Armor of Resistance|XDMG}",
+    "description": "You have Resistance to poison damage while you wear this armor.",
     "weight": 55
   },
   {
@@ -1172,7 +1172,7 @@
     "attunement": {
       "required": true
     },
-    "description": "{#itemEntry Armor of Resistance|XDMG}",
+    "description": "You have Resistance to poison damage while you wear this armor.",
     "weight": 20
   },
   {
@@ -1186,7 +1186,7 @@
     "attunement": {
       "required": true
     },
-    "description": "{#itemEntry Armor of Resistance|XDMG}",
+    "description": "You have Resistance to poison damage while you wear this armor.",
     "weight": 40
   },
   {
@@ -1200,7 +1200,7 @@
     "attunement": {
       "required": true
     },
-    "description": "{#itemEntry Armor of Resistance|XDMG}",
+    "description": "You have Resistance to poison damage while you wear this armor.",
     "weight": 12
   },
   {
@@ -1214,7 +1214,7 @@
     "attunement": {
       "required": true
     },
-    "description": "{#itemEntry Armor of Resistance|XDMG}",
+    "description": "You have Resistance to poison damage while you wear this armor.",
     "weight": 10
   },
   {
@@ -1228,7 +1228,7 @@
     "attunement": {
       "required": true
     },
-    "description": "{#itemEntry Armor of Resistance|XDMG}",
+    "description": "You have Resistance to poison damage while you wear this armor.",
     "weight": 8
   },
   {
@@ -1242,7 +1242,7 @@
     "attunement": {
       "required": true
     },
-    "description": "{#itemEntry Armor of Resistance|XDMG}",
+    "description": "You have Resistance to poison damage while you wear this armor.",
     "weight": 65
   },
   {
@@ -1256,7 +1256,7 @@
     "attunement": {
       "required": true
     },
-    "description": "{#itemEntry Armor of Resistance|XDMG}",
+    "description": "You have Resistance to poison damage while you wear this armor.",
     "weight": 40
   },
   {
@@ -1270,7 +1270,7 @@
     "attunement": {
       "required": true
     },
-    "description": "{#itemEntry Armor of Resistance|XDMG}",
+    "description": "You have Resistance to poison damage while you wear this armor.",
     "weight": 45
   },
   {
@@ -1284,7 +1284,7 @@
     "attunement": {
       "required": true
     },
-    "description": "{#itemEntry Armor of Resistance|XDMG}",
+    "description": "You have Resistance to poison damage while you wear this armor.",
     "weight": 60
   },
   {
@@ -1298,7 +1298,7 @@
     "attunement": {
       "required": true
     },
-    "description": "{#itemEntry Armor of Resistance|XDMG}",
+    "description": "You have Resistance to poison damage while you wear this armor.",
     "weight": 13
   },
   {
@@ -1312,7 +1312,7 @@
     "attunement": {
       "required": true
     },
-    "description": "{#itemEntry Armor of Resistance|XDMG}",
+    "description": "You have Resistance to psychic damage while you wear this armor.",
     "weight": 20
   },
   {
@@ -1326,7 +1326,7 @@
     "attunement": {
       "required": true
     },
-    "description": "{#itemEntry Armor of Resistance|XDMG}",
+    "description": "You have Resistance to psychic damage while you wear this armor.",
     "weight": 55
   },
   {
@@ -1340,7 +1340,7 @@
     "attunement": {
       "required": true
     },
-    "description": "{#itemEntry Armor of Resistance|XDMG}",
+    "description": "You have Resistance to psychic damage while you wear this armor.",
     "weight": 20
   },
   {
@@ -1354,7 +1354,7 @@
     "attunement": {
       "required": true
     },
-    "description": "{#itemEntry Armor of Resistance|XDMG}",
+    "description": "You have Resistance to psychic damage while you wear this armor.",
     "weight": 40
   },
   {
@@ -1368,7 +1368,7 @@
     "attunement": {
       "required": true
     },
-    "description": "{#itemEntry Armor of Resistance|XDMG}",
+    "description": "You have Resistance to psychic damage while you wear this armor.",
     "weight": 12
   },
   {
@@ -1382,7 +1382,7 @@
     "attunement": {
       "required": true
     },
-    "description": "{#itemEntry Armor of Resistance|XDMG}",
+    "description": "You have Resistance to psychic damage while you wear this armor.",
     "weight": 10
   },
   {
@@ -1396,7 +1396,7 @@
     "attunement": {
       "required": true
     },
-    "description": "{#itemEntry Armor of Resistance|XDMG}",
+    "description": "You have Resistance to psychic damage while you wear this armor.",
     "weight": 8
   },
   {
@@ -1410,7 +1410,7 @@
     "attunement": {
       "required": true
     },
-    "description": "{#itemEntry Armor of Resistance|XDMG}",
+    "description": "You have Resistance to psychic damage while you wear this armor.",
     "weight": 65
   },
   {
@@ -1424,7 +1424,7 @@
     "attunement": {
       "required": true
     },
-    "description": "{#itemEntry Armor of Resistance|XDMG}",
+    "description": "You have Resistance to psychic damage while you wear this armor.",
     "weight": 40
   },
   {
@@ -1438,7 +1438,7 @@
     "attunement": {
       "required": true
     },
-    "description": "{#itemEntry Armor of Resistance|XDMG}",
+    "description": "You have Resistance to psychic damage while you wear this armor.",
     "weight": 45
   },
   {
@@ -1452,7 +1452,7 @@
     "attunement": {
       "required": true
     },
-    "description": "{#itemEntry Armor of Resistance|XDMG}",
+    "description": "You have Resistance to psychic damage while you wear this armor.",
     "weight": 60
   },
   {
@@ -1466,7 +1466,7 @@
     "attunement": {
       "required": true
     },
-    "description": "{#itemEntry Armor of Resistance|XDMG}",
+    "description": "You have Resistance to psychic damage while you wear this armor.",
     "weight": 13
   },
   {
@@ -1480,7 +1480,7 @@
     "attunement": {
       "required": true
     },
-    "description": "{#itemEntry Armor of Resistance|XDMG}",
+    "description": "You have Resistance to radiant damage while you wear this armor.",
     "weight": 20
   },
   {
@@ -1494,7 +1494,7 @@
     "attunement": {
       "required": true
     },
-    "description": "{#itemEntry Armor of Resistance|XDMG}",
+    "description": "You have Resistance to radiant damage while you wear this armor.",
     "weight": 55
   },
   {
@@ -1508,7 +1508,7 @@
     "attunement": {
       "required": true
     },
-    "description": "{#itemEntry Armor of Resistance|XDMG}",
+    "description": "You have Resistance to radiant damage while you wear this armor.",
     "weight": 20
   },
   {
@@ -1522,7 +1522,7 @@
     "attunement": {
       "required": true
     },
-    "description": "{#itemEntry Armor of Resistance|XDMG}",
+    "description": "You have Resistance to radiant damage while you wear this armor.",
     "weight": 40
   },
   {
@@ -1536,7 +1536,7 @@
     "attunement": {
       "required": true
     },
-    "description": "{#itemEntry Armor of Resistance|XDMG}",
+    "description": "You have Resistance to radiant damage while you wear this armor.",
     "weight": 12
   },
   {
@@ -1550,7 +1550,7 @@
     "attunement": {
       "required": true
     },
-    "description": "{#itemEntry Armor of Resistance|XDMG}",
+    "description": "You have Resistance to radiant damage while you wear this armor.",
     "weight": 10
   },
   {
@@ -1564,7 +1564,7 @@
     "attunement": {
       "required": true
     },
-    "description": "{#itemEntry Armor of Resistance|XDMG}",
+    "description": "You have Resistance to radiant damage while you wear this armor.",
     "weight": 8
   },
   {
@@ -1578,7 +1578,7 @@
     "attunement": {
       "required": true
     },
-    "description": "{#itemEntry Armor of Resistance|XDMG}",
+    "description": "You have Resistance to radiant damage while you wear this armor.",
     "weight": 65
   },
   {
@@ -1592,7 +1592,7 @@
     "attunement": {
       "required": true
     },
-    "description": "{#itemEntry Armor of Resistance|XDMG}",
+    "description": "You have Resistance to radiant damage while you wear this armor.",
     "weight": 40
   },
   {
@@ -1606,7 +1606,7 @@
     "attunement": {
       "required": true
     },
-    "description": "{#itemEntry Armor of Resistance|XDMG}",
+    "description": "You have Resistance to radiant damage while you wear this armor.",
     "weight": 45
   },
   {
@@ -1620,7 +1620,7 @@
     "attunement": {
       "required": true
     },
-    "description": "{#itemEntry Armor of Resistance|XDMG}",
+    "description": "You have Resistance to radiant damage while you wear this armor.",
     "weight": 60
   },
   {
@@ -1634,7 +1634,7 @@
     "attunement": {
       "required": true
     },
-    "description": "{#itemEntry Armor of Resistance|XDMG}",
+    "description": "You have Resistance to radiant damage while you wear this armor.",
     "weight": 13
   },
   {
@@ -1648,7 +1648,7 @@
     "attunement": {
       "required": true
     },
-    "description": "{#itemEntry Armor of Resistance|XDMG}",
+    "description": "You have Resistance to thunder damage while you wear this armor.",
     "weight": 20
   },
   {
@@ -1662,7 +1662,7 @@
     "attunement": {
       "required": true
     },
-    "description": "{#itemEntry Armor of Resistance|XDMG}",
+    "description": "You have Resistance to thunder damage while you wear this armor.",
     "weight": 55
   },
   {
@@ -1676,7 +1676,7 @@
     "attunement": {
       "required": true
     },
-    "description": "{#itemEntry Armor of Resistance|XDMG}",
+    "description": "You have Resistance to thunder damage while you wear this armor.",
     "weight": 20
   },
   {
@@ -1690,7 +1690,7 @@
     "attunement": {
       "required": true
     },
-    "description": "{#itemEntry Armor of Resistance|XDMG}",
+    "description": "You have Resistance to thunder damage while you wear this armor.",
     "weight": 40
   },
   {
@@ -1704,7 +1704,7 @@
     "attunement": {
       "required": true
     },
-    "description": "{#itemEntry Armor of Resistance|XDMG}",
+    "description": "You have Resistance to thunder damage while you wear this armor.",
     "weight": 12
   },
   {
@@ -1718,7 +1718,7 @@
     "attunement": {
       "required": true
     },
-    "description": "{#itemEntry Armor of Resistance|XDMG}",
+    "description": "You have Resistance to thunder damage while you wear this armor.",
     "weight": 10
   },
   {
@@ -1732,7 +1732,7 @@
     "attunement": {
       "required": true
     },
-    "description": "{#itemEntry Armor of Resistance|XDMG}",
+    "description": "You have Resistance to thunder damage while you wear this armor.",
     "weight": 8
   },
   {
@@ -1746,7 +1746,7 @@
     "attunement": {
       "required": true
     },
-    "description": "{#itemEntry Armor of Resistance|XDMG}",
+    "description": "You have Resistance to thunder damage while you wear this armor.",
     "weight": 65
   },
   {
@@ -1760,7 +1760,7 @@
     "attunement": {
       "required": true
     },
-    "description": "{#itemEntry Armor of Resistance|XDMG}",
+    "description": "You have Resistance to thunder damage while you wear this armor.",
     "weight": 40
   },
   {
@@ -1774,7 +1774,7 @@
     "attunement": {
       "required": true
     },
-    "description": "{#itemEntry Armor of Resistance|XDMG}",
+    "description": "You have Resistance to thunder damage while you wear this armor.",
     "weight": 45
   },
   {
@@ -1788,7 +1788,7 @@
     "attunement": {
       "required": true
     },
-    "description": "{#itemEntry Armor of Resistance|XDMG}",
+    "description": "You have Resistance to thunder damage while you wear this armor.",
     "weight": 60
   },
   {
@@ -1802,7 +1802,7 @@
     "attunement": {
       "required": true
     },
-    "description": "{#itemEntry Armor of Resistance|XDMG}",
+    "description": "You have Resistance to thunder damage while you wear this armor.",
     "weight": 13
   },
   {
@@ -1816,7 +1816,7 @@
     "attunement": {
       "required": true
     },
-    "description": "While wearing this armor, you have {@variantrule Resistance|XPHB} to Bludgeoning damage.",
+    "description": "While wearing this armor, you have Resistance to Bludgeoning damage.",
     "weight": 20
   },
   {
@@ -1830,7 +1830,7 @@
     "attunement": {
       "required": true
     },
-    "description": "While wearing this armor, you have {@variantrule Resistance|XPHB} to Bludgeoning damage.",
+    "description": "While wearing this armor, you have Resistance to Bludgeoning damage.",
     "weight": 55
   },
   {
@@ -1844,7 +1844,7 @@
     "attunement": {
       "required": true
     },
-    "description": "While wearing this armor, you have {@variantrule Resistance|XPHB} to Bludgeoning damage.",
+    "description": "While wearing this armor, you have Resistance to Bludgeoning damage.",
     "weight": 20
   },
   {
@@ -1858,7 +1858,7 @@
     "attunement": {
       "required": true
     },
-    "description": "While wearing this armor, you have {@variantrule Resistance|XPHB} to Bludgeoning damage.",
+    "description": "While wearing this armor, you have Resistance to Bludgeoning damage.",
     "weight": 40
   },
   {
@@ -1872,7 +1872,7 @@
     "attunement": {
       "required": true
     },
-    "description": "While wearing this armor, you have {@variantrule Resistance|XPHB} to Bludgeoning damage.",
+    "description": "While wearing this armor, you have Resistance to Bludgeoning damage.",
     "weight": 12
   },
   {
@@ -1886,7 +1886,7 @@
     "attunement": {
       "required": true
     },
-    "description": "While wearing this armor, you have {@variantrule Resistance|XPHB} to Bludgeoning damage.",
+    "description": "While wearing this armor, you have Resistance to Bludgeoning damage.",
     "weight": 10
   },
   {
@@ -1900,7 +1900,7 @@
     "attunement": {
       "required": true
     },
-    "description": "While wearing this armor, you have {@variantrule Resistance|XPHB} to Bludgeoning damage.",
+    "description": "While wearing this armor, you have Resistance to Bludgeoning damage.",
     "weight": 8
   },
   {
@@ -1914,7 +1914,7 @@
     "attunement": {
       "required": true
     },
-    "description": "While wearing this armor, you have {@variantrule Resistance|XPHB} to Bludgeoning damage.",
+    "description": "While wearing this armor, you have Resistance to Bludgeoning damage.",
     "weight": 65
   },
   {
@@ -1928,7 +1928,7 @@
     "attunement": {
       "required": true
     },
-    "description": "While wearing this armor, you have {@variantrule Resistance|XPHB} to Bludgeoning damage.",
+    "description": "While wearing this armor, you have Resistance to Bludgeoning damage.",
     "weight": 40
   },
   {
@@ -1942,7 +1942,7 @@
     "attunement": {
       "required": true
     },
-    "description": "While wearing this armor, you have {@variantrule Resistance|XPHB} to Bludgeoning damage.",
+    "description": "While wearing this armor, you have Resistance to Bludgeoning damage.",
     "weight": 45
   },
   {
@@ -1956,7 +1956,7 @@
     "attunement": {
       "required": true
     },
-    "description": "While wearing this armor, you have {@variantrule Resistance|XPHB} to Bludgeoning damage.",
+    "description": "While wearing this armor, you have Resistance to Bludgeoning damage.",
     "weight": 60
   },
   {
@@ -1970,7 +1970,7 @@
     "attunement": {
       "required": true
     },
-    "description": "While wearing this armor, you have {@variantrule Resistance|XPHB} to Bludgeoning damage.",
+    "description": "While wearing this armor, you have Resistance to Bludgeoning damage.",
     "weight": 13
   },
   {
@@ -1984,7 +1984,7 @@
     "attunement": {
       "required": true
     },
-    "description": "While wearing this armor, you have {@variantrule Resistance|XPHB} to Piercing damage.",
+    "description": "While wearing this armor, you have Resistance to Piercing damage.",
     "weight": 20
   },
   {
@@ -1998,7 +1998,7 @@
     "attunement": {
       "required": true
     },
-    "description": "While wearing this armor, you have {@variantrule Resistance|XPHB} to Piercing damage.",
+    "description": "While wearing this armor, you have Resistance to Piercing damage.",
     "weight": 55
   },
   {
@@ -2012,7 +2012,7 @@
     "attunement": {
       "required": true
     },
-    "description": "While wearing this armor, you have {@variantrule Resistance|XPHB} to Piercing damage.",
+    "description": "While wearing this armor, you have Resistance to Piercing damage.",
     "weight": 20
   },
   {
@@ -2026,7 +2026,7 @@
     "attunement": {
       "required": true
     },
-    "description": "While wearing this armor, you have {@variantrule Resistance|XPHB} to Piercing damage.",
+    "description": "While wearing this armor, you have Resistance to Piercing damage.",
     "weight": 40
   },
   {
@@ -2040,7 +2040,7 @@
     "attunement": {
       "required": true
     },
-    "description": "While wearing this armor, you have {@variantrule Resistance|XPHB} to Piercing damage.",
+    "description": "While wearing this armor, you have Resistance to Piercing damage.",
     "weight": 12
   },
   {
@@ -2054,7 +2054,7 @@
     "attunement": {
       "required": true
     },
-    "description": "While wearing this armor, you have {@variantrule Resistance|XPHB} to Piercing damage.",
+    "description": "While wearing this armor, you have Resistance to Piercing damage.",
     "weight": 10
   },
   {
@@ -2068,7 +2068,7 @@
     "attunement": {
       "required": true
     },
-    "description": "While wearing this armor, you have {@variantrule Resistance|XPHB} to Piercing damage.",
+    "description": "While wearing this armor, you have Resistance to Piercing damage.",
     "weight": 8
   },
   {
@@ -2082,7 +2082,7 @@
     "attunement": {
       "required": true
     },
-    "description": "While wearing this armor, you have {@variantrule Resistance|XPHB} to Piercing damage.",
+    "description": "While wearing this armor, you have Resistance to Piercing damage.",
     "weight": 65
   },
   {
@@ -2096,7 +2096,7 @@
     "attunement": {
       "required": true
     },
-    "description": "While wearing this armor, you have {@variantrule Resistance|XPHB} to Piercing damage.",
+    "description": "While wearing this armor, you have Resistance to Piercing damage.",
     "weight": 40
   },
   {
@@ -2110,7 +2110,7 @@
     "attunement": {
       "required": true
     },
-    "description": "While wearing this armor, you have {@variantrule Resistance|XPHB} to Piercing damage.",
+    "description": "While wearing this armor, you have Resistance to Piercing damage.",
     "weight": 45
   },
   {
@@ -2124,7 +2124,7 @@
     "attunement": {
       "required": true
     },
-    "description": "While wearing this armor, you have {@variantrule Resistance|XPHB} to Piercing damage.",
+    "description": "While wearing this armor, you have Resistance to Piercing damage.",
     "weight": 60
   },
   {
@@ -2138,7 +2138,7 @@
     "attunement": {
       "required": true
     },
-    "description": "While wearing this armor, you have {@variantrule Resistance|XPHB} to Piercing damage.",
+    "description": "While wearing this armor, you have Resistance to Piercing damage.",
     "weight": 13
   },
   {
@@ -2152,7 +2152,7 @@
     "attunement": {
       "required": true
     },
-    "description": "While wearing this armor, you have {@variantrule Resistance|XPHB} to Slashing damage.",
+    "description": "While wearing this armor, you have Resistance to Slashing damage.",
     "weight": 20
   },
   {
@@ -2166,7 +2166,7 @@
     "attunement": {
       "required": true
     },
-    "description": "While wearing this armor, you have {@variantrule Resistance|XPHB} to Slashing damage.",
+    "description": "While wearing this armor, you have Resistance to Slashing damage.",
     "weight": 55
   },
   {
@@ -2180,7 +2180,7 @@
     "attunement": {
       "required": true
     },
-    "description": "While wearing this armor, you have {@variantrule Resistance|XPHB} to Slashing damage.",
+    "description": "While wearing this armor, you have Resistance to Slashing damage.",
     "weight": 20
   },
   {
@@ -2194,7 +2194,7 @@
     "attunement": {
       "required": true
     },
-    "description": "While wearing this armor, you have {@variantrule Resistance|XPHB} to Slashing damage.",
+    "description": "While wearing this armor, you have Resistance to Slashing damage.",
     "weight": 40
   },
   {
@@ -2208,7 +2208,7 @@
     "attunement": {
       "required": true
     },
-    "description": "While wearing this armor, you have {@variantrule Resistance|XPHB} to Slashing damage.",
+    "description": "While wearing this armor, you have Resistance to Slashing damage.",
     "weight": 12
   },
   {
@@ -2222,7 +2222,7 @@
     "attunement": {
       "required": true
     },
-    "description": "While wearing this armor, you have {@variantrule Resistance|XPHB} to Slashing damage.",
+    "description": "While wearing this armor, you have Resistance to Slashing damage.",
     "weight": 10
   },
   {
@@ -2236,7 +2236,7 @@
     "attunement": {
       "required": true
     },
-    "description": "While wearing this armor, you have {@variantrule Resistance|XPHB} to Slashing damage.",
+    "description": "While wearing this armor, you have Resistance to Slashing damage.",
     "weight": 8
   },
   {
@@ -2250,7 +2250,7 @@
     "attunement": {
       "required": true
     },
-    "description": "While wearing this armor, you have {@variantrule Resistance|XPHB} to Slashing damage.",
+    "description": "While wearing this armor, you have Resistance to Slashing damage.",
     "weight": 65
   },
   {
@@ -2264,7 +2264,7 @@
     "attunement": {
       "required": true
     },
-    "description": "While wearing this armor, you have {@variantrule Resistance|XPHB} to Slashing damage.",
+    "description": "While wearing this armor, you have Resistance to Slashing damage.",
     "weight": 40
   },
   {
@@ -2278,7 +2278,7 @@
     "attunement": {
       "required": true
     },
-    "description": "While wearing this armor, you have {@variantrule Resistance|XPHB} to Slashing damage.",
+    "description": "While wearing this armor, you have Resistance to Slashing damage.",
     "weight": 45
   },
   {
@@ -2292,7 +2292,7 @@
     "attunement": {
       "required": true
     },
-    "description": "While wearing this armor, you have {@variantrule Resistance|XPHB} to Slashing damage.",
+    "description": "While wearing this armor, you have Resistance to Slashing damage.",
     "weight": 60
   },
   {
@@ -2306,7 +2306,7 @@
     "attunement": {
       "required": true
     },
-    "description": "While wearing this armor, you have {@variantrule Resistance|XPHB} to Slashing damage.",
+    "description": "While wearing this armor, you have Resistance to Slashing damage.",
     "weight": 13
   },
   {
@@ -2324,7 +2324,7 @@
     "attunement": {
       "required": false
     },
-    "description": "You gain a +1 bonus to attack rolls and damage rolls made with this magic weapon.\n\nThe weapon deals an extra {@damage 3d6} damage of the weapon's type if the target is a Dragon.",
+    "description": "You gain a +1 bonus to attack rolls and damage rolls made with this magic weapon.\n\nThe weapon deals an extra `damage:3d6` damage of the weapon's type if the target is a Dragon.",
     "weight": 4
   },
   {
@@ -2342,7 +2342,7 @@
     "attunement": {
       "required": false
     },
-    "description": "You gain a +1 bonus to attack rolls and damage rolls made with this magic weapon.\n\nThe weapon deals an extra {@damage 3d6} damage of the weapon's type if the target is a Dragon.",
+    "description": "You gain a +1 bonus to attack rolls and damage rolls made with this magic weapon.\n\nThe weapon deals an extra `damage:3d6` damage of the weapon's type if the target is a Dragon.",
     "weight": 1
   },
   {
@@ -2360,7 +2360,7 @@
     "attunement": {
       "required": false
     },
-    "description": "You gain a +1 bonus to attack rolls and damage rolls made with this magic weapon.\n\nThe weapon deals an extra {@damage 3d6} damage of the weapon's type if the target is a Dragon.",
+    "description": "You gain a +1 bonus to attack rolls and damage rolls made with this magic weapon.\n\nThe weapon deals an extra `damage:3d6` damage of the weapon's type if the target is a Dragon.",
     "weight": 2
   },
   {
@@ -2378,7 +2378,7 @@
     "attunement": {
       "required": false
     },
-    "description": "You gain a +1 bonus to attack rolls and damage rolls made with this magic weapon.\n\nThe weapon deals an extra {@damage 3d6} damage of the weapon's type if the target is a Dragon.",
+    "description": "You gain a +1 bonus to attack rolls and damage rolls made with this magic weapon.\n\nThe weapon deals an extra `damage:3d6` damage of the weapon's type if the target is a Dragon.",
     "weight": 1
   },
   {
@@ -2396,7 +2396,7 @@
     "attunement": {
       "required": false
     },
-    "description": "You gain a +1 bonus to attack rolls and damage rolls made with this magic weapon.\n\nThe weapon deals an extra {@damage 3d6} damage of the weapon's type if the target is a Dragon.",
+    "description": "You gain a +1 bonus to attack rolls and damage rolls made with this magic weapon.\n\nThe weapon deals an extra `damage:3d6` damage of the weapon's type if the target is a Dragon.",
     "weight": 0.25
   },
   {
@@ -2414,7 +2414,7 @@
     "attunement": {
       "required": false
     },
-    "description": "You gain a +1 bonus to attack rolls and damage rolls made with this magic weapon.\n\nThe weapon deals an extra {@damage 3d6} damage of the weapon's type if the target is a Dragon.",
+    "description": "You gain a +1 bonus to attack rolls and damage rolls made with this magic weapon.\n\nThe weapon deals an extra `damage:3d6` damage of the weapon's type if the target is a Dragon.",
     "weight": 2
   },
   {
@@ -2432,7 +2432,7 @@
     "attunement": {
       "required": false
     },
-    "description": "You gain a +1 bonus to attack rolls and damage rolls made with this magic weapon.\n\nThe weapon deals an extra {@damage 3d6} damage of the weapon's type if the target is a Dragon.",
+    "description": "You gain a +1 bonus to attack rolls and damage rolls made with this magic weapon.\n\nThe weapon deals an extra `damage:3d6` damage of the weapon's type if the target is a Dragon.",
     "weight": 6
   },
   {
@@ -2450,7 +2450,7 @@
     "attunement": {
       "required": false
     },
-    "description": "You gain a +1 bonus to attack rolls and damage rolls made with this magic weapon.\n\nThe weapon deals an extra {@damage 3d6} damage of the weapon's type if the target is a Dragon.",
+    "description": "You gain a +1 bonus to attack rolls and damage rolls made with this magic weapon.\n\nThe weapon deals an extra `damage:3d6` damage of the weapon's type if the target is a Dragon.",
     "weight": 7
   },
   {
@@ -2468,7 +2468,7 @@
     "attunement": {
       "required": false
     },
-    "description": "You gain a +1 bonus to attack rolls and damage rolls made with this magic weapon.\n\nThe weapon deals an extra {@damage 3d6} damage of the weapon's type if the target is a Dragon.",
+    "description": "You gain a +1 bonus to attack rolls and damage rolls made with this magic weapon.\n\nThe weapon deals an extra `damage:3d6` damage of the weapon's type if the target is a Dragon.",
     "weight": 10
   },
   {
@@ -2486,7 +2486,7 @@
     "attunement": {
       "required": false
     },
-    "description": "You gain a +1 bonus to attack rolls and damage rolls made with this magic weapon.\n\nThe weapon deals an extra {@damage 3d6} damage of the weapon's type if the target is a Dragon.",
+    "description": "You gain a +1 bonus to attack rolls and damage rolls made with this magic weapon.\n\nThe weapon deals an extra `damage:3d6` damage of the weapon's type if the target is a Dragon.",
     "weight": 6
   },
   {
@@ -2504,7 +2504,7 @@
     "attunement": {
       "required": false
     },
-    "description": "You gain a +1 bonus to attack rolls and damage rolls made with this magic weapon.\n\nThe weapon deals an extra {@damage 3d6} damage of the weapon's type if the target is a Dragon.",
+    "description": "You gain a +1 bonus to attack rolls and damage rolls made with this magic weapon.\n\nThe weapon deals an extra `damage:3d6` damage of the weapon's type if the target is a Dragon.",
     "weight": 6
   },
   {
@@ -2522,7 +2522,7 @@
     "attunement": {
       "required": false
     },
-    "description": "You gain a +1 bonus to attack rolls and damage rolls made with this magic weapon.\n\nThe weapon deals an extra {@damage 3d6} damage of the weapon's type if the target is a Dragon.",
+    "description": "You gain a +1 bonus to attack rolls and damage rolls made with this magic weapon.\n\nThe weapon deals an extra `damage:3d6` damage of the weapon's type if the target is a Dragon.",
     "weight": 3
   },
   {
@@ -2540,7 +2540,7 @@
     "attunement": {
       "required": false
     },
-    "description": "You gain a +1 bonus to attack rolls and damage rolls made with this magic weapon.\n\nThe weapon deals an extra {@damage 3d6} damage of the weapon's type if the target is a Dragon.",
+    "description": "You gain a +1 bonus to attack rolls and damage rolls made with this magic weapon.\n\nThe weapon deals an extra `damage:3d6` damage of the weapon's type if the target is a Dragon.",
     "weight": 2
   },
   {
@@ -2558,7 +2558,7 @@
     "attunement": {
       "required": false
     },
-    "description": "You gain a +1 bonus to attack rolls and damage rolls made with this magic weapon.\n\nThe weapon deals an extra {@damage 3d6} damage of the weapon's type if the target is a Dragon.",
+    "description": "You gain a +1 bonus to attack rolls and damage rolls made with this magic weapon.\n\nThe weapon deals an extra `damage:3d6` damage of the weapon's type if the target is a Dragon.",
     "weight": 18
   },
   {
@@ -2576,7 +2576,7 @@
     "attunement": {
       "required": false
     },
-    "description": "You gain a +1 bonus to attack rolls and damage rolls made with this magic weapon.\n\nThe weapon deals an extra {@damage 3d6} damage of the weapon's type if the target is a Dragon.",
+    "description": "You gain a +1 bonus to attack rolls and damage rolls made with this magic weapon.\n\nThe weapon deals an extra `damage:3d6` damage of the weapon's type if the target is a Dragon.",
     "weight": 2
   },
   {
@@ -2594,7 +2594,7 @@
     "attunement": {
       "required": false
     },
-    "description": "You gain a +1 bonus to attack rolls and damage rolls made with this magic weapon.\n\nThe weapon deals an extra {@damage 3d6} damage of the weapon's type if the target is a Dragon.",
+    "description": "You gain a +1 bonus to attack rolls and damage rolls made with this magic weapon.\n\nThe weapon deals an extra `damage:3d6` damage of the weapon's type if the target is a Dragon.",
     "weight": 6
   },
   {
@@ -2612,7 +2612,7 @@
     "attunement": {
       "required": false
     },
-    "description": "You gain a +1 bonus to attack rolls and damage rolls made with this magic weapon.\n\nThe weapon deals an extra {@damage 3d6} damage of the weapon's type if the target is a Dragon.",
+    "description": "You gain a +1 bonus to attack rolls and damage rolls made with this magic weapon.\n\nThe weapon deals an extra `damage:3d6` damage of the weapon's type if the target is a Dragon.",
     "weight": 5
   },
   {
@@ -2630,7 +2630,7 @@
     "attunement": {
       "required": false
     },
-    "description": "You gain a +1 bonus to attack rolls and damage rolls made with this magic weapon.\n\nThe weapon deals an extra {@damage 3d6} damage of the weapon's type if the target is a Dragon.",
+    "description": "You gain a +1 bonus to attack rolls and damage rolls made with this magic weapon.\n\nThe weapon deals an extra `damage:3d6` damage of the weapon's type if the target is a Dragon.",
     "weight": 2
   },
   {
@@ -2648,7 +2648,7 @@
     "attunement": {
       "required": false
     },
-    "description": "You gain a +1 bonus to attack rolls and damage rolls made with this magic weapon.\n\nThe weapon deals an extra {@damage 3d6} damage of the weapon's type if the target is a Dragon.",
+    "description": "You gain a +1 bonus to attack rolls and damage rolls made with this magic weapon.\n\nThe weapon deals an extra `damage:3d6` damage of the weapon's type if the target is a Dragon.",
     "weight": 2
   },
   {
@@ -2666,7 +2666,7 @@
     "attunement": {
       "required": false
     },
-    "description": "You gain a +1 bonus to attack rolls and damage rolls made with this magic weapon.\n\nThe weapon deals an extra {@damage 3d6} damage of the weapon's type if the target is a Dragon.",
+    "description": "You gain a +1 bonus to attack rolls and damage rolls made with this magic weapon.\n\nThe weapon deals an extra `damage:3d6` damage of the weapon's type if the target is a Dragon.",
     "weight": 3
   },
   {
@@ -2684,7 +2684,7 @@
     "attunement": {
       "required": false
     },
-    "description": "You gain a +1 bonus to attack rolls and damage rolls made with this magic weapon.\n\nThe weapon deals an extra {@damage 3d6} damage of the weapon's type if the target is a Dragon.",
+    "description": "You gain a +1 bonus to attack rolls and damage rolls made with this magic weapon.\n\nThe weapon deals an extra `damage:3d6` damage of the weapon's type if the target is a Dragon.",
     "weight": 4
   },
   {
@@ -2702,7 +2702,7 @@
     "attunement": {
       "required": false
     },
-    "description": "You gain a +1 bonus to attack rolls and damage rolls made with this magic weapon.\n\nThe weapon deals an extra {@damage 3d6} damage of the weapon's type if the target is a Dragon.",
+    "description": "You gain a +1 bonus to attack rolls and damage rolls made with this magic weapon.\n\nThe weapon deals an extra `damage:3d6` damage of the weapon's type if the target is a Dragon.",
     "weight": 10
   },
   {
@@ -2720,7 +2720,7 @@
     "attunement": {
       "required": false
     },
-    "description": "You gain a +1 bonus to attack rolls and damage rolls made with this magic weapon.\n\nThe weapon deals an extra {@damage 3d6} damage of the weapon's type if the target is a Dragon.",
+    "description": "You gain a +1 bonus to attack rolls and damage rolls made with this magic weapon.\n\nThe weapon deals an extra `damage:3d6` damage of the weapon's type if the target is a Dragon.",
     "weight": 4
   },
   {
@@ -2738,7 +2738,7 @@
     "attunement": {
       "required": false
     },
-    "description": "You gain a +1 bonus to attack rolls and damage rolls made with this magic weapon.\n\nThe weapon deals an extra {@damage 3d6} damage of the weapon's type if the target is a Dragon.",
+    "description": "You gain a +1 bonus to attack rolls and damage rolls made with this magic weapon.\n\nThe weapon deals an extra `damage:3d6` damage of the weapon's type if the target is a Dragon.",
     "weight": 10
   },
   {
@@ -2756,7 +2756,7 @@
     "attunement": {
       "required": false
     },
-    "description": "You gain a +1 bonus to attack rolls and damage rolls made with this magic weapon.\n\nThe weapon deals an extra {@damage 3d6} damage of the weapon's type if the target is a Dragon.",
+    "description": "You gain a +1 bonus to attack rolls and damage rolls made with this magic weapon.\n\nThe weapon deals an extra `damage:3d6` damage of the weapon's type if the target is a Dragon.",
     "weight": 18
   },
   {
@@ -2774,7 +2774,7 @@
     "attunement": {
       "required": false
     },
-    "description": "You gain a +1 bonus to attack rolls and damage rolls made with this magic weapon.\n\nThe weapon deals an extra {@damage 3d6} damage of the weapon's type if the target is a Dragon.",
+    "description": "You gain a +1 bonus to attack rolls and damage rolls made with this magic weapon.\n\nThe weapon deals an extra `damage:3d6` damage of the weapon's type if the target is a Dragon.",
     "weight": 3
   },
   {
@@ -2792,7 +2792,7 @@
     "attunement": {
       "required": false
     },
-    "description": "You gain a +1 bonus to attack rolls and damage rolls made with this magic weapon.\n\nThe weapon deals an extra {@damage 3d6} damage of the weapon's type if the target is a Dragon.",
+    "description": "You gain a +1 bonus to attack rolls and damage rolls made with this magic weapon.\n\nThe weapon deals an extra `damage:3d6` damage of the weapon's type if the target is a Dragon.",
     "weight": 4
   },
   {
@@ -2810,7 +2810,7 @@
     "attunement": {
       "required": false
     },
-    "description": "You gain a +1 bonus to attack rolls and damage rolls made with this magic weapon.\n\nThe weapon deals an extra {@damage 3d6} damage of the weapon's type if the target is a Dragon.",
+    "description": "You gain a +1 bonus to attack rolls and damage rolls made with this magic weapon.\n\nThe weapon deals an extra `damage:3d6` damage of the weapon's type if the target is a Dragon.",
     "weight": 2
   },
   {
@@ -2828,7 +2828,7 @@
     "attunement": {
       "required": false
     },
-    "description": "You gain a +1 bonus to attack rolls and damage rolls made with this magic weapon.\n\nThe weapon deals an extra {@damage 3d6} damage of the weapon's type if the target is a Dragon.",
+    "description": "You gain a +1 bonus to attack rolls and damage rolls made with this magic weapon.\n\nThe weapon deals an extra `damage:3d6` damage of the weapon's type if the target is a Dragon.",
     "weight": 3
   },
   {
@@ -2846,7 +2846,7 @@
     "attunement": {
       "required": false
     },
-    "description": "You gain a +1 bonus to attack rolls and damage rolls made with this magic weapon.\n\nThe weapon deals an extra {@damage 3d6} damage of the weapon's type if the target is a Dragon.",
+    "description": "You gain a +1 bonus to attack rolls and damage rolls made with this magic weapon.\n\nThe weapon deals an extra `damage:3d6` damage of the weapon's type if the target is a Dragon.",
     "weight": 2
   },
   {
@@ -2864,7 +2864,7 @@
     "attunement": {
       "required": false
     },
-    "description": "You gain a +1 bonus to attack rolls and damage rolls made with this magic weapon.\n\nThe weapon deals an extra {@damage 3d6} damage of the weapon's type if the target is a Dragon.",
+    "description": "You gain a +1 bonus to attack rolls and damage rolls made with this magic weapon.\n\nThe weapon deals an extra `damage:3d6` damage of the weapon's type if the target is a Dragon.",
     "weight": 2
   },
   {
@@ -2882,7 +2882,7 @@
     "attunement": {
       "required": false
     },
-    "description": "You gain a +1 bonus to attack rolls and damage rolls made with this magic weapon.\n\nThe weapon deals an extra {@damage 3d6} damage of the weapon's type if the target is a Dragon.",
+    "description": "You gain a +1 bonus to attack rolls and damage rolls made with this magic weapon.\n\nThe weapon deals an extra `damage:3d6` damage of the weapon's type if the target is a Dragon.",
     "weight": 2
   },
   {
@@ -2900,7 +2900,7 @@
     "attunement": {
       "required": false
     },
-    "description": "You gain a +1 bonus to attack rolls and damage rolls made with this magic weapon.\n\nThe weapon deals an extra {@damage 3d6} damage of the weapon's type if the target is a Dragon."
+    "description": "You gain a +1 bonus to attack rolls and damage rolls made with this magic weapon.\n\nThe weapon deals an extra `damage:3d6` damage of the weapon's type if the target is a Dragon."
   },
   {
     "slug": "srd-2024_item_dragon-slayer-spear",
@@ -2917,7 +2917,7 @@
     "attunement": {
       "required": false
     },
-    "description": "You gain a +1 bonus to attack rolls and damage rolls made with this magic weapon.\n\nThe weapon deals an extra {@damage 3d6} damage of the weapon's type if the target is a Dragon.",
+    "description": "You gain a +1 bonus to attack rolls and damage rolls made with this magic weapon.\n\nThe weapon deals an extra `damage:3d6` damage of the weapon's type if the target is a Dragon.",
     "weight": 3
   },
   {
@@ -2935,7 +2935,7 @@
     "attunement": {
       "required": false
     },
-    "description": "You gain a +1 bonus to attack rolls and damage rolls made with this magic weapon.\n\nThe weapon deals an extra {@damage 3d6} damage of the weapon's type if the target is a Dragon.",
+    "description": "You gain a +1 bonus to attack rolls and damage rolls made with this magic weapon.\n\nThe weapon deals an extra `damage:3d6` damage of the weapon's type if the target is a Dragon.",
     "weight": 4
   },
   {
@@ -2953,7 +2953,7 @@
     "attunement": {
       "required": false
     },
-    "description": "You gain a +1 bonus to attack rolls and damage rolls made with this magic weapon.\n\nThe weapon deals an extra {@damage 3d6} damage of the weapon's type if the target is a Dragon.",
+    "description": "You gain a +1 bonus to attack rolls and damage rolls made with this magic weapon.\n\nThe weapon deals an extra `damage:3d6` damage of the weapon's type if the target is a Dragon.",
     "weight": 2
   },
   {
@@ -2971,7 +2971,7 @@
     "attunement": {
       "required": false
     },
-    "description": "You gain a +1 bonus to attack rolls and damage rolls made with this magic weapon.\n\nThe weapon deals an extra {@damage 3d6} damage of the weapon's type if the target is a Dragon.",
+    "description": "You gain a +1 bonus to attack rolls and damage rolls made with this magic weapon.\n\nThe weapon deals an extra `damage:3d6` damage of the weapon's type if the target is a Dragon.",
     "weight": 5
   },
   {
@@ -2989,7 +2989,7 @@
     "attunement": {
       "required": false
     },
-    "description": "You gain a +1 bonus to attack rolls and damage rolls made with this magic weapon.\n\nThe weapon deals an extra {@damage 3d6} damage of the weapon's type if the target is a Dragon.",
+    "description": "You gain a +1 bonus to attack rolls and damage rolls made with this magic weapon.\n\nThe weapon deals an extra `damage:3d6` damage of the weapon's type if the target is a Dragon.",
     "weight": 3
   },
   {
@@ -3006,7 +3006,7 @@
     "attunement": {
       "required": false
     },
-    "description": "While wearing this armor, you gain a +2 bonus to {@variantrule Armor Class|XPHB}. In addition, if an effect moves you against your will along the ground, you can take a {@variantrule Reaction|XPHB} to reduce the distance you are moved by up to 10 feet.",
+    "description": "While wearing this armor, you gain a +2 bonus to Armor Class. In addition, if an effect moves you against your will along the ground, you can take a Reaction to reduce the distance you are moved by up to 10 feet.",
     "weight": 40
   },
   {
@@ -3023,7 +3023,7 @@
     "attunement": {
       "required": false
     },
-    "description": "While wearing this armor, you gain a +2 bonus to {@variantrule Armor Class|XPHB}. In addition, if an effect moves you against your will along the ground, you can take a {@variantrule Reaction|XPHB} to reduce the distance you are moved by up to 10 feet.",
+    "description": "While wearing this armor, you gain a +2 bonus to Armor Class. In addition, if an effect moves you against your will along the ground, you can take a Reaction to reduce the distance you are moved by up to 10 feet.",
     "weight": 65
   },
   {
@@ -3041,7 +3041,7 @@
     "attunement": {
       "required": true
     },
-    "description": "You gain a +1 bonus to attack rolls and damage rolls made with this magic weapon, which has no string. Each time you pull your arm back in a firing motion, a magical arrow made of golden energy appears nocked and ready to fire. An arrow produced by this weapon deals Force damage instead of Piercing damage on a hit, and it disappears after it hits or misses its target. Until it disappears, the arrow emits {@variantrule Bright Light|XPHB} in a 20-foot radius and {@variantrule Dim Light|XPHB} for an additional 20 feet.\n\nThis weapon has the following additional properties.",
+    "description": "You gain a +1 bonus to attack rolls and damage rolls made with this magic weapon, which has no string. Each time you pull your arm back in a firing motion, a magical arrow made of golden energy appears nocked and ready to fire. An arrow produced by this weapon deals Force damage instead of Piercing damage on a hit, and it disappears after it hits or misses its target. Until it disappears, the arrow emits Bright Light in a 20-foot radius and Dim Light for an additional 20 feet.\n\nThis weapon has the following additional properties.",
     "weight": 2
   },
   {
@@ -3059,7 +3059,7 @@
     "attunement": {
       "required": true
     },
-    "description": "You gain a +1 bonus to attack rolls and damage rolls made with this magic weapon, which has no string. Each time you pull your arm back in a firing motion, a magical arrow made of golden energy appears nocked and ready to fire. An arrow produced by this weapon deals Force damage instead of Piercing damage on a hit, and it disappears after it hits or misses its target. Until it disappears, the arrow emits {@variantrule Bright Light|XPHB} in a 20-foot radius and {@variantrule Dim Light|XPHB} for an additional 20 feet.\n\nThis weapon has the following additional properties.",
+    "description": "You gain a +1 bonus to attack rolls and damage rolls made with this magic weapon, which has no string. Each time you pull your arm back in a firing motion, a magical arrow made of golden energy appears nocked and ready to fire. An arrow produced by this weapon deals Force damage instead of Piercing damage on a hit, and it disappears after it hits or misses its target. Until it disappears, the arrow emits Bright Light in a 20-foot radius and Dim Light for an additional 20 feet.\n\nThis weapon has the following additional properties.",
     "weight": 2
   },
   {
@@ -3199,7 +3199,7 @@
     "attunement": {
       "required": false
     },
-    "description": "Mithral is a light, flexible metal. A mithral chain shirt or breastplate can be worn under normal clothes.\n\nIf the armor normally imposes disadvantage on Dexterity ({@skill Stealth|XPHB}) checks or has a Strength requirement, the mithral version of the armor doesn't.",
+    "description": "Mithral is a light, flexible metal. A mithral chain shirt or breastplate can be worn under normal clothes.\n\nIf the armor normally imposes disadvantage on Dexterity (Stealth) checks or has a Strength requirement, the mithral version of the armor doesn't.",
     "weight": 20
   },
   {
@@ -3213,7 +3213,7 @@
     "attunement": {
       "required": false
     },
-    "description": "Mithral is a light, flexible metal. A mithral chain shirt or breastplate can be worn under normal clothes.\n\nIf the armor normally imposes disadvantage on Dexterity ({@skill Stealth|XPHB}) checks or has a Strength requirement, the mithral version of the armor doesn't.",
+    "description": "Mithral is a light, flexible metal. A mithral chain shirt or breastplate can be worn under normal clothes.\n\nIf the armor normally imposes disadvantage on Dexterity (Stealth) checks or has a Strength requirement, the mithral version of the armor doesn't.",
     "weight": 55
   },
   {
@@ -3227,7 +3227,7 @@
     "attunement": {
       "required": false
     },
-    "description": "Mithral is a light, flexible metal. A mithral chain shirt or breastplate can be worn under normal clothes.\n\nIf the armor normally imposes disadvantage on Dexterity ({@skill Stealth|XPHB}) checks or has a Strength requirement, the mithral version of the armor doesn't.",
+    "description": "Mithral is a light, flexible metal. A mithral chain shirt or breastplate can be worn under normal clothes.\n\nIf the armor normally imposes disadvantage on Dexterity (Stealth) checks or has a Strength requirement, the mithral version of the armor doesn't.",
     "weight": 20
   },
   {
@@ -3241,7 +3241,7 @@
     "attunement": {
       "required": false
     },
-    "description": "Mithral is a light, flexible metal. A mithral chain shirt or breastplate can be worn under normal clothes.\n\nIf the armor normally imposes disadvantage on Dexterity ({@skill Stealth|XPHB}) checks or has a Strength requirement, the mithral version of the armor doesn't.",
+    "description": "Mithral is a light, flexible metal. A mithral chain shirt or breastplate can be worn under normal clothes.\n\nIf the armor normally imposes disadvantage on Dexterity (Stealth) checks or has a Strength requirement, the mithral version of the armor doesn't.",
     "weight": 40
   },
   {
@@ -3255,7 +3255,7 @@
     "attunement": {
       "required": false
     },
-    "description": "Mithral is a light, flexible metal. A mithral chain shirt or breastplate can be worn under normal clothes.\n\nIf the armor normally imposes disadvantage on Dexterity ({@skill Stealth|XPHB}) checks or has a Strength requirement, the mithral version of the armor doesn't.",
+    "description": "Mithral is a light, flexible metal. A mithral chain shirt or breastplate can be worn under normal clothes.\n\nIf the armor normally imposes disadvantage on Dexterity (Stealth) checks or has a Strength requirement, the mithral version of the armor doesn't.",
     "weight": 12
   },
   {
@@ -3269,7 +3269,7 @@
     "attunement": {
       "required": false
     },
-    "description": "Mithral is a light, flexible metal. A mithral chain shirt or breastplate can be worn under normal clothes.\n\nIf the armor normally imposes disadvantage on Dexterity ({@skill Stealth|XPHB}) checks or has a Strength requirement, the mithral version of the armor doesn't.",
+    "description": "Mithral is a light, flexible metal. A mithral chain shirt or breastplate can be worn under normal clothes.\n\nIf the armor normally imposes disadvantage on Dexterity (Stealth) checks or has a Strength requirement, the mithral version of the armor doesn't.",
     "weight": 65
   },
   {
@@ -3283,7 +3283,7 @@
     "attunement": {
       "required": false
     },
-    "description": "Mithral is a light, flexible metal. A mithral chain shirt or breastplate can be worn under normal clothes.\n\nIf the armor normally imposes disadvantage on Dexterity ({@skill Stealth|XPHB}) checks or has a Strength requirement, the mithral version of the armor doesn't.",
+    "description": "Mithral is a light, flexible metal. A mithral chain shirt or breastplate can be worn under normal clothes.\n\nIf the armor normally imposes disadvantage on Dexterity (Stealth) checks or has a Strength requirement, the mithral version of the armor doesn't.",
     "weight": 40
   },
   {
@@ -3297,7 +3297,7 @@
     "attunement": {
       "required": false
     },
-    "description": "Mithral is a light, flexible metal. A mithral chain shirt or breastplate can be worn under normal clothes.\n\nIf the armor normally imposes disadvantage on Dexterity ({@skill Stealth|XPHB}) checks or has a Strength requirement, the mithral version of the armor doesn't.",
+    "description": "Mithral is a light, flexible metal. A mithral chain shirt or breastplate can be worn under normal clothes.\n\nIf the armor normally imposes disadvantage on Dexterity (Stealth) checks or has a Strength requirement, the mithral version of the armor doesn't.",
     "weight": 45
   },
   {
@@ -3311,7 +3311,7 @@
     "attunement": {
       "required": false
     },
-    "description": "Mithral is a light, flexible metal. A mithral chain shirt or breastplate can be worn under normal clothes.\n\nIf the armor normally imposes disadvantage on Dexterity ({@skill Stealth|XPHB}) checks or has a Strength requirement, the mithral version of the armor doesn't.",
+    "description": "Mithral is a light, flexible metal. A mithral chain shirt or breastplate can be worn under normal clothes.\n\nIf the armor normally imposes disadvantage on Dexterity (Stealth) checks or has a Strength requirement, the mithral version of the armor doesn't.",
     "weight": 60
   },
   {
@@ -3325,7 +3325,7 @@
     "attunement": {
       "required": true
     },
-    "description": "When you nock an arrow on this bow, it whispers in Elvish, \"Swift defeat to my enemies.\" When you use this weapon to make a ranged attack, you can utter or sign the following command words: \"Swift death to you who have wronged me.\" The target of your attack becomes your sworn enemy until it dies or until dawn 7 days later. You can have only one such sworn enemy at a time. When your sworn enemy dies, you can choose a new one after the next dawn.\n\nWhen you make a ranged attack roll with this weapon against your sworn enemy, you have {@variantrule Advantage|XPHB} on the roll. In addition, your target gains no benefit from {@variantrule Cover|XPHB|Half Cover} or {@variantrule Cover|XPHB|Three-Quarters Cover}, and you suffer no {@variantrule Disadvantage|XPHB} due to long range. If the attack hits, your sworn enemy takes an extra {@damage 3d6} Piercing damage.\n\nWhile your sworn enemy lives, you have {@variantrule Disadvantage|XPHB} on attack rolls with all other weapons.",
+    "description": "When you nock an arrow on this bow, it whispers in Elvish, \"Swift defeat to my enemies.\" When you use this weapon to make a ranged attack, you can utter or sign the following command words: \"Swift death to you who have wronged me.\" The target of your attack becomes your sworn enemy until it dies or until dawn 7 days later. You can have only one such sworn enemy at a time. When your sworn enemy dies, you can choose a new one after the next dawn.\n\nWhen you make a ranged attack roll with this weapon against your sworn enemy, you have Advantage on the roll. In addition, your target gains no benefit from Half Cover or Three-Quarters Cover, and you suffer no Disadvantage due to long range. If the attack hits, your sworn enemy takes an extra `damage:3d6` Piercing damage.\n\nWhile your sworn enemy lives, you have Disadvantage on attack rolls with all other weapons.",
     "weight": 2
   },
   {
@@ -3339,7 +3339,7 @@
     "attunement": {
       "required": true
     },
-    "description": "When you nock an arrow on this bow, it whispers in Elvish, \"Swift defeat to my enemies.\" When you use this weapon to make a ranged attack, you can utter or sign the following command words: \"Swift death to you who have wronged me.\" The target of your attack becomes your sworn enemy until it dies or until dawn 7 days later. You can have only one such sworn enemy at a time. When your sworn enemy dies, you can choose a new one after the next dawn.\n\nWhen you make a ranged attack roll with this weapon against your sworn enemy, you have {@variantrule Advantage|XPHB} on the roll. In addition, your target gains no benefit from {@variantrule Cover|XPHB|Half Cover} or {@variantrule Cover|XPHB|Three-Quarters Cover}, and you suffer no {@variantrule Disadvantage|XPHB} due to long range. If the attack hits, your sworn enemy takes an extra {@damage 3d6} Piercing damage.\n\nWhile your sworn enemy lives, you have {@variantrule Disadvantage|XPHB} on attack rolls with all other weapons.",
+    "description": "When you nock an arrow on this bow, it whispers in Elvish, \"Swift defeat to my enemies.\" When you use this weapon to make a ranged attack, you can utter or sign the following command words: \"Swift death to you who have wronged me.\" The target of your attack becomes your sworn enemy until it dies or until dawn 7 days later. You can have only one such sworn enemy at a time. When your sworn enemy dies, you can choose a new one after the next dawn.\n\nWhen you make a ranged attack roll with this weapon against your sworn enemy, you have Advantage on the roll. In addition, your target gains no benefit from Half Cover or Three-Quarters Cover, and you suffer no Disadvantage due to long range. If the attack hits, your sworn enemy takes an extra `damage:3d6` Piercing damage.\n\nWhile your sworn enemy lives, you have Disadvantage on attack rolls with all other weapons.",
     "weight": 2
   },
   {
@@ -3353,7 +3353,7 @@
     "attunement": {
       "required": true
     },
-    "description": "While you're wearing this armor, you can take a {@action Magic|XPHB} action and use a command word to gain the effect of the {@spell Etherealness|XPHB} spell. The spell ends immediately if you remove the armor or take a {@action Magic|XPHB} action to repeat the command word. This property of the armor can't be used again until the next dawn.",
+    "description": "While you're wearing this armor, you can take a **Magic** action and use a command word to gain the effect of the _Etherealness_ spell. The spell ends immediately if you remove the armor or take a **Magic** action to repeat the command word. This property of the armor can't be used again until the next dawn.",
     "weight": 40
   },
   {
@@ -3367,7 +3367,7 @@
     "attunement": {
       "required": true
     },
-    "description": "While you're wearing this armor, you can take a {@action Magic|XPHB} action and use a command word to gain the effect of the {@spell Etherealness|XPHB} spell. The spell ends immediately if you remove the armor or take a {@action Magic|XPHB} action to repeat the command word. This property of the armor can't be used again until the next dawn.",
+    "description": "While you're wearing this armor, you can take a **Magic** action and use a command word to gain the effect of the _Etherealness_ spell. The spell ends immediately if you remove the armor or take a **Magic** action to repeat the command word. This property of the armor can't be used again until the next dawn.",
     "weight": 65
   },
   {
@@ -3381,7 +3381,7 @@
     "attunement": {
       "required": true
     },
-    "description": "When you attack a creature with this magic weapon and roll a 20 on the {@dice d20} for the attack roll, that target takes an extra 15 Necrotic damage if it isn't a Construct or an Undead, and you gain {@variantrule Temporary Hit Points|XPHB} equal to the amount of Necrotic damage taken.",
+    "description": "When you attack a creature with this magic weapon and roll a 20 on the `roll:d20` for the attack roll, that target takes an extra 15 Necrotic damage if it isn't a Construct or an Undead, and you gain Temporary Hit Points equal to the amount of Necrotic damage taken.",
     "weight": 6
   },
   {
@@ -3395,7 +3395,7 @@
     "attunement": {
       "required": true
     },
-    "description": "When you attack a creature with this magic weapon and roll a 20 on the {@dice d20} for the attack roll, that target takes an extra 15 Necrotic damage if it isn't a Construct or an Undead, and you gain {@variantrule Temporary Hit Points|XPHB} equal to the amount of Necrotic damage taken.",
+    "description": "When you attack a creature with this magic weapon and roll a 20 on the `roll:d20` for the attack roll, that target takes an extra 15 Necrotic damage if it isn't a Construct or an Undead, and you gain Temporary Hit Points equal to the amount of Necrotic damage taken.",
     "weight": 6
   },
   {
@@ -3409,7 +3409,7 @@
     "attunement": {
       "required": true
     },
-    "description": "When you attack a creature with this magic weapon and roll a 20 on the {@dice d20} for the attack roll, that target takes an extra 15 Necrotic damage if it isn't a Construct or an Undead, and you gain {@variantrule Temporary Hit Points|XPHB} equal to the amount of Necrotic damage taken.",
+    "description": "When you attack a creature with this magic weapon and roll a 20 on the `roll:d20` for the attack roll, that target takes an extra 15 Necrotic damage if it isn't a Construct or an Undead, and you gain Temporary Hit Points equal to the amount of Necrotic damage taken.",
     "weight": 3
   },
   {
@@ -3423,7 +3423,7 @@
     "attunement": {
       "required": true
     },
-    "description": "When you attack a creature with this magic weapon and roll a 20 on the {@dice d20} for the attack roll, that target takes an extra 15 Necrotic damage if it isn't a Construct or an Undead, and you gain {@variantrule Temporary Hit Points|XPHB} equal to the amount of Necrotic damage taken.",
+    "description": "When you attack a creature with this magic weapon and roll a 20 on the `roll:d20` for the attack roll, that target takes an extra 15 Necrotic damage if it isn't a Construct or an Undead, and you gain Temporary Hit Points equal to the amount of Necrotic damage taken.",
     "weight": 2
   },
   {
@@ -3437,7 +3437,7 @@
     "attunement": {
       "required": true
     },
-    "description": "When you attack a creature with this magic weapon and roll a 20 on the {@dice d20} for the attack roll, that target takes an extra 15 Necrotic damage if it isn't a Construct or an Undead, and you gain {@variantrule Temporary Hit Points|XPHB} equal to the amount of Necrotic damage taken.",
+    "description": "When you attack a creature with this magic weapon and roll a 20 on the `roll:d20` for the attack roll, that target takes an extra 15 Necrotic damage if it isn't a Construct or an Undead, and you gain Temporary Hit Points equal to the amount of Necrotic damage taken.",
     "weight": 3
   },
   {
@@ -3451,7 +3451,7 @@
     "attunement": {
       "required": true
     },
-    "description": "When you attack a creature with this magic weapon and roll a 20 on the {@dice d20} for the attack roll, that target takes an extra 15 Necrotic damage if it isn't a Construct or an Undead, and you gain {@variantrule Temporary Hit Points|XPHB} equal to the amount of Necrotic damage taken.",
+    "description": "When you attack a creature with this magic weapon and roll a 20 on the `roll:d20` for the attack roll, that target takes an extra 15 Necrotic damage if it isn't a Construct or an Undead, and you gain Temporary Hit Points equal to the amount of Necrotic damage taken.",
     "weight": 2
   },
   {
@@ -3465,7 +3465,7 @@
     "attunement": {
       "required": true
     },
-    "description": "When you attack an object with this magic weapon and hit, maximize your weapon damage dice against the target.\n\nWhen you attack a creature with this weapon and roll a 20 on the {@dice d20} for the attack roll, that target takes an extra 14 Slashing damage and gains 1 {@condition Exhaustion|XPHB} level.",
+    "description": "When you attack an object with this magic weapon and hit, maximize your weapon damage dice against the target.\n\nWhen you attack a creature with this weapon and roll a 20 on the `roll:d20` for the attack roll, that target takes an extra 14 Slashing damage and gains 1 Exhaustion level.",
     "weight": 6
   },
   {
@@ -3479,7 +3479,7 @@
     "attunement": {
       "required": true
     },
-    "description": "When you attack an object with this magic weapon and hit, maximize your weapon damage dice against the target.\n\nWhen you attack a creature with this weapon and roll a 20 on the {@dice d20} for the attack roll, that target takes an extra 14 Slashing damage and gains 1 {@condition Exhaustion|XPHB} level.",
+    "description": "When you attack an object with this magic weapon and hit, maximize your weapon damage dice against the target.\n\nWhen you attack a creature with this weapon and roll a 20 on the `roll:d20` for the attack roll, that target takes an extra 14 Slashing damage and gains 1 Exhaustion level.",
     "weight": 6
   },
   {
@@ -3493,7 +3493,7 @@
     "attunement": {
       "required": true
     },
-    "description": "When you attack an object with this magic weapon and hit, maximize your weapon damage dice against the target.\n\nWhen you attack a creature with this weapon and roll a 20 on the {@dice d20} for the attack roll, that target takes an extra 14 Slashing damage and gains 1 {@condition Exhaustion|XPHB} level.",
+    "description": "When you attack an object with this magic weapon and hit, maximize your weapon damage dice against the target.\n\nWhen you attack a creature with this weapon and roll a 20 on the `roll:d20` for the attack roll, that target takes an extra 14 Slashing damage and gains 1 Exhaustion level.",
     "weight": 3
   },
   {
@@ -3507,7 +3507,7 @@
     "attunement": {
       "required": true
     },
-    "description": "When you attack an object with this magic weapon and hit, maximize your weapon damage dice against the target.\n\nWhen you attack a creature with this weapon and roll a 20 on the {@dice d20} for the attack roll, that target takes an extra 14 Slashing damage and gains 1 {@condition Exhaustion|XPHB} level.",
+    "description": "When you attack an object with this magic weapon and hit, maximize your weapon damage dice against the target.\n\nWhen you attack a creature with this weapon and roll a 20 on the `roll:d20` for the attack roll, that target takes an extra 14 Slashing damage and gains 1 Exhaustion level.",
     "weight": 3
   },
   {
@@ -3521,7 +3521,7 @@
     "attunement": {
       "required": true
     },
-    "description": "When you hit a creature with an attack using this magic weapon, the target takes an extra {@damage 2d6} Necrotic damage and must succeed on a {@dc 15} Constitution saving throw or be unable to regain {@variantrule Hit Points|XPHB} for 1 hour. The target repeats the save at the end of each of its turns, ending the effect on itself on a success.",
+    "description": "When you hit a creature with an attack using this magic weapon, the target takes an extra `damage:2d6` Necrotic damage and must succeed on a `dc:15` Constitution saving throw or be unable to regain Hit Points for 1 hour. The target repeats the save at the end of each of its turns, ending the effect on itself on a success.",
     "weight": 6
   },
   {
@@ -3535,7 +3535,7 @@
     "attunement": {
       "required": true
     },
-    "description": "When you hit a creature with an attack using this magic weapon, the target takes an extra {@damage 2d6} Necrotic damage and must succeed on a {@dc 15} Constitution saving throw or be unable to regain {@variantrule Hit Points|XPHB} for 1 hour. The target repeats the save at the end of each of its turns, ending the effect on itself on a success.",
+    "description": "When you hit a creature with an attack using this magic weapon, the target takes an extra `damage:2d6` Necrotic damage and must succeed on a `dc:15` Constitution saving throw or be unable to regain Hit Points for 1 hour. The target repeats the save at the end of each of its turns, ending the effect on itself on a success.",
     "weight": 6
   },
   {
@@ -3549,7 +3549,7 @@
     "attunement": {
       "required": true
     },
-    "description": "When you hit a creature with an attack using this magic weapon, the target takes an extra {@damage 2d6} Necrotic damage and must succeed on a {@dc 15} Constitution saving throw or be unable to regain {@variantrule Hit Points|XPHB} for 1 hour. The target repeats the save at the end of each of its turns, ending the effect on itself on a success.",
+    "description": "When you hit a creature with an attack using this magic weapon, the target takes an extra `damage:2d6` Necrotic damage and must succeed on a `dc:15` Constitution saving throw or be unable to regain Hit Points for 1 hour. The target repeats the save at the end of each of its turns, ending the effect on itself on a success.",
     "weight": 3
   },
   {
@@ -3563,7 +3563,7 @@
     "attunement": {
       "required": true
     },
-    "description": "When you hit a creature with an attack using this magic weapon, the target takes an extra {@damage 2d6} Necrotic damage and must succeed on a {@dc 15} Constitution saving throw or be unable to regain {@variantrule Hit Points|XPHB} for 1 hour. The target repeats the save at the end of each of its turns, ending the effect on itself on a success.",
+    "description": "When you hit a creature with an attack using this magic weapon, the target takes an extra `damage:2d6` Necrotic damage and must succeed on a `dc:15` Constitution saving throw or be unable to regain Hit Points for 1 hour. The target repeats the save at the end of each of its turns, ending the effect on itself on a success.",
     "weight": 2
   },
   {
@@ -3577,7 +3577,7 @@
     "attunement": {
       "required": true
     },
-    "description": "When you hit a creature with an attack using this magic weapon, the target takes an extra {@damage 2d6} Necrotic damage and must succeed on a {@dc 15} Constitution saving throw or be unable to regain {@variantrule Hit Points|XPHB} for 1 hour. The target repeats the save at the end of each of its turns, ending the effect on itself on a success.",
+    "description": "When you hit a creature with an attack using this magic weapon, the target takes an extra `damage:2d6` Necrotic damage and must succeed on a `dc:15` Constitution saving throw or be unable to regain Hit Points for 1 hour. The target repeats the save at the end of each of its turns, ending the effect on itself on a success.",
     "weight": 3
   },
   {
@@ -3591,7 +3591,7 @@
     "attunement": {
       "required": true
     },
-    "description": "When you hit a creature with an attack using this magic weapon, the target takes an extra {@damage 2d6} Necrotic damage and must succeed on a {@dc 15} Constitution saving throw or be unable to regain {@variantrule Hit Points|XPHB} for 1 hour. The target repeats the save at the end of each of its turns, ending the effect on itself on a success.",
+    "description": "When you hit a creature with an attack using this magic weapon, the target takes an extra `damage:2d6` Necrotic damage and must succeed on a `dc:15` Constitution saving throw or be unable to regain Hit Points for 1 hour. The target repeats the save at the end of each of its turns, ending the effect on itself on a success.",
     "weight": 2
   }
 ]

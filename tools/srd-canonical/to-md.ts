@@ -2,6 +2,7 @@ import * as fs from "node:fs";
 import * as path from "node:path";
 import * as yaml from "js-yaml";
 import { rewriteCrossRefs } from "./cross-ref-map";
+import { sanitizeEmitted } from "./sanitize";
 
 const KIND_TO_FOLDER: Record<string, string> = {
   feat: "Feats",
@@ -59,7 +60,16 @@ export function writeMd(rootDir: string, input: WriteMdInput): void {
   const fileName = `${input.data.name.replace(INVALID_FILENAME, "_")}.md`;
   const filePath = path.join(dir, fileName);
 
-  const dataRewritten = rewriteAllStringFields(input.data, input.edition);
+  // ORDER IS LOAD-BEARING. `rewriteCrossRefs` runs FIRST so the bundle keeps the vault
+  // wikilinks and backtick roll tags it mints from the upstream reference tags; the sanitiser
+  // then removes what that pass leaves behind (source-book suffixes, template pointers,
+  // third-party ids) without having anything of its own to undo. Running the sanitiser first
+  // would unwrap every tag to plain text and the bundle would lose all of its cross-links.
+  // See tools/srd-canonical/sanitize.ts.
+  const dataRewritten = sanitizeEmitted(
+    rewriteAllStringFields(input.data, input.edition),
+    `${input.compendium}/${input.kind}/${input.data.name}`,
+  );
 
   const frontmatter = {
     archivist: true,

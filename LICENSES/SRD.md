@@ -27,11 +27,30 @@ Coast. This project is unofficial and not affiliated with or endorsed by Wizards
 
 ## Provenance and changes made (CC-BY "indicate if changes were made")
 
-The shipped SRD data is a MERGE, assembled by `tools/srd-canonical/` from: the **Open5e** v2
-API (the immediate redistribution source of the SRD content), a structured-rules dump, and
-supplemental activation data, combined with a hand-curated overlay. Content is transformed
-structurally (reformatted to this project's schema and to Markdown) and normalized; narrative
-prose is preserved. **No non-SRD content is bundled** — every shipped entry's `source` field is
-`SRD 5.1` or `SRD 5.2` (verified: see the repository's SRD-content assertion).
+The shipped SRD data is MODIFIED, and it is a MERGE. It was not taken from the SRD PDFs. It is
+assembled by `tools/srd-canonical/` from:
+
+- the **Open5e** v2 API, queried with the official-SRD document filter
+  `document__key__in=srd-2014` / `srd-2024`, the immediate redistribution source of the SRD
+  text, itself a CC-BY-4.0 redistribution;
+- a structured-rules JSON dump, used to enrich mechanical fields, to expand the SRD's generic
+  magic-item variants into one entity per base item, and, for the 15 conditions per edition, as
+  the text source (Open5e exposes no condition endpoint for these documents);
+- virtual-tabletop activation data, used to derive typed item effects;
+- a hand-curated overlay (`tools/srd-canonical/overlays/`), authored for this project.
+
+Content is reformatted to this project's schema and to Markdown, cross-references become vault
+wikilinks, and dice and save expressions become this project's inline roll tags; narrative prose
+is preserved and no mechanics are invented. A small number of entities with no SRD counterpart
+(the base Shield entry, an Ability Score Improvement entry, spell scrolls and unidentified-item
+placeholders) are authored here and marked as such.
+
+Entity selection is governed by Open5e's document filter and by the structured-rules dump's own
+per-entry SRD flags: every shipped entry's `source` field is `SRD 5.1` or `SRD 5.2`, and no
+content from a non-SRD publication is bundled. Because a correct `source` field is a claim about
+the ENTITY and not about every byte of its text, the emit path additionally runs
+`tools/srd-canonical/sanitize.ts` over every file it writes, removing the upstream tooling's own
+markup (reference tags, source-book abbreviation suffixes, template pointers, third-party
+database identifiers) and the editorial commentary its contributors wrote about the SRD.
 
 Credit to **Open5e** (https://open5e.com) as the immediate SRD-redistribution source.

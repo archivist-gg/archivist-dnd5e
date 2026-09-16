@@ -36,7 +36,8 @@ import { spellMergeRule, toSpellCanonical } from "./merger-rules/spell-merge";
 import { creatureMergeRule, toCreatureCanonical } from "./merger-rules/creature-merge";
 import { conditionMergeRule, toConditionCanonical, buildConditionsFromStructured } from "./merger-rules/condition-merge";
 import { mergeOptionalFeatures } from "./merger-rules/optional-feature-merge";
-import { expandVariants, type BaseItem, type VariantRule } from "./expand-variants";
+import { expandVariants, type BaseItem, type VariantRule, type ItemEntryTemplate } from "./expand-variants";
+import { sanitizeEmitted } from "./sanitize";
 import { slugifyName } from "./sources/slug-normalize";
 import {
   buildBaseEntityIndex,
@@ -190,6 +191,27 @@ function readMagicVariantsRaw(rootPath: string, edition: "2014" | "2024"): Varia
   return out;
 }
 
+/**
+ * Read the shared prose templates from `items-base.json#itemEntry`.
+ *
+ * A magic-variant rule whose `inherits.entries` is a `{#itemEntry Name|SOURCE}` pointer carries
+ * no prose of its own — the pointer is the entire description. Without this table those items
+ * ship a template directive where their rules text should be. The table is the referenced
+ * entry's OWN text, so resolving against it invents nothing.
+ */
+function readItemEntryTemplatesRaw(rootPath: string): ItemEntryTemplate[] {
+  const filePath = path.join(rootPath, "items-base.json");
+  if (!fs.existsSync(filePath)) return [];
+  const raw = JSON.parse(fs.readFileSync(filePath, "utf8")) as { itemEntry?: Array<Record<string, unknown>> };
+  const out: ItemEntryTemplate[] = [];
+  for (const e of raw.itemEntry ?? []) {
+    if (typeof e.name !== "string" || typeof e.source !== "string") continue;
+    if (!Array.isArray(e.entriesTemplate)) continue;
+    out.push({ name: e.name, source: e.source, entriesTemplate: e.entriesTemplate });
+  }
+  return out;
+}
+
 async function main() {
   const cfg = loadConfig();
   console.log("[canonical] starting build", { editions: cfg.editions });
@@ -214,7 +236,9 @@ async function main() {
     const variantRulesForExpansion = readMagicVariantsRaw(cfg.structuredRulesPath, edition);
     const foundryItemsIndex = readFoundryItemsIndex(cfg.structuredRulesPath, edition);
     console.log(`[canonical] ${edition} foundry-items: ${foundryItemsIndex.size} indexed`);
-    const expandedVariants = expandVariants(baseItemsForExpansion, variantRulesForExpansion, edition);
+    const itemEntryTemplates = readItemEntryTemplatesRaw(cfg.structuredRulesPath);
+    console.log(`[canonical] ${edition} itemEntry templates: ${itemEntryTemplates.length} loaded`);
+    const expandedVariants = expandVariants(baseItemsForExpansion, variantRulesForExpansion, edition, itemEntryTemplates);
 
     // P2 D5: build the base-resolution predicate from the real weapon/armor/
     // shield bases available pre-loop (+ the injected Shield seed) and inject it
@@ -441,10 +465,16 @@ async function main() {
     if (filtered.length > 0) {
       const compendium = edition === "2014" ? "SRD 5e" : "SRD 2024";
 
+      // Same sanitiser, same reason as emitForKind: the two JSON outputs are cleaned here, the
+      // MD writer cleans on its own path after its cross-reference pass.
+      const emittedVariants = filtered.map(
+        e => sanitizeEmitted(e as unknown as Record<string, unknown>, `${compendium}/magicitems-variants/${e.name}`),
+      );
+
       // 1. Full canonical JSON — separate file from magicitems for traceability.
       fs.mkdirSync(cfg.canonicalOutDir, { recursive: true });
       const variantCanonicalFile = path.join(cfg.canonicalOutDir, `magicitems-variants.${edition}.json`);
-      fs.writeFileSync(variantCanonicalFile, JSON.stringify(filtered, null, 2));
+      fs.writeFileSync(variantCanonicalFile, JSON.stringify(emittedVariants, null, 2));
 
       // 2. Runtime — append to the existing item.{edition}.json instead of overwriting.
       fs.mkdirSync(cfg.runtimeOutDir, { recursive: true });
@@ -452,7 +482,7 @@ async function main() {
       const existingRuntime = fs.existsSync(itemRuntimeFile)
         ? (JSON.parse(fs.readFileSync(itemRuntimeFile, "utf8")) as unknown[])
         : [];
-      const variantRuntime = filtered.map(e => projectToRuntime("item", e as unknown as Record<string, unknown>));
+      const variantRuntime = emittedVariants.map(e => projectToRuntime("item", e));
       fs.writeFileSync(itemRuntimeFile, JSON.stringify([...existingRuntime, ...variantRuntime], null, 2));
 
       // 3. Vault MD per entry — kind=item routes to Magic Items folder.
@@ -480,11 +510,17 @@ async function main() {
     if (edition === "2024" && SYNTHETIC_ITEM_SEEDS.length > 0) {
       const seedCompendium = "SRD 2024";
       const seedCanonical = SYNTHETIC_ITEM_SEEDS.map(seed => buildSeedCanonicalItem(edition, seed));
+      // The seeds are authored in this repo, so the sanitiser is a no-op on them today. It runs
+      // anyway: every route to a committed artifact goes through it, or the guarantee is only
+      // true of the routes someone remembered.
+      const emittedSeeds = seedCanonical.map(
+        e => sanitizeEmitted(e, `${seedCompendium}/synthetic-item-seeds/${String(e.name)}`),
+      );
 
       // 1. Full canonical JSON — separate file from magicitems for traceability.
       fs.mkdirSync(cfg.canonicalOutDir, { recursive: true });
       const seedCanonicalFile = path.join(cfg.canonicalOutDir, `synthetic-item-seeds.${edition}.json`);
-      fs.writeFileSync(seedCanonicalFile, JSON.stringify(seedCanonical, null, 2));
+      fs.writeFileSync(seedCanonicalFile, JSON.stringify(emittedSeeds, null, 2));
 
       // 2. Runtime — append to the existing item.{edition}.json instead of overwriting.
       fs.mkdirSync(cfg.runtimeOutDir, { recursive: true });
@@ -492,7 +528,7 @@ async function main() {
       const existingSeedRuntime = fs.existsSync(seedItemRuntimeFile)
         ? (JSON.parse(fs.readFileSync(seedItemRuntimeFile, "utf8")) as unknown[])
         : [];
-      const seedRuntime = seedCanonical.map(e => projectToRuntime("item", e));
+      const seedRuntime = emittedSeeds.map(e => projectToRuntime("item", e));
       fs.writeFileSync(seedItemRuntimeFile, JSON.stringify([...existingSeedRuntime, ...seedRuntime], null, 2));
 
       // 3. Vault MD per seed — kind=item routes to Magic Items folder.
@@ -556,14 +592,20 @@ function emitForKind(opts: {
   const { canonical, entityKind, kind, edition, canonicalOutDir, runtimeOutDir, bundleOutDir } = opts;
   const compendium = edition === "2014" ? "SRD 5e" : "SRD 2024";
 
+  // Upstream-tooling markup never reaches a committed artifact. The MD writer sanitises on its
+  // own path, AFTER its cross-reference pass, so the bundle keeps the wikilinks and backtick
+  // roll tags that pass produces; here the raw canonical records are cleaned for the two JSON
+  // outputs. See tools/srd-canonical/sanitize.ts.
+  const emitted = canonical.map(c => sanitizeEmitted(c, `${compendium}/${kind}/${c.name}`));
+
   // 1. Full canonical JSON.
   fs.mkdirSync(canonicalOutDir, { recursive: true });
   const canonicalFile = path.join(canonicalOutDir, `${kind}.${edition}.json`);
-  fs.writeFileSync(canonicalFile, JSON.stringify(canonical, null, 2));
+  fs.writeFileSync(canonicalFile, JSON.stringify(emitted, null, 2));
 
   // 2. Slim runtime JSON.
   fs.mkdirSync(runtimeOutDir, { recursive: true });
-  const runtimeEntries = canonical.map(c => projectToRuntime(entityKind, c));
+  const runtimeEntries = emitted.map(c => projectToRuntime(entityKind, c));
   const runtimeFile = path.join(runtimeOutDir, `${entityKind}.${edition}.json`);
   fs.writeFileSync(runtimeFile, JSON.stringify(runtimeEntries, null, 2));
 

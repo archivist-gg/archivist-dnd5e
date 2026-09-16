@@ -298,12 +298,7 @@
     "base_item": "[[SRD 2024/Armor/Shield]]",
     "attunement": {
       "required": true
-    },
-    "effects": [
-      {
-        "foundryId": "animatedShield"
-      }
-    ]
+    }
   },
   {
     "slug": "srd-2024_item_apparatus-of-the-crab",
@@ -327,11 +322,6 @@
     "attunement": {
       "required": true
     },
-    "effects": [
-      {
-        "foundryId": "armorOfInvulnera"
-      }
-    ],
     "immune": [
       "bludgeoning",
       "piercing",
@@ -889,7 +879,7 @@
     },
     "attached_spells": {
       "will": [
-        "levitate|xphb"
+        "levitate"
       ]
     }
   },
@@ -903,12 +893,7 @@
     "type": "wondrous item",
     "attunement": {
       "required": true
-    },
-    "effects": [
-      {
-        "foundryId": "bootsOfSpeed"
-      }
-    ]
+    }
   },
   {
     "slug": "srd-2024_item_boots-of-striding-and-springing",
@@ -1065,15 +1050,7 @@
     "type": "wondrous item",
     "attunement": {
       "required": true
-    },
-    "effects": [
-      {
-        "foundryId": "broomOfFlying"
-      },
-      {
-        "foundryId": "broomOfFlying1"
-      }
-    ]
+    }
   },
   {
     "slug": "srd-2024_item_candle-of-invocation",
@@ -1089,15 +1066,10 @@
     "attached_spells": {
       "limited": {
         "1": [
-          "gate|xphb"
+          "gate"
         ]
       }
-    },
-    "effects": [
-      {
-        "foundryId": "candleOfInvocati"
-      }
-    ]
+    }
   },
   {
     "slug": "srd-2024_item_cape-of-the-mountebank",
@@ -1110,7 +1082,7 @@
     "attached_spells": {
       "daily": {
         "1": [
-          "dimension door|xphb"
+          "dimension door"
         ]
       }
     }
@@ -1238,7 +1210,7 @@
     "attached_spells": {
       "daily": {
         "1e": [
-          "scorching ray|xphb"
+          "scorching ray"
         ]
       }
     }
@@ -1257,7 +1229,7 @@
     "attached_spells": {
       "daily": {
         "1e": [
-          "web|xphb"
+          "web"
         ]
       }
     },
@@ -1319,15 +1291,10 @@
     "attached_spells": {
       "daily": {
         "1e": [
-          "polymorph|xphb"
+          "polymorph"
         ]
       }
-    },
-    "effects": [
-      {
-        "foundryId": "cloakOfTheBat"
-      }
-    ]
+    }
   },
   {
     "slug": "srd-2024_item_cloak-of-the-manta-ray",
@@ -1431,11 +1398,11 @@
     },
     "attached_spells": {
       "will": [
-        "scrying|xphb"
+        "scrying"
       ],
       "daily": {
         "1e": [
-          "suggestion|xphb"
+          "suggestion"
         ]
       }
     }
@@ -1467,25 +1434,25 @@
     "attached_spells": {
       "charges": {
         "1": [
-          "mage armor|xphb",
-          "shield|xphb"
+          "mage armor",
+          "shield"
         ],
         "3": [
-          "leomund's tiny hut|xphb"
+          "leomund's tiny hut"
         ],
         "4": [
-          "mordenkainen's private sanctum|xphb",
-          "otiluke's resilient sphere|xphb"
+          "mordenkainen's private sanctum",
+          "otiluke's resilient sphere"
         ],
         "5": [
-          "wall of force|xphb"
+          "wall of force"
         ]
       }
     },
     "charges": {
       "max": 10,
       "recharge": "dawn",
-      "recharge_amount": "{@dice 1d6}"
+      "recharge_amount": "`roll:1d6`"
     }
   },
   {
@@ -1499,7 +1466,7 @@
     "charges": {
       "max": 3,
       "recharge": "dawn",
-      "recharge_amount": "{@dice 1d3}"
+      "recharge_amount": "`roll:1d3`"
     }
   },
   {
@@ -2615,12 +2582,7 @@
     "source": "SRD 5.2",
     "rarity": "rare",
     "description": "You can take a Utilize action to place these shackles on a creature that has the Incapacitated condition. The shackles adjust to fit a creature of Small to Large size. The shackles prevent a creature bound by them from using any method of extradimensional movement, including teleportation or travel to a different plane of existence. They don't prevent the creature from passing through an interdimensional portal. You and any creature you designate when you use the shackles can take a Utilize action to remove them. Once every 30 days, the bound creature can make a DC 30 Strength (Athletics) check. On a successful check, the creature breaks free and destroys the shackles.",
-    "type": "wondrous item",
-    "effects": [
-      {
-        "foundryId": "dimensionalShack"
-      }
-    ]
+    "type": "wondrous item"
   },
   {
     "slug": "srd-2024_item_dragon-orb",
@@ -2662,12 +2624,7 @@
     "source": "SRD 5.2",
     "rarity": "uncommon",
     "description": "This powder resembles fine sand. There is enough of it for one use. When you take a Utilize action to throw the dust into the air, you and each creature and object within a 10-foot Emanation originating from you have the Invisible condition for 2d4 minutes. The duration is the same for all subjects, and the dust is consumed when its magic takes effect. Immediately after an affected creature makes an attack roll, deals damage, or casts a spell, the Invisible condition ends for that creature.",
-    "type": "wondrous item",
-    "effects": [
-      {
-        "foundryId": "dustOfDisappeara"
-      }
-    ]
+    "type": "wondrous item"
   },
   {
     "slug": "srd-2024_item_dust-of-dryness",
@@ -2685,12 +2642,7 @@
     "source": "SRD 5.2",
     "rarity": "uncommon",
     "description": "Found in a small container, this powder resembles Dust of Disappearance, and Identify reveals it to be such. There is enough of it for one use. As a Utilize action, you can throw the dust into the air, forcing yourself and every creature in a 30-foot Emanation originating from you to make a DC 15 Constitution saving throw. Constructs, Elementals, Oozes, Plants, and Undead succeed on the save automatically. On a failed save, a creature begins sneezing uncontrollably; it has the Incapacitated condition and is suffocating. The creature repeats the save at the end of each of its turns, ending the effect on itself on a success. The effect also ends on any creature targeted by a Lesser Restoration spell.",
-    "type": "wondrous item",
-    "effects": [
-      {
-        "foundryId": "dustOfSneezingAn"
-      }
-    ]
+    "type": "wondrous item"
   },
   {
     "slug": "srd-2024_item_dwarven-half-plate",
@@ -2761,7 +2713,7 @@
     "attached_spells": {
       "limited": {
         "3": [
-          "wish|xphb"
+          "wish"
         ]
       }
     }
@@ -2824,7 +2776,7 @@
     "attached_spells": {
       "charges": {
         "1": [
-          "charm person|xphb"
+          "charm person"
         ]
       }
     },
@@ -2969,12 +2921,7 @@
     "source": "SRD 5.2",
     "rarity": "rare",
     "description": "A *Figurine of Wondrous Power* is a statuette small enough to fit in a pocket. If you take a Magic action to throw the figurine to a point on the ground within 60 feet of yourself, the figurine becomes a living creature specified in the figurine's description below. If the space where the creature would appear is occupied by other creatures or objects, or if there isn't enough space for the creature, the figurine doesn't become a creature.\n\nThe creature is Friendly to you and your allies. It understands your languages, obeys your commands, and takes its turn immediately after you on your Initiative count. If you issue no commands, the creature defends itself but takes no other actions.\n\nThe creature exists for a duration specific to each figurine. At the end of the duration, the creature reverts to its figurine form. It reverts to a figurine early if its creature form drops to 0 Hit Points or if you take a Magic action while touching the creature to make it revert to figurine form. When the creature becomes a figurine again, its property can't be used again until a certain amount of time has passed, as specified in the figurine's description.\n\n**_Onyx Dog (Rare)._** This onyx statuette of a dog can become a **Mastiff** for up to 6 hours. The mastiff has an Intelligence of 8 and can speak Common. It also has Blindsight with a range of 60 feet. Once it has been used, it can't be used again until 7 days have passed.",
-    "type": "wondrous item",
-    "effects": [
-      {
-        "foundryId": "onyxDog"
-      }
-    ]
+    "type": "wondrous item"
   },
   {
     "slug": "srd-2024_item_figurine-of-wondrous-power-serpentine-owl",
@@ -3752,13 +3699,8 @@
     "charges": {
       "max": 3,
       "recharge": "dawn",
-      "recharge_amount": "{@dice 1d3}"
-    },
-    "effects": [
-      {
-        "foundryId": "gemOfSeeing"
-      }
-    ]
+      "recharge_amount": "`roll:1d3`"
+    }
   },
   {
     "slug": "srd-2024_item_giant-slayer-battleaxe",
@@ -4901,7 +4843,7 @@
     },
     "attached_spells": {
       "will": [
-        "disguise self|xphb"
+        "disguise self"
       ]
     }
   },
@@ -4983,16 +4925,16 @@
     "attached_spells": {
       "limited": {
         "10": [
-          "prismatic spray|xphb"
+          "prismatic spray"
         ],
         "20": [
-          "wall of fire|xphb"
+          "wall of fire"
         ],
         "30": [
-          "fireball|xphb"
+          "fireball"
         ],
         "40": [
-          "daylight|xphb"
+          "daylight"
         ]
       }
     },
@@ -5010,7 +4952,7 @@
     "type": "wondrous item",
     "attached_spells": {
       "will": [
-        "comprehend languages|xphb"
+        "comprehend languages"
       ]
     }
   },
@@ -5027,11 +4969,11 @@
     },
     "attached_spells": {
       "will": [
-        "detect thoughts|xphb"
+        "detect thoughts"
       ],
       "daily": {
         "1e": [
-          "suggestion|xphb"
+          "suggestion"
         ]
       }
     }
@@ -5050,14 +4992,14 @@
     "attached_spells": {
       "charges": {
         "1": [
-          "teleport|xphb"
+          "teleport"
         ]
       }
     },
     "charges": {
       "max": 3,
       "recharge": "dawn",
-      "recharge_amount": "{@dice 1d3}"
+      "recharge_amount": "`roll:1d3`"
     }
   },
   {
@@ -5805,12 +5747,7 @@
     "source": "SRD 5.2",
     "rarity": "rare",
     "description": "You can take a Magic action to blow the horn, which emits a thunderous blast in a 30-foot Cone that is audible out to 600 feet. Each creature in the Cone makes a DC 15 Constitution saving throw. On a failed save, a creature takes 5d8 Thunder damage and has the Deafened condition for 1 minute. On a successful save, a creature takes half as much damage only. Glass or crystal objects in the Cone that aren't being worn or carried take 10d8 Thunder damage. Each use of the horn's magic has a 20 percent chance of causing the horn to explode. The explosion deals 10d6 Force damage to the user and destroys the horn.",
-    "type": "wondrous item",
-    "effects": [
-      {
-        "foundryId": "hornOfBlasting"
-      }
-    ]
+    "type": "wondrous item"
   },
   {
     "slug": "srd-2024_item_horn-of-valhalla",
@@ -5838,11 +5775,6 @@
     "rarity": "rare",
     "description": "These horseshoes come in a set of four. As a Magic action, you can touch one of the horseshoes to the hoof of a horse or similar creature, whereupon the horseshoe affixes itself to the hoof. Removing a horseshoe also takes a Magic action. While all four horseshoes are attached to the same creature, its Speed is increased by 30 feet.",
     "type": "wondrous item",
-    "effects": [
-      {
-        "foundryId": "horseshoesOfSpee"
-      }
-    ],
     "bonuses": {
       "speed": {
         "walk": 30
@@ -6412,7 +6344,7 @@
     "charges": {
       "max": 3,
       "recharge": "dawn",
-      "recharge_amount": "{@dice 1d3}"
+      "recharge_amount": "`roll:1d3`"
     }
   },
   {
@@ -6481,11 +6413,6 @@
     "description": "This book contains health and nutrition tips, and its words are charged with magic. If you spend 48 hours over a period of 6 days or fewer studying the book's contents and practicing its guidelines, your Constitution increases by 2, to a maximum of 30. The manual then loses its magic but regains it in a century.",
     "type": "wondrous item",
     "weight": 5,
-    "effects": [
-      {
-        "foundryId": "manualOfBodilyHe"
-      }
-    ],
     "bonuses": {
       "ability_scores": {
         "static": {
@@ -6503,11 +6430,6 @@
     "description": "This book describes fitness exercises, and its words are charged with magic. If you spend 48 hours over a period of 6 days or fewer studying the book's contents and practicing its guidelines, your Strength increases by 2, to a maximum of 30. The manual then loses its magic but regains it in a century.",
     "type": "wondrous item",
     "weight": 5,
-    "effects": [
-      {
-        "foundryId": "manualOfGainfulE"
-      }
-    ],
     "bonuses": {
       "ability_scores": {
         "static": {
@@ -6534,11 +6456,6 @@
     "description": "This book contains coordination and balance exercises, and its words are charged with magic. If you spend 48 hours over a period of 6 days or fewer studying the book's contents and practicing its guidelines, your Dexterity increases by 2, to a maximum of 30. The manual then loses its magic but regains it in a century.",
     "type": "wondrous item",
     "weight": 5,
-    "effects": [
-      {
-        "foundryId": "manualOfQuicknes"
-      }
-    ],
     "bonuses": {
       "ability_scores": {
         "static": {
@@ -6619,14 +6536,14 @@
     "attached_spells": {
       "charges": {
         "1": [
-          "detect thoughts|xphb"
+          "detect thoughts"
         ]
       }
     },
     "charges": {
       "max": 5,
       "recharge": "dawn",
-      "recharge_amount": "{@dice 1d4}"
+      "recharge_amount": "`roll:1d4`"
     }
   },
   {
@@ -6851,7 +6768,7 @@
     "attached_spells": {
       "limited": {
         "9": [
-          "fireball|xphb"
+          "fireball"
         ]
       }
     }
@@ -7598,12 +7515,7 @@
     "rarity": "rare",
     "description": "One vial of this oil can cover one Medium or smaller creature, along with the equipment it's wearing and carrying (one additional vial is required for each size category above Medium). Applying the oil takes 10 minutes. The affected creature then gains the effect of the Etherealness spell for 1 hour. Beads of this cloudy, gray oil form on the outside of its container and quickly evaporate.",
     "type": "potion",
-    "weight": 0.5,
-    "effects": [
-      {
-        "foundryId": "oilOfEtherealnes"
-      }
-    ]
+    "weight": 0.5
   },
   {
     "slug": "srd-2024_item_oil-of-sharpness",
@@ -7617,12 +7529,7 @@
     "bonuses": {
       "weapon_attack": 3,
       "weapon_damage": 3
-    },
-    "effects": [
-      {
-        "foundryId": "oilOfSharpness"
-      }
-    ]
+    }
   },
   {
     "slug": "srd-2024_item_oil-of-slipperiness",
@@ -7741,12 +7648,7 @@
     "rarity": "uncommon",
     "description": "The next time you see a creature within 10 minutes after drinking this philter, you are charmed by that creature and have the Charmed condition for 1 hour. This rose-hued, effervescent liquid contains one easy-to-miss bubble shaped like a heart.",
     "type": "potion",
-    "weight": 0.5,
-    "effects": [
-      {
-        "foundryId": "philterOfLove"
-      }
-    ]
+    "weight": 0.5
   },
   {
     "slug": "srd-2024_item_pike-1",
@@ -7804,13 +7706,8 @@
     "charges": {
       "max": 3,
       "recharge": "dawn",
-      "recharge_amount": "{@dice 1d3}"
-    },
-    "effects": [
-      {
-        "foundryId": "pipesOfHaunting"
-      }
-    ]
+      "recharge_amount": "`roll:1d3`"
+    }
   },
   {
     "slug": "srd-2024_item_pipes-of-the-sewers",
@@ -7826,7 +7723,7 @@
     "charges": {
       "max": 3,
       "recharge": "dawn",
-      "recharge_amount": "{@dice 1d3}"
+      "recharge_amount": "`roll:1d3`"
     }
   },
   {
@@ -7966,12 +7863,7 @@
     "rarity": "common",
     "description": "When you drink this potion, you gain a Climb Speed equal to your Speed for 1 hour. During this time, you have Advantage on Strength (Athletics) checks to climb. This potion is separated into brown, silver, and gray layers resembling bands of stone. Shaking the bottle fails to mix the colors.",
     "type": "potion",
-    "weight": 0.5,
-    "effects": [
-      {
-        "foundryId": "potionOfClimbing"
-      }
-    ]
+    "weight": 0.5
   },
   {
     "slug": "srd-2024_item_potion-of-diminution",
@@ -7991,12 +7883,7 @@
     "rarity": "very rare",
     "description": "When you drink this potion, you gain a Fly Speed equal to your Speed for 1 hour and can hover. If you're in the air when the potion wears off, you fall unless you have some other means of staying aloft. This potion's clear liquid floats at the top of its container and has cloudy white impurities drifting in it.",
     "type": "potion",
-    "weight": 0.5,
-    "effects": [
-      {
-        "foundryId": "potionOfFlying"
-      }
-    ]
+    "weight": 0.5
   },
   {
     "slug": "srd-2024_item_potion-of-gaseous-form",
@@ -8036,12 +7923,7 @@
     "rarity": "rare",
     "description": "This potion's container looks empty but feels as though it holds liquid. When you drink the potion, you have the Invisible condition for 1 hour. The effect ends early if you make an attack roll, deal damage, or cast a spell.",
     "type": "potion",
-    "weight": 0.5,
-    "effects": [
-      {
-        "foundryId": "potionOfInvisibi"
-      }
-    ]
+    "weight": 0.5
   },
   {
     "slug": "srd-2024_item_potion-of-mind-reading",
@@ -8061,12 +7943,7 @@
     "rarity": "uncommon",
     "description": "This concoction looks, smells, and tastes like a Potion of Healing or another beneficial potion. However, it is actually poison masked by illusion magic. Identify reveals its true nature. If you drink this potion, you take 4d6 Poison damage and must succeed on a DC 13 Constitution saving throw or have the Poisoned condition for 1 hour.",
     "type": "potion",
-    "weight": 0.5,
-    "effects": [
-      {
-        "foundryId": "potionOfPoison"
-      }
-    ]
+    "weight": 0.5
   },
   {
     "slug": "srd-2024_item_potion-of-resistance",
@@ -8095,12 +7972,7 @@
     "rarity": "uncommon",
     "description": "You can breathe underwater for 24 hours after drinking this potion. This potion's cloudy green fluid smells of the sea and has a jellyfish-like bubble floating in it.",
     "type": "potion",
-    "weight": 0.5,
-    "effects": [
-      {
-        "foundryId": "potionOfWaterBre"
-      }
-    ]
+    "weight": 0.5
   },
   {
     "slug": "srd-2024_item_quarterstaff-1",
@@ -8279,16 +8151,16 @@
     "attached_spells": {
       "charges": {
         "1": [
-          "animal friendship|xphb",
-          "fear|xphb",
-          "speak with animals|xphb"
+          "animal friendship",
+          "fear",
+          "speak with animals"
         ]
       }
     },
     "charges": {
       "max": 3,
       "recharge": "dawn",
-      "recharge_amount": "{@dice 1d3}"
+      "recharge_amount": "`roll:1d3`"
     }
   },
   {
@@ -8329,7 +8201,7 @@
     "charges": {
       "max": 3,
       "recharge": "dawn",
-      "recharge_amount": "{@dice 1d3}"
+      "recharge_amount": "`roll:1d3`"
     }
   },
   {
@@ -8381,7 +8253,7 @@
     },
     "attached_spells": {
       "will": [
-        "jump|xphb"
+        "jump"
       ]
     }
   },
@@ -8447,19 +8319,19 @@
     },
     "attached_spells": {
       "will": [
-        "dancing lights|xphb",
-        "light|xphb"
+        "dancing lights",
+        "light"
       ],
       "charges": {
         "1": [
-          "faerie fire|xphb"
+          "faerie fire"
         ]
       }
     },
     "charges": {
       "max": 6,
       "recharge": "dawn",
-      "recharge_amount": "{@dice 1d6}"
+      "recharge_amount": "`roll:1d6`"
     }
   },
   {
@@ -8514,7 +8386,7 @@
     "charges": {
       "max": 3,
       "recharge": "dawn",
-      "recharge_amount": "{@dice 1d3}"
+      "recharge_amount": "`roll:1d3`"
     }
   },
   {
@@ -8528,7 +8400,7 @@
     "attached_spells": {
       "charges": {
         "1": [
-          "wish|xphb"
+          "wish"
         ]
       }
     }
@@ -8555,7 +8427,7 @@
     "type": "ring",
     "attached_spells": {
       "will": [
-        "water walk|xphb"
+        "water walk"
       ]
     }
   },
@@ -8569,12 +8441,7 @@
     "type": "ring",
     "attunement": {
       "required": true
-    },
-    "effects": [
-      {
-        "foundryId": "ringOfXRayVision"
-      }
-    ]
+    }
   },
   {
     "slug": "srd-2024_item_robe-of-eyes",
@@ -8602,13 +8469,8 @@
     "charges": {
       "max": 3,
       "recharge": "dawn",
-      "recharge_amount": "{@dice 1d3}"
-    },
-    "effects": [
-      {
-        "foundryId": "robeOfScintillat"
-      }
-    ]
+      "recharge_amount": "`roll:1d3`"
+    }
   },
   {
     "slug": "srd-2024_item_robe-of-stars",
@@ -8627,13 +8489,13 @@
     "attached_spells": {
       "charges": {
         "1": [
-          "magic missile|xphb#5"
+          "magic missile#5"
         ]
       }
     },
     "charges": {
       "max": 6,
-      "recharge_amount": "{@dice 1d6}"
+      "recharge_amount": "`roll:1d6`"
     }
   },
   {
@@ -8704,10 +8566,10 @@
     },
     "attached_spells": {
       "will": [
-        "detect evil and good|xphb",
-        "detect magic|xphb",
-        "detect poison and disease|xphb",
-        "see invisibility|xphb"
+        "detect evil and good",
+        "detect magic",
+        "detect poison and disease",
+        "see invisibility"
       ]
     }
   },
@@ -8739,12 +8601,7 @@
     "weight": 2,
     "attunement": {
       "required": true
-    },
-    "effects": [
-      {
-        "foundryId": "rodOfRulership"
-      }
-    ]
+    }
   },
   {
     "slug": "srd-2024_item_rod-of-security",
@@ -8772,12 +8629,7 @@
     "source": "SRD 5.2",
     "rarity": "rare",
     "description": "This rope is 30 feet long. While holding one end of the rope, you can take a Magic action to command the other end to dart forward and entangle one creature you can see within 20 feet of yourself. The target must succeed on a DC 15 Dexterity saving throw or have the Restrained condition. You can release the target by letting go of your end of the rope (causing the rope to coil up in the target's space) or by using a Bonus Action to repeat the command (causing the rope to coil up in your hand). A target Restrained by the rope can take an action to make its choice of a DC 15 Strength (Athletics) or Dexterity (Acrobatics) check. On a successful check, the target is no longer Restrained by the rope. If you're still holding onto the rope when a target escapes from it, you can take a Reaction to command the rope to coil up in your hand; otherwise, the rope coils up in the target's space. The rope has AC 20, HP 20, and Immunity to Poison and Psychic damage. It regains 1 Hit Point every 5 minutes as long as it has at least 1 Hit Point. If the rope drops to 0 Hit Points, it is destroyed.",
-    "type": "wondrous item",
-    "effects": [
-      {
-        "foundryId": "ropeOfEntangleme"
-      }
-    ]
+    "type": "wondrous item"
   },
   {
     "slug": "srd-2024_item_scale-mail-1",
@@ -9394,16 +9246,16 @@
     "attached_spells": {
       "charges": {
         "1": [
-          "charm person|xphb",
-          "command|xphb",
-          "comprehend languages|xphb"
+          "charm person",
+          "command",
+          "comprehend languages"
         ]
       }
     },
     "charges": {
       "max": 10,
       "recharge": "dawn",
-      "recharge_amount": "{@dice 1d8 + 2}"
+      "recharge_amount": "`roll:1d8 + 2`"
     }
   },
   {
@@ -9440,20 +9292,20 @@
     "attached_spells": {
       "charges": {
         "1": [
-          "burning hands|xphb"
+          "burning hands"
         ],
         "3": [
-          "fireball|xphb"
+          "fireball"
         ],
         "4": [
-          "wall of fire|xphb"
+          "wall of fire"
         ]
       }
     },
     "charges": {
       "max": 10,
       "recharge": "dawn",
-      "recharge_amount": "{@dice 1d6 + 4}"
+      "recharge_amount": "`roll:1d6 + 4`"
     },
     "resist": [
       "fire"
@@ -9493,21 +9345,21 @@
     "attached_spells": {
       "charges": {
         "1": [
-          "fog cloud|xphb"
+          "fog cloud"
         ],
         "4": [
-          "ice storm|xphb",
-          "wall of ice|xphb"
+          "ice storm",
+          "wall of ice"
         ],
         "5": [
-          "cone of cold|xphb"
+          "cone of cold"
         ]
       }
     },
     "charges": {
       "max": 10,
       "recharge": "dawn",
-      "recharge_amount": "{@dice 1d6 + 4}"
+      "recharge_amount": "`roll:1d6 + 4`"
     },
     "resist": [
       "cold"
@@ -9543,21 +9395,21 @@
     ],
     "attached_spells": {
       "will": [
-        "cure wounds|xphb"
+        "cure wounds"
       ],
       "charges": {
         "2": [
-          "lesser restoration|xphb"
+          "lesser restoration"
         ],
         "5": [
-          "mass cure wounds|xphb"
+          "mass cure wounds"
         ]
       }
     },
     "charges": {
       "max": 10,
       "recharge": "dawn",
-      "recharge_amount": "{@dice 1d6 + 4}"
+      "recharge_amount": "`roll:1d6 + 4`"
     }
   },
   {
@@ -9598,28 +9450,28 @@
     "attached_spells": {
       "charges": {
         "1": [
-          "magic missile|xphb",
-          "ray of enfeeblement|xphb"
+          "magic missile",
+          "ray of enfeeblement"
         ],
         "2": [
-          "levitate|xphb"
+          "levitate"
         ],
         "5": [
-          "cone of cold|xphb",
-          "fireball|xphb",
-          "hold monster|xphb",
-          "lightning bolt|xphb",
-          "wall of force|xphb"
+          "cone of cold",
+          "fireball",
+          "hold monster",
+          "lightning bolt",
+          "wall of force"
         ],
         "6": [
-          "globe of invulnerability|xphb"
+          "globe of invulnerability"
         ]
       }
     },
     "charges": {
       "max": 20,
       "recharge": "dawn",
-      "recharge_amount": "{@dice 2d8 + 4}"
+      "recharge_amount": "`roll:2d8 + 4`"
     }
   },
   {
@@ -9645,7 +9497,7 @@
     "charges": {
       "max": 10,
       "recharge": "dawn",
-      "recharge_amount": "{@dice 1d6 + 4}"
+      "recharge_amount": "`roll:1d6 + 4`"
     }
   },
   {
@@ -9688,17 +9540,17 @@
     "attached_spells": {
       "charges": {
         "4": [
-          "giant insect|xphb"
+          "giant insect"
         ],
         "5": [
-          "insect plague|xphb"
+          "insect plague"
         ]
       }
     },
     "charges": {
       "max": 10,
       "recharge": "dawn",
-      "recharge_amount": "{@dice 1d6 + 4}"
+      "recharge_amount": "`roll:1d6 + 4`"
     }
   },
   {
@@ -9737,42 +9589,42 @@
     "attached_spells": {
       "charges": {
         "0": [
-          "arcane lock|xphb",
-          "detect magic|xphb",
-          "enlarge/reduce|xphb",
-          "light|xphb",
-          "mage hand|xphb",
-          "protection from evil and good|xphb"
+          "arcane lock",
+          "detect magic",
+          "enlarge/reduce",
+          "light",
+          "mage hand",
+          "protection from evil and good"
         ],
         "2": [
-          "flaming sphere|xphb",
-          "invisibility|xphb",
-          "knock|xphb",
-          "web|xphb"
+          "flaming sphere",
+          "invisibility",
+          "knock",
+          "web"
         ],
         "3": [
-          "dispel magic|xphb"
+          "dispel magic"
         ],
         "4": [
-          "ice storm|xphb",
-          "wall of fire|xphb"
+          "ice storm",
+          "wall of fire"
         ],
         "5": [
-          "passwall|xphb",
-          "telekinesis|xphb"
+          "passwall",
+          "telekinesis"
         ],
         "7": [
-          "conjure elemental|xphb",
-          "fireball|xphb",
-          "lightning bolt|xphb",
-          "plane shift|xphb"
+          "conjure elemental",
+          "fireball",
+          "lightning bolt",
+          "plane shift"
         ]
       }
     },
     "charges": {
       "max": 50,
       "recharge": "dawn",
-      "recharge_amount": "{@dice 4d6 + 2}"
+      "recharge_amount": "`roll:4d6 + 2`"
     }
   },
   {
@@ -9822,29 +9674,29 @@
     "attached_spells": {
       "charges": {
         "1": [
-          "animal friendship|xphb",
-          "speak with animals|xphb"
+          "animal friendship",
+          "speak with animals"
         ],
         "2": [
-          "barkskin|xphb",
-          "locate animals or plants|xphb",
-          "pass without trace|xphb"
+          "barkskin",
+          "locate animals or plants",
+          "pass without trace"
         ],
         "3": [
-          "speak with plants|xphb"
+          "speak with plants"
         ],
         "5": [
-          "awaken|xphb"
+          "awaken"
         ],
         "6": [
-          "wall of thorns|xphb"
+          "wall of thorns"
         ]
       }
     },
     "charges": {
       "max": 6,
       "recharge": "dawn",
-      "recharge_amount": "{@dice 1d6}"
+      "recharge_amount": "`roll:1d6`"
     }
   },
   {
@@ -9899,7 +9751,7 @@
     "charges": {
       "max": 3,
       "recharge": "dawn",
-      "recharge_amount": "{@dice 1d3}"
+      "recharge_amount": "`roll:1d3`"
     }
   },
   {
@@ -10057,11 +9909,6 @@
     "description": "This book contains memory and logic exercises, and its words are charged with magic. If you spend 48 hours over a period of 6 days or fewer studying the book's contents and practicing its guidelines, your Intelligence increases by 2, to a maximum of 30. The manual then loses its magic but regains it in a century.",
     "type": "wondrous item",
     "weight": 5,
-    "effects": [
-      {
-        "foundryId": "tomeOfClearThoug"
-      }
-    ],
     "bonuses": {
       "ability_scores": {
         "static": {
@@ -10079,11 +9926,6 @@
     "description": "This book contains guidelines for influencing and charming others, and its words are charged with magic. If you spend 48 hours over a period of 6 days or fewer studying the book's contents and practicing its guidelines, your Charisma increases by 2, to a maximum of 30. The manual then loses its magic but regains it in a century.",
     "type": "wondrous item",
     "weight": 5,
-    "effects": [
-      {
-        "foundryId": "tomeOfLeadership"
-      }
-    ],
     "bonuses": {
       "ability_scores": {
         "static": {
@@ -10101,11 +9943,6 @@
     "description": "This book contains intuition and insight exercises, and its words are charged with magic. If you spend 48 hours over a period of 6 days or fewer studying the book's contents and practicing its guidelines, your Wisdom increases by 2, to a maximum of 30. The manual then loses its magic, but regains it in a century.",
     "type": "wondrous item",
     "weight": 5,
-    "effects": [
-      {
-        "foundryId": "tomeOfUnderstand"
-      }
-    ],
     "bonuses": {
       "ability_scores": {
         "static": {
@@ -10135,14 +9972,14 @@
     "attached_spells": {
       "charges": {
         "1": [
-          "dominate beast|xphb"
+          "dominate beast"
         ]
       }
     },
     "charges": {
       "max": 3,
       "recharge": "dawn",
-      "recharge_amount": "{@dice 1d3}"
+      "recharge_amount": "`roll:1d3`"
     }
   },
   {
@@ -10703,17 +10540,17 @@
     "attached_spells": {
       "charges": {
         "2": [
-          "hold person|xphb"
+          "hold person"
         ],
         "5": [
-          "hold monster|xphb"
+          "hold monster"
         ]
       }
     },
     "charges": {
       "max": 7,
       "recharge": "dawn",
-      "recharge_amount": "{@dice 1d6 + 1}"
+      "recharge_amount": "`roll:1d6 + 1`"
     }
   },
   {
@@ -10731,7 +10568,7 @@
     "charges": {
       "max": 7,
       "recharge": "dawn",
-      "recharge_amount": "{@dice 1d6 + 1}"
+      "recharge_amount": "`roll:1d6 + 1`"
     }
   },
   {
@@ -10755,14 +10592,14 @@
     "attached_spells": {
       "charges": {
         "1": [
-          "fireball|xphb"
+          "fireball"
         ]
       }
     },
     "charges": {
       "max": 7,
       "recharge": "dawn",
-      "recharge_amount": "{@dice 1d6 + 1}"
+      "recharge_amount": "`roll:1d6 + 1`"
     }
   },
   {
@@ -10786,14 +10623,14 @@
     "attached_spells": {
       "charges": {
         "1": [
-          "lightning bolt|xphb"
+          "lightning bolt"
         ]
       }
     },
     "charges": {
       "max": 7,
       "recharge": "dawn",
-      "recharge_amount": "{@dice 1d6 + 1}"
+      "recharge_amount": "`roll:1d6 + 1`"
     }
   },
   {
@@ -10808,14 +10645,14 @@
     "attached_spells": {
       "charges": {
         "1": [
-          "detect magic|xphb"
+          "detect magic"
         ]
       }
     },
     "charges": {
       "max": 3,
       "recharge": "dawn",
-      "recharge_amount": "{@dice 1d3}"
+      "recharge_amount": "`roll:1d3`"
     }
   },
   {
@@ -10830,14 +10667,14 @@
     "attached_spells": {
       "charges": {
         "1": [
-          "magic missile|xphb"
+          "magic missile"
         ]
       }
     },
     "charges": {
       "max": 7,
       "recharge": "dawn",
-      "recharge_amount": "{@dice 1d6 + 1}"
+      "recharge_amount": "`roll:1d6 + 1`"
     }
   },
   {
@@ -10861,13 +10698,8 @@
     "charges": {
       "max": 7,
       "recharge": "dawn",
-      "recharge_amount": "{@dice 1d6 + 1}"
-    },
-    "effects": [
-      {
-        "foundryId": "wandOfParalysis"
-      }
-    ]
+      "recharge_amount": "`roll:1d6 + 1`"
+    }
   },
   {
     "slug": "srd-2024_item_wand-of-polymorph",
@@ -10890,14 +10722,14 @@
     "attached_spells": {
       "charges": {
         "1": [
-          "polymorph|xphb"
+          "polymorph"
         ]
       }
     },
     "charges": {
       "max": 7,
       "recharge": "dawn",
-      "recharge_amount": "{@dice 1d6 + 1}"
+      "recharge_amount": "`roll:1d6 + 1`"
     }
   },
   {
@@ -10912,7 +10744,7 @@
     "charges": {
       "max": 3,
       "recharge": "dawn",
-      "recharge_amount": "{@dice 1d3}"
+      "recharge_amount": "`roll:1d3`"
     }
   },
   {
@@ -10972,14 +10804,14 @@
     "attached_spells": {
       "charges": {
         "1": [
-          "web|xphb"
+          "web"
         ]
       }
     },
     "charges": {
       "max": 7,
       "recharge": "dawn",
-      "recharge_amount": "{@dice 1d6 + 1}"
+      "recharge_amount": "`roll:1d6 + 1`"
     }
   },
   {
@@ -10997,24 +10829,24 @@
     "attached_spells": {
       "charges": {
         "1": [
-          "darkness|xphb",
-          "enlarge/reduce|xphb",
-          "faerie fire|xphb",
-          "fireball|xphb",
-          "greater restoration|xphb",
-          "gust of wind|xphb",
-          "invisibility|xphb",
-          "lightning bolt|xphb",
-          "polymorph|xphb",
-          "slow|xphb",
-          "stinking cloud|xphb"
+          "darkness",
+          "enlarge/reduce",
+          "faerie fire",
+          "fireball",
+          "greater restoration",
+          "gust of wind",
+          "invisibility",
+          "lightning bolt",
+          "polymorph",
+          "slow",
+          "stinking cloud"
         ]
       }
     },
     "charges": {
       "max": 7,
       "recharge": "dawn",
-      "recharge_amount": "{@dice 1d6 + 1}"
+      "recharge_amount": "`roll:1d6 + 1`"
     }
   },
   {
@@ -11592,7 +11424,7 @@
     "attached_spells": {
       "daily": {
         "1e": [
-          "gust of wind|xphb"
+          "gust of wind"
         ]
       }
     }
@@ -11616,13 +11448,8 @@
     "charges": {
       "max": 4,
       "recharge": "dawn",
-      "recharge_amount": "{@dice 1d4}"
-    },
-    "effects": [
-      {
-        "foundryId": "wingedBoots"
-      }
-    ]
+      "recharge_amount": "`roll:1d4`"
+    }
   },
   {
     "slug": "srd-2024_item_wings-of-flying",
@@ -11639,12 +11466,7 @@
       "speed": {
         "fly": 60
       }
-    },
-    "effects": [
-      {
-        "foundryId": "wingsOfFlying"
-      }
-    ]
+    }
   },
   {
     "slug": "srd-2024_item_adamantine-breastplate",
@@ -11657,7 +11479,7 @@
     "attunement": {
       "required": false
     },
-    "description": "This suit of armor is reinforced with adamantine, one of the hardest substances in existence. While you're wearing it, any {@variantrule Critical Hit|XPHB} against you becomes a normal hit.",
+    "description": "This suit of armor is reinforced with adamantine, one of the hardest substances in existence. While you're wearing it, any Critical Hit against you becomes a normal hit.",
     "weight": 20
   },
   {
@@ -11671,7 +11493,7 @@
     "attunement": {
       "required": false
     },
-    "description": "This suit of armor is reinforced with adamantine, one of the hardest substances in existence. While you're wearing it, any {@variantrule Critical Hit|XPHB} against you becomes a normal hit.",
+    "description": "This suit of armor is reinforced with adamantine, one of the hardest substances in existence. While you're wearing it, any Critical Hit against you becomes a normal hit.",
     "weight": 55
   },
   {
@@ -11685,7 +11507,7 @@
     "attunement": {
       "required": false
     },
-    "description": "This suit of armor is reinforced with adamantine, one of the hardest substances in existence. While you're wearing it, any {@variantrule Critical Hit|XPHB} against you becomes a normal hit.",
+    "description": "This suit of armor is reinforced with adamantine, one of the hardest substances in existence. While you're wearing it, any Critical Hit against you becomes a normal hit.",
     "weight": 20
   },
   {
@@ -11699,7 +11521,7 @@
     "attunement": {
       "required": false
     },
-    "description": "This suit of armor is reinforced with adamantine, one of the hardest substances in existence. While you're wearing it, any {@variantrule Critical Hit|XPHB} against you becomes a normal hit.",
+    "description": "This suit of armor is reinforced with adamantine, one of the hardest substances in existence. While you're wearing it, any Critical Hit against you becomes a normal hit.",
     "weight": 40
   },
   {
@@ -11713,7 +11535,7 @@
     "attunement": {
       "required": false
     },
-    "description": "This suit of armor is reinforced with adamantine, one of the hardest substances in existence. While you're wearing it, any {@variantrule Critical Hit|XPHB} against you becomes a normal hit.",
+    "description": "This suit of armor is reinforced with adamantine, one of the hardest substances in existence. While you're wearing it, any Critical Hit against you becomes a normal hit.",
     "weight": 12
   },
   {
@@ -11727,7 +11549,7 @@
     "attunement": {
       "required": false
     },
-    "description": "This suit of armor is reinforced with adamantine, one of the hardest substances in existence. While you're wearing it, any {@variantrule Critical Hit|XPHB} against you becomes a normal hit.",
+    "description": "This suit of armor is reinforced with adamantine, one of the hardest substances in existence. While you're wearing it, any Critical Hit against you becomes a normal hit.",
     "weight": 65
   },
   {
@@ -11741,7 +11563,7 @@
     "attunement": {
       "required": false
     },
-    "description": "This suit of armor is reinforced with adamantine, one of the hardest substances in existence. While you're wearing it, any {@variantrule Critical Hit|XPHB} against you becomes a normal hit.",
+    "description": "This suit of armor is reinforced with adamantine, one of the hardest substances in existence. While you're wearing it, any Critical Hit against you becomes a normal hit.",
     "weight": 40
   },
   {
@@ -11755,7 +11577,7 @@
     "attunement": {
       "required": false
     },
-    "description": "This suit of armor is reinforced with adamantine, one of the hardest substances in existence. While you're wearing it, any {@variantrule Critical Hit|XPHB} against you becomes a normal hit.",
+    "description": "This suit of armor is reinforced with adamantine, one of the hardest substances in existence. While you're wearing it, any Critical Hit against you becomes a normal hit.",
     "weight": 45
   },
   {
@@ -11769,7 +11591,7 @@
     "attunement": {
       "required": false
     },
-    "description": "This suit of armor is reinforced with adamantine, one of the hardest substances in existence. While you're wearing it, any {@variantrule Critical Hit|XPHB} against you becomes a normal hit.",
+    "description": "This suit of armor is reinforced with adamantine, one of the hardest substances in existence. While you're wearing it, any Critical Hit against you becomes a normal hit.",
     "weight": 60
   },
   {
@@ -11783,7 +11605,7 @@
     "attunement": {
       "required": true
     },
-    "description": "{#itemEntry Armor of Resistance|XDMG}",
+    "description": "You have Resistance to acid damage while you wear this armor.",
     "weight": 20
   },
   {
@@ -11797,7 +11619,7 @@
     "attunement": {
       "required": true
     },
-    "description": "{#itemEntry Armor of Resistance|XDMG}",
+    "description": "You have Resistance to acid damage while you wear this armor.",
     "weight": 55
   },
   {
@@ -11811,7 +11633,7 @@
     "attunement": {
       "required": true
     },
-    "description": "{#itemEntry Armor of Resistance|XDMG}",
+    "description": "You have Resistance to acid damage while you wear this armor.",
     "weight": 20
   },
   {
@@ -11825,7 +11647,7 @@
     "attunement": {
       "required": true
     },
-    "description": "{#itemEntry Armor of Resistance|XDMG}",
+    "description": "You have Resistance to acid damage while you wear this armor.",
     "weight": 40
   },
   {
@@ -11839,7 +11661,7 @@
     "attunement": {
       "required": true
     },
-    "description": "{#itemEntry Armor of Resistance|XDMG}",
+    "description": "You have Resistance to acid damage while you wear this armor.",
     "weight": 12
   },
   {
@@ -11853,7 +11675,7 @@
     "attunement": {
       "required": true
     },
-    "description": "{#itemEntry Armor of Resistance|XDMG}",
+    "description": "You have Resistance to acid damage while you wear this armor.",
     "weight": 10
   },
   {
@@ -11867,7 +11689,7 @@
     "attunement": {
       "required": true
     },
-    "description": "{#itemEntry Armor of Resistance|XDMG}",
+    "description": "You have Resistance to acid damage while you wear this armor.",
     "weight": 8
   },
   {
@@ -11881,7 +11703,7 @@
     "attunement": {
       "required": true
     },
-    "description": "{#itemEntry Armor of Resistance|XDMG}",
+    "description": "You have Resistance to acid damage while you wear this armor.",
     "weight": 65
   },
   {
@@ -11895,7 +11717,7 @@
     "attunement": {
       "required": true
     },
-    "description": "{#itemEntry Armor of Resistance|XDMG}",
+    "description": "You have Resistance to acid damage while you wear this armor.",
     "weight": 40
   },
   {
@@ -11909,7 +11731,7 @@
     "attunement": {
       "required": true
     },
-    "description": "{#itemEntry Armor of Resistance|XDMG}",
+    "description": "You have Resistance to acid damage while you wear this armor.",
     "weight": 45
   },
   {
@@ -11923,7 +11745,7 @@
     "attunement": {
       "required": true
     },
-    "description": "{#itemEntry Armor of Resistance|XDMG}",
+    "description": "You have Resistance to acid damage while you wear this armor.",
     "weight": 60
   },
   {
@@ -11937,7 +11759,7 @@
     "attunement": {
       "required": true
     },
-    "description": "{#itemEntry Armor of Resistance|XDMG}",
+    "description": "You have Resistance to acid damage while you wear this armor.",
     "weight": 13
   },
   {
@@ -11951,7 +11773,7 @@
     "attunement": {
       "required": true
     },
-    "description": "{#itemEntry Armor of Resistance|XDMG}",
+    "description": "You have Resistance to cold damage while you wear this armor.",
     "weight": 20
   },
   {
@@ -11965,7 +11787,7 @@
     "attunement": {
       "required": true
     },
-    "description": "{#itemEntry Armor of Resistance|XDMG}",
+    "description": "You have Resistance to cold damage while you wear this armor.",
     "weight": 55
   },
   {
@@ -11979,7 +11801,7 @@
     "attunement": {
       "required": true
     },
-    "description": "{#itemEntry Armor of Resistance|XDMG}",
+    "description": "You have Resistance to cold damage while you wear this armor.",
     "weight": 20
   },
   {
@@ -11993,7 +11815,7 @@
     "attunement": {
       "required": true
     },
-    "description": "{#itemEntry Armor of Resistance|XDMG}",
+    "description": "You have Resistance to cold damage while you wear this armor.",
     "weight": 40
   },
   {
@@ -12007,7 +11829,7 @@
     "attunement": {
       "required": true
     },
-    "description": "{#itemEntry Armor of Resistance|XDMG}",
+    "description": "You have Resistance to cold damage while you wear this armor.",
     "weight": 12
   },
   {
@@ -12021,7 +11843,7 @@
     "attunement": {
       "required": true
     },
-    "description": "{#itemEntry Armor of Resistance|XDMG}",
+    "description": "You have Resistance to cold damage while you wear this armor.",
     "weight": 10
   },
   {
@@ -12035,7 +11857,7 @@
     "attunement": {
       "required": true
     },
-    "description": "{#itemEntry Armor of Resistance|XDMG}",
+    "description": "You have Resistance to cold damage while you wear this armor.",
     "weight": 8
   },
   {
@@ -12049,7 +11871,7 @@
     "attunement": {
       "required": true
     },
-    "description": "{#itemEntry Armor of Resistance|XDMG}",
+    "description": "You have Resistance to cold damage while you wear this armor.",
     "weight": 65
   },
   {
@@ -12063,7 +11885,7 @@
     "attunement": {
       "required": true
     },
-    "description": "{#itemEntry Armor of Resistance|XDMG}",
+    "description": "You have Resistance to cold damage while you wear this armor.",
     "weight": 40
   },
   {
@@ -12077,7 +11899,7 @@
     "attunement": {
       "required": true
     },
-    "description": "{#itemEntry Armor of Resistance|XDMG}",
+    "description": "You have Resistance to cold damage while you wear this armor.",
     "weight": 45
   },
   {
@@ -12091,7 +11913,7 @@
     "attunement": {
       "required": true
     },
-    "description": "{#itemEntry Armor of Resistance|XDMG}",
+    "description": "You have Resistance to cold damage while you wear this armor.",
     "weight": 60
   },
   {
@@ -12105,7 +11927,7 @@
     "attunement": {
       "required": true
     },
-    "description": "{#itemEntry Armor of Resistance|XDMG}",
+    "description": "You have Resistance to cold damage while you wear this armor.",
     "weight": 13
   },
   {
@@ -12119,7 +11941,7 @@
     "attunement": {
       "required": true
     },
-    "description": "{#itemEntry Armor of Resistance|XDMG}",
+    "description": "You have Resistance to fire damage while you wear this armor.",
     "weight": 20
   },
   {
@@ -12133,7 +11955,7 @@
     "attunement": {
       "required": true
     },
-    "description": "{#itemEntry Armor of Resistance|XDMG}",
+    "description": "You have Resistance to fire damage while you wear this armor.",
     "weight": 55
   },
   {
@@ -12147,7 +11969,7 @@
     "attunement": {
       "required": true
     },
-    "description": "{#itemEntry Armor of Resistance|XDMG}",
+    "description": "You have Resistance to fire damage while you wear this armor.",
     "weight": 20
   },
   {
@@ -12161,7 +11983,7 @@
     "attunement": {
       "required": true
     },
-    "description": "{#itemEntry Armor of Resistance|XDMG}",
+    "description": "You have Resistance to fire damage while you wear this armor.",
     "weight": 40
   },
   {
@@ -12175,7 +11997,7 @@
     "attunement": {
       "required": true
     },
-    "description": "{#itemEntry Armor of Resistance|XDMG}",
+    "description": "You have Resistance to fire damage while you wear this armor.",
     "weight": 12
   },
   {
@@ -12189,7 +12011,7 @@
     "attunement": {
       "required": true
     },
-    "description": "{#itemEntry Armor of Resistance|XDMG}",
+    "description": "You have Resistance to fire damage while you wear this armor.",
     "weight": 10
   },
   {
@@ -12203,7 +12025,7 @@
     "attunement": {
       "required": true
     },
-    "description": "{#itemEntry Armor of Resistance|XDMG}",
+    "description": "You have Resistance to fire damage while you wear this armor.",
     "weight": 8
   },
   {
@@ -12217,7 +12039,7 @@
     "attunement": {
       "required": true
     },
-    "description": "{#itemEntry Armor of Resistance|XDMG}",
+    "description": "You have Resistance to fire damage while you wear this armor.",
     "weight": 65
   },
   {
@@ -12231,7 +12053,7 @@
     "attunement": {
       "required": true
     },
-    "description": "{#itemEntry Armor of Resistance|XDMG}",
+    "description": "You have Resistance to fire damage while you wear this armor.",
     "weight": 40
   },
   {
@@ -12245,7 +12067,7 @@
     "attunement": {
       "required": true
     },
-    "description": "{#itemEntry Armor of Resistance|XDMG}",
+    "description": "You have Resistance to fire damage while you wear this armor.",
     "weight": 45
   },
   {
@@ -12259,7 +12081,7 @@
     "attunement": {
       "required": true
     },
-    "description": "{#itemEntry Armor of Resistance|XDMG}",
+    "description": "You have Resistance to fire damage while you wear this armor.",
     "weight": 60
   },
   {
@@ -12273,7 +12095,7 @@
     "attunement": {
       "required": true
     },
-    "description": "{#itemEntry Armor of Resistance|XDMG}",
+    "description": "You have Resistance to fire damage while you wear this armor.",
     "weight": 13
   },
   {
@@ -12287,7 +12109,7 @@
     "attunement": {
       "required": true
     },
-    "description": "{#itemEntry Armor of Resistance|XDMG}",
+    "description": "You have Resistance to force damage while you wear this armor.",
     "weight": 20
   },
   {
@@ -12301,7 +12123,7 @@
     "attunement": {
       "required": true
     },
-    "description": "{#itemEntry Armor of Resistance|XDMG}",
+    "description": "You have Resistance to force damage while you wear this armor.",
     "weight": 55
   },
   {
@@ -12315,7 +12137,7 @@
     "attunement": {
       "required": true
     },
-    "description": "{#itemEntry Armor of Resistance|XDMG}",
+    "description": "You have Resistance to force damage while you wear this armor.",
     "weight": 20
   },
   {
@@ -12329,7 +12151,7 @@
     "attunement": {
       "required": true
     },
-    "description": "{#itemEntry Armor of Resistance|XDMG}",
+    "description": "You have Resistance to force damage while you wear this armor.",
     "weight": 40
   },
   {
@@ -12343,7 +12165,7 @@
     "attunement": {
       "required": true
     },
-    "description": "{#itemEntry Armor of Resistance|XDMG}",
+    "description": "You have Resistance to force damage while you wear this armor.",
     "weight": 12
   },
   {
@@ -12357,7 +12179,7 @@
     "attunement": {
       "required": true
     },
-    "description": "{#itemEntry Armor of Resistance|XDMG}",
+    "description": "You have Resistance to force damage while you wear this armor.",
     "weight": 10
   },
   {
@@ -12371,7 +12193,7 @@
     "attunement": {
       "required": true
     },
-    "description": "{#itemEntry Armor of Resistance|XDMG}",
+    "description": "You have Resistance to force damage while you wear this armor.",
     "weight": 8
   },
   {
@@ -12385,7 +12207,7 @@
     "attunement": {
       "required": true
     },
-    "description": "{#itemEntry Armor of Resistance|XDMG}",
+    "description": "You have Resistance to force damage while you wear this armor.",
     "weight": 65
   },
   {
@@ -12399,7 +12221,7 @@
     "attunement": {
       "required": true
     },
-    "description": "{#itemEntry Armor of Resistance|XDMG}",
+    "description": "You have Resistance to force damage while you wear this armor.",
     "weight": 40
   },
   {
@@ -12413,7 +12235,7 @@
     "attunement": {
       "required": true
     },
-    "description": "{#itemEntry Armor of Resistance|XDMG}",
+    "description": "You have Resistance to force damage while you wear this armor.",
     "weight": 45
   },
   {
@@ -12427,7 +12249,7 @@
     "attunement": {
       "required": true
     },
-    "description": "{#itemEntry Armor of Resistance|XDMG}",
+    "description": "You have Resistance to force damage while you wear this armor.",
     "weight": 60
   },
   {
@@ -12441,7 +12263,7 @@
     "attunement": {
       "required": true
     },
-    "description": "{#itemEntry Armor of Resistance|XDMG}",
+    "description": "You have Resistance to force damage while you wear this armor.",
     "weight": 13
   },
   {
@@ -12455,7 +12277,7 @@
     "attunement": {
       "required": true
     },
-    "description": "{#itemEntry Armor of Resistance|XDMG}",
+    "description": "You have Resistance to lightning damage while you wear this armor.",
     "weight": 20
   },
   {
@@ -12469,7 +12291,7 @@
     "attunement": {
       "required": true
     },
-    "description": "{#itemEntry Armor of Resistance|XDMG}",
+    "description": "You have Resistance to lightning damage while you wear this armor.",
     "weight": 55
   },
   {
@@ -12483,7 +12305,7 @@
     "attunement": {
       "required": true
     },
-    "description": "{#itemEntry Armor of Resistance|XDMG}",
+    "description": "You have Resistance to lightning damage while you wear this armor.",
     "weight": 20
   },
   {
@@ -12497,7 +12319,7 @@
     "attunement": {
       "required": true
     },
-    "description": "{#itemEntry Armor of Resistance|XDMG}",
+    "description": "You have Resistance to lightning damage while you wear this armor.",
     "weight": 40
   },
   {
@@ -12511,7 +12333,7 @@
     "attunement": {
       "required": true
     },
-    "description": "{#itemEntry Armor of Resistance|XDMG}",
+    "description": "You have Resistance to lightning damage while you wear this armor.",
     "weight": 12
   },
   {
@@ -12525,7 +12347,7 @@
     "attunement": {
       "required": true
     },
-    "description": "{#itemEntry Armor of Resistance|XDMG}",
+    "description": "You have Resistance to lightning damage while you wear this armor.",
     "weight": 10
   },
   {
@@ -12539,7 +12361,7 @@
     "attunement": {
       "required": true
     },
-    "description": "{#itemEntry Armor of Resistance|XDMG}",
+    "description": "You have Resistance to lightning damage while you wear this armor.",
     "weight": 8
   },
   {
@@ -12553,7 +12375,7 @@
     "attunement": {
       "required": true
     },
-    "description": "{#itemEntry Armor of Resistance|XDMG}",
+    "description": "You have Resistance to lightning damage while you wear this armor.",
     "weight": 65
   },
   {
@@ -12567,7 +12389,7 @@
     "attunement": {
       "required": true
     },
-    "description": "{#itemEntry Armor of Resistance|XDMG}",
+    "description": "You have Resistance to lightning damage while you wear this armor.",
     "weight": 40
   },
   {
@@ -12581,7 +12403,7 @@
     "attunement": {
       "required": true
     },
-    "description": "{#itemEntry Armor of Resistance|XDMG}",
+    "description": "You have Resistance to lightning damage while you wear this armor.",
     "weight": 45
   },
   {
@@ -12595,7 +12417,7 @@
     "attunement": {
       "required": true
     },
-    "description": "{#itemEntry Armor of Resistance|XDMG}",
+    "description": "You have Resistance to lightning damage while you wear this armor.",
     "weight": 60
   },
   {
@@ -12609,7 +12431,7 @@
     "attunement": {
       "required": true
     },
-    "description": "{#itemEntry Armor of Resistance|XDMG}",
+    "description": "You have Resistance to lightning damage while you wear this armor.",
     "weight": 13
   },
   {
@@ -12623,7 +12445,7 @@
     "attunement": {
       "required": true
     },
-    "description": "{#itemEntry Armor of Resistance|XDMG}",
+    "description": "You have Resistance to necrotic damage while you wear this armor.",
     "weight": 20
   },
   {
@@ -12637,7 +12459,7 @@
     "attunement": {
       "required": true
     },
-    "description": "{#itemEntry Armor of Resistance|XDMG}",
+    "description": "You have Resistance to necrotic damage while you wear this armor.",
     "weight": 55
   },
   {
@@ -12651,7 +12473,7 @@
     "attunement": {
       "required": true
     },
-    "description": "{#itemEntry Armor of Resistance|XDMG}",
+    "description": "You have Resistance to necrotic damage while you wear this armor.",
     "weight": 20
   },
   {
@@ -12665,7 +12487,7 @@
     "attunement": {
       "required": true
     },
-    "description": "{#itemEntry Armor of Resistance|XDMG}",
+    "description": "You have Resistance to necrotic damage while you wear this armor.",
     "weight": 40
   },
   {
@@ -12679,7 +12501,7 @@
     "attunement": {
       "required": true
     },
-    "description": "{#itemEntry Armor of Resistance|XDMG}",
+    "description": "You have Resistance to necrotic damage while you wear this armor.",
     "weight": 12
   },
   {
@@ -12693,7 +12515,7 @@
     "attunement": {
       "required": true
     },
-    "description": "{#itemEntry Armor of Resistance|XDMG}",
+    "description": "You have Resistance to necrotic damage while you wear this armor.",
     "weight": 10
   },
   {
@@ -12707,7 +12529,7 @@
     "attunement": {
       "required": true
     },
-    "description": "{#itemEntry Armor of Resistance|XDMG}",
+    "description": "You have Resistance to necrotic damage while you wear this armor.",
     "weight": 8
   },
   {
@@ -12721,7 +12543,7 @@
     "attunement": {
       "required": true
     },
-    "description": "{#itemEntry Armor of Resistance|XDMG}",
+    "description": "You have Resistance to necrotic damage while you wear this armor.",
     "weight": 65
   },
   {
@@ -12735,7 +12557,7 @@
     "attunement": {
       "required": true
     },
-    "description": "{#itemEntry Armor of Resistance|XDMG}",
+    "description": "You have Resistance to necrotic damage while you wear this armor.",
     "weight": 40
   },
   {
@@ -12749,7 +12571,7 @@
     "attunement": {
       "required": true
     },
-    "description": "{#itemEntry Armor of Resistance|XDMG}",
+    "description": "You have Resistance to necrotic damage while you wear this armor.",
     "weight": 45
   },
   {
@@ -12763,7 +12585,7 @@
     "attunement": {
       "required": true
     },
-    "description": "{#itemEntry Armor of Resistance|XDMG}",
+    "description": "You have Resistance to necrotic damage while you wear this armor.",
     "weight": 60
   },
   {
@@ -12777,7 +12599,7 @@
     "attunement": {
       "required": true
     },
-    "description": "{#itemEntry Armor of Resistance|XDMG}",
+    "description": "You have Resistance to necrotic damage while you wear this armor.",
     "weight": 13
   },
   {
@@ -12791,7 +12613,7 @@
     "attunement": {
       "required": true
     },
-    "description": "{#itemEntry Armor of Resistance|XDMG}",
+    "description": "You have Resistance to poison damage while you wear this armor.",
     "weight": 20
   },
   {
@@ -12805,7 +12627,7 @@
     "attunement": {
       "required": true
     },
-    "description": "{#itemEntry Armor of Resistance|XDMG}",
+    "description": "You have Resistance to poison damage while you wear this armor.",
     "weight": 55
   },
   {
@@ -12819,7 +12641,7 @@
     "attunement": {
       "required": true
     },
-    "description": "{#itemEntry Armor of Resistance|XDMG}",
+    "description": "You have Resistance to poison damage while you wear this armor.",
     "weight": 20
   },
   {
@@ -12833,7 +12655,7 @@
     "attunement": {
       "required": true
     },
-    "description": "{#itemEntry Armor of Resistance|XDMG}",
+    "description": "You have Resistance to poison damage while you wear this armor.",
     "weight": 40
   },
   {
@@ -12847,7 +12669,7 @@
     "attunement": {
       "required": true
     },
-    "description": "{#itemEntry Armor of Resistance|XDMG}",
+    "description": "You have Resistance to poison damage while you wear this armor.",
     "weight": 12
   },
   {
@@ -12861,7 +12683,7 @@
     "attunement": {
       "required": true
     },
-    "description": "{#itemEntry Armor of Resistance|XDMG}",
+    "description": "You have Resistance to poison damage while you wear this armor.",
     "weight": 10
   },
   {
@@ -12875,7 +12697,7 @@
     "attunement": {
       "required": true
     },
-    "description": "{#itemEntry Armor of Resistance|XDMG}",
+    "description": "You have Resistance to poison damage while you wear this armor.",
     "weight": 8
   },
   {
@@ -12889,7 +12711,7 @@
     "attunement": {
       "required": true
     },
-    "description": "{#itemEntry Armor of Resistance|XDMG}",
+    "description": "You have Resistance to poison damage while you wear this armor.",
     "weight": 65
   },
   {
@@ -12903,7 +12725,7 @@
     "attunement": {
       "required": true
     },
-    "description": "{#itemEntry Armor of Resistance|XDMG}",
+    "description": "You have Resistance to poison damage while you wear this armor.",
     "weight": 40
   },
   {
@@ -12917,7 +12739,7 @@
     "attunement": {
       "required": true
     },
-    "description": "{#itemEntry Armor of Resistance|XDMG}",
+    "description": "You have Resistance to poison damage while you wear this armor.",
     "weight": 45
   },
   {
@@ -12931,7 +12753,7 @@
     "attunement": {
       "required": true
     },
-    "description": "{#itemEntry Armor of Resistance|XDMG}",
+    "description": "You have Resistance to poison damage while you wear this armor.",
     "weight": 60
   },
   {
@@ -12945,7 +12767,7 @@
     "attunement": {
       "required": true
     },
-    "description": "{#itemEntry Armor of Resistance|XDMG}",
+    "description": "You have Resistance to poison damage while you wear this armor.",
     "weight": 13
   },
   {
@@ -12959,7 +12781,7 @@
     "attunement": {
       "required": true
     },
-    "description": "{#itemEntry Armor of Resistance|XDMG}",
+    "description": "You have Resistance to psychic damage while you wear this armor.",
     "weight": 20
   },
   {
@@ -12973,7 +12795,7 @@
     "attunement": {
       "required": true
     },
-    "description": "{#itemEntry Armor of Resistance|XDMG}",
+    "description": "You have Resistance to psychic damage while you wear this armor.",
     "weight": 55
   },
   {
@@ -12987,7 +12809,7 @@
     "attunement": {
       "required": true
     },
-    "description": "{#itemEntry Armor of Resistance|XDMG}",
+    "description": "You have Resistance to psychic damage while you wear this armor.",
     "weight": 20
   },
   {
@@ -13001,7 +12823,7 @@
     "attunement": {
       "required": true
     },
-    "description": "{#itemEntry Armor of Resistance|XDMG}",
+    "description": "You have Resistance to psychic damage while you wear this armor.",
     "weight": 40
   },
   {
@@ -13015,7 +12837,7 @@
     "attunement": {
       "required": true
     },
-    "description": "{#itemEntry Armor of Resistance|XDMG}",
+    "description": "You have Resistance to psychic damage while you wear this armor.",
     "weight": 12
   },
   {
@@ -13029,7 +12851,7 @@
     "attunement": {
       "required": true
     },
-    "description": "{#itemEntry Armor of Resistance|XDMG}",
+    "description": "You have Resistance to psychic damage while you wear this armor.",
     "weight": 10
   },
   {
@@ -13043,7 +12865,7 @@
     "attunement": {
       "required": true
     },
-    "description": "{#itemEntry Armor of Resistance|XDMG}",
+    "description": "You have Resistance to psychic damage while you wear this armor.",
     "weight": 8
   },
   {
@@ -13057,7 +12879,7 @@
     "attunement": {
       "required": true
     },
-    "description": "{#itemEntry Armor of Resistance|XDMG}",
+    "description": "You have Resistance to psychic damage while you wear this armor.",
     "weight": 65
   },
   {
@@ -13071,7 +12893,7 @@
     "attunement": {
       "required": true
     },
-    "description": "{#itemEntry Armor of Resistance|XDMG}",
+    "description": "You have Resistance to psychic damage while you wear this armor.",
     "weight": 40
   },
   {
@@ -13085,7 +12907,7 @@
     "attunement": {
       "required": true
     },
-    "description": "{#itemEntry Armor of Resistance|XDMG}",
+    "description": "You have Resistance to psychic damage while you wear this armor.",
     "weight": 45
   },
   {
@@ -13099,7 +12921,7 @@
     "attunement": {
       "required": true
     },
-    "description": "{#itemEntry Armor of Resistance|XDMG}",
+    "description": "You have Resistance to psychic damage while you wear this armor.",
     "weight": 60
   },
   {
@@ -13113,7 +12935,7 @@
     "attunement": {
       "required": true
     },
-    "description": "{#itemEntry Armor of Resistance|XDMG}",
+    "description": "You have Resistance to psychic damage while you wear this armor.",
     "weight": 13
   },
   {
@@ -13127,7 +12949,7 @@
     "attunement": {
       "required": true
     },
-    "description": "{#itemEntry Armor of Resistance|XDMG}",
+    "description": "You have Resistance to radiant damage while you wear this armor.",
     "weight": 20
   },
   {
@@ -13141,7 +12963,7 @@
     "attunement": {
       "required": true
     },
-    "description": "{#itemEntry Armor of Resistance|XDMG}",
+    "description": "You have Resistance to radiant damage while you wear this armor.",
     "weight": 55
   },
   {
@@ -13155,7 +12977,7 @@
     "attunement": {
       "required": true
     },
-    "description": "{#itemEntry Armor of Resistance|XDMG}",
+    "description": "You have Resistance to radiant damage while you wear this armor.",
     "weight": 20
   },
   {
@@ -13169,7 +12991,7 @@
     "attunement": {
       "required": true
     },
-    "description": "{#itemEntry Armor of Resistance|XDMG}",
+    "description": "You have Resistance to radiant damage while you wear this armor.",
     "weight": 40
   },
   {
@@ -13183,7 +13005,7 @@
     "attunement": {
       "required": true
     },
-    "description": "{#itemEntry Armor of Resistance|XDMG}",
+    "description": "You have Resistance to radiant damage while you wear this armor.",
     "weight": 12
   },
   {
@@ -13197,7 +13019,7 @@
     "attunement": {
       "required": true
     },
-    "description": "{#itemEntry Armor of Resistance|XDMG}",
+    "description": "You have Resistance to radiant damage while you wear this armor.",
     "weight": 10
   },
   {
@@ -13211,7 +13033,7 @@
     "attunement": {
       "required": true
     },
-    "description": "{#itemEntry Armor of Resistance|XDMG}",
+    "description": "You have Resistance to radiant damage while you wear this armor.",
     "weight": 8
   },
   {
@@ -13225,7 +13047,7 @@
     "attunement": {
       "required": true
     },
-    "description": "{#itemEntry Armor of Resistance|XDMG}",
+    "description": "You have Resistance to radiant damage while you wear this armor.",
     "weight": 65
   },
   {
@@ -13239,7 +13061,7 @@
     "attunement": {
       "required": true
     },
-    "description": "{#itemEntry Armor of Resistance|XDMG}",
+    "description": "You have Resistance to radiant damage while you wear this armor.",
     "weight": 40
   },
   {
@@ -13253,7 +13075,7 @@
     "attunement": {
       "required": true
     },
-    "description": "{#itemEntry Armor of Resistance|XDMG}",
+    "description": "You have Resistance to radiant damage while you wear this armor.",
     "weight": 45
   },
   {
@@ -13267,7 +13089,7 @@
     "attunement": {
       "required": true
     },
-    "description": "{#itemEntry Armor of Resistance|XDMG}",
+    "description": "You have Resistance to radiant damage while you wear this armor.",
     "weight": 60
   },
   {
@@ -13281,7 +13103,7 @@
     "attunement": {
       "required": true
     },
-    "description": "{#itemEntry Armor of Resistance|XDMG}",
+    "description": "You have Resistance to radiant damage while you wear this armor.",
     "weight": 13
   },
   {
@@ -13295,7 +13117,7 @@
     "attunement": {
       "required": true
     },
-    "description": "{#itemEntry Armor of Resistance|XDMG}",
+    "description": "You have Resistance to thunder damage while you wear this armor.",
     "weight": 20
   },
   {
@@ -13309,7 +13131,7 @@
     "attunement": {
       "required": true
     },
-    "description": "{#itemEntry Armor of Resistance|XDMG}",
+    "description": "You have Resistance to thunder damage while you wear this armor.",
     "weight": 55
   },
   {
@@ -13323,7 +13145,7 @@
     "attunement": {
       "required": true
     },
-    "description": "{#itemEntry Armor of Resistance|XDMG}",
+    "description": "You have Resistance to thunder damage while you wear this armor.",
     "weight": 20
   },
   {
@@ -13337,7 +13159,7 @@
     "attunement": {
       "required": true
     },
-    "description": "{#itemEntry Armor of Resistance|XDMG}",
+    "description": "You have Resistance to thunder damage while you wear this armor.",
     "weight": 40
   },
   {
@@ -13351,7 +13173,7 @@
     "attunement": {
       "required": true
     },
-    "description": "{#itemEntry Armor of Resistance|XDMG}",
+    "description": "You have Resistance to thunder damage while you wear this armor.",
     "weight": 12
   },
   {
@@ -13365,7 +13187,7 @@
     "attunement": {
       "required": true
     },
-    "description": "{#itemEntry Armor of Resistance|XDMG}",
+    "description": "You have Resistance to thunder damage while you wear this armor.",
     "weight": 10
   },
   {
@@ -13379,7 +13201,7 @@
     "attunement": {
       "required": true
     },
-    "description": "{#itemEntry Armor of Resistance|XDMG}",
+    "description": "You have Resistance to thunder damage while you wear this armor.",
     "weight": 8
   },
   {
@@ -13393,7 +13215,7 @@
     "attunement": {
       "required": true
     },
-    "description": "{#itemEntry Armor of Resistance|XDMG}",
+    "description": "You have Resistance to thunder damage while you wear this armor.",
     "weight": 65
   },
   {
@@ -13407,7 +13229,7 @@
     "attunement": {
       "required": true
     },
-    "description": "{#itemEntry Armor of Resistance|XDMG}",
+    "description": "You have Resistance to thunder damage while you wear this armor.",
     "weight": 40
   },
   {
@@ -13421,7 +13243,7 @@
     "attunement": {
       "required": true
     },
-    "description": "{#itemEntry Armor of Resistance|XDMG}",
+    "description": "You have Resistance to thunder damage while you wear this armor.",
     "weight": 45
   },
   {
@@ -13435,7 +13257,7 @@
     "attunement": {
       "required": true
     },
-    "description": "{#itemEntry Armor of Resistance|XDMG}",
+    "description": "You have Resistance to thunder damage while you wear this armor.",
     "weight": 60
   },
   {
@@ -13449,7 +13271,7 @@
     "attunement": {
       "required": true
     },
-    "description": "{#itemEntry Armor of Resistance|XDMG}",
+    "description": "You have Resistance to thunder damage while you wear this armor.",
     "weight": 13
   },
   {
@@ -13463,7 +13285,7 @@
     "attunement": {
       "required": true
     },
-    "description": "While wearing this armor, you have {@variantrule Resistance|XPHB} to Bludgeoning damage.",
+    "description": "While wearing this armor, you have Resistance to Bludgeoning damage.",
     "weight": 20
   },
   {
@@ -13477,7 +13299,7 @@
     "attunement": {
       "required": true
     },
-    "description": "While wearing this armor, you have {@variantrule Resistance|XPHB} to Bludgeoning damage.",
+    "description": "While wearing this armor, you have Resistance to Bludgeoning damage.",
     "weight": 55
   },
   {
@@ -13491,7 +13313,7 @@
     "attunement": {
       "required": true
     },
-    "description": "While wearing this armor, you have {@variantrule Resistance|XPHB} to Bludgeoning damage.",
+    "description": "While wearing this armor, you have Resistance to Bludgeoning damage.",
     "weight": 20
   },
   {
@@ -13505,7 +13327,7 @@
     "attunement": {
       "required": true
     },
-    "description": "While wearing this armor, you have {@variantrule Resistance|XPHB} to Bludgeoning damage.",
+    "description": "While wearing this armor, you have Resistance to Bludgeoning damage.",
     "weight": 40
   },
   {
@@ -13519,7 +13341,7 @@
     "attunement": {
       "required": true
     },
-    "description": "While wearing this armor, you have {@variantrule Resistance|XPHB} to Bludgeoning damage.",
+    "description": "While wearing this armor, you have Resistance to Bludgeoning damage.",
     "weight": 12
   },
   {
@@ -13533,7 +13355,7 @@
     "attunement": {
       "required": true
     },
-    "description": "While wearing this armor, you have {@variantrule Resistance|XPHB} to Bludgeoning damage.",
+    "description": "While wearing this armor, you have Resistance to Bludgeoning damage.",
     "weight": 10
   },
   {
@@ -13547,7 +13369,7 @@
     "attunement": {
       "required": true
     },
-    "description": "While wearing this armor, you have {@variantrule Resistance|XPHB} to Bludgeoning damage.",
+    "description": "While wearing this armor, you have Resistance to Bludgeoning damage.",
     "weight": 8
   },
   {
@@ -13561,7 +13383,7 @@
     "attunement": {
       "required": true
     },
-    "description": "While wearing this armor, you have {@variantrule Resistance|XPHB} to Bludgeoning damage.",
+    "description": "While wearing this armor, you have Resistance to Bludgeoning damage.",
     "weight": 65
   },
   {
@@ -13575,7 +13397,7 @@
     "attunement": {
       "required": true
     },
-    "description": "While wearing this armor, you have {@variantrule Resistance|XPHB} to Bludgeoning damage.",
+    "description": "While wearing this armor, you have Resistance to Bludgeoning damage.",
     "weight": 40
   },
   {
@@ -13589,7 +13411,7 @@
     "attunement": {
       "required": true
     },
-    "description": "While wearing this armor, you have {@variantrule Resistance|XPHB} to Bludgeoning damage.",
+    "description": "While wearing this armor, you have Resistance to Bludgeoning damage.",
     "weight": 45
   },
   {
@@ -13603,7 +13425,7 @@
     "attunement": {
       "required": true
     },
-    "description": "While wearing this armor, you have {@variantrule Resistance|XPHB} to Bludgeoning damage.",
+    "description": "While wearing this armor, you have Resistance to Bludgeoning damage.",
     "weight": 60
   },
   {
@@ -13617,7 +13439,7 @@
     "attunement": {
       "required": true
     },
-    "description": "While wearing this armor, you have {@variantrule Resistance|XPHB} to Bludgeoning damage.",
+    "description": "While wearing this armor, you have Resistance to Bludgeoning damage.",
     "weight": 13
   },
   {
@@ -13631,7 +13453,7 @@
     "attunement": {
       "required": true
     },
-    "description": "While wearing this armor, you have {@variantrule Resistance|XPHB} to Piercing damage.",
+    "description": "While wearing this armor, you have Resistance to Piercing damage.",
     "weight": 20
   },
   {
@@ -13645,7 +13467,7 @@
     "attunement": {
       "required": true
     },
-    "description": "While wearing this armor, you have {@variantrule Resistance|XPHB} to Piercing damage.",
+    "description": "While wearing this armor, you have Resistance to Piercing damage.",
     "weight": 55
   },
   {
@@ -13659,7 +13481,7 @@
     "attunement": {
       "required": true
     },
-    "description": "While wearing this armor, you have {@variantrule Resistance|XPHB} to Piercing damage.",
+    "description": "While wearing this armor, you have Resistance to Piercing damage.",
     "weight": 20
   },
   {
@@ -13673,7 +13495,7 @@
     "attunement": {
       "required": true
     },
-    "description": "While wearing this armor, you have {@variantrule Resistance|XPHB} to Piercing damage.",
+    "description": "While wearing this armor, you have Resistance to Piercing damage.",
     "weight": 40
   },
   {
@@ -13687,7 +13509,7 @@
     "attunement": {
       "required": true
     },
-    "description": "While wearing this armor, you have {@variantrule Resistance|XPHB} to Piercing damage.",
+    "description": "While wearing this armor, you have Resistance to Piercing damage.",
     "weight": 12
   },
   {
@@ -13701,7 +13523,7 @@
     "attunement": {
       "required": true
     },
-    "description": "While wearing this armor, you have {@variantrule Resistance|XPHB} to Piercing damage.",
+    "description": "While wearing this armor, you have Resistance to Piercing damage.",
     "weight": 10
   },
   {
@@ -13715,7 +13537,7 @@
     "attunement": {
       "required": true
     },
-    "description": "While wearing this armor, you have {@variantrule Resistance|XPHB} to Piercing damage.",
+    "description": "While wearing this armor, you have Resistance to Piercing damage.",
     "weight": 8
   },
   {
@@ -13729,7 +13551,7 @@
     "attunement": {
       "required": true
     },
-    "description": "While wearing this armor, you have {@variantrule Resistance|XPHB} to Piercing damage.",
+    "description": "While wearing this armor, you have Resistance to Piercing damage.",
     "weight": 65
   },
   {
@@ -13743,7 +13565,7 @@
     "attunement": {
       "required": true
     },
-    "description": "While wearing this armor, you have {@variantrule Resistance|XPHB} to Piercing damage.",
+    "description": "While wearing this armor, you have Resistance to Piercing damage.",
     "weight": 40
   },
   {
@@ -13757,7 +13579,7 @@
     "attunement": {
       "required": true
     },
-    "description": "While wearing this armor, you have {@variantrule Resistance|XPHB} to Piercing damage.",
+    "description": "While wearing this armor, you have Resistance to Piercing damage.",
     "weight": 45
   },
   {
@@ -13771,7 +13593,7 @@
     "attunement": {
       "required": true
     },
-    "description": "While wearing this armor, you have {@variantrule Resistance|XPHB} to Piercing damage.",
+    "description": "While wearing this armor, you have Resistance to Piercing damage.",
     "weight": 60
   },
   {
@@ -13785,7 +13607,7 @@
     "attunement": {
       "required": true
     },
-    "description": "While wearing this armor, you have {@variantrule Resistance|XPHB} to Piercing damage.",
+    "description": "While wearing this armor, you have Resistance to Piercing damage.",
     "weight": 13
   },
   {
@@ -13799,7 +13621,7 @@
     "attunement": {
       "required": true
     },
-    "description": "While wearing this armor, you have {@variantrule Resistance|XPHB} to Slashing damage.",
+    "description": "While wearing this armor, you have Resistance to Slashing damage.",
     "weight": 20
   },
   {
@@ -13813,7 +13635,7 @@
     "attunement": {
       "required": true
     },
-    "description": "While wearing this armor, you have {@variantrule Resistance|XPHB} to Slashing damage.",
+    "description": "While wearing this armor, you have Resistance to Slashing damage.",
     "weight": 55
   },
   {
@@ -13827,7 +13649,7 @@
     "attunement": {
       "required": true
     },
-    "description": "While wearing this armor, you have {@variantrule Resistance|XPHB} to Slashing damage.",
+    "description": "While wearing this armor, you have Resistance to Slashing damage.",
     "weight": 20
   },
   {
@@ -13841,7 +13663,7 @@
     "attunement": {
       "required": true
     },
-    "description": "While wearing this armor, you have {@variantrule Resistance|XPHB} to Slashing damage.",
+    "description": "While wearing this armor, you have Resistance to Slashing damage.",
     "weight": 40
   },
   {
@@ -13855,7 +13677,7 @@
     "attunement": {
       "required": true
     },
-    "description": "While wearing this armor, you have {@variantrule Resistance|XPHB} to Slashing damage.",
+    "description": "While wearing this armor, you have Resistance to Slashing damage.",
     "weight": 12
   },
   {
@@ -13869,7 +13691,7 @@
     "attunement": {
       "required": true
     },
-    "description": "While wearing this armor, you have {@variantrule Resistance|XPHB} to Slashing damage.",
+    "description": "While wearing this armor, you have Resistance to Slashing damage.",
     "weight": 10
   },
   {
@@ -13883,7 +13705,7 @@
     "attunement": {
       "required": true
     },
-    "description": "While wearing this armor, you have {@variantrule Resistance|XPHB} to Slashing damage.",
+    "description": "While wearing this armor, you have Resistance to Slashing damage.",
     "weight": 8
   },
   {
@@ -13897,7 +13719,7 @@
     "attunement": {
       "required": true
     },
-    "description": "While wearing this armor, you have {@variantrule Resistance|XPHB} to Slashing damage.",
+    "description": "While wearing this armor, you have Resistance to Slashing damage.",
     "weight": 65
   },
   {
@@ -13911,7 +13733,7 @@
     "attunement": {
       "required": true
     },
-    "description": "While wearing this armor, you have {@variantrule Resistance|XPHB} to Slashing damage.",
+    "description": "While wearing this armor, you have Resistance to Slashing damage.",
     "weight": 40
   },
   {
@@ -13925,7 +13747,7 @@
     "attunement": {
       "required": true
     },
-    "description": "While wearing this armor, you have {@variantrule Resistance|XPHB} to Slashing damage.",
+    "description": "While wearing this armor, you have Resistance to Slashing damage.",
     "weight": 45
   },
   {
@@ -13939,7 +13761,7 @@
     "attunement": {
       "required": true
     },
-    "description": "While wearing this armor, you have {@variantrule Resistance|XPHB} to Slashing damage.",
+    "description": "While wearing this armor, you have Resistance to Slashing damage.",
     "weight": 60
   },
   {
@@ -13953,7 +13775,7 @@
     "attunement": {
       "required": true
     },
-    "description": "While wearing this armor, you have {@variantrule Resistance|XPHB} to Slashing damage.",
+    "description": "While wearing this armor, you have Resistance to Slashing damage.",
     "weight": 13
   },
   {
@@ -13971,7 +13793,7 @@
     "attunement": {
       "required": false
     },
-    "description": "You gain a +1 bonus to attack rolls and damage rolls made with this magic weapon.\n\nThe weapon deals an extra {@damage 3d6} damage of the weapon's type if the target is a Dragon.",
+    "description": "You gain a +1 bonus to attack rolls and damage rolls made with this magic weapon.\n\nThe weapon deals an extra `damage:3d6` damage of the weapon's type if the target is a Dragon.",
     "weight": 4
   },
   {
@@ -13989,7 +13811,7 @@
     "attunement": {
       "required": false
     },
-    "description": "You gain a +1 bonus to attack rolls and damage rolls made with this magic weapon.\n\nThe weapon deals an extra {@damage 3d6} damage of the weapon's type if the target is a Dragon.",
+    "description": "You gain a +1 bonus to attack rolls and damage rolls made with this magic weapon.\n\nThe weapon deals an extra `damage:3d6` damage of the weapon's type if the target is a Dragon.",
     "weight": 1
   },
   {
@@ -14007,7 +13829,7 @@
     "attunement": {
       "required": false
     },
-    "description": "You gain a +1 bonus to attack rolls and damage rolls made with this magic weapon.\n\nThe weapon deals an extra {@damage 3d6} damage of the weapon's type if the target is a Dragon.",
+    "description": "You gain a +1 bonus to attack rolls and damage rolls made with this magic weapon.\n\nThe weapon deals an extra `damage:3d6` damage of the weapon's type if the target is a Dragon.",
     "weight": 2
   },
   {
@@ -14025,7 +13847,7 @@
     "attunement": {
       "required": false
     },
-    "description": "You gain a +1 bonus to attack rolls and damage rolls made with this magic weapon.\n\nThe weapon deals an extra {@damage 3d6} damage of the weapon's type if the target is a Dragon.",
+    "description": "You gain a +1 bonus to attack rolls and damage rolls made with this magic weapon.\n\nThe weapon deals an extra `damage:3d6` damage of the weapon's type if the target is a Dragon.",
     "weight": 1
   },
   {
@@ -14043,7 +13865,7 @@
     "attunement": {
       "required": false
     },
-    "description": "You gain a +1 bonus to attack rolls and damage rolls made with this magic weapon.\n\nThe weapon deals an extra {@damage 3d6} damage of the weapon's type if the target is a Dragon.",
+    "description": "You gain a +1 bonus to attack rolls and damage rolls made with this magic weapon.\n\nThe weapon deals an extra `damage:3d6` damage of the weapon's type if the target is a Dragon.",
     "weight": 0.25
   },
   {
@@ -14061,7 +13883,7 @@
     "attunement": {
       "required": false
     },
-    "description": "You gain a +1 bonus to attack rolls and damage rolls made with this magic weapon.\n\nThe weapon deals an extra {@damage 3d6} damage of the weapon's type if the target is a Dragon.",
+    "description": "You gain a +1 bonus to attack rolls and damage rolls made with this magic weapon.\n\nThe weapon deals an extra `damage:3d6` damage of the weapon's type if the target is a Dragon.",
     "weight": 2
   },
   {
@@ -14079,7 +13901,7 @@
     "attunement": {
       "required": false
     },
-    "description": "You gain a +1 bonus to attack rolls and damage rolls made with this magic weapon.\n\nThe weapon deals an extra {@damage 3d6} damage of the weapon's type if the target is a Dragon.",
+    "description": "You gain a +1 bonus to attack rolls and damage rolls made with this magic weapon.\n\nThe weapon deals an extra `damage:3d6` damage of the weapon's type if the target is a Dragon.",
     "weight": 6
   },
   {
@@ -14097,7 +13919,7 @@
     "attunement": {
       "required": false
     },
-    "description": "You gain a +1 bonus to attack rolls and damage rolls made with this magic weapon.\n\nThe weapon deals an extra {@damage 3d6} damage of the weapon's type if the target is a Dragon.",
+    "description": "You gain a +1 bonus to attack rolls and damage rolls made with this magic weapon.\n\nThe weapon deals an extra `damage:3d6` damage of the weapon's type if the target is a Dragon.",
     "weight": 7
   },
   {
@@ -14115,7 +13937,7 @@
     "attunement": {
       "required": false
     },
-    "description": "You gain a +1 bonus to attack rolls and damage rolls made with this magic weapon.\n\nThe weapon deals an extra {@damage 3d6} damage of the weapon's type if the target is a Dragon.",
+    "description": "You gain a +1 bonus to attack rolls and damage rolls made with this magic weapon.\n\nThe weapon deals an extra `damage:3d6` damage of the weapon's type if the target is a Dragon.",
     "weight": 10
   },
   {
@@ -14133,7 +13955,7 @@
     "attunement": {
       "required": false
     },
-    "description": "You gain a +1 bonus to attack rolls and damage rolls made with this magic weapon.\n\nThe weapon deals an extra {@damage 3d6} damage of the weapon's type if the target is a Dragon.",
+    "description": "You gain a +1 bonus to attack rolls and damage rolls made with this magic weapon.\n\nThe weapon deals an extra `damage:3d6` damage of the weapon's type if the target is a Dragon.",
     "weight": 6
   },
   {
@@ -14151,7 +13973,7 @@
     "attunement": {
       "required": false
     },
-    "description": "You gain a +1 bonus to attack rolls and damage rolls made with this magic weapon.\n\nThe weapon deals an extra {@damage 3d6} damage of the weapon's type if the target is a Dragon.",
+    "description": "You gain a +1 bonus to attack rolls and damage rolls made with this magic weapon.\n\nThe weapon deals an extra `damage:3d6` damage of the weapon's type if the target is a Dragon.",
     "weight": 6
   },
   {
@@ -14169,7 +13991,7 @@
     "attunement": {
       "required": false
     },
-    "description": "You gain a +1 bonus to attack rolls and damage rolls made with this magic weapon.\n\nThe weapon deals an extra {@damage 3d6} damage of the weapon's type if the target is a Dragon.",
+    "description": "You gain a +1 bonus to attack rolls and damage rolls made with this magic weapon.\n\nThe weapon deals an extra `damage:3d6` damage of the weapon's type if the target is a Dragon.",
     "weight": 3
   },
   {
@@ -14187,7 +14009,7 @@
     "attunement": {
       "required": false
     },
-    "description": "You gain a +1 bonus to attack rolls and damage rolls made with this magic weapon.\n\nThe weapon deals an extra {@damage 3d6} damage of the weapon's type if the target is a Dragon.",
+    "description": "You gain a +1 bonus to attack rolls and damage rolls made with this magic weapon.\n\nThe weapon deals an extra `damage:3d6` damage of the weapon's type if the target is a Dragon.",
     "weight": 2
   },
   {
@@ -14205,7 +14027,7 @@
     "attunement": {
       "required": false
     },
-    "description": "You gain a +1 bonus to attack rolls and damage rolls made with this magic weapon.\n\nThe weapon deals an extra {@damage 3d6} damage of the weapon's type if the target is a Dragon.",
+    "description": "You gain a +1 bonus to attack rolls and damage rolls made with this magic weapon.\n\nThe weapon deals an extra `damage:3d6` damage of the weapon's type if the target is a Dragon.",
     "weight": 18
   },
   {
@@ -14223,7 +14045,7 @@
     "attunement": {
       "required": false
     },
-    "description": "You gain a +1 bonus to attack rolls and damage rolls made with this magic weapon.\n\nThe weapon deals an extra {@damage 3d6} damage of the weapon's type if the target is a Dragon.",
+    "description": "You gain a +1 bonus to attack rolls and damage rolls made with this magic weapon.\n\nThe weapon deals an extra `damage:3d6` damage of the weapon's type if the target is a Dragon.",
     "weight": 2
   },
   {
@@ -14241,7 +14063,7 @@
     "attunement": {
       "required": false
     },
-    "description": "You gain a +1 bonus to attack rolls and damage rolls made with this magic weapon.\n\nThe weapon deals an extra {@damage 3d6} damage of the weapon's type if the target is a Dragon.",
+    "description": "You gain a +1 bonus to attack rolls and damage rolls made with this magic weapon.\n\nThe weapon deals an extra `damage:3d6` damage of the weapon's type if the target is a Dragon.",
     "weight": 6
   },
   {
@@ -14259,7 +14081,7 @@
     "attunement": {
       "required": false
     },
-    "description": "You gain a +1 bonus to attack rolls and damage rolls made with this magic weapon.\n\nThe weapon deals an extra {@damage 3d6} damage of the weapon's type if the target is a Dragon.",
+    "description": "You gain a +1 bonus to attack rolls and damage rolls made with this magic weapon.\n\nThe weapon deals an extra `damage:3d6` damage of the weapon's type if the target is a Dragon.",
     "weight": 5
   },
   {
@@ -14277,7 +14099,7 @@
     "attunement": {
       "required": false
     },
-    "description": "You gain a +1 bonus to attack rolls and damage rolls made with this magic weapon.\n\nThe weapon deals an extra {@damage 3d6} damage of the weapon's type if the target is a Dragon.",
+    "description": "You gain a +1 bonus to attack rolls and damage rolls made with this magic weapon.\n\nThe weapon deals an extra `damage:3d6` damage of the weapon's type if the target is a Dragon.",
     "weight": 2
   },
   {
@@ -14295,7 +14117,7 @@
     "attunement": {
       "required": false
     },
-    "description": "You gain a +1 bonus to attack rolls and damage rolls made with this magic weapon.\n\nThe weapon deals an extra {@damage 3d6} damage of the weapon's type if the target is a Dragon.",
+    "description": "You gain a +1 bonus to attack rolls and damage rolls made with this magic weapon.\n\nThe weapon deals an extra `damage:3d6` damage of the weapon's type if the target is a Dragon.",
     "weight": 2
   },
   {
@@ -14313,7 +14135,7 @@
     "attunement": {
       "required": false
     },
-    "description": "You gain a +1 bonus to attack rolls and damage rolls made with this magic weapon.\n\nThe weapon deals an extra {@damage 3d6} damage of the weapon's type if the target is a Dragon.",
+    "description": "You gain a +1 bonus to attack rolls and damage rolls made with this magic weapon.\n\nThe weapon deals an extra `damage:3d6` damage of the weapon's type if the target is a Dragon.",
     "weight": 3
   },
   {
@@ -14331,7 +14153,7 @@
     "attunement": {
       "required": false
     },
-    "description": "You gain a +1 bonus to attack rolls and damage rolls made with this magic weapon.\n\nThe weapon deals an extra {@damage 3d6} damage of the weapon's type if the target is a Dragon.",
+    "description": "You gain a +1 bonus to attack rolls and damage rolls made with this magic weapon.\n\nThe weapon deals an extra `damage:3d6` damage of the weapon's type if the target is a Dragon.",
     "weight": 4
   },
   {
@@ -14349,7 +14171,7 @@
     "attunement": {
       "required": false
     },
-    "description": "You gain a +1 bonus to attack rolls and damage rolls made with this magic weapon.\n\nThe weapon deals an extra {@damage 3d6} damage of the weapon's type if the target is a Dragon.",
+    "description": "You gain a +1 bonus to attack rolls and damage rolls made with this magic weapon.\n\nThe weapon deals an extra `damage:3d6` damage of the weapon's type if the target is a Dragon.",
     "weight": 10
   },
   {
@@ -14367,7 +14189,7 @@
     "attunement": {
       "required": false
     },
-    "description": "You gain a +1 bonus to attack rolls and damage rolls made with this magic weapon.\n\nThe weapon deals an extra {@damage 3d6} damage of the weapon's type if the target is a Dragon.",
+    "description": "You gain a +1 bonus to attack rolls and damage rolls made with this magic weapon.\n\nThe weapon deals an extra `damage:3d6` damage of the weapon's type if the target is a Dragon.",
     "weight": 4
   },
   {
@@ -14385,7 +14207,7 @@
     "attunement": {
       "required": false
     },
-    "description": "You gain a +1 bonus to attack rolls and damage rolls made with this magic weapon.\n\nThe weapon deals an extra {@damage 3d6} damage of the weapon's type if the target is a Dragon.",
+    "description": "You gain a +1 bonus to attack rolls and damage rolls made with this magic weapon.\n\nThe weapon deals an extra `damage:3d6` damage of the weapon's type if the target is a Dragon.",
     "weight": 10
   },
   {
@@ -14403,7 +14225,7 @@
     "attunement": {
       "required": false
     },
-    "description": "You gain a +1 bonus to attack rolls and damage rolls made with this magic weapon.\n\nThe weapon deals an extra {@damage 3d6} damage of the weapon's type if the target is a Dragon.",
+    "description": "You gain a +1 bonus to attack rolls and damage rolls made with this magic weapon.\n\nThe weapon deals an extra `damage:3d6` damage of the weapon's type if the target is a Dragon.",
     "weight": 18
   },
   {
@@ -14421,7 +14243,7 @@
     "attunement": {
       "required": false
     },
-    "description": "You gain a +1 bonus to attack rolls and damage rolls made with this magic weapon.\n\nThe weapon deals an extra {@damage 3d6} damage of the weapon's type if the target is a Dragon.",
+    "description": "You gain a +1 bonus to attack rolls and damage rolls made with this magic weapon.\n\nThe weapon deals an extra `damage:3d6` damage of the weapon's type if the target is a Dragon.",
     "weight": 3
   },
   {
@@ -14439,7 +14261,7 @@
     "attunement": {
       "required": false
     },
-    "description": "You gain a +1 bonus to attack rolls and damage rolls made with this magic weapon.\n\nThe weapon deals an extra {@damage 3d6} damage of the weapon's type if the target is a Dragon.",
+    "description": "You gain a +1 bonus to attack rolls and damage rolls made with this magic weapon.\n\nThe weapon deals an extra `damage:3d6` damage of the weapon's type if the target is a Dragon.",
     "weight": 4
   },
   {
@@ -14457,7 +14279,7 @@
     "attunement": {
       "required": false
     },
-    "description": "You gain a +1 bonus to attack rolls and damage rolls made with this magic weapon.\n\nThe weapon deals an extra {@damage 3d6} damage of the weapon's type if the target is a Dragon.",
+    "description": "You gain a +1 bonus to attack rolls and damage rolls made with this magic weapon.\n\nThe weapon deals an extra `damage:3d6` damage of the weapon's type if the target is a Dragon.",
     "weight": 2
   },
   {
@@ -14475,7 +14297,7 @@
     "attunement": {
       "required": false
     },
-    "description": "You gain a +1 bonus to attack rolls and damage rolls made with this magic weapon.\n\nThe weapon deals an extra {@damage 3d6} damage of the weapon's type if the target is a Dragon.",
+    "description": "You gain a +1 bonus to attack rolls and damage rolls made with this magic weapon.\n\nThe weapon deals an extra `damage:3d6` damage of the weapon's type if the target is a Dragon.",
     "weight": 3
   },
   {
@@ -14493,7 +14315,7 @@
     "attunement": {
       "required": false
     },
-    "description": "You gain a +1 bonus to attack rolls and damage rolls made with this magic weapon.\n\nThe weapon deals an extra {@damage 3d6} damage of the weapon's type if the target is a Dragon.",
+    "description": "You gain a +1 bonus to attack rolls and damage rolls made with this magic weapon.\n\nThe weapon deals an extra `damage:3d6` damage of the weapon's type if the target is a Dragon.",
     "weight": 2
   },
   {
@@ -14511,7 +14333,7 @@
     "attunement": {
       "required": false
     },
-    "description": "You gain a +1 bonus to attack rolls and damage rolls made with this magic weapon.\n\nThe weapon deals an extra {@damage 3d6} damage of the weapon's type if the target is a Dragon.",
+    "description": "You gain a +1 bonus to attack rolls and damage rolls made with this magic weapon.\n\nThe weapon deals an extra `damage:3d6` damage of the weapon's type if the target is a Dragon.",
     "weight": 2
   },
   {
@@ -14529,7 +14351,7 @@
     "attunement": {
       "required": false
     },
-    "description": "You gain a +1 bonus to attack rolls and damage rolls made with this magic weapon.\n\nThe weapon deals an extra {@damage 3d6} damage of the weapon's type if the target is a Dragon.",
+    "description": "You gain a +1 bonus to attack rolls and damage rolls made with this magic weapon.\n\nThe weapon deals an extra `damage:3d6` damage of the weapon's type if the target is a Dragon.",
     "weight": 2
   },
   {
@@ -14547,7 +14369,7 @@
     "attunement": {
       "required": false
     },
-    "description": "You gain a +1 bonus to attack rolls and damage rolls made with this magic weapon.\n\nThe weapon deals an extra {@damage 3d6} damage of the weapon's type if the target is a Dragon."
+    "description": "You gain a +1 bonus to attack rolls and damage rolls made with this magic weapon.\n\nThe weapon deals an extra `damage:3d6` damage of the weapon's type if the target is a Dragon."
   },
   {
     "slug": "srd-2024_item_dragon-slayer-spear",
@@ -14564,7 +14386,7 @@
     "attunement": {
       "required": false
     },
-    "description": "You gain a +1 bonus to attack rolls and damage rolls made with this magic weapon.\n\nThe weapon deals an extra {@damage 3d6} damage of the weapon's type if the target is a Dragon.",
+    "description": "You gain a +1 bonus to attack rolls and damage rolls made with this magic weapon.\n\nThe weapon deals an extra `damage:3d6` damage of the weapon's type if the target is a Dragon.",
     "weight": 3
   },
   {
@@ -14582,7 +14404,7 @@
     "attunement": {
       "required": false
     },
-    "description": "You gain a +1 bonus to attack rolls and damage rolls made with this magic weapon.\n\nThe weapon deals an extra {@damage 3d6} damage of the weapon's type if the target is a Dragon.",
+    "description": "You gain a +1 bonus to attack rolls and damage rolls made with this magic weapon.\n\nThe weapon deals an extra `damage:3d6` damage of the weapon's type if the target is a Dragon.",
     "weight": 4
   },
   {
@@ -14600,7 +14422,7 @@
     "attunement": {
       "required": false
     },
-    "description": "You gain a +1 bonus to attack rolls and damage rolls made with this magic weapon.\n\nThe weapon deals an extra {@damage 3d6} damage of the weapon's type if the target is a Dragon.",
+    "description": "You gain a +1 bonus to attack rolls and damage rolls made with this magic weapon.\n\nThe weapon deals an extra `damage:3d6` damage of the weapon's type if the target is a Dragon.",
     "weight": 2
   },
   {
@@ -14618,7 +14440,7 @@
     "attunement": {
       "required": false
     },
-    "description": "You gain a +1 bonus to attack rolls and damage rolls made with this magic weapon.\n\nThe weapon deals an extra {@damage 3d6} damage of the weapon's type if the target is a Dragon.",
+    "description": "You gain a +1 bonus to attack rolls and damage rolls made with this magic weapon.\n\nThe weapon deals an extra `damage:3d6` damage of the weapon's type if the target is a Dragon.",
     "weight": 5
   },
   {
@@ -14636,7 +14458,7 @@
     "attunement": {
       "required": false
     },
-    "description": "You gain a +1 bonus to attack rolls and damage rolls made with this magic weapon.\n\nThe weapon deals an extra {@damage 3d6} damage of the weapon's type if the target is a Dragon.",
+    "description": "You gain a +1 bonus to attack rolls and damage rolls made with this magic weapon.\n\nThe weapon deals an extra `damage:3d6` damage of the weapon's type if the target is a Dragon.",
     "weight": 3
   },
   {
@@ -14653,7 +14475,7 @@
     "attunement": {
       "required": false
     },
-    "description": "While wearing this armor, you gain a +2 bonus to {@variantrule Armor Class|XPHB}. In addition, if an effect moves you against your will along the ground, you can take a {@variantrule Reaction|XPHB} to reduce the distance you are moved by up to 10 feet.",
+    "description": "While wearing this armor, you gain a +2 bonus to Armor Class. In addition, if an effect moves you against your will along the ground, you can take a Reaction to reduce the distance you are moved by up to 10 feet.",
     "weight": 40
   },
   {
@@ -14670,7 +14492,7 @@
     "attunement": {
       "required": false
     },
-    "description": "While wearing this armor, you gain a +2 bonus to {@variantrule Armor Class|XPHB}. In addition, if an effect moves you against your will along the ground, you can take a {@variantrule Reaction|XPHB} to reduce the distance you are moved by up to 10 feet.",
+    "description": "While wearing this armor, you gain a +2 bonus to Armor Class. In addition, if an effect moves you against your will along the ground, you can take a Reaction to reduce the distance you are moved by up to 10 feet.",
     "weight": 65
   },
   {
@@ -14688,7 +14510,7 @@
     "attunement": {
       "required": true
     },
-    "description": "You gain a +1 bonus to attack rolls and damage rolls made with this magic weapon, which has no string. Each time you pull your arm back in a firing motion, a magical arrow made of golden energy appears nocked and ready to fire. An arrow produced by this weapon deals Force damage instead of Piercing damage on a hit, and it disappears after it hits or misses its target. Until it disappears, the arrow emits {@variantrule Bright Light|XPHB} in a 20-foot radius and {@variantrule Dim Light|XPHB} for an additional 20 feet.\n\nThis weapon has the following additional properties.",
+    "description": "You gain a +1 bonus to attack rolls and damage rolls made with this magic weapon, which has no string. Each time you pull your arm back in a firing motion, a magical arrow made of golden energy appears nocked and ready to fire. An arrow produced by this weapon deals Force damage instead of Piercing damage on a hit, and it disappears after it hits or misses its target. Until it disappears, the arrow emits Bright Light in a 20-foot radius and Dim Light for an additional 20 feet.\n\nThis weapon has the following additional properties.",
     "weight": 2
   },
   {
@@ -14706,7 +14528,7 @@
     "attunement": {
       "required": true
     },
-    "description": "You gain a +1 bonus to attack rolls and damage rolls made with this magic weapon, which has no string. Each time you pull your arm back in a firing motion, a magical arrow made of golden energy appears nocked and ready to fire. An arrow produced by this weapon deals Force damage instead of Piercing damage on a hit, and it disappears after it hits or misses its target. Until it disappears, the arrow emits {@variantrule Bright Light|XPHB} in a 20-foot radius and {@variantrule Dim Light|XPHB} for an additional 20 feet.\n\nThis weapon has the following additional properties.",
+    "description": "You gain a +1 bonus to attack rolls and damage rolls made with this magic weapon, which has no string. Each time you pull your arm back in a firing motion, a magical arrow made of golden energy appears nocked and ready to fire. An arrow produced by this weapon deals Force damage instead of Piercing damage on a hit, and it disappears after it hits or misses its target. Until it disappears, the arrow emits Bright Light in a 20-foot radius and Dim Light for an additional 20 feet.\n\nThis weapon has the following additional properties.",
     "weight": 2
   },
   {
@@ -14846,7 +14668,7 @@
     "attunement": {
       "required": false
     },
-    "description": "Mithral is a light, flexible metal. A mithral chain shirt or breastplate can be worn under normal clothes.\n\nIf the armor normally imposes disadvantage on Dexterity ({@skill Stealth|XPHB}) checks or has a Strength requirement, the mithral version of the armor doesn't.",
+    "description": "Mithral is a light, flexible metal. A mithral chain shirt or breastplate can be worn under normal clothes.\n\nIf the armor normally imposes disadvantage on Dexterity (Stealth) checks or has a Strength requirement, the mithral version of the armor doesn't.",
     "weight": 20
   },
   {
@@ -14860,7 +14682,7 @@
     "attunement": {
       "required": false
     },
-    "description": "Mithral is a light, flexible metal. A mithral chain shirt or breastplate can be worn under normal clothes.\n\nIf the armor normally imposes disadvantage on Dexterity ({@skill Stealth|XPHB}) checks or has a Strength requirement, the mithral version of the armor doesn't.",
+    "description": "Mithral is a light, flexible metal. A mithral chain shirt or breastplate can be worn under normal clothes.\n\nIf the armor normally imposes disadvantage on Dexterity (Stealth) checks or has a Strength requirement, the mithral version of the armor doesn't.",
     "weight": 55
   },
   {
@@ -14874,7 +14696,7 @@
     "attunement": {
       "required": false
     },
-    "description": "Mithral is a light, flexible metal. A mithral chain shirt or breastplate can be worn under normal clothes.\n\nIf the armor normally imposes disadvantage on Dexterity ({@skill Stealth|XPHB}) checks or has a Strength requirement, the mithral version of the armor doesn't.",
+    "description": "Mithral is a light, flexible metal. A mithral chain shirt or breastplate can be worn under normal clothes.\n\nIf the armor normally imposes disadvantage on Dexterity (Stealth) checks or has a Strength requirement, the mithral version of the armor doesn't.",
     "weight": 20
   },
   {
@@ -14888,7 +14710,7 @@
     "attunement": {
       "required": false
     },
-    "description": "Mithral is a light, flexible metal. A mithral chain shirt or breastplate can be worn under normal clothes.\n\nIf the armor normally imposes disadvantage on Dexterity ({@skill Stealth|XPHB}) checks or has a Strength requirement, the mithral version of the armor doesn't.",
+    "description": "Mithral is a light, flexible metal. A mithral chain shirt or breastplate can be worn under normal clothes.\n\nIf the armor normally imposes disadvantage on Dexterity (Stealth) checks or has a Strength requirement, the mithral version of the armor doesn't.",
     "weight": 40
   },
   {
@@ -14902,7 +14724,7 @@
     "attunement": {
       "required": false
     },
-    "description": "Mithral is a light, flexible metal. A mithral chain shirt or breastplate can be worn under normal clothes.\n\nIf the armor normally imposes disadvantage on Dexterity ({@skill Stealth|XPHB}) checks or has a Strength requirement, the mithral version of the armor doesn't.",
+    "description": "Mithral is a light, flexible metal. A mithral chain shirt or breastplate can be worn under normal clothes.\n\nIf the armor normally imposes disadvantage on Dexterity (Stealth) checks or has a Strength requirement, the mithral version of the armor doesn't.",
     "weight": 12
   },
   {
@@ -14916,7 +14738,7 @@
     "attunement": {
       "required": false
     },
-    "description": "Mithral is a light, flexible metal. A mithral chain shirt or breastplate can be worn under normal clothes.\n\nIf the armor normally imposes disadvantage on Dexterity ({@skill Stealth|XPHB}) checks or has a Strength requirement, the mithral version of the armor doesn't.",
+    "description": "Mithral is a light, flexible metal. A mithral chain shirt or breastplate can be worn under normal clothes.\n\nIf the armor normally imposes disadvantage on Dexterity (Stealth) checks or has a Strength requirement, the mithral version of the armor doesn't.",
     "weight": 65
   },
   {
@@ -14930,7 +14752,7 @@
     "attunement": {
       "required": false
     },
-    "description": "Mithral is a light, flexible metal. A mithral chain shirt or breastplate can be worn under normal clothes.\n\nIf the armor normally imposes disadvantage on Dexterity ({@skill Stealth|XPHB}) checks or has a Strength requirement, the mithral version of the armor doesn't.",
+    "description": "Mithral is a light, flexible metal. A mithral chain shirt or breastplate can be worn under normal clothes.\n\nIf the armor normally imposes disadvantage on Dexterity (Stealth) checks or has a Strength requirement, the mithral version of the armor doesn't.",
     "weight": 40
   },
   {
@@ -14944,7 +14766,7 @@
     "attunement": {
       "required": false
     },
-    "description": "Mithral is a light, flexible metal. A mithral chain shirt or breastplate can be worn under normal clothes.\n\nIf the armor normally imposes disadvantage on Dexterity ({@skill Stealth|XPHB}) checks or has a Strength requirement, the mithral version of the armor doesn't.",
+    "description": "Mithral is a light, flexible metal. A mithral chain shirt or breastplate can be worn under normal clothes.\n\nIf the armor normally imposes disadvantage on Dexterity (Stealth) checks or has a Strength requirement, the mithral version of the armor doesn't.",
     "weight": 45
   },
   {
@@ -14958,7 +14780,7 @@
     "attunement": {
       "required": false
     },
-    "description": "Mithral is a light, flexible metal. A mithral chain shirt or breastplate can be worn under normal clothes.\n\nIf the armor normally imposes disadvantage on Dexterity ({@skill Stealth|XPHB}) checks or has a Strength requirement, the mithral version of the armor doesn't.",
+    "description": "Mithral is a light, flexible metal. A mithral chain shirt or breastplate can be worn under normal clothes.\n\nIf the armor normally imposes disadvantage on Dexterity (Stealth) checks or has a Strength requirement, the mithral version of the armor doesn't.",
     "weight": 60
   },
   {
@@ -14972,7 +14794,7 @@
     "attunement": {
       "required": true
     },
-    "description": "When you nock an arrow on this bow, it whispers in Elvish, \"Swift defeat to my enemies.\" When you use this weapon to make a ranged attack, you can utter or sign the following command words: \"Swift death to you who have wronged me.\" The target of your attack becomes your sworn enemy until it dies or until dawn 7 days later. You can have only one such sworn enemy at a time. When your sworn enemy dies, you can choose a new one after the next dawn.\n\nWhen you make a ranged attack roll with this weapon against your sworn enemy, you have {@variantrule Advantage|XPHB} on the roll. In addition, your target gains no benefit from {@variantrule Cover|XPHB|Half Cover} or {@variantrule Cover|XPHB|Three-Quarters Cover}, and you suffer no {@variantrule Disadvantage|XPHB} due to long range. If the attack hits, your sworn enemy takes an extra {@damage 3d6} Piercing damage.\n\nWhile your sworn enemy lives, you have {@variantrule Disadvantage|XPHB} on attack rolls with all other weapons.",
+    "description": "When you nock an arrow on this bow, it whispers in Elvish, \"Swift defeat to my enemies.\" When you use this weapon to make a ranged attack, you can utter or sign the following command words: \"Swift death to you who have wronged me.\" The target of your attack becomes your sworn enemy until it dies or until dawn 7 days later. You can have only one such sworn enemy at a time. When your sworn enemy dies, you can choose a new one after the next dawn.\n\nWhen you make a ranged attack roll with this weapon against your sworn enemy, you have Advantage on the roll. In addition, your target gains no benefit from Half Cover or Three-Quarters Cover, and you suffer no Disadvantage due to long range. If the attack hits, your sworn enemy takes an extra `damage:3d6` Piercing damage.\n\nWhile your sworn enemy lives, you have Disadvantage on attack rolls with all other weapons.",
     "weight": 2
   },
   {
@@ -14986,7 +14808,7 @@
     "attunement": {
       "required": true
     },
-    "description": "When you nock an arrow on this bow, it whispers in Elvish, \"Swift defeat to my enemies.\" When you use this weapon to make a ranged attack, you can utter or sign the following command words: \"Swift death to you who have wronged me.\" The target of your attack becomes your sworn enemy until it dies or until dawn 7 days later. You can have only one such sworn enemy at a time. When your sworn enemy dies, you can choose a new one after the next dawn.\n\nWhen you make a ranged attack roll with this weapon against your sworn enemy, you have {@variantrule Advantage|XPHB} on the roll. In addition, your target gains no benefit from {@variantrule Cover|XPHB|Half Cover} or {@variantrule Cover|XPHB|Three-Quarters Cover}, and you suffer no {@variantrule Disadvantage|XPHB} due to long range. If the attack hits, your sworn enemy takes an extra {@damage 3d6} Piercing damage.\n\nWhile your sworn enemy lives, you have {@variantrule Disadvantage|XPHB} on attack rolls with all other weapons.",
+    "description": "When you nock an arrow on this bow, it whispers in Elvish, \"Swift defeat to my enemies.\" When you use this weapon to make a ranged attack, you can utter or sign the following command words: \"Swift death to you who have wronged me.\" The target of your attack becomes your sworn enemy until it dies or until dawn 7 days later. You can have only one such sworn enemy at a time. When your sworn enemy dies, you can choose a new one after the next dawn.\n\nWhen you make a ranged attack roll with this weapon against your sworn enemy, you have Advantage on the roll. In addition, your target gains no benefit from Half Cover or Three-Quarters Cover, and you suffer no Disadvantage due to long range. If the attack hits, your sworn enemy takes an extra `damage:3d6` Piercing damage.\n\nWhile your sworn enemy lives, you have Disadvantage on attack rolls with all other weapons.",
     "weight": 2
   },
   {
@@ -15000,7 +14822,7 @@
     "attunement": {
       "required": true
     },
-    "description": "While you're wearing this armor, you can take a {@action Magic|XPHB} action and use a command word to gain the effect of the {@spell Etherealness|XPHB} spell. The spell ends immediately if you remove the armor or take a {@action Magic|XPHB} action to repeat the command word. This property of the armor can't be used again until the next dawn.",
+    "description": "While you're wearing this armor, you can take a **Magic** action and use a command word to gain the effect of the _Etherealness_ spell. The spell ends immediately if you remove the armor or take a **Magic** action to repeat the command word. This property of the armor can't be used again until the next dawn.",
     "weight": 40
   },
   {
@@ -15014,7 +14836,7 @@
     "attunement": {
       "required": true
     },
-    "description": "While you're wearing this armor, you can take a {@action Magic|XPHB} action and use a command word to gain the effect of the {@spell Etherealness|XPHB} spell. The spell ends immediately if you remove the armor or take a {@action Magic|XPHB} action to repeat the command word. This property of the armor can't be used again until the next dawn.",
+    "description": "While you're wearing this armor, you can take a **Magic** action and use a command word to gain the effect of the _Etherealness_ spell. The spell ends immediately if you remove the armor or take a **Magic** action to repeat the command word. This property of the armor can't be used again until the next dawn.",
     "weight": 65
   },
   {
@@ -15028,7 +14850,7 @@
     "attunement": {
       "required": true
     },
-    "description": "When you attack a creature with this magic weapon and roll a 20 on the {@dice d20} for the attack roll, that target takes an extra 15 Necrotic damage if it isn't a Construct or an Undead, and you gain {@variantrule Temporary Hit Points|XPHB} equal to the amount of Necrotic damage taken.",
+    "description": "When you attack a creature with this magic weapon and roll a 20 on the `roll:d20` for the attack roll, that target takes an extra 15 Necrotic damage if it isn't a Construct or an Undead, and you gain Temporary Hit Points equal to the amount of Necrotic damage taken.",
     "weight": 6
   },
   {
@@ -15042,7 +14864,7 @@
     "attunement": {
       "required": true
     },
-    "description": "When you attack a creature with this magic weapon and roll a 20 on the {@dice d20} for the attack roll, that target takes an extra 15 Necrotic damage if it isn't a Construct or an Undead, and you gain {@variantrule Temporary Hit Points|XPHB} equal to the amount of Necrotic damage taken.",
+    "description": "When you attack a creature with this magic weapon and roll a 20 on the `roll:d20` for the attack roll, that target takes an extra 15 Necrotic damage if it isn't a Construct or an Undead, and you gain Temporary Hit Points equal to the amount of Necrotic damage taken.",
     "weight": 6
   },
   {
@@ -15056,7 +14878,7 @@
     "attunement": {
       "required": true
     },
-    "description": "When you attack a creature with this magic weapon and roll a 20 on the {@dice d20} for the attack roll, that target takes an extra 15 Necrotic damage if it isn't a Construct or an Undead, and you gain {@variantrule Temporary Hit Points|XPHB} equal to the amount of Necrotic damage taken.",
+    "description": "When you attack a creature with this magic weapon and roll a 20 on the `roll:d20` for the attack roll, that target takes an extra 15 Necrotic damage if it isn't a Construct or an Undead, and you gain Temporary Hit Points equal to the amount of Necrotic damage taken.",
     "weight": 3
   },
   {
@@ -15070,7 +14892,7 @@
     "attunement": {
       "required": true
     },
-    "description": "When you attack a creature with this magic weapon and roll a 20 on the {@dice d20} for the attack roll, that target takes an extra 15 Necrotic damage if it isn't a Construct or an Undead, and you gain {@variantrule Temporary Hit Points|XPHB} equal to the amount of Necrotic damage taken.",
+    "description": "When you attack a creature with this magic weapon and roll a 20 on the `roll:d20` for the attack roll, that target takes an extra 15 Necrotic damage if it isn't a Construct or an Undead, and you gain Temporary Hit Points equal to the amount of Necrotic damage taken.",
     "weight": 2
   },
   {
@@ -15084,7 +14906,7 @@
     "attunement": {
       "required": true
     },
-    "description": "When you attack a creature with this magic weapon and roll a 20 on the {@dice d20} for the attack roll, that target takes an extra 15 Necrotic damage if it isn't a Construct or an Undead, and you gain {@variantrule Temporary Hit Points|XPHB} equal to the amount of Necrotic damage taken.",
+    "description": "When you attack a creature with this magic weapon and roll a 20 on the `roll:d20` for the attack roll, that target takes an extra 15 Necrotic damage if it isn't a Construct or an Undead, and you gain Temporary Hit Points equal to the amount of Necrotic damage taken.",
     "weight": 3
   },
   {
@@ -15098,7 +14920,7 @@
     "attunement": {
       "required": true
     },
-    "description": "When you attack a creature with this magic weapon and roll a 20 on the {@dice d20} for the attack roll, that target takes an extra 15 Necrotic damage if it isn't a Construct or an Undead, and you gain {@variantrule Temporary Hit Points|XPHB} equal to the amount of Necrotic damage taken.",
+    "description": "When you attack a creature with this magic weapon and roll a 20 on the `roll:d20` for the attack roll, that target takes an extra 15 Necrotic damage if it isn't a Construct or an Undead, and you gain Temporary Hit Points equal to the amount of Necrotic damage taken.",
     "weight": 2
   },
   {
@@ -15112,7 +14934,7 @@
     "attunement": {
       "required": true
     },
-    "description": "When you attack an object with this magic weapon and hit, maximize your weapon damage dice against the target.\n\nWhen you attack a creature with this weapon and roll a 20 on the {@dice d20} for the attack roll, that target takes an extra 14 Slashing damage and gains 1 {@condition Exhaustion|XPHB} level.",
+    "description": "When you attack an object with this magic weapon and hit, maximize your weapon damage dice against the target.\n\nWhen you attack a creature with this weapon and roll a 20 on the `roll:d20` for the attack roll, that target takes an extra 14 Slashing damage and gains 1 Exhaustion level.",
     "weight": 6
   },
   {
@@ -15126,7 +14948,7 @@
     "attunement": {
       "required": true
     },
-    "description": "When you attack an object with this magic weapon and hit, maximize your weapon damage dice against the target.\n\nWhen you attack a creature with this weapon and roll a 20 on the {@dice d20} for the attack roll, that target takes an extra 14 Slashing damage and gains 1 {@condition Exhaustion|XPHB} level.",
+    "description": "When you attack an object with this magic weapon and hit, maximize your weapon damage dice against the target.\n\nWhen you attack a creature with this weapon and roll a 20 on the `roll:d20` for the attack roll, that target takes an extra 14 Slashing damage and gains 1 Exhaustion level.",
     "weight": 6
   },
   {
@@ -15140,7 +14962,7 @@
     "attunement": {
       "required": true
     },
-    "description": "When you attack an object with this magic weapon and hit, maximize your weapon damage dice against the target.\n\nWhen you attack a creature with this weapon and roll a 20 on the {@dice d20} for the attack roll, that target takes an extra 14 Slashing damage and gains 1 {@condition Exhaustion|XPHB} level.",
+    "description": "When you attack an object with this magic weapon and hit, maximize your weapon damage dice against the target.\n\nWhen you attack a creature with this weapon and roll a 20 on the `roll:d20` for the attack roll, that target takes an extra 14 Slashing damage and gains 1 Exhaustion level.",
     "weight": 3
   },
   {
@@ -15154,7 +14976,7 @@
     "attunement": {
       "required": true
     },
-    "description": "When you attack an object with this magic weapon and hit, maximize your weapon damage dice against the target.\n\nWhen you attack a creature with this weapon and roll a 20 on the {@dice d20} for the attack roll, that target takes an extra 14 Slashing damage and gains 1 {@condition Exhaustion|XPHB} level.",
+    "description": "When you attack an object with this magic weapon and hit, maximize your weapon damage dice against the target.\n\nWhen you attack a creature with this weapon and roll a 20 on the `roll:d20` for the attack roll, that target takes an extra 14 Slashing damage and gains 1 Exhaustion level.",
     "weight": 3
   },
   {
@@ -15168,7 +14990,7 @@
     "attunement": {
       "required": true
     },
-    "description": "When you hit a creature with an attack using this magic weapon, the target takes an extra {@damage 2d6} Necrotic damage and must succeed on a {@dc 15} Constitution saving throw or be unable to regain {@variantrule Hit Points|XPHB} for 1 hour. The target repeats the save at the end of each of its turns, ending the effect on itself on a success.",
+    "description": "When you hit a creature with an attack using this magic weapon, the target takes an extra `damage:2d6` Necrotic damage and must succeed on a `dc:15` Constitution saving throw or be unable to regain Hit Points for 1 hour. The target repeats the save at the end of each of its turns, ending the effect on itself on a success.",
     "weight": 6
   },
   {
@@ -15182,7 +15004,7 @@
     "attunement": {
       "required": true
     },
-    "description": "When you hit a creature with an attack using this magic weapon, the target takes an extra {@damage 2d6} Necrotic damage and must succeed on a {@dc 15} Constitution saving throw or be unable to regain {@variantrule Hit Points|XPHB} for 1 hour. The target repeats the save at the end of each of its turns, ending the effect on itself on a success.",
+    "description": "When you hit a creature with an attack using this magic weapon, the target takes an extra `damage:2d6` Necrotic damage and must succeed on a `dc:15` Constitution saving throw or be unable to regain Hit Points for 1 hour. The target repeats the save at the end of each of its turns, ending the effect on itself on a success.",
     "weight": 6
   },
   {
@@ -15196,7 +15018,7 @@
     "attunement": {
       "required": true
     },
-    "description": "When you hit a creature with an attack using this magic weapon, the target takes an extra {@damage 2d6} Necrotic damage and must succeed on a {@dc 15} Constitution saving throw or be unable to regain {@variantrule Hit Points|XPHB} for 1 hour. The target repeats the save at the end of each of its turns, ending the effect on itself on a success.",
+    "description": "When you hit a creature with an attack using this magic weapon, the target takes an extra `damage:2d6` Necrotic damage and must succeed on a `dc:15` Constitution saving throw or be unable to regain Hit Points for 1 hour. The target repeats the save at the end of each of its turns, ending the effect on itself on a success.",
     "weight": 3
   },
   {
@@ -15210,7 +15032,7 @@
     "attunement": {
       "required": true
     },
-    "description": "When you hit a creature with an attack using this magic weapon, the target takes an extra {@damage 2d6} Necrotic damage and must succeed on a {@dc 15} Constitution saving throw or be unable to regain {@variantrule Hit Points|XPHB} for 1 hour. The target repeats the save at the end of each of its turns, ending the effect on itself on a success.",
+    "description": "When you hit a creature with an attack using this magic weapon, the target takes an extra `damage:2d6` Necrotic damage and must succeed on a `dc:15` Constitution saving throw or be unable to regain Hit Points for 1 hour. The target repeats the save at the end of each of its turns, ending the effect on itself on a success.",
     "weight": 2
   },
   {
@@ -15224,7 +15046,7 @@
     "attunement": {
       "required": true
     },
-    "description": "When you hit a creature with an attack using this magic weapon, the target takes an extra {@damage 2d6} Necrotic damage and must succeed on a {@dc 15} Constitution saving throw or be unable to regain {@variantrule Hit Points|XPHB} for 1 hour. The target repeats the save at the end of each of its turns, ending the effect on itself on a success.",
+    "description": "When you hit a creature with an attack using this magic weapon, the target takes an extra `damage:2d6` Necrotic damage and must succeed on a `dc:15` Constitution saving throw or be unable to regain Hit Points for 1 hour. The target repeats the save at the end of each of its turns, ending the effect on itself on a success.",
     "weight": 3
   },
   {
@@ -15238,7 +15060,7 @@
     "attunement": {
       "required": true
     },
-    "description": "When you hit a creature with an attack using this magic weapon, the target takes an extra {@damage 2d6} Necrotic damage and must succeed on a {@dc 15} Constitution saving throw or be unable to regain {@variantrule Hit Points|XPHB} for 1 hour. The target repeats the save at the end of each of its turns, ending the effect on itself on a success.",
+    "description": "When you hit a creature with an attack using this magic weapon, the target takes an extra `damage:2d6` Necrotic damage and must succeed on a `dc:15` Constitution saving throw or be unable to regain Hit Points for 1 hour. The target repeats the save at the end of each of its turns, ending the effect on itself on a success.",
     "weight": 2
   },
   {
