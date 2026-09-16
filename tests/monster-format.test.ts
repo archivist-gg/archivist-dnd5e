@@ -231,24 +231,32 @@ describe("legendary intro, section headers, displayAs (§6)", () => {
   });
 
   /**
-   * R4-G7 T8 wave E, B026-D9 (controller ruling on INV-4): a NAMED creature with no authored `short_name` takes
-   * 5etools' own short name instead of its whole title. Ported from `Renderer.monster.getShortNameFromName`
-   * (5etools v2.28.0, `js/render.js:10197-10202`): the name before the first comma, the `(adult|ancient|young) X
-   * dragon/dracolich` collapse, then the FIRST WORD for a named creature. The live pass read "Tyreus, Illusionist can
-   * take 3 legendary actions ... Tyreus, Illusionist regains" on the Tyreus note, whose 5etools entry carries
-   * `isNamedCreature: true` and no `shortName` (verified in `bestiary-aitfr-fcd.json`).
-   * The GENERIC arm is EXPECTED and unchanged by the same ruling: "the aboleth", "the aspect of tiamat".
+   * R4-G7 T8 wave E, B026-D9, as NARROWED by the controller's fix-round-1 ruling: a NAMED creature with no authored
+   * `short_name` takes the part of its name BEFORE THE FIRST COMMA, and a comma-less name prints WHOLE. The live pass
+   * read "Tyreus, Illusionist can take 3 legendary actions ... Tyreus, Illusionist regains" on the Tyreus note, whose
+   * 5etools entry carries `isNamedCreature: true` and no `shortName` (verified in `bestiary-aitfr-fcd.json`).
+   * Wave E first ported 5etools' `Renderer.monster.getShortNameFromName` whole (the comma split, an
+   * `(adult|ancient|young) X dragon/dracolich` collapse, then the FIRST WORD); measured over the converter corpus that
+   * printed a bare title word on eight notes ("Archduke Zariel of Avernus" as "Archduke", "Lord Soth" as "Lord",
+   * "Bak Mei" as "Bak"), and its dragon arm was a closed list of game vocabulary inside a renderer, which this
+   * project's rendering policy keeps out of one. The comma form alone is what ships.
+   * The GENERIC arm is EXPECTED and unchanged by the original ruling: "the aboleth", "the aspect of tiamat".
    */
-  it("legendaryIntro shortens a NAMED creature's own name (the 5etools rule) and leaves a generic one alone", () => {
+  it("legendaryIntro shortens a NAMED creature at its comma and prints a comma-less name whole", () => {
     expect(legendaryIntro({ name: "Tyreus, Illusionist", is_named_creature: true }, 3)).toMatch(/^Tyreus can take 3 /);
     expect(legendaryIntro({ name: "Tyreus, Illusionist", is_named_creature: true }, 3)).toMatch(/ Tyreus regains spent legendary actions/);
     expect(legendaryIntro({ name: "Ygorl, Lord of Entropy", is_named_creature: true }, 3)).toMatch(/^Ygorl can take 3 /);
-    expect(legendaryIntro({ name: "Ancient Bronze Dragon", is_named_creature: true }, 3)).toMatch(/^Dragon can take 3 /);
-    // the FIRST-WORD half of the rule, which the comma split alone does not give: a named creature with a title
-    expect(legendaryIntro({ name: "Alyxian the Absolved", is_named_creature: true }, 3)).toMatch(/^Alyxian can take 3 /);
-    // an authored short_name still wins, and `true` still means the whole name
+    // a comma-less name prints WHOLE (fix round 1): these three are what the ported first-word rule cut down
+    expect(legendaryIntro({ name: "Ancient Bronze Dragon", is_named_creature: true }, 3)).toMatch(/^Ancient Bronze Dragon can take 3 /);
+    expect(legendaryIntro({ name: "Alyxian the Absolved", is_named_creature: true }, 3)).toMatch(/^Alyxian the Absolved can take 3 /);
+    expect(legendaryIntro({ name: "Archduke Zariel of Avernus", is_named_creature: true }, 3)).toMatch(/^Archduke Zariel of Avernus can take 3 /);
+    // DEFENSIVE (0 corpus names carry one, measured in `g7-t8-wE-f1-d9-corpus.txt`): a space before the comma is
+    // trimmed off the subject rather than printed as "Kyrilla can take".
+    expect(legendaryIntro({ name: "Kyrilla , Accursed Gorgon", is_named_creature: true }, 3)).toMatch(/^Kyrilla can take 3 /);
+    // an authored short_name still wins; `true` and `false` both mean "no separate short name", so the whole name prints
     expect(legendaryIntro({ name: "Tyreus, Illusionist", is_named_creature: true, short_name: "Tyreus the Bold" }, 3)).toMatch(/^Tyreus the Bold can take/);
     expect(legendaryIntro({ name: "Strahd von Zarovich", is_named_creature: true, short_name: true }, 3)).toMatch(/^Strahd von Zarovich can take/);
+    expect(legendaryIntro({ name: "Tyreus, Illusionist", is_named_creature: true, short_name: false }, 3)).toMatch(/^Tyreus, Illusionist can take/);
     // the generic arm: untouched, comma and all
     expect(legendaryIntro({ name: "Animal Lord; Hunter" }, 3)).toMatch(/^The animal lord; hunter can take/);
     expect(legendaryIntro({ name: "Adult Deep Dragon" }, 3)).toMatch(/^The adult deep dragon can take/);

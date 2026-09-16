@@ -382,24 +382,40 @@ export function formatSkillsOther(list: unknown[] | undefined): string | undefin
 // legendary intro, section headers, displayAs
 // ---------------------------------------------------------------------------------------------------------------
 /**
- * 5etools' own short name for a creature, ported from `Renderer.monster.getShortNameFromName` (v2.28.0,
- * `js/render.js:10197-10202`): the name before the first comma, the `(adult|ancient|young) X dragon|dracolich` collapse,
- * then the FIRST WORD. R4-G7 T8 wave E, B026-D9: the generated legendary sentence used to paste the whole title in, so
- * a comma name read "Tyreus, Illusionist can take 3 legendary actions ... Tyreus, Illusionist regains" (that note carries
- * `isNamedCreature: true` and no `shortName` in 5etools' own data). It is applied to a NAMED creature only: for a generic
- * one the sentence keeps the lowercased full name ("the aboleth", "the aspect of tiamat"), which is 5etools' output too
- * and the R4-G6 spec §6 decision.
+ * The subject a NAMED creature's generated legendary sentence takes when its document authors no `short_name`: the
+ * name before its FIRST COMMA, trimmed, and the WHOLE name when it carries no comma. R4-G7 T8 wave E, B026-D9: the
+ * sentence used to paste the entire title in, so a comma name read "Tyreus, Illusionist can take 3 legendary actions
+ * ... Tyreus, Illusionist regains" (that note carries `isNamedCreature: true` and no `shortName` in 5etools' own data).
+ * Wave E first ported `Renderer.monster.getShortNameFromName` whole (5etools v2.28.0, `js/render.js:10197-10202`: the
+ * comma split, an `(adult|ancient|young) X dragon|dracolich` collapse, then the FIRST WORD); the controller's fix-round
+ * ruling keeps only the comma form, because the first word printed a bare title on eight converter notes ("Archduke
+ * Zariel of Avernus" as "Archduke", "Lord Soth" as "Lord", "Bak Mei" as "Bak"), and the dragon arm was a closed list of
+ * game vocabulary inside a renderer, which this project's rendering policy keeps out of one. MEASURED under the comma
+ * rule (`g7-t8-wE-f1-d9-corpus.txt`): 8 of the 212 named creatures with a generated intro change subject in the
+ * converter corpus, 0 of 60 in the SRD bundle (which has no named creature at all). It is applied to a NAMED creature
+ * only: for a generic one the sentence keeps the lowercased full name ("the aboleth", "the aspect of tiamat"), which is
+ * 5etools' output too and the R4-G6 spec §6 decision.
  */
 function shortNameOfNamed(name: string): string {
-  return name.split(",")[0].replace(/(?:adult|ancient|young) \w+ (dragon|dracolich)/gi, "$1").split(" ")[0];
+  return name.includes(",") ? name.split(",")[0].trim() : name;
 }
 
+/**
+ * The generated legendary-action sentence (R4-G6 spec §6), used only when the document authors no
+ * `section_headers` row for the section (plugin `monster.sections.ts`).
+ *
+ * `short_name` is read exactly as authored: a STRING is the subject verbatim; `true` and `false` both say "this
+ * document has no separate short name", so the whole name prints; only an ABSENT key derives one through
+ * `shortNameOfNamed`. Measured over the two shipped corpora (`g7-t8-wE-f1-d9-corpus.txt`): 24 monster documents carry
+ * a `short_name` (11 `true`, 13 a string) and NONE carries `false`, so the false arm is a contract read from the type,
+ * not an observed rendering.
+ */
 export function legendaryIntro(
   m: { name: string; is_named_creature?: boolean; short_name?: string | boolean; legendary_actions_lair_count?: number },
   count: number,
 ): string {
   const subject = m.is_named_creature
-    ? (typeof m.short_name === "string" ? m.short_name : (m.short_name === true ? m.name : shortNameOfNamed(m.name)))
+    ? (typeof m.short_name === "string" ? m.short_name : (m.short_name === undefined ? shortNameOfNamed(m.name) : m.name))
     : `the ${m.name.toLowerCase()}`;
   const Subject = m.is_named_creature ? subject : `The ${m.name.toLowerCase()}`;
   const lair = m.legendary_actions_lair_count !== undefined ? ` (${m.legendary_actions_lair_count} in its lair)` : "";
