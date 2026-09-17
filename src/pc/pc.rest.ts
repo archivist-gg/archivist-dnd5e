@@ -229,15 +229,27 @@ export function computeRestPlan(
     // Feature uses · a long rest restores short-rest, long-rest, either, dawn and
     // dusk resets (it spans the night). turn/round are encounter-scoped (never
     // reset by rest). See SP4d Phase 2 spec §5 and R4-G3a §8.2.
+    // R4-G5 G8 (research D §3.3): the SAME category also clears the resource's BANKED
+    // rolls (feature_rolls[key]) — "you lose any unused foretelling rolls" happens at
+    // the same long rest that restores the uses, so ONE opt-out governs both. The loop
+    // therefore fires for a key with SPENT uses (fu.used > 0) OR with rolls banked:
+    // a resource whose uses are all spent but whose rolls sit unspent is the common
+    // Portent mid-day shape, and the rolls are what the player loses.
     for (const [key, fu] of Object.entries(character.state.feature_uses ?? {})) {
-      if (fu.used <= 0) continue;
+      // G8 SIGN encoding (spendFeatureRoll): values never move; a spent roll is NEGATIVE. The rolls
+      // the player loses at this rest are the LIVE (positive) ones, and the spent count `fu.used`
+      // no longer doubles as a boundary — it is only the checked-box count.
+      const banked = character.state.feature_rolls?.[key];
+      const bankedRolls = banked ? banked.filter((v) => v > 0).length : 0;
+      if (fu.used <= 0 && bankedRolls <= 0) continue;
       const res = index.get(key);
       const reset = res?.reset ?? "long-rest";
       if (reset !== "short-rest" && reset !== "long-rest" && reset !== "either" && reset !== "dawn" && reset !== "dusk") continue;
+      const rollsNote = bankedRolls > 0 ? ` · ${bankedRolls} roll${bankedRolls === 1 ? "" : "s"} cleared` : "";
       cats.push({
         id: `feature:${key}`,
         label: res?.name ?? key,
-        preview: `${fu.used}/${fu.max} restored`,
+        preview: `${fu.used}/${fu.max} restored${rollsNote}`,
       });
     }
     pushPartialRecoveries(cats, character, index, "long");
@@ -259,18 +271,23 @@ export function computeRestPlan(
       });
     });
   }
-
   if (type === "short") {
+    // R4-G5 G8: same rule as the long loop — a banked resource's rolls clear with its
+    // uses, so the category fires on either axis (uses spent OR rolls banked).
     for (const [key, fu] of Object.entries(character.state.feature_uses ?? {})) {
-      if (fu.used <= 0) continue;
+      // G8 SIGN encoding: live rolls are the positive ones (see the long loop).
+      const banked = character.state.feature_rolls?.[key];
+      const bankedRolls = banked ? banked.filter((v) => v > 0).length : 0;
+      if (fu.used <= 0 && bankedRolls <= 0) continue;
       const res = index.get(key);
       // A short rest restores short-rest AND either ("short or long rest").
       const r = res?.reset ?? "long-rest";
       if (r !== "short-rest" && r !== "either") continue;
+      const rollsNote = bankedRolls > 0 ? ` · ${bankedRolls} roll${bankedRolls === 1 ? "" : "s"} cleared` : "";
       cats.push({
         id: `feature:${key}`,
         label: res?.name ?? key,
-        preview: `${fu.used}/${fu.max} restored`,
+        preview: `${fu.used}/${fu.max} restored${rollsNote}`,
       });
     }
     pushPartialRecoveries(cats, character, index, "short");

@@ -203,6 +203,9 @@ export interface CharacterState {
   death_saves?: { successes: number; failures: number };
   inspiration: number;
   feature_uses: Record<string, { used: number; max: number }>;
+  /** R4-G5 G8: banked prerolled dice, keyed by the SAME resource id as feature_uses.
+   *  SIGN IS STATE: negative = spent, positive = live; positions never move. */
+  feature_rolls: Record<string, number[]>;
   /** Phase 3 activatable buffs: ids/slugs of activatable features/boons currently
    *  toggled on. Their effects fold into recalc only while listed here. */
   active_buffs?: string[];

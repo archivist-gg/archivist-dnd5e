@@ -193,6 +193,15 @@ const characterStateSchema = z.object({
     used: z.number().int().nonnegative(),
     max:  z.number().int().nonnegative(),
   })).default({}),
+  // R4-G5 G8 (research D §3.3, the booked design): banked PREROLLED dice, keyed by the SAME id as
+  // feature_uses (the resource id, e.g. "wizard-2024:foretelling-roll" for Portent). SIGN IS STATE
+  // (the G8 shuffle fix): a value is stored NEGATIVE while spent, positive while live, so positions
+  // are STABLE and "spend the right-hand roll" never reorders the bank (the earlier spent-prefix
+  // shape moved a spent value into a prefix and visibly shuffled its neighbours). The count axis
+  // stays on feature_uses (the tracker remains the single source of how many are left); the
+  // writers on the plugin edit state keep the sign set and `used` in step. Without this line a
+  // non-strict parse STRIPS the key and the rolls never survive a load.
+  feature_rolls: z.record(z.string(), z.array(z.number().int().refine((n) => n !== 0 && Math.abs(n) <= 999, "banked rolls are nonzero, |value| 1..999"))).default({}),
   // Phase 3 activatable buffs: ids/slugs of activatable features/boons that are
   // currently toggled on. Their effects fold into recalc only while listed here.
   active_buffs: z.array(z.string()).optional(),
