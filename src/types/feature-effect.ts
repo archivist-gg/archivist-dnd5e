@@ -15,6 +15,7 @@ type Qualified = { condition?: string } & Subject;
  */
 export type FeatureEffect =
   | ({ kind: "initiative-bonus"; value: number } & Qualified)
+  | ({ kind: "skill-bonus"; skills: string[]; ability: Ability; minimum?: number } & Qualified)
   | ({ kind: "immune-condition"; condition: string; while?: string } & Subject)
   | ({ kind: "resistance"; damage_type: string } & Qualified)
   | ({ kind: "hp-per-level-bonus"; value: number } & Qualified)

@@ -1,6 +1,6 @@
 {
   "name": "@archivist-gg/dnd5e",
-  "version": "0.3.7",
+  "version": "0.3.8",
   "private": true,
   "license": "MIT AND CC-BY-4.0",
   "type": "module",

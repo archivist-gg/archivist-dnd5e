@@ -70,7 +70,7 @@ export const resourceSchema = z.object({
  *  over 161 documents, plus 70 `OptionalFeature.consumes` documents (R4-G3a §9; an
  *  unguarded refine refuses all 231, measured). */
 export const resourceConsumptionSchema = z.object({
-  source: z.enum(["resource", "class-column", "attack-dice"]).optional(),
+  source: z.enum(["resource", "class-column", "attack-dice", "spell-slots"]).optional(),
   resource: z.string().optional(),
   column: z.string().optional(),
   amount: z.number().int().positive(),

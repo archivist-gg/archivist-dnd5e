@@ -688,6 +688,13 @@ export interface DerivedStats {
     proficiency: "none" | "proficient" | "expertise";
     ability: Ability;
   }>;
+  /** Numeric terms behind the sheet's skill, save, speed and initiative hovers. */
+  statBreakdowns?: {
+    skills: Partial<Record<SkillSlug, { source: string; amount: number }[]>>;
+    saves: Record<Ability, { source: string; amount: number }[]>;
+    speed: { source: string; amount: number }[];
+    initiative: { source: string; amount: number }[];
+  };
   passives: { perception: number; investigation: number; insight: number };
   /** Computed senses: max of race vision and feature-effect sense ranges. 0 = none per type. */
   senses: Record<import("@archivist-gg/dnd5e/types/feature-effect").SenseType, number>;

@@ -957,12 +957,19 @@ export function recalc(resolved: ResolvedCharacter, registry?: EntityRegistry): 
   for (const ab of featureEffects.proficiencies.saves) saveProfs.add(ab);
   for (const ab of chosenProfs.saves) saveProfs.add(ab);
   const saves: Record<Ability, { bonus: number; proficient: boolean }> = {} as never;
+  const saveBreakdowns: Record<Ability, { source: string; amount: number }[]> = {} as never;
   for (const ab of ABILITY_KEYS) {
     const override = overrides.saves?.[ab];
     const prof = override?.proficient ?? saveProfs.has(ab);
     const derivedBonus = savingThrow(scores[ab], prof, proficiencyBonus) + applied.save_bonus + conditionEffects.d20_test_penalty;
     const bonus = override?.bonus ?? derivedBonus;
     saves[ab] = { bonus, proficient: prof };
+    saveBreakdowns[ab] = [
+      { source: ab.toUpperCase(), amount: mods[ab] },
+      ...(prof ? [{ source: "Proficiency", amount: proficiencyBonus }] : []),
+      ...(applied.save_bonus ? [{ source: "Equipment", amount: applied.save_bonus }] : []),
+      ...(conditionEffects.d20_test_penalty ? [{ source: "Conditions", amount: conditionEffects.d20_test_penalty }] : []),
+    ];
   }
 
   // Skills (definition lists + chosen decision proficiencies/expertise + feature-effect
@@ -977,6 +984,7 @@ export function recalc(resolved: ResolvedCharacter, registry?: EntityRegistry): 
   ]);
   const expSet = new Set([...resolved.definition.skills.expertise, ...chosenProfs.expertise, ...featureEffects.proficiencies.skillExpertise]);
   const skills: DerivedStats["skills"] = {} as never;
+  const skillBreakdowns: NonNullable<DerivedStats["statBreakdowns"]>["skills"] = {};
   for (const skill of ALL_SKILLS) {
     const skillKey = skillSlugFromDisplay(skill);
     const ab = SKILL_ABILITY[skillSlugToAbilityLookup(skillKey)] as Ability;
@@ -985,7 +993,17 @@ export function recalc(resolved: ResolvedCharacter, registry?: EntityRegistry): 
       ?? (expSet.has(skillKey) ? "expertise"
         : profSet.has(skillKey) ? "proficient"
         : "none");
-    const bonus = override?.bonus ?? (skillBonus(scores[ab], tri, proficiencyBonus) + conditionEffects.d20_test_penalty);
+    const skillTerms = featureEffects.skill_bonus_terms
+      .filter((t) => t.skills.includes(skillKey))
+      .map((t) => ({ source: t.label, amount: Math.max(t.minimum, mods[t.ability]) }));
+    const bonus = override?.bonus ?? (skillBonus(scores[ab], tri, proficiencyBonus)
+      + skillTerms.reduce((sum, t) => sum + t.amount, 0) + conditionEffects.d20_test_penalty);
+    skillBreakdowns[skillKey] = [
+      { source: ab.toUpperCase(), amount: mods[ab] },
+      ...(tri !== "none" ? [{ source: tri === "expertise" ? "Expertise" : "Proficiency", amount: proficiencyBonus * (tri === "expertise" ? 2 : 1) }] : []),
+      ...skillTerms,
+      ...(conditionEffects.d20_test_penalty ? [{ source: "Conditions", amount: conditionEffects.d20_test_penalty }] : []),
+    ];
     (skills as Record<string, { bonus: number; proficiency: ProficiencyTri; ability: Ability }>)[skillKey] = {
       bonus,
       proficiency: tri,
@@ -1134,11 +1152,26 @@ export function recalc(resolved: ResolvedCharacter, registry?: EntityRegistry): 
   const adjustedSpeed = (baseSpeed * conditionEffects.speed_multiplier) - conditionEffects.speed_reduction_ft;
   const conditionSpeed = conditionEffects.speed_floor_zero ? 0 : Math.max(0, Math.floor(adjustedSpeed));
   const speed = overrides.speed ?? conditionSpeed;
+  const raceSpeed = resolved.race?.speed?.walk ?? 30;
+  const speedBreakdown = [
+    { source: "Base speed", amount: raceSpeed },
+    ...(speedFromRace(resolved) !== raceSpeed ? [{ source: "Feats", amount: speedFromRace(resolved) - raceSpeed }] : []),
+    ...(applied.speed_bonuses.walk ? [{ source: "Equipment", amount: applied.speed_bonuses.walk }] : []),
+    ...featureEffects.speed_walk_terms.map((term) => ({ source: term.label, amount: term.value })),
+    ...(baseSpeed > additiveSpeed ? [{ source: "Minimum speed", amount: baseSpeed - additiveSpeed }] : []),
+    ...(conditionSpeed !== baseSpeed ? [{ source: "Conditions", amount: conditionSpeed - baseSpeed }] : []),
+  ];
   if (!resolved.race) warnings.push("No race resolved; speed defaulted to 30.");
 
   // Initiative
   const init = overrides.initiative
     ?? (initiativeBonus(mods.dex, resolved.feats, resolved.definition.edition) + featureEffects.initiative_bonus);
+  const initiativeBreakdown = [
+    { source: "DEX", amount: mods.dex },
+    ...(initiativeBonus(mods.dex, resolved.feats, resolved.definition.edition) !== mods.dex
+      ? [{ source: "Feats", amount: initiativeBonus(mods.dex, resolved.feats, resolved.definition.edition) - mods.dex }] : []),
+    ...featureEffects.initiative_terms.map((term) => ({ source: term.label, amount: term.value })),
+  ];
 
   // Senses: race vision vs feature-effect senses — larger wins per type.
   const senses: DerivedStats["senses"] = {
@@ -1257,6 +1290,7 @@ export function recalc(resolved: ResolvedCharacter, registry?: EntityRegistry): 
     saves,
     proficiencies: profsForApply,
     skills,
+    statBreakdowns: { skills: skillBreakdowns, saves: saveBreakdowns, speed: speedBreakdown, initiative: initiativeBreakdown },
     passives,
     senses,
     hp: {

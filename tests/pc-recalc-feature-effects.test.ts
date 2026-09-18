@@ -94,6 +94,24 @@ function withSimpleWeaponProficiency(r: ResolvedCharacter): ResolvedCharacter {
 }
 
 describe("recalc — feature effects: initiative / HP / speed / senses", () => {
+  it("adds Blade Dance's Intelligence modifier to only its three skills while active, with a +1 floor", () => {
+    const r = emptyResolved();
+    r.features.push({
+      feature: { id: "blade-dance", name: "Blade Dance", activatable: true, effects: [
+        { kind: "skill-bonus", skills: ["acrobatics", "athletics", "performance"], ability: "int", minimum: 1 },
+      ] } as never,
+      source: { kind: "subclass", slug: "order-of-blades", level: 3 },
+    });
+    expect(recalc(r).skills.acrobatics.bonus).toBe(0);
+    r.state.active_buffs = ["blade-dance"];
+    r.definition.abilities.int = 8;
+    expect(recalc(r).skills.athletics.bonus).toBe(1);
+    r.definition.abilities.int = 16;
+    const active = recalc(r);
+    expect([active.skills.acrobatics.bonus, active.skills.athletics.bonus, active.skills.performance.bonus]).toEqual([3, 3, 3]);
+    expect(active.skills.arcana.bonus).toBe(3);
+    expect(active.statBreakdowns?.skills.acrobatics).toContainEqual({ source: "Blade Dance", amount: 3 });
+  });
   it("adds initiative-bonus to derived initiative", () => {
     const d = recalc(resolvedWith(mkClass("rogue", "d8", 5), [{ kind: "initiative-bonus", value: 2 }]));
     expect(d.initiative).toBe(2); // DEX +0 + 2

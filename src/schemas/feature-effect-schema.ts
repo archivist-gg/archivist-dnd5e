@@ -20,6 +20,7 @@ const conditionField = z.string().optional();
 
 export const featureEffectSchema = z.discriminatedUnion("kind", [
   z.object({ kind: z.literal("initiative-bonus"), value: z.number().int(), condition: conditionField, subject: subjectField }),
+  z.object({ kind: z.literal("skill-bonus"), skills: z.array(z.string().min(1)).nonempty(), ability: abilityEnum, minimum: z.number().int().optional(), condition: conditionField, subject: subjectField }),
   // `condition` here is the condition NAME (frightened, poisoned); the qualifier is `while`.
   z.object({ kind: z.literal("immune-condition"), condition: z.string().min(1), while: z.string().optional(), subject: subjectField }),
   z.object({ kind: z.literal("resistance"), damage_type: z.string().min(1), condition: conditionField, subject: subjectField }),

@@ -56,7 +56,7 @@ export interface Resource {
 }
 
 export interface ResourceConsumption {
-  source?: "resource" | "class-column" | "attack-dice";
+  source?: "resource" | "class-column" | "attack-dice" | "spell-slots";
   resource?: string;
   column?: string;
   /** The MINIMUM spend when `amount_max` is present, otherwise the exact spend. */

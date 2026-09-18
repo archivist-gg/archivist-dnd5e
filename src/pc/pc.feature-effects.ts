@@ -34,10 +34,14 @@ export interface WeaponAbilityOverride {
  */
 export interface FeatureEffectTotals {
   initiative_bonus: number;
+  initiative_terms: { label: string; value: number }[];
+  /** Ability-based numeric skill bonuses, resolved against final scores in recalc. */
+  skill_bonus_terms: { skills: string[]; ability: Ability; minimum: number; label: string }[];
   hp_per_level_bonus: number;
   /** One term per hp-per-level-bonus effect, labeled with the owning feature's name. */
   hp_per_level_terms: { label: string; value: number }[];
   speed_walk_bonus: number;
+  speed_walk_terms: { label: string; value: number }[];
   /**
    * Absolute walk-speed FLOOR from `speed-bonus` effects with `set:true` (e.g.
    * a "base speed becomes 60" feature). Max across all set effects; 0 = none.
@@ -179,9 +183,12 @@ export interface FeatureEffectTotals {
 export function emptyFeatureEffectTotals(): FeatureEffectTotals {
   return {
     initiative_bonus: 0,
+    initiative_terms: [],
+    skill_bonus_terms: [],
     hp_per_level_bonus: 0,
     hp_per_level_terms: [],
     speed_walk_bonus: 0,
+    speed_walk_terms: [],
     speed_walk_set: 0,
     attunement_set: 0,
     ability_bonus: {},
@@ -544,6 +551,13 @@ function applyEffect(out: FeatureEffectTotals, eff: FeatureEffect, label: string
   switch (eff.kind) {
     case "initiative-bonus":
       out.initiative_bonus += eff.value;
+      out.initiative_terms.push({ label, value: eff.value });
+      break;
+    case "skill-bonus":
+      out.skill_bonus_terms.push({
+        skills: eff.skills.map(toProfSlug), ability: eff.ability,
+        minimum: eff.minimum ?? 0, label,
+      });
       break;
     case "hp-per-level-bonus":
       out.hp_per_level_bonus += eff.value;
@@ -558,7 +572,10 @@ function applyEffect(out: FeatureEffectTotals, eff: FeatureEffect, label: string
       const value = scaled(eff.value, "value", eff.scales_at, level);
       if (eff.mode === "walk") {
         if (eff.set) out.speed_walk_set = Math.max(out.speed_walk_set, value);
-        else out.speed_walk_bonus += value;
+        else {
+          out.speed_walk_bonus += value;
+          out.speed_walk_terms.push({ label, value });
+        }
       }
       break;
     }

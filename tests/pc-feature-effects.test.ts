@@ -458,6 +458,7 @@ describe("ability-score-increase: the chosen arms stay INERT at the fold (R4-G1a
     ])]);
     const expected = emptyFeatureEffectTotals();
     expected.initiative_bonus = 2;
+    expected.initiative_terms = [{ label: "Test Feature", value: 2 }];
     expect(out).toEqual(expected);
   });
 });
