@@ -1,6 +1,6 @@
 {
   "name": "@archivist-gg/dnd5e",
-  "version": "0.3.9",
+  "version": "0.3.10",
   "private": true,
   "license": "MIT AND CC-BY-4.0",
   "type": "module",
@@ -103,6 +103,7 @@
     "./schemas/feature-schema": "./src/schemas/feature-schema.ts",
     "./schemas/resource-schema": "./src/schemas/resource-schema.ts",
     "./schemas/selection-pool-schema": "./src/schemas/selection-pool-schema.ts",
+    "./spell/casting-time": "./src/spell/casting-time.ts",
     "./spell/spell.access": "./src/spell/spell.access.ts",
     "./spell/spell.ai-schema": "./src/spell/spell.ai-schema.ts",
     "./spell/spell.codec": "./src/spell/spell.codec.ts",

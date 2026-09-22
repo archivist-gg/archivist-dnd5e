@@ -1,20 +1,15 @@
 import type { SpellCandidate } from "./spell.access";
+import { parseCastingTime } from "./casting-time";
 
 export type CastTimeCat = "action" | "bonus" | "reaction" | "long" | "special";
 export type RangeCat = "self" | "touch" | "ranged" | "special";
 
-/** Cast-time bucket from the stored token (mirrors compactCastingTime's set).
- *  Rounds/minutes/hours fold into "long"; null/unknown → "special". */
+/** Cast-time bucket, read through `parseCastingTime` (the same reader the Cast table's label uses, so the two
+ *  cannot drift). Minutes/hours fold into "long"; unreadable or absent → "special". */
 export function castTimeCategory(token: string | undefined): CastTimeCat {
-  switch (token) {
-    case "action": return "action";
-    case "bonus-action": return "bonus";
-    case "reaction": return "reaction";
-    case "minute": case "1minute": case "10minutes":
-    case "hour": case "1hour": case "8hours": case "12hours": case "24hours":
-      return "long";
-    default: return "special";
-  }
+  const parsed = parseCastingTime(token);
+  if (!parsed) return "special";
+  return parsed.kind === "time" ? "long" : parsed.kind;
 }
 
 /** Range bucket from the human range string. Honest read, documented buckets:
