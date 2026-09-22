@@ -14,6 +14,7 @@ import { featureEffectSchema as OLD } from "./fixtures/feature-effect-schema.bas
 // unconditional "identical" would now be a demand that the new arms do nothing, which is the opposite of the guard's
 // intent. So the set is SPLIT, and every bucket is asserted BY NAME (MEASURED at T5 over the 63 authored effects):
 //   REJECTED by the frozen union   2 · `unarmed-strike`, an arm G1a's union does not carry at all;
+//                                  + 2 · `half-proficiency` (Jack of All Trades, dnd5e 0.3.9), likewise absent;
 //   PARSED BUT DIFFERENT           3 · the two Monk `speed-bonus` and the SRD 5e Fighter `extra-attack`, whose
 //                                      `scales_at` key R4-G7 T2 added · the frozen union parses them and DROPS it;
 //   IDENTICAL                     58 · everything else, which is where the original kill power lives: a silent
@@ -45,9 +46,10 @@ describe("SRD overlays · old and new unions agree on every authored effect (G15
   // RE-MEASURED at R4-G7 T5: 63 sites, was 41. The three pre-existing kinds are unchanged; the four new ones are
   // exactly what spec §8.1 item 2 authors (5e: fighter/barbarian/monk/paladin/ranger extra-attack · 2024: the same
   // five plus the Fighter's two-extra-attacks and three-extra-attacks).
-  it("finds the overlays' effects (63 sites)", () => {
+  // RE-MEASURED at dnd5e 0.3.9: 65 sites. Both new ones are `bard:jack-of-all-trades`, one per edition.
+  it("finds the overlays' effects (65 sites)", () => {
     const kinds = effects.map((e) => (e as { kind: string }).kind);
-    expect(effects).toHaveLength(63);
+    expect(effects).toHaveLength(65);
     expect(kinds.filter((k) => k === "resistance")).toHaveLength(28);
     expect(kinds.filter((k) => k === "proficiency")).toHaveLength(11);
     expect(kinds.filter((k) => k === "ac-bonus")).toHaveLength(2);
@@ -55,6 +57,7 @@ describe("SRD overlays · old and new unions agree on every authored effect (G15
     expect(kinds.filter((k) => k === "unarmored-ac")).toHaveLength(4);
     expect(kinds.filter((k) => k === "speed-bonus")).toHaveLength(4);
     expect(kinds.filter((k) => k === "unarmed-strike")).toHaveLength(2);
+    expect(kinds.filter((k) => k === "half-proficiency")).toHaveLength(2);
     expect(effects.some((e) => "subject" in (e as object))).toBe(false);
   });
   it("parses every PRE-FREEZE overlay effect identically, and says which are not", () => {
@@ -66,8 +69,9 @@ describe("SRD overlays · old and new unions agree on every authored effect (G15
     }
     // The kill power: 58 shared-arm effects must still round-trip identically through both unions.
     expect(identical).toHaveLength(58);
-    // The frozen union has no `unarmed-strike` arm, so it refuses both authored copies outright.
-    expect(rejected.map((e) => (e as { kind: string }).kind)).toEqual(["unarmed-strike", "unarmed-strike"]);
+    // The frozen union has no `unarmed-strike` or `half-proficiency` arm, so it refuses all four authored copies.
+    expect(rejected.map((e) => (e as { kind: string }).kind).sort())
+      .toEqual(["half-proficiency", "half-proficiency", "unarmed-strike", "unarmed-strike"]);
     // And it silently DROPS the `scales_at` key T2 added, on exactly three effects.
     expect(differing.map((e) => (e as { kind: string }).kind).sort())
       .toEqual(["extra-attack", "speed-bonus", "speed-bonus"]);
