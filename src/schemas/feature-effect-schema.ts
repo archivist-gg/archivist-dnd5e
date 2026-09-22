@@ -21,6 +21,12 @@ const conditionField = z.string().optional();
 export const featureEffectSchema = z.discriminatedUnion("kind", [
   z.object({ kind: z.literal("initiative-bonus"), value: z.number().int(), condition: conditionField, subject: subjectField }),
   z.object({ kind: z.literal("skill-bonus"), skills: z.array(z.string().min(1)).nonempty(), ability: abilityEnum, minimum: z.number().int().optional(), condition: conditionField, subject: subjectField }),
+  // Jack of All Trades / Remarkable Athlete: half the proficiency bonus, and ONLY on a skill the character is
+  // not already proficient in — the "doesn't otherwise use your Proficiency Bonus" clause is the whole mechanic,
+  // so it is the kind's semantics, not a field. `skills` omitted = every skill (Jack of All Trades); a list
+  // narrows it (Remarkable Athlete). `round` is authored because the two printed features disagree: Jack of All
+  // Trades rounds down, Remarkable Athlete rounds up.
+  z.object({ kind: z.literal("half-proficiency"), skills: z.array(z.string().min(1)).nonempty().optional(), round: z.enum(["down", "up"]).optional(), condition: conditionField, subject: subjectField }),
   // `condition` here is the condition NAME (frightened, poisoned); the qualifier is `while`.
   z.object({ kind: z.literal("immune-condition"), condition: z.string().min(1), while: z.string().optional(), subject: subjectField }),
   z.object({ kind: z.literal("resistance"), damage_type: z.string().min(1), condition: conditionField, subject: subjectField }),

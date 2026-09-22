@@ -37,6 +37,14 @@ export interface FeatureEffectTotals {
   initiative_terms: { label: string; value: number }[];
   /** Ability-based numeric skill bonuses, resolved against final scores in recalc. */
   skill_bonus_terms: { skills: string[]; ability: Ability; minimum: number; label: string }[];
+  /**
+   * Half-proficiency terms (Jack of All Trades, Remarkable Athlete). Resolved in recalc against the
+   * proficiency bonus, and ONLY for a skill whose effective tri is "none" — that gate is the mechanic
+   * ("a skill proficiency you lack"), so it lives at the consumer, not here. Empty `skills` = every skill.
+   * recalc takes the MAX across terms, never the sum: "add half your Proficiency Bonus" is one grant, so two
+   * features (or a duplicated homebrew note) must not double it.
+   */
+  half_proficiency_terms: { skills: string[]; round: "down" | "up"; label: string }[];
   hp_per_level_bonus: number;
   /** One term per hp-per-level-bonus effect, labeled with the owning feature's name. */
   hp_per_level_terms: { label: string; value: number }[];
@@ -185,6 +193,7 @@ export function emptyFeatureEffectTotals(): FeatureEffectTotals {
     initiative_bonus: 0,
     initiative_terms: [],
     skill_bonus_terms: [],
+    half_proficiency_terms: [],
     hp_per_level_bonus: 0,
     hp_per_level_terms: [],
     speed_walk_bonus: 0,
@@ -557,6 +566,12 @@ function applyEffect(out: FeatureEffectTotals, eff: FeatureEffect, label: string
       out.skill_bonus_terms.push({
         skills: eff.skills.map(toProfSlug), ability: eff.ability,
         minimum: eff.minimum ?? 0, label,
+      });
+      break;
+    case "half-proficiency":
+      // `skills` absent = every skill; recalc reads an empty list as "unrestricted".
+      out.half_proficiency_terms.push({
+        skills: (eff.skills ?? []).map(toProfSlug), round: eff.round ?? "down", label,
       });
       break;
     case "hp-per-level-bonus":

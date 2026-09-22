@@ -200,6 +200,14 @@ class_features:
   # Bard: L3 picks 2, L10 picks 2 more (one runtime entry; key covers both).
   bard:expertise:
     choices: [{ kind: select-proficiency, id: expertise, domain: skill, count: 2, from_proficient: true, expertise: true }]
+  # Jack of All Trades (L2): half the proficiency bonus on every skill the Bard is NOT proficient in.
+  # `skills` is omitted deliberately — the feature says "any ability check ... that uses a skill proficiency
+  # you lack", so the grant is unrestricted and the not-proficient gate is the effect kind's own semantics.
+  # Rounds DOWN (printed in both editions).
+  bard:jack-of-all-trades:
+    effects:
+      - kind: half-proficiency
+        round: down
 
   # --- Warlock Eldritch Invocations (L2): two invocations of your choice ---
   # 2014 grants TWO at L2 (count 2). deferred: scaling invocation counts at

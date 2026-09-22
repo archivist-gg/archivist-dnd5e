@@ -985,3 +985,63 @@ describe("recalc feature effects: extra-attack scales_at reads the SOURCE level 
     expect(recalc(r).attacksPerAction).toBe(3);
   });
 });
+
+describe("recalc — feature effects: half-proficiency (Jack of All Trades / Remarkable Athlete)", () => {
+  /** Bard 17 → proficiency +6, so half proficiency is +3 down / +3 up. */
+  function bard17(effects: FeatureEffect[]): ResolvedCharacter {
+    const r = resolvedWith(mkClass("bard", "d8", 17), effects);
+    r.totalLevel = 17;
+    return r;
+  }
+
+  it("adds half proficiency to a skill the character is NOT proficient in", () => {
+    const d = recalc(bard17([{ kind: "half-proficiency" }]));
+    // INT 10 (+0) + floor(6/2) = 3.
+    expect(d.skills.arcana.bonus).toBe(3);
+    expect(d.statBreakdowns?.skills.arcana).toContainEqual({ source: "Effect Source", amount: 3 });
+  });
+
+  it("does NOT add it to a proficient or expertise skill", () => {
+    const r = bard17([{ kind: "half-proficiency" }]);
+    r.definition.skills.proficient = ["persuasion"];
+    r.definition.skills.expertise = ["performance"];
+    const d = recalc(r);
+    expect(d.skills.persuasion.bonus).toBe(6);       // CHA +0 + prof 6, no half
+    expect(d.skills.performance.bonus).toBe(12);     // CHA +0 + prof 12, no half
+    expect(d.statBreakdowns?.skills.persuasion).not.toContainEqual({ source: "Effect Source", amount: 3 });
+  });
+
+  it("a `skills` list narrows it, and `round: up` rounds the other way", () => {
+    // Champion 7 → proficiency +3; ceil(3/2) = 2, floor(3/2) = 1.
+    const r = resolvedWith(mkClass("fighter", "d10", 7), [
+      { kind: "half-proficiency", skills: ["athletics", "acrobatics"], round: "up" },
+    ]);
+    r.totalLevel = 7;
+    const d = recalc(r);
+    expect(d.skills.athletics.bonus).toBe(2);
+    expect(d.skills.acrobatics.bonus).toBe(2);
+    expect(d.skills.arcana.bonus).toBe(0);           // outside the list: untouched
+  });
+
+  it("two half-proficiency features do not stack — the largest single grant wins", () => {
+    const r = bard17([
+      { kind: "half-proficiency" },
+      { kind: "half-proficiency", skills: ["arcana"], round: "up" },
+    ]);
+    // floor(6/2) and ceil(6/2) are both 3; summing would read 6.
+    expect(recalc(r).skills.arcana.bonus).toBe(3);
+  });
+
+  it("reaches the passive scores (Passive Investigation moves with the skill)", () => {
+    const d = recalc(bard17([{ kind: "half-proficiency" }]));
+    expect(d.skills.investigation.bonus).toBe(3);
+    expect(d.passives.investigation).toBe(13);
+    expect(d.passives.perception).toBe(13);
+  });
+
+  it("an explicit overrides.passives still wins", () => {
+    const r = bard17([{ kind: "half-proficiency" }]);
+    r.definition.overrides = { passives: { investigation: 19 } };
+    expect(recalc(r).passives.investigation).toBe(19);
+  });
+});

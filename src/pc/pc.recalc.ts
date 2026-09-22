@@ -3,8 +3,6 @@ import {
   proficiencyFromLevel,
   savingThrow,
   skillBonus,
-  passivePerception,
-  passive,
   attackBonus,
   saveDC,
   isCanonicalDamageType,
@@ -996,12 +994,23 @@ export function recalc(resolved: ResolvedCharacter, registry?: EntityRegistry): 
     const skillTerms = featureEffects.skill_bonus_terms
       .filter((t) => t.skills.includes(skillKey))
       .map((t) => ({ source: t.label, amount: Math.max(t.minimum, mods[t.ability]) }));
+    // Half proficiency (Jack of All Trades, Remarkable Athlete) applies ONLY where the character lacks the
+    // proficiency — "and that doesn't otherwise use your Proficiency Bonus". An empty `skills` list is
+    // unrestricted. Highest single grant wins; two such features never stack into a full proficiency bonus.
+    const halfProfTerms = tri !== "none" ? [] : featureEffects.half_proficiency_terms
+      .filter((t) => t.skills.length === 0 || t.skills.includes(skillKey))
+      .map((t) => ({ source: t.label, amount: t.round === "up" ? Math.ceil(proficiencyBonus / 2) : Math.floor(proficiencyBonus / 2) }));
+    const halfProfBest = halfProfTerms.length
+      ? halfProfTerms.reduce((best, t) => (t.amount > best.amount ? t : best))
+      : null;
     const bonus = override?.bonus ?? (skillBonus(scores[ab], tri, proficiencyBonus)
-      + skillTerms.reduce((sum, t) => sum + t.amount, 0) + conditionEffects.d20_test_penalty);
+      + skillTerms.reduce((sum, t) => sum + t.amount, 0) + (halfProfBest?.amount ?? 0)
+      + conditionEffects.d20_test_penalty);
     skillBreakdowns[skillKey] = [
       { source: ab.toUpperCase(), amount: mods[ab] },
       ...(tri !== "none" ? [{ source: tri === "expertise" ? "Expertise" : "Proficiency", amount: proficiencyBonus * (tri === "expertise" ? 2 : 1) }] : []),
       ...skillTerms,
+      ...(halfProfBest ? [halfProfBest] : []),
       ...(conditionEffects.d20_test_penalty ? [{ source: "Conditions", amount: conditionEffects.d20_test_penalty }] : []),
     ];
     (skills as Record<string, { bonus: number; proficiency: ProficiencyTri; ability: Ability }>)[skillKey] = {
@@ -1011,14 +1020,16 @@ export function recalc(resolved: ResolvedCharacter, registry?: EntityRegistry): 
     };
   }
 
-  // Passives
-  const perceptionTri = skills.perception.proficiency;
-  const investigationTri = skills.investigation.proficiency;
-  const insightTri = skills.insight.proficiency;
+  // Passives. A passive score IS `10 + the check bonus`, so these read the finished skill bonus rather than
+  // recomputing `10 + skillBonus(ability, tri)` from scratch. Before half-proficiency that recompute agreed
+  // with the skill row in every shipped case; it cannot any longer (Jack of All Trades moves Passive
+  // Investigation), and reading the row also closes three standing disagreements the recompute had with it:
+  // `skill_bonus_terms`, the exhaustion d20 penalty, and `overrides.skills.<skill>.bonus` now all reach the
+  // passive, exactly as they already reached the skill. `overrides.passives.*` still wins outright.
   const passives = {
-    perception: overrides.passives?.perception ?? passivePerception(scores.wis, perceptionTri, proficiencyBonus),
-    investigation: overrides.passives?.investigation ?? passive(scores.int, investigationTri, proficiencyBonus),
-    insight: overrides.passives?.insight ?? passive(scores.wis, insightTri, proficiencyBonus),
+    perception: overrides.passives?.perception ?? (10 + skills.perception.bonus),
+    investigation: overrides.passives?.investigation ?? (10 + skills.investigation.bonus),
+    insight: overrides.passives?.insight ?? (10 + skills.insight.bonus),
   };
 
   // HP (P5): dice component is the recorded rolled sum when present, else the
