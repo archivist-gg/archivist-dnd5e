@@ -54,12 +54,16 @@ export const featEntitySchema = z.object({
   has_fluff_images: z.boolean().optional(),                             // 41
   trait_tags: z.unknown().optional(),                                   // 7, nullable measured — same passthrough family
   optionalfeature_progression: z.array(progressionSchema).optional(),   // 4
-  resources: z.array(resourceSchema).optional(),  // closes the feat.types.ts `Feat.resources` schema/type asymmetry (C);
-      // ZERO converter/bundle carriers (no census row) — the only behaviour delta is AUTHORED feats,
-      // where the type has promised the field all along. Import resourceSchema.
-  action_cost: actionCostEnum.optional(),  // ruling R-G1b-5 (gate1-r1 f1): a TOP-LEVEL bundle key on ONE
-      // feat (`SRD 2024/Feats/Boon of the Night Spirit.md`, `action_cost: bonus-action` at entity top
-      // level) — the ninth SRD-control non-kept row: top-level on the ENTITY, not featureSchema-shaped
+  resources: z.array(resourceSchema).optional(),  // closes the feat.types.ts `Feat.resources` schema/type asymmetry (C).
+      // CONVERTER carriers since import-5etools cb382b6 (feat-mapper `mapFeatEconomy`): 69 of 287 feat docs,
+      // 72 entries (41 `prof`, 29 `1`, Lucky PHB `3`, Boon of Recovery `10` + die d10), ids owner-namespaced
+      // `<feat-slug-tail>:<tracker-slug>`; 0 SRD-bundle carriers. The resolver carries them onto the
+      // synthesized feat feature, so each draws a tracker. Import resourceSchema.
+  action_cost: actionCostEnum.optional(),  // ruling R-G1b-5 (gate1-r1 f1): a TOP-LEVEL entity key. SRD bundle:
+      // one feat per edition (`SRD 2024/Feats/Boon of the Night Spirit.md` bonus-action; SRD 5e Grappler
+      // `action` through the `feat_features` overlay since 0.3.11). CONVERTER: 76 of 287 feat docs since
+      // import-5etools 1002a6c (31 bonus-action, 34 reaction, 11 action). Top-level at entity level
+      // — the ninth SRD-control non-kept row: top-level on the ENTITY, not featureSchema-shaped
       // (finding 14's nine rows split 4 featureSchema / 4 §2.8-arity / this one, which needed its own
       // declaration — gate1-r4 R4-1). `actionCostEnum` is exported from
       // `schemas/resource-schema.ts` (optionalFeatureEntitySchema already imports it). MAPPED since
