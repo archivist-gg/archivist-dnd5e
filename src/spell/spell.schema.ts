@@ -63,6 +63,8 @@ export const spellEntitySchema = z.object({
   description: z.string().optional(),
   at_higher_levels: z.array(z.string()).optional(),
   damage: z.object({ types: z.array(z.string()) }).optional(),
+  // The base roll at the spell's own level (a cantrip's tier-1 roll); see `Spell.damage_roll`.
+  damage_roll: z.string().optional(),
   saving_throw: z.object({ ability: z.string() }).optional(),
   casting_options: z.array(castingOptionSchema).optional(),
   // §2 · the fourteen converter keys this root refused before R4-G2. Doc counts are MEASURED over

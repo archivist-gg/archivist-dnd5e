@@ -15,18 +15,34 @@ export interface SpellEffectParts {
   value: string;
 }
 
+/** The spell's base roll (`damage_roll`), or null when absent or empty. */
+function baseRoll(spell: Spell): string | null {
+  return typeof spell.damage_roll === "string" && spell.damage_roll.trim() !== "" ? spell.damage_roll : null;
+}
+
 /**
- * At-a-glance scaled effect for casting a LEVELLED `spell` with a slot of `slotLevel`,
- * read from structured `casting_options` (`type: "slot_level_<N>"`), WITH the field it
- * came from. Returns null when absent or untrustworthy. The FIRST present field wins, in
- * this order: `damage_roll`, `target_count`, `duration`, `desc` (so an option carrying a
- * roll AND a sentence yields the roll). A `target_count` that equals the slot level is
- * the known SRD-2014 bad encoding (e.g. Magic Missile 2nd->2 instead of 4) and is
- * suppressed. This errs toward showing nothing rather than a wrong number.
+ * At-a-glance effect for casting a LEVELLED `spell` with a slot of `slotLevel`, WITH the field
+ * it came from. Returns null when absent or untrustworthy.
+ *
+ * A structured `casting_options` entry for that slot (`type: "slot_level_<N>"`) wins: the FIRST
+ * present field, in this order: `damage_roll`, `target_count`, `duration`, `desc` (so an option
+ * carrying a roll AND a sentence yields the roll). A `target_count` that equals the slot level is
+ * the known SRD-2014 bad encoding (e.g. Magic Missile 2nd->2 instead of 4) and is suppressed.
+ *
+ * With no option for the slot, the spell's BASE roll (`damage_roll`) answers when it is the roll
+ * actually dealt there: at the spell's OWN level, and at any slot at or above it for a spell that
+ * does not scale at all (a pact slot above a non-scaling spell's level). A SCALING spell missing
+ * its option above base stays null: the base roll would be the wrong number there. This errs
+ * toward showing nothing rather than a wrong number.
  */
 export function spellEffectPartsAtSlot(spell: Spell, slotLevel: number): SpellEffectParts | null {
   const opt = (spell.casting_options ?? []).find((o) => o.type === `slot_level_${slotLevel}`);
-  if (!opt) return null;
+  if (!opt) {
+    const base = spell.level ?? 0;
+    const roll = baseRoll(spell);
+    if (roll === null || slotLevel < base) return null;
+    return slotLevel === base || !spellScales(spell) ? { field: "damage_roll", value: roll } : null;
+  }
   if (opt.damage_roll) return { field: "damage_roll", value: opt.damage_roll };
   if (typeof opt.target_count === "number") {
     if (opt.target_count === slotLevel) return null; // 2014 bad-encoding guard
@@ -48,9 +64,10 @@ const PLAYER_LEVEL_TYPE = /^player_level_(\d+)$/;
  * `casting_options` (`type: "player_level_<N>"`). The roll of the HIGHEST `N <= characterLevel` wins: SRD 5e authors
  * one option per level from 5 to 20, SRD 2024 and the converter author only 5 / 11 / 17. An option with no roll or an
  * EMPTY one never qualifies (SRD 5e Acid Splash and Poison Spray open with `player_level_2..4` carrying
- * `damage_roll: ''`; Eldritch Blast 2024 authors `target_count` only). Null for a levelled spell, for a level that is
- * not a finite number (a fixture-built `derived` omits `totalLevel`), and when nothing qualifies: no corpus authors
- * `player_level_1`, so a cantrip's base roll below level 5 is not in the data and nothing is invented here.
+ * `damage_roll: ''`; Eldritch Blast 2024 authors `target_count` only). When no tier qualifies (below the first tier,
+ * or tiers that carry no roll) the spell's BASE roll `damage_roll` answers: the tier-1 roll (Fire Bolt `1d10` at 4,
+ * Eldritch Blast's per-beam `1d10` at any level). Null for a levelled spell, for a level that is not a finite number
+ * (a fixture-built `derived` omits `totalLevel`), and when neither a tier nor a non-empty base roll exists.
  */
 export function spellEffectAtCharacterLevel(spell: Spell, characterLevel: number): string | null {
   if ((spell.level ?? 0) !== 0 || !Number.isFinite(characterLevel)) return null;
@@ -61,7 +78,7 @@ export function spellEffectAtCharacterLevel(spell: Spell, characterLevel: number
     const n = Number(m[1]);
     if (n <= characterLevel && (best === null || n > best.n)) best = { n, roll: opt.damage_roll };
   }
-  return best ? best.roll : null;
+  return best ? best.roll : baseRoll(spell);
 }
 
 /** Owned slot levels strictly above the spell's base level (scaling spells only). */

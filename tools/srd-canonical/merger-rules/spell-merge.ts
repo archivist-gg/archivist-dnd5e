@@ -3,6 +3,7 @@ import type { Overlay } from "../overlay.schema";
 import type { CastingOption } from "@archivist-gg/dnd5e/types/casting-option";
 import { rewriteCrossRefs } from "../cross-ref-map";
 import { flattenEntries } from "./condition-merge";
+import { baseRollFromStructured, isRoll } from "./spell-base-roll";
 
 export interface SpellCanonical {
   slug: string;
@@ -21,6 +22,8 @@ export interface SpellCanonical {
   classes?: string[];
   at_higher_levels?: string[];
   damage?: { types: string[] };
+  /** The base roll (the spell's own level, a cantrip's tier 1); see `Spell.damage_roll`. */
+  damage_roll?: string;
   saving_throw?: { ability: string };
   casting_options?: CastingOption[];
 }
@@ -129,6 +132,9 @@ export function toSpellCanonical(entry: CanonicalEntry): SpellCanonical {
     out.damage = { types: structured.damageInflict as string[] };
   }
 
+  const roll = pickBaseRoll(base, structured, out.damage?.types ?? [], castingOptionsOf(base));
+  if (roll) out.damage_roll = roll;
+
   // saving_throw: prefer Open5e v2's `saving_throw_ability`; fall back to structured-rules.
   if (typeof base.saving_throw_ability === "string" && base.saving_throw_ability.length > 0) {
     out.saving_throw = { ability: base.saving_throw_ability.toLowerCase() };
@@ -137,19 +143,53 @@ export function toSpellCanonical(entry: CanonicalEntry): SpellCanonical {
   }
 
   // casting_options: pass through Open5e v2's per-slot scaling rows.
-  // The 2014 dataset includes a "default" row that just mirrors baseline (all-null
-  // scaling fields) — fold it out, keeping only rows with actual scaling info.
-  if (Array.isArray(base.casting_options)) {
-    const all = base.casting_options as Array<Record<string, unknown>>;
-    const filtered = all
-      .filter(opt => opt.type !== "default" || hasScalingFields(opt))
-      .map(opt => normalizeCastingOption(opt));
-    if (filtered.length > 0) {
-      out.casting_options = filtered;
-    }
-  }
+  const castingOptions = castingOptionsOf(base);
+  if (castingOptions.length > 0) out.casting_options = castingOptions;
 
   return out;
+}
+
+/**
+ * The BASE roll (`damage_roll`): the damage or healing roll at the spell's own level, a cantrip's tier 1.
+ *
+ * The structured record, read by the converter's rules (`spell-base-roll.ts`), is the primary source: its tags are
+ * semantic (`{@damage}`, `{@scaledamage}`, a healing `{@dice}`), while Open5e v2's top-level `damage_roll` is "the first
+ * dice in the text" (2024 Teleport `1d100`, Prismatic Spray `1d8`, Bless `1d4`) and EMPTY on many 2014 spells (Magic
+ * Missile, Cure Wounds, Acid Splash). Measured over the SRD (5etools v2.28.0 against the Open5e cache): both carry a
+ * roll and agree on 55 of 55 2014 spells and 96 of 100 2024 ones.
+ *
+ * Where both carry DIFFERENT rolls and the spell has scaled `casting_options` rolls (which are Open5e's), the candidate
+ * on the same die as the first scaled roll wins, so the base row reads as the first step of the rows above it (2024
+ * Conjure Elemental `8d8` before `9d8`, not the structured `8d8; 4d8`); otherwise the structured roll wins (Prismatic Spray `12d6`, not the `1d8` ray
+ * die). With no structured roll, Open5e's is taken only for a spell that deals damage (renamed SRD spells such as
+ * Acid Arrow never join a structured record). Absent when nothing qualifies, never an empty string.
+ */
+function pickBaseRoll(
+  base: Record<string, unknown>, structured: Record<string, unknown> | null,
+  damageTypes: string[], castingOptions: CastingOption[],
+): string | null {
+  const open5e = typeof base.damage_roll === "string" && isRoll(base.damage_roll) ? base.damage_roll.trim() : null;
+  const derived = baseRollFromStructured(structured);
+  if (derived && open5e && derived.replace(/\s+/g, "") !== open5e.replace(/\s+/g, "")) {
+    const firstScaled = castingOptions.find((o) => typeof o.damage_roll === "string" && isRoll(o.damage_roll))?.damage_roll;
+    if (firstScaled) {
+      // "In the run" of the scaled rows: the same die and the same number of terms as the first scaled roll.
+      const shape = (v: string) => `${/\d+d(\d+)/.exec(v)?.[1] ?? ""}#${v.split(/[+;]/).length}`;
+      if (shape(open5e) === shape(firstScaled) && shape(derived) !== shape(firstScaled)) return open5e;
+    }
+    return derived;
+  }
+  if (derived) return derived;
+  return open5e && damageTypes.length > 0 ? open5e : null;
+}
+
+/** Open5e v2's per-slot scaling rows. The 2014 dataset includes a "default" row that just mirrors baseline (all-null
+ *  scaling fields) — fold it out, keeping only rows with actual scaling info. */
+function castingOptionsOf(base: Record<string, unknown>): CastingOption[] {
+  if (!Array.isArray(base.casting_options)) return [];
+  return (base.casting_options as Array<Record<string, unknown>>)
+    .filter(opt => opt.type !== "default" || hasScalingFields(opt))
+    .map(opt => normalizeCastingOption(opt));
 }
 
 function hasScalingFields(opt: Record<string, unknown>): boolean {

@@ -128,7 +128,7 @@ describe("spellEffectAtCharacterLevel (R4-G7 T8 RIDER-15)", () => {
   it("never reads an option ABOVE the level: a 2024 Fire Bolt at 10 is 2d10", () => {
     expect(spellEffectAtCharacterLevel(fireBolt2024, 10)).toBe("2d10");   // kills a max that ignores the level gate
   });
-  it("is null when no option qualifies: a 2024 Fire Bolt at 4 (the base 1d10 is not in the data)", () => {
+  it("is null when no option qualifies and the document carries no damage_roll: a 2024 Fire Bolt fixture at 4", () => {
     expect(spellEffectAtCharacterLevel(fireBolt2024, 4)).toBeNull();
   });
   it("reads the SRD 5e one-option-per-level shape: Fire Bolt at 6 is 2d10", () => {

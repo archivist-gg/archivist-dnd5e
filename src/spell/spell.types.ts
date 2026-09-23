@@ -15,6 +15,10 @@ export interface Spell {
   description?: string;
   at_higher_levels?: string[];
   damage?: { types: string[] };
+  /** The BASE roll: the roll at the spell's own level, or a cantrip's tier-1 roll (before its first
+   *  `player_level_<N>` option). Like `casting_options[].damage_roll` it also carries healing rolls
+   *  (Cure Wounds `2d8`). Mirrors Open5e v2's top-level `damage_roll`. */
+  damage_roll?: string;
   saving_throw?: { ability: string };
   casting_options?: CastingOption[];
   // §2 · the fourteen converter keys (R4-G2). Declared-only this phase: nothing renders them yet.

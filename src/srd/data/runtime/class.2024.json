@@ -1038,7 +1038,13 @@
         {
           "id": "jack-of-all-trades",
           "name": "Jack of All Trades",
-          "description": "You can add half your Proficiency Bonus (round down) to any ability check you make that uses a skill proficiency you lack and that doesn't otherwise use your Proficiency Bonus.\n\nFor example, if you make a Strength (Athletics) check and lack Athletics proficiency, you can add half your Proficiency Bonus to the check."
+          "description": "You can add half your Proficiency Bonus (round down) to any ability check you make that uses a skill proficiency you lack and that doesn't otherwise use your Proficiency Bonus.\n\nFor example, if you make a Strength (Athletics) check and lack Athletics proficiency, you can add half your Proficiency Bonus to the check.",
+          "effects": [
+            {
+              "kind": "half-proficiency",
+              "round": "down"
+            }
+          ]
         }
       ],
       "3": [

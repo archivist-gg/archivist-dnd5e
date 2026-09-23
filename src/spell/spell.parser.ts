@@ -5,7 +5,7 @@ import { spellEntitySchema } from "./spell.schema";
 const KNOWN_KEYS = new Set([
   "name", "level", "school", "casting_time", "range", "components", "duration",
   "concentration", "ritual", "classes", "description", "at_higher_levels",
-  "damage", "saving_throw", "casting_options",
+  "damage", "damage_roll", "saving_throw", "casting_options",
   // §2 · the fourteen converter keys. This gate and `spellEntitySchema` are independent: a key
   // missing here is refused BEFORE zod ever sees it, so both must learn every new key.
   "rendering_hint", "misc_tags", "area_tags", "condition_inflict", "affects_creature_type",
@@ -137,6 +137,8 @@ export function parseSpell(source: string): ParseResult<Spell> {
   if (raw.description) spell.description = raw.description;
   if (raw.at_higher_levels) spell.at_higher_levels = raw.at_higher_levels.map(String);
   if (raw.damage) spell.damage = { types: raw.damage.types.map(String) };
+  // `!= null`, never truthiness: an authored empty roll is kept as authored (the scaling readers skip it).
+  if (raw.damage_roll != null) spell.damage_roll = raw.damage_roll;
   if (raw.saving_throw) spell.saving_throw = { ability: raw.saving_throw.ability };
   if (raw.casting_options) {
     spell.casting_options = raw.casting_options.map(opt => {
