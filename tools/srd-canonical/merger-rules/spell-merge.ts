@@ -155,14 +155,16 @@ export function toSpellCanonical(entry: CanonicalEntry): SpellCanonical {
  * The structured record, read by the converter's rules (`spell-base-roll.ts`), is the primary source: its tags are
  * semantic (`{@damage}`, `{@scaledamage}`, a healing `{@dice}`), while Open5e v2's top-level `damage_roll` is "the first
  * dice in the text" (2024 Teleport `1d100`, Prismatic Spray `1d8`, Bless `1d4`) and EMPTY on many 2014 spells (Magic
- * Missile, Cure Wounds, Acid Splash). Measured over the SRD (5etools v2.28.0 against the Open5e cache): both carry a
- * roll and agree on 55 of 55 2014 spells and 96 of 100 2024 ones.
+ * Missile, Cure Wounds, Acid Splash). Measured over the SRD against the Open5e cache, with the structured dump the
+ * committed data is built from (the converter's `data/`): both carry a roll and agree on 55 of 55 2014 spells and
+ * 100 of 104 2024 ones.
  *
  * Where both carry DIFFERENT rolls and the spell has scaled `casting_options` rolls (which are Open5e's), the candidate
- * on the same die as the first scaled roll wins, so the base row reads as the first step of the rows above it (2024
- * Conjure Elemental `8d8` before `9d8`, not the structured `8d8; 4d8`); otherwise the structured roll wins (Prismatic Spray `12d6`, not the `1d8` ray
- * die). With no structured roll, Open5e's is taken only for a spell that deals damage (renamed SRD spells such as
- * Acid Arrow never join a structured record). Absent when nothing qualifies, never an empty string.
+ * "in the run" of the first scaled roll (same die, same number of terms) wins, so the base row reads as the first step
+ * of the rows above it (2024 Conjure Elemental `8d8` before `9d8`, not the structured `8d8; 4d8`); otherwise the
+ * structured roll wins (Prismatic Spray `12d6`, not the `1d8` ray die). With no structured roll, Open5e's is taken
+ * only for a spell that deals damage (renamed SRD spells such as Acid Arrow never join a structured record). Absent
+ * when nothing qualifies, never an empty string.
  */
 function pickBaseRoll(
   base: Record<string, unknown>, structured: Record<string, unknown> | null,
