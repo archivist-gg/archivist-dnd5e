@@ -138,12 +138,31 @@ describe("spellBaseRollAtSlot · the base roll where the damage does not scale",
   it("Hex in a 3rd-level pact slot deals 1d6 (its options carry durations only)", () => {
     expect(spellBaseRollAtSlot(hex, 3)).toBe("1d6");
   });
+  it("an option's `concentration` flag rides WITH its duration and proves nothing either way (the shipped SRD 2024 Hex / Hunter's Mark rows)", () => {
+    const hexSrd: Spell = { ...hex, casting_options: [{ type: "slot_level_2", duration: "4 hours", concentration: true }, { type: "slot_level_3", duration: "8 hours" }] };
+    expect(spellBaseRollAtSlot(hexSrd, 2)).toBe("1d6");
+    expect(spellBaseRollAtSlot({ ...hex, casting_options: [{ type: "slot_level_2", concentration: true }] }, 2)).toBeNull();
+  });
   it("Magic Missile at 2nd deals 1d4 + 1 per dart (its options carry target counts only)", () => {
     expect(spellBaseRollAtSlot(magicMissile, 2)).toBe("1d4 + 1");
   });
   it("a spell with no options at all deals its base roll at any slot at or above its level", () => {
     expect(spellBaseRollAtSlot(fingerOfDeath, 9)).toBe("7d8 + 30");
     expect(spellBaseRollAtSlot(fingerOfDeath, 7)).toBe("7d8 + 30");
+  });
+  it("null where the scaling is PROSE only (2014 Cure Wounds: at_higher_levels, no options): the base would be unscaled", () => {
+    const cureWounds2014: Spell = { name: "Cure Wounds", level: 1, damage_roll: "1d8",
+      at_higher_levels: ["When you cast this spell using a spell slot of 2nd level or higher, the healing increases by 1d8 for each slot level above 1st."] };
+    expect(spellBaseRollAtSlot(cureWounds2014, 2)).toBeNull();
+    expect(spellBaseRollAtSlot(cureWounds2014, 1)).toBeNull();
+  });
+  it("null where a slot option carries a sentence (desc) or carries nothing a non-scaling proof needs", () => {
+    expect(spellBaseRollAtSlot({ name: "X", level: 1, damage_roll: "2d6",
+      casting_options: [{ type: "slot_level_2", desc: "The damage increases by 1d6." }] }, 2)).toBeNull();
+    expect(spellBaseRollAtSlot({ name: "X", level: 1, damage_roll: "2d6",
+      casting_options: [{ type: "slot_level_2", duration: "8 hours" }, { type: "slot_level_3", desc: "more" }] }, 2)).toBeNull();
+    expect(spellBaseRollAtSlot({ name: "X", level: 1, damage_roll: "2d6",
+      casting_options: [{ type: "slot_level_2", shape_size: 30 }] }, 2)).toBeNull();
   });
   it("null where the damage DOES scale (any slot option carries a roll), below the spell's level, and for a cantrip", () => {
     expect(spellBaseRollAtSlot(fireball, 4)).toBeNull();

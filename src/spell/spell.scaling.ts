@@ -55,22 +55,37 @@ export function spellEffectPartsAtSlot(spell: Spell, slotLevel: number): SpellEf
   return opt.desc != null ? { field: "desc", value: opt.desc } : null;
 }
 
+/** What a slot option may scale while its roll stays the base: a `duration` or a `target_count` (at least one), with
+ *  the `concentration` flag that rides with a duration (the shipped SRD 2024 Hex / Hunter's Mark rows). */
+const NON_ROLL_SCALES = new Set(["duration", "target_count"]);
+const NON_ROLL_OPTION_FIELDS = new Set([...NON_ROLL_SCALES, "concentration"]);
+
 /**
- * The spell's BASE roll at a slot of `slotLevel` when its DAMAGE does not scale: none of its `slot_level_<N>` options
- * carries a roll (2024 Hex and Hunter's Mark scale their duration, Magic Missile and Scorching Ray their target
- * count, Finger of Death nothing at all), so every slot at or above the spell's level deals the base roll. The
- * companion of `spellEffectPartsAtSlot`: a row prints this roll beside a target count, and the duration a slot
- * option carries prints in its own cell. Null for a cantrip, below the spell's level, where the damage scales (its
- * options' rolls are the answer), and when the spell has no base roll.
+ * The spell's BASE roll at a slot of `slotLevel` when the data PROVES its damage does not scale, so every slot at or
+ * above the spell's level deals the base roll. Two proofs, and only these:
+ *   (a) it has `slot_level_<N>` options and every one carries only a `duration` and / or a `target_count` (plus the
+ *       `concentration` flag a duration carries): 2024 Hex and Hunter's Mark scale their duration, Magic Missile and
+ *       Scorching Ray their target count;
+ *   (b) it has no slot options AND no `at_higher_levels` text (Finger of Death).
+ * Anything else is NOT proof: prose-only scaling (2014 Cure Wounds' "increases by 1d8 for each slot level above
+ * 1st", with no options) would print the unscaled base on every upcast row, so it stays null there. The companion of
+ * `spellEffectPartsAtSlot`: a row prints this roll beside a target count, and the duration a slot option carries
+ * prints in its own cell. Null for a cantrip, below the spell's level, and when the spell has no base roll.
  */
 export function spellBaseRollAtSlot(spell: Spell, slotLevel: number): string | null {
   const base = spell.level ?? 0;
   if (base === 0 || slotLevel < base) return null;
   const roll = spellBaseRoll(spell);
   if (roll === null) return null;
-  const scales = (spell.casting_options ?? []).some((o) =>
-    /^slot_level_\d+$/.test(String(o.type ?? "")) && typeof o.damage_roll === "string" && o.damage_roll.trim() !== "");
-  return scales ? null : roll;
+  const slotOptions = (spell.casting_options ?? []).filter((o) => /^slot_level_\d+$/.test(String(o.type ?? "")));
+  if (slotOptions.length > 0) {
+    const onlyNonRoll = slotOptions.every((o) => {
+      const fields = Object.entries(o).filter(([k, v]) => k !== "type" && v != null).map(([k]) => k);
+      return fields.some((k) => NON_ROLL_SCALES.has(k)) && fields.every((k) => NON_ROLL_OPTION_FIELDS.has(k));
+    });
+    return onlyNonRoll ? roll : null;
+  }
+  return (spell.at_higher_levels ?? []).some((t) => typeof t === "string" && t.trim() !== "") ? null : roll;
 }
 
 /** The value of `spellEffectPartsAtSlot`, without its field. */
