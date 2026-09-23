@@ -146,6 +146,23 @@ const creatureOverrideSchema = z.object({
   hp: z.object({ formula: z.string().regex(/^\d+d\d+([+-]\d+)?$/) }).strict().optional(),
 }).strict();
 
+/** A spell overlay (`spells:`, keyed by BARE spell slug): corrects what Open5e v2 gets wrong for a spell, at the
+ *  source. STRICT on every level so a misspelled field refuses; `validate-overlays.ts` refuses a key that names no
+ *  spell. The three fields REPLACE the merged value whole. */
+const spellRoll = z.string().regex(/^\s*(\d+d\d+|\d+)(\s*[+;]\s*(\d+d\d+|\d+))*\s*$/).regex(/\d+d\d+/);
+const spellCastingOptionOverrideSchema = z.strictObject({
+  type: z.string().regex(/^(slot_level|player_level)_\d+$/),
+  damage_roll: spellRoll.optional(),
+  target_count: z.number().int().positive().optional(),
+  duration: z.string().min(1).optional(),
+  desc: z.string().min(1).optional(),
+});
+const spellOverrideSchema = z.strictObject({
+  damage_roll: spellRoll.optional(),
+  damage_types: z.array(z.string().min(1)).nonempty().optional(),
+  casting_options: z.array(spellCastingOptionOverrideSchema).nonempty().optional(),
+});
+
 export const overlaySchema = z.object({
   class_features: z.record(z.string(), classFeatureOverrideSchema).optional(),
   race_traits: z.record(z.string(), raceTraitOverrideSchema).optional(),
@@ -158,6 +175,7 @@ export const overlaySchema = z.object({
   optional_features: z.record(z.string(), entityEffectsSchema).optional(),
   feats: z.record(z.string(), entityEffectsSchema).optional(),
   creatures: z.record(z.string(), creatureOverrideSchema).optional(),
+  spells: z.record(z.string(), spellOverrideSchema).optional(),
 });
 
 export type Overlay = z.infer<typeof overlaySchema>;

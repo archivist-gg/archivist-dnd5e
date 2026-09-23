@@ -1429,3 +1429,27 @@ feats:
   defense:
     effects:
       - { kind: ac-bonus, value: 1, requires_armor: true }
+
+# ===================================================================
+# Spells (keyed by BARE spell slug). An entry REPLACES the merged value of each field it names.
+# ===================================================================
+spells:
+  # SRD 5.2 Ice Knife: "On a hit, the target takes 1d10 Piercing damage. Hit or miss, the shard then explodes.
+  # The target and each creature within 5 feet of it must succeed on a Dexterity saving throw or take 2d6 Cold
+  # damage. Using a Higher-Level Spell Slot. The Cold damage increases by 1d6 for each spell slot level above 1."
+  # Open5e scales the 1d10 instead (slot 2 "2d10" ... slot 9 "9d10"). The corrected rows add 1d6 to the COLD 2d6,
+  # so the base is the cold 2d6 too: the roll the upcast rows continue, dealt hit or miss to every creature in the
+  # burst (the 1d10 lands only on a hit, on one target). Cold leads the types so a row's chip pairs 2d6 with its
+  # own damage type. The converter reads the same base (the {@scaledamage 2d6|1-9|1d6} tag), so both agree.
+  ice-knife:
+    damage_roll: 2d6
+    damage_types: [cold, piercing]
+    casting_options:
+      - { type: slot_level_2, damage_roll: 3d6 }
+      - { type: slot_level_3, damage_roll: 4d6 }
+      - { type: slot_level_4, damage_roll: 5d6 }
+      - { type: slot_level_5, damage_roll: 6d6 }
+      - { type: slot_level_6, damage_roll: 7d6 }
+      - { type: slot_level_7, damage_roll: 8d6 }
+      - { type: slot_level_8, damage_roll: 9d6 }
+      - { type: slot_level_9, damage_roll: 10d6 }

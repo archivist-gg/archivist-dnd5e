@@ -1,5 +1,6 @@
 import type { MergeRule, CanonicalEntry } from "../merger";
 import type { Overlay } from "../overlay.schema";
+import { slugifyName } from "../sources/slug-normalize";
 import type { CastingOption } from "@archivist-gg/dnd5e/types/casting-option";
 import { rewriteCrossRefs } from "../cross-ref-map";
 import { flattenEntries } from "./condition-merge";
@@ -28,17 +29,23 @@ export interface SpellCanonical {
   casting_options?: CastingOption[];
 }
 
+/** One `spells:` overlay entry (overlay.schema.ts `spellOverrideSchema`). */
+interface SpellOverride { damage_roll?: string; damage_types?: string[]; casting_options?: CastingOption[] }
+
 export const spellMergeRule: MergeRule = {
   kind: "spell",
-  pickOverlay(_overlay: Overlay, _slug: string): unknown {
-    // Spells rarely need overlay (their semantics are well-captured by Open5e + structured-rules).
-    return null;
+  pickOverlay(overlay: Overlay, _slug: string): unknown {
+    // The `spells:` section, keyed by BARE spell slug; `toSpellCanonical` reads its own entry by name, like the feat
+    // rule. Rare by design: Open5e + structured-rules carry most spells whole.
+    return overlay.spells ?? null;
   },
 };
 
 export function toSpellCanonical(entry: CanonicalEntry): SpellCanonical {
   const base = entry.base as Record<string, unknown>;
   const structured = entry.structured as Record<string, unknown> | null;
+  const spellOverlays = entry.overlay as Record<string, SpellOverride> | null;
+  const overlaid = spellOverlays?.[slugifyName(base.name as string)];
 
   const out: SpellCanonical = {
     slug: entry.slug,
@@ -125,14 +132,11 @@ export function toSpellCanonical(entry: CanonicalEntry): SpellCanonical {
     if (text) out.at_higher_levels = [rewriteCrossRefs(text, entry.edition)];
   }
 
-  // damage: prefer Open5e v2's structured `damage_types`; fall back to structured-rules.
-  if (Array.isArray(base.damage_types) && base.damage_types.length > 0) {
-    out.damage = { types: (base.damage_types as unknown[]).map(String) };
-  } else if (structured && Array.isArray(structured.damageInflict) && structured.damageInflict.length > 0) {
-    out.damage = { types: structured.damageInflict as string[] };
-  }
+  const damageTypes = overlaid?.damage_types ?? pickDamageTypes(base, structured);
+  if (damageTypes.length > 0) out.damage = { types: damageTypes };
 
-  const roll = pickBaseRoll(base, structured, out.damage?.types ?? [], castingOptionsOf(base));
+  const castingOptions = overlaid?.casting_options ?? castingOptionsOf(base);
+  const roll = overlaid?.damage_roll ?? pickBaseRoll(base, structured, castingOptions);
   if (roll) out.damage_roll = roll;
 
   // saving_throw: prefer Open5e v2's `saving_throw_ability`; fall back to structured-rules.
@@ -142,8 +146,7 @@ export function toSpellCanonical(entry: CanonicalEntry): SpellCanonical {
     out.saving_throw = { ability: (structured.savingThrow as string[])[0] };
   }
 
-  // casting_options: pass through Open5e v2's per-slot scaling rows.
-  const castingOptions = castingOptionsOf(base);
+  // casting_options: Open5e v2's per-slot scaling rows, or the overlay's correction of them.
   if (castingOptions.length > 0) out.casting_options = castingOptions;
 
   return out;
@@ -167,10 +170,9 @@ export function toSpellCanonical(entry: CanonicalEntry): SpellCanonical {
  * when nothing qualifies, never an empty string.
  */
 function pickBaseRoll(
-  base: Record<string, unknown>, structured: Record<string, unknown> | null,
-  damageTypes: string[], castingOptions: CastingOption[],
+  base: Record<string, unknown>, structured: Record<string, unknown> | null, castingOptions: CastingOption[],
 ): string | null {
-  const open5e = typeof base.damage_roll === "string" && isRoll(base.damage_roll) ? base.damage_roll.trim() : null;
+  const open5e = typeof base.damage_roll === "string" && isRoll(base.damage_roll) ? normalizeRoll(base.damage_roll) : null;
   const derived = baseRollFromStructured(structured);
   if (derived && open5e && derived.replace(/\s+/g, "") !== open5e.replace(/\s+/g, "")) {
     const firstScaled = castingOptions.find((o) => typeof o.damage_roll === "string" && isRoll(o.damage_roll))?.damage_roll;
@@ -182,7 +184,32 @@ function pickBaseRoll(
     return derived;
   }
   if (derived) return derived;
-  return open5e && damageTypes.length > 0 ? open5e : null;
+  // Open5e's roll alone: only where the spell deals damage by the structured record's own account, or where no
+  // record joins (a renamed SRD spell). Its own `damage_types` cannot vouch for it: they list the resistances and
+  // immunities a spell grants (2024 Freedom of Movement "cold" beside a stray "10d6").
+  const deals = structured === null || (Array.isArray(structured.damageInflict) && structured.damageInflict.length > 0);
+  return open5e && deals ? open5e : null;
+}
+
+/** The converter's roll spacing (`1d4+1` → `1d4 + 1`, components joined "; "). */
+function normalizeRoll(value: string): string {
+  return value.trim().split(";").map((g) => g.split("+").map((t) => t.trim()).join(" + ")).join("; ");
+}
+
+/**
+ * The damage TYPES a spell deals. When a structured record joins, its `damageInflict` is the answer: Open5e v2's
+ * `damage_types` also lists the resistances and immunities a spell GRANTS (2024 Freedom of Movement "cold", Heroes'
+ * Feast "poison", Stoneskin "slashing", Silence "thunder") and misses secondary types (2014 Flame Strike's radiant,
+ * Meteor Swarm's bludgeoning). Measured over both SRDs: 21 spells change their type set under this rule and every one
+ * is such an Open5e error (the list is in the dnd5e commit that made the switch). Open5e's types lead the order where
+ * the record confirms them, so the primary type a row's chip carries stays first (Meteor Swarm fire, then
+ * bludgeoning). With no structured record (a renamed SRD spell) Open5e's types stand.
+ */
+function pickDamageTypes(base: Record<string, unknown>, structured: Record<string, unknown> | null): string[] {
+  const open5e = Array.isArray(base.damage_types) ? (base.damage_types as unknown[]).map(String) : [];
+  if (structured === null) return open5e;
+  const inflicted = Array.isArray(structured.damageInflict) ? (structured.damageInflict as unknown[]).map(String) : [];
+  return [...open5e.filter((t) => inflicted.includes(t)), ...inflicted.filter((t) => !open5e.includes(t))];
 }
 
 /** Open5e v2's per-slot scaling rows. The 2014 dataset includes a "default" row that just mirrors baseline (all-null

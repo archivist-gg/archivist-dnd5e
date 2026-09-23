@@ -1,5 +1,5 @@
 import { describe, it, expect } from "vitest";
-import { spellScales, spellEffectAtSlot, spellEffectPartsAtSlot, spellEffectAtCharacterLevel, upcastLevelsFor } from "../src/spell/spell.scaling";
+import { spellScales, spellEffectAtSlot, spellEffectPartsAtSlot, spellEffectAtCharacterLevel, upcastLevelsFor, spellBaseRoll, spellBaseRollAtSlot } from "../src/spell/spell.scaling";
 import { parseSpell } from "@archivist-gg/dnd5e/spell/spell.parser";
 import type { Spell } from "@archivist-gg/dnd5e/spell/spell.types";
 
@@ -53,13 +53,22 @@ describe("spellEffectPartsAtSlot · the base roll at the spell's own level", () 
   it("a SCALING spell's missing option above base stays null (never the base roll, which would be wrong there)", () => {
     expect(spellEffectPartsAtSlot(fireball, 9)).toBeNull();
   });
-  it("a NON-scaling spell deals its base roll at any slot it is cast with (a pact row above the spell's level)", () => {
+  it("above its own level a spell with no option there is null: the base roll above base is spellBaseRollAtSlot's answer", () => {
     expect(spellEffectPartsAtSlot(fingerOfDeath, 7)).toEqual({ field: "damage_roll", value: "7d8 + 30" });
-    expect(spellEffectPartsAtSlot(fingerOfDeath, 9)).toEqual({ field: "damage_roll", value: "7d8 + 30" });
+    expect(spellEffectPartsAtSlot(fingerOfDeath, 9)).toBeNull();
+  });
+  it("an option AT the spell's own level beats the base roll (SRD 2024 Dispel Magic's slot_level_3 sentence)", () => {
+    const dispel: Spell = { name: "Dispel Magic", level: 3, damage_roll: "1d4",
+      casting_options: [{ type: "slot_level_3", desc: "automatically dispels spells of 3rd level or lower" }] };
+    expect(spellEffectPartsAtSlot(dispel, 3)).toEqual({ field: "desc", value: "automatically dispels spells of 3rd level or lower" });
+  });
+  it("a cantrip at slot 0 is null: a cantrip's roll is read by the character's level, never a slot (a cantrip scroll)", () => {
+    expect(spellEffectPartsAtSlot(fireBolt, 0)).toBeNull();
   });
   it("never below the spell's own level, and never an empty roll", () => {
     expect(spellEffectPartsAtSlot(fingerOfDeath, 6)).toBeNull();
     expect(spellEffectPartsAtSlot({ name: "X", level: 2, damage_roll: "" }, 2)).toBeNull();
+    expect(spellEffectPartsAtSlot({ name: "X", level: 2, damage_roll: "   " }, 2)).toBeNull();
     expect(spellEffectPartsAtSlot({ name: "Shield", level: 1 }, 1)).toBeNull();
   });
 });
@@ -107,5 +116,40 @@ describe("parseSpell · damage_roll", () => {
   });
   it("refuses a non-string damage_roll visibly", () => {
     expect(parseSpell("name: X\nlevel: 1\ndamage_roll: 8\n").success).toBe(false);
+  });
+});
+
+describe("spellBaseRoll · the exported base-roll check", () => {
+  it("returns the trimmed roll, null for absent, empty or whitespace-only", () => {
+    expect(spellBaseRoll(fireball)).toBe("8d6");
+    expect(spellBaseRoll({ name: "X", damage_roll: " 2d6 " })).toBe("2d6");
+    expect(spellBaseRoll({ name: "X", damage_roll: "  " })).toBeNull();
+    expect(spellBaseRoll({ name: "X" })).toBeNull();
+  });
+});
+
+// A slot above base where the DAMAGE does not scale: the options there carry a duration (2024 Hex, Hunter's Mark) or a
+// target count (Magic Missile, Scorching Ray), never a roll, so the roll dealt is the base roll.
+describe("spellBaseRollAtSlot · the base roll where the damage does not scale", () => {
+  const hex: Spell = { name: "Hex", level: 1, damage_roll: "1d6", damage: { types: ["necrotic"] },
+    casting_options: [{ type: "slot_level_2", duration: "4 hours" }, { type: "slot_level_3", duration: "8 hours" }] };
+  const magicMissile: Spell = { name: "Magic Missile", level: 1, damage_roll: "1d4 + 1",
+    casting_options: [{ type: "slot_level_2", target_count: 4 }, { type: "slot_level_3", target_count: 5 }] };
+  it("Hex in a 3rd-level pact slot deals 1d6 (its options carry durations only)", () => {
+    expect(spellBaseRollAtSlot(hex, 3)).toBe("1d6");
+  });
+  it("Magic Missile at 2nd deals 1d4 + 1 per dart (its options carry target counts only)", () => {
+    expect(spellBaseRollAtSlot(magicMissile, 2)).toBe("1d4 + 1");
+  });
+  it("a spell with no options at all deals its base roll at any slot at or above its level", () => {
+    expect(spellBaseRollAtSlot(fingerOfDeath, 9)).toBe("7d8 + 30");
+    expect(spellBaseRollAtSlot(fingerOfDeath, 7)).toBe("7d8 + 30");
+  });
+  it("null where the damage DOES scale (any slot option carries a roll), below the spell's level, and for a cantrip", () => {
+    expect(spellBaseRollAtSlot(fireball, 4)).toBeNull();
+    expect(spellBaseRollAtSlot(fireball, 9)).toBeNull();
+    expect(spellBaseRollAtSlot(hex, 0)).toBeNull();
+    expect(spellBaseRollAtSlot(fireBolt, 0)).toBeNull();
+    expect(spellBaseRollAtSlot({ name: "Shield", level: 1 }, 2)).toBeNull();
   });
 });

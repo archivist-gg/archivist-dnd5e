@@ -1450,3 +1450,15 @@ backgrounds:
         id: languages
         domain: language
         count: 2
+
+# ===================================================================
+# Feat features (keyed by BARE feat slug). A cost authored here reaches the feat's `action_cost`
+# (feat-merge reads `feat_features.<slug>.action_cost` before the Foundry activation data).
+# ===================================================================
+feat_features:
+  # SRD 5.1 Grappler (Open5e's benefit text): "You can use your action to try to pin a creature grappled by
+  # you. The creature makes a Strength or Dexterity saving throw against your maneuver DC. On a failure, you
+  # and the creature are both restrained until the grapple ends." The pin is the feat's one active benefit,
+  # and it costs an action.
+  grappler:
+    action_cost: action

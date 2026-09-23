@@ -84,6 +84,21 @@ export function unresolvedClassFeatureKeys(
   return Object.keys(overlay.class_features ?? {}).filter((key) => !resolvable.has(key));
 }
 
+/**
+ * The `spells:` keys that author NOTHING: a key is a BARE spell slug (`slugifyName(name)`, the lookup
+ * `toSpellCanonical` makes), and one that names no spell in the edition's Open5e cache is never read.
+ */
+export function unresolvedSpellKeys(
+  overlay: { spells?: Record<string, unknown> },
+  edition: "2014" | "2024",
+  dir: string = cacheDir,
+): string[] {
+  const raw = JSON.parse(fs.readFileSync(path.join(dir, `spells.${edition}.json`), "utf8")) as
+    { results?: Array<{ name: string }> } | Array<{ name: string }>;
+  const names = new Set((Array.isArray(raw) ? raw : (raw.results ?? [])).map((s) => slugifyName(s.name)));
+  return Object.keys(overlay.spells ?? {}).filter((key) => !names.has(key));
+}
+
 async function main(): Promise<void> {
   let failed = false;
 
@@ -100,6 +115,15 @@ async function main(): Promise<void> {
         console.error(
           `FAIL ${file}: ${unresolved.length} class_features key(s) match no emitted feature and author nothing:\n` +
           unresolved.map((k) => `  - ${k}`).join("\n"),
+        );
+        continue;
+      }
+      const unresolvedSpells = unresolvedSpellKeys(overlay, edition);
+      if (unresolvedSpells.length > 0) {
+        failed = true;
+        console.error(
+          `FAIL ${file}: ${unresolvedSpells.length} spells key(s) name no spell and author nothing:\n` +
+          unresolvedSpells.map((k) => `  - ${k}`).join("\n"),
         );
         continue;
       }

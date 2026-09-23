@@ -300,9 +300,11 @@ describe("authored overlay effect slugs are in vocabulary", () => {
     // ARRAYS) and, since R4-G7 T5, `creatures` (a record of `{speed, hp}` records
     // for the four SRD 5.1 creatures the upstream cache cannot supply · monsters
     // carry no feature effects at all, which is why `SECTIONS_WITH_EFFECTS` stays
-    // at NINE). The walked list plus those two keys must be exactly the schema's
-    // key set.
-    expect([...SECTIONS_WITH_EFFECTS, "optional_feature_slugs", "creatures"].sort())
+    // at NINE), and, since the spell base-roll review round, `spells` (a record of
+    // strict `{damage_roll, damage_types, casting_options}` corrections: a spell
+    // carries no feature effects). The walked list plus those three keys must be
+    // exactly the schema's key set.
+    expect([...SECTIONS_WITH_EFFECTS, "optional_feature_slugs", "creatures", "spells"].sort())
       .toEqual(Object.keys(overlaySchema.shape).sort());
   });
 });

@@ -15,9 +15,11 @@ export interface SpellEffectParts {
   value: string;
 }
 
-/** The spell's base roll (`damage_roll`), or null when absent or empty. */
-function baseRoll(spell: Spell): string | null {
-  return typeof spell.damage_roll === "string" && spell.damage_roll.trim() !== "" ? spell.damage_roll : null;
+/** The spell's base roll (`damage_roll`), trimmed, or null when absent, empty or whitespace-only. The ONE base-roll
+ *  check: every reader of `damage_roll` (the scaling readers here, the spell card) goes through it. */
+export function spellBaseRoll(spell: Spell): string | null {
+  const roll = typeof spell.damage_roll === "string" ? spell.damage_roll.trim() : "";
+  return roll !== "" ? roll : null;
 }
 
 /**
@@ -29,19 +31,20 @@ function baseRoll(spell: Spell): string | null {
  * carrying a roll AND a sentence yields the roll). A `target_count` that equals the slot level is
  * the known SRD-2014 bad encoding (e.g. Magic Missile 2nd->2 instead of 4) and is suppressed.
  *
- * With no option for the slot, the spell's BASE roll (`damage_roll`) answers when it is the roll
- * actually dealt there: at the spell's OWN level, and at any slot at or above it for a spell that
- * does not scale at all (a pact slot above a non-scaling spell's level). A SCALING spell missing
- * its option above base stays null: the base roll would be the wrong number there. This errs
- * toward showing nothing rather than a wrong number.
+ * With no option for the slot, the spell's BASE roll (`damage_roll`) answers at the spell's OWN
+ * level only. Above it, whether the base roll is still the roll dealt is `spellBaseRollAtSlot`'s
+ * question (it is when the damage does not scale); a SCALING spell missing its option above base
+ * stays null here. A CANTRIP is never read by slot (null): its roll follows the character's level,
+ * `spellEffectAtCharacterLevel`, even when it is cast from a scroll. This errs toward showing
+ * nothing rather than a wrong number.
  */
 export function spellEffectPartsAtSlot(spell: Spell, slotLevel: number): SpellEffectParts | null {
+  const base = spell.level ?? 0;
+  if (base === 0) return null;
   const opt = (spell.casting_options ?? []).find((o) => o.type === `slot_level_${slotLevel}`);
   if (!opt) {
-    const base = spell.level ?? 0;
-    const roll = baseRoll(spell);
-    if (roll === null || slotLevel < base) return null;
-    return slotLevel === base || !spellScales(spell) ? { field: "damage_roll", value: roll } : null;
+    const roll = spellBaseRoll(spell);
+    return roll !== null && slotLevel === base ? { field: "damage_roll", value: roll } : null;
   }
   if (opt.damage_roll) return { field: "damage_roll", value: opt.damage_roll };
   if (typeof opt.target_count === "number") {
@@ -50,6 +53,24 @@ export function spellEffectPartsAtSlot(spell: Spell, slotLevel: number): SpellEf
   }
   if (opt.duration) return { field: "duration", value: opt.duration };
   return opt.desc != null ? { field: "desc", value: opt.desc } : null;
+}
+
+/**
+ * The spell's BASE roll at a slot of `slotLevel` when its DAMAGE does not scale: none of its `slot_level_<N>` options
+ * carries a roll (2024 Hex and Hunter's Mark scale their duration, Magic Missile and Scorching Ray their target
+ * count, Finger of Death nothing at all), so every slot at or above the spell's level deals the base roll. The
+ * companion of `spellEffectPartsAtSlot`: a row prints this roll beside a target count, and the duration a slot
+ * option carries prints in its own cell. Null for a cantrip, below the spell's level, where the damage scales (its
+ * options' rolls are the answer), and when the spell has no base roll.
+ */
+export function spellBaseRollAtSlot(spell: Spell, slotLevel: number): string | null {
+  const base = spell.level ?? 0;
+  if (base === 0 || slotLevel < base) return null;
+  const roll = spellBaseRoll(spell);
+  if (roll === null) return null;
+  const scales = (spell.casting_options ?? []).some((o) =>
+    /^slot_level_\d+$/.test(String(o.type ?? "")) && typeof o.damage_roll === "string" && o.damage_roll.trim() !== "");
+  return scales ? null : roll;
 }
 
 /** The value of `spellEffectPartsAtSlot`, without its field. */
@@ -78,7 +99,7 @@ export function spellEffectAtCharacterLevel(spell: Spell, characterLevel: number
     const n = Number(m[1]);
     if (n <= characterLevel && (best === null || n > best.n)) best = { n, roll: opt.damage_roll };
   }
-  return best ? best.roll : baseRoll(spell);
+  return best ? best.roll : spellBaseRoll(spell);
 }
 
 /** Owned slot levels strictly above the spell's base level (scaling spells only). */

@@ -392,8 +392,7 @@
         "piercing",
         "slashing"
       ]
-    },
-    "damage_roll": "1d4 + 4"
+    }
   },
   {
     "slug": "srd-5e_spell_antilife-shell",
@@ -2957,7 +2956,6 @@
     "at_higher_levels": [
       "When you cast this spell using a spell slot of 3rd level or higher, you can target one additional creature for each slot level above 2nd."
     ],
-    "damage_roll": "2d6",
     "casting_options": [
       {
         "type": "slot_level_3",
@@ -3678,7 +3676,8 @@
     ],
     "damage": {
       "types": [
-        "fire"
+        "fire",
+        "radiant"
       ]
     },
     "damage_roll": "4d6",
@@ -4975,7 +4974,8 @@
     ],
     "damage": {
       "types": [
-        "bludgeoning"
+        "bludgeoning",
+        "cold"
       ]
     },
     "damage_roll": "2d8",
@@ -6108,7 +6108,8 @@
     ],
     "damage": {
       "types": [
-        "fire"
+        "fire",
+        "bludgeoning"
       ]
     },
     "damage_roll": "20d6",
@@ -6810,7 +6811,11 @@
     ],
     "damage": {
       "types": [
-        "fire"
+        "fire",
+        "acid",
+        "cold",
+        "lightning",
+        "poison"
       ]
     },
     "damage_roll": "10d6",
@@ -6837,7 +6842,12 @@
     ],
     "damage": {
       "types": [
-        "fire"
+        "fire",
+        "acid",
+        "cold",
+        "force",
+        "lightning",
+        "poison"
       ]
     },
     "damage_roll": "10d6",
@@ -8220,7 +8230,8 @@
     ],
     "damage": {
       "types": [
-        "radiant"
+        "radiant",
+        "necrotic"
       ]
     },
     "damage_roll": "3d8",
@@ -8367,7 +8378,11 @@
     ],
     "damage": {
       "types": [
-        "thunder"
+        "thunder",
+        "acid",
+        "bludgeoning",
+        "cold",
+        "lightning"
       ]
     },
     "damage_roll": "2d6",
@@ -9156,7 +9171,8 @@
     ],
     "damage": {
       "types": [
-        "piercing"
+        "piercing",
+        "slashing"
       ]
     },
     "damage_roll": "7d8",

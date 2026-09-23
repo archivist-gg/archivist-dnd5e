@@ -60,7 +60,7 @@ export function toFeatCanonical(entry: CanonicalEntry): FeatCanonical {
   const activation = entry.activation as Record<string, unknown> | null;
   const overlay = entry.overlay as Record<
     string,
-    { resources?: Resource[]; choices?: Choice[]; effects?: unknown[] }
+    { resources?: Resource[]; choices?: Choice[]; effects?: unknown[]; action_cost?: FeatCanonical["action_cost"] }
   > | null;
   const overlaid = overlay?.[slugifyName(base.name as string)];
 
@@ -95,8 +95,9 @@ export function toFeatCanonical(entry: CanonicalEntry): FeatCanonical {
     ...(overlaid?.resources ? { resources: overlaid.resources } : {}),
   };
 
-  // Activation companion → action_cost
-  const actionCost = pickActionCostFromActivation(activation);
+  // action_cost: an overlay's authored cost (feat_features) wins; else the activation companion's. Before the overlay
+  // was read here, an authored cost was silently dropped (SRD 5.1 Grappler's "use your action to try to pin").
+  const actionCost = overlaid?.action_cost ?? pickActionCostFromActivation(activation);
   if (actionCost) out.action_cost = actionCost;
 
   return out;

@@ -20,7 +20,8 @@
     "repeatable": false,
     "effects": [],
     "grants_asi": null,
-    "choices": []
+    "choices": [],
+    "action_cost": "action"
   },
   {
     "slug": "srd-5e_feat_ability-score-improvement",

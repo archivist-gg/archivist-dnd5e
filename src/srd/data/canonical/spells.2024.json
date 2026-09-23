@@ -674,12 +674,7 @@
     "classes": [
       "cleric",
       "paladin"
-    ],
-    "damage": {
-      "types": [
-        "necrotic"
-      ]
-    }
+    ]
   },
   {
     "slug": "srd-2024_spell_awaken",
@@ -4658,7 +4653,8 @@
     ],
     "damage": {
       "types": [
-        "necrotic"
+        "necrotic",
+        "radiant"
       ]
     },
     "damage_roll": "5d10"
@@ -4730,12 +4726,6 @@
     "at_higher_levels": [
       "You can target one additional creature for each spell slot level above 4."
     ],
-    "damage": {
-      "types": [
-        "cold"
-      ]
-    },
-    "damage_roll": "10d6",
     "saving_throw": {
       "ability": "constitution"
     },
@@ -4832,11 +4822,6 @@
     "at_higher_levels": [
       "You can target one additional creature for each spell slot level above 3."
     ],
-    "damage": {
-      "types": [
-        "slashing"
-      ]
-    },
     "saving_throw": {
       "ability": "constitution"
     },
@@ -5676,11 +5661,6 @@
       "cleric",
       "druid"
     ],
-    "damage": {
-      "types": [
-        "poison"
-      ]
-    },
     "damage_roll": "2d10"
   },
   {
@@ -6093,46 +6073,46 @@
     ],
     "damage": {
       "types": [
-        "piercing",
-        "cold"
+        "cold",
+        "piercing"
       ]
     },
-    "damage_roll": "1d10",
+    "damage_roll": "2d6",
     "saving_throw": {
       "ability": "dexterity"
     },
     "casting_options": [
       {
         "type": "slot_level_2",
-        "damage_roll": "2d10"
+        "damage_roll": "3d6"
       },
       {
         "type": "slot_level_3",
-        "damage_roll": "3d10"
+        "damage_roll": "4d6"
       },
       {
         "type": "slot_level_4",
-        "damage_roll": "4d10"
+        "damage_roll": "5d6"
       },
       {
         "type": "slot_level_5",
-        "damage_roll": "5d10"
+        "damage_roll": "6d6"
       },
       {
         "type": "slot_level_6",
-        "damage_roll": "6d10"
+        "damage_roll": "7d6"
       },
       {
         "type": "slot_level_7",
-        "damage_roll": "7d10"
+        "damage_roll": "8d6"
       },
       {
         "type": "slot_level_8",
-        "damage_roll": "8d10"
+        "damage_roll": "9d6"
       },
       {
         "type": "slot_level_9",
-        "damage_roll": "9d10"
+        "damage_roll": "10d6"
       }
     ]
   },
@@ -7439,12 +7419,7 @@
     "classes": [
       "bard",
       "wizard"
-    ],
-    "damage": {
-      "types": [
-        "psychic"
-      ]
-    }
+    ]
   },
   {
     "slug": "srd-2024_spell_mind-spike",
@@ -8464,12 +8439,7 @@
       "druid",
       "paladin",
       "ranger"
-    ],
-    "damage": {
-      "types": [
-        "poison"
-      ]
-    }
+    ]
   },
   {
     "slug": "srd-2024_spell_purify-food-and-drink",
@@ -8674,8 +8644,7 @@
     "description": "You touch a dead Humanoid or a piece of one. If the creature has been dead no longer than 10 days, the spell forms a new body for it and calls the soul to enter that body. Roll 1d10 and consult the table below to determine the body's species, or the GM chooses another playable species.\n\n| 1d10 | Species |\n|---|---|\n| 1 | Roll again. |\n| 2 | Dragonborn |\n| 3 | Dwarf |\n| 4 | Elf |\n| 5 | Gnome |\n| 6 | Goliath |\n| 7 | Halfling |\n| 8 | Human |\n| 9 | Orc |\n| 10 | Tiefling |\n\nThe reincarnated creature makes any choices that a species' description offers, and the creature recalls its former life. It retains the capabilities it had in its original form, except it loses the traits of its previous species and gains the traits of its new one.",
     "classes": [
       "druid"
-    ],
-    "damage_roll": "1d10"
+    ]
   },
   {
     "slug": "srd-2024_spell_remove-curse",
@@ -9407,12 +9376,7 @@
       "bard",
       "cleric",
       "ranger"
-    ],
-    "damage": {
-      "types": [
-        "thunder"
-      ]
-    }
+    ]
   },
   {
     "slug": "srd-2024_spell_silent-image",
@@ -9958,12 +9922,7 @@
       "ranger",
       "sorcerer",
       "wizard"
-    ],
-    "damage": {
-      "types": [
-        "slashing"
-      ]
-    }
+    ]
   },
   {
     "slug": "srd-2024_spell_storm-of-vengeance",
@@ -9984,7 +9943,11 @@
     ],
     "damage": {
       "types": [
-        "thunder"
+        "thunder",
+        "acid",
+        "bludgeoning",
+        "cold",
+        "lightning"
       ]
     },
     "damage_roll": "2d6",
@@ -10815,8 +10778,6 @@
     ],
     "damage": {
       "types": [
-        "fire",
-        "psychic",
         "cold"
       ]
     },
@@ -10858,11 +10819,6 @@
       "sorcerer",
       "wizard"
     ],
-    "damage": {
-      "types": [
-        "psychic"
-      ]
-    },
     "saving_throw": {
       "ability": "dexterity"
     }
@@ -11045,12 +11001,7 @@
     "description": "You and up to ten willing creatures of your choice within range assume gaseous forms for the duration, appearing as wisps of cloud. While in this cloud form, a target has a Fly Speed of 300 feet and can hover; it has Immunity to the Prone condition; and it has Resistance to Bludgeoning, Piercing, and Slashing damage. The only actions a target can take in this form are the Dash action or a Magic action to begin reverting to its normal form. Reverting takes 1 minute, during which the target has the Stunned condition. Until the spell ends, the target can revert to cloud form, which also requires a Magic action followed by a 1-minute transformation. If a target is in cloud form and flying when the effect ends, the target descends 60 feet per round for 1 minute until it lands, which it does safely. If it can't land after 1 minute, it falls the remaining distance.",
     "classes": [
       "druid"
-    ],
-    "damage": {
-      "types": [
-        "slashing"
-      ]
-    }
+    ]
   },
   {
     "slug": "srd-2024_spell_wind-wall",
